@@ -514,5 +514,88 @@ describe('CustomerSalesPlanningGridComponent', () => {
         customerName: 'Customer A',
       });
     });
+
+    it('should handle undefined node data gracefully', () => {
+      const mockEvent: CellClickedEvent = {
+        node: {
+          isSelected: jest.fn().mockReturnValue(false),
+          setSelected: jest.fn(),
+          data: undefined,
+        },
+      } as any;
+
+      const emitSpy = jest.spyOn(component.selectionChanged, 'emit');
+
+      component['toggleSelection'](mockEvent);
+
+      expect(mockEvent.node.isSelected).toHaveBeenCalled();
+      expect(mockEvent.node.setSelected).toHaveBeenCalledWith(true);
+      expect(emitSpy).toHaveBeenCalledWith(undefined);
+    });
+
+    it('should handle null node data gracefully', () => {
+      const mockEvent: CellClickedEvent = {
+        node: {
+          isSelected: jest.fn().mockReturnValue(false),
+          setSelected: jest.fn(),
+          data: null,
+        },
+      } as any;
+
+      const emitSpy = jest.spyOn(component.selectionChanged, 'emit');
+
+      component['toggleSelection'](mockEvent);
+
+      expect(mockEvent.node.isSelected).toHaveBeenCalled();
+      expect(mockEvent.node.setSelected).toHaveBeenCalledWith(true);
+      expect(emitSpy).toHaveBeenCalledWith(null);
+    });
+
+    it('should not cause errors if event node is missing properties', () => {
+      const mockEvent: CellClickedEvent = {
+        node: {
+          isSelected: jest.fn().mockReturnValue(false),
+          setSelected: jest.fn(),
+          // data property intentionally omitted
+        },
+      } as any;
+
+      const emitSpy = jest.spyOn(component.selectionChanged, 'emit');
+
+      component['toggleSelection'](mockEvent);
+
+      expect(mockEvent.node.isSelected).toHaveBeenCalled();
+      expect(mockEvent.node.setSelected).toHaveBeenCalledWith(true);
+      expect(emitSpy).toHaveBeenCalledWith(undefined);
+    });
+
+    it('should maintain selected state when toggling multiple times', () => {
+      // First toggle - select the row
+      const isSelectedMock = jest.fn();
+      isSelectedMock.mockReturnValueOnce(false).mockReturnValueOnce(true);
+
+      const setSelectedMock = jest.fn();
+      const mockData = { customerNumber: '12345', customerName: 'Customer A' };
+
+      const mockEvent: CellClickedEvent = {
+        node: {
+          isSelected: isSelectedMock,
+          setSelected: setSelectedMock,
+          data: mockData,
+        },
+      } as any;
+
+      const emitSpy = jest.spyOn(component.selectionChanged, 'emit');
+
+      // First call - select the row
+      component['toggleSelection'](mockEvent);
+      expect(setSelectedMock).toHaveBeenNthCalledWith(1, true);
+      expect(emitSpy).toHaveBeenNthCalledWith(1, mockData);
+
+      // Second call - deselect the row
+      component['toggleSelection'](mockEvent);
+      expect(setSelectedMock).toHaveBeenNthCalledWith(2, false);
+      expect(emitSpy).toHaveBeenNthCalledWith(2, null);
+    });
   });
 });

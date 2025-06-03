@@ -1,4 +1,4 @@
-import { of } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 
 import { GridApi, RowClassParams } from 'ag-grid-enterprise';
 
@@ -9,9 +9,11 @@ import {
   OpenFunction,
   Priority,
 } from '../../../../feature/alerts/model';
+import * as Helper from '../../../../shared/ag-grid/grid-defaults';
 import { RequestType } from '../../../../shared/components/table';
 import { Stub } from '../../../../shared/test/stub.class';
 import { AlertTableComponent } from './alert-table.component';
+import * as ColDefHelper from './column-definitions';
 
 describe('AlertTableComponent', () => {
   let component: AlertTableComponent;
@@ -410,16 +412,13 @@ describe('AlertTableComponent', () => {
 
   describe('getData', () => {
     it('should call alertService.getAlertData with correct parameters', () => {
-      // Arrange
       const mockParams = { startRow: 0, endRow: 10 } as any;
       const getAlertDataSpy = jest
         .spyOn(alertService, 'getAlertData')
         .mockReturnValue(of({ rows: [], rowCount: 0 }));
 
-      // Act
       component['getData$'](mockParams, RequestType.Fetch).subscribe();
 
-      // Assert
       expect(getAlertDataSpy).toHaveBeenCalledWith(
         AlertStatus.ACTIVE,
         [Priority.Priority1],
@@ -428,7 +427,6 @@ describe('AlertTableComponent', () => {
     });
 
     it('should use the current status and priorities inputs', () => {
-      // Arrange
       const mockParams = { startRow: 0, endRow: 10 } as any;
       const getAlertDataSpy = jest
         .spyOn(alertService, 'getAlertData')
@@ -441,10 +439,8 @@ describe('AlertTableComponent', () => {
       ]);
       Stub.detectChanges();
 
-      // Act
       component['getData$'](mockParams, RequestType.Fetch).subscribe();
 
-      // Assert
       expect(getAlertDataSpy).toHaveBeenCalledWith(
         AlertStatus.COMPLETED,
         [Priority.Priority3],
@@ -453,17 +449,14 @@ describe('AlertTableComponent', () => {
     });
 
     it('should forward the response from alertService.getAlertData', (done) => {
-      // Arrange
       const mockParams = { startRow: 0, endRow: 10 } as any;
       const mockResponse = { rows: [{ id: '1' }], rowCount: 1 };
       jest
         .spyOn(alertService, 'getAlertData')
         .mockReturnValue(of(mockResponse));
 
-      // Act
       component['getData$'](mockParams, RequestType.Fetch).subscribe(
         (response) => {
-          // Assert
           expect(response).toEqual(mockResponse);
           done();
         }
@@ -471,17 +464,16 @@ describe('AlertTableComponent', () => {
     });
 
     it('should ignore the requestType parameter', () => {
-      // Arrange
       const mockParams = { startRow: 0, endRow: 10 } as any;
       const getAlertDataSpy = jest
         .spyOn(alertService, 'getAlertData')
         .mockReturnValue(of({ rows: [], rowCount: 0 }));
 
-      // Act - call with different requestTypes
+      // call with different requestTypes
       component['getData$'](mockParams, RequestType.Fetch).subscribe();
       component['getData$'](mockParams, RequestType.GroupClick).subscribe();
 
-      // Assert - all calls should be identical
+      // all calls should be identical
       expect(getAlertDataSpy).toHaveBeenCalledTimes(2);
       expect(getAlertDataSpy).toHaveBeenNthCalledWith(
         1,
@@ -664,6 +656,243 @@ describe('AlertTableComponent', () => {
       expect(deactivateMenu).toBeDefined();
       deactivateMenu.onClick();
       expect(deactivateAlertSpy).toHaveBeenCalledWith('1');
+    });
+  });
+
+  describe('setColumnDefinitions', () => {
+    beforeEach(() => {
+      component['selectableOptionsService'].loading$ = new BehaviorSubject(
+        true
+      );
+    });
+
+    it('should subscribe to the loading observable', () => {
+      const loadingSpy = jest.spyOn(
+        component['selectableOptionsService'].loading$,
+        'pipe'
+      );
+
+      component['setColumnDefinitions']();
+
+      expect(loadingSpy).toHaveBeenCalled();
+    });
+
+    it('should call setConfig with the correct column definitions when loading is complete', () => {
+      const setConfigSpy = jest.spyOn(component as any, 'setConfig');
+      const mockOptions = [{ id: 'type1', text: 'Type 1' }];
+
+      jest.spyOn(component['selectableOptionsService'], 'get').mockReturnValue({
+        options: mockOptions,
+      });
+
+      component['setColumnDefinitions']();
+      // Simulate loading complete
+      component['selectableOptionsService'].loading$.next(false);
+
+      expect(setConfigSpy).toHaveBeenCalledWith(
+        expect.arrayContaining([
+          expect.objectContaining({
+            field: 'menu',
+            cellRenderer: expect.any(Function),
+            pinned: 'right',
+          }),
+        ])
+      );
+    });
+
+    it('should add an actions menu column to the column definitions', () => {
+      const mockColDefs = [{ field: 'test', headerName: 'Test' }];
+      jest.spyOn(component as any, 'setConfig');
+
+      // Mock getAlertTableColumnDefinitions to return a simple column definition
+      jest
+        .spyOn(ColDefHelper, 'getAlertTableColumnDefinitions')
+        .mockReturnValue(mockColDefs as any);
+
+      component['setColumnDefinitions']();
+      component['selectableOptionsService'].loading$.next(false);
+
+      expect(component['setConfig']).toHaveBeenCalledWith(
+        expect.arrayContaining([
+          expect.objectContaining({
+            field: 'menu',
+            headerName: '',
+            cellRenderer: expect.anything(),
+            pinned: 'right',
+            maxWidth: 64,
+          }),
+        ])
+      );
+    });
+
+    it('should apply default column definitions to each column', () => {
+      const mockColDefs = [
+        {
+          field: 'col1',
+          colId: 'col1.header',
+          filter: 'agTextColumnFilter',
+          filterParams: {},
+        },
+        { field: 'col2', colId: 'col2.header', sortable: true },
+      ];
+
+      const setConfigSpy = jest.spyOn(component as any, 'setConfig');
+      jest.spyOn(Helper, 'getDefaultColDef');
+      jest
+        .spyOn(ColDefHelper, 'getAlertTableColumnDefinitions')
+        .mockReturnValue(mockColDefs as any);
+
+      component['setColumnDefinitions']();
+      component['selectableOptionsService'].loading$.next(false);
+
+      const callArgs = setConfigSpy.mock.calls[0][0];
+      // Check first column has default column def properties mixed in
+      expect((callArgs as any)[0]).toEqual(
+        expect.objectContaining({
+          field: 'col1',
+          headerName: expect.any(String),
+          colId: 'col1',
+          visible: true,
+        })
+      );
+
+      // Check that getDefaultColDef was applied
+      expect(Helper.getDefaultColDef).toHaveBeenCalled();
+    });
+
+    it('should use the current locale for column definitions', () => {
+      const getLocaleSpy = jest.spyOn(
+        component['translocoLocaleService'],
+        'getLocale'
+      );
+
+      component['setColumnDefinitions']();
+      component['selectableOptionsService'].loading$.next(false);
+
+      expect(getLocaleSpy).toHaveBeenCalled();
+    });
+
+    it('should translate column headers', () => {
+      const mockColDefs = [{ field: 'col1', colId: 'header.key' }];
+
+      jest
+        .spyOn(ColDefHelper, 'getAlertTableColumnDefinitions')
+        .mockReturnValue(mockColDefs as any);
+
+      jest.spyOn(Helper, 'getDefaultColDef').mockReturnValue({});
+
+      const setConfigSpy = jest.spyOn(component as any, 'setConfig');
+
+      component['setColumnDefinitions']();
+      component['selectableOptionsService'].loading$.next(false);
+
+      const callArgs = setConfigSpy.mock.calls[0][0];
+      expect((callArgs as any)[0].headerName).toBe('header.key');
+    });
+
+    it('should handle empty column definitions', () => {
+      jest
+        .spyOn(ColDefHelper, 'getAlertTableColumnDefinitions')
+        .mockReturnValue([] as any);
+
+      const setConfigSpy = jest.spyOn(component as any, 'setConfig');
+
+      component['setColumnDefinitions']();
+      component['selectableOptionsService'].loading$.next(false);
+
+      expect(setConfigSpy).toHaveBeenCalledWith(
+        expect.arrayContaining([
+          expect.objectContaining({
+            field: 'menu',
+          }),
+        ])
+      );
+    });
+
+    it('should handle errors in loading$ observable', () => {
+      jest.spyOn(console, 'error').mockImplementation();
+      const errorSpy = jest.spyOn(
+        component['selectableOptionsService'].loading$,
+        'pipe'
+      );
+
+      component['setColumnDefinitions']();
+      component['selectableOptionsService'].loading$.error('Test error');
+
+      expect(errorSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('params computed', () => {
+    it('should update computed params when inputs change', () => {
+      // Initial value
+      expect(component['params']()).toEqual({
+        status: AlertStatus.ACTIVE,
+        priorities: [Priority.Priority1],
+      });
+
+      // Change inputs
+      Stub.setInputs([
+        { property: 'status', value: AlertStatus.COMPLETED },
+        {
+          property: 'priorities',
+          value: [Priority.Priority2, Priority.Priority3],
+        },
+      ]);
+      Stub.detectChanges();
+
+      // Check updated value
+      expect(component['params']()).toEqual({
+        status: AlertStatus.COMPLETED,
+        priorities: [Priority.Priority2, Priority.Priority3],
+      });
+    });
+
+    it('should trigger reload when params change', () => {
+      const reloadSpy = jest.spyOn(component['reload$'](), 'next');
+
+      Stub.setInputs([{ property: 'status', value: AlertStatus.DEACTIVATED }]);
+      Stub.detectChanges();
+
+      expect(reloadSpy).toHaveBeenCalledWith(true);
+    });
+  });
+
+  describe('getAlertData integration', () => {
+    beforeEach(() => {
+      jest.spyOn(alertService, 'refreshHashTimer');
+      jest.spyOn(alertService, 'getRefreshEvent').mockReturnValue(of(null));
+    });
+
+    it('should refresh hash timer when refresh event is emitted', () => {
+      const refreshEvent = new Subject<void>();
+      jest
+        .spyOn(alertService, 'getRefreshEvent')
+        .mockReturnValue(refreshEvent.asObservable());
+
+      component.ngOnInit();
+      refreshEvent.next();
+
+      expect(alertService.refreshHashTimer).toHaveBeenCalled();
+    });
+
+    it('should handle response from getData$', (done) => {
+      const mockResponse = {
+        rows: [{ id: '1', name: 'Test Alert' }],
+        rowCount: 1,
+      };
+
+      jest
+        .spyOn(alertService, 'getAlertData')
+        .mockReturnValue(of(mockResponse));
+
+      component['getData$'](
+        { startRow: 0, endRow: 10 } as any,
+        RequestType.Fetch
+      ).subscribe((response) => {
+        expect(response).toEqual(mockResponse);
+        done();
+      });
     });
   });
 });

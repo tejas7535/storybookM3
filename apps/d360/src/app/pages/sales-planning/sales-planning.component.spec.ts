@@ -1,37 +1,66 @@
-import { TranslocoModule } from '@jsverse/transloco';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockComponent } from 'ng-mocks';
-import { NgxEchartsModule } from 'ngx-echarts';
+import { NGX_ECHARTS_CONFIG, NgxEchartsModule } from 'ngx-echarts';
 
-import { CustomerPlanningDetailsComponent } from './components/customer-planning-details/customer-planning-details.component';
-import { CustomerSalesPlanChartComponent } from './components/customer-sales-plan-chart/customer-sales-plan-chart.component';
-import { CustomerSelectionComponent } from './components/customer-selection/customer-selection.component';
+import { Stub } from '../../shared/test/stub.class';
 import { SalesPlanningComponent } from './sales-planning.component';
 
-jest.mock('@jsverse/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
-  translate: jest.fn((translateKey) => translateKey),
-}));
-
 describe('SalesPlanningComponent', () => {
-  let spectator: Spectator<SalesPlanningComponent>;
-
-  const createComponent = createComponentFactory({
-    component: SalesPlanningComponent,
-    imports: [
-      NgxEchartsModule,
-      MockComponent(CustomerSelectionComponent),
-      MockComponent(CustomerSalesPlanChartComponent),
-      MockComponent(CustomerPlanningDetailsComponent),
-    ],
-    providers: [],
-  });
+  let component: SalesPlanningComponent;
 
   beforeEach(() => {
-    spectator = createComponent();
+    component = Stub.getForEffect<SalesPlanningComponent>({
+      component: SalesPlanningComponent,
+      imports: [NgxEchartsModule],
+      providers: [
+        {
+          provide: NGX_ECHARTS_CONFIG,
+          useValue: { echarts: () => import('echarts') },
+        },
+      ],
+    });
   });
 
   it('should create', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
+  });
+
+  it('should initialize customer with default values', () => {
+    expect(component['customer']()).toEqual({
+      customerNumber: null,
+      customerName: null,
+      planningCurrency: null,
+    });
+  });
+
+  it('should initialize tableInFullscreen as null', () => {
+    expect(component['tableInFullscreen']()).toBeNull();
+  });
+
+  describe('toggleTableFullscreen', () => {
+    it('should toggle tableInFullscreen from null to true on first call', () => {
+      component.toggleTableFullscreen();
+      expect(component['tableInFullscreen']()).toBe(true);
+    });
+
+    it('should toggle tableInFullscreen from true to false', () => {
+      // First set to true
+      component['tableInFullscreen'].set(true);
+
+      // Toggle
+      component.toggleTableFullscreen();
+
+      // Check result
+      expect(component['tableInFullscreen']()).toBe(false);
+    });
+
+    it('should toggle tableInFullscreen from false to true', () => {
+      // First set to false
+      component['tableInFullscreen'].set(false);
+
+      // Toggle
+      component.toggleTableFullscreen();
+
+      // Check result
+      expect(component['tableInFullscreen']()).toBe(true);
+    });
   });
 });

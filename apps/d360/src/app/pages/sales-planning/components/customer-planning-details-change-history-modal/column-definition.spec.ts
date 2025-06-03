@@ -107,4 +107,67 @@ describe('changeHistoryColumnDefinitions', () => {
       'EUR'
     );
   });
+
+  it('should format materialDescription correctly when materialTypeLevel exists', () => {
+    const columns = changeHistoryColumnDefinitions(agGridLocalizationService);
+    const materialDescriptionColumn = columns.find(
+      (col) => col.colId === 'materialDescription'
+    ) as any;
+
+    const mockParams = {
+      data: {
+        materialTypeLevel: 'PART',
+        planningMaterial: 'M123',
+        materialDescription: 'Test Material',
+      },
+      value: 'Test Material',
+    };
+
+    const formattedValue = materialDescriptionColumn?.valueFormatter?.(
+      mockParams as any
+    );
+    expect(formattedValue).toBe('M123 - Test Material');
+  });
+
+  it('should format materialDescription correctly when only planningMaterial exists', () => {
+    const columns = changeHistoryColumnDefinitions(agGridLocalizationService);
+    const materialDescriptionColumn = columns.find(
+      (col) => col.colId === 'materialDescription'
+    ) as any;
+
+    const mockParams = {
+      data: {
+        materialTypeLevel: 'PART',
+        planningMaterial: 'M123',
+        materialDescription: '',
+      },
+      value: '',
+    };
+
+    const formattedValue = materialDescriptionColumn?.valueFormatter?.(
+      mockParams as any
+    );
+    expect(formattedValue).toBe('M123');
+  });
+
+  it('should return empty string for materialDescription when materialTypeLevel is missing', () => {
+    const columns = changeHistoryColumnDefinitions(agGridLocalizationService);
+    const materialDescriptionColumn = columns.find(
+      (col) => col.colId === 'materialDescription'
+    ) as any;
+
+    const mockParams = {
+      data: {
+        materialTypeLevel: '',
+        planningMaterial: 'M123',
+        materialDescription: 'Test Material',
+      },
+      value: 'Test Material',
+    };
+
+    const formattedValue = materialDescriptionColumn?.valueFormatter?.(
+      mockParams as any
+    );
+    expect(formattedValue).toBe('');
+  });
 });

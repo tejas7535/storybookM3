@@ -1,4 +1,10 @@
-import { Component, inject, Signal } from '@angular/core';
+import {
+  Component,
+  inject,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { ForecastChartComponent } from '../../feature/forecast-chart/components/forecast-chart/forecast-chart.component';
@@ -25,6 +31,7 @@ export class HomeComponent {
   /**
    * The CurrencyService.
    *
+   * @private
    * @type {CurrencyService}
    * @memberof HomeComponent
    */
@@ -33,8 +40,9 @@ export class HomeComponent {
   /**
    * The user currency.
    *
-   * @type {Signal<string>}
    * @protected
+   * @type {Signal<string>}
+   * @memberof HomeComponent
    */
   protected userCurrency: Signal<string> = toSignal(
     this.currencyService.getCurrentCurrency()
@@ -43,38 +51,27 @@ export class HomeComponent {
   /**
    * The current filter values.
    *
-   * @type {GlobalSelectionState}
+   * @protected
+   * @type {WritableSignal<GlobalSelectionState>}
    * @memberof HomeComponent
    */
-  public globalSelectionCriteria: GlobalSelectionState = null;
+  protected globalSelectionCriteria: WritableSignal<GlobalSelectionState> =
+    signal(null);
 
   /**
    * The column filters.
    *
-   * @type {ColumnFilters}
+   * @protected
+   * @type {WritableSignal<ColumnFilters>}
    * @memberof HomeComponent
    */
-  public columnFilters: ColumnFilters = {};
+  protected columnFilters: WritableSignal<ColumnFilters> = signal({});
 
   /**
-   * On filter update set the new values for the global selection state.
+   * The PeriodTypes for use in the template.
    *
-   * @param {GlobalSelectionState} globalSelectionState
+   * @protected
    * @memberof HomeComponent
    */
-  onUpdateGlobalSelectionState(globalSelectionState: GlobalSelectionState) {
-    this.globalSelectionCriteria = globalSelectionState;
-  }
-
-  /**
-   * On filter update set the new values for the column filters.
-   *
-   * @param {ColumnFilters} columnFilters
-   * @memberof HomeComponent
-   */
-  onUpdateColumnFilter(columnFilters: ColumnFilters) {
-    this.columnFilters = columnFilters;
-  }
-
   protected readonly PeriodType = PeriodType;
 }

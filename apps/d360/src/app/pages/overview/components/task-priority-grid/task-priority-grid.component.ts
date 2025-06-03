@@ -76,7 +76,7 @@ export class TaskPriorityGridComponent
           (Array.isArray(this.priorities()) &&
             this.priorities().length === 0) ||
           this.priorities()?.some(
-            (requestedPriority) => alert.priorityCount[requestedPriority] > 0
+            (requestedPriority) => alert.priorityCount?.[requestedPriority] > 0
           )
       )
   );
@@ -120,7 +120,7 @@ export class TaskPriorityGridComponent
                     ? {
                         state: {
                           activateToggle: (
-                            alert?.alertTypes[priority] || []
+                            alert?.alertTypes?.[priority] || []
                           )?.some((type: AlertCategory) =>
                             alertTypesToActivateToggleViaURL.includes(type)
                           ),
@@ -279,7 +279,7 @@ export class TaskPriorityGridComponent
   private getSelectableOptionForAlert(alertType: AlertType): SelectableValue {
     const alertTypeOptions = this.selectableOptionsService.get('alertTypes');
 
-    return alertTypeOptions.loadingError === null
+    return alertTypeOptions?.loadingError === null
       ? alertTypeOptions?.options?.find(
           (option) => option.id === alertType
         ) || { id: alertType, text: alertType }

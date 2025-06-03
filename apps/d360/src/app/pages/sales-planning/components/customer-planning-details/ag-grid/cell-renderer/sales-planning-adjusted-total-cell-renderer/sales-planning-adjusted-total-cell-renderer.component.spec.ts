@@ -234,4 +234,161 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
       expect(title).toBe('2025 I03 - Bearings');
     });
   });
+
+  describe('validateEnteredAdjustedYearlyTotal', () => {
+    it('should return null when adjustedYearlyTotal is null', () => {
+      const result = (component as any).validateEnteredAdjustedYearlyTotal(
+        null
+      );
+      expect(result).toBeNull();
+    });
+
+    it('should return null when adjustedYearlyTotal is greater than or equal to minValidationValue', () => {
+      (component as any).minValidationValue = 1000;
+      const result = (component as any).validateEnteredAdjustedYearlyTotal(
+        1000
+      );
+      expect(result).toBeNull();
+    });
+
+    it('should return validation error when adjustedYearlyTotal is less than minValidationValue', () => {
+      (component as any).minValidationValue = 1000;
+      const result = (component as any).validateEnteredAdjustedYearlyTotal(999);
+      expect(result).toEqual({ invalid: true });
+    });
+
+    it('should handle rounded values correctly', () => {
+      (component as any).minValidationValue = 1000.49;
+      const result = (component as any).validateEnteredAdjustedYearlyTotal(
+        1000
+      );
+      expect(result).toBeNull();
+    });
+  });
+
+  describe('getPlanningMaterialText', () => {
+    it('should return the correct format for planning material text', () => {
+      component['planningMaterial'] = 'ABC123';
+      component['planningMaterialText'] = 'Test Material';
+
+      const result = (component as any).getPlanningMaterialText();
+      expect(result).toBe('ABC123 - Test Material');
+    });
+  });
+
+  describe('isEditPossible', () => {
+    it('should return true when current year + 2 >= data year and isPlanningMaterialRow is true', () => {
+      const currentYear = new Date().getFullYear();
+      component['planningYear'] = (currentYear + 2).toString();
+      component['isPlanningMaterialRow'] = true;
+
+      expect(component.isEditPossible()).toBe(true);
+    });
+
+    it('should return false when current year + 2 < data year and isPlanningMaterialRow is true', () => {
+      const currentYear = new Date().getFullYear();
+      component['planningYear'] = (currentYear + 3).toString();
+      component['isPlanningMaterialRow'] = true;
+
+      expect(component.isEditPossible()).toBe(false);
+    });
+
+    it('should always return true when isPlanningMaterialRow is false regardless of year', () => {
+      const currentYear = new Date().getFullYear();
+      component['planningYear'] = (currentYear + 5).toString();
+      component['isPlanningMaterialRow'] = false;
+
+      expect(component.isEditPossible()).toBe(true);
+    });
+  });
+
+  describe('setValue', () => {
+    it('should set isPlanningMaterialRow to true when node level is 1', () => {
+      const mockParams = {
+        data: {
+          detailLevel: SalesPlanningDetailLevel.MonthlyOnlyDetailLevel,
+          customerNumber: '93090',
+          planningMaterial: 'I03',
+          planningMaterialText: 'Bearings',
+          planningLevelMaterialType: 'PL',
+          planningCurrency: 'EUR',
+          planningYear: '2025',
+          planningMonth: '01',
+          firmBusiness: 100,
+          firmBusinessServices: 200,
+          openPlannedValueDemand360: 300,
+          opportunitiesDemandRelevant: 400,
+          opportunitiesForecastRelevant: 500,
+        },
+        context: {
+          reloadData: mockReloadData,
+        },
+        scope: TimeScope.Monthly,
+        value: 2000,
+        node: { level: 1 },
+      } as any;
+
+      component.agInit(mockParams);
+      expect(component['isPlanningMaterialRow']).toBe(true);
+    });
+
+    it('should set isPlanningMaterialRow to true when detailLevel is MonthlyAndPlanningLevelMaterialDetailLevel', () => {
+      const mockParams = {
+        data: {
+          detailLevel:
+            SalesPlanningDetailLevel.MonthlyAndPlanningLevelMaterialDetailLevel,
+          customerNumber: '93090',
+          planningMaterial: 'I03',
+          planningMaterialText: 'Bearings',
+          planningLevelMaterialType: 'PL',
+          planningCurrency: 'EUR',
+          planningYear: '2025',
+          planningMonth: '01',
+          firmBusiness: 100,
+          firmBusinessServices: 200,
+          openPlannedValueDemand360: 300,
+          opportunitiesDemandRelevant: 400,
+          opportunitiesForecastRelevant: 500,
+        },
+        context: {
+          reloadData: mockReloadData,
+        },
+        scope: TimeScope.Monthly,
+        value: 2000,
+        node: { level: 0 },
+      } as any;
+
+      component.agInit(mockParams);
+      expect(component['isPlanningMaterialRow']).toBe(true);
+    });
+
+    it('should calculate minValidationValue correctly', () => {
+      const mockParams = {
+        data: {
+          detailLevel: SalesPlanningDetailLevel.MonthlyOnlyDetailLevel,
+          customerNumber: '93090',
+          planningMaterial: 'I03',
+          planningMaterialText: 'Bearings',
+          planningLevelMaterialType: 'PL',
+          planningCurrency: 'EUR',
+          planningYear: '2025',
+          planningMonth: '01',
+          firmBusiness: 100,
+          firmBusinessServices: 200,
+          openPlannedValueDemand360: 300,
+          opportunitiesDemandRelevant: 400,
+          opportunitiesForecastRelevant: 500,
+        },
+        context: {
+          reloadData: mockReloadData,
+        },
+        scope: TimeScope.Monthly,
+        value: 2000,
+        node: { level: 0 },
+      } as any;
+
+      component.agInit(mockParams);
+      expect(component['minValidationValue']).toBe(1500); // Sum of all business values
+    });
+  });
 });

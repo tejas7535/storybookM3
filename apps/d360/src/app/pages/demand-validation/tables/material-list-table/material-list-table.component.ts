@@ -188,7 +188,7 @@ export class MaterialListTableComponent
   }
 
   private selectGridRow(selectedNode: IRowNode) {
-    selectedNode.setSelected(true, true);
+    selectedNode?.setSelected(true, true);
     this.selectedMaterialListEntry.set(selectedNode.data);
     this.selectedMaterialListEntryChange.emit(selectedNode.data);
   }

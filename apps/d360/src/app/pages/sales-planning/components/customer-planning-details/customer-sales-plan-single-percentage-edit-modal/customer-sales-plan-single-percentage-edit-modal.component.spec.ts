@@ -1,8 +1,4 @@
-import { MatDialogRef } from '@angular/material/dialog';
-
-import { of, Subject } from 'rxjs';
-
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { of } from 'rxjs';
 
 import { Stub } from './../../../../../shared/test/stub.class';
 import {
@@ -11,12 +7,10 @@ import {
 } from './customer-sales-plan-single-percentage-edit-modal.component';
 
 describe('CustomerSalesPlanSinglePercentageEditModalComponent', () => {
-  let spectator: Spectator<CustomerSalesPlanSinglePercentageEditModalComponent>;
-  const mockDialogRef: Partial<
-    MatDialogRef<CustomerSalesPlanSinglePercentageEditModalComponent>
-  > = {
-    close: jest.fn(),
-  };
+  let component: CustomerSalesPlanSinglePercentageEditModalComponent;
+
+  let onSaveSpy: jest.SpyInstance;
+  let onDeleteSpy: jest.SpyInstance;
 
   const mockData: CustomerSalesPlanNumberEditModalProps = {
     title: 'Edit Percentage',
@@ -29,130 +23,162 @@ describe('CustomerSalesPlanSinglePercentageEditModalComponent', () => {
     previousReferenceValueLabel: 1000,
     referenceValue: 1000,
     previousReferenceValue: 900,
-    onSave: jest.fn().mockReturnValue(of()),
-    onDelete: jest.fn().mockReturnValue(of()),
+    onSave: jest.fn(),
+    onDelete: jest.fn(),
   };
 
-  const createComponent = createComponentFactory({
-    component: CustomerSalesPlanSinglePercentageEditModalComponent,
-    providers: [
-      { provide: MatDialogRef, useValue: mockDialogRef },
-      Stub.getMatDialogDataProvider(mockData),
-    ],
-  });
-
   beforeEach(() => {
-    spectator = createComponent();
-  });
+    component = Stub.getForEffect({
+      component: CustomerSalesPlanSinglePercentageEditModalComponent,
+      providers: [
+        Stub.getMatDialogProvider(),
+        Stub.getMatDialogDataProvider(mockData),
+      ],
+    });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-    jest.resetAllMocks();
+    onSaveSpy = jest.spyOn(mockData, 'onSave').mockReturnValue(of(true as any));
+    onDeleteSpy = jest
+      .spyOn(mockData, 'onDelete')
+      .mockReturnValue(of(true as any));
   });
 
   it('should create the component', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
-  describe('Delete functionality', () => {
-    it('should call data.onDelete and close dialog with 0 when onDelete is called', () => {
-      const deleteSubject = new Subject<void>();
-      mockData.onDelete = jest.fn().mockReturnValue(deleteSubject);
-
-      spectator.click('.delete-button');
-
-      deleteSubject.next();
-      deleteSubject.complete();
-
-      expect(mockData.onDelete).toHaveBeenCalled();
-
-      expect(mockDialogRef.close).toHaveBeenCalledWith(0);
+  describe('form validation', () => {
+    it('should mark form as invalid when no value is provided', () => {
+      component.form.controls.adjustedPercentage.setValue(null);
+      expect(component.form.valid).toBeFalsy();
     });
 
-    it('should set loading to true during delete operation', () => {
-      const deleteSubject = new Subject<void>();
-      mockData.onDelete = jest.fn().mockReturnValue(deleteSubject);
-
-      expect(spectator.component.loading()).toBe(false);
-
-      spectator.click('.delete-button');
-
-      expect(spectator.component.loading()).toBe(true);
-
-      deleteSubject.complete();
+    it('should mark form as valid when a valid percentage is provided', () => {
+      component.form.controls.adjustedPercentage.setValue('50');
+      expect(component.form.valid).toBeTruthy();
     });
 
-    it('should set loading to false after delete operation completes', () => {
-      mockData.onDelete = jest.fn().mockReturnValue(of(0));
+    it('should return error when percentage is greater than 100', () => {
+      component.form.controls.adjustedPercentage.setValue('150');
+      expect(component.form.controls.adjustedPercentage.errors).toHaveProperty(
+        'max'
+      );
+    });
 
-      spectator.click('.delete-button');
-
-      expect(spectator.component.loading()).toBe(false);
+    it('should return error when percentage is less than 0', () => {
+      component.form.controls.adjustedPercentage.setValue('-10');
+      expect(component.form.controls.adjustedPercentage.errors).toHaveProperty(
+        'min'
+      );
     });
   });
 
-  describe('Form validation', () => {
-    it('should mark form controls as touched when onSave is called', () => {
-      jest.spyOn(spectator.component.form, 'markAllAsTouched');
-
-      spectator.click('.save-button');
-
-      expect(spectator.component.form.markAllAsTouched).toHaveBeenCalled();
+  describe('onSave', () => {
+    it('should not call onSave when form is invalid', () => {
+      component.form.controls.adjustedPercentage.setValue(null);
+      component['onSave']();
+      expect(onSaveSpy).not.toHaveBeenCalled();
     });
 
-    it('should show required error when form is submitted with empty input', () => {
-      spectator.component.form.controls.adjustedPercentage.setValue(null);
-
-      spectator.component.form.controls.adjustedPercentage.markAsTouched();
-
-      expect(
-        spectator.component.form.controls.adjustedPercentage.hasError(
-          'required'
-        )
-      ).toBe(true);
-    });
-  });
-
-  describe('Zero value handling', () => {
-    it('should accept 0 as a valid percentage value', () => {
-      spectator.component.form.controls.adjustedPercentage.setValue('0');
-
-      expect(spectator.component.form.valid).toBe(true);
-
-      expect(spectator.component.adjustedPercentage()).toBe(0);
+    it('should call onSave with adjusted percentage when form is valid', () => {
+      component.form.controls.adjustedPercentage.setValue('25');
+      component['onSave']();
+      expect(onSaveSpy).toHaveBeenCalledWith(25);
     });
 
-    it('should calculate reference value correctly when percentage is 0', () => {
-      spectator.component.form.controls.adjustedPercentage.setValue('0');
+    it('should close dialog with adjusted percentage when save is successful', () => {
+      const dialogRefSpy = jest.spyOn(component['dialogRef'], 'close');
+      component.form.controls.adjustedPercentage.setValue('25');
+      component.adjustedPercentage.set(25);
+      component['onSave']();
+      expect(dialogRefSpy).toHaveBeenCalledWith(25);
+    });
 
-      expect(spectator.component.calculatedReferenceValue()).toBe(1000); // 1000 * (1 - 0/100)
+    it('should set loading to true while saving', () => {
+      const loadingSpy = jest.spyOn(component.loading, 'set');
+      component.form.controls.adjustedPercentage.setValue('25');
+      component['onSave']();
+      expect(loadingSpy).toHaveBeenCalledWith(true);
     });
   });
 
-  describe('Cancel functionality', () => {
-    it('should close dialog with null when cancel button is clicked', () => {
-      const cancelButton = spectator.query('.cancel-button');
-      spectator.click(cancelButton);
+  describe('onDelete', () => {
+    it('should call onDelete method from data', () => {
+      component['onDelete']();
+      expect(onDeleteSpy).toHaveBeenCalled();
+    });
 
-      expect(mockDialogRef.close).toHaveBeenCalledWith(null);
+    it('should close dialog with 0 when delete is successful', () => {
+      const dialogRefSpy = jest.spyOn(component['dialogRef'], 'close');
+      component['onDelete']();
+      expect(dialogRefSpy).toHaveBeenCalledWith(0);
+    });
+
+    it('should set loading to true while deleting', () => {
+      const loadingSpy = jest.spyOn(component.loading, 'set');
+      component['onDelete']();
+      expect(loadingSpy).toHaveBeenCalledWith(true);
     });
   });
 
-  describe('Loading state', () => {
-    it('should show loading spinner when loading is true', () => {
-      spectator.component.loading.set(true);
-      spectator.detectChanges();
+  describe('onCancel', () => {
+    it('should close dialog with null', () => {
+      const dialogRefSpy = jest.spyOn(component['dialogRef'], 'close');
+      component['onCancel']();
+      expect(dialogRefSpy).toHaveBeenCalledWith(null);
+    });
+  });
 
-      const spinner = spectator.query('schaeffler-loading-spinner');
-      expect(spinner).toBeTruthy();
+  describe('onInput', () => {
+    it('should update percentage value when input changes', () => {
+      const event = new Event('input');
+      component.form.controls.adjustedPercentage.setValue('30');
+      const updateSpy = jest.spyOn(component as any, 'updatePercentageValue');
+
+      component.onInput(event);
+
+      expect(updateSpy).toHaveBeenCalledWith('30');
     });
 
-    it('should hide form content when loading is true', () => {
-      spectator.component.loading.set(true);
-      spectator.detectChanges();
+    it('should not update percentage value when input is empty', () => {
+      const event = new Event('input');
+      component.form.controls.adjustedPercentage.setValue('');
+      const updateSpy = jest.spyOn(component as any, 'updatePercentageValue');
 
-      const formElement = spectator.query('mat-dialog-content');
-      expect(formElement).toBeFalsy();
+      component.onInput(event);
+
+      expect(updateSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('updatePercentageValue', () => {
+    it('should calculate reference value based on percentage', () => {
+      component['updatePercentageValue']('20');
+
+      expect(component.adjustedPercentage()).toBe(20);
+      // If reference value is 1000 and percentage is 20%, the calculated value should be 800
+      expect(component.calculatedReferenceValue()).toBe(800);
+    });
+
+    it('should handle non-numeric input', () => {
+      jest
+        .spyOn(component['translocoLocaleService'], 'getLocale')
+        .mockReturnValue('en-US');
+      const setCalculatedSpy = jest.spyOn(
+        component.calculatedReferenceValue,
+        'set'
+      );
+
+      component['updatePercentageValue']('abc');
+
+      expect(setCalculatedSpy).not.toHaveBeenCalled();
+    });
+
+    it('should round the calculated reference value', () => {
+      // Using a percentage that would result in a non-integer
+      component['updatePercentageValue']('33.33');
+
+      // 1000 * (1 - 33.33/100) = 666.7, rounded to 667
+      expect(component.calculatedReferenceValue()).toBe(667);
     });
   });
 });

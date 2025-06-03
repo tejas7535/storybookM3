@@ -144,6 +144,10 @@ describe('HomeTableColumnDefinitions', () => {
       const valueGetter = forecastMaintainedColumn?.valueGetter as Function;
       const result = valueGetter({ data: { forecastMaintained: true } });
       expect(result).toBe('field.forecastMaintained.value.true');
+
+      expect(
+        forecastMaintainedColumn?.filterParams.valueFormatter({ value: 'abc' })
+      ).toBe('field.forecastMaintained.value.true');
     });
 
     it('should include correct valueGetter for abcxClassification column', () => {
@@ -181,6 +185,157 @@ describe('HomeTableColumnDefinitions', () => {
         abcxClassificationColumn?.filterParams?.valueFormatter as Function;
       const result = valueFormatter({ value: 'B' });
       expect(result).toBe('field.abcxClassification.value.B');
+    });
+
+    it('should configure customerMaterialNumber column with correct cellRenderer', () => {
+      const columns = columnDefinitions(
+        agGridLocalizationService,
+        selectableOptionsService
+      );
+      const customerMaterialNumberColumn = columns.find(
+        (col) => col.colId === 'customerMaterialNumber'
+      );
+
+      expect(customerMaterialNumberColumn).toBeDefined();
+      expect(customerMaterialNumberColumn?.cellRenderer).toBe(
+        'customerMaterialNumberCellRenderer'
+      );
+      expect(customerMaterialNumberColumn?.visible).toBe(true);
+    });
+
+    it('should configure demandCharacteristic column with correct valueFormatter and filter', () => {
+      const columns = columnDefinitions(
+        agGridLocalizationService,
+        selectableOptionsService
+      );
+      const demandCharacteristicColumn = columns.find(
+        (col) => col.colId === 'demandCharacteristic'
+      );
+
+      expect(demandCharacteristicColumn).toBeDefined();
+      expect(demandCharacteristicColumn?.valueFormatter).toBeDefined();
+      expect(demandCharacteristicColumn?.filter).toBe('agSetColumnFilter');
+      expect(demandCharacteristicColumn?.filterParams).toHaveProperty(
+        'valueFormatter'
+      );
+      expect(demandCharacteristicColumn?.filterParams).toHaveProperty('values');
+    });
+
+    it('should configure portfolioStatus column with correct valueFormatter and filter', () => {
+      const columns = columnDefinitions(
+        agGridLocalizationService,
+        selectableOptionsService
+      );
+      const portfolioStatusColumn = columns.find(
+        (col) => col.colId === 'portfolioStatus'
+      );
+
+      expect(portfolioStatusColumn).toBeDefined();
+      expect(portfolioStatusColumn?.valueFormatter).toBeDefined();
+      expect(portfolioStatusColumn?.filter).toBe('agSetColumnFilter');
+      expect(portfolioStatusColumn?.filterParams).toHaveProperty(
+        'valueFormatter'
+      );
+      expect(portfolioStatusColumn?.filterParams).toHaveProperty('values');
+    });
+
+    it('should configure productLine column with SelectableOptionsService settings', () => {
+      jest.spyOn(selectableOptionsService, 'getFilterColDef').mockReturnValue({
+        filter: 'customFilter',
+        someProp: 'testValue',
+      } as any);
+
+      const columns = columnDefinitions(
+        agGridLocalizationService,
+        selectableOptionsService
+      );
+      const productLineColumn = columns.find(
+        (col) => col.colId === 'productLine'
+      );
+
+      expect(productLineColumn).toBeDefined();
+      expect(selectableOptionsService.getFilterColDef).toHaveBeenCalledWith(
+        'productLine',
+        expect.any(Function),
+        null
+      );
+      expect(productLineColumn?.filter).toBe('customFilter');
+      expect(productLineColumn).toHaveProperty('someProp', 'testValue');
+    });
+
+    it('should configure date columns with correct formatters and filters', () => {
+      const columns = columnDefinitions(
+        agGridLocalizationService,
+        selectableOptionsService
+      );
+
+      const dateColumns = [
+        'pfStatusAutoSwitch',
+        'repDate',
+        'forecastValidatedFrom',
+        'forecastValidatedTo',
+        'forecastValidatedAt',
+      ];
+
+      dateColumns.forEach((colId) => {
+        const column = columns.find((col) => col.colId === colId);
+        expect(column).toBeDefined();
+        expect(column?.valueFormatter).toBe(
+          agGridLocalizationService.dateFormatter
+        );
+        expect(column?.filter).toBe('agDateColumnFilter');
+      });
+    });
+
+    it('should configure number columns with correct formatters and filters', () => {
+      const columns = columnDefinitions(
+        agGridLocalizationService,
+        selectableOptionsService
+      );
+
+      const numberColumns = [
+        'packagingSize',
+        'currentRLTSchaeffler',
+        'currentRLTCustomer',
+        'successorSchaefflerMaterialPackagingSize',
+        'forecastValidated',
+      ];
+
+      numberColumns.forEach((colId) => {
+        const column = columns.find((col) => col.colId === colId);
+        expect(column).toBeDefined();
+        expect(column?.valueFormatter).toBe(
+          agGridLocalizationService.numberFormatter
+        );
+        expect(column?.filter).toBe('agNumberColumnFilter');
+      });
+    });
+
+    it('should set required columns as alwaysVisible', () => {
+      const columns = columnDefinitions(
+        agGridLocalizationService,
+        selectableOptionsService
+      );
+
+      const requiredColumns = [
+        'salesOrg',
+        'mainCustomerNumber',
+        'customerNumber',
+        'customerName',
+        'customerCountry',
+        'sector',
+        'sectorManagement',
+        'deliveryPlant',
+        'planningPlant',
+        'materialNumber',
+        'materialDescription',
+      ];
+
+      requiredColumns.forEach((colId) => {
+        const column = columns.find((col) => col.colId === colId);
+        expect(column).toBeDefined();
+        expect(column?.alwaysVisible).toBe(true);
+      });
     });
   });
 });

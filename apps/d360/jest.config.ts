@@ -5,10 +5,10 @@ export default {
   coverageDirectory: '../../coverage/apps/d360',
   coverageThreshold: {
     global: {
-      branches: 15,
-      functions: 15,
-      lines: 15,
-      statements: 15,
+      branches: 80,
+      functions: 80,
+      lines: 80,
+      statements: 80,
     },
   },
   resetMocks: true,

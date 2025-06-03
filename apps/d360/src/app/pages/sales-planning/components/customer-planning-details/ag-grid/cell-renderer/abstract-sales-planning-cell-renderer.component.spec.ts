@@ -12,14 +12,19 @@ class TestComponent extends AbstractSalesPlanningCellRendererComponent<number> {
   }
 }
 
-let component: AbstractSalesPlanningCellRendererComponent<number>;
-const testParams: ICellRendererParams = {
-  data: { editStatus: '1' },
-  valueFormatted: '1%',
-} as ICellRendererParams;
 describe('AlertRuleTableRowMenuButtonComponent', () => {
+  let component: AbstractSalesPlanningCellRendererComponent<number>;
+  const testParams: ICellRendererParams = {
+    data: { editStatus: '1' },
+    valueFormatted: '1%',
+  } as ICellRendererParams;
+
   beforeEach(() => {
     component = Stub.get({ component: TestComponent });
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
   it('should set the defaults', () => {

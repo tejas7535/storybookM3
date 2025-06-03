@@ -253,5 +253,108 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
       const dialogConfig = dialogOpenSpy.mock.calls[0][1];
       expect(dialogConfig.disableClose).toBe(true);
     });
+
+    it('should still open dialog even if data is null', () => {
+      component['params'] = { api: {} } as any;
+      component['data'] = null;
+
+      component['delete']();
+
+      expect(dialogOpenSpy).toHaveBeenCalledWith(
+        AlertRuleDeleteSingleModalComponent,
+        {
+          data: {
+            gridApi: component['params'].api,
+            alertRule: null,
+          },
+          disableClose: true,
+        }
+      );
+    });
+
+    it('should still open dialog even if params.api is undefined', () => {
+      component['params'] = {} as any;
+      component['data'] = { id: '1' } as AlertRule;
+
+      component['delete']();
+
+      expect(dialogOpenSpy).toHaveBeenCalledWith(
+        AlertRuleDeleteSingleModalComponent,
+        {
+          data: {
+            gridApi: undefined,
+            alertRule: component['data'],
+          },
+          disableClose: true,
+        }
+      );
+    });
+  });
+
+  describe('error handling', () => {
+    it('should not update data or close on error response', (done) => {
+      const mockErrorResponse = {
+        overallStatus: MessageType.Error,
+        overallErrorMsg: 'Error message',
+        response: [] as any,
+      };
+
+      jest
+        .spyOn(component['alertRulesService'], 'saveMultiAlertRules')
+        .mockReturnValue(of(mockErrorResponse));
+
+      const updateDataSpy = jest.spyOn(component as any, 'updateData');
+      const handleCloseSpy = jest.spyOn(component as any, 'handleClose');
+      const openSnackBarSpy = jest.spyOn(
+        component['snackBarService'],
+        'openSnackBar'
+      );
+
+      component['data'] = { id: '1', deactivated: false } as AlertRule;
+      component['deactivate']();
+
+      setTimeout(() => {
+        expect(openSnackBarSpy).toHaveBeenCalledWith(expect.any(String));
+        expect(updateDataSpy).not.toHaveBeenCalled();
+        expect(handleCloseSpy).not.toHaveBeenCalled();
+        done();
+      });
+    });
+  });
+
+  describe('updateData', () => {
+    it('should call the grid API to update the data', () => {
+      const updatedData = { id: '1', name: 'Updated Rule' };
+      const getRowNodeSpy = jest.spyOn(component['params'].api, 'getRowNode');
+      const nodeUpdateDataSpy = jest.spyOn(
+        component['params'].api.getRowNode('abc'),
+        'updateData'
+      );
+
+      component['data'] = { id: '1' } as AlertRule;
+      component['updateData'](updatedData as any);
+
+      expect(getRowNodeSpy).toHaveBeenCalledWith('abc');
+      expect(nodeUpdateDataSpy).toHaveBeenCalledWith(updatedData);
+    });
+
+    it('should not fail if node is not found', () => {
+      const updatedData = { id: '1', name: 'Updated Rule' };
+      jest.spyOn(component['params'].api, 'getRowNode').mockReturnValue(null);
+
+      expect(() => {
+        component['updateData'](updatedData as any);
+      }).not.toThrow();
+    });
+  });
+
+  describe('handleClose', () => {
+    it('should be defined', () => {
+      expect(component['handleClose']).toBeDefined();
+    });
+
+    it('should be callable without errors', () => {
+      expect(() => component['handleClose']()).not.toThrow();
+    });
   });
 });

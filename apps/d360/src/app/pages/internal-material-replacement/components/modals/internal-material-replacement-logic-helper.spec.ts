@@ -289,5 +289,103 @@ describe('Internal Material Replacement Logic Helper', () => {
       ];
       expect(result.deactivatedFields).toEqual(expectedDeactivatedFields);
     });
+
+    it('should combine deactivatedFields with key fields correctly', () => {
+      const defaultLogic: Helper.ReplacementTypeLogic = {
+        replacementType: 'PACKAGING_CHANGE',
+        mandatoryFields: ['replacementType', 'region', 'predecessorMaterial'],
+        deactivatedFields: ['customerNumber', 'startOfProduction'],
+      };
+
+      const result = Helper.getReplacementTypeLogicForEdit(defaultLogic);
+
+      // Check that original deactivated fields are preserved
+      expect(result.deactivatedFields).toContain('customerNumber');
+      expect(result.deactivatedFields).toContain('startOfProduction');
+
+      // Check that all key fields are added
+      expect(result.deactivatedFields).toContain('region');
+      expect(result.deactivatedFields).toContain('replacementType');
+      expect(result.deactivatedFields).toContain('salesArea');
+      expect(result.deactivatedFields).toContain('salesOrg');
+      expect(result.deactivatedFields).toContain('customerNumber');
+      expect(result.deactivatedFields).toContain('predecessorMaterial');
+    });
+
+    it('should handle empty deactivatedFields array', () => {
+      const defaultLogic: Helper.ReplacementTypeLogic = {
+        replacementType: 'PRODUCT_DEVELOPMENT',
+        mandatoryFields: ['field1', 'field2'] as any,
+        deactivatedFields: [],
+      };
+
+      const result = Helper.getReplacementTypeLogicForEdit(defaultLogic);
+
+      // Result should contain exactly the key fields with no duplicates
+      expect(result.deactivatedFields.length).toBe(6);
+      expect(result.deactivatedFields).toEqual([
+        'region',
+        'replacementType',
+        'salesArea',
+        'salesOrg',
+        'customerNumber',
+        'predecessorMaterial',
+      ]);
+    });
+
+    it('should handle overlapping fields correctly', () => {
+      const defaultLogic: Helper.ReplacementTypeLogic = {
+        replacementType: 'DISCONTINUED',
+        mandatoryFields: ['replacementType', 'region'],
+        deactivatedFields: ['predecessorMaterial', 'region'], // Intentional overlap with key fields
+      };
+
+      const result = Helper.getReplacementTypeLogicForEdit(defaultLogic);
+
+      // Should deduplicate the overlapping fields
+      expect(
+        result.deactivatedFields.filter((f) => f === 'region').length
+      ).toBe(1);
+      expect(
+        result.deactivatedFields.filter((f) => f === 'predecessorMaterial')
+          .length
+      ).toBe(1);
+
+      // Total length should be 6 (no duplicates)
+      expect(result.deactivatedFields.length).toBe(6);
+    });
+
+    it('should preserve the original mandatoryFields array', () => {
+      const originalFields = ['field1', 'field2', 'field3'];
+      const defaultLogic: Helper.ReplacementTypeLogic = {
+        replacementType: 'CUSTOMER_DROPOUT',
+        mandatoryFields: [...originalFields] as any,
+        deactivatedFields: ['deactivatedField1'] as any,
+      };
+
+      const result = Helper.getReplacementTypeLogicForEdit(defaultLogic);
+
+      // mandatoryFields should remain unchanged
+      expect(result.mandatoryFields).toEqual(originalFields);
+    });
+
+    it('should handle undefined defaultLogic.deactivatedFields', () => {
+      const defaultLogic = {
+        replacementType: 'RELOCATION',
+        mandatoryFields: ['field1'],
+        // deactivatedFields intentionally missing
+      } as any;
+
+      const result = Helper.getReplacementTypeLogicForEdit(defaultLogic);
+
+      // Should still include all key fields
+      expect(result.deactivatedFields).toContain('region');
+      expect(result.deactivatedFields).toContain('replacementType');
+      expect(result.deactivatedFields).toContain('salesArea');
+      expect(result.deactivatedFields).toContain('salesOrg');
+      expect(result.deactivatedFields).toContain('customerNumber');
+      expect(result.deactivatedFields).toContain('predecessorMaterial');
+      expect(result.deactivatedFields.length).toBe(6);
+    });
   });
 });

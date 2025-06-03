@@ -13,6 +13,7 @@ import { Priority } from '../../../../feature/alerts/model';
 })
 export class TaskPrioritiesComponent implements ICellRendererAngularComp {
   protected params!: any;
+  protected readonly Priority = Priority;
 
   public agInit(params: ICellRendererParams): void {
     this.params = params;
@@ -23,6 +24,4 @@ export class TaskPrioritiesComponent implements ICellRendererAngularComp {
 
     return false;
   }
-
-  protected readonly Priority = Priority;
 }

@@ -1,4 +1,4 @@
-import { take } from 'rxjs';
+import { finalize, of, take } from 'rxjs';
 
 import { ColDef } from 'ag-grid-enterprise';
 
@@ -232,6 +232,116 @@ describe('MonthlyCustomerPlanningDetailsModalComponent', () => {
           visible: true,
         },
       ]);
+    });
+  });
+
+  it('should generate correct row IDs', () => {
+    const mockColumnDefs: ColDef[] = [];
+    const configSetSpy = jest.spyOn(component['config'], 'set');
+
+    component['setConfig'](mockColumnDefs);
+
+    // Extract the getRowId function from the call
+    const getRowIdFn = configSetSpy.mock.calls[0][0].table.getRowId;
+
+    // Test with sample data
+    const result = getRowIdFn({
+      data: {
+        customerNumber: '12345',
+        planningYear: '2025',
+        planningMonth: '03',
+        planningMaterial: 'MAT001',
+      },
+    } as any);
+
+    expect(result).toBe('12345-2025-03-MAT001');
+  });
+
+  describe('isLoading$ behavior', () => {
+    it('should set isLoading to true on first call and false after data is fetched', (done) => {
+      jest
+        .spyOn(
+          component['salesPlanningService'],
+          'getDetailedCustomerSalesPlan'
+        )
+        .mockReturnValue(of([]));
+
+      // Reset the firstCall flag to true
+      component['firstCall'] = true;
+
+      // Spy on the isLoading$ next method
+      const isLoadingNextSpy = jest.spyOn(component['isLoading$'], 'next');
+
+      component['getData$']()
+        .pipe(
+          take(1),
+          finalize(() => {
+            expect(component['firstCall']).toBe(false);
+            expect(isLoadingNextSpy).toHaveBeenCalledWith(false);
+          })
+        )
+        .subscribe(() => {
+          expect(isLoadingNextSpy).toHaveBeenCalledWith(true);
+
+          done();
+        });
+    });
+
+    it('should not set isLoading to true on subsequent calls', (done) => {
+      jest
+        .spyOn(
+          component['salesPlanningService'],
+          'getDetailedCustomerSalesPlan'
+        )
+        .mockReturnValue(of([]));
+
+      // Ensure firstCall is false to simulate subsequent calls
+      component['firstCall'] = false;
+
+      // Spy on the isLoading$ next method
+      const isLoadingNextSpy = jest.spyOn(component['isLoading$'], 'next');
+
+      component['getData$']()
+        .pipe(
+          take(1),
+          finalize(() => {
+            // Should only be called with false during finalize
+            expect(isLoadingNextSpy).toHaveBeenCalledTimes(1);
+            expect(isLoadingNextSpy).toHaveBeenCalledWith(false);
+          })
+        )
+        .subscribe(() => {
+          done();
+        });
+    });
+  });
+
+  describe('hasChangedData flag', () => {
+    it('should update hasChangedData when reloadData is called', () => {
+      component['hasChangedData'] = false;
+      const reloadSpy = jest.spyOn(component, 'reload$').mockReturnValue({
+        next: jest.fn(),
+      } as any);
+
+      // Extract the reloadData function from setConfig
+      const configSetSpy = jest.spyOn(component['config'], 'set');
+      component['setConfig']([]);
+      const reloadDataFn =
+        configSetSpy.mock.calls[0][0].table.context.reloadData;
+
+      reloadDataFn();
+
+      expect(component['hasChangedData']).toBe(true);
+      expect(reloadSpy).toHaveBeenCalled();
+    });
+
+    it('should return hasChangedData when dialog is closed', () => {
+      component['hasChangedData'] = true;
+      const dialogCloseSpy = jest.spyOn(component['dialogRef'], 'close');
+
+      component.onClose();
+
+      expect(dialogCloseSpy).toHaveBeenCalledWith(true);
     });
   });
 });

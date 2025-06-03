@@ -113,7 +113,7 @@ export class DemandValidationMultiGridEditComponent
     super();
 
     effect(() => {
-      if (this.kpiBuckets().length > 0) {
+      if (this.kpiBuckets()?.length > 0) {
         this.columnDefinitions = [
           {
             headerName:
@@ -540,11 +540,13 @@ export class DemandValidationMultiGridEditComponent
    * @memberof DemandValidationMultiGridEditComponent
    */
   private getCellId(rowId: string | undefined, date: Date): number | undefined {
-    return rowId !== null && rowId !== undefined
-      ? this.gridApi()
-          .getColumns()
-          .findIndex((col) => col.getColId() === this.keyFromDate(date)) ||
-          undefined
-      : undefined;
+    let index: number | undefined;
+    if (rowId !== null && rowId !== undefined) {
+      index = this.gridApi()
+        .getColumns()
+        .findIndex((col) => col.getColId() === this.keyFromDate(date));
+    }
+
+    return index >= 0 ? index : undefined;
   }
 }

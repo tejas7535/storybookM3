@@ -79,6 +79,130 @@ describe('CustomerSalesPlanShareEditModalComponent', () => {
 
       expect(result).toBeNull(); // Assuming null values do not exceed the limit
     });
+
+    it('should handle a mix of valid and null values and return null if within the limit', () => {
+      component['form'].controls['adjustedAPValue'].setValue(30);
+      component['form'].controls['adjustedOPValue'].setValue(null);
+      component['form'].controls['adjustedSPValue'].setValue(20);
+
+      const result = component['crossFieldValidator']()(component['form']);
+
+      expect(result).toBeNull(); // Total is within the limit
+    });
+
+    it('should handle a mix of valid and null values and return an error if exceeding the limit', () => {
+      component['form'].controls['adjustedAPValue'].setValue(60);
+      component['form'].controls['adjustedOPValue'].setValue(null);
+      component['form'].controls['adjustedSPValue'].setValue(50);
+
+      const result = component['crossFieldValidator']()(component['form']);
+
+      expect(result).toEqual({ totalExceedsLimit: true }); // Total exceeds the limit
+    });
+
+    it('should handle zero values properly', () => {
+      component['form'].controls['adjustedAPValue'].setValue(0);
+      component['form'].controls['adjustedOPValue'].setValue(0);
+      component['form'].controls['adjustedSPValue'].setValue(0);
+
+      const result = component['crossFieldValidator']()(component['form']);
+
+      expect(result).toBeNull(); // Total of zeros is within the limit
+    });
+
+    it('should handle edge case of exactly 100% total', () => {
+      component['form'].controls['adjustedAPValue'].setValue(30);
+      component['form'].controls['adjustedOPValue'].setValue(40);
+      component['form'].controls['adjustedSPValue'].setValue(30);
+
+      const result = component['crossFieldValidator']()(component['form']);
+
+      expect(result).toBeNull(); // Total is exactly at the limit
+    });
+  });
+
+  describe('magic number handling', () => {
+    let magicNumberComponent: CustomerSalesPlanShareEditModalComponent;
+    const sapMagicNumberValue = -1;
+
+    beforeEach(() => {
+      magicNumberComponent = Stub.get({
+        component: CustomerSalesPlanShareEditModalComponent,
+        providers: [
+          Stub.getSalesPlanningServiceProvider(),
+          Stub.getMatDialogDataProvider({
+            apShareAdjustedUnconstrained: sapMagicNumberValue,
+            apShareUnconstrained: '30',
+            customerNumber: '000012345',
+            opShareAdjustedUnconstrained: sapMagicNumberValue,
+            opShareUnconstrained: '50',
+            planningYear: '2023',
+            spShareAdjustedUnconstrained: sapMagicNumberValue,
+            spShareUnconstrained: '70',
+          }),
+        ],
+      });
+    });
+
+    it('should initialize form with null for magic number values', () => {
+      expect(
+        magicNumberComponent['form'].controls['adjustedAPValue'].value
+      ).toBeNull();
+      expect(
+        magicNumberComponent['form'].controls['adjustedOPValue'].value
+      ).toBeNull();
+      expect(
+        magicNumberComponent['form'].controls['adjustedSPValue'].value
+      ).toBeNull();
+    });
+
+    it('should update shares with null values when form contains nulls', () => {
+      const updateSharesSpy = jest
+        .spyOn(magicNumberComponent['salesPlanningService'], 'updateShares')
+        .mockReturnValue(of(null));
+
+      magicNumberComponent['form'].controls['adjustedAPValue'].setValue(null);
+      magicNumberComponent['form'].controls['adjustedOPValue'].setValue(null);
+      magicNumberComponent['form'].controls['adjustedSPValue'].setValue(null);
+
+      magicNumberComponent['onSave']();
+
+      expect(updateSharesSpy).toHaveBeenCalledWith('000012345', '2023', {
+        apShare: null,
+        spShare: null,
+        opShare: null,
+      });
+    });
+  });
+
+  describe('form validation', () => {
+    it('should be valid when form values are within limits', () => {
+      component['form'].controls['adjustedAPValue'].setValue(30);
+      component['form'].controls['adjustedOPValue'].setValue(30);
+      component['form'].controls['adjustedSPValue'].setValue(30);
+
+      expect(component['form'].valid).toBeTruthy();
+    });
+
+    it('should be invalid when form values exceed limits', () => {
+      component['form'].controls['adjustedAPValue'].setValue(40);
+      component['form'].controls['adjustedOPValue'].setValue(40);
+      component['form'].controls['adjustedSPValue'].setValue(40);
+
+      // Trigger validation
+      component['form'].updateValueAndValidity();
+
+      expect(component['form'].valid).toBeFalsy();
+      expect(component['form'].errors).toEqual({ totalExceedsLimit: true });
+    });
+
+    it("should be valid with partially filled fields that don't exceed limits", () => {
+      component['form'].controls['adjustedAPValue'].setValue(30);
+      component['form'].controls['adjustedOPValue'].setValue(null);
+      component['form'].controls['adjustedSPValue'].setValue(40);
+
+      expect(component['form'].valid).toBeTruthy();
+    });
   });
 
   describe('onDelete', () => {
@@ -251,6 +375,26 @@ describe('CustomerSalesPlanShareEditModalComponent', () => {
       const result = component['crossFieldValidator']()(component['form']);
 
       expect(result).toEqual({ totalExceedsLimit: true }); // Total exceeds the limit
+    });
+
+    it('should handle zero values properly', () => {
+      component['form'].controls['adjustedAPValue'].setValue(0);
+      component['form'].controls['adjustedOPValue'].setValue(0);
+      component['form'].controls['adjustedSPValue'].setValue(0);
+
+      const result = component['crossFieldValidator']()(component['form']);
+
+      expect(result).toBeNull(); // Total of zeros is within the limit
+    });
+
+    it('should handle edge case of exactly 100% total', () => {
+      component['form'].controls['adjustedAPValue'].setValue(30);
+      component['form'].controls['adjustedOPValue'].setValue(40);
+      component['form'].controls['adjustedSPValue'].setValue(30);
+
+      const result = component['crossFieldValidator']()(component['form']);
+
+      expect(result).toBeNull(); // Total is exactly at the limit
     });
   });
 });

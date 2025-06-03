@@ -1,21 +1,8 @@
-import { MatButton } from '@angular/material/button';
-import { MatCard } from '@angular/material/card';
-import {
-  MatDialogActions,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle,
-} from '@angular/material/dialog';
-import { MatPaginatorModule } from '@angular/material/paginator';
-
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-
 import { Stub } from './../../../../shared/test/stub.class';
-import { CustomerInfoModalComponent } from './customer-info-modal.component';
-
-const dialogRefSpy = {
-  close: jest.fn(),
-};
+import {
+  CustomerInfoModalComponent,
+  CustomPaginatorIntl,
+} from './customer-info-modal.component';
 
 const mockDateWithMultipleCustomerInfo = {
   customerNumber: 'C123',
@@ -66,159 +53,172 @@ const mockDateWithMultipleCustomerInfo = {
   ],
 };
 
-const mockDataWithSingleCustomerInfo = {
-  ...mockDateWithMultipleCustomerInfo,
-  customerInfo: [mockDateWithMultipleCustomerInfo.customerInfo[0]],
-};
+describe('CustomerInfoModalComponent and CustomPaginatorIntl', () => {
+  describe('CustomerInfoModalComponent', () => {
+    let component: CustomerInfoModalComponent;
 
-describe('CustomerInfoModalComponent Multiple Customer Info', () => {
-  let spectator: Spectator<CustomerInfoModalComponent>;
+    beforeEach(() => {
+      component = Stub.get({
+        component: CustomerInfoModalComponent,
+        providers: [
+          Stub.getMatDialogProvider(),
+          Stub.getMatDialogDataProvider(mockDateWithMultipleCustomerInfo),
+        ],
+      });
+    });
 
-  const createComponent = createComponentFactory({
-    component: CustomerInfoModalComponent,
-    imports: [
-      MatDialogContent,
-      MatDialogActions,
-      MatDialogTitle,
-      MatButton,
-      MatCard,
-      MatPaginatorModule,
-    ],
-    providers: [
-      { provide: MatDialogRef, useValue: dialogRefSpy },
-      Stub.getMatDialogDataProvider(mockDateWithMultipleCustomerInfo),
-    ],
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should format title correctly', () => {
+      expect(component['title']).toBe('C123 - Test Customer');
+    });
+
+    it('should have correct page length', () => {
+      expect(component['pageLength']()).toBe(2);
+    });
+
+    it('should handle page event correctly', () => {
+      const pageEvent = { pageIndex: 1, pageSize: 1, length: 2 };
+      component.handlePageEvent(pageEvent);
+      expect(component['pageIndex']()).toBe(1);
+    });
+
+    it('should close dialog when onClose is called', () => {
+      const dialogRefSpy = jest.spyOn(component['dialogRef'], 'close');
+      component['onClose']();
+      expect(dialogRefSpy).toHaveBeenCalled();
+    });
+
+    describe('getCustomerAttribute', () => {
+      it('should return string value for single attribute', () => {
+        const result = component['getCustomerAttribute']('region', 0);
+        expect(result).toBe('EMEA');
+      });
+
+      it('should return combined string for array attributes', () => {
+        const result = component['getCustomerAttribute']('salesOrg', 0);
+        expect(result).toBe('S1 - Sales Org 1');
+      });
+
+      it('should return dash when attribute value is missing', () => {
+        // Temporarily modify the data to test the fallback
+        const originalValue = component['data'].customerInfo[0].region;
+        component['data'].customerInfo[0].region = '';
+
+        const result = component['getCustomerAttribute']('region', 0);
+        expect(result).toBe('-');
+
+        // Restore the original value
+        component['data'].customerInfo[0].region = originalValue;
+      });
+
+      it('should return empty string for non-configured attribute', () => {
+        const result = component['getCustomerAttribute'](
+          'nonExistentAttribute',
+          0
+        );
+        expect(result).toBe('');
+      });
+    });
+
+    describe('getOwnerAttribute', () => {
+      it('should return correct owner attribute value', () => {
+        const result = component['getOwnerAttribute']('accountOwner', 0);
+        expect(result).toBe('John Doe');
+      });
+
+      it('should return dash when owner attribute is missing', () => {
+        // Temporarily modify the data to test the fallback
+        const originalValue = component['data'].customerInfo[0].accountOwner;
+        component['data'].customerInfo[0].accountOwner = '';
+
+        const result = component['getOwnerAttribute']('accountOwner', 0);
+        expect(result).toBe('-');
+
+        // Restore the original value
+        component['data'].customerInfo[0].accountOwner = originalValue;
+      });
+
+      it('should return dash for a different owner attribute when missing', () => {
+        // Test a different owner attribute with null value
+        const originalValue = component['data'].customerInfo[0].internalSales;
+        component['data'].customerInfo[0].internalSales = null;
+
+        const result = component['getOwnerAttribute']('internalSales', 0);
+        expect(result).toBe('-');
+
+        // Restore the original value
+        component['data'].customerInfo[0].internalSales = originalValue;
+      });
+
+      it('should return correct value for owner attribute on different page index', () => {
+        const result = component['getOwnerAttribute']('accountOwner', 1);
+        expect(result).toBe('Alice Doe');
+      });
+    });
+
+    describe('Pagination', () => {
+      it('should initialize with page index 0', () => {
+        expect(component['pageIndex']()).toBe(0);
+      });
+
+      it('should update page index when handlePageEvent is called', () => {
+        component.handlePageEvent({ pageIndex: 1, pageSize: 10, length: 2 });
+        expect(component['pageIndex']()).toBe(1);
+
+        component.handlePageEvent({ pageIndex: 0, pageSize: 10, length: 2 });
+        expect(component['pageIndex']()).toBe(0);
+      });
+    });
+
+    describe('Customer attributes display', () => {
+      it('should display attributes from the correct page index', () => {
+        // Default page index 0
+        let result = component['getCustomerAttribute']('region', 0);
+        expect(result).toBe('EMEA');
+
+        // Change to page index 1
+        component.handlePageEvent({ pageIndex: 1, pageSize: 10, length: 2 });
+        result = component['getCustomerAttribute']('region', 1);
+        expect(result).toBe('NA');
+      });
+
+      it('should format combined attributes correctly', () => {
+        const country = component['getCustomerAttribute']('country', 0);
+        expect(country).toBe('DE - Germany');
+
+        const keyAccount = component['getCustomerAttribute']('keyAccount', 0);
+        expect(keyAccount).toBe('KA001 - Key Account Name');
+      });
+    });
   });
 
-  beforeEach(() => {
-    spectator = createComponent();
-  });
+  describe('CustomPaginatorIntl', () => {
+    let paginatorIntl: CustomPaginatorIntl;
 
-  it('should create', () => {
-    expect(spectator.component).toBeTruthy();
-  });
+    beforeEach(() => {
+      paginatorIntl = new CustomPaginatorIntl();
+    });
 
-  it('should display the title and include the customer number and name', () => {
-    const titleEl = spectator.query('h2.text-headline-small');
-    expect(titleEl).toHaveText('C123 - Test Customer');
-  });
+    it('should create an instance', () => {
+      expect(paginatorIntl).toBeTruthy();
+    });
 
-  it('should display customer attributes for the first page', () => {
-    const textContent = spectator.query('mat-dialog-content')?.textContent;
+    it('should format range label correctly', () => {
+      const result = paginatorIntl.getRangeLabel(0, 10, 20);
+      expect(result).toBe('1 of 2');
+    });
 
-    // globalCustomerNumber (single value)
-    expect(textContent).toContain('globalCustomerNumber:');
-    expect(textContent).toContain('C123');
+    it('should format range label correctly with different values', () => {
+      const result = paginatorIntl.getRangeLabel(2, 5, 30);
+      expect(result).toBe('3 of 6');
+    });
 
-    // region (single value)
-    expect(textContent).toContain('region:');
-    expect(textContent).toContain('EMEA');
-
-    // salesOrg (combined: salesOrg + salesDescription)
-    expect(textContent).toContain('salesOrg:');
-    expect(textContent).toContain('S1 - Sales Org 1');
-
-    // salesArea (single value)
-    expect(textContent).toContain('salesArea:');
-    expect(textContent).toContain('Area 51');
-
-    // country (combined: countryCode + countryDescription)
-    expect(textContent).toContain('country:');
-    expect(textContent).toContain('DE - Germany');
-
-    // sector (combined: sector + sectorDescription)
-    expect(textContent).toContain('sector:');
-    expect(textContent).toContain('Automotive - Car Manufacturing');
-
-    // keyAccount (combined: keyAccountNumber + keyAccountName)
-    expect(textContent).toContain('keyAccount:');
-    expect(textContent).toContain('KA001 - Key Account Name');
-
-    // subKeyAccount (combined: subKeyAccountNumber + subKeyAccountName)
-    expect(textContent).toContain('subKeyAccount:');
-    expect(textContent).toContain('SKA001 - Sub Key Account Name');
-
-    // planningCurrency (single value)
-    expect(textContent).toContain('planningCurrency:');
-    expect(textContent).toContain('EUR');
-  });
-
-  it('should display owner attributes for the first page', () => {
-    const textContent = spectator.query('mat-dialog-content')?.textContent;
-
-    // Owner attributes on first page:
-    expect(textContent).toContain('accountOwner:');
-    expect(textContent).toContain('John Doe');
-
-    expect(textContent).toContain('internalSales:');
-    expect(textContent).toContain('Jane Roe');
-
-    expect(textContent).toContain('demandPlanner:');
-    expect(textContent).toContain('Mark Moe');
-
-    expect(textContent).toContain('gkam:');
-    expect(textContent).toContain('G KAM Person');
-
-    expect(textContent).toContain('kam:');
-    expect(textContent).toContain('KAM Person');
-  });
-
-  it('should show a paginator if multiple customerInfo entries are present', () => {
-    const paginator = spectator.query('mat-paginator');
-    expect(paginator).toBeTruthy();
-  });
-
-  it('should paginate to the second entry', () => {
-    spectator.component.handlePageEvent({
-      pageIndex: 1,
-      pageSize: 1,
-      length: 2,
-    } as any);
-
-    spectator.detectChanges();
-
-    const content = spectator.query('mat-dialog-content')?.textContent;
-    expect(content).toContain('C456');
-    expect(content).toContain('S2 - Sales Org 2');
-    expect(content).toContain('Alice Doe');
-  });
-
-  it('should close the dialog when the close button is clicked', () => {
-    const closeButton = spectator.query('button[mat-button]');
-    spectator.click(closeButton);
-    expect(dialogRefSpy.close).toHaveBeenCalled();
-  });
-});
-
-describe('CustomerInfoModalComponent Single Customer Info', () => {
-  let spectator: Spectator<CustomerInfoModalComponent>;
-
-  const createComponent = createComponentFactory({
-    component: CustomerInfoModalComponent,
-    imports: [
-      MatDialogContent,
-      MatDialogActions,
-      MatDialogTitle,
-      MatButton,
-      MatCard,
-      MatPaginatorModule,
-    ],
-    providers: [
-      { provide: MatDialogRef, useValue: dialogRefSpy },
-      Stub.getMatDialogDataProvider(mockDataWithSingleCustomerInfo),
-    ],
-  });
-
-  beforeEach(() => {
-    spectator = createComponent();
-  });
-
-  it('should create', () => {
-    expect(spectator.component).toBeTruthy();
-  });
-
-  it('should not display paginator when only one customer info entry is present', () => {
-    const paginator = spectator.query('mat-paginator');
-    expect(paginator).toBeNull();
+    it('should format range label when there is only one page', () => {
+      const result = paginatorIntl.getRangeLabel(0, 10, 5);
+      expect(result).toBe('1 of 1');
+    });
   });
 });

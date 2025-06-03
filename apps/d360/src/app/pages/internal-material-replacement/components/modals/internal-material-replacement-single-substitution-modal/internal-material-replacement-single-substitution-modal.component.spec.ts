@@ -438,12 +438,105 @@ describe('InternalMaterialReplacementSingleSubstitutionModalComponent', () => {
       const result = validatorFn(control);
       expect(result).toBeNull();
     });
+
+    it('should return null when current date is equal to pre-filled date', () => {
+      const today = new Date();
+      const errorMessageSignal = component['cutoverDateCustomErrorMessage'];
+      const validatorFn = component['validateAgainstExistingDate'](
+        today,
+        errorMessageSignal
+      );
+
+      const control = new FormControl(today);
+      const result = validatorFn(control);
+
+      expect(result).toBeNull();
+      expect(errorMessageSignal()).toBeNull();
+    });
+
+    it('should return error when date is before today', () => {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+
+      const preFilledDate = new Date();
+      preFilledDate.setDate(preFilledDate.getDate() + 10);
+
+      const errorMessageSignal = component['cutoverDateCustomErrorMessage'];
+      const validatorFn = component['validateAgainstExistingDate'](
+        preFilledDate,
+        errorMessageSignal
+      );
+
+      const control = new FormControl(yesterday);
+      const result = validatorFn(control);
+
+      expect(result).toEqual({ customDatepickerMin: true });
+      expect(errorMessageSignal()).toContain(
+        'error.date.beforeMinEditingExistingRecord'
+      );
+    });
+
+    it('should return error when date is after MAX_DATE', () => {
+      const futureDate = new Date(10_000, 1, 1); // Date far in the future
+      const preFilledDate = new Date();
+
+      const errorMessageSignal = component['cutoverDateCustomErrorMessage'];
+      const validatorFn = component['validateAgainstExistingDate'](
+        preFilledDate,
+        errorMessageSignal
+      );
+
+      const control = new FormControl(futureDate);
+      const result = validatorFn(control);
+
+      expect(result).toEqual({ customDatepickerMax: true });
+      expect(errorMessageSignal()).toContain(
+        'error.date.afterMaxEditingExistingRecord'
+      );
+    });
+
+    it('should return null for null date value', () => {
+      const preFilledDate = new Date();
+      const errorMessageSignal = component['cutoverDateCustomErrorMessage'];
+      const validatorFn = component['validateAgainstExistingDate'](
+        preFilledDate,
+        errorMessageSignal
+      );
+
+      const control = new FormControl(null);
+      const result = validatorFn(control);
+
+      expect(result).toBeNull();
+      expect(errorMessageSignal()).toBeNull();
+    });
   });
 
   describe('getDateOrNull', () => {
     it('should return date or null', () => {
       const date = component['getDateOrNull']('2025-02-14' as any);
       expect(date).toBeInstanceOf(Date);
+    });
+
+    it('should return Date object when valid Date is provided', () => {
+      const date = new Date(2023, 5, 15);
+      const result = component['getDateOrNull'](date);
+      expect(result).toEqual(date);
+    });
+
+    it('should return Date object when valid date string is provided', () => {
+      const result = component['getDateOrNull']('2023-06-15' as any);
+      expect(result).toBeInstanceOf(Date);
+      expect(result?.getFullYear()).toBe(2023);
+    });
+
+    it('should return null when null is provided', () => {
+      const result = component['getDateOrNull'](null);
+      expect(result).toBeNull();
+    });
+
+    it('should return null when empty string is provided', () => {
+      const result = component['getDateOrNull']('' as any);
+      expect(result).toBeNull();
     });
   });
 
@@ -453,6 +546,22 @@ describe('InternalMaterialReplacementSingleSubstitutionModalComponent', () => {
       component['disableAllFieldsExceptReplacementType']();
       expect(spy).toHaveBeenCalled();
     });
+
+    it('should disable all fields except replacementType', () => {
+      component['disableAllFieldsExceptReplacementType']();
+
+      expect(component['formGroup'].get('replacementType').disabled).toBe(
+        false
+      );
+      expect(component['formGroup'].get('region').disabled).toBe(true);
+      expect(component['formGroup'].get('successorMaterial').disabled).toBe(
+        true
+      );
+      expect(component['formGroup'].get('predecessorMaterial').disabled).toBe(
+        true
+      );
+      expect(component['formGroup'].get('note').disabled).toBe(true);
+    });
   });
 
   describe('enableAllFields', () => {
@@ -460,6 +569,19 @@ describe('InternalMaterialReplacementSingleSubstitutionModalComponent', () => {
       const spy = jest.spyOn(component['formGroup'], 'get');
       component['enableAllFields']();
       expect(spy).toHaveBeenCalled();
+    });
+
+    it('should enable all fields in the form', () => {
+      // First disable fields
+      component['disableAllFieldsExceptReplacementType']();
+
+      // Then enable all
+      component['enableAllFields']();
+
+      // Check all fields are enabled
+      Object.keys(component['formGroup'].controls).forEach((key) => {
+        expect(component['formGroup'].get(key).disabled).toBe(false);
+      });
     });
   });
 
@@ -475,6 +597,28 @@ describe('InternalMaterialReplacementSingleSubstitutionModalComponent', () => {
 
       expect(spy).toHaveBeenCalled();
     });
+
+    it('should set required validators based on the replacement type logic', () => {
+      jest.spyOn(component as any, 'getReplacementTypeLogic').mockReturnValue({
+        replacementType: 'TEST_TYPE',
+        mandatoryFields: ['region', 'note'],
+        deactivatedFields: [],
+      });
+
+      component['configureRequiredFields']();
+
+      expect(
+        component['formGroup'].get('region').hasValidator(Validators.required)
+      ).toBe(true);
+      expect(
+        component['formGroup'].get('note').hasValidator(Validators.required)
+      ).toBe(true);
+      expect(
+        component['formGroup']
+          .get('customerNumber')
+          .hasValidator(Validators.required)
+      ).toBe(false);
+    });
   });
 
   describe('setOrRemoveRequired', () => {
@@ -482,6 +626,51 @@ describe('InternalMaterialReplacementSingleSubstitutionModalComponent', () => {
       const control = new FormControl();
       component['setOrRemoveRequired'](true, control);
       expect(control.hasValidator(Validators.required)).toBeTruthy();
+    });
+
+    it('should add required validator when required is true', () => {
+      const control = new FormControl('test');
+      const addValidatorsSpy = jest.spyOn(control, 'addValidators');
+      const removeValidatorsSpy = jest.spyOn(control, 'removeValidators');
+      const updateValueAndValiditySpy = jest.spyOn(
+        control,
+        'updateValueAndValidity'
+      );
+
+      component['setOrRemoveRequired'](true, control);
+
+      expect(addValidatorsSpy).toHaveBeenCalledWith(Validators.required);
+      expect(removeValidatorsSpy).not.toHaveBeenCalled();
+      expect(updateValueAndValiditySpy).toHaveBeenCalledWith({
+        emitEvent: true,
+      });
+      expect(control.hasValidator(Validators.required)).toBeTruthy();
+    });
+
+    it('should remove required validator when required is false', () => {
+      const control = new FormControl('test', Validators.required);
+      const addValidatorsSpy = jest.spyOn(control, 'addValidators');
+      const removeValidatorsSpy = jest.spyOn(control, 'removeValidators');
+      const updateValueAndValiditySpy = jest.spyOn(
+        control,
+        'updateValueAndValidity'
+      );
+
+      component['setOrRemoveRequired'](false, control);
+
+      expect(addValidatorsSpy).not.toHaveBeenCalled();
+      expect(removeValidatorsSpy).toHaveBeenCalledWith(Validators.required);
+      expect(updateValueAndValiditySpy).toHaveBeenCalledWith({
+        emitEvent: true,
+      });
+      expect(control.hasValidator(Validators.required)).toBeFalsy();
+    });
+
+    it('should handle undefined control gracefully', () => {
+      // This test verifies that the method doesn't throw errors with undefined control
+      expect(() => {
+        component['setOrRemoveRequired'](true, undefined as any);
+      }).not.toThrow();
     });
   });
 });

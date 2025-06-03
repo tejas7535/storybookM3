@@ -25,7 +25,6 @@ describe('MaterialCustomerTableService', () => {
 
   describe('getMaterialCustomerData', () => {
     it('should make HTTP POST request with correct parameters', () => {
-      // Arrange
       const mockResponse: BackendTableResponse = {
         rows: [{ id: 1, name: 'Test Material' }],
         rowCount: 1,
@@ -41,7 +40,6 @@ describe('MaterialCustomerTableService', () => {
         groupKeys: [],
       };
 
-      // Act
       let result: BackendTableResponse | undefined;
       service
         .getMaterialCustomerData(selectionFilters, params)
@@ -49,7 +47,6 @@ describe('MaterialCustomerTableService', () => {
           result = response;
         });
 
-      // Assert
       expect(httpClientSpy).toHaveBeenCalledWith('api/material-customer', {
         startRow: params.startRow,
         endRow: params.endRow,
@@ -61,7 +58,6 @@ describe('MaterialCustomerTableService', () => {
     });
 
     it('should handle empty selection filters', () => {
-      // Arrange
       const mockResponse: BackendTableResponse = {
         rows: [],
         rowCount: 0,
@@ -77,7 +73,6 @@ describe('MaterialCustomerTableService', () => {
         groupKeys: [],
       };
 
-      // Act
       let result: BackendTableResponse | undefined;
       service
         .getMaterialCustomerData(emptySelectionFilters, params)
@@ -85,7 +80,6 @@ describe('MaterialCustomerTableService', () => {
           result = response;
         });
 
-      // Assert
       expect(httpClientSpy).toHaveBeenCalledWith('api/material-customer', {
         startRow: 0,
         endRow: 50,
@@ -97,7 +91,6 @@ describe('MaterialCustomerTableService', () => {
     });
 
     it('should pass complex selection filters correctly', () => {
-      // Arrange
       httpClientSpy.mockReturnValue(of({}));
 
       const complexFilters = {
@@ -117,10 +110,8 @@ describe('MaterialCustomerTableService', () => {
         groupKeys: [],
       };
 
-      // Act
       service.getMaterialCustomerData(complexFilters, params).subscribe();
 
-      // Assert
       expect(httpClientSpy).toHaveBeenCalledWith(
         'api/material-customer',
         expect.objectContaining({

@@ -96,4 +96,156 @@ describe('getIMRColumnDefinitions', () => {
       agGridLocalizationService.numberFormatter
     );
   });
+
+  it('should apply selectableOptionsService for appropriate columns', () => {
+    const mockFilterColDef = {
+      filter: 'mockFilter',
+      filterParams: { mock: true },
+    };
+    const mockFilterColDefWithDisplayFn = {
+      filter: 'mockCustomFilter',
+      filterParams: { mockCustom: true },
+    };
+
+    jest
+      .spyOn(selectableOptionsService, 'getFilterColDef')
+      .mockImplementation(
+        (field: any, displayFn: any, _defaultOption: any): any => {
+          if (field === 'salesOrg' && displayFn) {
+            return mockFilterColDefWithDisplayFn;
+          }
+
+          return mockFilterColDef;
+        }
+      );
+
+    const columns = getIMRColumnDefinitions(
+      agGridLocalizationService,
+      selectableOptionsService
+    );
+
+    const salesAreaColumn = columns.find((col) => col.property === 'salesArea');
+    expect(salesAreaColumn).toBeDefined();
+    expect(selectableOptionsService.getFilterColDef).toHaveBeenCalledWith(
+      'salesArea'
+    );
+    expect(salesAreaColumn.filter).toBe(mockFilterColDef.filter);
+    expect(salesAreaColumn.filterParams).toEqual(mockFilterColDef.filterParams);
+
+    const salesOrgColumn = columns.find((col) => col.property === 'salesOrg');
+    expect(salesOrgColumn).toBeDefined();
+    expect(selectableOptionsService.getFilterColDef).toHaveBeenCalledWith(
+      'salesOrg',
+      expect.any(Function),
+      null
+    );
+    expect(salesOrgColumn.filter).toBe(mockFilterColDefWithDisplayFn.filter);
+    expect(salesOrgColumn.filterParams).toEqual(
+      mockFilterColDefWithDisplayFn.filterParams
+    );
+  });
+
+  it('should configure text filter columns correctly', () => {
+    const columns = getIMRColumnDefinitions(
+      agGridLocalizationService,
+      selectableOptionsService
+    );
+
+    const textFilterColumns = [
+      'customerNumber',
+      'predecessorMaterial',
+      'successorMaterial',
+      'lastChangeUser',
+      'note',
+    ];
+    textFilterColumns.forEach((property) => {
+      const column = columns.find((col) => col.property === property);
+      expect(column).toBeDefined();
+      expect(column.filter).toBe('agTextColumnFilter');
+    });
+  });
+
+  it('should configure date filter columns correctly', () => {
+    const columns = getIMRColumnDefinitions(
+      agGridLocalizationService,
+      selectableOptionsService
+    );
+
+    const dateFilterColumns = [
+      'replacementDate',
+      'cutoverDate',
+      'startOfProduction',
+      'lastChangeDate',
+    ];
+    dateFilterColumns.forEach((property) => {
+      const column = columns.find((col) => col.property === property);
+      expect(column).toBeDefined();
+      expect(column.filter).toBe('agDateColumnFilter');
+      expect(column.valueFormatter).toBe(
+        agGridLocalizationService.dateFormatter
+      );
+    });
+  });
+
+  it('should configure number filter columns correctly', () => {
+    const columns = getIMRColumnDefinitions(
+      agGridLocalizationService,
+      selectableOptionsService
+    );
+
+    const numberFilterColumns = [
+      'countBCTotal',
+      'countBCAutomaticAccepted',
+      'countBCManualAccepted',
+      'countBCManualRejected',
+      'countBCVeto',
+      'countBCOpen',
+    ];
+    numberFilterColumns.forEach((property) => {
+      const column = columns.find((col) => col.property === property);
+      expect(column).toBeDefined();
+      expect(column.filter).toBe('agNumberColumnFilter');
+      expect(column.valueFormatter).toBe(
+        agGridLocalizationService.numberFormatter
+      );
+    });
+  });
+
+  it('should include all required columns', () => {
+    const columns = getIMRColumnDefinitions(
+      agGridLocalizationService,
+      selectableOptionsService
+    );
+
+    const expectedProperties = [
+      'region',
+      'salesArea',
+      'salesOrg',
+      'customerNumber',
+      'predecessorMaterial',
+      'successorMaterial',
+      'replacementDate',
+      'cutoverDate',
+      'startOfProduction',
+      'replacementType',
+      'lastChangeDate',
+      'lastChangeUser',
+      'note',
+      'tlMessageType',
+      'countBCTotal',
+      'countBCAutomaticAccepted',
+      'countBCManualAccepted',
+      'countBCManualRejected',
+      'countBCVeto',
+      'countBCOpen',
+    ];
+
+    expectedProperties.forEach((property) => {
+      const column = columns.find((col) => col.property === property);
+      expect(column).toBeDefined();
+      expect(column.colId).toBeDefined();
+    });
+
+    expect(columns.length).toBe(expectedProperties.length);
+  });
 });

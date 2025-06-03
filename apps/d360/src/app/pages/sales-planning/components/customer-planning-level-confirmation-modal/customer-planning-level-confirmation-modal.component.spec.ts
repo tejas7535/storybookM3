@@ -1,49 +1,44 @@
-import { MatDialogRef } from '@angular/material/dialog';
-
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-
 import { Stub } from './../../../../shared/test/stub.class';
 import { CustomerPlanningLevelConfirmationModalComponent } from './customer-planning-level-confirmation-modal.component';
 
 describe('CustomerPlanningLevelConfirmationModalComponent', () => {
-  let spectator: Spectator<CustomerPlanningLevelConfirmationModalComponent>;
-  const createComponent = createComponentFactory({
-    component: CustomerPlanningLevelConfirmationModalComponent,
-    providers: [
-      {
-        provide: MatDialogRef,
-        useValue: {
-          close: jest.fn(),
-        },
-      },
-      Stub.getMatDialogDataProvider({
-        customerName: 'Tesla Inc',
-        customerNumber: '0000086023',
-      }),
-    ],
-    imports: [],
-  });
+  let component: CustomerPlanningLevelConfirmationModalComponent;
 
   beforeEach(() => {
-    spectator = createComponent();
+    component = Stub.get({
+      component: CustomerPlanningLevelConfirmationModalComponent,
+      providers: [
+        Stub.getMatDialogProvider(),
+        Stub.getMatDialogDataProvider({
+          customerName: 'Tesla Inc',
+          customerNumber: '0000086023',
+        }),
+      ],
+    });
   });
 
-  it('should display the customer name and number below the headline', () => {
-    const customerInfoElement = spectator.query('p.text-title-small');
-    expect(customerInfoElement).toHaveText('0000086023 - Tesla Inc');
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
-  it('should close the dialog with true when the confirm button is clicked', () => {
-    const confirmButton = spectator.query('button[mat-flat-button]');
-    spectator.click(confirmButton);
+  it('should close dialog with true when confirmed', () => {
+    const closeSpy = jest.spyOn(component['dialogRef'], 'close');
 
-    expect(spectator.inject(MatDialogRef).close).toHaveBeenCalledWith(true);
+    component.onConfirm();
+
+    expect(closeSpy).toHaveBeenCalledWith(true);
   });
 
-  it('should close the dialog with false when the cancel button is clicked', () => {
-    const cancelButton = spectator.query('button[mat-button]');
-    spectator.click(cancelButton);
+  it('should close dialog with false when canceled', () => {
+    const closeSpy = jest.spyOn(component['dialogRef'], 'close');
 
-    expect(spectator.inject(MatDialogRef).close).toHaveBeenCalledWith(false);
+    component.onCancel();
+
+    expect(closeSpy).toHaveBeenCalledWith(false);
+  });
+
+  it('should have correct customer data from MAT_DIALOG_DATA', () => {
+    expect(component['data'].customerName).toBe('Tesla Inc');
+    expect(component['data'].customerNumber).toBe('0000086023');
   });
 });

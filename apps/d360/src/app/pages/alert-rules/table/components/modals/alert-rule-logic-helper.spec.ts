@@ -17,10 +17,6 @@ import {
   thresholdRequirementCheckAlertRule,
 } from './alert-rule-logic-helper';
 
-jest.mock('@jsverse/transloco', () => ({
-  translate: jest.fn((key) => key),
-}));
-
 /* eslint-disable complexity */
 function getTestRule(testRule?: Partial<AlertRule>): AlertRule {
   return {

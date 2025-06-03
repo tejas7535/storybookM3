@@ -268,6 +268,93 @@ describe('TaskPriorityGridComponent', () => {
         },
       ]);
     });
+    it('should handle allActiveAlerts returning null', () => {
+      jest.spyOn(alertService, 'allActiveAlerts').mockReturnValue(null);
+
+      const result = component['filteredData']();
+      expect(result).toEqual([]);
+    });
+
+    it('should handle alerts with no priorityCount property', () => {
+      const mockAlerts = [
+        {
+          openFunction: OpenFunction.Validation_Of_Demand,
+          customerNumber: 'Customer1',
+          keyAccount: 'GKAM1',
+          // missing priorityCount
+        },
+      ];
+
+      jest
+        .spyOn(alertService, 'allActiveAlerts')
+        .mockReturnValue(mockAlerts as any);
+      jest
+        .spyOn(alertService, 'groupDataByCustomerAndPriority')
+        .mockImplementation((alerts) => alerts as any);
+
+      Stub.setInput('priorities', [Priority.Priority1]);
+      const result = component['filteredData']();
+      expect(result).toEqual([]);
+    });
+
+    it('should handle multiple priorities in input', () => {
+      Stub.setInput('priorities', [Priority.Priority1, Priority.Priority3]);
+      Stub.detectChanges();
+
+      const mockAlerts = [
+        {
+          openFunction: OpenFunction.Validation_Of_Demand,
+          customerNumber: 'Customer1',
+          keyAccount: 'GKAM1',
+          priorityCount: { [Priority.Priority1]: 1 },
+        },
+        {
+          openFunction: OpenFunction.Validation_Of_Demand,
+          customerNumber: 'Customer2',
+          keyAccount: 'GKAM2',
+          priorityCount: { [Priority.Priority2]: 1 },
+        },
+        {
+          openFunction: OpenFunction.Validation_Of_Demand,
+          customerNumber: 'Customer3',
+          keyAccount: 'GKAM3',
+          priorityCount: { [Priority.Priority3]: 1 },
+        },
+      ];
+
+      jest
+        .spyOn(alertService, 'allActiveAlerts')
+        .mockReturnValue(mockAlerts as any);
+      jest
+        .spyOn(alertService, 'groupDataByCustomerAndPriority')
+        .mockImplementation((alerts) => alerts as any);
+
+      const result = component['filteredData']();
+      expect(result).toEqual([]);
+    });
+
+    it('should handle filter when priorityCount value is 0', () => {
+      Stub.setInput('priorities', [Priority.Priority1]);
+
+      const mockAlerts = [
+        {
+          openFunction: OpenFunction.Validation_Of_Demand,
+          customerNumber: 'Customer1',
+          keyAccount: 'GKAM1',
+          priorityCount: { [Priority.Priority1]: 0 },
+        },
+      ];
+
+      jest
+        .spyOn(alertService, 'allActiveAlerts')
+        .mockReturnValue(mockAlerts as any);
+      jest
+        .spyOn(alertService, 'groupDataByCustomerAndPriority')
+        .mockImplementation((alerts) => alerts as any);
+
+      const result = component['filteredData']();
+      expect(result).toEqual([]);
+    });
   });
 
   describe('context', () => {
@@ -350,6 +437,180 @@ describe('TaskPriorityGridComponent', () => {
       const menu = component['context'].getMenu(mockRow);
 
       expect(menu).toEqual([]);
+    });
+  });
+
+  describe('context menu additional tests', () => {
+    it('should not include activateToggle state when openFunction is not Customer_Material_Portfolio', () => {
+      const mockRow = {
+        data: {
+          openFunction: OpenFunction.Validation_Of_Demand,
+          customerNumber: '12345',
+          customerName: 'Customer A',
+          priorityCount: { [Priority.Priority1]: 1 },
+          alertTypes: {
+            [Priority.Priority1]: ['ALERT_TYPE'],
+          },
+          materialNumbers: {
+            [Priority.Priority1]: [{ id: 'M1', text: 'Material 1' }],
+          },
+        },
+      };
+
+      jest
+        .spyOn(alertService, 'getRouteForOpenFunction')
+        .mockReturnValue('/route' as any);
+      jest
+        .spyOn(component as any, 'getSelectableOptionForAlert')
+        .mockReturnValue({ id: 'ALERT_TYPE', text: 'Alert Type' });
+      const navigateSpy = jest.spyOn(
+        globalSelectionStateService,
+        'navigateWithGlobalSelection'
+      );
+
+      const menu = component['context'].getMenu(mockRow);
+      menu[0].submenu[0].onClick();
+
+      expect(navigateSpy).toHaveBeenCalledWith(
+        '/route',
+        {
+          customerNumber: [{ id: '12345', text: 'Customer A' }],
+          alertType: [{ id: 'ALERT_TYPE', text: 'Alert Type' }],
+          materialNumber: [{ id: 'M1', text: 'Material 1' }],
+        },
+        undefined
+      );
+    });
+
+    it('should handle empty or undefined alertTypes and materialNumbers', () => {
+      const mockRow = {
+        data: {
+          openFunction: OpenFunction.Customer_Material_Portfolio,
+          customerNumber: '12345',
+          customerName: 'Customer A',
+          priorityCount: { [Priority.Priority1]: 1 },
+          alertTypes: {},
+          materialNumbers: {},
+        },
+      };
+
+      jest
+        .spyOn(alertService, 'getRouteForOpenFunction')
+        .mockReturnValue('/route' as any);
+      jest
+        .spyOn(alertService, 'getModuleForOpenFunction')
+        .mockReturnValue('Module');
+      const navigateSpy = jest.spyOn(
+        globalSelectionStateService,
+        'navigateWithGlobalSelection'
+      );
+
+      const menu = component['context'].getMenu(mockRow);
+      menu[0].submenu[0].onClick();
+
+      expect(navigateSpy).toHaveBeenCalledWith(
+        '/route',
+        {
+          customerNumber: [{ id: '12345', text: 'Customer A' }],
+          alertType: [],
+          materialNumber: [],
+        },
+        { state: { activateToggle: false } }
+      );
+    });
+
+    it('should handle null alertTypes and materialNumbers', () => {
+      const mockRow = {
+        data: {
+          openFunction: OpenFunction.Customer_Material_Portfolio,
+          customerNumber: '12345',
+          customerName: 'Customer A',
+          priorityCount: { [Priority.Priority1]: 1 },
+          alertTypes: null,
+          materialNumbers: null,
+        },
+      } as any;
+
+      jest
+        .spyOn(alertService, 'getRouteForOpenFunction')
+        .mockReturnValue('/route' as any);
+      jest
+        .spyOn(alertService, 'getModuleForOpenFunction')
+        .mockReturnValue('Module');
+      const navigateSpy = jest.spyOn(
+        globalSelectionStateService,
+        'navigateWithGlobalSelection'
+      );
+
+      const menu = component['context'].getMenu(mockRow);
+      menu[0].submenu[0].onClick();
+
+      expect(navigateSpy).toHaveBeenCalledWith(
+        '/route',
+        {
+          customerNumber: [{ id: '12345', text: 'Customer A' }],
+          alertType: [],
+          materialNumber: [],
+        },
+        { state: { activateToggle: false } }
+      );
+    });
+
+    it('should check all selected priorities for submenu actions', () => {
+      Stub.setInput('priorities', [Priority.Priority1, Priority.Priority2]);
+      Stub.detectChanges();
+
+      const mockRow = {
+        data: {
+          openFunction: OpenFunction.Customer_Material_Portfolio,
+          customerNumber: '12345',
+          customerName: 'Customer A',
+          priorityCount: {
+            [Priority.Priority1]: 1,
+            [Priority.Priority2]: 2,
+          },
+          alertTypes: {
+            [Priority.Priority1]: ['TYPE1'],
+            [Priority.Priority2]: ['TYPE2'],
+          },
+          materialNumbers: {
+            [Priority.Priority1]: [{ id: 'M1', text: 'Material 1' }],
+            [Priority.Priority2]: [{ id: 'M2', text: 'Material 2' }],
+          },
+        },
+      };
+
+      jest
+        .spyOn(alertService, 'getRouteForOpenFunction')
+        .mockReturnValue('/route' as any);
+      jest
+        .spyOn(component as any, 'getSelectableOptionForAlert')
+        .mockImplementation((type) => ({ id: type, text: type }));
+      const navigateSpy = jest.spyOn(
+        globalSelectionStateService,
+        'navigateWithGlobalSelection'
+      );
+
+      const menu = component['context'].getMenu(mockRow);
+
+      // Test selectedPriorities action
+      menu[0].submenu[2].onClick();
+
+      expect(navigateSpy).toHaveBeenCalledWith(
+        '/route',
+        {
+          customerNumber: [{ id: '12345', text: 'Customer A' }],
+          alertType: [
+            { id: 'TYPE1', text: 'TYPE1' },
+            { id: 'TYPE2', text: 'TYPE2' },
+          ],
+          materialNumber: [
+            { id: 'M1', text: 'Material 1' },
+            { id: 'M2', text: 'Material 2' },
+          ],
+        },
+        { state: { activateToggle: false } }
+      );
     });
   });
 
@@ -559,6 +820,19 @@ describe('TaskPriorityGridComponent', () => {
       expect(result).toEqual({
         id: 'success',
         text: 'success',
+      });
+    });
+
+    it('should return the original alertType if selectableOptionsService.get returns undefined', () => {
+      jest
+        .spyOn(component['selectableOptionsService'], 'get')
+        .mockReturnValue(undefined as any);
+
+      const result = component['getSelectableOptionForAlert']('unknown' as any);
+
+      expect(result).toEqual({
+        id: 'unknown',
+        text: 'unknown',
       });
     });
   });

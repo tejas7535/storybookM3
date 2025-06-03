@@ -314,11 +314,13 @@ export class Stub {
       expandAll: jest.fn(),
       forEachNode: jest.fn(),
       getColumnDefs: jest.fn(),
+      getColumns: jest.fn(),
       getColumnState: jest.fn(),
       getDisplayedRowAtIndex: jest.fn(),
       getDisplayedRowCount: jest.fn(),
       getFilterModel: jest.fn(),
       getFocusedCell: jest.fn(),
+      getRowNode: jest.fn(),
       getSelectedRows: jest.fn(),
       hideOverlay: jest.fn(),
       isDestroyed: jest.fn(),
@@ -354,6 +356,7 @@ export class Stub {
 
   public static getIMRService(): IMRService {
     return {
+      deleteIMRSubstitution: jest.fn(),
       saveSingleIMRSubstitution: jest.fn(),
       saveMultiIMRSubstitution: jest.fn().mockReturnValue(of({} as any)),
       getDataFetchedEvent: jest.fn().mockReturnValue(of({ rowCount: 10 })),
@@ -518,6 +521,7 @@ export class Stub {
         updateDetailedCustomerSalesPlan: () => of(),
         deleteShares: () => of(),
         updateShares: () => of(),
+        updateOtherRevenues: () => of(),
       },
       'useValue'
     );
@@ -546,8 +550,9 @@ export class Stub {
       Router,
       {
         events,
-        parseUrl: jest.fn(),
+        getCurrentNavigation: jest.fn(),
         navigate: jest.fn(),
+        parseUrl: jest.fn(),
       },
       'useValue'
     );

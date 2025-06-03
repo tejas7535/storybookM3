@@ -26,8 +26,9 @@ describe('SalesPlanningShareEditCellRendererComponent', () => {
   } as ICellRendererParams;
 
   beforeEach(() => {
-    component = Stub.getForEffect({
+    component = Stub.get({
       component: SalesPlanningShareEditCellRendererComponent,
+      providers: [Stub.getMatDialogProvider()],
     });
     component.agInit(testParameter);
   });

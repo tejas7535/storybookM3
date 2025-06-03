@@ -320,4 +320,106 @@ describe('MaterialListTableComponent', () => {
       expect(getFilterCountSpy).toHaveBeenCalled();
     });
   });
+
+  describe('onCellClicked', () => {
+    it('should do nothing when data is not available', () => {
+      const selectGridRowSpy = jest.spyOn<any, any>(component, 'selectGridRow');
+      const mockEvent = { data: null } as any;
+
+      component['onCellClicked'](mockEvent);
+
+      expect(selectGridRowSpy).not.toHaveBeenCalled();
+    });
+
+    it('should not select row when clicking on customerMaterialNumber column with multiple customer material numbers', () => {
+      const selectGridRowSpy = jest.spyOn<any, any>(component, 'selectGridRow');
+      const mockEvent = {
+        data: {
+          customerMaterialNumber: 'CUST-123',
+          customerMaterialNumberCount: 2,
+        },
+        column: { getColId: () => 'customerMaterialNumber' },
+        node: { data: { materialNumber: 'MAT-123' } },
+      } as any;
+
+      component['onCellClicked'](mockEvent);
+
+      expect(selectGridRowSpy).not.toHaveBeenCalled();
+    });
+
+    it('should not select row when the same material is already selected', () => {
+      const mockMaterial = { materialNumber: 'MAT-123' };
+      component['selectedMaterialListEntry'].set(mockMaterial);
+
+      const selectGridRowSpy = jest.spyOn<any, any>(component, 'selectGridRow');
+      const mockEvent = {
+        data: mockMaterial,
+        column: { getColId: () => 'materialNumber' },
+        node: { data: mockMaterial },
+      } as any;
+
+      component['onCellClicked'](mockEvent);
+
+      expect(selectGridRowSpy).not.toHaveBeenCalled();
+    });
+
+    it('should not select row when confirm function returns false', () => {
+      Stub.setInput('confirmContinueAndLooseUnsavedChanges', () => false);
+
+      const selectGridRowSpy = jest.spyOn<any, any>(component, 'selectGridRow');
+      const mockEvent = {
+        data: { materialNumber: 'MAT-123' },
+        column: { getColId: () => 'materialNumber' },
+        node: { data: { materialNumber: 'MAT-123' } },
+      } as any;
+
+      component['onCellClicked'](mockEvent);
+
+      expect(selectGridRowSpy).not.toHaveBeenCalled();
+    });
+
+    it('should select row when conditions are met', () => {
+      Stub.setInput('confirmContinueAndLooseUnsavedChanges', () => true);
+      component['selectedMaterialListEntry'].set({ materialNumber: 'MAT-456' });
+
+      const selectGridRowSpy = jest.spyOn<any, any>(component, 'selectGridRow');
+      const mockNode = {
+        data: { materialNumber: 'MAT-123' },
+        setSelected: jest.fn(),
+      };
+      const mockEvent = {
+        data: { materialNumber: 'MAT-123' },
+        column: { getColId: () => 'materialNumber' },
+        node: mockNode,
+      } as any;
+
+      component['onCellClicked'](mockEvent);
+
+      expect(selectGridRowSpy).toHaveBeenCalledWith(mockNode);
+    });
+  });
+
+  describe('selectGridRow', () => {
+    it('should select the row, update selected material and emit the selection', () => {
+      const mockNode = {
+        data: { materialNumber: 'MAT-123', name: 'Material 123' },
+        setSelected: jest.fn(),
+      } as any;
+
+      const selectedMaterialListEntrySpy = jest.spyOn(
+        component['selectedMaterialListEntry'],
+        'set'
+      );
+      const emitSpy = jest.spyOn(
+        component.selectedMaterialListEntryChange,
+        'emit'
+      );
+
+      component['selectGridRow'](mockNode);
+
+      expect(mockNode.setSelected).toHaveBeenCalledWith(true, true);
+      expect(selectedMaterialListEntrySpy).toHaveBeenCalledWith(mockNode.data);
+      expect(emitSpy).toHaveBeenCalledWith(mockNode.data);
+    });
+  });
 });

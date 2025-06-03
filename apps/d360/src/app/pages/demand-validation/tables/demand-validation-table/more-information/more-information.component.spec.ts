@@ -1,94 +1,159 @@
-import { signal } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
-import { parseISO } from 'date-fns';
-
 import { MaterialListEntry } from '../../../../../feature/demand-validation/model';
+import { Stub } from '../../../../../shared/test/stub.class';
 import { MoreInformationComponent } from './more-information.component';
-import { MoreInformationDialogComponent } from './more-information-dialog/more-information-dialog.component';
 
 describe('MoreInformationComponent', () => {
-  let spectator: Spectator<MoreInformationComponent>;
-
-  const createComponent = createComponentFactory({
-    component: MoreInformationComponent,
-    providers: [mockProvider(TranslocoLocaleService), mockProvider(MatDialog)],
-  });
+  let component: MoreInformationComponent;
 
   beforeEach(() => {
-    spectator = createComponent({
-      props: { selectedMaterial: {} },
+    component = Stub.getForEffect<MoreInformationComponent>({
+      component: MoreInformationComponent,
+      providers: [Stub.getMatDialogProvider()],
     });
-    jest
-      .spyOn(spectator.component as any, 'supplyConcept')
-      .mockReturnValue(signal('test'));
+
+    Stub.setInput('selectedMaterial', {} as MaterialListEntry);
+    Stub.detectChanges();
   });
 
   it('should be created', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   describe('data initialization', () => {
-    it('should initialize data correctly', async () => {
-      const mockMaterial: MaterialListEntry = {
-        /* populate with test data, if needed */
-      };
-      spectator.component.selectedMaterial = signal(mockMaterial) as any;
+    it('should initialize data array with correct values', () => {
+      const mockMaterial: Partial<MaterialListEntry> = {
+        materialNumber: '12345',
+        materialDescription: 'Test Material',
+        materialClassification: 'Classification A',
+        portfolioStatus: 'active',
+        portfolioStatusDate: '2023-01-01',
+        packagingSize: '10x10',
+      } as any;
 
-      await Promise.resolve(); // wait for effects to run
+      Stub.setInput('selectedMaterial', mockMaterial as MaterialListEntry);
+      Stub.detectChanges();
 
-      expect(spectator.component['data'].length).toBeGreaterThan(0);
+      expect(component['data'].length).toBe(5);
+      expect(component['data'][0].title).toBe(
+        'validation_of_demand.more_information.material_and_text'
+      );
+      expect(component['data'][1].title).toBe(
+        'validation_of_demand.more_information.classification'
+      );
+      expect(component['data'][2].title).toBe(
+        'validation_of_demand.supply_concept.title'
+      );
+      expect(component['data'][3].title).toBe(
+        'validation_of_demand.more_information.pfStatus.title'
+      );
+      expect(component['data'][4].title).toBe(
+        'validation_of_demand.more_information.packaging_size'
+      );
+    });
+
+    it('should display fallback values for undefined material properties', () => {
+      const emptyMaterial = {} as MaterialListEntry;
+
+      Stub.setInput('selectedMaterial', emptyMaterial);
+      Stub.detectChanges();
+
+      expect(component['data'][0].value).toContain('-');
+      expect(component['data'][1].value).toContain('-');
+      expect(component['data'][4].value).toContain('-');
     });
   });
 
   describe('supplyConcept', () => {
-    it('should return the correct supply concept string', () => {
-      const mockMaterial: MaterialListEntry = {
-        /* populate with test data, if needed */
-      };
-      spectator.component.selectedMaterial = signal(mockMaterial) as any;
+    it('should return default supply concept when stochasticType is not supported', () => {
+      const mockMaterial: Partial<MaterialListEntry> = {
+        stochasticType: 'UNSUPPORTED' as any,
+      } as MaterialListEntry;
 
-      const result = spectator.component['supplyConcept']();
+      Stub.setInput('selectedMaterial', mockMaterial);
+      Stub.detectChanges();
 
-      expect(result).toBeDefined();
+      const result = component['supplyConcept']();
+      expect(result).toBe('validation_of_demand.supply_concept.ELSE');
+    });
+
+    it('should return supply concept with safetyStockCustomer when available', () => {
+      const mockMaterial: Partial<MaterialListEntry> = {
+        stochasticType: 'C',
+        fixHor: '2023-01-01',
+        safetyStockCustomer: 10,
+      } as MaterialListEntry;
+
+      Stub.setInput('selectedMaterial', mockMaterial);
+      Stub.detectChanges();
+
+      const result = component['supplyConcept']();
+      expect(result).toBe('validation_of_demand.supply_concept.C.csss');
+    });
+
+    it('should return supply concept with safetyStock when available and no safetyStockCustomer', () => {
+      const mockMaterial: Partial<MaterialListEntry> = {
+        stochasticType: 'E',
+        fixHor: '2023-01-01',
+        safetyStock: 5,
+      } as MaterialListEntry;
+
+      Stub.setInput('selectedMaterial', mockMaterial);
+      Stub.detectChanges();
+
+      const result = component['supplyConcept']();
+      expect(result).toBe('validation_of_demand.supply_concept.E.ss');
+    });
+
+    it('should return root supply concept when no safety stock values are available', () => {
+      const mockMaterial: Partial<MaterialListEntry> = {
+        stochasticType: 'F',
+        fixHor: '2023-01-01',
+      } as MaterialListEntry;
+
+      Stub.setInput('selectedMaterial', mockMaterial);
+      Stub.detectChanges();
+
+      const result = component['supplyConcept']();
+      expect(result).toBe('validation_of_demand.supply_concept.F.rootString');
     });
   });
 
   describe('formatDate', () => {
-    it('should format date correctly', () => {
-      const mockDate = new Date().toISOString();
-      spectator.component['selectedMaterial'] = signal({
-        portfolioStatusDate: mockDate,
-      } as MaterialListEntry) as any;
-      const spyOnLocalizeDate = jest.spyOn(
-        spectator.component['translocoLocaleService'],
-        'localizeDate'
-      );
+    it('should return formatted date when portfolioStatusDate exists', () => {
+      const mockMaterial: Partial<MaterialListEntry> = {
+        portfolioStatusDate: '2023-01-01',
+      } as MaterialListEntry;
 
-      spectator.component['formatDate']();
+      Stub.setInput('selectedMaterial', mockMaterial);
+      Stub.detectChanges();
 
-      expect(spyOnLocalizeDate).toHaveBeenCalledWith(parseISO(mockDate));
+      jest
+        .spyOn(component['translocoLocaleService'], 'localizeDate')
+        .mockReturnValue('01/01/2023');
+
+      const result = component['formatDate']();
+      expect(result).toBe('01/01/2023');
+      expect(
+        component['translocoLocaleService'].localizeDate
+      ).toHaveBeenCalled();
     });
   });
 
   describe('openDetails', () => {
-    it('should open dialog with correct data', () => {
-      const mockMaterial: MaterialListEntry = {
-        /* populate with test data, if needed */
-      };
-      spectator.component.selectedMaterial = signal(mockMaterial) as any;
-      const spyOnOpenDialog = jest.spyOn(spectator.component['dialog'], 'open');
+    it('should open dialog with correct parameters', () => {
+      const mockMaterial: Partial<MaterialListEntry> = {
+        materialNumber: '12345',
+      } as MaterialListEntry;
 
-      spectator.component['openDetails']();
+      Stub.setInput('selectedMaterial', mockMaterial);
+      Stub.detectChanges();
 
-      expect(spyOnOpenDialog).toHaveBeenCalledWith(
-        MoreInformationDialogComponent,
+      jest.spyOn(component['dialog'], 'open');
+
+      component['openDetails']();
+
+      expect(component['dialog'].open).toHaveBeenCalledWith(
+        expect.any(Function),
         {
           data: mockMaterial,
           width: '1000px',

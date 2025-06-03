@@ -16,24 +16,26 @@ export class TextTooltipComponent implements ITooltipAngularComp {
     portfolioStatus: string;
   }>;
 
-  agInit(
+  public agInit(
     params: ITooltipParams<{ [key: string]: string; portfolioStatus: string }>
   ): void {
     this.params = params;
   }
 
-  get tooltipMessage(): string | null {
-    if (this.params.data.portfolioStatus === 'IA') {
-      return translate('material_customer.column.tooltipTextIA');
-    }
+  protected get tooltipMessage(): string | null {
+    switch (this.params.data.portfolioStatus) {
+      case 'IA': {
+        return translate('material_customer.column.tooltipTextIA');
+      }
 
-    if (
-      this.params.data.portfolioStatus === 'SE' ||
-      this.params.data.portfolioStatus === 'SI'
-    ) {
-      return translate('material_customer.column.tooltipTextRE');
-    }
+      case 'SE':
+      case 'SI': {
+        return translate('material_customer.column.tooltipTextRE');
+      }
 
-    return '';
+      default: {
+        return '';
+      }
+    }
   }
 }

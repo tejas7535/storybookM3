@@ -6,20 +6,20 @@ describe('CustomerPlanningLevelConfigurationModalComponent', () => {
   let component: CustomerPlanningLevelConfigurationModalComponent;
 
   beforeEach(() => {
-    component =
-      Stub.getForEffect<CustomerPlanningLevelConfigurationModalComponent>({
-        component: CustomerPlanningLevelConfigurationModalComponent,
-        providers: [
-          Stub.getMatDialogDataProvider({
-            customerName: 'Tesla Inc',
-            customerNumber: '0000086023',
-            planningLevelMaterial: {
-              planningLevelMaterialType: 'GP',
-              isDefaultPlanningLevelMaterialType: true,
-            },
-          }),
-        ],
-      });
+    component = Stub.get<CustomerPlanningLevelConfigurationModalComponent>({
+      component: CustomerPlanningLevelConfigurationModalComponent,
+      providers: [
+        Stub.getMatDialogProvider(),
+        Stub.getMatDialogDataProvider({
+          customerName: 'Tesla Inc',
+          customerNumber: '0000086023',
+          planningLevelMaterial: {
+            planningLevelMaterialType: 'GP',
+            isDefaultPlanningLevelMaterialType: true,
+          },
+        }),
+      ],
+    });
   });
 
   it('should open the confirmation dialog when material type is overridden with data deletion', () => {

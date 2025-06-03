@@ -85,7 +85,7 @@ export class CustomerPlanningDetailsComponent extends AbstractFrontendTableCompo
   protected readonly numberPipe = new NumberWithoutFractionDigitsPipe();
 
   protected isCustomerSelected = computed(
-    () => this.customer().customerName && this.customer().customerNumber
+    () => !!this.customer().customerName && !!this.customer().customerNumber
   );
 
   public constructor() {

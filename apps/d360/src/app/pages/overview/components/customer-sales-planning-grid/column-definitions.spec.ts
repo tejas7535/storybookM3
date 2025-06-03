@@ -58,6 +58,43 @@ describe('CustomerSalesPlanningGrid ColumnDefinitions', () => {
       );
       expect(result).toBe('7,56');
     });
+
+    it('should show only the formatted number when data is defined but currency is missing', () => {
+      jest
+        .spyOn(agGridLocalizationService, 'numberFormatter')
+        .mockReturnValue('7,56');
+      const result = moneyFormatter(
+        {
+          value: 7.56,
+          data: {},
+        } as ValueFormatterParams,
+        agGridLocalizationService
+      );
+      expect(result).toBe('7,56');
+    });
+
+    it('should handle null and undefined values', () => {
+      jest
+        .spyOn(agGridLocalizationService, 'numberFormatter')
+        .mockReturnValue('');
+      const nullResult = moneyFormatter(
+        {
+          value: null,
+          data: { currency: 'EUR' },
+        } as ValueFormatterParams,
+        agGridLocalizationService
+      );
+      expect(nullResult).toBe('');
+
+      const undefinedResult = moneyFormatter(
+        {
+          value: undefined,
+          data: { currency: 'EUR' },
+        } as ValueFormatterParams,
+        agGridLocalizationService
+      );
+      expect(undefinedResult).toBe('');
+    });
   });
 
   describe('percentageFormatter', () => {
@@ -84,9 +121,115 @@ describe('CustomerSalesPlanningGrid ColumnDefinitions', () => {
       );
       expect(result).toBe('');
     });
+
+    it('should handle null and undefined values', () => {
+      jest
+        .spyOn(agGridLocalizationService, 'numberFormatter')
+        .mockReturnValue('');
+      const nullResult = percentageFormatter(
+        {
+          value: null,
+        } as ValueFormatterParams,
+        agGridLocalizationService
+      );
+      expect(nullResult).toBe('');
+
+      const undefinedResult = percentageFormatter(
+        {
+          value: undefined,
+        } as ValueFormatterParams,
+        agGridLocalizationService
+      );
+      expect(undefinedResult).toBe('');
+    });
+
+    it('should use the correct formatter function with the right precision', () => {
+      jest.spyOn(agGridLocalizationService, 'numberFormatter');
+      percentageFormatter(
+        {
+          value: 7.56,
+        } as ValueFormatterParams,
+        agGridLocalizationService
+      );
+      expect(agGridLocalizationService.numberFormatter).toHaveBeenCalledWith(
+        { value: 7.56 },
+        0
+      );
+    });
   });
 
   describe('getColumnDefs', () => {
+    it('should return columns for an invalid layout with defaults', () => {
+      const columns = getColumnDefs(
+        agGridLocalizationService,
+        'InvalidLayout' as any
+      );
+      expect(columns.length).toBeGreaterThan(0);
+    });
+
+    it('should set the appropriate value formatters for money columns', () => {
+      const columns = getColumnDefs(
+        agGridLocalizationService,
+        CustomerSalesPlanningLayout.PreviousToCurrent
+      );
+
+      const moneyColumns = columns.filter((col) =>
+        [
+          'firmBusinessPreviousYear',
+          'yearlyTotalCurrentYear',
+          'firmBusinessCurrentYear',
+          'yearlyTotalNextYear',
+          'firmBusinessNextYear',
+        ].includes(col.colId)
+      );
+
+      moneyColumns.forEach((column) => {
+        expect(column.valueFormatter).toBeDefined();
+        // Check that the formatter is being called with correct params
+        const mockParams = {
+          value: 100,
+          data: { currency: 'EUR' },
+        } as ValueFormatterParams;
+        jest
+          .spyOn(agGridLocalizationService, 'numberFormatter')
+          .mockReturnValue('100');
+        expect((column as any).valueFormatter(mockParams)).toBe('100 EUR');
+        expect((column as any).tooltipValueGetter(mockParams)).toBe('100 EUR');
+      });
+    });
+
+    it('should set the appropriate value formatters for percentage columns', () => {
+      const columns = getColumnDefs(
+        agGridLocalizationService,
+        CustomerSalesPlanningLayout.PreviousToCurrent
+      );
+
+      const moneyColumns = columns.filter((col) =>
+        [
+          'deviationToPreviousYear',
+          'salesPlannedCurrentYear',
+          'demandPlannedCurrentYear',
+          'demandPlannedNextYear',
+          'deviationToCurrentYear',
+          'salesPlannedNextYear',
+        ].includes(col.colId)
+      );
+
+      moneyColumns.forEach((column) => {
+        expect(column.valueFormatter).toBeDefined();
+        // Check that the formatter is being called with correct params
+        const mockParams = {
+          value: 100,
+          data: { currency: 'EUR' },
+        } as ValueFormatterParams;
+        jest
+          .spyOn(agGridLocalizationService, 'numberFormatter')
+          .mockReturnValue('100');
+        expect((column as any).valueFormatter(mockParams)).toBe('100 %');
+        expect((column as any).tooltipValueGetter(mockParams)).toBe('100 %');
+      });
+    });
+
     describe('PreviousToCurrent layout', () => {
       let columns: ColDef[];
       beforeEach(() => {

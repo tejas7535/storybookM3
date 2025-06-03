@@ -1,10 +1,6 @@
 import { IMRSubstitution } from './model';
 import { dataToIMRSubstitutionRequest } from './request-helper';
 
-jest.mock('@jsverse/transloco', () => ({
-  translate: jest.fn((key) => key),
-}));
-
 describe('dataToIMRSubstitutionRequest', () => {
   it('should throw an error if region or replacementType is missing', () => {
     const data: IMRSubstitution = {

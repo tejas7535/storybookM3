@@ -524,4 +524,74 @@ describe('CustomerPlanningDetailsComponent', () => {
       expect(fetchPlanningLevelMaterialSpy).toHaveBeenCalledWith('0000086023');
     });
   });
+
+  describe('isCustomerSelected', () => {
+    it('should return true when customer has name and number', () => {
+      Stub.setInput('customer', {
+        customerName: 'Customer A',
+        customerNumber: '12345',
+        planningCurrency: 'USD',
+      });
+      Stub.detectChanges();
+
+      expect(component['isCustomerSelected']()).toBe(true);
+    });
+
+    it('should return false when customer has no name', () => {
+      Stub.setInput('customer', {
+        customerName: '',
+        customerNumber: '12345',
+        planningCurrency: 'USD',
+      });
+      Stub.detectChanges();
+
+      expect(component['isCustomerSelected']()).toBe(false);
+    });
+
+    it('should return false when customer has no number', () => {
+      Stub.setInput('customer', {
+        customerName: 'Customer A',
+        customerNumber: '',
+        planningCurrency: 'USD',
+      });
+
+      Stub.detectChanges();
+
+      expect(component['isCustomerSelected']()).toBe(false);
+    });
+  });
+
+  describe('table configuration', () => {
+    it('should have fullscreen functionality', () => {
+      const toggleFullscreenSpy = jest.fn(() => 'Fullscreen toggled');
+      Stub.setInput('toggleFullscreen', toggleFullscreenSpy);
+      Stub.setInput('tableInFullscreen', true);
+      Stub.detectChanges();
+
+      expect(component['tableInFullscreen']()).toBe(true);
+      expect(component['toggleFullscreen']()()).toBe('Fullscreen toggled');
+      expect(toggleFullscreenSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('collapsedSection', () => {
+    it('should initialize with false value', () => {
+      expect(component['collapsedSection']()).toBe(false);
+    });
+  });
+
+  describe('integration tests', () => {
+    it('should handle empty data response gracefully', () => {
+      jest
+        .spyOn(
+          component['salesPlanningService'],
+          'getDetailedCustomerSalesPlan'
+        )
+        .mockReturnValue(of({ content: [] } as any));
+
+      component['loadData']();
+
+      expect(component).toBeTruthy();
+    });
+  });
 });

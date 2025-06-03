@@ -55,7 +55,7 @@ describe('DemandValidationKpiHeaderComponent', () => {
     beforeEach(() => {
       jest.spyOn(component as any, 'getCalendarWeek').mockReturnValue('42');
       jest.mock('@jsverse/transloco', () => ({
-        translate: (key: string, params: any) => {
+        translate: jest.fn().mockImplementation((key, params) => {
           if (
             key ===
             'validation_of_demand.planningTable.calendarWeekTableHeaderKw'
@@ -70,7 +70,7 @@ describe('DemandValidationKpiHeaderComponent', () => {
           }
 
           return key;
-        },
+        }),
       }));
     });
 

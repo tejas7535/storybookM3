@@ -73,14 +73,14 @@ export class CustomerSalesPlanNumberEditModalComponent {
   private readonly dialogRef: MatDialogRef<CustomerSalesPlanNumberEditModalComponent> =
     inject(MatDialogRef);
 
-  public readonly data: CustomerSalesPlanNumberEditModalProps =
+  protected readonly data: CustomerSalesPlanNumberEditModalProps =
     inject(MAT_DIALOG_DATA);
 
-  public readonly configuredValue = signal<number | null>(null);
-  public readonly calculatedReferenceValue = signal<number | null>(null);
-  public readonly loading = signal<boolean>(false);
+  protected readonly configuredValue = signal<number | null>(null);
+  protected readonly calculatedReferenceValue = signal<number | null>(null);
+  protected readonly loading = signal<boolean>(false);
 
-  public readonly form = new FormGroup({
+  protected readonly form = new FormGroup({
     adjustedValue: new FormControl<string | null>(null, [
       this.validateInput.bind(this),
     ]),
@@ -102,7 +102,7 @@ export class CustomerSalesPlanNumberEditModalComponent {
     return null;
   }
 
-  public onDelete(): void {
+  protected onDelete(): void {
     this.loading.set(true);
 
     this.data
@@ -115,11 +115,11 @@ export class CustomerSalesPlanNumberEditModalComponent {
       .subscribe();
   }
 
-  public onCancel(): void {
+  protected onCancel(): void {
     this.dialogRef.close(null);
   }
 
-  public onSave() {
+  protected onSave() {
     this.form.markAllAsTouched();
 
     if (this.form.valid && this.form.controls.adjustedValue.value !== null) {
@@ -136,7 +136,7 @@ export class CustomerSalesPlanNumberEditModalComponent {
     }
   }
 
-  public onInput(_: Event) {
+  protected onInput(_: Event) {
     const controlValue = this.form.controls.adjustedValue.value;
 
     if ([null, ''].includes(controlValue)) {

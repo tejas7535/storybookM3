@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, input } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -40,8 +40,6 @@ export class DemandValidationMultiListConfigurationModalComponent {
   private readonly destroyRef = inject(DestroyRef);
   private readonly dialogRef: MatDialogRef<DemandValidationMultiListConfigurationModalComponent> =
     inject(MatDialogRef<DemandValidationMultiListConfigurationModalComponent>);
-
-  public customerName = input.required<string>();
 
   protected data: DemandValidationMultiListEditModalProps =
     inject(MAT_DIALOG_DATA);

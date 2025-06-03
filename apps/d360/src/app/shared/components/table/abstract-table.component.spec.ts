@@ -54,10 +54,6 @@ jest.mock('../../utils/errors', () => ({
   isProblemDetail: jest.fn(),
 }));
 
-jest.mock('@jsverse/transloco', () => ({
-  translate: jest.fn((key: string) => key),
-}));
-
 @Component({
   selector: 'd360-test-table',
   template: '',

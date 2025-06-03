@@ -1952,9 +1952,9 @@ describe('DemandValidationTableComponent', () => {
       ]);
       Stub.detectChanges();
 
-      jest.spyOn(component as any, 'loadKPIs').mockImplementation();
-      jest.spyOn(component as any, 'updateColumnDefs').mockImplementation();
-      jest.spyOn(component as any, 'updateRowData').mockImplementation();
+      jest.spyOn(component as any, 'loadKPIs');
+      jest.spyOn(component as any, 'updateColumnDefs');
+      jest.spyOn(component as any, 'updateRowData');
     });
 
     it('should call loadKPIs when reloadRequired changes', () => {
@@ -2104,6 +2104,373 @@ describe('DemandValidationTableComponent', () => {
         Stub.detectChanges();
 
         expect(updateRowDataSpy).toHaveBeenCalled();
+      });
+
+      it('should not update row data if planningView and filterValues have not changed', () => {
+        const updateRowDataSpy = jest.spyOn(component as any, 'updateRowData');
+        updateRowDataSpy.mockClear();
+
+        // Trigger detection without changing relevant inputs
+        Stub.detectChanges();
+
+        expect(updateRowDataSpy).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('kpiData effect', () => {
+      it('should set isValidatedForecastSynced property in cellRendererParams when kpiData changes', () => {
+        // Set kpiData with isValidatedForecastSynced = true
+        component['kpiData'].set({
+          isValidatedForecastSynced: true,
+        } as KpiData);
+        Stub.detectChanges();
+
+        // Create params where path includes ValidatedForecast
+        const params = {
+          data: {
+            path: [KpiType.ValidatedForecast],
+          },
+        };
+
+        // The sync icon shouldn't show when synced
+        const showSyncIconFn =
+          component['gridOptions'].autoGroupColumnDef.cellRendererParams
+            .showSyncIcon;
+        expect(showSyncIconFn(params as any)).toBe(false);
+
+        // Change to unsynced
+        component['kpiData'].set({
+          isValidatedForecastSynced: false,
+          data: [{ fromDate: '2023-01-01' }],
+        } as KpiData);
+        Stub.detectChanges();
+
+        // Now it should show the sync icon
+        expect(showSyncIconFn(params as any)).toBe(true);
+      });
+
+      it('should update column definitions but not row data when only materialListEntry changes', () => {
+        const updateColumnDefsSpy = jest.spyOn(
+          component as any,
+          'updateColumnDefs'
+        );
+        const updateRowDataSpy = jest.spyOn(component as any, 'updateRowData');
+        updateColumnDefsSpy.mockClear();
+        updateRowDataSpy.mockClear();
+
+        // Change only materialListEntry
+        Stub.setInput('materialListEntry', { id: '456' } as MaterialListEntry);
+        Stub.detectChanges();
+
+        expect(updateColumnDefsSpy).toHaveBeenCalled();
+        expect(updateRowDataSpy).not.toHaveBeenCalled();
+      });
+
+      it('should update both column definitions and row data when both inputs change', () => {
+        const updateColumnDefsSpy = jest.spyOn(
+          component as any,
+          'updateColumnDefs'
+        );
+        const updateRowDataSpy = jest.spyOn(component as any, 'updateRowData');
+        updateColumnDefsSpy.mockClear();
+        updateRowDataSpy.mockClear();
+
+        // Change both inputs
+        Stub.setInput('materialListEntry', { id: '789' } as MaterialListEntry);
+        Stub.setInput('planningView', PlanningView.CONFIRMED);
+        Stub.detectChanges();
+
+        expect(updateColumnDefsSpy).toHaveBeenCalled();
+        expect(updateRowDataSpy).toHaveBeenCalled();
+      });
+    });
+
+    describe('integration tests', () => {
+      it('should correctly update data when multiple effects are triggered in sequence', () => {
+        const loadKPIsSpy = jest.spyOn(component as any, 'loadKPIs');
+        const updateColumnDefsSpy = jest.spyOn(
+          component as any,
+          'updateColumnDefs'
+        );
+        const updateRowDataSpy = jest.spyOn(component as any, 'updateRowData');
+
+        loadKPIsSpy.mockClear();
+        updateColumnDefsSpy.mockClear();
+        updateRowDataSpy.mockClear();
+
+        // First change reloadRequired to trigger loadKPIs
+        Stub.setInput('reloadRequired', 2);
+        Stub.detectChanges();
+        expect(loadKPIsSpy).toHaveBeenCalled();
+
+        // Then change kpiData to trigger updateColumnDefs
+        component['kpiData'].set({
+          data: [{ fromDate: '2023-03-01' }],
+        } as KpiData);
+        Stub.detectChanges();
+        expect(updateColumnDefsSpy).toHaveBeenCalled();
+
+        // Finally change planningView to trigger updateRowData
+        Stub.setInput('planningView', PlanningView.CONFIRMED);
+        Stub.detectChanges();
+        expect(updateRowDataSpy).toHaveBeenCalled();
+      });
+
+      it('should handle error conditions gracefully when inputs are null', () => {
+        const loadKPIsSpy = jest.spyOn(component as any, 'loadKPIs');
+        loadKPIsSpy.mockClear();
+
+        // Set all inputs to null
+        component['kpiDateExceptions'].set(null);
+        Stub.setInput('materialListEntry', null);
+        Stub.setInput('planningView', null);
+        Stub.setInput('kpiDateRange', null);
+        Stub.setInput('reloadRequired', 3);
+        Stub.detectChanges();
+
+        // loadKPIs should still be called but should handle null gracefully
+        expect(loadKPIsSpy).toHaveBeenCalledWith(null, null, null);
+      });
+
+      it('should correctly handle kpiData when service returns null', () => {
+        jest
+          .spyOn(component['demandValidationService'], 'getKpiData')
+          .mockReturnValue(of(null));
+
+        Stub.setInput('materialListEntry', { id: '123' } as MaterialListEntry);
+        Stub.setInput('planningView', PlanningView.REQUESTED);
+        Stub.setInput('kpiDateRange', {} as KpiDateRanges);
+        Stub.setInput('reloadRequired', 4);
+        Stub.detectChanges();
+
+        expect(component['kpiData']()).toBeNull();
+        expect(component['kpiError']()).toBe('hint.noData');
+      });
+
+      it('should correctly handle kpiData when service throws an error', () => {
+        jest
+          .spyOn(component['demandValidationService'], 'getKpiData')
+          .mockReturnValue(throwError(() => new Error('Network error')));
+
+        Stub.setInput('reloadRequired', 5);
+        Stub.detectChanges();
+
+        expect(component['kpiData']()).toBeNull();
+        expect(component['kpiError']()).toBe('error.loading_failed');
+      });
+
+      it('should reset data state when materialListEntry changes', () => {
+        jest.spyOn(component.valuesChanged, 'emit');
+        // Set initial data
+        component['changedData'].set({
+          testDate: { fromDate: 'testDate' } as any,
+        });
+        component['kpiData'].set({ data: [{ fromDate: 'testDate' }] } as any);
+
+        // Simulate reload triggered by materialListEntry change
+        Stub.setInput('materialListEntry', {
+          id: 'new-material',
+        } as MaterialListEntry);
+        Stub.setInput('reloadRequired', 6);
+        Stub.detectChanges();
+
+        expect(component['changedData']()).toEqual({});
+        expect(component.valuesChanged.emit).toHaveBeenCalledWith(null);
+      });
+
+      it('should correctly handle the syncing of validatedForecast', () => {
+        // Setup with unsynced data
+        component['kpiData'].set({
+          isValidatedForecastSynced: false,
+          data: [{ fromDate: '2023-01-01' }],
+        } as KpiData);
+        Stub.detectChanges();
+
+        // Check unsynced state
+        const syncParams = {
+          data: { path: [KpiType.ValidatedForecast] },
+        } as any;
+
+        const showSyncIconFn =
+          component['gridOptions'].autoGroupColumnDef.cellRendererParams
+            .showSyncIcon;
+        expect(showSyncIconFn(syncParams)).toBe(true);
+
+        // Update to synced state
+        component['kpiData'].set({
+          isValidatedForecastSynced: true,
+          data: [{ fromDate: '2023-01-01' }],
+        } as KpiData);
+        Stub.detectChanges();
+
+        // Check synced state
+        expect(showSyncIconFn(syncParams)).toBe(false);
+      });
+
+      it('should not modify kpiDateExceptions when confirmContinueAndLooseUnsavedChanges returns false', () => {
+        // Setup initial exceptions
+        const initialExceptions = [new Date('2023-01-01')];
+        component['kpiDateExceptions'].set(initialExceptions);
+
+        // Setup confirmation to return false
+        jest
+          .spyOn(component, 'confirmContinueAndLooseUnsavedChanges')
+          .mockReturnValue(() => false);
+
+        // Try to toggle an exception
+        component['onHeaderClick']({ fromDate: '2023-02-01' } as KpiEntry);
+
+        // Exceptions should remain unchanged
+        expect(component['kpiDateExceptions']()).toEqual(initialExceptions);
+      });
+
+      it('should correctly toggle kpiDateExceptions when header is clicked', () => {
+        // Setup confirmation to return true
+        jest
+          .spyOn(component, 'confirmContinueAndLooseUnsavedChanges')
+          .mockReturnValue(() => true);
+
+        // Start with empty exceptions
+        component['kpiDateExceptions'].set([]);
+
+        // Add an exception by clicking header
+        const testDate = '2023-03-15';
+        component['onHeaderClick']({ fromDate: testDate } as KpiEntry);
+
+        // Should contain one exception which is the start of month
+        const expected = [startOfMonth(parseISO(testDate))];
+        expect(component['kpiDateExceptions']()).toEqual(expected);
+
+        // Click same header again to toggle off
+        component['onHeaderClick']({ fromDate: testDate } as KpiEntry);
+
+        // Should be empty again
+        expect(component['kpiDateExceptions']()).toEqual([]);
+      });
+
+      it('should correctly handle updateData with various input values', () => {
+        // Setup KPI data
+        const testKpiData: KpiData = {
+          materialNumber: 'M123',
+          customerNumber: 'C456',
+          data: [
+            {
+              fromDate: '2023-04-01',
+              bucketType: KpiBucketTypeEnum.MONTH,
+              deliveriesActive: 10,
+            },
+          ],
+        } as KpiData;
+
+        component['kpiData'].set(testKpiData);
+
+        // Test with string number input
+        const stringParams = {
+          oldValue: '10',
+          newValue: '25',
+          data: { key: jest.fn().mockReturnValue('deliveriesActive') },
+          column: { getColId: jest.fn().mockReturnValue('2023-04-01') },
+          node: { expanded: true },
+        } as unknown as ValueSetterParams;
+
+        const result1 = component['updateData'](stringParams);
+        expect(result1).toBe(true);
+        expect(component['kpiData']().data[0].deliveriesActive).toBe(25);
+
+        // Test with decimal input (should be converted to integer)
+        const decimalParams = {
+          oldValue: '25',
+          newValue: '30.75',
+          data: { key: jest.fn().mockReturnValue('deliveriesActive') },
+          column: { getColId: jest.fn().mockReturnValue('2023-04-01') },
+          node: { expanded: true },
+        } as unknown as ValueSetterParams;
+
+        const result2 = component['updateData'](decimalParams);
+        expect(result2).toBe(true);
+        expect(component['kpiData']().data[0].deliveriesActive).toBe(30);
+
+        // Test with non-numeric input
+        const nonNumericParams = {
+          oldValue: '30',
+          newValue: 'invalid',
+          data: { key: jest.fn().mockReturnValue('deliveriesActive') },
+          column: { getColId: jest.fn().mockReturnValue('2023-04-01') },
+          node: { expanded: true },
+        } as unknown as ValueSetterParams;
+
+        const result3 = component['updateData'](nonNumericParams);
+        expect(result3).toBe(true);
+        expect(component['kpiData']().data[0].deliveriesActive).toBe('invalid');
+      });
+
+      it('should correctly handle empty string inputs in updateData', () => {
+        const testKpiData: KpiData = {
+          materialNumber: 'M123',
+          customerNumber: 'C456',
+          data: [
+            {
+              fromDate: '2023-05-01',
+              bucketType: KpiBucketTypeEnum.MONTH,
+              validatedForecast: 50,
+            },
+          ],
+        } as KpiData;
+
+        component['kpiData'].set(testKpiData);
+
+        const emptyParams = {
+          oldValue: '50',
+          newValue: '',
+          data: { key: jest.fn().mockReturnValue('validatedForecast') },
+          column: { getColId: jest.fn().mockReturnValue('2023-05-01') },
+          node: { expanded: true },
+        } as unknown as ValueSetterParams;
+
+        const result = component['updateData'](emptyParams);
+        expect(result).toBe(true);
+        expect(component['kpiData']().data[0].validatedForecast).toBe('');
+
+        expect(Object.keys(component['changedData']())).toContain('2023-05-01');
+        expect(component['changedData']()['2023-05-01'].validatedForecast).toBe(
+          ''
+        );
+      });
+
+      it('should handle colorCell with different planning views', () => {
+        const data = {
+          fromDate: '2023-06-01',
+          bucketType: KpiBucketTypeEnum.MONTH,
+        } as KpiEntry;
+
+        const params = {
+          data: {
+            key: jest.fn().mockReturnValue(KpiType.ValidatedForecast),
+            editable: true,
+          },
+          node: { expanded: true },
+          value: 100,
+        } as unknown as CellClassParams;
+
+        // Test with REQUESTED planning view
+        Stub.setInput('planningView', PlanningView.REQUESTED);
+        jest.spyOn(component as any, 'isEditable').mockReturnValue(true);
+
+        const colorCellFn = component['colorCell'](data);
+        const result1 = colorCellFn(params);
+
+        expect(result1).toEqual({
+          backgroundColor: demandValidationEditableColor,
+        });
+
+        // Test with CONFIRMED planning view
+        Stub.setInput('planningView', PlanningView.CONFIRMED);
+
+        const result2 = colorCellFn(params);
+
+        expect(result2).toEqual({
+          backgroundColor: demandValidationNotEditableColor,
+        });
       });
     });
   });

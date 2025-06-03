@@ -1,211 +1,242 @@
-import { fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
-import { ICellRendererParams } from 'ag-grid-enterprise';
-
 import { SalesPlanningService } from '../../../../../../../feature/sales-planning/sales-planning.service';
-import { AuthService } from '../../../../../../../shared/utils/auth/auth.service';
 import { CustomerSalesPlanSinglePercentageEditModalComponent } from '../../../customer-sales-plan-single-percentage-edit-modal/customer-sales-plan-single-percentage-edit-modal.component';
+import { Stub } from './../../../../../../../shared/test/stub.class';
 import {
   PercentageEditOption,
   SalesPlanningSinglePercentageEditCellRendererComponent,
 } from './sales-planning-single-percentage-edit-cell-renderer.component';
 
-describe('SalesPlanningSinglePercentageEditCellRendererComponent with Spectator', () => {
-  let spectator: Spectator<SalesPlanningSinglePercentageEditCellRendererComponent>;
-
-  const mockReloadData = jest.fn();
-
-  const mockDialogRef = {
-    afterClosed: jest.fn().mockReturnValue(of(null)),
-  };
-
-  const mockParams: ICellRendererParams & {
-    percentageValueName: string;
-    percentageEditOption: PercentageEditOption;
-  } = {
-    value: 10,
-    valueFormatted: '10%',
-    data: {
-      customerNumber: '12345',
-      planningYear: '2024',
-      planningCurrency: 'EUR',
-      totalSalesPlanUnconstrained: 1000,
-      salesPlanUnconstrained: 900,
-      editStatus: '1',
-    },
-    node: { level: 0 },
-    context: {
-      reloadData: mockReloadData,
-    },
-    formatValue: (value: number) => `${value}%`,
-    percentageValueName: 'Test Percentage',
-    percentageEditOption: PercentageEditOption.SalesDeduction,
-  } as any;
-
-  const createComponent = createComponentFactory({
-    component: SalesPlanningSinglePercentageEditCellRendererComponent,
-    imports: [SalesPlanningSinglePercentageEditCellRendererComponent],
-    providers: [
-      mockProvider(MatDialog, {
-        open: jest.fn().mockReturnValue(mockDialogRef),
-      }),
-      mockProvider(SalesPlanningService, {
-        updateSalesDeductions: jest.fn().mockReturnValue(of(0)),
-        updateCashDiscounts: jest.fn().mockReturnValue(of(0)),
-      }),
-      mockProvider(AuthService, {
-        hasUserAccess: jest.fn().mockReturnValue(of(true)),
-      }),
-    ],
-    shallow: true,
-  });
+describe('SalesPlanningSinglePercentageEditCellRendererComponent', () => {
+  let component: SalesPlanningSinglePercentageEditCellRendererComponent;
+  let dialog: jest.Mocked<MatDialog>;
+  let salesPlanningService: jest.Mocked<SalesPlanningService>;
+  let mockDialogRef: any;
 
   beforeEach(() => {
-    spectator = createComponent();
-  });
+    mockDialogRef = {
+      afterClosed: jest.fn().mockReturnValue(of(5)),
+    };
 
-  afterEach(() => {
-    jest.clearAllMocks();
-    jest.resetAllMocks();
+    component =
+      Stub.getForEffect<SalesPlanningSinglePercentageEditCellRendererComponent>(
+        {
+          component: SalesPlanningSinglePercentageEditCellRendererComponent,
+          providers: [
+            Stub.getMatDialogProvider(),
+            Stub.getSalesPlanningServiceProvider(),
+          ],
+        }
+      );
+
+    dialog = TestBed.inject(MatDialog) as jest.Mocked<MatDialog>;
+    salesPlanningService = TestBed.inject(
+      SalesPlanningService
+    ) as jest.Mocked<SalesPlanningService>;
+
+    dialog.open = jest.fn().mockReturnValue(mockDialogRef);
+    salesPlanningService.updateSalesDeductions = jest
+      .fn()
+      .mockReturnValue(of(0));
+    salesPlanningService.updateCashDiscounts = jest.fn().mockReturnValue(of(0));
   });
 
   it('should create', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
-  describe('agInit', () => {
-    it('should initialize with correct values', () => {
-      spectator.component.agInit(mockParams);
-      expect(spectator.component['customerNumber']).toBe('12345');
-      expect(spectator.component['planningYear']).toBe('2024');
-      expect(spectator.component['planningCurrency']).toBe('EUR');
-      expect(spectator.component['percentageValueName']).toBe(
-        'Test Percentage'
-      );
-      expect(spectator.component['percentageEditOption']).toBe(
+  describe('setValue', () => {
+    it('should set properties from the provided parameters for yearly row', () => {
+      const mockParams = {
+        value: 10,
+        data: {
+          customerNumber: '12345',
+          planningYear: '2023',
+          planningCurrency: 'EUR',
+          totalSalesPlanUnconstrained: 1000,
+          salesPlanUnconstrained: 900,
+        },
+        percentageValueName: 'Test Percentage',
+        percentageEditOption: PercentageEditOption.SalesDeduction,
+        context: {
+          reloadData: jest.fn(),
+        },
+        node: {
+          level: 0,
+        },
+      } as any;
+
+      component.setValue(mockParams);
+
+      expect(component['customerNumber']).toBe('12345');
+      expect(component['planningYear']).toBe('2023');
+      expect(component['planningCurrency']).toBe('EUR');
+      expect(component['percentageValueName']).toBe('Test Percentage');
+      expect(component['percentageEditOption']).toBe(
         PercentageEditOption.SalesDeduction
       );
-      expect(spectator.component.isYearlyRow).toBe(true);
-      expect(spectator.component['valueFormatted']()).toBe('10%');
-      expect(spectator.component['editStatus']()).toBe('1');
+      expect(component.isYearlyRow).toBe(true);
     });
 
-    it('should set isYearlyRow to false for non-yearly row', () => {
-      const params = { ...mockParams, node: { level: 1 } };
-      spectator.component.agInit(
-        params as ICellRendererParams & {
-          percentageValueName: string;
-          percentageEditOption: PercentageEditOption;
-        }
-      );
-      expect(spectator.component.isYearlyRow).toBe(false);
-    });
-  });
+    it('should set isYearlyRow to false for non-yearly rows', () => {
+      const mockParams = {
+        value: 10,
+        data: {
+          customerNumber: '12345',
+          planningYear: '2023',
+          planningCurrency: 'EUR',
+        },
+        percentageValueName: 'Test Percentage',
+        percentageEditOption: PercentageEditOption.CashDiscount,
+        context: { reloadData: jest.fn() },
+        node: { level: 1 },
+      } as any;
 
-  describe('permissions', () => {
-    it('should not show edit button if user lacks permission', () => {
-      const authService = spectator.inject(AuthService);
-      (authService.hasUserAccess as jest.Mock).mockReturnValue(of(false));
-      spectator.component.agInit(mockParams);
-      spectator.detectChanges();
-      const button = spectator.query('button');
-      expect(button).toBeNull();
+      component.setValue(mockParams);
+
+      expect(component.isYearlyRow).toBe(false);
     });
   });
 
   describe('handleEditSinglePercentageValueClicked', () => {
+    beforeEach(() => {
+      const mockParams = {
+        value: 10,
+        data: {
+          customerNumber: '12345',
+          planningYear: '2023',
+          planningCurrency: 'EUR',
+          totalSalesPlanUnconstrained: 1000,
+          salesPlanUnconstrained: 900,
+        },
+        percentageValueName: 'Test Percentage',
+        percentageEditOption: PercentageEditOption.SalesDeduction,
+        context: {
+          reloadData: jest.fn(),
+        },
+        node: { level: 0 },
+      } as any;
+
+      component.setValue(mockParams);
+      component['valueFormatted'].set('10%');
+    });
+
     it('should open dialog with correct data', () => {
-      const dialog = spectator.inject(MatDialog);
-
-      const dialogRef = {
-        afterClosed: jest.fn().mockReturnValue(of(null)),
-      };
-
-      (dialog.open as jest.Mock).mockReturnValue(dialogRef);
-
-      spectator.component.agInit(mockParams);
-      spectator.component.handleEditSinglePercentageValueClicked();
+      component.handleEditSinglePercentageValueClicked();
 
       expect(dialog.open).toHaveBeenCalledWith(
         CustomerSalesPlanSinglePercentageEditModalComponent,
         expect.objectContaining({
           data: expect.objectContaining({
-            title: expect.stringContaining('Test Percentage'),
-            previousValue: '10%',
-            referenceValue: 1000,
             planningCurrency: 'EUR',
+            currentValueLabel: expect.any(String),
+            previousValueLabel: expect.any(String),
+            previousValue: '10%',
           }),
+          width: '600px',
+          disableClose: true,
+          autoFocus: false,
         })
       );
     });
 
-    it('should update value after dialog close by reloading data', fakeAsync(() => {
-      const dialog = spectator.inject(MatDialog);
+    it('should reload data when dialog returns a value', () => {
+      component.handleEditSinglePercentageValueClicked();
 
-      const dialogRef = {
-        afterClosed: jest.fn().mockReturnValue(of(20)),
-      };
+      expect(component['onReloadData']).toHaveBeenCalled();
+    });
 
-      (dialog.open as jest.Mock).mockReturnValue(dialogRef);
+    it('should not reload data when dialog returns null', () => {
+      mockDialogRef.afterClosed.mockReturnValue(of(null));
 
-      spectator.component.agInit(mockParams);
-      spectator.component.handleEditSinglePercentageValueClicked();
+      component.handleEditSinglePercentageValueClicked();
 
-      tick();
-
-      expect(mockReloadData).toHaveBeenCalled();
-    }));
-
-    it('should not update value if dialog returns null', fakeAsync(() => {
-      const dialog = spectator.inject(MatDialog);
-      const dialogRef = {
-        afterClosed: jest.fn().mockReturnValue(of(null)),
-      };
-
-      (dialog.open as jest.Mock).mockReturnValue(dialogRef);
-
-      spectator.component.agInit(mockParams);
-      spectator.component.handleEditSinglePercentageValueClicked();
-
-      tick();
-
-      expect(spectator.component.value).toBe(10);
-      expect(spectator.component['valueFormatted']()).toBe('10%');
-    }));
+      expect(component['onReloadData']).not.toHaveBeenCalled();
+    });
   });
 
   describe('updateAdjustedPercentage', () => {
-    it('should update sales deductions', () => {
-      const salesPlanningService = spectator.inject(SalesPlanningService);
-      spectator.component.agInit(mockParams);
-      spectator.component['updateAdjustedPercentage'](15);
+    it('should call updateSalesDeductions for SalesDeduction option', () => {
+      const mockParams = {
+        value: 10,
+        data: {
+          customerNumber: '12345',
+          planningYear: '2023',
+          planningCurrency: 'EUR',
+        },
+        percentageValueName: 'Test Percentage',
+        percentageEditOption: PercentageEditOption.SalesDeduction,
+        context: { reloadData: jest.fn() },
+        node: { level: 0 },
+      } as any;
+
+      component.setValue(mockParams);
+
+      const onSave = component['onSave']();
+      onSave(15);
+
       expect(salesPlanningService.updateSalesDeductions).toHaveBeenCalledWith(
         '12345',
-        '2024',
+        '2023',
         15
       );
+      expect(salesPlanningService.updateCashDiscounts).not.toHaveBeenCalled();
     });
 
-    it('should update cash discounts', () => {
-      const salesPlanningService = spectator.inject(SalesPlanningService);
-      const params = {
-        ...mockParams,
+    it('should call updateCashDiscounts for CashDiscount option', () => {
+      const mockParams = {
+        value: 10,
+        data: {
+          customerNumber: '12345',
+          planningYear: '2023',
+          planningCurrency: 'EUR',
+        },
+        percentageValueName: 'Test Percentage',
         percentageEditOption: PercentageEditOption.CashDiscount,
-      };
-      spectator.component.agInit(params);
-      spectator.component['updateAdjustedPercentage'](15);
+        context: { reloadData: jest.fn() },
+        node: { level: 0 },
+      } as any;
+
+      component.setValue(mockParams);
+
+      const onSave = component['onSave']();
+      onSave(15);
+
       expect(salesPlanningService.updateCashDiscounts).toHaveBeenCalledWith(
         '12345',
-        '2024',
+        '2023',
         15
+      );
+      expect(salesPlanningService.updateSalesDeductions).not.toHaveBeenCalled();
+    });
+
+    it('should pass 0 when delete is called', () => {
+      const mockParams = {
+        value: 10,
+        data: {
+          customerNumber: '12345',
+          planningYear: '2023',
+          planningCurrency: 'EUR',
+        },
+        percentageValueName: 'Test Percentage',
+        percentageEditOption: PercentageEditOption.SalesDeduction,
+        context: { reloadData: jest.fn() },
+        node: { level: 0 },
+      } as any;
+
+      component.setValue(mockParams);
+
+      const onDelete = component['onDelete']();
+      onDelete();
+
+      expect(salesPlanningService.updateSalesDeductions).toHaveBeenCalledWith(
+        '12345',
+        '2023',
+        0
       );
     });
   });

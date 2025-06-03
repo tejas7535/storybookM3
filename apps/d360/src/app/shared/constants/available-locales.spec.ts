@@ -5,10 +5,6 @@ import { getBrowserCultureLang } from '@jsverse/transloco';
 import { ValidationHelper } from '../utils/validation/validation-helper';
 import * as AvailableLocales from './available-locales';
 
-jest.mock('@jsverse/transloco', () => ({
-  getBrowserCultureLang: jest.fn(),
-}));
-
 describe('Available Locales', () => {
   describe('Locale constants', () => {
     it('should define LOCALE_DE correctly', () => {

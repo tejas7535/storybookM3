@@ -5,7 +5,6 @@ import { ICellRendererParams } from 'ag-grid-enterprise';
 import { DetailedCustomerSalesPlan } from '../../../../../../feature/sales-planning/model';
 import { AbstractBaseCellRendererComponent } from '../../../../../../shared/components/ag-grid/cell-renderer/abstract-cell-renderer.component';
 
-// This component is mainly used to improve typing
 export abstract class AbstractSalesPlanningCellRendererComponent<
   TValue,
 > extends AbstractBaseCellRendererComponent<TValue> {
@@ -15,6 +14,7 @@ export abstract class AbstractSalesPlanningCellRendererComponent<
   >(null);
   protected editStatus: WritableSignal<string> = signal<string | null>(null);
   protected parameters: ICellRendererParams<DetailedCustomerSalesPlan, TValue>;
+
   public agInit(
     parameters: ICellRendererParams<DetailedCustomerSalesPlan, TValue>
   ): void {

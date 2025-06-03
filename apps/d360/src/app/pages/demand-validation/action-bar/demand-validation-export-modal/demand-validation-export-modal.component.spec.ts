@@ -146,4 +146,63 @@ describe('DemandValidationExportModalComponent', () => {
       );
     });
   });
+
+  describe('kpiFormGroup', () => {
+    it('should initialize with default values', () => {
+      expect(component['kpiFormGroup'].get('deliveries')?.value).toBe(true);
+      expect(component['kpiFormGroup'].get('firmBusiness')?.value).toBe(true);
+      expect(component['kpiFormGroup'].get('opportunities')?.value).toBe(true);
+      expect(component['kpiFormGroup'].get('forecastProposal')?.value).toBe(
+        true
+      );
+      expect(component['kpiFormGroup'].get('validatedForecast')?.value).toBe(
+        true
+      );
+      expect(component['kpiFormGroup'].get('confirmedDeliveries')?.value).toBe(
+        false
+      );
+    });
+  });
+
+  describe('dateSelectionFormGroup', () => {
+    it('should handle missing range2 in data input', () => {
+      const today = new Date();
+      (component as any)['data'] = {
+        customerData: [],
+        dateRanges: {
+          range1: {
+            from: today,
+            to: today,
+            period: DateRangePeriod.Monthly,
+          },
+          // No range2 provided
+        },
+        demandValidationFilters: {},
+      };
+
+      // startDatePeriod2 should default to one month after range1.to
+      const nextMonth =
+        component['dateSelectionFormGroup'].get('startDatePeriod2')?.value;
+      expect(nextMonth).toBeTruthy();
+    });
+  });
+
+  describe('toggle types', () => {
+    it('should initialize requestedToggleTypes with expected values', () => {
+      expect(component['requestedToggleTypes']).toContain('deliveries');
+      expect(component['requestedToggleTypes']).toContain('firmBusiness');
+      expect(component['requestedToggleTypes']).toContain('forecastProposal');
+      expect(component['requestedToggleTypes'].length).toBeGreaterThan(0);
+    });
+
+    it('should initialize confirmedToggleTypes with expected values', () => {
+      expect(component['confirmedToggleTypes']).toContain(
+        'confirmedDeliveries'
+      );
+      expect(component['confirmedToggleTypes']).toContain(
+        'confirmedFirmBusiness'
+      );
+      expect(component['confirmedToggleTypes'].length).toBeGreaterThan(0);
+    });
+  });
 });

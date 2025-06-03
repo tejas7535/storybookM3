@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, Inject, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButton } from '@angular/material/button';
 import {
@@ -40,10 +40,9 @@ export class InternalMaterialReplacementSingleDeleteModalComponent {
   private readonly imrService = inject(IMRService);
   private readonly destroyRef = inject(DestroyRef);
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public imrSubstitution: IMRSubstitution,
-    public dialogRef: MatDialogRef<InternalMaterialReplacementSingleDeleteModalComponent>
-  ) {}
+  protected imrSubstitution: IMRSubstitution = inject(MAT_DIALOG_DATA);
+  protected dialogRef: MatDialogRef<InternalMaterialReplacementSingleDeleteModalComponent> =
+    inject(MatDialogRef);
 
   protected deleteEntry() {
     if (!this.imrSubstitution) {

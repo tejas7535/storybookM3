@@ -1,4 +1,6 @@
-import { of, take, throwError } from 'rxjs';
+import { NavigationEnd } from '@angular/router';
+
+import { BehaviorSubject, of, take, throwError } from 'rxjs';
 
 import { parseISO } from 'date-fns';
 
@@ -28,11 +30,18 @@ import { CustomerMaterialPortfolioComponent } from './customer-material-portfoli
 
 describe('CustomerMaterialPortfolioComponent', () => {
   let component: CustomerMaterialPortfolioComponent;
+  let routerEvents: BehaviorSubject<any>;
 
   beforeEach(() => {
+    routerEvents = new BehaviorSubject(null);
+
     component = Stub.getForEffect<CustomerMaterialPortfolioComponent>({
       component: CustomerMaterialPortfolioComponent,
-      providers: [Stub.getMatDialogProvider(), Stub.getStoreProvider()],
+      providers: [
+        Stub.getMatDialogProvider(),
+        Stub.getStoreProvider(),
+        Stub.getRouterProvider(routerEvents),
+      ],
     });
   });
 
@@ -347,6 +356,67 @@ describe('CustomerMaterialPortfolioComponent', () => {
       );
       expect(refreshCounterSpy).toHaveBeenCalledWith(expect.any(Function));
     });
+
+    it('should include successorSchaefflerMaterial in dialog data when available', () => {
+      const modal: CMPModal = CMPSpecificModal.SUBSTITUTION_PROPOSAL;
+      const entry: CMPEntry = {
+        customerNumber: '123',
+        materialNumber: '456',
+        materialDescription: 'Test Material',
+        demandCharacteristic: 'demand1',
+        successorMaterial: '789',
+        successorSchaefflerMaterial: '999',
+        repDate: '2023-01-01',
+        pfStatusAutoSwitch: '2023-02-01',
+        portfolioStatus: 'PI',
+        tlMessageType: '',
+        tlMessage: '',
+        tlMessageNumber: 0,
+        tlMessageId: '',
+        tlMessageV1: '',
+        tlMessageV2: '',
+        tlMessageV3: '',
+        tlMessageV4: '',
+      };
+      const changeToStatus: PortfolioStatus = 'PO';
+      const dialogData = {
+        data: {
+          customerNumber: '123',
+          materialNumber: '456',
+          materialDescription: 'Test Material',
+          demandCharacteristic: 'demand1',
+          successorMaterial: '789',
+          demandPlanAdoption: null,
+          repDate: parseISO('2023-01-01'),
+          portfolioStatus: 'PO',
+          autoSwitchDate: parseISO('2023-02-01'),
+        },
+        description: null,
+        title: 'Test Title',
+        edit: true,
+      } as any;
+
+      jest.spyOn(component as any, 'getDialogData').mockReturnValue(dialogData);
+      jest
+        .spyOn(component as any, 'getTypeByStatus')
+        .mockReturnValue(SpecificModalContentType.PhaseOut);
+      const dialogSpy = jest
+        .spyOn(component['dialog'], 'open')
+        .mockReturnValue({
+          afterClosed: () => of(true).pipe(take(1)),
+        } as any);
+
+      component['openSingleDialog'](modal, entry, changeToStatus);
+
+      expect(dialogSpy).toHaveBeenCalledWith(
+        CustomerMaterialSingleModalComponent,
+        expect.objectContaining({
+          data: expect.objectContaining({
+            successorSchaefflerMaterial: '999',
+          }),
+        })
+      );
+    });
   });
 
   describe('handleMultiPhaseIn', () => {
@@ -500,6 +570,22 @@ describe('CustomerMaterialPortfolioComponent', () => {
       component['handleCustomerChange'](event);
 
       expect(component['formGroup'].get('customerControl')?.value).toBe('');
+    });
+
+    it('should handle empty customerData array in handleCustomerChange', () => {
+      const event: SingleAutocompleteSelectedEvent = {
+        option: { id: '123' },
+      } as any;
+
+      component['customerData'].set([]);
+      component['selectedCustomer'].set({
+        customerNumber: '999',
+        customerName: 'Old Customer',
+      });
+
+      component['handleCustomerChange'](event);
+
+      expect(component['selectedCustomer']()).toBeNull();
     });
   });
 
@@ -898,6 +984,17 @@ describe('CustomerMaterialPortfolioComponent', () => {
         title: 'customer_material_portfolio.phase_in_modal.headline',
       });
     });
+
+    it('should handle null selected customer in getDialogData for default case', () => {
+      component['selectedCustomer'].set(null);
+      const modal: CMPModal = CMPSpecificModal.SINGLE_PHASE_IN;
+      const entry: CMPEntry | null = null;
+      const changeToStatus: PortfolioStatus = 'PI';
+
+      const result = component['getDialogData'](modal, entry, changeToStatus);
+
+      expect(result.data.customerNumber).toBeNull();
+    });
   });
 
   describe('getSubtitle', () => {
@@ -1049,6 +1146,78 @@ describe('CustomerMaterialPortfolioComponent', () => {
       expect(result).toEqual(
         'customer_material_portfolio.modal_headline.UNKNOWN_MODAL'
       );
+    });
+  });
+
+  describe('constructor', () => {
+    it('should set customerSelectableValues based on customerData', () => {
+      const customerData: CustomerEntry[] = [
+        { customerNumber: '123', customerName: 'Test Customer' },
+        { customerNumber: '456', customerName: 'Another Customer' },
+      ];
+      component['customerData'].set(customerData);
+
+      Stub.detectChanges();
+
+      expect(component['customerSelectableValues']()).toEqual({
+        options: [
+          { id: '123', text: 'Test Customer' },
+          { id: '456', text: 'Another Customer' },
+        ],
+      });
+    });
+
+    it('should set toggleIsActive to true when NavigationEnd event occurs with activateToggle state', () => {
+      // Mock the getCurrentNavigation method
+      jest.spyOn(component['router'], 'getCurrentNavigation').mockReturnValue({
+        extras: { state: { activateToggle: true } },
+      } as any);
+
+      // Emit a NavigationEnd event
+      routerEvents.next(new NavigationEnd(1, 'test-url', 'test-url'));
+
+      expect(component['toggleIsActive']()).toBe(true);
+    });
+
+    it('should set toggleIsActive to false when NavigationEnd event occurs without activateToggle state', () => {
+      // Mock the getCurrentNavigation method
+      jest.spyOn(component['router'], 'getCurrentNavigation').mockReturnValue({
+        extras: { state: {} },
+      } as any);
+
+      // Emit a NavigationEnd event
+      routerEvents.next(new NavigationEnd(1, 'test-url', 'test-url'));
+
+      expect(component['toggleIsActive']()).toBe(false);
+    });
+
+    it('should not change toggleIsActive when non-NavigationEnd event occurs', () => {
+      // Set initial state to true
+      component['toggleIsActive'].set(true);
+
+      // Emit a non-NavigationEnd event
+      routerEvents.next({ type: 'OtherEvent' });
+
+      expect(component['toggleIsActive']()).toBe(true);
+    });
+
+    it('should handle null router navigation', () => {
+      // Mock the getCurrentNavigation method to return null
+      jest
+        .spyOn(component['router'], 'getCurrentNavigation')
+        .mockReturnValue(null);
+
+      // Emit a NavigationEnd event
+      routerEvents.next({
+        constructor: NavigationEnd,
+        id: 1,
+        url: 'test-url',
+        urlAfterRedirects: 'test-url',
+      });
+
+      Stub.detectChanges();
+
+      expect(component['toggleIsActive']()).toBe(false);
     });
   });
 });

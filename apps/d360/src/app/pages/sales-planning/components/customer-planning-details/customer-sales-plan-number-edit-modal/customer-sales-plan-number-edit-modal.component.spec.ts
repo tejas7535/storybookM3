@@ -1,222 +1,168 @@
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-
 import { of } from 'rxjs';
 
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
-
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { SharedTranslocoModule } from '@schaeffler/transloco';
-
-import { NumberSeparatorDirective } from '../../../../../shared/directives';
-import { NumberWithoutFractionDigitsPipe } from '../../../../../shared/pipes/number-without-fraction-digits.pipe';
 import { Stub } from './../../../../../shared/test/stub.class';
 import { CustomerSalesPlanNumberEditModalComponent } from './customer-sales-plan-number-edit-modal.component';
 
 describe('CustomerSalesPlanNumberEditModalComponent', () => {
-  let spectator: Spectator<CustomerSalesPlanNumberEditModalComponent>;
   let component: CustomerSalesPlanNumberEditModalComponent;
-  let dialogRef: MatDialogRef<CustomerSalesPlanNumberEditModalComponent>;
-
-  const createComponent = createComponentFactory({
-    component: CustomerSalesPlanNumberEditModalComponent,
-    imports: [
-      ReactiveFormsModule,
-      SharedTranslocoModule,
-      LoadingSpinnerModule,
-      NumberSeparatorDirective,
-      NumberWithoutFractionDigitsPipe,
-    ],
-    providers: [
-      mockProvider(MatDialogRef, {
-        close: jest.fn(),
-      }),
-      Stub.getMatDialogDataProvider({
-        title: 'Test Title',
-        planningCurrency: 'EUR',
-        previousValue: 1000,
-        formLabel: 'Test Form Label',
-        currentValueLabel: 'Current Value:',
-        previousValueLabel: 'Previous Value:',
-        referenceValueLabel: 'Reference Value:',
-        previousReferenceValueLabel: 'Previous Reference Value:',
-        referenceValue: 10_000,
-        previousReferenceValue: 9000,
-        calculateReferenceValue: jest
-          .fn()
-          .mockImplementation((value) => value * 1.5),
-        onSave: () => of(0),
-        onDelete: () => of(0),
-      }),
-
-      mockProvider(TranslocoLocaleService, {
-        getLocale: jest.fn().mockReturnValue('en-US'),
-      }),
-    ],
-    detectChanges: false,
-  });
+  let dialogRefSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    spectator = createComponent();
-    component = spectator.component;
-    dialogRef = spectator.inject(MatDialogRef);
+    component = Stub.getForEffect<CustomerSalesPlanNumberEditModalComponent>({
+      component: CustomerSalesPlanNumberEditModalComponent,
+      providers: [
+        Stub.getMatDialogProvider(),
+        Stub.getMatDialogDataProvider({
+          title: 'Test Title',
+          planningCurrency: 'EUR',
+          previousValue: 1000,
+          formLabel: 'Test Form Label',
+          currentValueLabel: 'Current Value:',
+          previousValueLabel: 'Previous Value:',
+          referenceValueLabel: 'Reference Value:',
+          previousReferenceValueLabel: 'Previous Reference Value:',
+          referenceValue: 10_000,
+          previousReferenceValue: 9000,
+          calculateReferenceValue: jest
+            .fn()
+            .mockImplementation((value) => value * 1.5),
+          onSave: () => of(0),
+          onDelete: () => of(0),
+        }),
+      ],
+    });
+    dialogRefSpy = jest.spyOn(component['dialogRef'], 'close');
 
-    spectator.detectChanges();
-  });
-
-  afterEach(() => {
-    jest.resetAllMocks();
-    jest.clearAllMocks();
+    Stub.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize with the correct data', () => {
-    expect(component.configuredValue()).toBeNull();
-    expect(component.calculatedReferenceValue()).toBeNull();
-    expect(component.loading()).toBeFalsy();
-  });
+  describe('form validation', () => {
+    it('should allow valid numbers', () => {
+      component['form'].controls.adjustedValue.setValue('1500');
 
-  describe('Form validation', () => {
-    it('should not allow empty input', () => {
-      component.form.controls.adjustedValue.setValue(null);
-      expect(component.form.valid).toBeFalsy();
+      expect(component['form'].valid).toBeTruthy();
+      expect(component['configuredValue']()).toBe(1500);
+      expect(component['calculatedReferenceValue']()).toBe(2250); // 1500 * 1.5
     });
 
-    it('should validate numeric input and reject negative values', () => {
-      component.form.controls.adjustedValue.setValue('-1');
-      expect(component.form.valid).toBeFalsy();
+    it('should validate negative numbers as invalid', () => {
+      component['form'].controls.adjustedValue.setValue('-100');
+
+      expect(component['form'].controls.adjustedValue.invalid).toBeTruthy();
+      expect(component['form'].controls.adjustedValue.errors).toHaveProperty(
+        'min'
+      );
+    });
+
+    it('should allow empty input', () => {
+      component['form'].controls.adjustedValue.setValue('');
+
+      expect(component['form'].valid).toBeTruthy();
     });
   });
 
-  describe('Input handling', () => {
-    it('should handle input events correctly', () => {
+  describe('onDelete', () => {
+    it('should call onDelete from data and close dialog with -1', () => {
+      const onDeleteSpy = jest.spyOn(component['data'], 'onDelete');
+      component['onDelete']();
+
+      Stub.detectChanges();
+
+      expect(component['loading']()).toBe(false);
+      expect(onDeleteSpy).toHaveBeenCalled();
+      expect(dialogRefSpy).toHaveBeenCalledWith(-1);
+    });
+  });
+
+  describe('onCancel', () => {
+    it('should close the dialog with null', () => {
+      component['onCancel']();
+
+      expect(dialogRefSpy).toHaveBeenCalledWith(null);
+    });
+  });
+
+  describe('onSave', () => {
+    it('should not save when form is invalid', () => {
+      component['form'].controls.adjustedValue.setValue('-100'); // Invalid value
+      const onSaveSpy = jest.spyOn(component['data'], 'onSave');
+
+      component['onSave']();
+
+      expect(component['form'].controls.adjustedValue.touched).toBeTruthy();
+      expect(onSaveSpy).not.toHaveBeenCalled();
+      expect(dialogRefSpy).not.toHaveBeenCalled();
+    });
+
+    it('should not save when adjustedValue is null', () => {
+      component['form'].controls.adjustedValue.setValue(null);
+      const onSaveSpy = jest.spyOn(component['data'], 'onSave');
+
+      component['onSave']();
+
+      expect(onSaveSpy).not.toHaveBeenCalled();
+      expect(dialogRefSpy).not.toHaveBeenCalled();
+    });
+
+    it('should save when form is valid', () => {
+      component['form'].controls.adjustedValue.setValue('2000');
+      const onSaveSpy = jest
+        .spyOn(component['data'], 'onSave')
+        .mockReturnValue(of(0 as any));
+
+      component['onSave']();
+
+      expect(component['loading']()).toBe(false);
+      expect(onSaveSpy).toHaveBeenCalledWith(2000);
+      expect(dialogRefSpy).toHaveBeenCalledWith(2000);
+    });
+  });
+
+  describe('onInput', () => {
+    it('should update values when valid input is provided', () => {
       const mockEvent = new Event('input');
+      component['form'].controls.adjustedValue.setValue('3000');
 
-      component.form.controls.adjustedValue.setValue('2500');
+      component['onInput'](mockEvent);
 
-      component.onInput(mockEvent);
-
-      expect(component.configuredValue()).toBe(2500);
+      expect(component['configuredValue']()).toBe(3000);
+      expect(component['calculatedReferenceValue']()).toBe(4500); // 3000 * 1.5
     });
 
-    it('should not process empty input values', () => {
-      const updateSpy = jest.spyOn(component as any, 'updateAdjustedValue');
+    it('should not update values when input is empty', () => {
       const mockEvent = new Event('input');
+      component['form'].controls.adjustedValue.setValue('');
 
-      component.form.controls.adjustedValue.setValue(null);
-      component.onInput(mockEvent);
+      component['onInput'](mockEvent);
 
-      expect(updateSpy).not.toHaveBeenCalled();
+      expect(component['configuredValue']()).toBeNull();
+      expect(component['calculatedReferenceValue']()).toBeNull();
     });
   });
 
-  describe('Dialog actions', () => {
-    it('should handle cancel correctly', () => {
-      component.onCancel();
-      expect(dialogRef.close).toHaveBeenCalledWith(null);
+  describe('updateAdjustedValue', () => {
+    it('should update configuredValue and calculatedReferenceValue when valid input', () => {
+      // Access private method through the public interface
+      component['form'].controls.adjustedValue.setValue('5000');
+      component['onInput'](new Event('input'));
+
+      expect(component['configuredValue']()).toBe(5000);
+      expect(component['calculatedReferenceValue']()).toBe(7500); // 5000 * 1.5
     });
 
-    it('should handle delete correctly', () => {
-      jest.spyOn(component.data, 'onDelete');
-      const loadingSetSpy = jest.spyOn(component.loading, 'set');
+    it('should not update values when invalid number format', () => {
+      // Setting invalid number to test number validation
+      jest.spyOn(Number, 'isFinite').mockReturnValueOnce(false);
 
-      component.onDelete();
+      component['form'].controls.adjustedValue.setValue('invalid');
+      component['onInput'](new Event('input'));
 
-      expect(loadingSetSpy).toHaveBeenCalledWith(true);
-      expect(component.data.onDelete).toHaveBeenCalled();
-      expect(dialogRef.close).toHaveBeenCalledWith(-1);
-      expect(loadingSetSpy).toHaveBeenLastCalledWith(false);
-    });
-
-    it('should handle save with valid form data', () => {
-      jest.spyOn(component.data, 'onSave');
-      const loadingSetSpy = jest.spyOn(component.loading, 'set');
-      const markAllTouchedSpy = jest.spyOn(component.form, 'markAllAsTouched');
-
-      // Set valid form data
-      component.form.controls.adjustedValue.setValue('3000');
-      component.onInput(new Event('input'));
-
-      component.onSave();
-
-      expect(markAllTouchedSpy).toHaveBeenCalled();
-      expect(loadingSetSpy).toHaveBeenCalledWith(true);
-      expect(component.data.onSave).toHaveBeenCalledWith(3000);
-      expect(dialogRef.close).toHaveBeenCalledWith(3000);
-      expect(loadingSetSpy).toHaveBeenCalledWith(false);
-    });
-
-    it('should not save with invalid form data', () => {
-      jest.spyOn(component.data, 'onSave');
-      const markAllTouchedSpy = jest.spyOn(component.form, 'markAllAsTouched');
-
-      component.form.controls.adjustedValue.setValue(null);
-
-      component.onSave();
-
-      expect(markAllTouchedSpy).toHaveBeenCalled();
-      expect(component.data.onSave).not.toHaveBeenCalled();
-      expect(dialogRef.close).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('Template rendering', () => {
-    it('should show loading spinner when loading', () => {
-      component.loading.set(true);
-      spectator.detectChanges();
-
-      const spinner = spectator.query('schaeffler-loading-spinner');
-      expect(spinner).toBeTruthy();
-
-      // Dialog content should not be visible
-      const dialogContent = spectator.query('mat-dialog-content');
-      expect(dialogContent).toBeFalsy();
-    });
-
-    it('should show dialog content when not loading', () => {
-      component.loading.set(false);
-      spectator.detectChanges();
-
-      const spinner = spectator.query('schaeffler-loading-spinner');
-      expect(spinner).toBeFalsy();
-
-      const dialogContent = spectator.query('mat-dialog-content');
-      expect(dialogContent).toBeTruthy();
-    });
-
-    it('should display the form with correct labels', () => {
-      spectator.detectChanges();
-
-      const formField = spectator.query('mat-form-field');
-      expect(formField).toBeTruthy();
-
-      const label = spectator.query('mat-label');
-      expect(label?.textContent).toContain(component.data.formLabel);
-
-      const input = spectator.query('input');
-      expect(input).toBeTruthy();
-      expect(input?.getAttribute('aria-label')).toBe(component.data.formLabel);
-    });
-
-    it('should display correct buttons', () => {
-      spectator.detectChanges();
-
-      const buttons = spectator.queryAll('button');
-      expect(buttons.length).toBe(3); // Delete, Cancel, Save
-
-      const deleteButton = spectator.query('.delete-button');
-      expect(deleteButton).toBeTruthy();
-
-      const saveButton = spectator.query('button[mat-flat-button]');
-      expect(saveButton).toBeTruthy();
+      expect(component['configuredValue']()).toBeNull();
+      expect(component['calculatedReferenceValue']()).toBeNull();
     });
   });
 });

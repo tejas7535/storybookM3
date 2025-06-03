@@ -1,9 +1,10 @@
 import { signal } from '@angular/core';
 
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { GridApi } from 'ag-grid-enterprise';
 
+import * as Helper from '../../../../../shared/ag-grid/grid-defaults';
 import { Stub } from '../../../../../shared/test/stub.class';
 import { ExportTableDialogComponent } from '../export-table-dialog/export-table-dialog.component';
 import { GlobalSelectionUtils } from './../../../../../feature/global-selection/global-selection.utils';
@@ -35,7 +36,6 @@ describe('MaterialCustomerTableComponent', () => {
 
   describe('ngOnInit', () => {
     it('should fetch criteria data and call setColumnDefinitions', () => {
-      // Arrange
       const setColumnDefinitionsSpy = jest.spyOn(
         component as any,
         'setColumnDefinitions'
@@ -45,10 +45,8 @@ describe('MaterialCustomerTableComponent', () => {
         'getCriteriaData'
       );
 
-      // Act
       component.ngOnInit();
 
-      // Assert
       expect(materialCustomerServiceMock).toHaveBeenCalled();
       expect(setColumnDefinitionsSpy).toHaveBeenCalled();
       expect((component as any).criteriaData).toEqual({
@@ -60,15 +58,12 @@ describe('MaterialCustomerTableComponent', () => {
 
   describe('getData', () => {
     it('should return empty rows when global selection is empty', (done) => {
-      // Arrange
       jest
         .spyOn(component['globalSelectionStateService'], 'isEmpty')
         .mockReturnValue(true);
 
-      // Act
       component['getData$']({ startRow: 0, endRow: 10 } as any).subscribe(
         (response) => {
-          // Assert
           expect(response).toEqual({ rows: [], rowCount: 0 });
           done();
         }
@@ -76,7 +71,6 @@ describe('MaterialCustomerTableComponent', () => {
     });
 
     it('should call getMaterialCustomerData with correct parameters when global selection is not empty', (done) => {
-      // Arrange
       jest
         .spyOn(component['globalSelectionStateService'], 'isEmpty')
         .mockReturnValue(false);
@@ -91,10 +85,8 @@ describe('MaterialCustomerTableComponent', () => {
         .spyOn(GlobalSelectionUtils, 'globalSelectionCriteriaToFilter')
         .mockReturnValue(mockFilters as any);
 
-      // Act
       component['getData$']({ startRow: 0, endRow: 10 } as any).subscribe(
         (response) => {
-          // Assert
           expect(materialCustomerTableServiceMock).toHaveBeenCalledWith(
             mockFilters,
             { startRow: 0, endRow: 10 }
@@ -108,22 +100,18 @@ describe('MaterialCustomerTableComponent', () => {
 
   describe('getRowStyle', () => {
     it('should return gray style for rows with portfolioStatus IA', () => {
-      // Act
       const style = component['getRowStyle']({
         data: { portfolioStatus: 'IA' },
       } as any);
 
-      // Assert
       expect(style).toEqual({ backgroundColor: '#F6F7F9', color: '#646464' });
     });
 
     it('should return undefined for rows with other portfolioStatus', () => {
-      // Act
       const style = component['getRowStyle']({
         data: { portfolioStatus: 'Active' },
       } as any);
 
-      // Assert
       expect(style).toBeUndefined();
     });
   });
@@ -188,16 +176,13 @@ describe('MaterialCustomerTableComponent', () => {
 
   describe('setConfig', () => {
     it('should set the table configuration with the provided column definitions', () => {
-      // Arrange
       const columnDefs = [
         { colId: 'testCol', headerName: 'Test Column' },
       ] as any;
       const setSpy = jest.spyOn(component['config'], 'set');
 
-      // Act
       component['setConfig'](columnDefs);
 
-      // Assert
       expect(setSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           table: expect.objectContaining({
@@ -221,20 +206,127 @@ describe('MaterialCustomerTableComponent', () => {
     });
 
     it('should call setConfig with processed column definitions when loading is complete', () => {
-      // Arrange
       const setConfigSpy = jest.spyOn(component as any, 'setConfig');
 
-      // Act
       component['setColumnDefinitions']();
       component['selectableOptionsService'].loading$.next(true);
 
-      // Assert
       expect(setConfigSpy).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
             colId: 'region',
             hide: false,
             lockVisible: false,
+          }),
+        ])
+      );
+    });
+
+    it('should subscribe to loading$ and only set config when loading is false', () => {
+      component['selectableOptionsService'].loading$ = new BehaviorSubject(
+        true
+      );
+      const setConfigSpy = jest.spyOn(component as any, 'setConfig');
+      setConfigSpy.mockClear();
+
+      component['setColumnDefinitions']();
+      component['selectableOptionsService'].loading$.next(true);
+
+      expect(setConfigSpy).not.toHaveBeenCalled();
+      setConfigSpy.mockClear();
+
+      // set loading to false
+      component['selectableOptionsService'].loading$.next(false);
+
+      expect(setConfigSpy).toHaveBeenCalled();
+    });
+
+    it('should apply default column definitions to each column', () => {
+      const getDefaultColDefSpy = jest
+        .spyOn(Helper, 'getDefaultColDef')
+        .mockReturnValue({ defaultProp: 'defaultValue' } as any);
+
+      const setConfigSpy = jest.spyOn(component as any, 'setConfig');
+
+      component['setColumnDefinitions']();
+      component['selectableOptionsService'].loading$.next(false);
+
+      expect(getDefaultColDefSpy).toHaveBeenCalled();
+      expect(setConfigSpy).toHaveBeenCalledWith(
+        expect.arrayContaining([
+          expect.objectContaining({
+            defaultProp: 'defaultValue',
+          }),
+        ])
+      );
+    });
+
+    it('should set tooltipComponent to TextTooltipComponent for each column', () => {
+      const setConfigSpy = jest.spyOn(component as any, 'setConfig');
+
+      component['setColumnDefinitions']();
+      component['selectableOptionsService'].loading$.next(false);
+
+      expect(setConfigSpy).toHaveBeenCalledWith(
+        expect.arrayContaining([
+          expect.objectContaining({
+            tooltipComponent: expect.any(Function),
+          }),
+        ])
+      );
+    });
+
+    it('should use translate for column header names', () => {
+      const setConfigSpy = jest.spyOn(component as any, 'setConfig');
+
+      component['setColumnDefinitions']();
+      component['selectableOptionsService'].loading$.next(false);
+
+      expect(setConfigSpy).toHaveBeenCalledWith(
+        expect.arrayContaining([
+          expect.objectContaining({
+            headerName: 'material_customer.column.region',
+          }),
+        ])
+      );
+    });
+
+    it('should set sortable based on criteriaData.sortableFields', () => {
+      component['criteriaData'] = {
+        sortableFields: ['region'],
+        filterableFields: [],
+      };
+
+      const setConfigSpy = jest.spyOn(component as any, 'setConfig');
+
+      component['setColumnDefinitions']();
+      component['selectableOptionsService'].loading$.next(false);
+
+      expect(setConfigSpy).toHaveBeenCalledWith(
+        expect.arrayContaining([
+          expect.objectContaining({
+            colId: 'region',
+            sortable: true,
+          }),
+        ])
+      );
+    });
+
+    it('should apply filter using getColFilter', () => {
+      const getColFilterSpy = jest
+        .spyOn(Helper, 'getColFilter')
+        .mockReturnValue('customFilter');
+
+      const setConfigSpy = jest.spyOn(component as any, 'setConfig');
+
+      component['setColumnDefinitions']();
+      component['selectableOptionsService'].loading$.next(false);
+
+      expect(getColFilterSpy).toHaveBeenCalled();
+      expect(setConfigSpy).toHaveBeenCalledWith(
+        expect.arrayContaining([
+          expect.objectContaining({
+            filter: 'customFilter',
           }),
         ])
       );

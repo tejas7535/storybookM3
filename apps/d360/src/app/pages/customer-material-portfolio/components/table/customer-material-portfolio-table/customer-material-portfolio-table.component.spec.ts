@@ -278,5 +278,82 @@ describe('CustomerMaterialPortfolioTableComponent', () => {
 
       expect(component['config']().table.context.isDisabled()).toBe(true);
     });
+
+    it('should correctly configure getRowId function', () => {
+      const mockColumnDefs = [] as any;
+
+      component['setConfig'](mockColumnDefs);
+
+      const getRowId = component['config']().table.getRowId;
+      const result = getRowId({
+        data: { customerNumber: '123', materialNumber: '456' },
+      } as any);
+
+      expect(result).toBe('123-456');
+    });
+
+    it('should set up serverSideAutoGroup with correct configuration', () => {
+      const mockColumnDefs = [] as any;
+
+      component['setConfig'](mockColumnDefs);
+
+      const serverSideAutoGroup =
+        component['config']().table.serverSideAutoGroup;
+
+      expect(serverSideAutoGroup.autoGroupColumnDef.field).toBe(
+        'materialNumber'
+      );
+      expect(serverSideAutoGroup.autoGroupColumnDef.pinned).toBe('left');
+      expect(serverSideAutoGroup.isServerSideGroup({ hasChildren: true })).toBe(
+        true
+      );
+      expect(
+        serverSideAutoGroup.isServerSideGroup({ hasChildren: false })
+      ).toBe(false);
+      expect(
+        serverSideAutoGroup.getServerSideGroupKey({ materialNumber: 'M123' })
+      ).toBe('M123');
+    });
+
+    it('should configure onFirstDataRendered callback to call handleDataFetchedEvent', () => {
+      const mockColumnDefs = [] as any;
+      const handleDataFetchedEventSpy = jest.spyOn(
+        component as any,
+        'handleDataFetchedEvent'
+      );
+
+      component['setConfig'](mockColumnDefs);
+
+      component['config']().callbacks.onFirstDataRendered(undefined as any);
+
+      expect(handleDataFetchedEventSpy).toHaveBeenCalled();
+    });
+
+    it('should call openSingleDialog when menu item is clicked', () => {
+      const mockColumnDefs = [] as any;
+      const mockParams = {
+        node: {
+          data: {
+            portfolioStatus: 'SE',
+            successorSchaefflerMaterial: true,
+          },
+        },
+      } as any;
+      const openSingleDialogSpy = jest.fn();
+      (component as any)['openSingleDialog'] = () => openSingleDialogSpy;
+
+      component['setConfig'](mockColumnDefs);
+
+      const menuItems = component['config']().table.context.getMenu(mockParams);
+      expect(menuItems.length).toBeGreaterThan(0);
+
+      menuItems[0].onClick();
+
+      expect(openSingleDialogSpy).toHaveBeenCalledWith(
+        'EDIT_MODAL',
+        mockParams.node.data,
+        undefined
+      );
+    });
   });
 });

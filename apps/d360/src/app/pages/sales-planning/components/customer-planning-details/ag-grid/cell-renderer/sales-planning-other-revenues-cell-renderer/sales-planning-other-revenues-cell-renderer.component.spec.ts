@@ -2,19 +2,14 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { SalesPlanningService } from '../../../../../../../feature/sales-planning/sales-planning.service';
 import { CustomerSalesPlanNumberEditModalComponent } from '../../../customer-sales-plan-number-edit-modal/customer-sales-plan-number-edit-modal.component';
+import { Stub } from './../../../../../../../shared/test/stub.class';
 import { SalesPlanningOtherRevenuesCellRendererComponent } from './sales-planning-other-revenues-cell-renderer.component';
 
 describe('SalesPlanningOtherRevenuesCellRendererComponent', () => {
-  let spectator: Spectator<SalesPlanningOtherRevenuesCellRendererComponent>;
   let component: SalesPlanningOtherRevenuesCellRendererComponent;
   let dialogService: MatDialog;
   let salesPlanningService: SalesPlanningService;
@@ -45,25 +40,16 @@ describe('SalesPlanningOtherRevenuesCellRendererComponent', () => {
     },
   };
 
-  const createComponent = createComponentFactory({
-    component: SalesPlanningOtherRevenuesCellRendererComponent,
-    providers: [
-      mockProvider(MatDialog, {
-        open: jest.fn().mockReturnValue({
-          afterClosed: jest.fn().mockReturnValue(of(null)),
-        }),
-      }),
-      mockProvider(SalesPlanningService, {
-        updateOtherRevenues: jest.fn().mockReturnValue(of(0)),
-      }),
-    ],
-  });
-
   beforeEach(() => {
-    spectator = createComponent();
-    component = spectator.component;
-    dialogService = spectator.inject(MatDialog);
-    salesPlanningService = spectator.inject(SalesPlanningService);
+    component = Stub.get({
+      component: SalesPlanningOtherRevenuesCellRendererComponent,
+      providers: [
+        Stub.getMatDialogProvider(),
+        Stub.getSalesPlanningServiceProvider(),
+      ],
+    });
+    dialogService = component['dialog'];
+    salesPlanningService = component['salesPlanningService'];
 
     dialogRefMock = {
       afterClosed: jest.fn().mockReturnValue(of(null)),
@@ -73,6 +59,7 @@ describe('SalesPlanningOtherRevenuesCellRendererComponent', () => {
       .mockReturnValue(
         dialogRefMock as MatDialogRef<CustomerSalesPlanNumberEditModalComponent>
       );
+    jest.spyOn(salesPlanningService, 'updateOtherRevenues');
 
     component['agInit'](mockCellParams as any);
   });

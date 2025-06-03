@@ -1,4 +1,4 @@
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 import { MessageType } from '../../../../shared/models/message-type.enum';
 import { DateRangePeriod } from '../../../../shared/utils/date-range';
@@ -235,6 +235,150 @@ describe('DemandValidationMultiDeleteModalComponent', () => {
         text: 'Monthly',
       });
       expect(component['firstEditableDate'] instanceof Date).toBe(true);
+    });
+  });
+
+  describe('periodTypeOptions', () => {
+    it('should initialize periodTypeOptions with default period types', () => {
+      expect((component as any).periodTypeOptions).toBeDefined();
+      expect((component as any).periodTypeOptions.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('isFormInvalid', () => {
+    it('should return true when form is invalid', () => {
+      // Set invalid dates to make form invalid
+      const today = new Date();
+      const yesterday = new Date(today);
+      yesterday.setDate(today.getDate() - 1);
+
+      component['formGroup'].controls.startDate.setValue(today);
+      component['formGroup'].controls.endDate.setValue(yesterday);
+
+      expect(component['isFormInvalid']()).toBe(true);
+    });
+
+    it('should return false when form is valid', () => {
+      // Set valid dates
+      const today = new Date();
+      const nextMonth = new Date(today);
+      nextMonth.setMonth(today.getMonth() + 1);
+
+      component['formGroup'].controls.startDate.setValue(today);
+      component['formGroup'].controls.endDate.setValue(nextMonth);
+      component['formGroup'].controls.materialNumbers.setValue([
+        { id: '12345', text: 'Material 1' },
+      ]);
+
+      expect(component['isFormInvalid']()).toBe(false);
+    });
+  });
+
+  describe('deleteOnConfirmation with dialog interactions', () => {
+    it('should proceed with deletion when confirmation dialog returns true', () => {
+      component['formGroup'].controls.materialNumbers.setValue([
+        { id: '12345', text: 'Material 1' },
+      ]);
+
+      // Mock confirmation dialog to return true when closed
+      dialogSpy.mockReturnValueOnce({
+        afterClosed: () => of(true),
+      });
+
+      // Mock loading dialog
+      dialogSpy.mockReturnValueOnce({
+        afterClosed: () => of(true),
+      });
+
+      component['deleteOnConfirmation']();
+
+      expect(dialogSpy).toHaveBeenCalledTimes(2);
+      // First call should be to confirmation dialog
+      expect(dialogSpy.mock.calls[0][0].name).toBe(
+        'ConfirmationDialogComponent'
+      );
+    });
+
+    it('should not proceed with deletion when confirmation dialog returns false', () => {
+      component['formGroup'].controls.materialNumbers.setValue([
+        { id: '12345', text: 'Material 1' },
+      ]);
+
+      // Mock confirmation dialog to return false when closed
+      dialogSpy.mockReturnValueOnce({
+        afterClosed: () => of(false),
+      });
+
+      component['deleteOnConfirmation']();
+
+      expect(dialogSpy).toHaveBeenCalledTimes(1);
+      // Second dialog (loading) should not be called
+      expect(dialogSpy.mock.calls[0][1].disableClose).toBe(true);
+    });
+  });
+
+  describe('error handling in deleteDemandBatch', () => {
+    it('should handle general API errors with proper error message', () => {
+      const snackbarSpy = jest.spyOn(
+        component['snackbarService'],
+        'openSnackBar'
+      );
+      const errorMessage = 'API Error';
+
+      jest
+        .spyOn(
+          component['demandValidationService'],
+          'deleteValidatedDemandBatch'
+        )
+        .mockReturnValue(throwError(() => errorMessage));
+
+      expect(() => {
+        component['deleteDemandBatch']().subscribe();
+      }).not.toThrow();
+
+      expect(snackbarSpy).toHaveBeenCalled();
+    });
+
+    it('should show specific error messages for each material with error', () => {
+      const snackbarSpy = jest.spyOn(
+        component['snackbarService'],
+        'openSnackBar'
+      );
+
+      jest
+        .spyOn(
+          component['demandValidationService'],
+          'deleteValidatedDemandBatch'
+        )
+        .mockReturnValue(
+          of({
+            result: { messageType: MessageType.Success },
+            results: [
+              {
+                materialNumber: '12345',
+                result: {
+                  messageType: MessageType.Error,
+                  messages: ['Error for material 12345'],
+                },
+              },
+              {
+                materialNumber: '67890',
+                result: {
+                  messageType: MessageType.Error,
+                  messages: ['Error for material 67890'],
+                },
+              },
+            ],
+          }) as any
+        );
+
+      component['deleteDemandBatch']().subscribe();
+
+      expect(snackbarSpy).toHaveBeenCalled();
+      // Should contain both material errors in the message
+      const snackbarMessage = snackbarSpy.mock.calls[0][0];
+      expect(snackbarMessage).toContain('12345');
+      expect(snackbarMessage).toContain('67890');
     });
   });
 });

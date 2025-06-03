@@ -55,8 +55,8 @@ export class ExportMaterialCustomerService {
     const columnState = gridApi.getColumnState();
 
     const sortModel = columnState
-      .map((c) => ({ colId: c.colId, sort: c.sort }))
-      .filter((f) => f.sort != null);
+      ?.map((c) => ({ colId: c.colId, sort: c.sort }))
+      ?.filter((f) => f.sort != null);
 
     const filteredRequest = {
       startRow: 0,
@@ -73,8 +73,8 @@ export class ExportMaterialCustomerService {
     // we will just export the visible columns
     // technical columns (starting with an _) will also be excluded
     const exportColIds: ColId[] = columnState
-      .filter((state) => !state.hide && !state.colId.startsWith('_'))
-      .map((state) => state.colId as ColId);
+      ?.filter((state) => !state.hide && !state.colId.startsWith('_'))
+      ?.map((state) => state.colId as ColId);
 
     return this.http
       .post(
@@ -84,7 +84,7 @@ export class ExportMaterialCustomerService {
           columns: exportColIds,
           translations: {
             ...Object.fromEntries(
-              exportColIds.map((colId) => [
+              (exportColIds || [])?.map((colId) => [
                 colId,
                 translate(`material_customer.column.${colId}`, {}),
               ])

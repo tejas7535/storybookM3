@@ -1,16 +1,9 @@
-import { TranslocoModule } from '@jsverse/transloco';
-
 import {
   getColumnDefinitions,
   getTitle,
   TimeScope,
   valueFormatters,
 } from './column-definition';
-
-jest.mock('@jsverse/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
-  translate: jest.fn((translateKey) => translateKey),
-}));
 
 describe('Column Definitions', () => {
   describe('valueFormatters', () => {
@@ -124,6 +117,148 @@ describe('Column Definitions', () => {
       expect(planningMonthColumn?.title).toBe(
         'sales_planning.table.planningMonth'
       );
+    });
+
+    it('should set appropriate cell renderers for editable cells in yearly scope', () => {
+      const columns = getColumnDefinitions(TimeScope.Yearly);
+
+      const salesDeductionColumn = columns.find(
+        (col) => col.colId === 'salesDeduction'
+      );
+      expect(salesDeductionColumn?.cellRenderer).toBeDefined();
+
+      const cashDiscountColumn = columns.find(
+        (col) => col.colId === 'cashDiscount'
+      );
+      expect(cashDiscountColumn?.cellRenderer).toBeDefined();
+
+      const otherRevenuesColumn = columns.find(
+        (col) => col.colId === 'otherRevenues'
+      );
+      expect(otherRevenuesColumn?.cellRenderer).toBeDefined();
+    });
+
+    it('should not set cell renderers for editable cells in monthly scope', () => {
+      const columns = getColumnDefinitions(TimeScope.Monthly);
+
+      const salesDeductionColumn = columns.find(
+        (col) => col.colId === 'salesDeduction'
+      );
+      expect(salesDeductionColumn?.cellRenderer).toBeUndefined();
+
+      const cashDiscountColumn = columns.find(
+        (col) => col.colId === 'cashDiscount'
+      );
+      expect(cashDiscountColumn?.cellRenderer).toBeUndefined();
+
+      const otherRevenuesColumn = columns.find(
+        (col) => col.colId === 'otherRevenues'
+      );
+      expect(otherRevenuesColumn?.cellRenderer).toBeUndefined();
+    });
+
+    it('should set appropriate cell renderer for totalSalesPlanAdjusted', () => {
+      const yearlyColumns = getColumnDefinitions(TimeScope.Yearly);
+      const adjustedTotalColumn = yearlyColumns.find(
+        (col) => col.colId === 'totalSalesPlanAdjusted'
+      );
+
+      expect(adjustedTotalColumn?.cellRenderer).toBeDefined();
+      expect(adjustedTotalColumn?.cellRendererParams).toEqual({
+        scope: TimeScope.Yearly,
+      });
+
+      const monthlyColumns = getColumnDefinitions(TimeScope.Monthly);
+      const monthlyAdjustedTotalColumn = monthlyColumns.find(
+        (col) => col.colId === 'totalSalesPlanAdjusted'
+      );
+
+      expect(monthlyAdjustedTotalColumn?.cellRenderer).toBeDefined();
+      expect(monthlyAdjustedTotalColumn?.cellRendererParams).toEqual({
+        scope: TimeScope.Monthly,
+      });
+    });
+  });
+
+  describe('customComparatorForCustomerPlanningDetails', () => {
+    const {
+      customComparatorForCustomerPlanningDetails,
+      // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires, unicorn/prefer-module
+    } = require('./column-definition');
+
+    it('should return 0 when comparing rows where either node is at level 0', () => {
+      const nodeA = { level: 0 };
+      const nodeB = { level: 1 };
+
+      expect(
+        customComparatorForCustomerPlanningDetails('a', 'b', nodeA, nodeB)
+      ).toBe(0);
+      expect(
+        customComparatorForCustomerPlanningDetails('a', 'b', nodeB, nodeA)
+      ).toBe(0);
+    });
+
+    it('should return 0 when values are equal', () => {
+      const nodeA = { level: 1 };
+      const nodeB = { level: 1 };
+
+      expect(
+        customComparatorForCustomerPlanningDetails('a', 'a', nodeA, nodeB)
+      ).toBe(0);
+      expect(
+        customComparatorForCustomerPlanningDetails(null, null, nodeA, nodeB)
+      ).toBe(0);
+      expect(
+        customComparatorForCustomerPlanningDetails(
+          undefined,
+          undefined,
+          nodeA,
+          nodeB
+        )
+      ).toBe(0);
+    });
+
+    it('should return 1 when valueA > valueB', () => {
+      const nodeA = { level: 1 };
+      const nodeB = { level: 1 };
+
+      expect(
+        customComparatorForCustomerPlanningDetails('b', 'a', nodeA, nodeB)
+      ).toBe(1);
+    });
+
+    it('should return -1 when valueA < valueB', () => {
+      const nodeA = { level: 1 };
+      const nodeB = { level: 1 };
+
+      expect(
+        customComparatorForCustomerPlanningDetails('a', 'b', nodeA, nodeB)
+      ).toBe(-1);
+    });
+
+    it('should handle null and undefined values correctly', () => {
+      const nodeA = { level: 1 };
+      const nodeB = { level: 1 };
+
+      // undefined is not > 'a', so should return -1
+      expect(
+        customComparatorForCustomerPlanningDetails(undefined, 'a', nodeA, nodeB)
+      ).toBe(-1);
+
+      // 'a' is > undefined, so should return 1
+      expect(
+        customComparatorForCustomerPlanningDetails('a', undefined, nodeA, nodeB)
+      ).toBe(-1);
+
+      // null is not > 'a', so should return -1
+      expect(
+        customComparatorForCustomerPlanningDetails(null, 'a', nodeA, nodeB)
+      ).toBe(-1);
+
+      // 'a' is > null, so should return 1
+      expect(
+        customComparatorForCustomerPlanningDetails('a', null, nodeA, nodeB)
+      ).toBe(-1);
     });
   });
 });

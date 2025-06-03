@@ -1,14 +1,44 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-
+import { Priority } from '../../../../feature/alerts/model';
+import { Stub } from './../../../../shared/test/stub.class';
 import { TaskPrioritiesComponent } from './task-priorities.component';
 
 describe('TaskPrioritiesComponent', () => {
-  let spectator: Spectator<TaskPrioritiesComponent>;
-  const createComponent = createComponentFactory(TaskPrioritiesComponent);
+  let component: TaskPrioritiesComponent;
+
+  beforeEach(() => {
+    component = Stub.get({
+      component: TaskPrioritiesComponent,
+    });
+  });
 
   it('should create', () => {
-    spectator = createComponent();
+    expect(component).toBeTruthy();
+  });
 
-    expect(spectator.component).toBeTruthy();
+  describe('agInit', () => {
+    it('should set params when initialized', () => {
+      const mockParams = { value: 'test' } as any;
+
+      component.agInit(mockParams);
+
+      expect(component['params']).toBe(mockParams);
+    });
+  });
+
+  describe('refresh', () => {
+    it('should update params and return false', () => {
+      const mockParams = { value: 'test' } as any;
+
+      const result = component.refresh(mockParams);
+
+      expect(component['params']).toBe(mockParams);
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('Priority', () => {
+    it('should expose Priority enum', () => {
+      expect(component['Priority']).toBe(Priority);
+    });
   });
 });

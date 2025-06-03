@@ -47,6 +47,6 @@ export class RowMenuComponent<PARAM_INTERFACE>
   protected updateData(data: PARAM_INTERFACE) {
     this.data = data;
     this.params.data = data;
-    this.params.api.getRowNode(this.params.node.id).updateData(data);
+    this.params.api.getRowNode(this.params?.node?.id)?.updateData(data);
   }
 }

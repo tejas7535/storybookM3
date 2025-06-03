@@ -72,7 +72,6 @@ describe('DemandValidationDatePickerComponent', () => {
 
   describe('onPeriodTypeChange', () => {
     it('should disable period2 controls when period type is Monthly', () => {
-      // Setup
       const mockEndDatePeriod2 = { setValue: jest.fn() };
       const mockPeriodType2 = { disable: jest.fn() };
       const mockStartDatePeriod2 = { disable: jest.fn() };
@@ -82,13 +81,11 @@ describe('DemandValidationDatePickerComponent', () => {
       Stub.setInput('startDatePeriod2', mockStartDatePeriod2);
       Stub.detectChanges();
 
-      // Execute
       component['onPeriodTypeChange']({
         id: DateRangePeriod.Monthly,
         text: 'Monthly',
       });
 
-      // Verify
       expect(mockEndDatePeriod2.setValue).toHaveBeenCalledWith(null, {
         emitEvent: false,
       });
@@ -101,7 +98,6 @@ describe('DemandValidationDatePickerComponent', () => {
     });
 
     it('should call _endDatePeriod1Change when period type is Weekly and disableOptionalDate is false', () => {
-      // Setup
       const endDate = new Date(2023, 5, 15);
       Stub.setInput('endDatePeriod1', new FormControl(endDate));
       Stub.setInput('disableOptionalDate', false);
@@ -112,18 +108,15 @@ describe('DemandValidationDatePickerComponent', () => {
         '_endDatePeriod1Change'
       );
 
-      // Execute
       component['onPeriodTypeChange']({
         id: DateRangePeriod.Weekly,
         text: 'Weekly',
       });
 
-      // Verify
       expect(spyEndDatePeriod1Change).toHaveBeenCalledWith(endDate);
     });
 
     it('should not call _endDatePeriod1Change when disableOptionalDate is true', () => {
-      // Setup
       Stub.setInput('disableOptionalDate', true);
       Stub.detectChanges();
 
@@ -132,20 +125,17 @@ describe('DemandValidationDatePickerComponent', () => {
         '_endDatePeriod1Change'
       );
 
-      // Execute
       component['onPeriodTypeChange']({
         id: DateRangePeriod.Weekly,
         text: 'Weekly',
       });
 
-      // Verify
       expect(spyEndDatePeriod1Change).not.toHaveBeenCalled();
     });
   });
 
   describe('_endDatePeriod1Change', () => {
     it('should set endDatePeriod1 to end of month', () => {
-      // Setup
       const testDate = new Date(2023, 5, 15); // June 15, 2023
       const expectedEndOfMonth = new Date(2023, 5, 30, 23, 59, 59, 999); // June 30, 2023
 
@@ -153,10 +143,8 @@ describe('DemandValidationDatePickerComponent', () => {
       Stub.setInput('endDatePeriod1', mockEndDatePeriod1);
       Stub.detectChanges();
 
-      // Execute
       (component as any)._endDatePeriod1Change(testDate);
 
-      // Verify
       expect(mockEndDatePeriod1.setValue).toHaveBeenCalledWith(
         expect.any(Date),
         { emitEvent: false }
@@ -168,7 +156,6 @@ describe('DemandValidationDatePickerComponent', () => {
     });
 
     it('should set startDatePeriod2 when conditions are met', () => {
-      // Setup
       const testDate = new Date(2023, 5, 15); // June 15, 2023
       const expectedNextMonth = new Date(2023, 6, 1); // July 1, 2023
       const mockStartDatePeriod2 = { setValue: jest.fn() };
@@ -182,10 +169,8 @@ describe('DemandValidationDatePickerComponent', () => {
       Stub.setInput('disableOptionalDate', false);
       Stub.detectChanges();
 
-      // Execute
       (component as any)._endDatePeriod1Change(testDate);
 
-      // Verify
       expect(mockStartDatePeriod2.setValue).toHaveBeenCalled();
       const calledDate = mockStartDatePeriod2.setValue.mock.calls[0][0];
       expect(calledDate.getFullYear()).toBe(expectedNextMonth.getFullYear());
@@ -194,7 +179,6 @@ describe('DemandValidationDatePickerComponent', () => {
     });
 
     it('should not set startDatePeriod2 when disableOptionalDate is true', () => {
-      // Setup
       const testDate = new Date(2023, 5, 15);
 
       component.endDatePeriod1().setValue(null);
@@ -206,11 +190,126 @@ describe('DemandValidationDatePickerComponent', () => {
 
       jest.spyOn(component.startDatePeriod2(), 'setValue');
 
-      // Execute
       (component as any)._endDatePeriod1Change(testDate);
 
-      // Verify
       expect(component.startDatePeriod2().setValue).not.toHaveBeenCalled();
+    });
+
+    it('should not set startDatePeriod2 when periodType1 is not Weekly', () => {
+      const testDate = new Date(2023, 5, 15);
+
+      component.endDatePeriod1().setValue(null);
+      component.startDatePeriod2().setValue(null);
+      component
+        .periodType1()
+        .setValue({ id: DateRangePeriod.Monthly, text: 'Monthly' });
+      (component as any).disableOptionalDate = signal(false);
+
+      jest.spyOn(component.startDatePeriod2(), 'setValue');
+
+      (component as any)._endDatePeriod1Change(testDate);
+
+      expect(component.startDatePeriod2().setValue).not.toHaveBeenCalled();
+    });
+
+    it('should not set startDatePeriod2 when startDatePeriod2 is not defined', () => {
+      const testDate = new Date(2023, 5, 15);
+
+      component.endDatePeriod1().setValue(null);
+      component
+        .periodType1()
+        .setValue({ id: DateRangePeriod.Weekly, text: 'Weekly' });
+      (component as any).disableOptionalDate = signal(false);
+
+      // Set startDatePeriod2 to undefined
+      Stub.setInput('startDatePeriod2', undefined);
+      Stub.detectChanges();
+
+      // Should not throw error
+      expect(() => {
+        (component as any)._endDatePeriod1Change(testDate);
+      }).not.toThrow();
+    });
+  });
+
+  describe('ngOnInit', () => {
+    it('should set minDateEndDatePeriod2 from endDatePeriod1 when endDatePeriod2 has value', () => {
+      const endDate1 = new Date(2023, 5, 15);
+      const expectedStartDate = new Date(2023, 6, 1); // First day of next month
+
+      component.endDatePeriod1().setValue(endDate1);
+      component.endDatePeriod2().setValue(new Date(2023, 7, 1)); // Has some value
+
+      component.ngOnInit();
+
+      // Should be first day of month after endDatePeriod1
+      const resultDate = component['minDateEndDatePeriod2'];
+      expect(resultDate.getFullYear()).toBe(expectedStartDate.getFullYear());
+      expect(resultDate.getMonth()).toBe(expectedStartDate.getMonth());
+      expect(resultDate.getDate()).toBe(expectedStartDate.getDate());
+    });
+
+    it('should set minDateEndDatePeriod2 to firstViewableDate when endDatePeriod2 is null', () => {
+      component.endDatePeriod2().setValue(null);
+
+      component.ngOnInit();
+
+      // Should use firstViewableDate as fallback
+      expect(component['minDateEndDatePeriod2']).toBeDefined();
+    });
+
+    it('should subscribe to endDatePeriod1 value changes', () => {
+      const spy = jest.spyOn(component as any, '_endDatePeriod1Change');
+      const testDate = new Date(2023, 5, 15);
+
+      component.ngOnInit();
+      component.endDatePeriod1().setValue(testDate);
+
+      expect(spy).toHaveBeenCalledWith(testDate);
+    });
+
+    it('should subscribe to startDatePeriod1 value changes', () => {
+      const testDate = new Date(2023, 5, 15);
+
+      component.ngOnInit();
+      component.startDatePeriod1().setValue(testDate);
+
+      // Should update minDateEndDatePeriod1
+      expect(component['minDateEndDatePeriod1']).toBe(testDate);
+    });
+  });
+
+  describe('edge cases', () => {
+    it('should handle null values in date controls', () => {
+      const mockEndDatePeriod1 = {
+        setValue: jest.fn(),
+        getRawValue: () => null as any,
+      };
+      Stub.setInput('endDatePeriod1', mockEndDatePeriod1);
+      Stub.detectChanges();
+
+      // Should not throw error when passing null
+      expect(() => {
+        (component as any)._endDatePeriod1Change(null);
+      }).not.toThrow();
+    });
+
+    it('should handle undefined period type', () => {
+      const mockStartDatePeriod2 = { disable: jest.fn() };
+      const mockPeriodType2 = { disable: jest.fn() };
+
+      Stub.setInput('startDatePeriod2', mockStartDatePeriod2);
+      Stub.setInput('periodType2', mockPeriodType2);
+      Stub.detectChanges();
+
+      // Should not throw error with undefined period type
+      expect(() => {
+        component['onPeriodTypeChange']({ id: undefined, text: '' });
+      }).not.toThrow();
+
+      // Controls should still be disabled
+      expect(mockStartDatePeriod2.disable).toHaveBeenCalled();
+      expect(mockPeriodType2.disable).toHaveBeenCalled();
     });
   });
 });

@@ -66,6 +66,47 @@ describe('CustomerPlanningDetailsChangeHistoryModalComponent', () => {
     });
   });
 
+  describe('setConfig', () => {
+    it('should configure the table with correct settings', () => {
+      const configSpy = jest.spyOn(component['config'], 'set');
+      const mockColumnDefs = [{ colId: 'testCol', title: 'testCol' }] as any[];
+
+      component['setConfig'](mockColumnDefs);
+
+      expect(configSpy).toHaveBeenCalled();
+      const tableConfig = configSpy.mock.calls[0][0];
+      expect(tableConfig.table.tableId).toBe(
+        'customer-planning-details-change-history'
+      );
+      expect(tableConfig.hasTabView).toBe(true);
+      expect(tableConfig.maxAllowedTabs).toBe(5);
+    });
+
+    it('should set up getRowId function correctly', () => {
+      const configSpy = jest.spyOn(component['config'], 'set');
+      const mockColumnDefs = [{ colId: 'testCol', title: 'testCol' }] as any[];
+
+      component['setConfig'](mockColumnDefs);
+
+      const tableConfig = configSpy.mock.calls[0][0];
+      const getRowIdFn = tableConfig.table.getRowId;
+
+      const mockData = {
+        data: {
+          customerNumber: '12345',
+          planningYear: 2023,
+          planningMonth: 5,
+          planningMaterial: 'ABC123',
+          changeTimestamp: '2023-05-01T12:00:00',
+        },
+      } as any;
+
+      expect(getRowIdFn(mockData)).toBe(
+        '12345-2023-5-ABC123-2023-05-01T12:00:00'
+      );
+    });
+  });
+
   describe('onCancel', () => {
     it('should call close', () => {
       const closeSpy = jest.spyOn(component['dialogRef'], 'close');
@@ -73,6 +114,20 @@ describe('CustomerPlanningDetailsChangeHistoryModalComponent', () => {
       component['onCancel']();
 
       expect(closeSpy).toHaveBeenCalledWith(null);
+    });
+  });
+
+  describe('component initialization', () => {
+    it('should have correct injected data', () => {
+      expect(component.data).toEqual({
+        customerNumber: '12345',
+        customerName: 'any name',
+      });
+    });
+
+    it('should properly initialize services', () => {
+      expect(component['changeHistoryService']).toBeDefined();
+      expect(component['dialogRef']).toBeDefined();
     });
   });
 });

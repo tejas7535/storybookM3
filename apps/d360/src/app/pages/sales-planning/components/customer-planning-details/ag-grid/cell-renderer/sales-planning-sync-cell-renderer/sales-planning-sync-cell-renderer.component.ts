@@ -15,6 +15,7 @@ import { AbstractSalesPlanningCellRendererComponent } from '../abstract-sales-pl
 })
 export class SalesPlanningSyncCellRendererComponent extends AbstractSalesPlanningCellRendererComponent<number> {
   protected infoIcon: string;
+
   protected setValue(
     parameters: ICellRendererParams<DetailedCustomerSalesPlan, number>
   ): void {

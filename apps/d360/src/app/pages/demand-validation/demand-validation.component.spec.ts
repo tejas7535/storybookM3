@@ -431,5 +431,38 @@ describe('DemandValidationComponent', () => {
 
       expect(component['changedKPIs']()).toBeNull();
     });
+
+    it('should set unsavedChanges to true when passing an empty object', () => {
+      component['onValuesChanged']({} as any);
+
+      expect(component['unsavedChanges']()).toBe(true);
+    });
+
+    it('should set unsavedChanges to false when previously true and then receiving null', () => {
+      // First set unsavedChanges to true
+      component['onValuesChanged']({ kpi: 'value' } as any);
+      expect(component['unsavedChanges']()).toBe(true);
+
+      // Then set it to false with null data
+      component['onValuesChanged'](null);
+      expect(component['unsavedChanges']()).toBe(false);
+    });
+
+    it("should maintain previous unsavedChanges state when data doesn't change", () => {
+      const initialState = component['unsavedChanges']();
+      const mockData: any = null;
+
+      component['onValuesChanged'](mockData);
+
+      expect(initialState).toBe(!!mockData);
+      expect(component['unsavedChanges']()).toBe(!!mockData);
+    });
+
+    it('should handle undefined data by setting unsavedChanges to false', () => {
+      component['onValuesChanged'](undefined as any);
+
+      expect(component['unsavedChanges']()).toBe(false);
+      expect(component['changedKPIs']()).toBeUndefined();
+    });
   });
 });

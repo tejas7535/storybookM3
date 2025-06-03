@@ -1,7 +1,3 @@
-import { mockProvider } from '@ngneat/spectator/jest';
-
-import { AlertService } from '../../../../feature/alerts/alert.service';
-import { SelectableOptionsService } from '../../../../shared/services/selectable-options.service';
 import { Stub } from '../../../../shared/test/stub.class';
 import {
   OverviewFilterComponent,
@@ -19,19 +15,7 @@ describe('OverviewFilterComponent', () => {
   beforeEach(() => {
     component = Stub.get<OverviewFilterComponent>({
       component: OverviewFilterComponent,
-      providers: [
-        mockProvider(AlertService, {
-          loadActiveAlerts: jest.fn(),
-          refreshHashTimer: jest.fn(),
-        }),
-        mockProvider(SelectableOptionsService, {
-          get: jest.fn().mockReturnValue({
-            options: [],
-            loading: false,
-            loadingError: null,
-          }),
-        }),
-      ],
+      providers: [Stub.getAlertServiceProvider()],
     });
     filterChangeSpy = jest.spyOn(component['onFilterChange'], 'emit');
   });

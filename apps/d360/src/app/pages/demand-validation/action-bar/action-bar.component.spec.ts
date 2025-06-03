@@ -1,8 +1,10 @@
 import { of } from 'rxjs';
 
 import { PlanningView } from '../../../feature/demand-validation/planning-view';
+import * as Helper from '../../../feature/demand-validation/time-range';
 import { CustomerEntry } from '../../../feature/global-selection/model';
 import { Stub } from '../../../shared/test/stub.class';
+import { DateRangePeriod } from '../../../shared/utils/date-range';
 import { ActionBarComponent } from './action-bar.component';
 
 describe('ActionBarComponent', () => {
@@ -123,6 +125,466 @@ describe('ActionBarComponent', () => {
       component['handleOnSaveForecast'](true);
 
       expect(emitSpy).not.toHaveBeenCalledWith(null);
+    });
+  });
+
+  describe('handleToggleMaterialListVisible', () => {
+    it('should emit toggle event with opposite of current isMaterialListVisible value', () => {
+      const emitSpy = jest.spyOn(component.toggleMaterialListVisible, 'emit');
+
+      // Initial value is true
+      component['handleToggleMaterialListVisible']();
+      expect(emitSpy).toHaveBeenCalledWith({ open: false });
+
+      // Set to false and test again
+      Stub.setInput('isMaterialListVisible', false);
+      Stub.detectChanges();
+
+      component['handleToggleMaterialListVisible']();
+      expect(emitSpy).toHaveBeenCalledWith({ open: true });
+    });
+  });
+
+  describe('handleDemandValidationSettingsChange', () => {
+    it('should update planningView model value', () => {
+      const setSpy = jest.spyOn(component.planningView, 'set');
+
+      component['handleDemandValidationSettingsChange'](PlanningView.CONFIRMED);
+
+      expect(setSpy).toHaveBeenCalledWith(PlanningView.CONFIRMED);
+    });
+  });
+
+  describe('handleOnDeleteUnsavedForecast', () => {
+    it('should emit null to reload validation table', () => {
+      const emitSpy = jest.spyOn(component.reloadValidationTable, 'emit');
+
+      component['handleOnDeleteUnsavedForecast']();
+
+      expect(emitSpy).toHaveBeenCalledWith(null);
+    });
+  });
+
+  describe('handleCustomerChange', () => {
+    it('should emit selected customer when customer changes', () => {
+      const emitSpy = jest.spyOn(component.customerChange, 'emit');
+      const mockCustomerData = [
+        {
+          customerNumber: '123',
+          customerName: 'Test Customer',
+        } as CustomerEntry,
+        {
+          customerNumber: '456',
+          customerName: 'Another Customer',
+        } as CustomerEntry,
+      ];
+
+      Stub.setInput('customerData', mockCustomerData);
+      Stub.detectChanges();
+
+      component['handleCustomerChange']({
+        option: { id: '123', text: 'Test Customer' },
+      });
+
+      expect(emitSpy).toHaveBeenCalledWith(mockCustomerData[0]);
+    });
+
+    it('should emit null if customer not found', () => {
+      const emitSpy = jest.spyOn(component.customerChange, 'emit');
+      const mockCustomerData = [
+        {
+          customerNumber: '123',
+          customerName: 'Test Customer',
+        } as CustomerEntry,
+      ];
+
+      Stub.setInput('customerData', mockCustomerData);
+      Stub.detectChanges();
+
+      component['handleCustomerChange']({
+        option: { id: '999', text: 'Unknown Customer' },
+      });
+
+      expect(emitSpy).toHaveBeenCalledWith(null);
+    });
+  });
+
+  describe('handleDownloadButtonClicked', () => {
+    it('should open DemandValidationExportModalComponent dialog', () => {
+      const openDialogSpy = jest.spyOn(component['dialog'], 'open');
+      const mockCustomerData = [
+        {
+          customerNumber: '123',
+          customerName: 'Test Customer',
+        },
+      ] as CustomerEntry[];
+      const mockFilters = {
+        customerMaterialNumber: [],
+        productLine: [],
+        productionLine: [],
+        stochasticType: [],
+      } as any;
+
+      Stub.setInput('customerData', mockCustomerData);
+      Stub.setInput('demandValidationFilters', mockFilters);
+      Stub.detectChanges();
+
+      component['dateRange'] = {
+        range1: { from: new Date(), to: new Date() },
+      } as any;
+
+      component['handleDownloadButtonClicked']();
+
+      expect(openDialogSpy).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({
+          data: expect.objectContaining({
+            customerData: mockCustomerData,
+            demandValidationFilters: mockFilters,
+            dateRanges: component['dateRange'],
+          }),
+          disableClose: true,
+          autoFocus: false,
+        })
+      );
+    });
+  });
+
+  describe('handleListModalClicked', () => {
+    it('should open DemandValidationMultiListConfigurationModalComponent dialog and handle result', () => {
+      const openDialogSpy = jest.spyOn(component['dialog'], 'open');
+      const mockSelectedCustomer = {
+        customerNumber: '123',
+        customerName: 'Test Customer',
+      } as CustomerEntry;
+      const mockDialogRef = { afterClosed: () => of(true) };
+      openDialogSpy.mockReturnValue(mockDialogRef as any);
+
+      const reloadSpy = jest.spyOn(
+        component as any,
+        'reloadTheValidationTable'
+      );
+      const logEventSpy = jest.spyOn(component['appInsights'], 'logEvent');
+
+      Stub.setInput('selectedCustomer', mockSelectedCustomer);
+      Stub.detectChanges();
+
+      component['handleListModalClicked']();
+
+      expect(openDialogSpy).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({
+          data: {
+            customerName: mockSelectedCustomer.customerName,
+            customerNumber: mockSelectedCustomer.customerNumber,
+          },
+          disableClose: true,
+        })
+      );
+
+      expect(reloadSpy).toHaveBeenCalledWith(true);
+      expect(logEventSpy).toHaveBeenCalledWith(
+        '[Validated Sales Planning] Upload List'
+      );
+    });
+  });
+
+  describe('handleGridModalClicked', () => {
+    it('should open DemandValidationMultiGridComponent dialog and handle result', () => {
+      const openDialogSpy = jest.spyOn(component['dialog'], 'open');
+      const mockSelectedCustomer = {
+        customerNumber: '123',
+        customerName: 'Test Customer',
+      } as CustomerEntry;
+      const mockDialogRef = { afterClosed: () => of(true) };
+      openDialogSpy.mockReturnValue(mockDialogRef as any);
+
+      const reloadSpy = jest.spyOn(
+        component as any,
+        'reloadTheValidationTable'
+      );
+      const logEventSpy = jest.spyOn(component['appInsights'], 'logEvent');
+
+      Stub.setInput('selectedCustomer', mockSelectedCustomer);
+      Stub.detectChanges();
+
+      component['handleGridModalClicked']();
+
+      expect(openDialogSpy).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({
+          data: {
+            customerName: mockSelectedCustomer.customerName,
+            customerNumber: mockSelectedCustomer.customerNumber,
+          },
+          disableClose: true,
+        })
+      );
+
+      expect(reloadSpy).toHaveBeenCalledWith(true);
+      expect(logEventSpy).toHaveBeenCalledWith(
+        '[Validated Sales Planning] Upload Grid'
+      );
+    });
+  });
+
+  describe('handleDeleteModalClicked', () => {
+    it('should open DemandValidationMultiDeleteModalComponent dialog with correct data', () => {
+      const openDialogSpy = jest.spyOn(component['dialog'], 'open');
+      const mockSelectedCustomer = {
+        customerNumber: '123',
+        customerName: 'Test Customer',
+      } as CustomerEntry;
+
+      Stub.setInput('selectedCustomer', mockSelectedCustomer);
+      Stub.detectChanges();
+
+      component['handleDeleteModalClicked']();
+
+      expect(openDialogSpy).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({
+          data: expect.objectContaining({
+            customerName: mockSelectedCustomer.customerName,
+            customerNumber: mockSelectedCustomer.customerNumber,
+            onSave: expect.any(Function),
+          }),
+          disableClose: true,
+        })
+      );
+    });
+  });
+
+  describe('onDateSelectionChange', () => {
+    it('should update dateRange and emit dateRangeChanged event', () => {
+      const emitSpy = jest.spyOn(component.dateRangeChanged, 'emit');
+      const updateSettingsSpy = jest.spyOn(
+        component['userService'],
+        'updateDemandValidationUserSettings'
+      );
+
+      const mockDateRange = {
+        range1: {
+          from: new Date(),
+          to: new Date(),
+          period: DateRangePeriod.Monthly,
+        },
+      };
+
+      component['onDateSelectionChange'](mockDateRange);
+
+      expect(component['dateRange']).toBe(mockDateRange);
+      expect(emitSpy).toHaveBeenCalledWith(mockDateRange);
+      expect(updateSettingsSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('reloadTheValidationTable', () => {
+    it('should emit null to reload validation table when reload is true', () => {
+      const emitSpy = jest.spyOn(component.reloadValidationTable, 'emit');
+
+      component['reloadTheValidationTable'](true);
+
+      expect(emitSpy).toHaveBeenCalledWith(null);
+    });
+
+    it('should not emit when reload is false', () => {
+      const emitSpy = jest.spyOn(component.reloadValidationTable, 'emit');
+
+      component['reloadTheValidationTable'](false);
+
+      expect(emitSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('onSaveInModal', () => {
+    it('should return a function that emits reload and logs event', () => {
+      const emitSpy = jest.spyOn(component.reloadValidationTable, 'emit');
+      const logEventSpy = jest.spyOn(component['appInsights'], 'logEvent');
+
+      const callback = component['onSaveInModal']('Test Event');
+      callback();
+
+      expect(emitSpy).toHaveBeenCalledWith(null);
+      expect(logEventSpy).toHaveBeenCalledWith('Test Event');
+    });
+  });
+
+  describe('ngOnInit', () => {
+    it('should initialize customerSelectableValues from customerData', () => {
+      const mockCustomerData = [
+        {
+          customerNumber: '123',
+          customerName: 'Test Customer',
+        },
+        {
+          customerNumber: '456',
+          customerName: 'Another Customer',
+        },
+      ] as CustomerEntry[];
+
+      Stub.setInput('customerData', mockCustomerData);
+
+      component.ngOnInit();
+
+      expect(component['customerSelectableValues']()).toEqual({
+        options: [
+          { id: '123', text: 'Test Customer' },
+          { id: '456', text: 'Another Customer' },
+        ],
+      });
+    });
+
+    it('should initialize customerControl with selectedCustomer value if available', () => {
+      const mockSelectedCustomer = {
+        customerNumber: '123',
+        customerName: 'Test Customer',
+      } as CustomerEntry;
+
+      Stub.setInput('selectedCustomer', mockSelectedCustomer);
+
+      component.ngOnInit();
+
+      expect(component['formGroup'].controls.customerControl.value).toEqual({
+        id: '123',
+        text: 'Test Customer',
+      });
+    });
+
+    it('should set dateRange from userSettings and emit dateRangeChanged', () => {
+      const mockDateRange = {
+        range1: {
+          from: new Date(),
+          to: new Date(),
+          period: DateRangePeriod.Monthly,
+        },
+      };
+
+      const settingsLoadedSubject = component['userService'].settingsLoaded$;
+      jest.spyOn(component['userService'], 'userSettings').mockReturnValue({
+        demandValidation: {
+          timeRange: {} as any,
+        } as any,
+      } as any);
+
+      const emitSpy = jest.spyOn(component.dateRangeChanged, 'emit');
+
+      // Mock convertToKpiDateRanges function
+      jest
+        .spyOn(Helper, 'convertToKpiDateRanges')
+        .mockReturnValue(mockDateRange);
+
+      component.ngOnInit();
+
+      // Simulate settings loaded
+      (settingsLoadedSubject as any).next(true);
+
+      expect(component['dateRange']).toEqual(mockDateRange);
+      expect(emitSpy).toHaveBeenCalledWith(mockDateRange);
+    });
+  });
+
+  describe('disableUpload', () => {
+    it('should return true when planningView is CONFIRMED', () => {
+      Stub.setInput('planningView', PlanningView.CONFIRMED);
+      Stub.detectChanges();
+
+      expect(component['disableUpload']()).toBe(true);
+    });
+
+    it('should return false when planningView is not CONFIRMED', () => {
+      Stub.setInput('planningView', PlanningView.REQUESTED);
+      Stub.detectChanges();
+
+      expect(component['disableUpload']()).toBe(false);
+    });
+  });
+
+  describe('cleanKPIs', () => {
+    it('should return true when changedKPIs is not null', () => {
+      Stub.setInput('changedKPIs', { kpiEntries: [] });
+      Stub.detectChanges();
+
+      expect(component['cleanKPIs']()).toBe(true);
+    });
+
+    it('should return false when changedKPIs is null', () => {
+      Stub.setInput('changedKPIs', null);
+      Stub.detectChanges();
+
+      expect(component['cleanKPIs']()).toBe(false);
+    });
+  });
+
+  describe('leftSide and rightSide buttons', () => {
+    it('should disable appropriate buttons when cleanKPIs is true', () => {
+      Stub.setInput('changedKPIs', { kpiEntries: [] });
+      Stub.detectChanges();
+
+      const leftSideButtons = component['leftSide']();
+      const rightSideButtons = component['rightSide']();
+
+      // Check that menu, grid, and delete buttons are disabled when cleanKPIs is true
+      const menuButton = leftSideButtons.find(
+        (btn) => btn.tooltip === 'validation_of_demand.actionBar.editAsList'
+      );
+      const gridButton = leftSideButtons.find(
+        (btn) => btn.tooltip === 'validation_of_demand.actionBar.editAsGrid'
+      );
+      const deleteButton = leftSideButtons.find(
+        (btn) => btn.tooltip === 'validation_of_demand.actionBar.bashDelete'
+      );
+
+      expect(menuButton?.disabled).toBe(true);
+      expect(gridButton?.disabled).toBe(true);
+      expect(deleteButton?.disabled).toBe(true);
+
+      // Check that save buttons are enabled when cleanKPIs is true
+      const checkButton = rightSideButtons.find(
+        (btn) => btn.tooltip === 'validation_of_demand.actionBar.checkInput'
+      );
+      const saveButton = rightSideButtons.find(
+        (btn) => btn.text === 'button.save'
+      );
+
+      expect(checkButton?.disabled).toBe(false);
+      expect(saveButton?.disabled).toBe(false);
+    });
+
+    it('should enable appropriate buttons when cleanKPIs is false', () => {
+      Stub.setInput('changedKPIs', null);
+      Stub.detectChanges();
+
+      const rightSideButtons = component['rightSide']();
+
+      // Check that delete unsaved forecast, check, and save buttons are disabled when cleanKPIs is false
+      const deleteUnsavedButton = rightSideButtons.find(
+        (btn) => btn.tooltip === 'validation_of_demand.actionBar.deleteInput'
+      );
+      const checkButton = rightSideButtons.find(
+        (btn) => btn.tooltip === 'validation_of_demand.actionBar.checkInput'
+      );
+      const saveButton = rightSideButtons.find(
+        (btn) => btn.text === 'button.save'
+      );
+
+      expect(deleteUnsavedButton?.disabled).toBe(true);
+      expect(checkButton?.disabled).toBe(true);
+      expect(saveButton?.disabled).toBe(true);
+    });
+
+    it('should reflect isMaterialListVisible in toggle button class', () => {
+      Stub.setInput('isMaterialListVisible', true);
+      Stub.detectChanges();
+
+      const toggleButton = component['leftSide']()[0];
+      expect(toggleButton.class).toBe('icon-button-primary');
+
+      Stub.setInput('isMaterialListVisible', false);
+      Stub.detectChanges();
+
+      const updatedToggleButton = component['leftSide']()[0];
+      expect(updatedToggleButton.class).toBe('');
     });
   });
 });

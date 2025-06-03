@@ -379,32 +379,26 @@ describe('CustomerMaterialSingleModalComponent', () => {
     });
 
     it('should reset when service response is invalid', () => {
-      // Arrange
       const mockResponse = { cfcrActions: [] } as any;
       jest
         .spyOn(component['cmpService'], 'getForecastActionData')
         .mockReturnValue(of(mockResponse));
       component['formGroup'].get('successorMaterial').setValue('TestMaterial');
 
-      // Act
       component['onSuccessorChange']();
 
-      // Assert
       expect(component['cfcrAction']()).toBeNull();
       expect(component['loading']()).toBe(false);
     });
 
     it('should handle errors and reset values', () => {
-      // Arrange
       component['formGroup'].get('successorMaterial').setValue('TestMaterial');
       jest
         .spyOn(component['cmpService'], 'getForecastActionData')
         .mockReturnValue(EMPTY);
 
-      // Act
       component['onSuccessorChange']();
 
-      // Assert
       expect(component['cfcrAction']()).toBeNull();
       expect(component['loading']()).toBe(true);
     });

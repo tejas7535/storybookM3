@@ -245,4 +245,66 @@ describe('AlertRuleTableComponent', () => {
       expect(dialogConfig.width).toBe('600px');
     });
   });
+
+  describe('getData$', () => {
+    let getAlertRuleDataSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      getAlertRuleDataSpy = jest
+        .spyOn(component['alertRulesService'], 'getAlertRuleData')
+        .mockReturnValue(of({ content: [] }));
+    });
+
+    it('should call alertRulesService.getAlertRuleData', (done) => {
+      component['getData$']().subscribe(() => {
+        expect(getAlertRuleDataSpy).toHaveBeenCalled();
+        done();
+      });
+    });
+
+    it('should return the result from alertRulesService.getAlertRuleData', (done) => {
+      const mockResponse = { content: [{ id: '1' }] };
+      getAlertRuleDataSpy.mockReturnValue(of(mockResponse));
+
+      component['getData$']().subscribe((result) => {
+        expect(result).toEqual(mockResponse);
+        done();
+      });
+    });
+  });
+
+  describe('setColumnDefinitions', () => {
+    let setConfigSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      setConfigSpy = jest.spyOn(component as any, 'setConfig');
+    });
+
+    it('should call setConfig with column definitions', () => {
+      component['setColumnDefinitions']();
+      expect(setConfigSpy).toHaveBeenCalledWith(expect.any(Array));
+    });
+
+    it('should include action column in column definitions', () => {
+      component['setColumnDefinitions']();
+      const columnDefs = setConfigSpy.mock.calls[0][0];
+
+      const actionColumn = columnDefs.find((col: any) => col.field === 'menu');
+      expect(actionColumn).toBeDefined();
+      expect(actionColumn.pinned).toBe('right');
+      expect(actionColumn.sortable).toBe(false);
+    });
+  });
+
+  describe('setConfig', () => {
+    it('should configure the table with correct properties', () => {
+      const mockColumnDefs = [{ field: 'test' }];
+      component['setConfig'](mockColumnDefs);
+
+      const config = component['config']();
+      expect(config.table.tableId).toBe('alert-rule-table');
+      expect(config.hasTabView).toBe(true);
+      expect(config.maxAllowedTabs).toBe(5);
+    });
+  });
 });
