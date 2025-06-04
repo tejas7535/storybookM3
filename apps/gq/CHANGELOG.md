@@ -1,4 +1,22 @@
 # Release Notes of Guided Quoting
+## [6.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v6.1.0...gq-v6.2.0) (2025-06-04)
+
+
+### Features
+
+* **gq:** display data from rfq4 detail view endpoint for calculator(GQUOTE-5772) ([#7258](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7258)) ([64c6f4d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/64c6f4d2a604038014da3e532903779be6fcd3ee))
+* **gq:** increase attachment file size limit to 5mb (GQUOTE-6125) ([#7273](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7273)) ([a51ab4d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a51ab4d47c01d427402ba8be7f6dfee66b13cc7f))
+* **gq:** qty cannot be changed when rfq4 process is ongoing (GQUOTE-5946) ([#7177](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7177)) ([389fdbe](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/389fdbe38f07c5585aab2bc10f603e553aa9ff5a))
+* **gq:** remove cookie banner (GQUOTE-6065) ([#7275](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7275)) ([9229349](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/92293490fc4cae965518212d60ff48eec14cd09e))
+* **gq:** remove old case creation (GQUOTE-5048) ([#7290](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7290)) ([538a213](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/538a213128a0bcb5f7b12704fd197cb40f1443a1))
+* **gq:** use isolated pre prod environment (GQUOTE-6050) ([#7255](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7255)) ([bc4dedd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bc4dedd1d2dad00f349c762b398da1f852a5cbb2))
+
+
+### Bug Fixes
+
+* **gq:** fix wait until translation is loaded completely (GQUOTE-6173) ([#7301](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7301)) ([06e1498](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/06e14980874a8622e179c82ead7f3d6b96cb89af))
+* **gq:** integrate dialog header in confirm Dialog (GQUOTE-4729) ([#7296](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7296)) ([63a613e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/63a613ed944cd357e431f0abccdb92b49ef50f16))
+
 ## [6.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v6.0.1...gq-v6.1.0) (2025-05-15)
 
 
