@@ -8,7 +8,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
-import { catchError, Observable, take, tap } from 'rxjs';
+import { catchError, delay, Observable, take, tap } from 'rxjs';
 
 import { PushPipe } from '@ngrx/component';
 import { AgGridAngular } from 'ag-grid-angular';
@@ -101,7 +101,7 @@ export class BackendTableComponent extends AbstractTableComponent {
 
         // subsequent data loading by AgGrid won't change the rowCount as we're only
         // interested in the first data request for the rowCount display
-        if (startRow === 0) {
+        if (startRow === 0 && params.parentNode?.level === -1) {
           this.dataFetchedEvent$().next({ rowCount: 0 });
         }
 
@@ -132,14 +132,17 @@ export class BackendTableComponent extends AbstractTableComponent {
               if (response.rowCount === 0 || response.rows.length === 0) {
                 this.showMessage(this.config()?.table?.noRowsMessage ?? '');
               }
-              this.dataFetchedEvent$().next({
-                rowCount: response.rowCount,
-              });
               params.success({
                 rowData: response.rows,
                 rowCount: response.rowCount,
               });
             }),
+            delay(50), // delay to ensure the grid has time to render the rows
+            tap(
+              (response) =>
+                params.parentNode?.level === -1 &&
+                this.dataFetchedEvent$().next({ rowCount: response.rowCount })
+            ),
             catchError((error) => this.handleFetchError$(error, params)),
             takeUntilDestroyed(this.destroyRef)
           )

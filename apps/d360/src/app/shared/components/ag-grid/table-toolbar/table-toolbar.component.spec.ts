@@ -56,7 +56,11 @@ describe('TableToolbarComponent', () => {
       component['toggleFloatingFilter']();
 
       expect(component['showFloatingFilters']).toBe(false);
-      expect(spy).toHaveBeenCalledWith(component.grid(), false);
+      expect(spy).toHaveBeenCalledWith(
+        component.grid(),
+        false,
+        component.currentOverlay()
+      );
     });
 
     it('should not call showFloatingFilters if grid is not defined', () => {

@@ -344,7 +344,6 @@ export class CustomerMaterialPortfolioTableComponent
   private handleDataFetchedEvent(): void {
     this.dataFetchedEvent$
       .pipe(
-        take(1),
         tap(() => this.showChains && this.gridApi?.expandAll()),
         takeUntilDestroyed(this.destroyRef)
       )

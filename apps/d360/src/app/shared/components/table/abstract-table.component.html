@@ -28,6 +28,7 @@
       [customGetFilterCount]="
         customGetFilterCount ? customGetFilterCount.bind(this) : null
       "
+      [currentOverlay]="currentOverlay()"
     >
       <!-- additional toolbar content -->
       <ng-content select="[toolbarRight]" />

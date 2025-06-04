@@ -1,9 +1,12 @@
 import { GridApi } from 'ag-grid-enterprise';
 
+import { OverlayType } from '../components/table/enums/overlay-type.enum';
+import { Stub } from '../test/stub.class';
 import {
   applyColumnSettings,
   ensureEmptyRowAtBottom,
   getColumnSettingsFromGrid,
+  reopenOverlayIfNeeded,
   resetGrid,
   showFloatingFilters,
 } from './grid-utils';
@@ -11,18 +14,7 @@ import {
 describe('Grid Utils', () => {
   let mockGridApi: jest.Mocked<GridApi>;
 
-  beforeEach(() => {
-    mockGridApi = {
-      getColumnDefs: jest.fn(),
-      setGridOption: jest.fn(),
-      refreshHeader: jest.fn(),
-      getColumnState: jest.fn(),
-      applyColumnState: jest.fn(),
-      getDisplayedRowCount: jest.fn(),
-      getDisplayedRowAtIndex: jest.fn(),
-      applyTransaction: jest.fn(),
-    } as unknown as jest.Mocked<GridApi>;
-  });
+  beforeEach(() => (mockGridApi = Stub.getGridApi() as jest.Mocked<GridApi>));
 
   describe('showFloatingFilters', () => {
     it('should update column definitions with floating filter visibility and refresh header', () => {
@@ -134,6 +126,58 @@ describe('Grid Utils', () => {
       ensureEmptyRowAtBottom(mockGridApi);
 
       expect(mockGridApi.applyTransaction).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('reopenOverlayIfNeeded', () => {
+    it('should return early if gridApi is falsy', () => {
+      reopenOverlayIfNeeded(null, 'Message' as any);
+
+      expect(mockGridApi.showNoRowsOverlay).not.toHaveBeenCalled();
+      expect(mockGridApi.hideOverlay).not.toHaveBeenCalled();
+      expect(mockGridApi.setGridOption).not.toHaveBeenCalled();
+    });
+
+    it('should return early if gridApi is destroyed', () => {
+      mockGridApi.isDestroyed.mockReturnValue(true);
+
+      reopenOverlayIfNeeded(mockGridApi, 'Message' as any);
+
+      expect(mockGridApi.showNoRowsOverlay).not.toHaveBeenCalled();
+      expect(mockGridApi.hideOverlay).not.toHaveBeenCalled();
+      expect(mockGridApi.setGridOption).not.toHaveBeenCalled();
+    });
+
+    it('should return early if currentOverlay is falsy', () => {
+      reopenOverlayIfNeeded(mockGridApi, null as any);
+
+      expect(mockGridApi.showNoRowsOverlay).not.toHaveBeenCalled();
+      expect(mockGridApi.hideOverlay).not.toHaveBeenCalled();
+      expect(mockGridApi.setGridOption).not.toHaveBeenCalled();
+    });
+
+    it('should show no rows overlay when overlay type is Message', () => {
+      reopenOverlayIfNeeded(mockGridApi, OverlayType.Message);
+
+      expect(mockGridApi.showNoRowsOverlay).toHaveBeenCalled();
+      expect(mockGridApi.hideOverlay).not.toHaveBeenCalled();
+      expect(mockGridApi.setGridOption).not.toHaveBeenCalled();
+    });
+
+    it('should hide overlay and set loading option to true when overlay type is Loader', () => {
+      reopenOverlayIfNeeded(mockGridApi, OverlayType.Loader);
+
+      expect(mockGridApi.hideOverlay).toHaveBeenCalled();
+      expect(mockGridApi.setGridOption).toHaveBeenCalledWith('loading', true);
+      expect(mockGridApi.showNoRowsOverlay).not.toHaveBeenCalled();
+    });
+
+    it('should not show any overlay when overlay type is not recognized', () => {
+      reopenOverlayIfNeeded(mockGridApi, 'UnknownType' as any);
+
+      expect(mockGridApi.showNoRowsOverlay).not.toHaveBeenCalled();
+      expect(mockGridApi.hideOverlay).not.toHaveBeenCalled();
+      expect(mockGridApi.setGridOption).not.toHaveBeenCalled();
     });
   });
 });

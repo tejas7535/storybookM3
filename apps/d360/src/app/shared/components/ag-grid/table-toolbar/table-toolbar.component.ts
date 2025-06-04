@@ -10,6 +10,7 @@ import { GridApi } from 'ag-grid-enterprise';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { showFloatingFilters } from '../../../ag-grid/grid-utils';
+import { OverlayTypes } from '../../table';
 
 @Component({
   selector: 'd360-table-toolbar',
@@ -31,6 +32,7 @@ export class TableToolbarComponent {
 
   public customOnResetFilters = input<(() => void) | null>(null);
   public customGetFilterCount = input<(() => number) | null>(null);
+  public currentOverlay = input<OverlayTypes>(null);
 
   private readonly translocoLocaleService: TranslocoLocaleService = inject(
     TranslocoLocaleService
@@ -49,7 +51,11 @@ export class TableToolbarComponent {
     this.showFloatingFilters = !this.showFloatingFilters;
 
     if (this.grid()) {
-      showFloatingFilters(this.grid(), this.showFloatingFilters);
+      showFloatingFilters(
+        this.grid(),
+        this.showFloatingFilters,
+        this.currentOverlay()
+      );
     }
   }
 

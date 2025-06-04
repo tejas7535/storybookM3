@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { debounceTime, Observable, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { CellClickedEvent, GetRowIdParams, IRowNode } from 'ag-grid-enterprise';
@@ -127,7 +127,6 @@ export class MaterialListTableComponent
   public onFirstDataRendered(): void {
     this.dataFetchedEvent$
       .pipe(
-        debounceTime(150),
         tap(() => {
           const nodes = this.gridApi.getRenderedNodes();
 

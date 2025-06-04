@@ -52,7 +52,10 @@ import {
   ColumnFilters,
   formatFilterModelForBackend,
 } from '../../ag-grid/grid-filter-model';
-import { applyColumnSettings } from '../../ag-grid/grid-utils';
+import {
+  applyColumnSettings,
+  reopenOverlayIfNeeded,
+} from '../../ag-grid/grid-utils';
 import { AgGridLocalizationService } from '../../services/ag-grid-localization.service';
 import { isProblemDetail } from '../../utils/errors';
 import { HttpError } from '../../utils/http-client';
@@ -65,6 +68,8 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
 import { GridLoadingComponent, TabDialogComponent } from './components';
 import {
   IconType,
+  OverlayType,
+  OverlayTypes,
   RequestType,
   TabAction,
   TableType,
@@ -512,6 +517,15 @@ export abstract class AbstractTableComponent implements OnInit {
   protected readonly TableType = TableType;
 
   /**
+   * The current overlay type being displayed in the grid.
+   *
+   * @protected
+   * @type {WritableSignal<OverlayTypes>}
+   * @memberof AbstractTableComponent
+   */
+  protected currentOverlay: WritableSignal<OverlayTypes> = signal(null);
+
+  /**
    * Creates an instance of AbstractTableComponent.
    * Initializes the Component with default grid options and effects.
    *
@@ -724,6 +738,9 @@ export abstract class AbstractTableComponent implements OnInit {
           : null,
       }))
     );
+
+    // if there is already an overlay, we show it again, otherwise it will not be shown
+    reopenOverlayIfNeeded(this.gridApi, this.currentOverlay());
   }
 
   /**
@@ -1031,6 +1048,8 @@ export abstract class AbstractTableComponent implements OnInit {
           'columnDefs',
           this.columnDefs?.[0]?.columnDefs
         );
+
+        reopenOverlayIfNeeded(this.gridApi, this.currentOverlay());
       }
 
       const keyAllowed = [
@@ -1222,7 +1241,7 @@ export abstract class AbstractTableComponent implements OnInit {
             !this.gridApi.isDestroyed() &&
             !!this.config()?.table
               ? this.showLoader()
-              : this.gridApi.hideOverlay()
+              : this.hideOverlays()
           ),
           takeUntilDestroyed(this.destroyRef)
         )
@@ -1286,7 +1305,7 @@ export abstract class AbstractTableComponent implements OnInit {
       return false;
     }
 
-    return Object.keys(this.gridApi.getFilterModel()).length > 0;
+    return Object.keys(this.gridApi.getFilterModel() || {}).length > 0;
   }
 
   /**
@@ -1346,6 +1365,8 @@ export abstract class AbstractTableComponent implements OnInit {
     this.gridApi?.setGridOption('loading', false);
     this.gridApi?.setGridOption('noRowsOverlayComponentParams', { message });
     this.gridApi?.showNoRowsOverlay();
+
+    this.currentOverlay.set(OverlayType.Message);
   }
 
   /**
@@ -1357,6 +1378,8 @@ export abstract class AbstractTableComponent implements OnInit {
   protected showLoader(): void {
     this.gridApi?.hideOverlay();
     this.gridApi?.setGridOption('loading', true);
+
+    this.currentOverlay.set(OverlayType.Loader);
   }
 
   /**
@@ -1368,6 +1391,8 @@ export abstract class AbstractTableComponent implements OnInit {
   protected hideOverlays(): void {
     this.gridApi?.setGridOption('loading', false);
     this.gridApi?.hideOverlay();
+
+    this.currentOverlay.set(null);
   }
 
   /**

@@ -1,18 +1,43 @@
 import { GridApi } from 'ag-grid-enterprise';
 
-import { ColumnSetting } from '../components/table';
+import { ColumnSetting, OverlayTypes } from '../components/table';
+import { OverlayType } from './../components/table/enums/overlay-type.enum';
 
-export function showFloatingFilters(gridApi: GridApi, visible: boolean) {
-  const columnDefs = gridApi.getColumnDefs();
+export function showFloatingFilters(
+  gridApi: GridApi,
+  visible: boolean,
+  currentOverlay: OverlayTypes = null
+) {
+  if (!gridApi?.isDestroyed()) {
+    const columnDefs = gridApi.getColumnDefs();
 
-  if (columnDefs) {
-    gridApi.setGridOption(
-      'columnDefs',
-      columnDefs.map((col) => ({ ...col, floatingFilter: visible }))
-    );
+    if (columnDefs) {
+      gridApi.setGridOption(
+        'columnDefs',
+        columnDefs.map((col) => ({ ...col, floatingFilter: visible }))
+      );
+    }
+
+    gridApi.refreshHeader();
   }
 
-  gridApi.refreshHeader();
+  reopenOverlayIfNeeded(gridApi, currentOverlay);
+}
+
+export function reopenOverlayIfNeeded(
+  gridApi: GridApi,
+  currentOverlay: OverlayTypes
+): void {
+  if (!gridApi || gridApi?.isDestroyed() || !currentOverlay) {
+    return;
+  }
+
+  if (currentOverlay === OverlayType.Message) {
+    gridApi?.showNoRowsOverlay();
+  } else if (currentOverlay === OverlayType.Loader) {
+    gridApi?.hideOverlay();
+    gridApi?.setGridOption('loading', true);
+  }
 }
 
 export function getColumnSettingsFromGrid<ColId extends string>(
