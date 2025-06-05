@@ -3,8 +3,8 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { SapPriceConditionDetail } from '@gq/core/store/reducers/models';
-import { BaseAgGridComponent } from '@gq/detail-view/base-ag-grid.component';
 import { TableContext } from '@gq/process-case-view/quotation-details-table/config/tablecontext.model';
+import { BaseAgGridComponent } from '@gq/shared/ag-grid/base-component/base-ag-grid.component';
 import { AgGridLocale } from '@gq/shared/ag-grid/models/ag-grid-locale.interface';
 import {
   basicTableStyle,

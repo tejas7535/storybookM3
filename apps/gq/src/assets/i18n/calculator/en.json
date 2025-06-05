@@ -71,5 +71,27 @@
         }
       }
     }
+  },
+  "rfq4Overview": {
+    "title": "Process Overview",
+    "rfq4OverviewTable": {
+      "viewToggle": {
+        "open": "Open ({count})",
+        "inProgress": "In Progress ({count})",
+        "done": "Done ({count})"
+      }
+    },
+    "rfq4RequestsTable": {
+      "rfqId": "RFQ ID",
+      "matDesc": "Material Description",
+      "matNumber": "Material Number",
+      "status": "Status",
+      "createdBy": "Started by",
+      "assignedTo": "Assigned to",
+      "customerNumber": "Customer Number",
+      "customerName": "Customer Name",
+      "lastUpdated": "RFQ last Updated",
+      "noRowsToShow": "No Open RFQs"
+    }
   }
 }

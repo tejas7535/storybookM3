@@ -332,7 +332,7 @@
       }
     },
     "rfq4StatusLabels": {
-      "rfq4Status": "{rfq4Status,select,OPEN{Open}IN_PROGRESS{In Progress}CONFIRMED{Confirmed}CANCELLED{Cancelled} other{}}"
+      "rfq4Status": "{rfq4Status,select,OPEN{Open}REOPEN{Reopen}IN_PROGRESS{In Progress}CONFIRMED{Confirmed}CANCELLED{Cancelled} other{}}"
     },
     "sqvApprovalStatusLabels": {
       "sqvApprovalStatus": "{sqvApprovalStatus,select,APPROVAL_NEEDED{Approve}APPROVED{Approved} other{}}",

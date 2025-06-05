@@ -6,14 +6,14 @@ import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { Rfq4StatusCellComponent } from './rfq-4-status-cell.component';
+import { Rfq4CalculatorStatusCellComponent } from './rfq-4-calculator-status-cell.component';
 
-describe('Rfq4StatusCell', () => {
-  let component: Rfq4StatusCellComponent;
-  let spectator: Spectator<Rfq4StatusCellComponent>;
+describe('Rfq4CalculatorStatus', () => {
+  let component: Rfq4CalculatorStatusCellComponent;
+  let spectator: Spectator<Rfq4CalculatorStatusCellComponent>;
 
   const createComponent = createComponentFactory({
-    component: Rfq4StatusCellComponent,
+    component: Rfq4CalculatorStatusCellComponent,
     imports: [provideTranslocoTestingModule({ en: {} })],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
@@ -40,29 +40,16 @@ describe('Rfq4StatusCell', () => {
     });
     test('should set the tagType based on the status', () => {
       component.agInit(cellParams);
-      expect(component['tagType']).toBe('neutral');
+      expect(component['tagType']).toBe('info');
     });
   });
 
   describe('getTagTypeByStatus', () => {
     test('should return neutral for OPEN status', () => {
-      expect(component['getTagTypeByStatus'](Rfq4Status.OPEN)).toBe('neutral');
+      expect(component['getTagTypeByStatus'](Rfq4Status.OPEN)).toBe('info');
     });
-
-    test('should return error for CANCELLED status', () => {
-      expect(component['getTagTypeByStatus'](Rfq4Status.CANCELLED)).toBe(
-        'error'
-      );
-    });
-
-    test('should return success for CONFIRMED status', () => {
-      expect(component['getTagTypeByStatus'](Rfq4Status.CONFIRMED)).toBe(
-        'success'
-      );
-    });
-
-    test('should return warning for IN_PROGRESS status', () => {
-      expect(component['getTagTypeByStatus'](Rfq4Status.IN_PROGRESS)).toBe(
+    test('should return neutral for REOPEN status', () => {
+      expect(component['getTagTypeByStatus'](Rfq4Status.REOPEN)).toBe(
         'warning'
       );
     });

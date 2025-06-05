@@ -48,22 +48,22 @@ describe('StartPageGuard', () => {
       expect(guard['router'].navigate).toHaveBeenCalledWith(['forbidden']);
     });
 
-    test('should navigate to caseView when at is at minimum salesUSer', () => {
+    test('should navigate to calculatorView when at is at minimum calcUser', () => {
       isCalcSubject$$.next(true);
       isSalesUserSubject$$.next(true);
-      guard['router'].navigate = jest.fn().mockImplementation();
-      guard.canActivate();
-      expect(guard['router'].navigate).toHaveBeenCalledWith(['case-view']);
-    });
-
-    test('should navigate to calculator when user is calculator but not salesUser', () => {
-      isCalcSubject$$.next(true);
-      isSalesUserSubject$$.next(false);
       guard['router'].navigate = jest.fn().mockImplementation();
       guard.canActivate();
       expect(guard['router'].navigate).toHaveBeenCalledWith([
         'calculator-overview',
       ]);
+    });
+
+    test('should navigate to case-view when user is salesUser but not calculatorUser', () => {
+      isCalcSubject$$.next(false);
+      isSalesUserSubject$$.next(true);
+      guard['router'].navigate = jest.fn().mockImplementation();
+      guard.canActivate();
+      expect(guard['router'].navigate).toHaveBeenCalledWith(['case-view']);
     });
   });
 });

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { CalculatorPaths } from '@gq/calculator/routing/calculator-routes';
+import { CalculatorPaths } from '@gq/calculator/routing/calculator-paths.enum';
 import {
   DetailViewQueryParams,
   ProcessCaseViewQueryParams,

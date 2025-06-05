@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 
 import { OpenItemsFacade } from '@gq/core/store/active-case/open-items.facade';
-import { BaseAgGridComponent } from '@gq/detail-view/base-ag-grid.component';
+import { BaseAgGridComponent } from '@gq/shared/ag-grid/base-component/base-ag-grid.component';
 import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
 import { basicTableStyle } from '@gq/shared/constants';
 import { PushPipe } from '@ngrx/component';

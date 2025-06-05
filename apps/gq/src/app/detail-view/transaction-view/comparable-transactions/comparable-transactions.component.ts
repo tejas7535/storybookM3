@@ -11,8 +11,8 @@ import { combineLatest, map, Observable, of } from 'rxjs';
 
 import { ComparableLinkedTransaction } from '@gq/core/store/reducers/models';
 import { userHasGPCRole } from '@gq/core/store/selectors';
-import { BaseAgGridComponent } from '@gq/detail-view/base-ag-grid.component';
 import { TableContext } from '@gq/process-case-view/quotation-details-table/config/tablecontext.model';
+import { BaseAgGridComponent } from '@gq/shared/ag-grid/base-component/base-ag-grid.component';
 import { AgGridLocale } from '@gq/shared/ag-grid/models/ag-grid-locale.interface';
 import { basicTableStyle } from '@gq/shared/constants';
 import { Quotation } from '@gq/shared/models';

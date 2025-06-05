@@ -55,9 +55,9 @@ export class CalculationService {
     // https://www.geeksforgeeks.org/how-to-create-hash-from-string-in-javascript/
     const convertedRequestBody = JSON.stringify(requestBody);
 
-    // eslint-disable-next-line no-bitwise
     return [...convertedRequestBody]
       .reduce(
+        // eslint-disable-next-line no-bitwise
         (hash, char) => char.codePointAt(0) + (hash << 6) + (hash << 16) - hash,
         0
       )

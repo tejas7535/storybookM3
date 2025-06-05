@@ -7,7 +7,7 @@
     },
     "positionInformation": {
       "title": "Positions Informationen",
-      "materialDescription": "Material Beschreibung",
+      "materialDescription": "Materialbeschreibung",
       "quantity": "Menge",
       "deliveryUnit": "Liefereinheit",
       "materialNumber": "Materialnummer",
@@ -70,6 +70,28 @@
           }
         }
       }
+    }
+  },
+  "rfq4Overview": {
+    "title": "Prozess Übersicht",
+    "rfq4OverviewTable": {
+      "viewToggle": {
+        "open": "Offen ({count})",
+        "inProgress": "In Bearbeitung ({count})",
+        "done": "Abgeschlossen ({count})"
+      }
+    },
+    "rfq4RequestsTable": {
+      "rfqId": "RFQ ID",
+      "matDesc": "Materialbeschreibung",
+      "matNumber": "Materialnummer (15-stellig)",
+      "status": "Status",
+      "createdBy": "Gestartet von",
+      "assignedTo": "Zugewiesen an",
+      "customerNumber": "Kundennummer",
+      "customerName": "Kundenname",
+      "lastUpdated": "Zuletzt aktualisiert am",
+      "noRowsToShow": "Keine offenen RFQs"
     }
   }
 }

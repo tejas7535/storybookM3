@@ -1,0 +1,25 @@
+<ng-container
+  *transloco="let t; read: 'calculator.rfq4Overview.rfq4RequestsTable'"
+>
+  <ag-grid-angular
+    oncontextmenu="return false;"
+    class="ag-theme-material h-full rounded-[4px] rounded-tl-none border border-border"
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColumnDefs"
+    [rowData]="rowData()"
+    [getContextMenuItems]="getContextMenuItems.bind(this)"
+    [rowSelection]="rowSelection"
+    [valueCache]="true"
+    [animateRows]="true"
+    [localeText]="localeText$ | ngrxPush"
+    [suppressDragLeaveHidesColumns]="true"
+    [overlayNoRowsTemplate]="t('noRowsToShow')"
+    (gridReady)="onGridReady($event)"
+    (columnMoved)="onColumnChange($event)"
+    (sortChanged)="onColumnChange($event)"
+    (filterChanged)="onFilterChanged($event)"
+    (columnResized)="onColumnChange($event)"
+    (columnPinned)="onColumnChange($event)"
+  >
+  </ag-grid-angular>
+</ng-container>

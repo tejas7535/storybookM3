@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { combineLatest, tap } from 'rxjs';
 
 import { AppRoutePath } from '@gq/app-route-path.enum';
-import { CalculatorPaths } from '@gq/calculator/routing/calculator-routes';
+import { CalculatorPaths } from '@gq/calculator/routing/calculator-paths.enum';
 
 import { RolesFacade } from '../store/facades';
 
@@ -23,11 +23,11 @@ export class StartPageGuard {
         tap(([isCalculator, isSalesUser]) => {
           if (!isCalculator && !isSalesUser) {
             this.router.navigate([AppRoutePath.ForbiddenPath]);
-            // CaseOverview is the default page for all users that have salesRoles
-          } else if (isSalesUser) {
-            this.router.navigate([AppRoutePath.CaseViewPath]);
+            // CalculatorOverview is the default page for all users that have calcRoles
           } else if (isCalculator) {
             this.router.navigate([CalculatorPaths.CalculatorOverviewPath]);
+          } else if (isSalesUser) {
+            this.router.navigate([AppRoutePath.CaseViewPath]);
           }
         })
       )
