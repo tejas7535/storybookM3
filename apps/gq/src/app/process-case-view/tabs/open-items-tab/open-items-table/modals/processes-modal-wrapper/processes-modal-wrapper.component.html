@@ -23,15 +23,21 @@
           @if ((calculators$ | ngrxPush)?.length > 0) {
             <gq-start-process
               [modalData]="modalData"
-              (cancelProcess)="closeDialog()"
+              (cancelButtonClicked)="closeDialog()"
             ></gq-start-process>
           } @else {
             <gq-calculator-missing
               [modalData]="modalData"
-              (cancelProcess)="closeDialog()"
+              (cancelButtonClicked)="closeDialog()"
             >
             </gq-calculator-missing>
           }
+        }
+        @case (processEnum.SHOW_HISTORY) {
+          <gq-process-history
+            [modalData]="modalData"
+            (cancelButtonClicked)="closeDialog()"
+          ></gq-process-history>
         }
         @default {
           <p class="text-error">process not yet implemented</p>

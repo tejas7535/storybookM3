@@ -1,4 +1,4 @@
-import { HorizontalDividerModule } from '@gq/shared/components/horizontal-divider/horizontal-divider.module';
+import { HorizontalDividerComponent } from '@gq/shared/components/horizontal-divider/horizontal-divider.component';
 import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -14,7 +14,7 @@ describe('SalesforceComponent', () => {
   const createComponent = createComponentFactory({
     component: SalesforceComponent,
     imports: [
-      HorizontalDividerModule,
+      HorizontalDividerComponent,
       LabelTextModule,
       SharedPipesModule,
       provideTranslocoTestingModule({ en: {} }),

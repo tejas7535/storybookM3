@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
-import { HorizontalDividerModule } from '@gq/shared/components/horizontal-divider/horizontal-divider.module';
+import { HorizontalDividerComponent } from '@gq/shared/components/horizontal-divider/horizontal-divider.component';
 import { DragDialogDirective } from '@gq/shared/directives/drag-dialog/drag-dialog.directive';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
@@ -33,7 +33,7 @@ describe('StatusBarModalComponent', () => {
       PushPipe,
       SharedPipesModule,
       DialogHeaderModule,
-      HorizontalDividerModule,
+      HorizontalDividerComponent,
       MockDirective(DragDialogDirective),
     ],
     providers: [

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { HorizontalDividerModule } from '@gq/shared/components/horizontal-divider/horizontal-divider.module';
+import { HorizontalDividerComponent } from '@gq/shared/components/horizontal-divider/horizontal-divider.component';
 import { KpiStatusCardComponent } from '@gq/shared/components/kpi-status-card/kpi-status-card.component';
 import { DimensionDetailsComponent } from '@gq/shared/components/material-details/dimension-details/dimension-details.component';
 import { MaterialAdditionalComponent } from '@gq/shared/components/material-details/material-additional/material-additional.component';
@@ -20,7 +20,7 @@ import { MaterialDetailsComponent } from './material-details.component';
   imports: [
     SharedTranslocoModule,
     SharedPipesModule,
-    HorizontalDividerModule,
+    HorizontalDividerComponent,
     PushPipe,
     LetDirective,
     CommonModule,

@@ -26,12 +26,12 @@ export class CalculatorMissingComponent {
   private readonly rfq4ProcessesFacade = inject(Rfq4ProcessFacade);
   modalData: InputSignal<ProcessesModalDialogData> =
     input<ProcessesModalDialogData>(null);
-  cancelProcess = output();
+  cancelButtonClicked = output();
 
   readonly maintainers$ = this.rfq4ProcessesFacade.maintainers$;
 
   closeDialog(): void {
-    this.cancelProcess.emit();
+    this.cancelButtonClicked.emit();
   }
 
   getMaintainer(user: ActiveDirectoryUser): string {

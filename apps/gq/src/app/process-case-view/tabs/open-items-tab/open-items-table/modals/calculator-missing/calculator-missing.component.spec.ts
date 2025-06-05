@@ -45,10 +45,10 @@ describe('CalculatorMissingComponent', () => {
     expect(component).toBeTruthy();
   });
   describe('closeDialog', () => {
-    test('should emit cancelProcess event', () => {
-      component.cancelProcess.emit = jest.fn();
+    test('should emit cancelButtonClicked event', () => {
+      component.cancelButtonClicked.emit = jest.fn();
       component.closeDialog();
-      expect(component.cancelProcess.emit).toHaveBeenCalled();
+      expect(component.cancelButtonClicked.emit).toHaveBeenCalled();
     });
   });
 

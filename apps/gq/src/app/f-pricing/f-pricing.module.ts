@@ -16,7 +16,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { fPricingStoreModule } from '@gq/core/store/f-pricing/f-pricing-store.module';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
-import { HorizontalDividerModule } from '@gq/shared/components/horizontal-divider/horizontal-divider.module';
+import { HorizontalDividerComponent } from '@gq/shared/components/horizontal-divider/horizontal-divider.component';
 import { InfoBannerComponent } from '@gq/shared/components/info-banner/info-banner.component';
 import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
 import { DimensionDetailsComponent } from '@gq/shared/components/material-details/dimension-details/dimension-details.component';
@@ -64,7 +64,7 @@ import { ProductComparisonModalComponent } from './pricing-assistant-modal/produ
     CommonModule,
     DialogHeaderModule,
     SharedTranslocoModule,
-    HorizontalDividerModule,
+    HorizontalDividerComponent,
     MatIconModule,
     SharedPipesModule,
     LabelTextModule,

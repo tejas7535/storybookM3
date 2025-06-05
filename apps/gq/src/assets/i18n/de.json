@@ -198,6 +198,45 @@
           "text": "Benachrichtige {personA} und {personB}, den zuständigen Kalkulator in SAP hinzuzufügen.",
           "cancelButton": "Abbrechen",
           "sendMailButton": "E-Mail senden"
+        },
+        "showHistory": {
+          "title": "Wiederholkalkulation für Item {posId} | RFQ: {rfq4Id}",
+          "steps": {
+            "firstStep": "Anfrage gesendet",
+            "secondStep": "Kalkulation",
+            "thirdStep": "Finalisierung"
+          },
+          "positionInformation": {
+            "title": "Positionsinformationen",
+            "materialNumber": "Materialnummer",
+            "materialDescription": "Materialbeschreibung",
+            "quantity": "Menge"
+          },
+          "rfqInformation": {
+            "title": "RFQ Informationen",
+            "productionPlant": "Produktionswerk",
+            "productLine": "Produktlinie",
+            "assignee": "Zuständiger",
+            "confirmedDate": "Datum der Bestätigung",
+            "message": "Nachricht",
+            "sqvAndPriceUnit": "SAW / Preiseinheit",
+            "sqvRfqAndPriceUnit": "SAW (RFQ) / Preiseinheit",
+            "costLotSize": "Losgröße",
+            "toolCosts": "Werkzeugkosten",
+            "gqPrice": "GQ Preis",
+            "msp": "MSP",
+            "rsp": "RSP",
+            "deliveryTimeAOR": "Lieferzeit nach AE",
+            "comment": "Kommentar",
+            "calculationDetails": "Kalkulationsdetails",
+            "infoBannerText": "GPI, GPM % (RFQ) und der GQ Preis wurden automatisch aktualisiert.",
+            "state": "Status",
+            "cancelledDate": "Datum der Absage",
+            "cancelReason": "Absagegrund"
+          },
+          "closeButton": "Schließen",
+          "cancelButton": "Prozess Abbrechen",
+          "reopenButton": "Prozess Wiedereröffnen"
         }
       }
     },

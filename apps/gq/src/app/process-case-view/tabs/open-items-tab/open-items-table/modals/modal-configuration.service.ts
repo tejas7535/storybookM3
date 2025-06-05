@@ -74,7 +74,7 @@ export class ModalConfigurationService {
   ): void {
     this.dialog.open(ProcessesModalWrapperComponent, {
       disableClose: true,
-      width: '684px',
+      width: process === ApprovalProcessAction.SHOW_HISTORY ? '784px' : '684px',
       data: {
         process,
         quotationDetail,

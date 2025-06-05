@@ -1,0 +1,22 @@
+<div class="flex flex-row items-center gap-4">
+  <div
+    class="flex justify-center items-center h-[24px] w-[24px] rounded-full text-body-2 text-white font-bold"
+    [ngClass]="{
+      'bg-primary': status() === statusEnum.ACTIVE,
+      'bg-error': status() === statusEnum.CANCELLED,
+      'bg-inactive': status() === statusEnum.INACTIVE,
+    }"
+  >
+    {{ value() }}
+  </div>
+
+  <span
+    class="text-subtitle-2 tracking-widest"
+    [ngClass]="{
+      'text-primary': status() === statusEnum.ACTIVE,
+      'text-error': status() === statusEnum.CANCELLED,
+      'text-medium-emphasis': status() === statusEnum.INACTIVE,
+    }"
+    >{{ title() | uppercase }}</span
+  >
+</div>

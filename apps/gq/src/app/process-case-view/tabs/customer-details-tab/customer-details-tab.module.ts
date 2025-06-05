@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module';
-import { HorizontalDividerModule } from '@gq/shared/components/horizontal-divider/horizontal-divider.module';
+import { HorizontalDividerComponent } from '@gq/shared/components/horizontal-divider/horizontal-divider.component';
 import { KpiStatusCardComponent } from '@gq/shared/components/kpi-status-card/kpi-status-card.component';
 import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
@@ -35,7 +35,7 @@ import { SalesforceComponent } from './salesforce/salesforce.component';
     LoadingSpinnerModule,
     CustomerDetailsTabRoutingModule,
     LabelTextModule,
-    HorizontalDividerModule,
+    HorizontalDividerComponent,
     SharedPipesModule,
     KpiStatusCardComponent,
   ],

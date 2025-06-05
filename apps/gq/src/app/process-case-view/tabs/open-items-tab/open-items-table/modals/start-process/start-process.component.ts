@@ -42,7 +42,7 @@ export class StartProcessComponent {
 
   modalData: InputSignal<ProcessesModalDialogData> =
     input<ProcessesModalDialogData>(null);
-  cancelProcess = output();
+  cancelButtonClicked = output();
 
   readonly recalculateSqvLoading$ =
     this.rfq4ProcessesFacade.sendRecalculateSqvLoading$;
@@ -64,6 +64,6 @@ export class StartProcessComponent {
   }
 
   closeDialog(): void {
-    this.cancelProcess.emit();
+    this.cancelButtonClicked.emit();
   }
 }

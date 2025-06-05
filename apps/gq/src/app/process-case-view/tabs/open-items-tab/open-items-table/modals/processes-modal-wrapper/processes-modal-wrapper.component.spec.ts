@@ -142,5 +142,24 @@ describe('ProcessesModalFrameComponent', () => {
         );
       });
     });
+    describe('SHOW_HISTORY Status', () => {
+      test('should return title for SHOW_HISTORY', () => {
+        const quotationDetail: QuotationDetail = {
+          detailCosts: {
+            rfq4Status: Rfq4Status.OPEN,
+          },
+          quotationItemId: '12345',
+        } as unknown as QuotationDetail;
+
+        component.modalData.process = ApprovalProcessAction.SHOW_HISTORY;
+        component['getTitle'](quotationDetail);
+
+        expect(component.title).toBe(
+          translate('shared.openItemsTable.approvalProcesses.history.title', {
+            posId: '12345',
+          })
+        );
+      });
+    });
   });
 });

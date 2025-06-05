@@ -8,7 +8,7 @@ import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reduce
 import { getQuotationCurrency } from '@gq/core/store/active-case/active-case.selectors';
 import { userHasGPCRole, userHasSQVRole } from '@gq/core/store/selectors';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
-import { HorizontalDividerModule } from '@gq/shared/components/horizontal-divider/horizontal-divider.module';
+import { HorizontalDividerComponent } from '@gq/shared/components/horizontal-divider/horizontal-divider.component';
 import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
 import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
@@ -27,10 +27,11 @@ import { selectedQuotationDetailsKpiFeature } from '../../store/selected-quotati
     CommonModule,
     DialogHeaderModule,
     SharedTranslocoModule,
-    HorizontalDividerModule,
+    HorizontalDividerComponent,
     LabelTextModule,
     PushPipe,
     SharedPipesModule,
+    HorizontalDividerComponent,
   ],
 })
 export class StatusBarModalComponent {

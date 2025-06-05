@@ -1,0 +1,28 @@
+<ng-container
+  *transloco="
+    let t;
+    read: 'shared.openItemsTable.approvalProcesses.showHistory'
+  "
+>
+  <ng-container></ng-container>
+  <div class="flex w-full items-center justify-between gap-3">
+    <!-- TODO: adjust logic for active Step, when cancelled-->
+    <gq-step-number
+      [value]="'1'"
+      [status]="activeStep() === 1 ? color() : stepColor.INACTIVE"
+      [title]="t('steps.firstStep')"
+    ></gq-step-number>
+    <gq-horizontal-divider class="flex flex-1"></gq-horizontal-divider>
+    <gq-step-number
+      [value]="'2'"
+      [status]="activeStep() === 2 ? color() : stepColor.INACTIVE"
+      [title]="t('steps.secondStep')"
+    ></gq-step-number>
+    <gq-horizontal-divider class="flex flex-1"></gq-horizontal-divider>
+    <gq-step-number
+      [value]="'3'"
+      [status]="activeStep() === 3 ? color() : stepColor.INACTIVE"
+      [title]="t('steps.thirdStep')"
+    ></gq-step-number>
+  </div>
+</ng-container>
