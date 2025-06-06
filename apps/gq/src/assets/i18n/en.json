@@ -806,7 +806,8 @@
   "autocompleteSelection": {
     "loading": "Loading...",
     "noResults": "No results found",
-    "error": "Enter valid {{ fieldName }}"
+    "error": "Enter valid {{ fieldName }}",
+    "required": "{{ fieldName }} required"
   },
   "pricingDetails": {
     "materialDetails": {

@@ -4,6 +4,7 @@ import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
+import { ShowErrorComponent } from '@gq/calculator/rfq-4-detail-view/component/recalculation/control/show-error/show-error.component';
 import { CalculatorRfq4ProcessData } from '@gq/calculator/rfq-4-detail-view/models/rfq-4-detail-view-data.interface';
 import { Rfq4DetailViewStore } from '@gq/calculator/rfq-4-detail-view/store/rfq-4-detail-view.store';
 import { UndefinedToDashPipe } from '@gq/shared/pipes/undefined-to-dash/undefined-to-dash.pipe';
@@ -12,6 +13,7 @@ import { TranslocoDecimalPipe } from '@jsverse/transloco-locale';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { BaseInputComponent } from '../base-input.component';
+
 @Component({
   selector: 'gq-sqv-input',
   imports: [
@@ -22,6 +24,7 @@ import { BaseInputComponent } from '../base-input.component';
     SharedTranslocoModule,
     UndefinedToDashPipe,
     TranslocoDecimalPipe,
+    ShowErrorComponent,
   ],
   templateUrl: './sqv-input.component.html',
   providers: [

@@ -1,0 +1,19 @@
+<span
+  *transloco="let t; read: 'calculator.rfq4DetailView.recalculation.validation'"
+>
+  @if (errors()['required']) {
+    {{ t('required', { fieldName: label() }) }}
+  } @else if (errors()['notValid']) {
+    {{ t('notValid', { fieldName: label() }) }}
+  } @else if (errors()['maxlength']) {
+    {{ t('maxlength', { inputLimit: inputLimit() }) }}
+  } @else if (errors()['notAllowedDecimals']) {
+    {{ t('notAllowedDecimals') }}
+  } @else if (errors()['notAllowedNegativeValues']) {
+    {{ t('notAllowedNegativeValues') }}
+  } @else if (errors()['maxDecimalsAllowed']) {
+    {{ t('maxDecimalsAllowed', { decimalLimit: decimalLimit() }) }}
+  } @else if (errors()['maxCharacters']) {
+    {{ t('maxCharacters', { charLimit: charLimit() }) }}
+  }
+</span>

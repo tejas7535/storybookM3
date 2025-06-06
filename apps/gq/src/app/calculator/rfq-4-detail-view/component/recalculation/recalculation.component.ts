@@ -9,6 +9,8 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
+import { ValidationHelper } from '@gq/calculator/rfq-4-detail-view/service/validation-helper';
+
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CalculatorDetailsInputComponent } from './control/calculator-details/calculator-details-input.component';
@@ -23,6 +25,7 @@ import { PriceUnitInputComponent } from './control/price-unit/price-unit-input.c
 import { ProdPlantInputComponent } from './control/prod-plant/prod-plant-input.component';
 import { SqvInputComponent } from './control/sqv/sqv-input.component';
 import { ToolCostInputComponent } from './control/tool-cost/tool-cost-input.component';
+
 @Component({
   selector: 'gq-rfq-4-detail-view-recalculation',
   imports: [
@@ -53,20 +56,64 @@ import { ToolCostInputComponent } from './control/tool-cost/tool-cost-input.comp
   ],
 })
 export class RecalculationComponent implements OnInit {
+  private readonly validationHelper = inject(ValidationHelper);
   recalculationForm: FormGroup;
   formBuilder = inject(FormBuilder);
 
   ngOnInit(): void {
     this.recalculationForm = this.formBuilder.group({
-      currency: [],
-      sqv: ['', Validators.required],
-      lotSize: ['', Validators.required],
-      priceUnit: ['', Validators.required],
-      toolCost: [],
-      prodPlant: ['', Validators.required],
-      comment: [],
-      calculatorDetails: [],
-      deliveryTime: [],
+      currency: [null, Validators.required],
+      sqv: [
+        null,
+        [
+          Validators.required,
+          this.validationHelper.validateForNumericWithMaxDecimals(),
+          this.validationHelper.validateNegativeValue(),
+          this.validationHelper.validateMaxLengthWithDecimals(13),
+        ],
+      ],
+      lotSize: [
+        null,
+        [
+          Validators.required,
+          Validators.maxLength(13),
+          this.validationHelper.validateNegativeValue(),
+          this.validationHelper.validateOnlyNumbersAllowed(),
+          this.validationHelper.validateNoDecimalsAllowed(),
+        ],
+      ],
+      priceUnit: [
+        null,
+        [
+          Validators.required,
+          Validators.maxLength(4),
+          this.validationHelper.validateNegativeValue(),
+          this.validationHelper.validateOnlyNumbersAllowed(),
+          this.validationHelper.validateNoDecimalsAllowed(),
+        ],
+      ],
+      toolCost: [
+        null,
+        [
+          Validators.required,
+          this.validationHelper.validateMaxLengthWithDecimals(13),
+          this.validationHelper.validateNegativeValue(),
+          this.validationHelper.validateForNumericWithMaxDecimals(),
+        ],
+      ],
+      prodPlant: [null, Validators.required],
+      comment: [null, Validators.maxLength(1000)],
+      calculatorDetails: [null, Validators.maxLength(1000)],
+      deliveryTime: [
+        null,
+        [
+          Validators.required,
+          this.validationHelper.validateNegativeValue(),
+          this.validationHelper.validateOnlyNumbersAllowed(),
+          this.validationHelper.validateNoDecimalsAllowed(),
+          Validators.maxLength(4),
+        ],
+      ],
       deliveryTimeUnit: [DeliveryTimeUnit.MONTHS],
     });
   }

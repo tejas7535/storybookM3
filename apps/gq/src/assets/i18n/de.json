@@ -808,7 +808,8 @@
   "autocompleteSelection": {
     "loading": "Laden...",
     "noResults": "Keine Ergebnisse gefunden",
-    "error": "Bitte gültigen {{ fieldName }} eingeben"
+    "error": "Gib gültigen {{ fieldName }} ein",
+    "required": "{{ fieldName }} erfoderlich"
   },
   "pricingDetails": {
     "materialDetails": {

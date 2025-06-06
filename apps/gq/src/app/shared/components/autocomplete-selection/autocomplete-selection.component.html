@@ -55,9 +55,9 @@
     <mat-icon matSuffix>arrow_drop_down</mat-icon>
   }
 
-  @if (this.ngControl.control.invalid) {
+  @if (this.formControl.invalid) {
     <mat-error>{{
-      t('error', {
+      t(this.formControl.hasError('required') ? 'required' : 'error', {
         fieldName: label(),
       })
     }}</mat-error>

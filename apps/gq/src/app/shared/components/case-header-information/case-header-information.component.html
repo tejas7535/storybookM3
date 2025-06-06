@@ -118,7 +118,7 @@
             @if (headerInfoForm.get('customerInquiryDate')?.errors?.required) {
               <mat-error>{{
                 t('requiredFieldValidationMessage', {
-                  field: t('customerInquiryDateLabel')
+                  field: t('customerInquiryDateLabel'),
                 })
               }}</mat-error>
             }
@@ -128,7 +128,7 @@
             ) {
               <mat-error>{{
                 t('dateInFutureValidationMessage', {
-                  date: isEditMode ? 'caseCreation' : 'today'
+                  date: isEditMode ? 'caseCreation' : 'today',
                 })
               }}</mat-error>
             }
@@ -151,7 +151,7 @@
             @if (headerInfoForm.get('quotationToDate')?.errors?.required) {
               <mat-error>{{
                 t('requiredFieldValidationMessage', {
-                  field: t('quotationToDateLabel')
+                  field: t('quotationToDateLabel'),
                 })
               }}</mat-error>
             }
@@ -185,7 +185,7 @@
             ) {
               <mat-error>{{
                 t('dateInPastValidationMessage', {
-                  date: isEditMode ? 'caseCreation' : 'today'
+                  date: isEditMode ? 'caseCreation' : 'today',
                 })
               }}</mat-error>
             }
@@ -216,7 +216,7 @@
             ) {
               <mat-error>{{
                 t('dateNotInFutureValidationMessage', {
-                  date: isEditMode ? 'caseCreation' : 'today'
+                  date: isEditMode ? 'caseCreation' : 'today',
                 })
               }}</mat-error>
             }
@@ -226,7 +226,7 @@
             ) {
               <mat-error>{{
                 t('validateDateMoreThan18MonthsInFutureFromReferenceDate', {
-                  date: isEditMode ? 'caseCreation' : 'today'
+                  date: isEditMode ? 'caseCreation' : 'today',
                 })
               }}</mat-error>
             }
@@ -236,7 +236,7 @@
             ) {
               <mat-error>{{
                 t('requiredFieldValidationMessage', {
-                  field: t('bindingPeriodValidityEndDateLabel')
+                  field: t('bindingPeriodValidityEndDateLabel'),
                 })
               }}</mat-error>
             }

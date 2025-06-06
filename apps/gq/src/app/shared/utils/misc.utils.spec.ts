@@ -146,6 +146,104 @@ describe('MiscUtils', () => {
     });
   });
 
+  describe('validateNumericInputKeyPress', () => {
+    test('should prevent default on invalid input', () => {
+      const event = { key: 'a', preventDefault: jest.fn() } as any;
+      miscUtils.validateNumericInputKeyPress(event);
+      expect(event.preventDefault).toHaveBeenCalledTimes(1);
+    });
+
+    test('should not prevent default when input is a number', () => {
+      const event = { key: '1', preventDefault: jest.fn() } as any;
+      miscUtils.validateNumericInputKeyPress(event);
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+
+    test('should not prevent default when input is paste event', () => {
+      const event = {
+        key: 'v',
+        preventDefault: jest.fn(),
+        ctrlKey: true,
+      } as any;
+      miscUtils.validateNumericInputKeyPress(event);
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+
+    test('should not prevent default when input is paste event on macOs', () => {
+      const event = {
+        key: 'v',
+        preventDefault: jest.fn(),
+        ctrlKey: false,
+        metaKey: true,
+      } as any;
+      miscUtils.validateNumericInputKeyPress(event);
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+
+    test('should not prevent default when input is backspace key', () => {
+      const event = {
+        key: Keyboard.BACKSPACE,
+        preventDefault: jest.fn(),
+      } as any;
+      miscUtils.validateNumericInputKeyPress(event);
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+
+    test('should not prevent default when input is tab key', () => {
+      const event = {
+        key: Keyboard.TAB,
+        preventDefault: jest.fn(),
+      } as any;
+      miscUtils.validateNumericInputKeyPress(event);
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+
+    test('should not prevent default when input is delete key', () => {
+      const event = {
+        key: Keyboard.DELETE,
+        preventDefault: jest.fn(),
+      } as any;
+      miscUtils.validateNumericInputKeyPress(event);
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+
+    test('should not prevent default when input is arrow left key', () => {
+      const event = {
+        key: Keyboard.ARROW_LEFT,
+        preventDefault: jest.fn(),
+      } as any;
+      miscUtils.validateNumericInputKeyPress(event);
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+
+    test('should not prevent default when input is arrow right key', () => {
+      const event = {
+        key: Keyboard.ARROW_RIGHT,
+        preventDefault: jest.fn(),
+      } as any;
+      miscUtils.validateNumericInputKeyPress(event);
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+
+    test('should not prevent default when input is dot key', () => {
+      const event = {
+        key: Keyboard.DOT,
+        preventDefault: jest.fn(),
+      } as any;
+      miscUtils.validateNumericInputKeyPress(event);
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+
+    test('should not prevent default when input is comma key', () => {
+      const event = {
+        key: Keyboard.COMMA,
+        preventDefault: jest.fn(),
+      } as any;
+      miscUtils.validateNumericInputKeyPress(event);
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+  });
+
   describe('parseLocalizedInputValue', () => {
     [
       {

@@ -69,6 +69,16 @@
             "DAYS": "Tage"
           }
         }
+      },
+      "validation": {
+        "notValid": "Gib gültigen {fieldName} ein",
+        "required": "{fieldName} erforderlich",
+        "maxlength": "Max {inputLimit} Ziffern erlaubt",
+        "notAllowedNegativeValues": "Gib eine Zahl größer 0 ein",
+        "notAllowedDecimals": "Gib eine Ganzzahl ein",
+        "maxDecimalsAllowed": "Max {decimalLimit} Nachkommastellen erlaubt",
+        "invalidProductionPlant": "Gib ein valides Produktionswerk ein",
+        "maxCharacters": "Max {charLimit} Zeichen erlaubt"
       }
     }
   },

@@ -3,12 +3,11 @@ import {
   Component,
   computed,
   DestroyRef,
+  forwardRef,
   inject,
   input,
   InputSignal,
   OnInit,
-  Optional,
-  Self,
   Signal,
   signal,
   ViewChild,
@@ -18,8 +17,10 @@ import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import {
   ControlValueAccessor,
   FormControl,
+  FormGroup,
+  FormGroupDirective,
   FormsModule,
-  NgControl,
+  NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
 import {
@@ -69,6 +70,13 @@ export type Appearance = 'fill' | 'outline';
     FormsModule,
     SharedTranslocoModule,
   ],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => AutocompleteSelectionComponent),
+      multi: true,
+    },
+  ],
   templateUrl: './autocomplete-selection.component.html',
 })
 export class AutocompleteSelectionComponent
@@ -91,6 +99,7 @@ export class AutocompleteSelectionComponent
   readonly appearance: InputSignal<Appearance> = input<Appearance>('outline');
   readonly isLoading: InputSignal<boolean> = input<boolean>(true);
   readonly isEditMode: InputSignal<boolean> = input<boolean>(false);
+  readonly isRequired: InputSignal<boolean> = input<boolean>(false);
   readonly maxLength: InputSignal<number> = input<number>();
   readonly allowOptionsValuesOnly: InputSignal<boolean> = input<boolean>(true);
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -106,23 +115,18 @@ export class AutocompleteSelectionComponent
 
   filteredOptions: WritableSignal<SelectableValue[]> = signal([]);
   isDisabled = false;
-  formControl!: FormControl<string | SelectableValue>;
+  formControl: FormControl<string | SelectableValue>;
 
-  // By using this trick with injecting NgControl with @Self() and @Optional()
-  // we can use this component as a formControl in a parent component
-  // Setting valueAccessor to this component is necessary to avoid Circular Dependency issue.
-  // Whole explanation can be found here: https://stackoverflow.com/a/56061527 and https://www.youtube.com/watch?v=CD_t3m2WMM8
-  constructor(@Self() @Optional() public ngControl: NgControl) {
-    if (!ngControl) {
-      throw new Error(
-        'Please provide ngControl for AutocompleteSelectionComponent'
-      );
-    }
-    ngControl.valueAccessor = this;
-  }
+  formControlName = input<string>();
+  rootFormGroup = inject(FormGroupDirective);
+
+  form: FormGroup;
 
   ngOnInit(): void {
-    this.formControl = this.ngControl.control as FormControl;
+    this.form = this.rootFormGroup.control;
+    this.formControl = this.rootFormGroup.control.get(
+      this.formControlName()
+    ) as FormControl;
 
     this.options$
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -182,7 +186,7 @@ export class AutocompleteSelectionComponent
 
         if (this.allowOptionsValuesOnly()) {
           // If only one option left during filtering - set it automatically
-          if (this.filteredOptions().length === 1 && value && value !== '') {
+          if (this.filteredOptions()?.length === 1 && value && value !== '') {
             const option = this.filteredOptions()[0];
             this.formControl.setValue(option);
             this.setSelectedValue(option);
@@ -210,6 +214,7 @@ export class AutocompleteSelectionComponent
 
     return this.displaySelectableValue(value).length;
   }
+
   /**
    * Implementation of ControlValueAccessor
    * Writes a new value to the formControl
@@ -287,7 +292,7 @@ export class AutocompleteSelectionComponent
       );
     }
 
-    return this.filteredOptions().length === 0;
+    return this.filteredOptions()?.length === 0;
   }
 
   onBlur() {
@@ -299,6 +304,8 @@ export class AutocompleteSelectionComponent
         this.valueNotFound(value)
       ) {
         error = { wrongSelection: true };
+      } else if (value === '' && this.isRequired()) {
+        error = { required: true };
       }
       this.formControl.setErrors(error);
     }

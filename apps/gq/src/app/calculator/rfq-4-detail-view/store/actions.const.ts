@@ -7,4 +7,9 @@ export const RFQ4_DETAIL_VIEW_ACTIONS = {
   LOAD_AD_USER: '[RFQ4 Detail View] Load AD User',
   LOAD_AD_USER_SUCCESS: '[RFQ4 Detail View] Load AD User Success',
   LOAD_AD_USER_FAILURE: '[RFQ4 Detail View] Load AD User Failure',
+  LOAD_PRODUCTION_PLANTS: '[RFQ4 Detail View] Load Production Plants',
+  LOAD_PRODUCTION_PLANTS_SUCCESS:
+    '[RFQ4 Detail View] Load Production Plants Success',
+  LOAD_PRODUCTION_PLANTS_FAILURE:
+    '[RFQ4 Detail View] Load Production Plants Failure',
 };

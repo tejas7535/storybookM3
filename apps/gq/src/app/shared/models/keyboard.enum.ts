@@ -1,4 +1,6 @@
 export enum Keyboard {
+  ARROW_LEFT = 'ArrowLeft',
+  ARROW_RIGHT = 'ArrowRight',
   BACKSPACE = 'Backspace',
   DELETE = 'Delete',
   DASH = '-',

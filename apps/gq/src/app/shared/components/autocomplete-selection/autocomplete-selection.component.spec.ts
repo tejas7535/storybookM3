@@ -1,5 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroupDirective,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   MatAutocomplete,
   MatAutocompleteSelectedEvent,
@@ -13,42 +17,28 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AutocompleteSelectionComponent } from './autocomplete-selection.component';
 
-class MockNgControl extends NgControl {
-  control = new FormControl('');
-
-  viewToModelUpdate(_newValue: any): void {}
-
-  override valueAccessor: ControlValueAccessor = {
-    writeValue: () => {},
-    registerOnChange: () => {},
-    registerOnTouched: () => {},
-  };
-}
-
 describe('AutocompleteSelectionComponent', () => {
   let component: AutocompleteSelectionComponent;
   let spectator: Spectator<AutocompleteSelectionComponent>;
   let option: SelectableValue;
 
+  const fb = new FormBuilder();
+
+  const formGroupDirective = new FormGroupDirective([], []);
+  formGroupDirective.form = fb.group({
+    test: fb.control(null),
+  });
+
   const createComponent = createComponentFactory({
     component: AutocompleteSelectionComponent,
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     detectChanges: false,
-    imports: [provideTranslocoTestingModule({ en: {} })],
-    overrideComponents: [
-      [
-        AutocompleteSelectionComponent,
-        {
-          add: {
-            providers: [
-              {
-                provide: NgControl,
-                useClass: MockNgControl,
-              },
-            ],
-          },
-        },
-      ],
+    imports: [provideTranslocoTestingModule({ en: {} }), ReactiveFormsModule],
+    providers: [
+      {
+        provide: FormGroupDirective,
+        useValue: formGroupDirective,
+      },
     ],
   });
 
@@ -66,6 +56,7 @@ describe('AutocompleteSelectionComponent', () => {
         label: 'Label',
         options: [option],
         isEditMode: false,
+        formControlName: 'test',
       },
     });
 
@@ -308,6 +299,13 @@ describe('AutocompleteSelectionComponent', () => {
       component.formControl.setValue(value);
       component.onBlur();
       expect(component.formControl.errors).toEqual({ wrongSelection: true });
+      expect(component['onTouched']).toHaveBeenCalled();
+    });
+    test('should set error on blur when value is empty but required', () => {
+      spectator.setInput('isRequired', () => true);
+      component.formControl.setValue('');
+      component.onBlur();
+      expect(component.formControl.errors).toEqual({ required: true });
       expect(component['onTouched']).toHaveBeenCalled();
     });
   });

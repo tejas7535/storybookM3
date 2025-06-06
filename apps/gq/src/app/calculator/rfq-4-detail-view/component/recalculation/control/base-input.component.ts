@@ -6,6 +6,8 @@ import {
   FormGroupDirective,
 } from '@angular/forms';
 
+import { validateNumericInputKeyPress } from '@gq/shared/utils/misc.utils';
+
 @Component({
   template: '',
 })
@@ -26,7 +28,14 @@ export abstract class BaseInputComponent
   }
 
   writeValue(_obj: any): void {}
+
   registerOnChange(_fn: any): void {}
+
   registerOnTouched(_fn: any): void {}
+
   setDisabledState?(_isDisabled: boolean): void {}
+
+  validateNumericInputKeyPress(event: KeyboardEvent) {
+    validateNumericInputKeyPress(event);
+  }
 }

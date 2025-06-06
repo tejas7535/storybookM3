@@ -1,5 +1,6 @@
 import { LOCALE_DE } from './available-locales';
-export const quantityRegex = /^\d+$/;
+
+export const numbersRegex = /^\d+$/;
 const quantityRegexDE = /^[1-9](\d{0,2})*(.\d{3})*$/;
 
 const quantityRegexEN = /^[1-9](\d{0,2})*(,\d{3})*$/;

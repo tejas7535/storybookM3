@@ -5,6 +5,7 @@ import {
   CalculatorQuotationData,
   CalculatorQuotationDetailData,
   CalculatorRfq4ProcessData,
+  ProductionPlantForRfq,
   RfqDetailViewData,
 } from '../../../../../app/calculator/rfq-4-detail-view/models/rfq-4-detail-view-data.interface';
 
@@ -50,6 +51,7 @@ export const CALCULATOR_RFQ_4_PROCESS_DATA_MOCK: CalculatorRfq4ProcessData = {
   calculatorRequestRecalculationStatus: RecalculateSqvStatus.OPEN,
   assignedUserId: 'Test Assigned User',
   sqv: 10,
+  processProductionPlant: '0072',
 };
 
 export const RFQ_DETAIL_VIEW_DATA_MOCK: RfqDetailViewData = {
@@ -58,3 +60,21 @@ export const RFQ_DETAIL_VIEW_DATA_MOCK: RfqDetailViewData = {
   quotationDetailData: CALCULATOR_QUOTATION_DETAIL_DATA_MOCK,
   rfq4ProcessData: CALCULATOR_RFQ_4_PROCESS_DATA_MOCK,
 };
+
+export const RFQ_PRODUCTION_PLANTS: ProductionPlantForRfq[] = [
+  {
+    plantNumber: '0001',
+    city: 'Plant One',
+    country: 'PL',
+  },
+  {
+    plantNumber: '0002',
+    city: 'Plant Two',
+    country: 'DE',
+  },
+  {
+    plantNumber: '0072',
+    city: 'Plant Three',
+    country: 'US',
+  },
+];

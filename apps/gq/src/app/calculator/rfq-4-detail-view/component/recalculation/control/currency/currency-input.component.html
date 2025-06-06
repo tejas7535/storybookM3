@@ -18,7 +18,17 @@
           <mat-option [value]="currency">{{ currency }}</mat-option>
         }
       </mat-select>
-      <mat-hint>{{ t('hint') }}</mat-hint>
+      <!-- Display hint when field was not touched or value was selected -->
+      @if (formControl.untouched || formControl.valid) {
+        <mat-hint>{{ t('hint') }}</mat-hint>
+      } @else if (formControl.errors) {
+        <mat-error>
+          <gq-show-error
+            [errors]="formControl.errors"
+            [label]="t('label')"
+          ></gq-show-error>
+        </mat-error>
+      }
     </mat-form-field>
   </div>
   <div class="w-1/2 flex flex-row h-20 justify-end">

@@ -9,6 +9,15 @@
   <mat-form-field appearance="outline" class="w-full">
     <mat-label>{{ t('label') }}</mat-label>
     <input matInput type="text" [formControlName]="formControlName()" />
-    <mat-hint>{{ t('hint') }}</mat-hint>
+    @if (formControl.errors) {
+      <mat-error>
+        <gq-show-error
+          [errors]="formControl.errors"
+          [label]="t('label')"
+        ></gq-show-error>
+      </mat-error>
+    } @else {
+      <mat-hint>{{ t('hint') }}</mat-hint>
+    }
   </mat-form-field>
 </div>

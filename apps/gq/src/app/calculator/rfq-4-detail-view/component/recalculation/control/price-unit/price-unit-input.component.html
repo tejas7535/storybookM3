@@ -1,4 +1,5 @@
 <div
+  class="mb-3"
   [formGroup]="form"
   *transloco="
     let t;
@@ -7,6 +8,20 @@
 >
   <mat-form-field appearance="outline" class="w-full">
     <mat-label>{{ t('label') }}</mat-label>
-    <input matInput type="text" [formControlName]="formControlName()" />
+    <input
+      matInput
+      type="text"
+      (keydown)="validateNumericInputKeyPress($event)"
+      [formControlName]="formControlName()"
+    />
+    @if (formControl.errors) {
+      <mat-error>
+        <gq-show-error
+          [errors]="formControl.errors"
+          [label]="t('label')"
+          [inputLimit]="4"
+        ></gq-show-error>
+      </mat-error>
+    }
   </mat-form-field>
 </div>

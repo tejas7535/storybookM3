@@ -7,6 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { Observable } from 'rxjs';
 
+import { ShowErrorComponent } from '@gq/calculator/rfq-4-detail-view/component/recalculation/control/show-error/show-error.component';
 import { CalculatorQuotationData } from '@gq/calculator/rfq-4-detail-view/models/rfq-4-detail-view-data.interface';
 import { Rfq4DetailViewStore } from '@gq/calculator/rfq-4-detail-view/store/rfq-4-detail-view.store';
 import { CurrencyFacade } from '@gq/core/store/currency/currency.facade';
@@ -26,6 +27,7 @@ import { BaseInputComponent } from '../base-input.component';
     SharedTranslocoModule,
     MatSelectModule,
     PushPipe,
+    ShowErrorComponent,
   ],
   providers: [
     {

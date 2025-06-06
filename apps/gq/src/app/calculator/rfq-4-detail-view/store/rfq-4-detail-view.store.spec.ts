@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { of } from 'rxjs';
 
+import { ProductionPlantService } from '@gq/calculator/rfq-4-detail-view/service/rest/production-plant.service';
 import { ActiveDirectoryUser } from '@gq/shared/models';
 import { MicrosoftGraphMapperService } from '@gq/shared/services/rest/microsoft-graph-mapper/microsoft-graph-mapper.service';
 import { patchState } from '@ngrx/signals';
@@ -13,6 +14,7 @@ import {
   CALCULATOR_QUOTATION_DETAIL_DATA_MOCK,
   CALCULATOR_RFQ_4_PROCESS_DATA_MOCK,
   RFQ_DETAIL_VIEW_DATA_MOCK,
+  RFQ_PRODUCTION_PLANTS,
 } from '../../../../testing/mocks/models/calculator/rfq-4-detail-view/rfq-4-detail-view-data.mock';
 import { Rfq4DetailViewService } from '../service/rest/rfq-4-detail-view.service';
 import { Rfq4DetailViewStore } from './rfq-4-detail-view.store';
@@ -34,6 +36,14 @@ describe('Rfq4DetailViewStore', () => {
       .fn()
       .mockReturnValue(of([aadUser])),
   };
+  const productionPlantService = {
+    getProductionPlantsForRfq: jest.fn().mockReturnValue(
+      of({
+        results: RFQ_PRODUCTION_PLANTS,
+        loading: false,
+      })
+    ),
+  };
 
   const routerRfqId = '5012';
   beforeEach(() => {
@@ -54,6 +64,10 @@ describe('Rfq4DetailViewStore', () => {
         {
           provide: MicrosoftGraphMapperService,
           useValue: microsoftGraphMapperService,
+        },
+        {
+          provide: ProductionPlantService,
+          useValue: productionPlantService,
         },
       ],
     });
@@ -92,6 +106,19 @@ describe('Rfq4DetailViewStore', () => {
       const rfq4ProcessData = store.getRfq4ProcessData();
       expect(rfq4ProcessData).toEqual(CALCULATOR_RFQ_4_PROCESS_DATA_MOCK);
     });
+    test('getProductionPlants', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+
+      patchState(unprotected(store), {
+        productionPlantData: {
+          productionPlants: RFQ_PRODUCTION_PLANTS,
+          loading: false,
+        },
+      });
+
+      const productionPlants = store.getProductionPlants();
+      expect(productionPlants).toEqual(RFQ_PRODUCTION_PLANTS);
+    });
   });
 
   describe('methods', () => {
@@ -118,6 +145,19 @@ describe('Rfq4DetailViewStore', () => {
       expect(store.loading()).toBeFalsy();
       expect(store.processStartedByAdUser()).toEqual(aadUser);
     });
+    test('loadProductionPlants', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+
+      store.loadProductionPlants();
+
+      expect(
+        productionPlantService.getProductionPlantsForRfq
+      ).toHaveBeenCalled();
+      expect(store.productionPlantData().loading).toBeFalsy();
+      expect(store.productionPlantData().productionPlants).toEqual(
+        RFQ_PRODUCTION_PLANTS
+      );
+    });
   });
 
   describe('hooks', () => {
@@ -129,6 +169,12 @@ describe('Rfq4DetailViewStore', () => {
         routerRfqId
       );
       expect(store.loading()).toBeFalsy();
+    });
+    test('onInit calls loadProductionPlants', () => {
+      TestBed.flushEffects();
+      expect(
+        productionPlantService.getProductionPlantsForRfq
+      ).toHaveBeenCalled();
     });
   });
 });

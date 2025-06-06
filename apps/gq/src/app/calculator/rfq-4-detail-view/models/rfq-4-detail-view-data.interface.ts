@@ -2,6 +2,7 @@ import { CustomerId } from '@gq/shared/models';
 import { GQUser } from '@gq/shared/models/user.model';
 
 import { RecalculateSqvStatus } from './recalculate-sqv-status.enum';
+
 export interface RfqDetailViewData {
   customerData: CalculatorCustomerData;
   quotationData: CalculatorQuotationData;
@@ -44,4 +45,20 @@ export interface CalculatorRfq4ProcessData {
   calculatorRequestRecalculationStatus: RecalculateSqvStatus;
   assignedUserId: string;
   sqv: number;
+  processProductionPlant: string;
+}
+
+export interface ProductionPlantData {
+  loading: boolean;
+  productionPlants: ProductionPlantForRfq[];
+}
+
+export interface ProductionPlantResponse {
+  results: ProductionPlantForRfq[];
+}
+
+export interface ProductionPlantForRfq {
+  plantNumber: string;
+  city: string;
+  country: string;
 }

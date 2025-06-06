@@ -1,7 +1,11 @@
 /* eslint-disable max-lines */
 import { Params } from '@angular/router';
 
-import { FILTER_PARAM_INDICATOR, LOCALE_DE } from '@gq/shared/constants';
+import {
+  FILTER_PARAM_INDICATOR,
+  LOCALE_DE,
+  numbersRegex,
+} from '@gq/shared/constants';
 import {
   Duration,
   Keyboard,
@@ -21,6 +25,7 @@ import { TargetPriceSource } from '../models/quotation/target-price-source.enum'
 import { Rating } from '../models/rating.enum';
 import { IdValue } from '../models/search/id-value.model';
 import { MaterialAutoComplete } from '../services/rest/material/models';
+
 export const getCurrentYear = (): number => new Date().getFullYear();
 
 export const getLastYear = (): number => getCurrentYear() - 1;
@@ -118,6 +123,28 @@ export const validateQuantityInputKeyPress = (event: KeyboardEvent): void => {
 
 const isPaste = (event: KeyboardEvent): boolean =>
   (event.ctrlKey && event.key === 'v') || (event.metaKey && event.key === 'v'); // support for macOs
+
+export const validateNumericInputKeyPress = (event: KeyboardEvent): void => {
+  // Allow only numeric keys (0-9) and control keys like backspace, delete
+  const key = event.key;
+  if (
+    numbersRegex.test(key) ||
+    event.ctrlKey ||
+    event.metaKey ||
+    event.key === Keyboard.BACKSPACE ||
+    event.key === Keyboard.DELETE ||
+    event.key === Keyboard.TAB ||
+    event.key === Keyboard.ARROW_LEFT ||
+    event.key === Keyboard.ARROW_RIGHT ||
+    event.key === Keyboard.DOT ||
+    event.key === Keyboard.COMMA
+  ) {
+    return;
+  }
+
+  // Prevent key press for non-numeric characters
+  event.preventDefault();
+};
 
 export function getRatingText(rating: number): string {
   return Rating[rating];

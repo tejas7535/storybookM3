@@ -9,17 +9,33 @@
   <div class="w-1/2">
     <mat-form-field appearance="outline" class="w-full">
       <mat-label>{{ t('label') }}</mat-label>
-      <input matInput type="text" [formControlName]="formControlName()" />
-      <mat-hint>{{ t('hint') }}</mat-hint>
+      <input
+        matInput
+        type="text"
+        (keydown)="validateNumericInputKeyPress($event)"
+        [formControlName]="formControlName()"
+      />
+      <!-- Display hint when field was not touched or value was selected -->
+      @if (formControl.untouched || formControl.valid) {
+        <mat-hint>{{ t('hint') }}</mat-hint>
+      } @else if (formControl.errors) {
+        <mat-error>
+          <gq-show-error
+            [errors]="formControl.errors"
+            [label]="t('label')"
+            [inputLimit]="4"
+          ></gq-show-error>
+        </mat-error>
+      }
     </mat-form-field>
   </div>
   <div class="w-1/2">
     <mat-form-field appearance="outline" class="w-full">
       <mat-select [formControlName]="deliveryTimeUnitFormControlName()">
         @for (option of deliveryTimeUnitOptions; track option) {
-          <mat-option [value]="option.value">{{
-            t('select.' + option.value)
-          }}</mat-option>
+          <mat-option [value]="option.value"
+            >{{ t('select.' + option.value) }}
+          </mat-option>
         }
       </mat-select>
     </mat-form-field>
