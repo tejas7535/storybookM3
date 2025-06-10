@@ -622,27 +622,25 @@ export class DialogEffects {
   public postMaterial$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.postMaterial),
-      switchMap(
-        ({ record }) =>
-          record.materialClass === MaterialClass.STEEL &&
-          this.msdDataService
-            .createMaterial(record.material, record.materialClass)
-            .pipe(
-              map(() => DialogActions.createMaterialComplete({ record })),
-              catchError((e: HttpErrorResponse) =>
-                of(
-                  DialogActions.createMaterialComplete({
-                    record: {
-                      ...record,
-                      error: {
-                        code: e.status,
-                        state: CreateMaterialErrorState.MaterialCreationFailed,
-                      },
+      switchMap(({ record }) =>
+        this.msdDataService
+          .createMaterial(record.material, record.materialClass)
+          .pipe(
+            map(() => DialogActions.createMaterialComplete({ record })),
+            catchError((e: HttpErrorResponse) =>
+              of(
+                DialogActions.createMaterialComplete({
+                  record: {
+                    ...record,
+                    error: {
+                      code: e.status,
+                      state: CreateMaterialErrorState.MaterialCreationFailed,
                     },
-                  })
-                )
+                  },
+                })
               )
             )
+          )
       )
     );
   });

@@ -1,7 +1,12 @@
 /* eslint-disable max-lines */
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -79,7 +84,7 @@ export class CopperInputDialogComponent
   public referenceDocuments$ = this.dialogFacade.referenceDocuments$;
 
   public materialNumberControl = this.controlsService.getCopperNumberControl();
-  public castingModesControl = this.controlsService.getRequiredControl<string>(
+  public castingModesControl = this.controlsService.getControl<string>(
     undefined,
     true
   );
@@ -91,7 +96,7 @@ export class CopperInputDialogComponent
   public referenceDocumentControl =
     this.controlsService.getControl<StringOption[]>();
   public productionProcessControl =
-    this.controlsService.getRequiredControl<StringOption>();
+    this.controlsService.getControl<StringOption>();
   public minRecyclingRateControl = this.controlsService.getNumberControl(
     undefined,
     false,
@@ -143,6 +148,10 @@ export class CopperInputDialogComponent
 
   ngOnInit(): void {
     super.ngOnInit();
+
+    this.co2TotalControl.removeValidators(Validators.required);
+    this.co2ClassificationControl.removeValidators(Validators.required);
+
     // setup material formular values
     this.createMaterialForm = new FormGroup<CopperMaterialForm>({
       manufacturerSupplierId: this.manufacturerSupplierIdControl,
