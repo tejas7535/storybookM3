@@ -1,4 +1,18 @@
 # Release Notes of Material App Center
+## [1.32.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.31.1...mac-v1.32.0) (2025-06-11)
+
+
+### Features
+
+* **mac:** display of estimation matrix values in separate table (UFTABI-8476) ([#7234](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7234)) ([fa22e61](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fa22e61c3b23473d05fbe421826f283b3598144a))
+* **mac:** new fields for steel edit dialog (UFTABI-8628) ([#7263](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7263)) ([78d4482](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/78d4482bbfaddbaa5a038e63d42001b56c726b28))
+* **mac:** remove required fields in copper dialog (UFTABI-8933) ([#7335](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7335)) ([db5966b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/db5966bd0758c26a4014b186c2bd43dacd3a1883))
+
+
+### Bug Fixes
+
+* **mac:** only show data if a filter is set (UFTABI-8898) ([#7317](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7317)) ([fb7251c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fb7251cb1d5cdb66de02f242ce0309ddfb828b6b))
+
 ## [1.31.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.31.0...mac-v1.31.1) (2025-05-27)
 
 
