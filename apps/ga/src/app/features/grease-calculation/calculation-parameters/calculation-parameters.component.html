@@ -1,10 +1,5 @@
 <ng-container *transloco="let t; read: 'parameters'">
   <div class="flex h-full flex-col">
-    @if (!(partnerVersion$ | ngrxPush)) {
-      <ga-qualtrics-info-banner
-        class="block mb-3 md:mb-6 px-4"
-      ></ga-qualtrics-info-banner>
-    }
     <schaeffler-subheader
       *ngrxLet="selectedBearing$ as selectedBearing"
       [hideLine]="true"
@@ -15,16 +10,17 @@
       <ng-container subheaderTitleContent>
         <span class="hidden sm:block">{{ t('title.main') }}&nbsp;</span>
         <span class="truncate">{{ selectedBearing }}</span>
+
+        @if (!(appIsEmbedded$ | ngrxPush)) {
+          <ng-container subheaderInlineContent>
+            <ga-medias-button
+              class="md:ml-4 ml-auto mr-0 md:mr-auto"
+              [bearing]="selectedBearing"
+              [partnerVersion]="partnerVersion$ | ngrxPush"
+            ></ga-medias-button>
+          </ng-container>
+        }
       </ng-container>
-      @if (!(appIsEmbedded$ | ngrxPush)) {
-        <ng-container subheaderInlineContent>
-          <ga-medias-button
-            class="max-sm:w-full"
-            [bearing]="selectedBearing"
-            [partnerVersion]="partnerVersion$ | ngrxPush"
-          ></ga-medias-button>
-        </ng-container>
-      }
     </schaeffler-subheader>
     @if (
       (modelCreationLoading$ | ngrxPush) || (modelCreationSuccess$ | ngrxPush)
@@ -32,14 +28,14 @@
       <div
         class="container min-w mx-auto pb-4 sm:px-4 md:px-0 md:pb-8"
         [ngClass]="{
-          'embedded-lg:max-w-[1440px]': appIsEmbedded$ | ngrxPush
+          'embedded-lg:max-w-[1440px]': appIsEmbedded$ | ngrxPush,
         }"
       >
         <div
           class="flex flex-col gap-0 sm:gap-5 lg:grid lg:grid-cols-2"
           [ngClass]="{
             'embedded-lg:grid embedded-lg:grid-cols-2':
-              appIsEmbedded$ | ngrxPush
+              appIsEmbedded$ | ngrxPush,
           }"
         >
           <div
@@ -284,9 +280,17 @@
         </div>
       </div>
 
+      @if (!(partnerVersion$ | ngrxPush)) {
+        <div class="container min-w mx-auto">
+          <ga-qualtrics-info-banner
+            class="block mb-3 md:mb-6 px-0"
+          ></ga-qualtrics-info-banner>
+        </div>
+      }
+
       @if (appIsEmbedded$ | ngrxPush) {
         <ga-app-store-buttons
-          class="mb-8"
+          class="mb-8 px-0"
           [title]="'shared.appStoreButtonsTitle' | transloco"
         ></ga-app-store-buttons>
       }

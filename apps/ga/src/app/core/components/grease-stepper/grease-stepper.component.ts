@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, map } from 'rxjs';
 
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
@@ -34,6 +34,7 @@ export class GreaseStepperComponent {
   public steps$ = this.store.select(getSteps);
 
   public currentStep$ = this.store.select(getCurrentStep);
+  public showStepper$ = this.currentStep$.pipe(map((step) => step !== 2));
 
   constructor(
     private readonly store: Store,

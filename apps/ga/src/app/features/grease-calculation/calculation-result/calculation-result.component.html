@@ -1,10 +1,5 @@
 <ng-container *transloco="let t; read: 'calculationResult'">
   <div class="flex h-full flex-col px-4">
-    @if (!(partnerVersion$ | ngrxPush)) {
-      <ga-qualtrics-info-banner
-        class="block mb-3 md:mb-6"
-      ></ga-qualtrics-info-banner>
-    }
     <schaeffler-subheader
       class="-mx-4"
       *ngrxLet="selectedBearing$ as selectedBearing"
@@ -23,6 +18,13 @@
         >
           info_outline
         </mat-icon>
+        @if (!(appIsEmbedded$ | ngrxPush)) {
+          <ga-medias-button
+            class="md:ml-2 ml-auto mr-0 md:mr-auto"
+            [bearing]="selectedBearing"
+            [partnerVersion]="partnerVersion$ | ngrxPush"
+          ></ga-medias-button>
+        }
       </ng-container>
       <ng-container subheaderInlineContent>
         <button
@@ -34,14 +36,6 @@
           {{ t('pdfDownload') }}
           <mat-icon class="align-middle">download</mat-icon>
         </button>
-
-        @if (!(appIsEmbedded$ | ngrxPush)) {
-          <ga-medias-button
-            class="max-sm:w-full ml-auto"
-            [bearing]="selectedBearing"
-            [partnerVersion]="partnerVersion$ | ngrxPush"
-          ></ga-medias-button>
-        }
       </ng-container>
     </schaeffler-subheader>
     @if (reportUrls) {
@@ -72,6 +66,12 @@
             [reportSelector]="reportSelector"
           >
           </schaeffler-html-report>
+        }
+
+        @if (!(partnerVersion$ | ngrxPush)) {
+          <ga-qualtrics-info-banner
+            class="block mb-3 md:mb-6 mt-3"
+          ></ga-qualtrics-info-banner>
         }
       </div>
     } @else {

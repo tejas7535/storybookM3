@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { translate } from '@jsverse/transloco';
 
@@ -18,7 +19,12 @@ import { PartnerAfiliateCode, PartnerVersion } from '@ga/shared/models';
 
 @Component({
   selector: 'ga-medias-button',
-  imports: [SharedTranslocoModule, MatIconModule, MatButtonModule],
+  imports: [
+    SharedTranslocoModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
+  ],
   templateUrl: './medias-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

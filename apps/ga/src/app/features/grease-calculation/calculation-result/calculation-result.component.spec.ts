@@ -15,7 +15,7 @@ import {
 } from '@ngneat/spectator/jest';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockComponent, MockModule } from 'ng-mocks';
+import { MockModule } from 'ng-mocks';
 
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -28,7 +28,6 @@ import {
 } from '@ga/core/store/actions/calculation-result/calculation-result.actions';
 import { ENV, getEnv } from '@ga/environments/environments.provider';
 import { MediasButtonComponent } from '@ga/shared/components/medias-button';
-import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import { PartnerVersion } from '@ga/shared/models';
 
 import { ApplicationScenario } from '../calculation-parameters/constants/application-scenarios.model';
@@ -56,7 +55,6 @@ describe('CalculationResultComponent', () => {
       ),
       MediasButtonComponent,
 
-      MockComponent(QualtricsInfoBannerComponent),
       // UI Modules
       MockModule(SubheaderModule),
       MockModule(MatIconModule),
@@ -97,18 +95,6 @@ describe('CalculationResultComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('qualtrics banner', () => {
-    it('should display qualtrics info banner', () => {
-      expect(spectator.query('ga-qualtrics-info-banner')).toBeTruthy();
-    });
-
-    it('should not display qualtrics info banner for partner versions', () => {
-      component.partnerVersion$ = of(PartnerVersion.Schmeckthal);
-      spectator.detectChanges();
-      expect(spectator.query('ga-qualtrics-info-banner')).toBeFalsy();
-    });
   });
 
   describe('when partner version is available', () => {

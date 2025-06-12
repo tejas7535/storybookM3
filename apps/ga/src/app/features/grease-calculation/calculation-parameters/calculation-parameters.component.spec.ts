@@ -35,7 +35,6 @@ import { isApplicationScenarioDisabled } from '@ga/core/store/selectors/calculat
 import { AppStoreButtonsComponent } from '@ga/shared/components/app-store-buttons/app-store-buttons.component';
 import { MediasButtonComponent } from '@ga/shared/components/medias-button';
 import { PreferredGreaseSelectionComponent } from '@ga/shared/components/preferred-grease-selection';
-import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import {
   EnvironmentImpact,
   LoadLevels,
@@ -80,7 +79,6 @@ describe('CalculationParametersComponent', () => {
       // UI
       BreadcrumbsModule,
       PreferredGreaseSelectionComponent,
-      MockComponent(QualtricsInfoBannerComponent),
       MockComponent(MediasButtonComponent),
       MockModule(SubheaderModule),
       MockModule(MaintenanceModule),
@@ -131,18 +129,6 @@ describe('CalculationParametersComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('qualtrics banner', () => {
-    it('should not display qualtrics info banner for partner versions', () => {
-      expect(spectator.query('ga-qualtrics-info-banner')).toBeFalsy();
-    });
-
-    it('should display qualtrics info banner', () => {
-      component.partnerVersion$ = of(undefined);
-      spectator.detectChanges();
-      expect(spectator.query('ga-qualtrics-info-banner')).toBeTruthy();
-    });
   });
 
   describe('when partner version is available', () => {

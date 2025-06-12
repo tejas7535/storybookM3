@@ -1,13 +1,16 @@
 @if (bearingInMedias) {
   <a
     *transloco="let t; read: 'shared'"
-    mat-stroked-button
+    mat-icon-button
     [href]="getBearingShopUrl()"
     target="_blank"
     class="w-full"
     (click)="trackBearingSelection()"
+    [matTooltip]="t('mediasButton', { bearing: bearing })"
   >
-    <mat-icon>open_in_new</mat-icon
-    >{{ t('mediasButton', { bearing: bearing }) }}
+    <mat-icon>add_shopping_cart</mat-icon>
+    <span class="sr-only">
+      {{ t('mediasButton', { bearing: bearing }) }}
+    </span>
   </a>
 }
