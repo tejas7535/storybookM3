@@ -299,6 +299,10 @@ export class ActiveCaseFacade {
   sapPriceDetails$: Observable<SapPriceConditionDetail[]> =
     this.sapPriceDetailsFacade.sapPriceDetails$;
 
+  quotationFullyLoaded$ = this.actions$.pipe(
+    ofType(ActiveCaseActions.getQuotationSuccessFullyCompleted)
+  );
+
   // ##############################################################################################################
   // ############################################# methods ########################################################
   // ##############################################################################################################

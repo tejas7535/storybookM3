@@ -32,4 +32,12 @@ describe('RouterSelector', () => {
       ).toEqual(fakeState.queryParams);
     });
   });
+
+  describe('getRouteUrl', () => {
+    test('should return the routeUrl', () => {
+      expect(fromRouterSelectors.getRouteUrl.projector(fakeState)).toEqual(
+        fakeState.url
+      );
+    });
+  });
 });

@@ -738,6 +738,20 @@ describe('ActiveCaseFacade', () => {
     );
   });
 
+  describe('quotationFullyLoaded$', () => {
+    test(
+      'should provide quotationFullyLoaded$',
+      marbles((m) => {
+        const action = ActiveCaseActions.getQuotationSuccessFullyCompleted;
+        const expected = m.cold('b', {
+          b: action,
+        });
+        actions$ = m.hot('a', { a: action });
+        m.expect(facade.quotationFullyLoaded$).toBeObservable(expected as any);
+      })
+    );
+  });
+
   describe('should provide from MaterialStockFacade', () => {
     test(
       'should provide materialStockLoading$',

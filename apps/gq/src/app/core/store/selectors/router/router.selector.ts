@@ -4,7 +4,7 @@ import { getRouterState } from '../../reducers';
 
 export const getRouteState = createSelector(
   getRouterState,
-  (routerState) => routerState.state
+  (routerState) => routerState?.state
 );
 export const getRouteParams = createSelector(
   getRouteState,
@@ -13,4 +13,9 @@ export const getRouteParams = createSelector(
 export const getRouteQueryParams = createSelector(
   getRouteState,
   (routerState) => routerState.queryParams
+);
+
+export const getRouteUrl = createSelector(
+  getRouteState,
+  (routerState) => routerState?.url
 );

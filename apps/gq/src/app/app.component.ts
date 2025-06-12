@@ -1,8 +1,27 @@
 /* eslint-disable ngrx/avoid-mapping-selectors */
-import { Component, HostListener, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  HostListener,
+  inject,
+  OnInit,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatDialog } from '@angular/material/dialog';
 import { NavigationEnd, Router } from '@angular/router';
 
-import { filter, map, merge, Observable, of, take } from 'rxjs';
+import {
+  combineLatest,
+  debounceTime,
+  filter,
+  map,
+  merge,
+  Observable,
+  of,
+  pairwise,
+  switchMap,
+  take,
+} from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
@@ -19,7 +38,14 @@ import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import packageJson from '../../package.json';
 import { AppRoutePath } from './app-route-path.enum';
+import { ActiveCaseFacade } from './core/store/active-case/active-case.facade';
 import { HealthCheckFacade } from './core/store/health-check/health-check.facade';
+import {
+  getRouteQueryParams,
+  getRouteUrl,
+} from './core/store/selectors/router/router.selector';
+import { IpExposureComponent } from './shared/components/ip-exposure/ip-exposure.component';
+import { Customer } from './shared/models';
 import { UserSettingsService } from './shared/services/rest/user-settings/user-settings.service';
 
 @Component({
@@ -38,7 +64,10 @@ export class AppComponent implements OnInit {
   );
   private readonly userSettingsService: UserSettingsService =
     inject(UserSettingsService);
+  private readonly dialog = inject(MatDialog);
 
+  private readonly activeCaseFacade = inject(ActiveCaseFacade);
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
   readonly healthCheckFacade: HealthCheckFacade = inject(HealthCheckFacade);
 
   title = 'Guided Quoting';
@@ -105,6 +134,8 @@ export class AppComponent implements OnInit {
 
     window.addEventListener('beforeunload', this.handleBeforeUnload);
     window.addEventListener('blur', this.handleBeforeUnload);
+
+    this.handleIpExposureDialog();
   }
 
   handleCurrentRoute(): void {
@@ -122,5 +153,73 @@ export class AppComponent implements OnInit {
     this.showGlobalSearch$ = merge(initialLoad, routerEvents).pipe(
       map((url) => url.startsWith(`/${AppRoutePath.CaseViewPath}`))
     );
+  }
+
+  private handleIpExposureDialog() {
+    this.store
+      .select(getRouteUrl)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        pairwise(),
+        filter(this.shouldOpenIpExposureDialog),
+        switchMap(() => this.waitUntilQuotationCustomerLoaded()),
+        debounceTime(1000)
+      )
+      .subscribe((customer) => {
+        this.openIpExposureDialog(customer);
+      });
+  }
+
+  private shouldOpenIpExposureDialog([prev, curr]: [
+    string | undefined,
+    string | undefined,
+  ]): boolean {
+    const routeHasChangedOrIsFirstLoad = prev !== curr && prev === undefined;
+
+    const notPreviousRouteIsProcessCaseAndCaseDetail =
+      !prev?.includes(AppRoutePath.DetailViewPath) &&
+      !prev?.includes(AppRoutePath.ProcessCaseViewPath);
+
+    const isCurrentRouteProcessCaseOrCaseDetail =
+      curr?.includes(AppRoutePath.DetailViewPath) ||
+      curr?.includes(AppRoutePath.ProcessCaseViewPath);
+
+    return (
+      routeHasChangedOrIsFirstLoad ||
+      (notPreviousRouteIsProcessCaseAndCaseDetail &&
+        isCurrentRouteProcessCaseOrCaseDetail)
+    );
+  }
+  private waitUntilQuotationCustomerLoaded(): Observable<Customer> {
+    return combineLatest([
+      this.activeCaseFacade.quotationCustomer$,
+      this.activeCaseFacade.quotationLoading$,
+      this.activeCaseFacade.quotationIdentifier$,
+      this.activeCaseFacade.quotation$,
+      this.store.select(getRouteQueryParams),
+    ]).pipe(
+      filter(
+        ([customer, loading, quoteId, quotation, queryParams]) =>
+          !!customer &&
+          !loading &&
+          quoteId &&
+          quotation &&
+          quoteId.gqId.toString() === queryParams.quotation_number &&
+          quotation.gqId === quoteId.gqId &&
+          customer.identifier.customerId === queryParams.customer_number &&
+          !quotation.calculationInProgress &&
+          !quotation.sapCallInProgress
+      ),
+      map(([customer]) => customer),
+      take(1)
+    );
+  }
+
+  private openIpExposureDialog(customer: Customer): void {
+    if (customer?.showIpExposure) {
+      this.dialog.open(IpExposureComponent, {
+        width: '620px',
+      });
+    }
   }
 }

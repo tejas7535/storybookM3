@@ -46,4 +46,5 @@ export const CUSTOMER_MOCK: Customer = {
   marginDetail: MARGIN_DETAIL_MOCK,
   salesInformation: {} as CustomerSalesInformation,
   enabledForApprovalWorkflow: true,
+  showIpExposure: false,
 };

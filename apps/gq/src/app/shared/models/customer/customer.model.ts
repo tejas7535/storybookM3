@@ -36,4 +36,5 @@ export class Customer {
   public accountPotential: AccountPotential;
   public salesInformation: CustomerSalesInformation;
   public enabledForApprovalWorkflow: boolean;
+  public showIpExposure: boolean;
 }
