@@ -99,8 +99,10 @@ export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
     }
 
     return greases
-      .filter((grease: Grease) =>
-        grease.name.toLowerCase().includes(query.toLowerCase())
+      .filter(
+        (grease: Grease) =>
+          grease.name.toLowerCase().includes(query.toLowerCase()) ||
+          grease.company.toLowerCase().includes(query.toLowerCase())
       )
       .map((grease: Grease) => ({
         ...grease,

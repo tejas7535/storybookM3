@@ -61,9 +61,11 @@ export class PreferredGreaseSelectionComponent {
 
     return greaseCategories
       .map((category: GreaseCategoryWithEntries) => {
+        const categoryMatch = category.name.toLowerCase().includes(search);
         const filteredEntries = category.entries.filter(
           (entry: GreaseCategoryEntry) =>
             entry.text.toLowerCase().includes(search) ||
+            categoryMatch ||
             (preferredGrease?.selectedGrease &&
               this.compareOptions(entry, preferredGrease.selectedGrease))
         );
