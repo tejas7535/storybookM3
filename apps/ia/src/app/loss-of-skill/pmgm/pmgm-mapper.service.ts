@@ -56,6 +56,14 @@ export class PmgmMapperService {
     currentIsManager: boolean,
     previousIsManager: boolean
   ): PmgmArrow {
+    if (
+      currentIsManager === null ||
+      previousIsManager === null ||
+      currentIsManager === undefined ||
+      previousIsManager === undefined
+    ) {
+      return PmgmArrow.NONE;
+    }
     if (currentIsManager === previousIsManager) {
       return PmgmArrow.RIGHT;
     }
@@ -69,7 +77,9 @@ export class PmgmMapperService {
   ): PmgmArrow {
     if (
       currentRating === PerformanceRating.UNRATED ||
-      previousRating === PerformanceRating.UNRATED
+      !currentRating ||
+      previousRating === PerformanceRating.UNRATED ||
+      !previousRating
     ) {
       return PmgmArrow.NONE;
     }
