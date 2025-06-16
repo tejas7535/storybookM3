@@ -520,6 +520,9 @@
       "currency": "Currency"
     },
     "snackBarMessages": {
+      "createSuccess": "Case was created successfully",
+      "importSuccess": "Case was imported successfully",
+      "reimportSucess": "This SAP Quotation has already been imported. It will be imported again for you.",
       "materialAdded": "Material(s) added to the case",
       "materialDeleted": "Material(s) deleted from the case",
       "updateSelectedPrice": "Price selection was saved",

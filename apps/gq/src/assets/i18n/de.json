@@ -520,6 +520,9 @@
       "currency": "Währung"
     },
     "snackBarMessages": {
+      "createSuccess": "Case wurde erfolgreich erstellt",
+      "importSuccess": "Case wurde erfolgreich importiert",
+      "reimportSucess": "Dieses SAP Angebot wurde bereits importiert. Das Angebot wird erneut importiert",
       "materialAdded": "Material wurde hinzugefügt",
       "materialDeleted": "Material wurde entfernt",
       "updateSelectedPrice": "Preis wurde gespeichert",

@@ -682,7 +682,7 @@ describe('Create Case Effects', () => {
         expect(router.navigate).toHaveBeenCalledTimes(1);
         expect(snackBar.open).toHaveBeenCalledTimes(1);
         expect(translate).toHaveBeenCalledWith(
-          'caseView.snackBarMessages.importSuccess'
+          'shared.snackBarMessages.importSuccess'
         );
       })
     );
@@ -988,7 +988,7 @@ describe('Create Case Effects', () => {
       effects.navigateAfterCaseCreate('1', '2', 3, CreationType.CREATE_CASE);
 
       expect(translate).toHaveBeenCalledWith(
-        'caseView.snackBarMessages.createSuccess'
+        'shared.snackBarMessages.createSuccess'
       );
       expect(router.navigate).toHaveBeenCalledTimes(1);
       expect(snackBar.open).toHaveBeenCalledTimes(1);
@@ -997,7 +997,7 @@ describe('Create Case Effects', () => {
       effects.navigateAfterCaseCreate('1', '2', 3, CreationType.IMPORT);
 
       expect(translate).toHaveBeenCalledWith(
-        'caseView.snackBarMessages.createSuccess'
+        'shared.snackBarMessages.createSuccess'
       );
       expect(router.navigate).toHaveBeenCalledTimes(1);
       expect(snackBar.open).toHaveBeenCalledTimes(1);
@@ -1006,7 +1006,7 @@ describe('Create Case Effects', () => {
       effects.navigateAfterCaseCreate('1', '2', 3, CreationType.REIMPORT);
 
       expect(translate).toHaveBeenCalledWith(
-        'caseView.snackBarMessages.createSuccess'
+        'shared.snackBarMessages.createSuccess'
       );
       expect(router.navigate).toHaveBeenCalledTimes(1);
       expect(snackBar.open).toHaveBeenCalledTimes(1);

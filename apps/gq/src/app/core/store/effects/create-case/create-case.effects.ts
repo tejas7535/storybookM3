@@ -522,7 +522,7 @@ export class CreateCaseEffects {
     }
 
     const successMessage = translate(
-      `caseView.snackBarMessages.${translationKey}`
+      `shared.snackBarMessages.${translationKey}`
     );
 
     this.snackBar.open(successMessage);

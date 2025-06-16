@@ -85,13 +85,10 @@
     }
   },
   "snackBarMessages": {
-    "createSuccess": "Case was created successfully",
     "updateStatus": {
       "active": "Case was restored successfully",
       "archived": "Case was deleted successfully",
       "deleted": "Case was deleted irrevocably"
-    },
-    "importSuccess": "Case was imported successfully",
-    "reimportSucess": "This SAP Quotation has already been imported. It will be imported again for you."
+    }
   }
 }

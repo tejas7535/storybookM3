@@ -85,13 +85,10 @@
     }
   },
   "snackBarMessages": {
-    "createSuccess": "Case wurde erfolgreich erstellt",
     "updateStatus": {
       "active": "Case wurde erfolgreich wiederhergestellt",
       "archived": "Case wurde erfolgreich gelöscht",
       "deleted": "Case wurde unwiderruflich gelöscht"
-    },
-    "importSuccess": "Case wurde erfolgreich importiert",
-    "reimportSucess": "Dieses SAP Angebot wurde bereits importiert. Das Angebot wird erneut importiert"
+    }
   }
 }
