@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, computed, Input, OnDestroy, OnInit } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -21,12 +22,13 @@ import { Store } from '@ngrx/store';
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SettingsFacade } from '@ga/core/store';
+import { CalculationParametersFacade, SettingsFacade } from '@ga/core/store';
 import {
   getResultMessages,
   hasResultMessage,
 } from '@ga/core/store/selectors/calculation-result/calculation-result.selector';
 import { AppStoreButtonsComponent } from '@ga/shared/components/app-store-buttons/app-store-buttons.component';
+import { GreaseDisclaimerComponent } from '@ga/shared/components/grease-disclaimer/grease-disclaimer.component';
 import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
 import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
 
@@ -63,6 +65,7 @@ import { GreaseReportResultComponent } from '../grease-report-result';
     MatIconModule,
     AppStoreButtonsComponent,
     ApplicationInsightsModule,
+    GreaseDisclaimerComponent,
   ],
   providers: [
     GreaseReportService,
@@ -90,6 +93,12 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
   public hasRecommendation$$ = new BehaviorSubject(false);
   public hasMessages$ = this.store.select(hasResultMessage);
   public resultMessages$ = this.store.select(getResultMessages);
+  public hasMiscibileGreaseResult = toSignal(
+    this.calculationParametersFacade.mixableSchaefflerGreases$
+  );
+  public hasMiscibileGreases = computed(
+    () => this.hasMiscibileGreaseResult()?.length > 0
+  );
 
   private reportRaw!: GreaseReport;
   private currentLocale!: string;
@@ -101,7 +110,8 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
     private readonly localeService: TranslocoLocaleService,
     private readonly store: Store,
     private readonly appAnalyticsService: AppAnalyticsService,
-    private readonly settingsFacade: SettingsFacade
+    private readonly settingsFacade: SettingsFacade,
+    private readonly calculationParametersFacade: CalculationParametersFacade
   ) {}
 
   public ngOnInit(): void {

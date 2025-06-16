@@ -1,9 +1,10 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
 import { adaptPreferredGreaseOptionsFromDialogResponseListValues } from '@ga/core/helpers/grease-helpers';
-import * as parametersActions from '@ga/core/store/actions/calculation-parameters/calculation-parameters.actions';
+import { CalculationParametersActions } from '@ga/core/store/actions/calculation-parameters/calculation-parameters.actions';
 import { CalculationParametersState } from '@ga/core/store/models';
 import { ApplicationScenario } from '@ga/features/grease-calculation/calculation-parameters/constants/application-scenarios.model';
+import { Movement } from '@ga/shared/models';
 
 export const initialState: CalculationParametersState = {
   loads: {
@@ -13,7 +14,7 @@ export const initialState: CalculationParametersState = {
     loadRatio: undefined,
   },
   movements: {
-    type: undefined,
+    type: Movement.rotating,
     rotationalSpeed: undefined,
     shiftFrequency: undefined,
     shiftAngle: undefined,
@@ -32,6 +33,8 @@ export const initialState: CalculationParametersState = {
     nlgiClass: undefined,
     loading: false,
   },
+  competitorsGreases: [],
+  schaefflerGreases: [],
   automaticLubrication: false,
   valid: false,
   updating: false,
@@ -41,29 +44,47 @@ export const initialState: CalculationParametersState = {
 export const calculationParametersReducer = createReducer(
   initialState,
   on(
-    parametersActions.patchParameters,
-    (state, { parameters }): CalculationParametersState => ({
-      ...state,
-      ...parameters,
-      updating: true,
-    })
+    CalculationParametersActions.patchParameters,
+    (state, { parameters }): CalculationParametersState => {
+      const mergedEnvironment = parameters.environment
+        ? {
+            ...state.environment,
+            ...parameters.environment,
+          }
+        : state.environment;
+
+      const mergedMovements = parameters.movements
+        ? {
+            ...state.movements,
+            ...parameters.movements,
+          }
+        : state.movements;
+
+      return {
+        ...state,
+        ...parameters,
+        environment: mergedEnvironment, // Ensure environment values are properly merged
+        movements: mergedMovements, // Ensure movement values are properly merged
+        updating: true,
+      };
+    }
   ),
   on(
-    parametersActions.modelUpdateSuccess,
+    CalculationParametersActions.modelUpdateSuccess,
     (state): CalculationParametersState => ({
       ...state,
       updating: false,
     })
   ),
   on(
-    parametersActions.getPropertiesSuccess,
+    CalculationParametersActions.getPropertiesSuccess,
     (state, { properties }): CalculationParametersState => ({
       ...state,
       properties,
     })
   ),
   on(
-    parametersActions.getDialog,
+    CalculationParametersActions.getDialog,
     (state): CalculationParametersState => ({
       ...state,
       preferredGrease: {
@@ -73,7 +94,7 @@ export const calculationParametersReducer = createReducer(
     })
   ),
   on(
-    parametersActions.getDialogSuccess,
+    CalculationParametersActions.getDialogSuccess,
     (state, { dialogResponse }): CalculationParametersState => ({
       ...state,
       preferredGrease: {
@@ -86,8 +107,8 @@ export const calculationParametersReducer = createReducer(
     })
   ),
   on(
-    parametersActions.getDialogFailure,
-    parametersActions.getDialogEnd,
+    CalculationParametersActions.getDialogFailure,
+    CalculationParametersActions.getDialogEnd,
     (state): CalculationParametersState => ({
       ...state,
       preferredGrease: {
@@ -97,7 +118,7 @@ export const calculationParametersReducer = createReducer(
     })
   ),
   on(
-    parametersActions.setPreferredGreaseSelection,
+    CalculationParametersActions.setPreferredGreaseSelection,
     (state, { selectedGrease }): CalculationParametersState => ({
       ...state,
       preferredGrease: {
@@ -107,7 +128,7 @@ export const calculationParametersReducer = createReducer(
     })
   ),
   on(
-    parametersActions.resetPreferredGreaseSelection,
+    CalculationParametersActions.resetPreferredGreaseSelection,
     (state): CalculationParametersState => ({
       ...state,
       preferredGrease: {
@@ -117,10 +138,24 @@ export const calculationParametersReducer = createReducer(
     })
   ),
   on(
-    parametersActions.setAutomaticLubrication,
+    CalculationParametersActions.setAutomaticLubrication,
     (state, { automaticLubrication }): CalculationParametersState => ({
       ...state,
       automaticLubrication,
+    })
+  ),
+  on(
+    CalculationParametersActions.loadCompetitorsGreasesSuccess,
+    (state, { greases }): CalculationParametersState => ({
+      ...state,
+      competitorsGreases: greases,
+    })
+  ),
+  on(
+    CalculationParametersActions.loadSchaefflerGreasesSuccess,
+    (state, { greases }): CalculationParametersState => ({
+      ...state,
+      schaefflerGreases: greases,
     })
   )
 );

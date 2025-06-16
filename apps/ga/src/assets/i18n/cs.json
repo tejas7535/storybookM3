@@ -118,6 +118,19 @@
     "feedbackText": "Vaše zpětná vazba nám pomáhá neustále zlepšovat náš produkt.",
     "appStoreButtonsTitle": "Využijte výhody aplikace Grease - Stáhněte si ji nyní!"
   },
+
+  "greaseMiscibility": {
+    "title": "Zaměnitelnost maziva",
+    "searchDescription": "Při výběru ložiska můžete přímo přejít k výpočtu s předvybraným mazivem",
+    "micibleTagLabel": "Zaměnitelný",
+    "greasesTitle": "Zaměnitelné maziva Schaeffler Arcanol:",
+    "greaseSelectionDescription": "Vaše předvybrané mazivo:",
+    "notMiscibleGrease": "Pro vaše vybrané mazivo nebyla nalezena kompatibilní maziva Schaeffler Arcanol.",
+    "generalDisclaimerLabel": "Informace o zaměnitelnosti slouží pouze jako orientační a obecné referenční údaje. Jsou založeny na typickém rozsahu použití maziv, nikoli na jejich mísitelnosti. Pro podrobné dotazy týkající se zaměnitelnosti a mísitelnosti kontaktujte prosím tým pro mazání ve společnosti Schaeffler Industrial Lifetime Solutions.",
+    "tag": "Nový",
+    "contact": "Kontakt",
+    "advert": "Více než 100 maziv k dispozici pro zaměnitelnost"
+  },
   "bearing": {
     "title": {
       "main": "Výběr ložiska",
@@ -139,9 +152,11 @@
       },
       "quickSelection": {
         "searchPlaceholder": "Zadejte označení ložiska, např. 6226",
+        "searchPlaceholderWithGreases": "Zadejte označení ložiska, například 6226 nebo název maziva",
         "selectButton": "Vybrat ložisko",
         "selectOption": "<span class=\"text-medium-emphasis\">Výpočet mazání pro ložisko</span> &nbsp;<strong>{{bearing}}{{disabled}}</strong>",
         "disabledOption": "<span class=\"text-medium-emphasis\">Není možný výpočet mazání pro</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "selectGrease": "<span class=\"text-medium-emphasis\">Zaměnitelnost pro mazivo</span> &nbsp;<strong>{{grease}}</strong>",
         "noResults": "Nebyly nalezeny žádné výsledky",
         "contact": "Kontaktujte odborníky Schaeffler"
       },
@@ -376,8 +391,7 @@
     "insufficientGreaseResultHint": "Nedostatečné",
     "insufficientGreaseResultTooltip": "Aplikace Grease App vyhodnotila vhodnost maziva jako nedostatečnou. V&nbsp;případě dalších dotazů se obraťte na technické služby společnosti Schaeffler.",
     "preferredGreaseHintSelected": "Předem vybrané",
-    "preferredGreaseHintAlternative": "Alternativa",
-    "preferredGreaseHintAlternativeTooltip": "Toto je alternativní výrobek z&nbsp;portfolia výrobků společnosti Schaeffler na základě jejich údajů z&nbsp;kroku&nbsp;2.",
+    "preferredGreaseHintAlternativeTooltip": "Toto je zaměnitelný výrobek z portfolia výrobků společnosti Schaeffler na základě jejich údajů z kroku 2.",
     "poweredBy": "powered by",
     "pdfDownload": "Stáhnout PDF",
     "calculatedWith": "Vypočítáno s {{versions}}",

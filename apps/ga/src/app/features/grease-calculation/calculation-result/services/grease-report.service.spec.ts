@@ -12,7 +12,10 @@ import {
 } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { COOKIE_GROUPS } from '@schaeffler/application-insights';
+import {
+  ApplicationInsightsService,
+  COOKIE_GROUPS,
+} from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CalculationParametersFacade } from '@ga/core/store/facades';
@@ -22,6 +25,7 @@ import {
   getMotionType,
 } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
 import { Movement } from '@ga/shared/models';
+import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
 import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
 import {
   GREASE_COMPLETE_RESULT_MOCK,
@@ -30,6 +34,7 @@ import {
 
 import { CalculationParametersService } from '../../calculation-parameters/services';
 import { WARNINGSOPENED } from '../constants';
+import { GreaseMiscibilityService } from './grease-miscibility/grease-miscibility.service';
 import { GreaseRecommendationService } from './grease-recommendation.service';
 import { GreaseReportService } from './grease-report.service';
 import { GreaseResultDataSourceService } from './grease-result-data-source.service';
@@ -92,6 +97,15 @@ describe('GreaseReportService', () => {
         },
       },
       {
+        provide: GreaseMiscibilityService,
+        useValue: {
+          getGreaseMiscibility: jest.fn(),
+          markMixableGreases: jest
+            .fn()
+            .mockImplementation((subordinates) => subordinates),
+        },
+      },
+      {
         provide: GreaseResultDataSourceService,
         useValue: mockGreaseResultDataSourceService,
       },
@@ -99,6 +113,12 @@ describe('GreaseReportService', () => {
       mockProvider(TranslocoLocaleService, { localizeNumber }),
       mockProvider(CalculationParametersService),
       mockProvider(GreaseRecommendationService),
+      mockProvider(ApplicationInsightsService, {
+        logEvent: jest.fn(),
+      }),
+      mockProvider(AppAnalyticsService, {
+        logInteractionEvent: jest.fn(),
+      }),
     ],
   });
 

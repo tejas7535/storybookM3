@@ -1,19 +1,9 @@
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { Actions } from '@ngrx/effects';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { of } from 'rxjs';
+
 import { marbles } from 'rxjs-marbles';
 
-import { RestService } from '@ga/core/services';
-import {
-  getDialog,
-  getDialogSuccess,
-  getProperties,
-  getPropertiesSuccess,
-  modelUpdateSuccess,
-  patchParameters,
-} from '@ga/core/store/actions';
 import { CalculationParametersState } from '@ga/core/store/models';
+import { Grease } from '@ga/shared/services/greases/greases.service';
 import {
   CALCULATION_PARAMETERS_MOCK,
   DIALOG_RESPONSE_MOCK,
@@ -21,77 +11,49 @@ import {
   PROPERTIES_MOCK,
 } from '@ga/testing/mocks';
 
+import { CalculationParametersActions } from '../../actions';
 import { initialState } from '../../reducers/calculation-parameters/calculation-parameters.reducer';
-import { getCalculationParameters } from '../../selectors/calculation-parameters/calculation-parameters.selector';
-import { CalculationParametersEffects } from './calculation-parameters.effects';
+import { getModelId } from '../../selectors/bearing-selection/bearing-selection.selector';
+import * as Effects from './calculation-parameters.effects';
 
 describe('CalculationParametersEffects', () => {
-  let action: any;
-  let actions$: any;
-  let effects: CalculationParametersEffects;
-  let spectator: SpectatorService<CalculationParametersEffects>;
-  let restService: RestService;
-  let store: MockStore;
-
-  const createService = createServiceFactory({
-    service: CalculationParametersEffects,
-    providers: [
-      provideMockActions(() => actions$),
-      {
-        provide: RestService,
-        useValue: {
-          putModelUpdate: jest.fn(),
-        },
-      },
-      provideMockStore({
-        initialState: {
-          parameters: {
-            ...initialState,
-          },
-          bearing: {
-            selectedBearing: 'bearingName',
-            modelId: MODEL_MOCK_ID,
-          },
-        },
-      }),
-    ],
-  });
-
-  beforeEach(() => {
-    spectator = createService();
-    actions$ = spectator.inject(Actions);
-    effects = spectator.inject(CalculationParametersEffects);
-    restService = spectator.inject(RestService);
-    store = spectator.inject(MockStore);
-  });
-
   describe('updateModel$', () => {
     it(
       'should update the model with the grease params',
       marbles((m) => {
-        store.overrideSelector(getCalculationParameters, {
-          modelId: MODEL_MOCK_ID,
-          options: CALCULATION_PARAMETERS_MOCK,
-        });
+        const storeMock = {
+          select: jest.fn(() =>
+            of({
+              modelId: MODEL_MOCK_ID,
+              options: CALCULATION_PARAMETERS_MOCK,
+            })
+          ),
+        };
 
-        const result = modelUpdateSuccess();
+        const restServiceMock = {
+          putModelUpdate: jest.fn(() => m.cold('-a|', {})),
+        };
 
-        action = patchParameters({
+        const action = CalculationParametersActions.patchParameters({
           parameters: initialState as CalculationParametersState,
         });
 
-        actions$ = m.hot('-a', { a: action });
+        const actions$ = m.hot('-a', { a: action });
 
-        const response = m.cold('-a|', {});
+        const expected = m.cold('--b', {
+          b: CalculationParametersActions.modelUpdateSuccess(),
+        });
 
-        const expected = m.cold('--b', { b: result });
+        const result = Effects.updateModel$(
+          actions$,
+          restServiceMock as any,
+          storeMock as any
+        );
 
-        restService.putModelUpdate = jest.fn(() => response);
-
-        m.expect(effects.updateModel$).toBeObservable(expected);
+        m.expect(result).toBeObservable(expected);
         m.flush();
 
-        expect(restService.putModelUpdate).toHaveBeenCalled();
+        expect(restServiceMock.putModelUpdate).toHaveBeenCalled();
       })
     );
   });
@@ -100,22 +62,34 @@ describe('CalculationParametersEffects', () => {
     it(
       'should fetch grease calculation',
       marbles((m) => {
-        const result = getPropertiesSuccess({ properties: PROPERTIES_MOCK });
+        const storeMock = {
+          select: jest.fn(() => of(MODEL_MOCK_ID)),
+        };
 
-        action = getProperties();
+        const restServiceMock = {
+          getProperties: jest.fn(() => m.cold('-a|', { a: PROPERTIES_MOCK })),
+        };
 
-        actions$ = m.hot('-a', { a: action });
+        const action = CalculationParametersActions.getProperties();
 
-        const response = m.cold('-a|', { a: PROPERTIES_MOCK });
+        const actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('--b', { b: result });
+        const expected = m.cold('--b', {
+          b: CalculationParametersActions.getPropertiesSuccess({
+            properties: PROPERTIES_MOCK,
+          }),
+        });
 
-        restService.getProperties = jest.fn(() => response);
+        const result = Effects.properties$(
+          actions$,
+          restServiceMock as any,
+          storeMock as any
+        );
 
-        m.expect(effects.properties$).toBeObservable(expected);
+        m.expect(result).toBeObservable(expected);
         m.flush();
 
-        expect(restService.getProperties).toHaveBeenCalled();
+        expect(restServiceMock.getProperties).toHaveBeenCalled();
       })
     );
   });
@@ -124,24 +98,198 @@ describe('CalculationParametersEffects', () => {
     it(
       'should fetch dialog',
       marbles((m) => {
-        const result = getDialogSuccess({
-          dialogResponse: DIALOG_RESPONSE_MOCK,
+        const storeMock = {
+          select: jest.fn((selector) =>
+            selector === getModelId ? of(MODEL_MOCK_ID) : of([])
+          ),
+        };
+
+        const restServiceMock = {
+          getDialog: jest.fn(() => m.cold('-a|', { a: DIALOG_RESPONSE_MOCK })),
+        };
+
+        const action = CalculationParametersActions.getDialog();
+
+        const actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('--b', {
+          b: CalculationParametersActions.getDialogSuccess({
+            dialogResponse: DIALOG_RESPONSE_MOCK,
+          }),
         });
 
-        action = getDialog();
+        const result = Effects.getDialog$(
+          actions$,
+          restServiceMock as any,
+          storeMock as any
+        );
 
-        actions$ = m.hot('-a', { a: action });
-
-        const response = m.cold('-a|', { a: DIALOG_RESPONSE_MOCK });
-
-        const expected = m.cold('--b', { b: result });
-
-        restService.getDialog = jest.fn(() => response);
-
-        m.expect(effects.getDialog$).toBeObservable(expected);
+        m.expect(result).toBeObservable(expected);
         m.flush();
 
-        expect(restService.getDialog).toHaveBeenCalled();
+        expect(restServiceMock.getDialog).toHaveBeenCalled();
+      })
+    );
+
+    it(
+      'should dispatch getDialogFailure on error',
+      marbles((m) => {
+        const storeMock = {
+          select: jest.fn((selector) =>
+            selector === getModelId ? of(MODEL_MOCK_ID) : of([])
+          ),
+        };
+
+        const restServiceMock = {
+          getDialog: jest.fn(() => m.cold('-#|', {}, new Error('fail'))),
+        };
+
+        const action = CalculationParametersActions.getDialog();
+        const actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('--b', {
+          b: CalculationParametersActions.getDialogFailure(),
+        });
+
+        const result = Effects.getDialog$(
+          actions$,
+          restServiceMock as any,
+          storeMock as any
+        );
+
+        m.expect(result).toBeObservable(expected);
+        m.flush();
+        expect(restServiceMock.getDialog).toHaveBeenCalled();
+      })
+    );
+  });
+
+  describe('loadCompetitorsGreases$', () => {
+    it(
+      'should load competitors greases',
+      marbles((m) => {
+        const mockGreases = [{ name: 'test' } as Partial<Grease> as Grease];
+
+        const greasesProviderMock = {
+          fetchAllGreases: jest.fn(() => m.cold('-a|', { a: mockGreases })),
+        };
+
+        const action = CalculationParametersActions.loadCompetitorsGreases();
+
+        const actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('--b', {
+          b: CalculationParametersActions.loadCompetitorsGreasesSuccess({
+            greases: mockGreases.map((grease) => ({
+              ...grease,
+              isGrease: true,
+            })),
+          }),
+        });
+
+        const result = Effects.loadCompetitorsGreases$(
+          actions$,
+          greasesProviderMock as any
+        );
+
+        m.expect(result).toBeObservable(expected);
+        m.flush();
+
+        expect(greasesProviderMock.fetchAllGreases).toHaveBeenCalled();
+      })
+    );
+
+    it(
+      'should dispatch loadCompetitorsGreasesFailure on error',
+      marbles((m) => {
+        const greasesProviderMock = {
+          fetchAllGreases: jest.fn(() => m.cold('-#|', {}, new Error('fail'))),
+        };
+
+        const action = CalculationParametersActions.loadCompetitorsGreases();
+        const actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('--b', {
+          b: CalculationParametersActions.loadCompetitorsGreasesFailure(),
+        });
+
+        const result = Effects.loadCompetitorsGreases$(
+          actions$,
+          greasesProviderMock as any
+        );
+
+        m.expect(result).toBeObservable(expected);
+        m.flush();
+        expect(greasesProviderMock.fetchAllGreases).toHaveBeenCalled();
+      })
+    );
+  });
+
+  describe('loadSchaefflerGreases$', () => {
+    it(
+      'should load schaeffler greases',
+      marbles((m) => {
+        const mockGreases = [{ name: 'test' } as Partial<Grease> as Grease];
+
+        const greasesProviderMock = {
+          fetchAllSchaefflerGreases: jest.fn(() =>
+            m.cold('-a|', { a: mockGreases })
+          ),
+        };
+
+        const action = CalculationParametersActions.loadSchaefflerGreases();
+
+        const actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('--b', {
+          b: CalculationParametersActions.loadSchaefflerGreasesSuccess({
+            greases: mockGreases.map((grease) => ({
+              ...grease,
+              isGrease: true,
+            })),
+          }),
+        });
+
+        const result = Effects.loadSchaefflerGreases$(
+          actions$,
+          greasesProviderMock as any
+        );
+
+        m.expect(result).toBeObservable(expected);
+        m.flush();
+
+        expect(
+          greasesProviderMock.fetchAllSchaefflerGreases
+        ).toHaveBeenCalled();
+      })
+    );
+
+    it(
+      'should dispatch loadSchaefflerGreasesFailure on error',
+      marbles((m) => {
+        const greasesProviderMock = {
+          fetchAllSchaefflerGreases: jest.fn(() =>
+            m.cold('-#|', {}, new Error('fail'))
+          ),
+        };
+
+        const action = CalculationParametersActions.loadSchaefflerGreases();
+        const actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('--b', {
+          b: CalculationParametersActions.loadSchaefflerGreasesFailure(),
+        });
+
+        const result = Effects.loadSchaefflerGreases$(
+          actions$,
+          greasesProviderMock as any
+        );
+
+        m.expect(result).toBeObservable(expected);
+        m.flush();
+        expect(
+          greasesProviderMock.fetchAllSchaefflerGreases
+        ).toHaveBeenCalled();
       })
     );
   });

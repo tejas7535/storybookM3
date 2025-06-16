@@ -118,6 +118,18 @@
     "feedbackText": "Phản hồi của bạn giúp chúng tôi liên tục cải tiến sản phẩm của mình.",
     "appStoreButtonsTitle": "Truy cập các lợi ích của Ứng dụng Grease - Tải ngay!"
   },
+  "greaseMiscibility": {
+    "title": "Tính thay thế của mỡ",
+    "searchDescription": "Bằng cách chọn ổ trục của bạn, bạn có thể trực tiếp đi vào tính toán với mỡ đã chọn trước",
+    "micibleTagLabel": "Có thể thay thế",
+    "greasesTitle": "Mỡ Schaeffler Arcanol có thể thay thế:",
+    "greaseSelectionDescription": "Mỡ đã chọn trước của bạn:",
+    "notMiscibleGrease": "Không tìm thấy mỡ bôi trơn Schaeffler Arcanol tương thích cho mỡ bôi trơn bạn đã chọn.",
+    "generalDisclaimerLabel": "Thông tin về khả năng thay thế chỉ mang tính chất tham khảo và định hướng chung. Nó được dựa trên phạm vi ứng dụng điển hình của các chất bôi trơn, không phải trên khả năng pha trộn của chúng. Đối với các câu hỏi chi tiết về khả năng thay thế và khả năng pha trộn, vui lòng liên hệ với Đội ngũ Bôi trơn tại Schaeffler Industrial Lifetime Solutions.",
+    "tag": "Mới",
+    "contact": "Liên hệ",
+    "advert": "Hơn 100 loại mỡ bôi trơn có sẵn để hoán đổi lẫn nhau"
+  },
   "bearing": {
     "title": {
       "main": "Lựa chọn vòng bi",
@@ -139,9 +151,11 @@
       },
       "quickSelection": {
         "searchPlaceholder": "Nhập ký hiệu vòng bi, ví dụ: 6226",
+        "searchPlaceholderWithGreases": "Nhập mã vòng bi, ví dụ: 6226 hoặc tên mỡ bôi trơn",
         "selectButton": "Chọn vòng bi",
-        "selectOption": "Tính chất bôi trơn cho vòng bi  {{bearing}}{{disabled}}",
-        "disabledOption": "Không có tính chất bôi trơn nào có thể cho  {{bearing}}{{disabled}}",
+        "selectOption": "<span class=\"text-medium-emphasis\">Tính chất bôi trơn cho vòng bi</span> &nbsp;<strong>{{bearing}}</strong>",
+        "disabledOption": "<span class=\"text-medium-emphasis\">Không có tính chất bôi trơn nào có thể cho </span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "selectGrease": "<span class=\"text-medium-emphasis\">Tính hoán đổi cho mỡ</span> &nbsp;<strong>{{grease}}</strong>",
         "noResults": "Không tìm thấy kết quả nào",
         "contact": "Liên hệ với các chuyên gia Schaeffler"
       },
@@ -377,7 +391,7 @@
     "insufficientGreaseResultTooltip": "Tính phù hợp của mỡ bôi trơn được Grease App định mức là không đủ, Vui lòng liên hệ với dịch vụ kỹ thuật của Schaeffler nếu bạn có thêm bất kỳ câu hỏi nào.",
     "preferredGreaseHintSelected": "Đã chọn trước",
     "preferredGreaseHintAlternative": "Sản phẩm thay thế",
-    "preferredGreaseHintAlternativeTooltip": "Đây là sản phẩm thay thế từ danh mục sản phẩm của Schaeffler dựa trên thông tin đầu vào từ bước 2.",
+    "preferredGreaseHintAlternativeTooltip": "Đây là sản phẩm có thể hoán đổi từ danh mục sản phẩm của Schaeffler dựa trên thông tin đầu vào từ bước 2.",
     "poweredBy": "powered by",
     "pdfDownload": "Tải xuống bản PDF",
     "calculatedWith": "Tính toán với {{versions}}",

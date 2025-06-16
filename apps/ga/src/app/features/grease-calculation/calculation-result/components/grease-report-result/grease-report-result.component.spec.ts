@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
 
 import { OneTrustModule } from '@altack/ngx-onetrust';
 import { TranslocoModule } from '@jsverse/transloco';
@@ -36,15 +37,19 @@ describe('GreaseReportResultComponent', () => {
     component: GreaseReportResultComponent,
     imports: [
       CommonModule,
-      HttpClientModule,
       provideTranslocoTestingModule({ en: {} }),
-      RouterTestingModule,
       OneTrustModule.forRoot({
         cookiesGroups: COOKIE_GROUPS,
         domainScript: 'mockOneTrustId',
       }),
     ],
-    providers: [provideMockStore(), MockProvider(AppAnalyticsService)],
+    providers: [
+      provideMockStore(),
+      MockProvider(AppAnalyticsService),
+      provideHttpClient(),
+      provideHttpClientTesting(),
+      provideRouter([]),
+    ],
   });
 
   beforeEach(() => {
@@ -132,29 +137,6 @@ describe('GreaseReportResultComponent', () => {
 
       const expectedSubTitle = `${component.greaseResult.subTitle}<br/>(calculationResult.compatibilityCheck)`;
       expect(component.showSubtitle()).toBe(expectedSubTitle);
-    });
-  });
-
-  describe('isAlternative', () => {
-    it('should return false if not part of the alternative array', () => {
-      component.preferredGreaseResult = {
-        ...component.preferredGreaseResult,
-        text: generalHighTemperature.name,
-      };
-      expect(component.isAlternative()).toBeFalsy();
-    });
-
-    it('should return true if part of the alternative array', () => {
-      component.greaseResult = {
-        ...component.greaseResult,
-        mainTitle: 'Arcanol TEMP90',
-      };
-
-      component.preferredGreaseResult = {
-        ...component.preferredGreaseResult,
-        text: generalHighTemperature.name,
-      };
-      expect(component.isAlternative()).toBeTruthy();
     });
   });
 });

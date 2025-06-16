@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppIsEmbeddedGuard, LanguageGuard } from '@ga/core/guards';
 
 import { AppRoutePath } from './app-route-path.enum';
+import { selectedCompetitorGreaseGuard } from './core/guards/selected-competitor-grease.guard';
 
 export const appRoutePaths: Routes = [
   {
@@ -18,6 +19,14 @@ export const appRoutePaths: Routes = [
         (m) => m.GreaseCalculationModule
       ),
     canActivate: [LanguageGuard],
+  },
+  {
+    path: AppRoutePath.GreaseMiscibilityPath,
+    loadComponent: () =>
+      import('./features/grease-miscibility/grease-miscibility.component').then(
+        (m) => m.GreaseMiscibilityComponent
+      ),
+    canActivate: [selectedCompetitorGreaseGuard],
   },
   {
     path: AppRoutePath.LegalPath,

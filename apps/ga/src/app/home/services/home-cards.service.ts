@@ -1,4 +1,5 @@
-import { Inject, Injectable } from '@angular/core';
+import { computed, Inject, Injectable } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 
 import { map, Observable } from 'rxjs';
@@ -20,7 +21,9 @@ import { PartnerAfiliateCode, PartnerVersion } from '@ga/shared/models';
 import { HomepageCard } from '../models';
 import { HomeCardsTrackingIds } from './home-cards-tracking-ids.enum';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class HomeCardsService {
   private readonly isProduction;
   private readonly imagePathBase = 'assets/images/homepage/cards';
@@ -40,6 +43,14 @@ export class HomeCardsService {
       map((partnerVersion) => this.mapToHomeCards(partnerVersion))
     );
   }
+
+  public partnerVersion = toSignal(this.settingsFacade.partnerVersion$);
+
+  public contactExpertsAction = computed(() => {
+    const partnerVersion = this.partnerVersion();
+
+    return this.getSchaefflerExpertsCardAction(partnerVersion);
+  });
 
   private mapToHomeCards(partnerVersion: `${PartnerVersion}`): HomepageCard[] {
     const affiliateCode = this.getPatnerVersionAffiliateCode(partnerVersion);

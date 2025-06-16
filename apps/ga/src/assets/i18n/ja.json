@@ -118,6 +118,18 @@
     "feedbackText": "お客様のフィードバックは、製品の継続的な改善に役立ちます。",
     "appStoreButtonsTitle": "Greaseアプリの利点にアクセス - 今すぐダウンロード!"
   },
+  "greaseMiscibility": {
+    "title": "グリースの互換性",
+    "searchDescription": "ベアリングを選択すると、選択済みのグリースで計算に直接移行できます",
+    "micibleTagLabel": "互換性あり",
+    "greasesTitle": "互換性のあるSchaeffler Arcanolグリース:",
+    "greaseSelectionDescription": "選択済みのグリース:",
+    "notMiscibleGrease": "選択されたグリースに互換性のあるSchaeffler Arcanolグリースは見つかりませんでした。",
+    "generalDisclaimerLabel": "互換性に関する情報は、参考および一般的な指針としてのみ提供されます。これは潤滑剤の典型的な適用範囲に基づいており、その混合性には基づいていません。互換性と混合性に関する詳細な質問については、Schaeffler Industrial Lifetime Solutionsの潤滑チームにお問い合わせください。",
+    "tag": "新しい",
+    "contact": "連絡先",
+    "advert": "互換性のために利用可能な100を超えるグリース。"
+  },
   "bearing": {
     "title": {
       "main": "軸受選定",
@@ -139,9 +151,11 @@
       },
       "quickSelection": {
         "searchPlaceholder": "軸受呼び番号を入力 （例）6226",
+        "searchPlaceholderWithGreases": "ベアリングの型番、例：6226またはグリース名を入力してください",
         "selectButton": "軸受を選択",
         "selectOption": "<span class=\"text-medium-emphasis\">軸受の潤滑計算</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
         "disabledOption": "<span class=\"text-medium-emphasis\">次の潤滑計算はできません</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "selectGrease": "<span class=\"text-medium-emphasis\">グリースの互換性</span> &nbsp;<strong>{{grease}}</strong>",
         "noResults": "結果がありません",
         "contact": "シェフラーの専門家に連絡してください。"
       },
@@ -378,7 +392,7 @@
     "insufficientGreaseResultTooltip": "グリースの適合性は、Grease Appによってまったく適していないと判定されました。\n\n詳細は当社技術部門にご相談ください。",
     "preferredGreaseHintSelected": "事前選択",
     "preferredGreaseHintAlternative": "代替",
-    "preferredGreaseHintAlternativeTooltip": "これは、ステップ2の入力に基づいた、シェフラー製品群からの代替品です。",
+    "preferredGreaseHintAlternativeTooltip": "これは、ステップ2の入力に基づいて、シェフラー製品群からの交換可能な製品です。",
     "poweredBy": "powered by",
     "pdfDownload": "pdfダウンロード",
     "calculatedWith": "計算方式：{{versions}}",

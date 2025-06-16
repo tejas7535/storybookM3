@@ -1,4 +1,4 @@
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
@@ -11,10 +11,17 @@ describe('ErrorService', () => {
   let service: ErrorService;
   let snackBar: MatSnackBar;
 
+  const mockMatSnackBar = {
+    open: jest.fn(),
+  };
+
   const createService = createServiceFactory({
     service: ErrorService,
-    imports: [provideTranslocoTestingModule({ en: {} }), MatSnackBarModule],
-    providers: [ErrorService],
+    imports: [provideTranslocoTestingModule({ en: {} })],
+    providers: [
+      ErrorService,
+      { provide: MatSnackBar, useValue: mockMatSnackBar },
+    ],
   });
 
   beforeEach(() => {

@@ -1,0 +1,73 @@
+<ng-container *transloco="let t; read: 'greaseMiscibility'">
+  <div class="container mx-auto max-w-screen-xl mt-4">
+    <schaeffler-subheader
+      [hideLine]="true"
+      [breakTitle]="true"
+      [showBackButton]="true"
+      (backButtonClicked)="navigateBack()"
+    >
+      <ng-container subheaderTitleContent>
+        <span class="hidden sm:block">{{ t('title') }}&nbsp;</span>
+      </ng-container>
+
+      <ng-container subheaderInlineContent> </ng-container>
+    </schaeffler-subheader>
+
+    <div class="mx-auto w-full px-4 sm:px-0 sm:w-2/3 mb-4 md:mb-16 mt-4">
+      <ga-quick-bearing-selection
+        [resetOnInit]="true"
+        [showActionButtons]="false"
+        [includeGreaseResult]="false"
+        ><div content-under-search>
+          <span class="ml-4 text-body-small">{{ t('searchDescription') }}</span>
+        </div></ga-quick-bearing-selection
+      >
+    </div>
+
+    <div class="flex flex-col gap-4 px-4">
+      <p class="text-title-large text-high-emphasis">
+        {{ t('greasesTitle') }}
+      </p>
+      <p class="text-title-medium text-high-emphasis">
+        {{ t('greaseSelectionDescription') }}
+      </p>
+      <div class="flex">
+        <mat-card appearance="outlined" class="!bg-surface-container-lowest">
+          <p class="p-2">{{ selectedCompetitorGrease()?.name }}</p>
+        </mat-card>
+      </div>
+
+      @if (mixableSchaefflerGreases().length > 0) {
+        <div class="flex flex-wrap gap-8 sm:mt-4">
+          @for (grease of mixableSchaefflerGreases(); track grease.name) {
+            <ga-grease-card
+              class="max-w-sm sm:max-w-xs"
+              [currentLanguage]="currentLanguage()"
+              [title]="grease.name"
+              [description]="grease?.data?.ingredients"
+              [tagLabel]="t('micibleTagLabel')"
+              [imgSrc]="
+                grease?.data?.imageUrl || 'assets/images/placeholder.png'
+              "
+            ></ga-grease-card>
+          }
+        </div>
+      } @else {
+        <div class="mt-4 p-4 bg-surface-container-low rounded-md">
+          <p class="text-body-medium text-medium-emphasis">
+            {{ t('notMiscibleGrease') }}
+          </p>
+        </div>
+      }
+    </div>
+
+    <ga-grease-disclaimer></ga-grease-disclaimer>
+    <div class="flex justify-center mt-8">
+      @if (!isPartnerVersion()) {
+        <ga-qualtrics-info-banner
+          class="block mb-3 md:mb-6 px-4"
+        ></ga-qualtrics-info-banner>
+      }
+    </div>
+  </div>
+</ng-container>

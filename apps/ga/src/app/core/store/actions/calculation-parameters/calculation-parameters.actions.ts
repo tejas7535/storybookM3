@@ -1,4 +1,4 @@
-import { createAction, props } from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 import { CalculationParametersState } from '@ga/core/store/models';
 import {
@@ -6,54 +6,36 @@ import {
   PreferredGreaseOption,
   Property,
 } from '@ga/shared/models';
+import { Grease } from '@ga/shared/services/greases/greases.service';
 
-export const patchParameters = createAction(
-  '[Calculation Parameters] Patch Parameters',
-  props<{ parameters: CalculationParametersState }>()
-);
+export const CalculationParametersActions = createActionGroup({
+  source: 'Calculation Parameters',
+  events: {
+    'Patch Parameters': props<{ parameters: CalculationParametersState }>(),
+    'Model Update Success': emptyProps(),
 
-export const modelUpdateSuccess = createAction(
-  '[Calculation Parameters] Model Update Success'
-);
+    'Get Properties': emptyProps(),
+    'Get Properties Success': props<{ properties: Property[] }>(),
+    'Get Properties Failure': emptyProps(),
 
-export const getProperties = createAction(
-  '[Calculation Parameters] Get Properties'
-);
+    'Get Dialog': emptyProps(),
+    'Get Dialog Success': props<{ dialogResponse: DialogResponse }>(),
+    'Get Dialog End': emptyProps(),
+    'Get Dialog Failure': emptyProps(),
 
-export const getPropertiesSuccess = createAction(
-  '[Calculation Parameters] Get Properties Success',
-  props<{ properties: Property[] }>()
-);
+    'Set Preferred Grease Selection': props<{
+      selectedGrease: PreferredGreaseOption;
+    }>(),
+    'Reset Preferred Grease Selection': emptyProps(),
 
-export const getPropertiesFailure = createAction(
-  '[Calculation Parameters] Get Properties Failure'
-);
+    'Set Automatic Lubrication': props<{ automaticLubrication: boolean }>(),
 
-export const getDialog = createAction('[Calculation Parameters] Get Dialog');
+    'Load Competitors Greases': emptyProps(),
+    'Load Competitors Greases Success': props<{ greases: Grease[] }>(),
+    'Load Competitors Greases Failure': emptyProps(),
 
-export const getDialogSuccess = createAction(
-  '[Calculation Parameters] Get Dialog Success',
-  props<{ dialogResponse: DialogResponse }>()
-);
-
-export const getDialogEnd = createAction(
-  '[Calculation Parameters] Get Dialog End'
-);
-
-export const getDialogFailure = createAction(
-  '[Calculation Parameters] Get Dialog Failure'
-);
-
-export const setPreferredGreaseSelection = createAction(
-  '[Calculation Parameters] Set Preferred Grease Selection',
-  props<{ selectedGrease: PreferredGreaseOption }>()
-);
-
-export const resetPreferredGreaseSelection = createAction(
-  '[Calculation Parameters] Reset Preferred Grease Selection'
-);
-
-export const setAutomaticLubrication = createAction(
-  '[Calculation Parameters] Set Automatic Lubrication',
-  props<{ automaticLubrication: boolean }>()
-);
+    'Load Schaeffler Greases': emptyProps(),
+    'Load Schaeffler Greases Success': props<{ greases: Grease[] }>(),
+    'Load Schaeffler Greases Failure': emptyProps(),
+  },
+});

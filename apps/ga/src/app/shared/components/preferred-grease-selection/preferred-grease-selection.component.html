@@ -1,27 +1,39 @@
-<div *transloco="let t" class="flex items-baseline gap-2">
-  <mat-form-field
-    *ngrxLet="preferredGrease$ as preferredGrease"
-    appearance="outline"
-    class="grow"
-  >
-    <mat-label>{{
-      t('shared.label.defaultSelect', {
-        label: t('parameters.productPreselection.grease.label')
-      })
-    }}</mat-label>
-    <mat-select
-      [value]="preferredGrease?.selectedGrease"
-      [compareWith]="compareOptions"
-      [disabled]="isDisabled$ | ngrxPush"
-      (selectionChange)="onPreferredGreaseSelectionChange($event.value)"
-    >
-      @if (defaultOption) {
-        <mat-option [value]="defaultOption">
-          {{ t(defaultOption.text) }}
-        </mat-option>
-      }
-      <ng-container *ngrxLet="allGreases$ as allGreases">
-        @for (optionGroup of allGreases; track optionGroup) {
+<div *transloco="let t" class="flex flex-col gap-4">
+  <div class="flex items-baseline gap-2">
+    <mat-form-field appearance="outline" class="grow">
+      <mat-label>{{
+        t('shared.label.defaultSelect', {
+          label: t('parameters.productPreselection.grease.label'),
+        })
+      }}</mat-label>
+      <mat-select
+        [value]="preferredGrease()?.selectedGrease"
+        [compareWith]="compareOptions"
+        [disabled]="isDisabled()"
+        (selectionChange)="onPreferredGreaseSelectionChange($event.value)"
+        (opened)="onSelectOpened()"
+        (closed)="onSelectClosed()"
+      >
+        <mat-form-field class="w-full" (click)="$event.stopPropagation()">
+          <input
+            #searchInput
+            matInput
+            type="text"
+            [value]="searchTerm()"
+            (input)="onSearchInput($event)"
+            (keydown)="onKey($event)"
+            [placeholder]="t('parameters.selectGrease')"
+            autocomplete="off"
+          />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        @if (defaultOption) {
+          <mat-option [value]="defaultOption">
+            {{ t(defaultOption.text) }}
+          </mat-option>
+        }
+        @for (optionGroup of filteredGreases(); track optionGroup) {
           <mat-optgroup [label]="optionGroup.name">
             @for (
               option of removeEmptyOptions(optionGroup.entries);
@@ -33,15 +45,15 @@
             }
           </mat-optgroup>
         }
-      </ng-container>
-    </mat-select>
-  </mat-form-field>
-  <mat-icon
-    class="cursor-help text-primary"
-    #tooltip="matTooltip"
-    [matTooltip]="t('parameters.productPreselection.grease.tooltip')"
-    (click)="tooltip.toggle()"
-  >
-    info_outline
-  </mat-icon>
+      </mat-select>
+    </mat-form-field>
+    <mat-icon
+      class="cursor-help text-primary"
+      #tooltip="matTooltip"
+      [matTooltip]="t('parameters.productPreselection.grease.tooltip')"
+      (click)="tooltip.toggle()"
+    >
+      info_outline
+    </mat-icon>
+  </div>
 </div>

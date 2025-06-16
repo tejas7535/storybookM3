@@ -118,6 +118,18 @@
     "feedbackText": "귀하의 의견은 제품을 지속적으로 개선하는 데 도움이 됩니다.",
     "appStoreButtonsTitle": "그리스 앱의 혜택을 누리세요 - 지금 다운로드하세요!"
   },
+  "greaseMiscibility": {
+    "title": "구리스의 대체 가능성",
+    "searchDescription": "베어링을 선택하면 선택한 구리스와 함께 직접 계산으로 이동할 수 있습니다",
+    "micibleTagLabel": "대체 가능",
+    "greasesTitle": "대체 가능한 Schaeffler Arcanol 구리스:",
+    "greaseSelectionDescription": "선택한 구리스:",
+    "notMiscibleGrease": "선택한 구리스에 적합한 Schaeffler Arcanol 구리스를 찾을 수 없습니다.",
+    "generalDisclaimerLabel": "상호 교환성에 대한 정보는 참고 및 일반적인 방향성을 제공할 뿐입니다. 이는 윤활유의 일반적인 적용 범위를 기준으로 하며, 혼합 가능성에 기반하지 않습니다. 상호 교환성과 혼합 가능성에 대한 구체적인 질문은 Schaeffler Industrial Lifetime Solutions의 윤활 팀에 문의하십시오.",
+    "tag": "새로운",
+    "contact": "연락처",
+    "advert": "교환 가능성을 위한 100개 이상의 그리스 제공"
+  },
   "bearing": {
     "title": {
       "main": "베어링 선택",
@@ -139,9 +151,11 @@
       },
       "quickSelection": {
         "searchPlaceholder": "베어링 명칭 입력(예: 6226)",
+        "searchPlaceholderWithGreases": "베어링 기호를 입력하십시오, 예: 6226 또는 그리스 이름",
         "selectButton": "베어링 선택",
         "selectOption": "<span class=\"text-medium-emphasis\">베어링</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}의 윤활 계산",
         "disabledOption": "<span class=\"text-medium-emphasis\"></span><strong>{{bearing}}</strong>{{disabled}}의 윤활을 계산할 수 없음",
+        "selectGrease": "<span class=\"text-medium-emphasis\">구리스의 대체 가능성</span> &nbsp;<strong>{{grease}}</strong>",
         "noResults": "검색 결과가 없음",
         "contact": "쉐플러 전문가에게 연락하십시오."
       },
@@ -377,7 +391,7 @@
     "insufficientGreaseResultTooltip": "Grease App에서는 윤활 그리스의 적합성이 불충분하다고 평가되었습니다. 추가 질문이 있는 경우 Schaeffler 엔지니어링 서비스에 문의하십시오.",
     "preferredGreaseHintSelected": "사전 선택됨",
     "preferredGreaseHintAlternative": "대체품",
-    "preferredGreaseHintAlternativeTooltip": "이는 2단계의 입력을 기반으로 하는 Schaeffler 제품 포트폴리오의 대체 제품입니다.",
+    "preferredGreaseHintAlternativeTooltip": "이는 2단계의 입력을 기반으로 하는 Schaeffler 제품 포트폴리오의 상호 교환 가능한 제품입니다.",
     "poweredBy": "powered by",
     "pdfDownload": "PDF 다운로드",
     "calculatedWith": "계산됨: {{versions}}",

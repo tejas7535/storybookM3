@@ -118,6 +118,18 @@
     "feedbackText": "Umpan balik Anda membantu kami untuk terus meningkatkan produk kami.",
     "appStoreButtonsTitle": "Akses manfaat Aplikasi Grease - Unduh sekarang!"
   },
+  "greaseMiscibility": {
+    "title": "Interchangeability pelumas",
+    "searchDescription": "Dengan memilih bantalan Anda, Anda dapat langsung beralih ke perhitungan dengan pelumas yang Anda pilih",
+    "micibleTagLabel": "Dapat dipertukarkan",
+    "greasesTitle": "Pelumas Schaeffler Arcanol yang dapat dipertukarkan:",
+    "greaseSelectionDescription": "Pelumas yang Anda pilih:",
+    "notMiscibleGrease": "Tidak ditemukan pelumas Schaeffler Arcanol yang kompatibel untuk pelumas yang Anda pilih.",
+    "generalDisclaimerLabel": "Informasi tentang pertukaran hanya memberikan referensi dan orientasi umum. Ini didasarkan pada rentang aplikasi khas dari pelumas, bukan pada pencampurannya. Untuk pertanyaan terperinci terkait pertukaran dan pencampuran, silakan hubungi Tim Pelumasan di Schaeffler Industrial Lifetime Solutions.",
+    "tag": "Baru",
+    "contact": "Kontak",
+    "advert": "Lebih dari 100 gemuk tersedia untuk pertukaran"
+  },
   "bearing": {
     "title": {
       "main": "Pemilihan Bantalan",
@@ -139,9 +151,11 @@
       },
       "quickSelection": {
         "searchPlaceholder": "Masukkan desain bantalan, misalnya 6226",
+        "searchPlaceholderWithGreases": "Masukkan penunjukan bearing, misalnya 6226 atau nama gemuk",
         "selectButton": "Pilih bantalan",
         "selectOption": "<span class=\"text-medium-emphasis\"> Perhitungan pelumasan untuk bantalan </span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
         "disabledOption": "<span class=\"text-medium-emphasis\"> Tidak ada perhitungan pelumasan yang dapat dilakukan untuk </span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "selectGrease": "<span class=\"text-medium-emphasis\">Ketergantian untuk pelumas</span> &nbsp;<strong>{{grease}}</strong>",
         "noResults": "Tidak ada hasil yang ditemukan",
         "contact": "Hubungi Pakar Schaeffler"
       },
@@ -377,7 +391,7 @@
     "insufficientGreaseResultTooltip": "Kesesuaian pelumas pelumasan dinilai kurang oleh Grease App.\n\nSilakan hubungi layanan teknis Schaeffler jika Anda memiliki pertanyaan lebih lanjut.",
     "preferredGreaseHintSelected": "Terpilih",
     "preferredGreaseHintAlternative": "Alternatif",
-    "preferredGreaseHintAlternativeTooltip": "Ini adalah produk alternatif dari portofolio produk Schaeffler berdasarkan masukan mereka dari tahap 2.",
+    "preferredGreaseHintAlternativeTooltip": "Ini adalah produk yang dapat dipertukarkan dari portofolio produk Schaeffler berdasarkan masukan mereka dari tahap 2.",
     "poweredBy": "ditenagai oleh",
     "pdfDownload": "unduhan PDF",
     "calculatedWith": "Dihitung dengan {{versions}}",

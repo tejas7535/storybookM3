@@ -118,6 +118,18 @@
     "feedbackText": "Your feedback helps us to continuously improve our product.",
     "appStoreButtonsTitle": "Access the benefits of the Grease App - Download now!"
   },
+  "greaseMiscibility": {
+    "title": "Grease interchangeability",
+    "searchDescription": "With selecting your bearing you can directly jump into the calculation with your preselected grease",
+    "micibleTagLabel": "Interchangeable",
+    "greasesTitle": "Interchangeable Schaeffler Arcanol greases:",
+    "greaseSelectionDescription": "Your preselected grease:",
+    "notMiscibleGrease": "No compatible Schaeffler Arcanol greases found for your selected grease.",
+    "generalDisclaimerLabel": "The information on interchangeability shall give reference and general orientation only. It is based on the typical application range of the lubricants, not on their miscibility. For detailed questions regarding interchangability and miscibility please contact the Lubrication Team at Schaeffler Industrial Lifetime Solutions.",
+    "tag": "New",
+    "contact": "Contact",
+    "advert": "Over 100 greases available for interchangeability"
+  },
   "bearing": {
     "title": {
       "main": "Bearing Selection",
@@ -139,9 +151,11 @@
       },
       "quickSelection": {
         "searchPlaceholder": "Enter a bearing designation, e.g. 6226",
+        "searchPlaceholderWithGreases": "Enter a bearing designation, e.g. 6226 or a grease name",
         "selectButton": "Select bearing",
         "selectOption": "<span class=\"text-medium-emphasis\">Lubrication calculation for bearing</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
         "disabledOption": "<span class=\"text-medium-emphasis\">No lubrication calculation possible for</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "selectGrease": "<span class=\"text-medium-emphasis\">Interchangeability for grease</span> &nbsp;<strong>{{grease}}</strong>",
         "noResults": "No results found",
         "contact": "Contact Schaeffler Experts"
       },
@@ -380,7 +394,7 @@
     "insufficientGreaseResultTooltip": "The suitability of the lubricating grease was rated as insufficient by the Grease App.\n\nPlease contact the Schaeffler engineering service if you have any further questions.",
     "preferredGreaseHintSelected": "Preselected",
     "preferredGreaseHintAlternative": "Alternative",
-    "preferredGreaseHintAlternativeTooltip": "This is an alternative product from the Schaeffler product portfolio based on their input from step 2.",
+    "preferredGreaseHintAlternativeTooltip": "This is an interchangeable product from the Schaeffler product portfolio based on their input from step 2.",
     "poweredBy": "powered by",
     "pdfDownload": "PDF Download",
     "noRecommendation": "The provided parameters are unusual for the given application. Please get in contact.",

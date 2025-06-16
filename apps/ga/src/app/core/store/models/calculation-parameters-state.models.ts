@@ -7,6 +7,7 @@ import {
   Property,
 } from '@ga/shared/models';
 import { AxisOrientation } from '@ga/shared/models/calculation-parameters/axis-orientation.model';
+import { Grease } from '@ga/shared/services/greases/greases.service';
 
 export interface CalculationParametersState {
   loads: {
@@ -29,6 +30,8 @@ export interface CalculationParametersState {
     applicationScenario: ApplicationScenario;
   };
   preferredGrease: PreferredGrease;
+  competitorsGreases: Grease[];
+  schaefflerGreases: Grease[];
   automaticLubrication: boolean;
   valid: boolean;
   updating: boolean;

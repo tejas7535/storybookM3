@@ -118,6 +118,18 @@
     "feedbackText": "Ihr Feedback hilft uns, unser Produkt kontinuierlich zu verbessern.",
     "appStoreButtonsTitle": "Nutzen Sie die Vorteile der Grease App - Jetzt herunterladen!"
   },
+  "greaseMiscibility": {
+    "title": "Austauschbarkeit von Schmierfetten",
+    "searchDescription": "Mit der Auswahl Ihres Lagers können Sie direkt mit Ihrem vorausgewählten Schmierfett in die Berechnung einsteigen",
+    "micibleTagLabel": "Austauschbar",
+    "greasesTitle": "Austauschbare Schaeffler Arcanol Schmierfette:",
+    "greaseSelectionDescription": "Ihr vorausgewähltes Schmierfett:",
+    "notMiscibleGrease": "Keine kompatiblen Schaeffler Arcanol Schmierfette für Ihr ausgewähltes Schmierfett gefunden.",
+    "generalDisclaimerLabel": "Die Angaben zur Austauschbarkeit dienen lediglich als Referenz und allgemeine Orientierung. Sie basiert auf dem typischen Anwendungsbereich der Schmierstoffe, nicht auf deren Mischbarkeit. Bei detaillierten Fragen zur Austauschbarkeit und Mischbarkeit wenden Sie sich bitte an das Lubrication Team von Schaeffler Industrial Lifetime Solutions.",
+    "tag": "Neu",
+    "contact": "Kontakt",
+    "advert": "Über 100 Schmierstoffe zur Austauschbarkeit verfügbar"
+  },
   "bearing": {
     "title": {
       "main": "Lagerauswahl",
@@ -139,9 +151,11 @@
       },
       "quickSelection": {
         "searchPlaceholder": "Eingabe Lagerbezeichnung, z.B. 6226",
+        "searchPlaceholderWithGreases": "Geben Sie eine Lagerbezeichnung, z.B. 6226 oder einen Schmierstoffnamen ein",
         "selectButton": "Lager auswählen",
         "selectOption": "<span class=\"text-medium-emphasis\">Fettberechnung zu Lager</span> &nbsp;<strong>{{bearing}}</strong>",
         "disabledOption": "<span class=\"text-medium-emphasis\">Keine Fettberechnung möglich für</span> &nbsp;<strong>{{bearing}}</strong>",
+        "selectGrease": "<span class=\"text-medium-emphasis\">Austauschbarkeit für Schmierfett</span> &nbsp;<strong>{{grease}}</strong>",
         "noResults": "Keine Ergebnisse gefunden",
         "contact": "Schaeffler Experten kontaktieren"
       },
@@ -379,8 +393,7 @@
     "insufficientGreaseResultHint": "Ungeeignet",
     "insufficientGreaseResultTooltip": "Die Eignung des Fettes wurde durch die Grease App als ungeeignet bewertet.\n\nBitte kontaktieren Sie bei weiteren Fragen den Schaeffler Ingenieurdienst.",
     "preferredGreaseHintSelected": "Vorausgewählt",
-    "preferredGreaseHintAlternative": "Alternativ",
-    "preferredGreaseHintAlternativeTooltip": "Dies ist ein alternatives Produkt aus dem Schaeffler Produktportfolio basierend auf ihren Eingaben aus Schritt 2.",
+    "preferredGreaseHintAlternativeTooltip": "Dies ist ein austauschbares Produkt aus dem Schaeffler Produktportfolio basierend auf ihren Eingaben aus Schritt 2.",
     "poweredBy": "powered by",
     "pdfDownload": "PDF herunterladen",
     "noRecommendation": "Die angegebenen Parameter sind untypisch für die ausgewählte Anwendung. Bitte nehmen Sie Kontakt auf",

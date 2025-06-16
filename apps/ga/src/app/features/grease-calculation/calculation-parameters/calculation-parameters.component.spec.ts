@@ -24,11 +24,7 @@ import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
-import {
-  patchParameters,
-  resetPreferredGreaseSelection,
-  setAutomaticLubrication,
-} from '@ga/core/store/actions';
+import { CalculationParametersActions } from '@ga/core/store/actions';
 import { CalculationParametersState } from '@ga/core/store/models';
 import { initialState } from '@ga/core/store/reducers/calculation-parameters/calculation-parameters.reducer';
 import { isApplicationScenarioDisabled } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
@@ -159,7 +155,7 @@ describe('CalculationParametersComponent', () => {
 
       setTimeout(() => {
         expect(store.dispatch).toHaveBeenCalledWith(
-          patchParameters({
+          CalculationParametersActions.patchParameters({
             parameters: {
               environment: {
                 environmentImpact: EnvironmentImpact.moderate,
@@ -194,7 +190,7 @@ describe('CalculationParametersComponent', () => {
 
       setTimeout(() => {
         expect(store.dispatch).toHaveBeenCalledWith(
-          patchParameters({
+          CalculationParametersActions.patchParameters({
             parameters: {
               environment: {
                 environmentImpact: EnvironmentImpact.moderate,
@@ -354,7 +350,7 @@ describe('CalculationParametersComponent', () => {
         checked: AUTOMATIC_LUBRICATON_MOCK,
       } as MatSlideToggleChange);
       expect(store.dispatch).toHaveBeenCalledWith(
-        setAutomaticLubrication({
+        CalculationParametersActions.setAutomaticLubrication({
           automaticLubrication: AUTOMATIC_LUBRICATON_MOCK,
         })
       );
@@ -405,7 +401,7 @@ describe('CalculationParametersComponent', () => {
 
       expect(component.form.reset).toHaveBeenCalledWith(initialState);
       expect(store.dispatch).toHaveBeenCalledWith(
-        resetPreferredGreaseSelection()
+        CalculationParametersActions.resetPreferredGreaseSelection()
       );
     });
   });

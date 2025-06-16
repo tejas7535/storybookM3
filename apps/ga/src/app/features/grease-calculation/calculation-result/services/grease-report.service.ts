@@ -9,7 +9,7 @@ import { translate } from '@jsverse/transloco';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { CalculationParametersFacade } from '@ga/core/store';
-import { alternativeTable, marketGreases } from '@ga/shared/constants';
+import { marketGreases } from '@ga/shared/constants';
 import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
 import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
 
@@ -27,6 +27,7 @@ import {
   SubordinateDataItemField,
   SUITABILITY_LABEL,
 } from '../models';
+import { GreaseMiscibilityService } from './grease-miscibility/grease-miscibility.service';
 import { GreaseRecommendationService } from './grease-recommendation.service';
 import { GreaseResultDataSourceService } from './grease-result-data-source.service';
 
@@ -42,7 +43,8 @@ export class GreaseReportService {
     private readonly greaseResultDataSourceService: GreaseResultDataSourceService,
     private readonly recommendationService: GreaseRecommendationService,
     private readonly appAnalyticsService: AppAnalyticsService,
-    private readonly calculationParametersFacade: CalculationParametersFacade
+    private readonly calculationParametersFacade: CalculationParametersFacade,
+    private readonly greaseMiscibilityService: GreaseMiscibilityService
   ) {}
 
   public async getGreaseReport(greaseReportUrl: string) {
@@ -282,35 +284,9 @@ export class GreaseReportService {
         formattedSubordinates
       );
 
-      // display recommended alternatives only
-      if (preferredGreaseResult) {
-        const alternativeMatch = alternativeTable.find(
-          ({ name }) => name === preferredGreaseResult.text
-        );
-
-        if (alternativeMatch) {
-          const { alternatives, all } = alternativeMatch;
-
-          const [firstEntry, ...rest] = formattedSubordinates;
-
-          formattedSubordinates = [
-            firstEntry,
-            ...rest
-              .filter(
-                ({ greaseResult: { mainTitle } }) =>
-                  all || alternatives.includes(mainTitle) || !alternatives
-              )
-              .sort(
-                (
-                  { greaseResult: { mainTitle: title1 } },
-                  { greaseResult: { mainTitle: title2 } }
-                ) =>
-                  +alternatives.includes(title2) -
-                  +alternatives.includes(title1)
-              ),
-          ];
-        }
-      }
+      formattedSubordinates = this.greaseMiscibilityService.markMixableGreases(
+        formattedSubordinates
+      );
 
       formattedResult = [
         ...formattedResult,

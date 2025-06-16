@@ -118,6 +118,18 @@
     "feedbackText": "Vos commentaires nous aident à améliorer continuellement notre produit.",
     "appStoreButtonsTitle": "Profitez des avantages de l'application Grease - Téléchargez-la maintenant!"
   },
+  "greaseMiscibility": {
+    "title": "Interchangeabilité de la graisse",
+    "searchDescription": "En sélectionnant votre roulement, vous pouvez procéder directement au calcul avec votre graisse présélectionnée",
+    "micibleTagLabel": "Interchangeable",
+    "greasesTitle": "Graisses interchangeables Schaeffler Arcanol:",
+    "greaseSelectionDescription": "Votre graisse présélectionnée:",
+    "notMiscibleGrease": "Aucune graisse Schaeffler Arcanol compatible trouvée pour votre graisse sélectionnée.",
+    "generalDisclaimerLabel": "Les informations sur l'interchangeabilité ne donnent que des références et une orientation générale. Elles sont basées sur la plage d'application typique des lubrifiants, et non sur leur miscibilité. Pour des questions détaillées concernant l'interchangeabilité et la miscibilité, veuillez contacter l'équipe de lubrification de Schaeffler Industrial Lifetime Solutions.",
+    "tag": "Nouveau",
+    "contact": "Contact",
+    "advert": "Plus de 100 graisses disponibles pour interchangeabilité"
+  },
   "bearing": {
     "title": {
       "main": "Sélection des roulements",
@@ -139,9 +151,11 @@
       },
       "quickSelection": {
         "searchPlaceholder": "Saisir une désignation du roulement, par exemple 6226",
+        "searchPlaceholderWithGreases": "Entrez une désignation de roulement, par exemple 6226 ou un nom de graisse",
         "selectButton": "Sélectionner le roulement",
         "selectOption": "Calcul de lubrification pour le roulement  {{bearing}}{{disabled}}",
         "disabledOption": "Calcul de lubrification impossible pour  {{bearing}}{{disabled}}",
+        "selectGrease": "<span class=\"text-medium-emphasis\">Interchangeabilité pour la graisse</span> &nbsp;<strong>{{grease}}</strong>",
         "noResults": "Aucun résultat n’a été trouvé",
         "contact": "Contactez les experts de Schaeffler"
       },
@@ -377,7 +391,7 @@
     "insufficientGreaseResultTooltip": "La graisse lubrifiante a été jugée insuffisamment adaptée par l’application Grease. Veuillez contacter le service d’ingénierie de Schaeffler si vous avez d’autres questions.",
     "preferredGreaseHintSelected": "Présélectionné",
     "preferredGreaseHintAlternative": "Alternative",
-    "preferredGreaseHintAlternativeTooltip": "Il s’agit d’un produit alternatif de la gamme de produits Schaeffler, basé sur les données de l’étape 2.",
+    "preferredGreaseHintAlternativeTooltip": "Il s'agit d'un produit interchangeable de la gamme de produits Schaeffler, basé sur les données de l'étape 2.",
     "poweredBy": "powered by",
     "pdfDownload": "télécharger le PDF",
     "calculatedWith": "Calculé avec {{versions}}",

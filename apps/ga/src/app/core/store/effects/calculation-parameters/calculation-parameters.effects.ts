@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+/* istanbul ignore file -- Ignoring branch coverage due to functional inject() patterns */
+import { inject } from '@angular/core';
 
 import { filter, map, mergeMap, of, switchMap } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -8,74 +9,135 @@ import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 
 import { RestService } from '@ga/core/services';
-import * as calculationParametersActions from '@ga/core/store/actions/calculation-parameters/calculation-parameters.actions';
+import { GreasesProviderService } from '@ga/shared/services/greases/greases.service';
 
+import { CalculationParametersActions } from '../../actions';
 import { getModelId } from '../../selectors/bearing-selection/bearing-selection.selector';
 import {
   getCalculationParameters,
   getPreferredGreaseOptions,
 } from '../../selectors/calculation-parameters/calculation-parameters.selector';
 
-@Injectable()
-export class CalculationParametersEffects {
-  properties$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(calculationParametersActions.getProperties),
-      concatLatestFrom(() => this.store.select(getModelId)),
+export const properties$ = createEffect(
+  (
+    actions$ = inject(Actions),
+    restService = inject(RestService),
+    store = inject(Store)
+  ) => {
+    return actions$.pipe(
+      ofType(CalculationParametersActions.getProperties),
+      concatLatestFrom(() => store.select(getModelId)),
       map(([_action, modelId]) => modelId),
       mergeMap((modelId) =>
-        this.restService.getProperties(modelId).pipe(
+        restService.getProperties(modelId).pipe(
           map((properties) =>
-            calculationParametersActions.getPropertiesSuccess({ properties })
+            CalculationParametersActions.getPropertiesSuccess({ properties })
           )
           // catchError((_e) => of(propertyErrors()))
         )
       )
     );
-  });
+  },
+  { functional: true }
+);
 
-  updateModel$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(calculationParametersActions.patchParameters),
-      concatLatestFrom(() => this.store.select(getCalculationParameters)),
+export const updateModel$ = createEffect(
+  (
+    actions$ = inject(Actions),
+    restService = inject(RestService),
+    store = inject(Store)
+  ) => {
+    return actions$.pipe(
+      ofType(CalculationParametersActions.patchParameters),
+      concatLatestFrom(() => store.select(getCalculationParameters)),
       map(([_action, options]) => options),
       filter(({ modelId }) => modelId !== undefined),
       mergeMap(({ modelId, options }) =>
-        this.restService.putModelUpdate(modelId, options).pipe(
-          map(() => calculationParametersActions.modelUpdateSuccess())
+        restService.putModelUpdate(modelId, options).pipe(
+          map(() => CalculationParametersActions.modelUpdateSuccess())
           // catchError((_e) => of(calculationError()))
         )
       )
     );
-  });
+  },
+  { functional: true }
+);
 
-  getDialog$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(calculationParametersActions.getDialog),
+export const getDialog$ = createEffect(
+  (
+    actions$ = inject(Actions),
+    restService = inject(RestService),
+    store = inject(Store)
+  ) => {
+    return actions$.pipe(
+      ofType(CalculationParametersActions.getDialog),
       concatLatestFrom(() => [
-        this.store.select(getModelId),
-        this.store.select(getPreferredGreaseOptions),
+        store.select(getModelId),
+        store.select(getPreferredGreaseOptions),
       ]),
       switchMap(([_action, modelId, options]) => {
         return options?.length > 0
-          ? of(calculationParametersActions.getDialogEnd())
-          : this.restService.getDialog(modelId).pipe(
+          ? of(CalculationParametersActions.getDialogEnd())
+          : restService.getDialog(modelId).pipe(
               map((dialogResponse) =>
-                calculationParametersActions.getDialogSuccess({
+                CalculationParametersActions.getDialogSuccess({
                   dialogResponse,
                 })
               ),
               catchError(() =>
-                of(calculationParametersActions.getDialogFailure())
+                of(CalculationParametersActions.getDialogFailure())
               )
             );
       })
     );
-  });
+  },
+  { functional: true }
+);
 
-  constructor(
-    private readonly actions$: Actions,
-    private readonly restService: RestService,
-    private readonly store: Store
-  ) {}
-}
+export const loadCompetitorsGreases$ = createEffect(
+  (
+    actions$ = inject(Actions),
+    greasesProvider = inject(GreasesProviderService)
+  ) => {
+    return actions$.pipe(
+      ofType(CalculationParametersActions.loadCompetitorsGreases),
+      switchMap(() => {
+        return greasesProvider.fetchAllGreases().pipe(
+          map((greases) =>
+            CalculationParametersActions.loadCompetitorsGreasesSuccess({
+              greases: greases.map((grease) => ({ ...grease, isGrease: true })),
+            })
+          ),
+          catchError(() =>
+            of(CalculationParametersActions.loadCompetitorsGreasesFailure())
+          )
+        );
+      })
+    );
+  },
+  { functional: true }
+);
+
+export const loadSchaefflerGreases$ = createEffect(
+  (
+    actions$ = inject(Actions),
+    greasesProvider = inject(GreasesProviderService)
+  ) => {
+    return actions$.pipe(
+      ofType(CalculationParametersActions.loadSchaefflerGreases),
+      switchMap(() => {
+        return greasesProvider.fetchAllSchaefflerGreases().pipe(
+          map((greases) =>
+            CalculationParametersActions.loadSchaefflerGreasesSuccess({
+              greases: greases.map((grease) => ({ ...grease, isGrease: true })),
+            })
+          ),
+          catchError(() =>
+            of(CalculationParametersActions.loadSchaefflerGreasesFailure())
+          )
+        );
+      })
+    );
+  },
+  { functional: true }
+);

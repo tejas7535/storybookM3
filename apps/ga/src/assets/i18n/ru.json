@@ -118,6 +118,18 @@
     "feedbackText": "Ваши отзывы помогают нам постоянно улучшать наш продукт.",
     "appStoreButtonsTitle": "Получите преимущества приложения Grease - Скачайте сейчас!"
   },
+  "greaseMiscibility": {
+    "title": "Взаимозаменяемость смазки",
+    "searchDescription": "При выборе подшипника вы можете сразу перейти к расчётам с выбранной вами смазкой",
+    "micibleTagLabel": "Взаимозаменяемый",
+    "greasesTitle": "Взаимозаменяемые смазки Schaeffler Arcanol:",
+    "greaseSelectionDescription": "Ваш выбранный смазочный материал:",
+    "notMiscibleGrease": "Для выбранной вами смазки не найдено совместимых смазок Schaeffler Arcanol.",
+    "generalDisclaimerLabel": "Информация о взаимозаменяемости предоставляется только для справки и общего ориентирования. Она основывается на типичном диапазоне применения смазочных материалов, а не на их совместимости. Для получения подробной информации о взаимозаменяемости и совместимости, пожалуйста, свяжитесь с командой по смазке в Schaeffler Industrial Lifetime Solutions.",
+    "tag": "Новый",
+    "contact": "Контакт",
+    "advert": "Более 100 смазок доступны для взаимозаменяемости"
+  },
   "bearing": {
     "title": {
       "main": "Выбор подшипника",
@@ -139,9 +151,11 @@
       },
       "quickSelection": {
         "searchPlaceholder": "Введите обозначение подшипника, например 6226",
+        "searchPlaceholderWithGreases": "Введите обозначение подшипника, например, 6226 или название смазки",
         "selectButton": "Выбор подшипника",
         "selectOption": "<span class=\"text-medium-emphasis\">Расчет смазки для подшипника</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
         "disabledOption": "<span class=\"text-medium-emphasis\">Невозможно выполнить расчет смазки для</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "selectGrease": "<span class=\"text-medium-emphasis\">Взаимозаменяемость для смазки</span> &nbsp;<strong>{{grease}}</strong>",
         "noResults": "Результаты не найдены",
         "contact": "Свяжитесь с экспертами Schaeffler"
       },
@@ -377,7 +391,7 @@
     "insufficientGreaseResultTooltip": "Пригодность смазки оценена с помощью приложения для смазки как недостаточная. При возникновении дополнительных вопросов обратитесь в инженерную службу Schaeffler.",
     "preferredGreaseHintSelected": "Предварительный выбор",
     "preferredGreaseHintAlternative": "Альтернатива",
-    "preferredGreaseHintAlternativeTooltip": "Это альтернативная продукция из портфолио Schaeffler, которая представлена на основании указанной в шаге 2 информации.",
+    "preferredGreaseHintAlternativeTooltip": "Это взаимозаменяемая продукция из портфолио Schaeffler, которая представлена на основании указанной в шаге 2 информации.",
     "poweredBy": "powered by",
     "pdfDownload": "Скачать PDF",
     "calculatedWith": "Рассчитано с {{versions}}",

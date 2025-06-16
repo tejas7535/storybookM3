@@ -23,5 +23,6 @@ export interface GreaseResult {
   isSufficient: boolean;
   isPreferred?: boolean;
   isRecommended?: boolean;
+  isMiscible?: boolean;
   dataSource: GreaseResultData;
 }

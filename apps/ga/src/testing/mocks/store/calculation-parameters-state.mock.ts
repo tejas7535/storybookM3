@@ -29,6 +29,8 @@ export const CALCULATION_PARAMETERS_STATE_MOCK: CalculationParametersState = {
     nlgiClass: undefined,
     loading: false,
   },
+  competitorsGreases: [],
+  schaefflerGreases: [],
   automaticLubrication: true,
   valid: false,
   updating: false,

@@ -3,11 +3,15 @@
     *transloco="let t; read: 'bearing.bearingSelection.quickSelection'"
     class="relative"
   >
+    @if (includeGreaseResult) {
+      <ga-grease-selection-advert></ga-grease-selection-advert>
+    }
+
     <div class="flex flex-row space-x-4">
       <schaeffler-search
         appearance="outline"
-        [placeholder]="t('searchPlaceholder')"
-        [stringOptions]="bearingResultList$ | ngrxPush"
+        [placeholder]="t(searchPlaceholderKey())"
+        [stringOptions]="resultList()"
         [initialValue]="
           selectedBearing
             ? { id: selectedBearing, title: selectedBearing }
@@ -23,8 +27,14 @@
           <ng-container *ngTemplateOutlet="loadingTemplate"></ng-container>
         </div>
         <ng-template #customOptions let-option="option">
-          @if (option.data.available) {
+          @if (option.data?.available) {
             <mat-option [innerHTML]="option.title" />
+          } @else if (option?.isGrease) {
+            <div
+              class="flex flex-col md:flex-row py-1 justify-between min-w-full expert-highlight"
+            >
+              <span [innerHTML]="option.title"></span>
+            </div>
           } @else {
             <div
               class="flex flex-col md:flex-row py-1 justify-between min-w-full expert-highlight"
@@ -58,20 +68,24 @@
         }
       }
     </div>
-    <div class="text-center md:text-right">
-      @if (showSelectButton) {
-        <button
-          mat-flat-button
-          class="w-full md:w-auto"
-          (click)="onBearingSelectionButtonClick(selectedBearing)"
-          [disabled]="(modelCreationLoading$ | ngrxPush) || !selectedBearing"
-        >
-          {{ t('selectButton') }}
-        </button>
-      } @else {
-        <ga-advanced-bearing-button></ga-advanced-bearing-button>
-      }
-    </div>
+    <ng-content select="[content-under-search]"></ng-content>
+    @if (showActionButtons) {
+      <div class="text-center md:text-right">
+        @if (showSelectButton) {
+          <button
+            mat-flat-button
+            class="w-full md:w-auto"
+            (click)="onBearingSelectionButtonClick(selectedBearing)"
+            [disabled]="(modelCreationLoading$ | ngrxPush) || !selectedBearing"
+          >
+            {{ t('selectButton') }}
+          </button>
+        } @else {
+          <ga-advanced-bearing-button></ga-advanced-bearing-button>
+        }
+      </div>
+    }
+
     @if (modelCreationLoading$ | ngrxPush) {
       <ng-container *ngTemplateOutlet="loadingTemplate"></ng-container>
     }

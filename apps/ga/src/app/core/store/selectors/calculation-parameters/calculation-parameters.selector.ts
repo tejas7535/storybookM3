@@ -10,6 +10,7 @@ import {
 import {
   AxisOrientation,
   CalculationParameters,
+  GreaseCategoryWithEntries,
   InstallationMode,
   LoadInstallation,
   LoadTypes,
@@ -17,6 +18,7 @@ import {
   Property,
   SelectedGreases,
 } from '@ga/shared/models';
+import { Grease } from '@ga/shared/services/greases/greases.service';
 
 import { getCalculationParametersState } from '../../reducers';
 import { getModelId, getSelectedBearing } from '..';
@@ -24,6 +26,16 @@ import { getModelId, getSelectedBearing } from '..';
 interface LoadDirection {
   [key: string]: boolean;
 }
+
+export const getCompetitorsGreases = createSelector(
+  getCalculationParametersState,
+  (state) => state.competitorsGreases
+);
+
+export const getSchaefflerGreases = createSelector(
+  getCalculationParametersState,
+  (state) => state.schaefflerGreases
+);
 
 export const getSelectedMovementType = createSelector(
   getCalculationParametersState,
@@ -159,8 +171,33 @@ export const getPreferredGreaseOptions = createSelector(
 
 export const getAllGreases = createSelector(
   getPreferredGreaseOptions,
-  (preferredGreaseOptions) =>
-    greaseCategories.map((greaseCategory) => ({
+  getCompetitorsGreases,
+  (preferredGreaseOptions, competitorsGreases): GreaseCategoryWithEntries[] => {
+    // Group competitor greases by company
+    const competitorsGreasesByCompany: Record<string, Grease[]> = {};
+
+    // Group the greases by company
+    for (const grease of competitorsGreases) {
+      const { company } = grease;
+      if (!competitorsGreasesByCompany[company]) {
+        competitorsGreasesByCompany[company] = [];
+      }
+      competitorsGreasesByCompany[company].push(grease);
+    }
+
+    // Convert competitor greases to the expected format for display
+    const competitorCategories = Object.entries(
+      competitorsGreasesByCompany
+    ).map(([company, greases]) => ({
+      name: company,
+      entries: greases.map((grease) => ({
+        text: grease.name,
+        id: grease.id,
+      })),
+      isCompetitor: true,
+    }));
+
+    const originalCategories = greaseCategories.map((greaseCategory) => ({
       name: translate(greaseCategory.name),
       entries: greaseCategory.type
         ? marketGreases
@@ -183,7 +220,11 @@ export const getAllGreases = createSelector(
                 .map(({ type }) => type)
                 .includes(id)
           ),
-    }))
+      isCompetitor: false,
+    }));
+
+    return [...originalCategories, ...competitorCategories];
+  }
 );
 
 export const getPreferredGreaseOptionsLoading = createSelector(
@@ -233,4 +274,29 @@ export const getMotionType = createSelector(
 export const isVerticalAxisOrientation = createSelector(
   getCalculationParametersState,
   (state) => state.movements?.axisOrientation === AxisOrientation.Vertical
+);
+
+export const getSelectedCompetitorGreaseFromPreferred = createSelector(
+  getCompetitorsGreases,
+  getPreferredGreaseSelection,
+  (greases, preferredGrease) => {
+    if (!preferredGrease?.id) {
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      return undefined;
+    }
+
+    return greases.find((g) => g.id === preferredGrease.id);
+  }
+);
+
+export const getMixableGreasesOfSelectedFromPreferred = createSelector(
+  getSelectedCompetitorGreaseFromPreferred,
+  (grease) => grease?.mixableGreases ?? []
+);
+
+export const getMixableSchaefflerGreases = createSelector(
+  getMixableGreasesOfSelectedFromPreferred,
+  getSchaefflerGreases,
+  (mixableGreaseIds, schaefflerGreases) =>
+    schaefflerGreases.filter((grease) => mixableGreaseIds.includes(grease.id))
 );

@@ -16,10 +16,11 @@ import { translate } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
 
 import { LabelValue, LabelValueModule } from '@schaeffler/label-value';
+import { TagComponent } from '@schaeffler/tag';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SettingsFacade } from '@ga/core/store';
-import { alternativeTable, generalHighTemperature } from '@ga/shared/constants';
+import { generalHighTemperature } from '@ga/shared/constants';
 import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
 import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
 
@@ -59,6 +60,7 @@ export const shopSearchPathBase = 'search/searchpage?text=';
     GreaseReportShopButtonsComponent,
     AutomaticLubricationPipe,
     PushPipe,
+    TagComponent,
   ],
   templateUrl: './grease-report-result.component.html',
   styleUrls: ['./grease-report-result.component.scss'],
@@ -136,14 +138,6 @@ export class GreaseReportResultComponent implements OnInit, OnDestroy {
     }
 
     return subtitle;
-  }
-
-  public isAlternative(): boolean {
-    return (
-      alternativeTable
-        .find(({ name }) => name === this.preferredGreaseResult.text)
-        ?.alternatives.indexOf(this.greaseResult.mainTitle) > -1
-    );
   }
 
   private assignGreaseResultData(): void {

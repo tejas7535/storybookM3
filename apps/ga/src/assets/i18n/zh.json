@@ -118,6 +118,18 @@
     "feedbackText": "您的反馈帮助我们不断改进我们的产品。",
     "appStoreButtonsTitle": "享受Grease应用程序的好处 - 立即下载!"
   },
+  "greaseMiscibility": {
+    "title": "润滑脂的互换性",
+    "searchDescription": "选择轴承后，可以直接使用预选润滑脂进行计算",
+    "micibleTagLabel": "可互换",
+    "greasesTitle": "可互换的舍弗勒Arcanol润滑脂:",
+    "greaseSelectionDescription": "您预选的润滑脂:",
+    "notMiscibleGrease": "未找到与您选择的润滑脂兼容的舍弗勒Arcanol润滑脂。",
+    "generalDisclaimerLabel": "關於可互換性的資訊僅供參考和一般指引。它是基於潤滑劑的典型應用範圍，而不是它們的相容性。關於互換性和相容性的詳細問題，請聯繫舍弗勒工業壽命解決方案的潤滑團隊。",
+    "tag": "新",
+    "contact": "联系",
+    "advert": "超过100种润滑脂可供互换。"
+  },
   "bearing": {
     "title": {
       "main": "轴承选择",
@@ -139,9 +151,11 @@
       },
       "quickSelection": {
         "searchPlaceholder": "输入轴承名称，例如 6226",
+        "searchPlaceholderWithGreases": "输入轴承代号，例如 6226 或润滑脂名称",
         "selectButton": "选择轴承",
         "selectOption": "<span class=\"text-medium-emphasis\">轴承的润滑计算</span> &nbsp;<strong>{{bearing}}</strong>",
         "disabledOption": "<span class=\"text-medium-emphasis\">润滑计算不可能为</span> &nbsp;<strong>{{bearing}}</strong>",
+        "selectGrease": "<span class=\"text-medium-emphasis\">润滑脂的互换性</span> &nbsp;<strong>{{grease}}</strong>",
         "noResults": "未找到结果",
         "contact": "联系舍弗勒专家。"
       },

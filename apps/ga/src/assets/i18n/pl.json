@@ -118,6 +118,18 @@
     "feedbackText": "Twoja opinia pomaga nam cały czas udoskonalać nasz produkt.",
     "appStoreButtonsTitle": "Uzyskaj dostęp do korzyści aplikacji Grease - Pobierz teraz!"
   },
+  "greaseMiscibility": {
+    "title": "Wymienność smaru",
+    "searchDescription": "Wybierając łożysko, możesz bezpośrednio przejść do obliczeń z wybranym smarem",
+    "micibleTagLabel": "Wymienny",
+    "greasesTitle": "Wymienne smary Schaeffler Arcanol:",
+    "greaseSelectionDescription": "Twój wybrany smar:",
+    "notMiscibleGrease": "Nie znaleziono kompatybilnych smarów Schaeffler Arcanol dla wybranego smaru.",
+    "generalDisclaimerLabel": "Informacje o zamienności mają charakter orientacyjny i ogólny. Bazują one na typowym zakresie zastosowań środków smarnych, a nie na ich mieszalności. W przypadku szczegółowych pytań dotyczących zamienności i mieszalności, prosimy o kontakt z zespołem ds. smarowania w Schaeffler Industrial Lifetime Solutions.",
+    "tag": "Nowość",
+    "contact": "Kontakt",
+    "advert": "Ponad 100 smarów dostępnych do wymienności"
+  },
   "bearing": {
     "title": {
       "main": "Wybór łożyska",
@@ -139,9 +151,11 @@
       },
       "quickSelection": {
         "searchPlaceholder": "Wpisz oznaczenie łożyska, np. 6226",
+        "searchPlaceholderWithGreases": "Wprowadź oznaczenie łożyska, np. 6226 lub nazwę smaru",
         "selectButton": "Wybierz łożysko",
         "selectOption": "<span class=\"text-medium-emphasis\">Obliczanie smarowania łożyska</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
         "disabledOption": "<span class=\"text-medium-emphasis\">Nie jest możliwe obliczenie smarowania łożyska</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "selectGrease": "<span class=\"text-medium-emphasis\">Wymienność smaru</span> &nbsp;<strong>{{grease}}</strong>",
         "noResults": "Nie znaleziono wyników",
         "contact": "Skontaktuj się z ekspertami Schaeffler"
       },
@@ -377,7 +391,7 @@
     "insufficientGreaseResultTooltip": "Aplikacja Grease App oceniła przydatność smaru jako niewystarczającą. Dział inżynierii Schaeffler jest do dyspozycji w razie pytań.",
     "preferredGreaseHintSelected": "Domyślnie wybrane",
     "preferredGreaseHintAlternative": "Zamiennik",
-    "preferredGreaseHintAlternativeTooltip": "Jest to zamiennik z portfolio produktów Schaeffler, oparty na danych wejściowych z kroku 2.",
+    "preferredGreaseHintAlternativeTooltip": "Jest to produkt zamienny z portfolio produktów Schaeffler, oparty na danych wejściowych z kroku 2.",
     "poweredBy": "powered by",
     "pdfDownload": "Pobierz PDF",
     "calculatedWith": "Obliczone z {{versions}}",

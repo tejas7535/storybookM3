@@ -24,7 +24,11 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { detectAppDelivery } from './core/helpers/settings-helpers';
-import { SettingsFacade, StorageMessagesActions } from './core/store';
+import {
+  CalculationParametersFacade,
+  SettingsFacade,
+  StorageMessagesActions,
+} from './core/store';
 import { UserSettingsModule } from './shared/components/user-settings';
 import { AppDelivery, PartnerVersion } from './shared/models';
 import { AppAnalyticsService } from './shared/services/app-analytics-service/app-analytics-service';
@@ -44,6 +48,7 @@ describe('AppComponent', () => {
   let metaService: Meta;
   let titleService: Title;
   let store: Store;
+  let calculationParametersFacade: CalculationParametersFacade;
   const eventSubject = new ReplaySubject<RouterEvent>(1);
   const routerMock = {
     navigate: jest.fn(),
@@ -88,6 +93,13 @@ describe('AppComponent', () => {
         useValue: {
           partnerVersion$: of(undefined),
           internalUser$: of(true),
+          appIsEmbedded$: of(false), // default for most tests
+        },
+      },
+      {
+        provide: CalculationParametersFacade,
+        useValue: {
+          loadAppGreases: jest.fn(),
         },
       },
     ],
@@ -100,6 +112,7 @@ describe('AppComponent', () => {
     translocoService = spectator.inject(TranslocoService);
     applicationInsightsService = spectator.inject(ApplicationInsightsService);
     appAnalyticsService = spectator.inject(AppAnalyticsService);
+    calculationParametersFacade = spectator.inject(CalculationParametersFacade);
 
     metaService = spectator.inject(Meta);
     titleService = spectator.inject(Title);
@@ -369,6 +382,17 @@ describe('AppComponent', () => {
           `partner-version-${partnerVersion}`
         );
       }
+    });
+  });
+
+  describe('ngOnInit', () => {
+    beforeEach(() => {
+      (calculationParametersFacade.loadAppGreases as jest.Mock).mockClear();
+    });
+
+    it('should call loadAppGreases to load all required greases', () => {
+      component.ngOnInit();
+      expect(calculationParametersFacade.loadAppGreases).toHaveBeenCalled();
     });
   });
 });

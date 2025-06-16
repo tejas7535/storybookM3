@@ -97,6 +97,8 @@ describe('GreaseRecommendationService', () => {
   });
 
   beforeEach(() => {
+    jest.spyOn(console, 'log').mockImplementation(() => {});
+    jest.spyOn(console, 'table').mockImplementation(() => {});
     spectator = createService();
     service = spectator.service;
 

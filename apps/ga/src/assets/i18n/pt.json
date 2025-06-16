@@ -118,6 +118,18 @@
     "feedbackText": "Seu feedback nos ajuda a melhorar continuamente nosso produto.",
     "appStoreButtonsTitle": "Acesse os benefícios do aplicativo Grease - Baixe agora!"
   },
+  "greaseMiscibility": {
+    "title": "Intercambiabilidade de graxa",
+    "searchDescription": "Com a seleção do seu rolamento, você pode pular diretamente para o cálculo com a graxa pré-selecionada",
+    "micibleTagLabel": "Intercambiável",
+    "greasesTitle": "Graxa Arcanol Schaeffler intercambiável:",
+    "greaseSelectionDescription": "Sua graxa pré-selecionada:",
+    "notMiscibleGrease": "Não foram encontradas graxas Schaeffler Arcanol compatíveis para a graxa selecionada.",
+    "generalDisclaimerLabel": "As informações sobre intercambialidade oferecem apenas referência e orientação geral. Elas são baseadas na faixa típica de aplicação dos lubrificantes, não na sua miscibilidade. Para questões detalhadas sobre intercambialidade e miscibilidade, entre em contato com a Equipe de Lubrificação da Schaeffler Industrial Lifetime Solutions.",
+    "tag": "Novo",
+    "contact": "Contato",
+    "advert": "Mais de 100 graxas disponíveis para intercambiabilidade"
+  },
   "bearing": {
     "title": {
       "main": "Seleção de rolamentos",
@@ -139,9 +151,11 @@
       },
       "quickSelection": {
         "searchPlaceholder": "Introduza a designação do rolamento, por exemplo, 6226",
+        "searchPlaceholderWithGreases": "Insira uma designação de rolamento, por exemplo, 6226 ou um nome de graxa",
         "selectButton": "Selecionar rolamento",
         "selectOption": "<span class=\"text-medium-emphasis\">Cálculo de lubrificação para o rolamento</span> &nbsp;<strong> {{bearing}}</strong>{{disabled}}",
         "disabledOption": "<span class=\"text-medium-emphasis\">Não é possível calcular a lubrificação para</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "selectGrease": "<span class=\"text-medium-emphasis\">Intercambiabilidade para graxa</span> &nbsp;<strong>{{grease}}</strong>",
         "noResults": "Não foram encontrados resultados",
         "contact": "Entre em contato com os especialistas da Schaeffler"
       },
@@ -181,7 +195,7 @@
       "IDO_RADIAL_ROLLER_BEARING": "Rolamento de roletes radial",
       "IDO_RADIAL_SELF_ALIGNING_BALL_BEARING": "Rolamento de esferas autocompensador",
       "IDO_RADIAL_SELF_ALIGNING_ROLLER_BEARING": "Rolamento de roletes esférico radial",
-      "IDO_RADIAL_TAPERED_ROLLER_BEARING": "Rolamento de roletes cónico radial",
+      "IDO_RADIAL_TAPERED_ROLLER_BEARING": "Rolamento de roletes cônico radial",
       "IDO_THRUST_ANGULAR_CONTACT_BALL_BEARING": "Rolamento de esferas de contacto angular axial",
       "IDO_THRUST_BALL_BEARING": "Rolamento de esferas axial",
       "IDO_THRUST_ROLLER_BEARING": "Rolamento de roletes axial"
@@ -377,7 +391,7 @@
     "insufficientGreaseResultTooltip": "A adequação da massa lubrificante foi classificada como insuficiente pela Grease App. Para obter mais informações, contacte o serviço de engenharia da Schaeffler.",
     "preferredGreaseHintSelected": "Pré-selecionado",
     "preferredGreaseHintAlternative": "Alternativa",
-    "preferredGreaseHintAlternativeTooltip": "Este é um produto alternativo do portefólio de produtos da Schaeffler, com base nos dados introduzidos no passo&nbsp;2.",
+    "preferredGreaseHintAlternativeTooltip": "Este é um produto intercambiável do portefólio de produtos da Schaeffler, com base nos dados introduzidos no passo 2.",
     "poweredBy": "powered by",
     "pdfDownload": "Download de PDF",
     "calculatedWith": "Calculado com {{versions}}",

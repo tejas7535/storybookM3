@@ -118,6 +118,18 @@
     "feedbackText": "Geri bildiriminiz, ürünümüzü sürekli olarak geliştirmemize yardımcı oluyor.",
     "appStoreButtonsTitle": "Grease Uygulaması'nın avantajlarına eriş - Şimdi indir!"
   },
+  "greaseMiscibility": {
+    "title": "Gres değiştirilebilirliği",
+    "searchDescription": "Rulmanınızı seçerek, önceden seçilmiş gresle doğrudan hesaplamaya başlayabilirsiniz",
+    "micibleTagLabel": "Değiştirilebilir",
+    "greasesTitle": "Değiştirilebilir Schaeffler Arcanol gresleri:",
+    "greaseSelectionDescription": "Önceden seçtiğiniz gres:",
+    "notMiscibleGrease": "Seçtiğiniz gres için uyumlu Schaeffler Arcanol gres bulunamadı.",
+    "generalDisclaimerLabel": "Değiştirilebilirlik hakkındaki bilgiler sadece referans ve genel yönlendirme amaçlıdır. Yağlayıcıların karıştırılabilirliği değil, tipik uygulama aralığı temel alınmıştır. Değiştirilebilirlik ve karıştırılabilirlik ile ilgili detaylı sorular için lütfen Schaeffler Industrial Lifetime Solutions'daki Yağlama Ekibi ile iletişime geçin.",
+    "tag": "Yeni",
+    "contact": "İletişim",
+    "advert": "Değiştirilebilirlik için 100'den fazla gres mevcut"
+  },
   "bearing": {
     "title": {
       "main": "Rulman Seçimi",
@@ -139,9 +151,11 @@
       },
       "quickSelection": {
         "searchPlaceholder": "Bir rulman tanımı girin, ör. 6226",
+        "searchPlaceholderWithGreases": "Bir yatak tanımı girin, örneğin 6226 veya bir gres adı",
         "selectButton": "Rulmanı seç",
         "selectOption": "<strong>{{bearing}}</strong>{{disabled}}&nbsp;<span class=\"text-medium-emphasis\">rulmanı için yağlama hesaplaması</span>",
         "disabledOption": "<strong>{{bearing}}</strong>{{disabled}}&nbsp;<span class=\"text-medium-emphasis\">için yağlama hesaplaması yapılamıyor</span>",
+        "selectGrease": "<span class=\"text-medium-emphasis\">Gres için değiştirilebilirlik</span> &nbsp;<strong>{{grease}}</strong>",
         "noResults": "Sonuç bulunamadı",
         "contact": "Schaeffler Uzmanlarına Ulaşın"
       },
@@ -377,7 +391,7 @@
     "insufficientGreaseResultTooltip": "Yağlama gresinin uygunluğu, Grease App tarafından yetersiz olarak derecelendirilmiştir. Başka sorularınız varsa lütfen Schaeffler mühendislik hizmetleri ile iletişime geçin.",
     "preferredGreaseHintSelected": "Önceden seçilmiş",
     "preferredGreaseHintAlternative": "Alternatif",
-    "preferredGreaseHintAlternativeTooltip": "Bu, adım 2&apos;deki girdilerine dayalı olarak Schaeffler ürün portföyünden alternatif bir üründür.",
+    "preferredGreaseHintAlternativeTooltip": "Bu, adım 2'deki girdilerine dayalı olarak Schaeffler ürün portföyünden değiştirilebilir bir üründür.",
     "poweredBy": "powered by",
     "pdfDownload": "PDF İndir",
     "calculatedWith": "Hesaplandı {{versions}}",

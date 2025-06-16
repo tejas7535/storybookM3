@@ -18,6 +18,8 @@ import {
   TERMS_OF_USE,
 } from '@schaeffler/legal-pages';
 
+import { ENV, getEnv } from '@ga/environments/environments.provider';
+
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
@@ -125,6 +127,10 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
       provide: STORAGE_PERIOD,
       useFactory: DynamicStoragePeriod,
       deps: [TranslocoService],
+    },
+    {
+      provide: ENV,
+      useFactory: getEnv,
     },
   ],
   bootstrap: [AppComponent],

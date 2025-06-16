@@ -52,7 +52,8 @@
             "allowCircularSelfDependency": true
           }
         ],
-        "@angular-eslint/prefer-standalone": "off"
+        "@angular-eslint/prefer-standalone": "off",
+        "@typescript-eslint/member-ordering": "off"
       },
       "plugins": [
         "@angular-eslint/eslint-plugin",

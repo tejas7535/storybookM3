@@ -15,6 +15,7 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LegalPath } from '@schaeffler/legal-pages';
 
 import {
+  CalculationParametersFacade,
   selectBearing,
   SettingsFacade,
   StorageMessagesActions,
@@ -58,7 +59,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly oneTrustMobileService: OneTrustMobileService,
     private readonly firebaseAnalyticsService: MobileFirebaseAnalyticsService,
     @Optional() private readonly oneTrustService: OneTrustService,
-    @Inject(DOCUMENT) private readonly document: Document
+    @Inject(DOCUMENT) private readonly document: Document,
+    private readonly calculationParametersFacade: CalculationParametersFacade
   ) {}
 
   public ngOnInit(): void {
@@ -144,6 +146,8 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     this.store.dispatch(StorageMessagesActions.getStorageMessage());
+
+    this.calculationParametersFacade.loadAppGreases();
   }
 
   public ngOnDestroy(): void {

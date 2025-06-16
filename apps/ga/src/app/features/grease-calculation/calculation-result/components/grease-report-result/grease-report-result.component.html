@@ -3,7 +3,7 @@
     *transloco="let t; read: 'calculationResult'"
     class="overflow-hidden border-y-[1.5px] border-border lg:rounded-2xl lg:border-x-[1.5px]"
     [ngClass]="{
-      'border-primary border-x-[1.5px]': greaseResult.isRecommended
+      'border-primary border-x-[1.5px]': greaseResult.isRecommended,
     }"
   >
     <div class="p-3">
@@ -18,7 +18,7 @@
               greaseResult.isPreferred && !greaseResult.subTitle
                 ? t('previouslySelected', {
                     type: greaseResult.mainTitle,
-                    grease: preferredGreaseResult.text
+                    grease: preferredGreaseResult.text,
                   })
                 : showSubtitle()
             "
@@ -43,13 +43,13 @@
         @if (
           greaseResult.isSufficient &&
           preferredGreaseResult &&
-          (greaseResult.isPreferred || isAlternative())
+          greaseResult.isPreferred
         ) {
           <div
             class="ml-3 inline-block rounded-full bg-background-dark px-3 py-[1px] text-body-small text-medium-emphasis"
             [ngClass]="{
               'cursor-pointer border !border-primary !bg-[#EDF7F1]':
-                !greaseResult.isPreferred
+                !greaseResult.isPreferred,
             }"
             [matTooltipDisabled]="greaseResult.isPreferred"
             matTooltip="{{ t('preferredGreaseHintAlternativeTooltip') }}"
@@ -58,13 +58,24 @@
             #alternativeTooltip="matTooltip"
             (click)="alternativeTooltip.toggle()"
           >
-            {{
-              t(
-                greaseResult.isPreferred
-                  ? 'preferredGreaseHintSelected'
-                  : 'preferredGreaseHintAlternative'
-              )
-            }}
+            {{ t('preferredGreaseHintSelected') }}
+          </div>
+        }
+
+        @if (greaseResult?.isMiscible) {
+          <div *transloco="let m; read: 'greaseMiscibility'">
+            <schaeffler-tag
+              [value]="m('micibleTagLabel')"
+              [withDot]="false"
+              [withBorder]="true"
+              type="category2"
+              class="mr-auto mb-4"
+              #alternativeTooltip="matTooltip"
+              [matTooltipDisabled]="greaseResult.isPreferred"
+              matTooltip="{{ t('preferredGreaseHintAlternativeTooltip') }}"
+              matTooltipPosition="below"
+              matTooltipClass="!max-w-[400px]"
+            ></schaeffler-tag>
           </div>
         }
         <!--- Chip if the grease is recommended --->
@@ -92,7 +103,7 @@
       class="overflow-hidden overflow-x-auto transition-[max-height] duration-300 ease-in-out"
       [ngClass]="{
         'max-h-[2000px]': showAllValues,
-        'max-h-[600px]': !showAllValues
+        'max-h-[600px]': !showAllValues,
       }"
     >
       @if (!showConcept1Details) {

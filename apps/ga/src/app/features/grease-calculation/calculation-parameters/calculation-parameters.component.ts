@@ -41,12 +41,7 @@ import {
   getCalculationParametersState,
   SettingsFacade,
 } from '@ga/core/store';
-import {
-  getDialog,
-  getProperties,
-  patchParameters,
-  resetPreferredGreaseSelection,
-} from '@ga/core/store/actions';
+import { CalculationParametersActions } from '@ga/core/store/actions';
 import { CalculationParametersState } from '@ga/core/store/models';
 import { initialState } from '@ga/core/store/reducers/calculation-parameters/calculation-parameters.reducer';
 import {
@@ -69,6 +64,7 @@ import { environment } from '@ga/environments/environment';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
 import { AppStoreButtonsComponent } from '@ga/shared/components/app-store-buttons/app-store-buttons.component';
 import { FormFieldModule } from '@ga/shared/components/form-field';
+import { GreaseSelectionAdvertComponent } from '@ga/shared/components/grease-selection-advert/grease-selection-advert.component';
 import { MediasButtonComponent } from '@ga/shared/components/medias-button';
 import { PreferredGreaseSelectionComponent } from '@ga/shared/components/preferred-grease-selection';
 import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
@@ -95,6 +91,7 @@ import {
   ApplicationScenario,
 } from './constants/application-scenarios.model';
 import { CalculationParametersService } from './services';
+
 @Component({
   selector: 'ga-calculation-parameters',
   templateUrl: './calculation-parameters.component.html',
@@ -124,6 +121,7 @@ import { CalculationParametersService } from './services';
     MatInputModule,
     MatRadioModule,
     MatDividerModule,
+    GreaseSelectionAdvertComponent,
   ],
   providers: [CalculationParametersService],
 })
@@ -279,7 +277,33 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
          * have changed the initial state and will receive a new object reference.
          */
         if (parametersState !== initialState) {
-          this.form.patchValue(parametersState, {
+          // Only update form values from API if they are defined
+          const formValues = {
+            ...parametersState,
+            environment: {
+              ...parametersState.environment,
+              // Only use form default values if API values are undefined
+              operatingTemperature:
+                parametersState.environment.operatingTemperature ??
+                this.environmentForm.get('operatingTemperature').value,
+              environmentTemperature:
+                parametersState.environment.environmentTemperature ??
+                this.environmentForm.get('environmentTemperature').value,
+              environmentImpact:
+                parametersState.environment.environmentImpact ??
+                this.environmentForm.get('environmentImpact').value,
+              applicationScenario:
+                parametersState.environment.applicationScenario ??
+                this.environmentForm.get('applicationScenario').value,
+            },
+            movements: {
+              ...parametersState.movements,
+              // Ensure we always have a movement type defined
+              type: parametersState.movements.type ?? Movement.rotating,
+            },
+          };
+
+          this.form.patchValue(formValues, {
             onlySelf: false,
             emitEvent: true,
           });
@@ -289,8 +313,8 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
       });
 
     this.modelCreationSuccess$.pipe(filter(Boolean)).subscribe(() => {
-      this.store.dispatch(getProperties());
-      this.store.dispatch(getDialog());
+      this.store.dispatch(CalculationParametersActions.getProperties());
+      this.store.dispatch(CalculationParametersActions.getDialog());
     });
 
     this.store
@@ -305,7 +329,10 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
       .subscribe((change) => {
         if (change.type === Movement.oscillating) {
           this.applicationScenario.setValue(ApplicationScenario.All);
-          this.store.dispatch(resetPreferredGreaseSelection());
+
+          this.store.dispatch(
+            CalculationParametersActions.resetPreferredGreaseSelection()
+          );
         }
       });
 
@@ -313,7 +340,7 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$), debounceTime(this.DEBOUNCE_TIME_DEFAULT))
       .subscribe((formValue: CalculationParametersState) => {
         this.store.dispatch(
-          patchParameters({
+          CalculationParametersActions.patchParameters({
             parameters: { ...formValue, valid: this.form.valid },
           })
         );
@@ -403,7 +430,9 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
 
   public onResetButtonClick(): void {
     this.form.reset(initialState);
-    this.calculationParametersFacade.dispatch(resetPreferredGreaseSelection());
+    this.calculationParametersFacade.dispatch(
+      CalculationParametersActions.resetPreferredGreaseSelection()
+    );
   }
 
   public trackSignupClick(): void {

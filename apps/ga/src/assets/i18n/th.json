@@ -118,6 +118,18 @@
     "feedbackText": "ข้อเสนอแนะของคุณช่วยให้เราพัฒนาผลิตภัณฑ์ของเราอย่างต่อเนื่องได้",
     "appStoreButtonsTitle": "เข้าถึงประโยชน์ของแอป Grease - ดาวน์โหลดเลยตอนนี้!"
   },
+  "greaseMiscibility": {
+    "title": "การเปลี่ยนจาระบี",
+    "searchDescription": "โดยการเลือกตลับลูกปืนของคุณ คุณสามารถเข้าสู่การคำนวณด้วยจาระบีที่คุณเลือกไว้ล่วงหน้า",
+    "micibleTagLabel": "สามารถเปลี่ยนได้",
+    "greasesTitle": "จารบี Schaeffler Arcanol ที่สามารถเปลี่ยนได้:",
+    "greaseSelectionDescription": "จาระบีที่คุณเลือกไว้:",
+    "notMiscibleGrease": "ไม่พบจารบี Schaeffler Arcanol ที่เข้ากันได้สำหรับจาระบีที่คุณเลือก",
+    "generalDisclaimerLabel": "ข้อมูลเกี่ยวกับความสามารถในการเปลี่ยนใช้จะให้ไว้เพื่อเป็นข้อมูลอ้างอิงและแนวทางทั่วไปเท่านั้น ข้อมูลนี้อ้างอิงจากช่วงการใช้งานทั่วไปของสารหล่อลื่น ไม่ใช่ความสามารถในการผสม สำหรับคำถามโดยละเอียดเกี่ยวกับการเปลี่ยนใช้และการผสมกรุณาติดต่อทีมหล่อลื่นที่ Schaeffler Industrial Lifetime Solutions",
+    "tag": "ใหม่",
+    "contact": "ติดต่อ",
+    "advert": "จาระบีมากกว่า 100 แบบพร้อมให้เปลี่ยนแทนกันได้"
+  },
   "bearing": {
     "title": {
       "main": "การเลือกตลับลูกปืน",
@@ -139,9 +151,11 @@
       },
       "quickSelection": {
         "searchPlaceholder": "ป้อนรหัสตลับลูกปืน เช่น 6226",
+        "searchPlaceholderWithGreases": "กรอกชื่อกำกับแบริ่ง เช่น 6226 หรือชื่อจาระบี",
         "selectButton": "เลือกตลับลูกปืน",
         "selectOption": "<span class=\"text-medium-emphasis\">การคำนวณการหล่อลื่นสำหรับตลับลูกปืน</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
         "disabledOption": "<span class=\"text-medium-emphasis\">ไม่มีการคำนวณการหล่อลื่นที่เป็นไปได้สำหรับ</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "selectGrease": "<span class=\"text-medium-emphasis\">การใช้จาระบีกันทั่วไป</span> &nbsp;<strong>{{grease}}</strong>",
         "noResults": "ไม่พบผลลัพธ์",
         "contact": "ติดต่อผู้เชี่ยวชาญของ Schaeffler"
       },
@@ -377,7 +391,7 @@
     "insufficientGreaseResultTooltip": "ความเหมาะสมของจาระบีหล่อลื่นถูกประเมินว่าไม่เพียงพอโดย Grease App โปรดติดต่อบริการวิศกรรมของแชฟฟ์เลอร์หากคุณมีคำถามเพิ่มเติม",
     "preferredGreaseHintSelected": "ถูกเลือกไว้ล่วงหน้า",
     "preferredGreaseHintAlternative": "ทางเลือก",
-    "preferredGreaseHintAlternativeTooltip": "นี่คือผลิตภัณฑ์ทางเลือกจากแฟ้มผลิตภัณฑ์ของแชฟฟ์เลอร์ ซึ่งอ้างอิงตามอินพุตจากขั้นตอนที่ 2",
+    "preferredGreaseHintAlternativeTooltip": "นี่คือผลิตภัณฑ์ที่ใช้แทนกันได้จากแฟ้มผลิตภัณฑ์ของแชฟฟ์เลอร์ ซึ่งอ้างอิงตามอินพุตจากขั้นตอนที่ 2",
     "poweredBy": "powered by",
     "pdfDownload": "ดาวน์โหลด PDF",
     "calculatedWith": "คำนวณด้วย {{versions}}",

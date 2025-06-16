@@ -20,7 +20,7 @@
           [ngClass]="{
             '!cursor-default !text-high-emphasis': isGreaseResultSection(
               subordinate.titleID
-            )
+            ),
           }"
           (click)="
             !subordinate.defaultOpen &&
@@ -43,7 +43,7 @@
                         : 'resultsDefault',
                       {
                         amount: limitResults ? resultsLimit : getResultAmount(),
-                        complete: getResultAmount()
+                        complete: getResultAmount(),
                       }
                     )
                   }}
@@ -105,7 +105,7 @@
               [ngTemplateOutlet]="subordinateTemplate"
               [ngTemplateOutletContext]="{
                 subordinate: subordinate,
-                displayTitle: false
+                displayTitle: false,
               }"
             >
             </ng-template>
@@ -131,7 +131,7 @@
                     t(limitResults ? 'remainingResults' : 'limitResults', {
                       results: limitResults
                         ? getRemainingResultAmount()
-                        : resultsLimit
+                        : resultsLimit,
                     })
                   }}</span>
                   @if (limitResults) {
@@ -147,6 +147,9 @@
             <div class="p-3">
               <span class="text-body-small">{{ t('guideValues') }}</span>
             </div>
+            @if (hasMiscibileGreases()) {
+              <ga-grease-disclaimer></ga-grease-disclaimer>
+            }
           }
         </div>
       </mat-expansion-panel>
@@ -210,7 +213,7 @@
           [ngTemplateOutlet]="subordinateTemplate"
           [ngTemplateOutletContext]="{
             subordinate: nestedSubordinate,
-            displayTitle: true
+            displayTitle: true,
           }"
         >
         </ng-container>

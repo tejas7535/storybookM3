@@ -2,10 +2,13 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
+  computed,
   Input,
   OnDestroy,
   OnInit,
+  signal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -27,6 +30,7 @@ import { SearchModule } from '@schaeffler/inputs/search';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
+  CalculationParametersFacade,
   getBearingSelectionLoading,
   getModelCreationLoading,
   getModifiedBearingResultList,
@@ -39,6 +43,9 @@ import { getPartnerVersion } from '@ga/core/store/selectors/settings/settings.se
 import { environment } from '@ga/environments/environment';
 import { AdvancedBearingButtonComponent } from '@ga/shared/components/advanced-bearing-button';
 import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
+import { Grease } from '@ga/shared/services/greases/greases.service';
+
+import { GreaseSelectionAdvertComponent } from '../grease-selection-advert/grease-selection-advert.component';
 
 @Component({
   selector: 'ga-quick-bearing-selection',
@@ -55,12 +62,15 @@ import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/a
     RouterModule,
     MatSelectModule,
     MatIconModule,
+    GreaseSelectionAdvertComponent,
   ],
   templateUrl: './quick-bearing-selection.component.html',
 })
 export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
   @Input() resetOnInit = false;
   @Input() showSelectButton = false;
+  @Input() showActionButtons = true;
+  @Input() includeGreaseResult = true;
 
   public readonly dmcScanEnabled = environment.dmcScanEnabled;
   public readonly showDmcFeature =
@@ -72,7 +82,48 @@ export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
   public bearingSelectionLoading$ = this.store.select(
     getBearingSelectionLoading
   );
-  public bearingResultList$ = this.store.select(getModifiedBearingResultList);
+  public bearingResultList = toSignal(
+    this.store.select(getModifiedBearingResultList)
+  );
+
+  public readonly greases = toSignal(
+    this.calculationParametersFacade.competitorsGreases$,
+    { initialValue: [] }
+  );
+
+  public filteredGreases = computed(() => {
+    const greases = this.greases();
+    const query = this.currentSearchQuery() || '';
+    if (query.length < this.minimumChars || !this.includeGreaseResult) {
+      return [];
+    }
+
+    return greases
+      .filter((grease: Grease) =>
+        grease.name.toLowerCase().includes(query.toLowerCase())
+      )
+      .map((grease: Grease) => ({
+        ...grease,
+        title: this.transloco.translate(
+          `bearing.bearingSelection.quickSelection.selectGrease`,
+          { grease: grease.name }
+        ),
+      }));
+  });
+
+  public resultList = computed(() => {
+    const list = this.bearingResultList() || [];
+    const greases = this.filteredGreases();
+
+    return [...list, ...greases];
+  });
+
+  public searchPlaceholderKey = computed(() =>
+    this.includeGreaseResult
+      ? 'searchPlaceholderWithGreases'
+      : 'searchPlaceholder'
+  );
+
   public partnerVersion$ = this.store.select(getPartnerVersion);
 
   public selectedBearing$ = this.store.select(getSelectedBearing);
@@ -81,14 +132,16 @@ export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
   private readonly minimumChars = 2;
   private readonly destroy$ = new Subject<void>();
   private currentLanguage: string;
-  private currentSearchQuery: string;
+  // eslint-disable-next-line unicorn/no-useless-undefined
+  private readonly currentSearchQuery = signal<string | undefined>(undefined);
 
   public constructor(
     private readonly store: Store,
     public readonly transloco: TranslocoService,
     private readonly changeDetector: ChangeDetectorRef,
     private readonly trackingService: AppAnalyticsService,
-    private readonly appInsightsService: ApplicationInsightsService
+    private readonly appInsightsService: ApplicationInsightsService,
+    private readonly calculationParametersFacade: CalculationParametersFacade
   ) {}
 
   ngOnInit(): void {
@@ -102,9 +155,9 @@ export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
         if (language !== this.currentLanguage) {
           this.currentLanguage = language;
 
-          if (this.currentSearchQuery) {
+          if (this.currentSearchQuery()) {
             this.store.dispatch(
-              searchBearing({ query: this.currentSearchQuery })
+              searchBearing({ query: this.currentSearchQuery() })
             );
           } else {
             this.resetBearingSelection();
@@ -127,7 +180,7 @@ export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
   }
 
   public onSearchUpdated(query: string | undefined): void {
-    this.currentSearchQuery = query;
+    this.currentSearchQuery.set(query);
 
     if (query?.length >= this.minimumChars) {
       this.store.dispatch(searchBearing({ query }));
@@ -150,6 +203,12 @@ export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
   }
 
   public onOptionSelected(option: StringOption): void {
+    if (this.isGrease(option)) {
+      this.calculationParametersFacade.setGreaseSearchSelection(option);
+
+      return;
+    }
+
     if (option && option.data && !option.data?.available) {
       const targetUrl = this.transloco.translate(
         'homepage.cards.contact.externalLink'
@@ -166,6 +225,17 @@ export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
     } else {
       this.resetBearingSelection();
     }
+  }
+
+  private isGrease(obj: any): obj is Grease {
+    return (
+      obj &&
+      typeof obj === 'object' &&
+      'company' in obj &&
+      'name' in obj &&
+      'id' in obj &&
+      'mixableGreases' in obj
+    );
   }
 
   private resetBearingSelection(): void {
