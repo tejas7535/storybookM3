@@ -1,4 +1,22 @@
 # Release Notes of Grease App
+## [1.16.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.15.0...ga-v1.16.0) (2025-06-17)
+
+
+### Features
+
+* **ga:**  sync mobile dependencies + update result (UFTABI-8829) ([#7355](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7355)) ([9983aa3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9983aa341d3ae4bb5ebbec2b513bc2fd10eeba04))
+* **ga:** adjust prod grease api url (UFTABI-8563) ([#7309](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7309)) ([e4ef169](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e4ef1696558d9c1e380333d649d008afd4bac1ed))
+* **ga:** change ad card from easy-calc to LSA ([#7270](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7270)) ([0eff335](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0eff3352a799b56296eae2232eeb3fe33f0edd43))
+* **ga:** extend search by company (UFTABI-8829) ([#7354](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7354)) ([ede5212](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ede521248504d4c2dcf32856ef550e9cc4149300))
+* **ga:** Implement grease miscibility (UFTABI-8829) ([#7342](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7342)) ([41c5749](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/41c5749dc35d106c8eba7218d61ad6fb58eb3e04))
+* **ga:** update version endpoint (UFTABI-8615) ([#7189](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7189)) ([80e27d4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/80e27d402a787aba96be8b17fcbc58427f1654ba))
+
+
+### Bug Fixes
+
+* **ga:** apply fix to internal user detection (UFTABI-8892) ([#7305](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7305)) ([d9f00f0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d9f00f0dc69bdfcb89d44a9f332f3b40ae9d2a01))
+* **ga:** implement layout changes - UFTABI-8948 ([#7349](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7349)) ([916cb73](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/916cb73e868c5581b985d6e322a47188b8204958))
+
 ## [1.15.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.14.10...ga-v1.15.0) (2025-03-20)
 
 
