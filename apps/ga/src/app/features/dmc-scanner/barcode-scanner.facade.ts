@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
 
 import {
-  BarcodeScannedEvent,
   BarcodeScanner,
+  BarcodesScannedEvent,
   GoogleBarcodeScannerModuleInstallProgressEvent,
   ScanOptions,
 } from '@capacitor-mlkit/barcode-scanning';
@@ -36,8 +36,8 @@ export class BarcodeScannerFacade {
   }
 
   addListener(
-    eventName: 'barcodeScanned',
-    listenerFunc: (event: BarcodeScannedEvent) => void
+    eventName: 'barcodesScanned',
+    listenerFunc: (event: BarcodesScannedEvent) => void
   ) {
     return from(BarcodeScanner.addListener(eventName, listenerFunc));
   }

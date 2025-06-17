@@ -29,6 +29,7 @@ import {
 } from '@ga/core/store/selectors/calculation-result/calculation-result.selector';
 import { AppStoreButtonsComponent } from '@ga/shared/components/app-store-buttons/app-store-buttons.component';
 import { GreaseDisclaimerComponent } from '@ga/shared/components/grease-disclaimer/grease-disclaimer.component';
+import { SelectedCompetitorGreaseComponent } from '@ga/shared/components/selected-competitor-grease/selected-competitor-grease.component';
 import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
 import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
 
@@ -66,6 +67,7 @@ import { GreaseReportResultComponent } from '../grease-report-result';
     AppStoreButtonsComponent,
     ApplicationInsightsModule,
     GreaseDisclaimerComponent,
+    SelectedCompetitorGreaseComponent,
   ],
   providers: [
     GreaseReportService,

@@ -14,6 +14,7 @@ import { CalculationParametersFacade, SettingsFacade } from '@ga/core/store';
 import { GreaseDisclaimerComponent } from '@ga/shared/components/grease-disclaimer/grease-disclaimer.component';
 import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import { QuickBearingSelectionComponent } from '@ga/shared/components/quick-bearing-selection';
+import { SelectedCompetitorGreaseComponent } from '@ga/shared/components/selected-competitor-grease/selected-competitor-grease.component';
 
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
 import { GreaseCardComponent } from './grease-card/grease-card.component';
@@ -30,6 +31,7 @@ import { GreaseCardComponent } from './grease-card/grease-card.component';
     QuickBearingSelectionComponent,
     GreaseCardComponent,
     GreaseDisclaimerComponent,
+    SelectedCompetitorGreaseComponent,
   ],
 })
 export class GreaseMiscibilityComponent {
@@ -41,11 +43,6 @@ export class GreaseMiscibilityComponent {
   );
 
   private readonly settingsFacade = inject(SettingsFacade);
-
-  public selectedCompetitorGrease = toSignal(
-    this.calculationParametersFacade.selectedCompetitorGrease$,
-    { initialValue: undefined }
-  );
 
   public mixableSchaefflerGreases = toSignal(
     this.calculationParametersFacade.mixableSchaefflerGreases$,

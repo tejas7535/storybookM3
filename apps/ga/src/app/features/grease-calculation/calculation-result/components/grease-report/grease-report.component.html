@@ -60,6 +60,14 @@
             isGreaseResultSection(subordinate.titleID) ? 'px-0' : 'px-4'
           "
         >
+          @if (
+            isGreaseResultSection(subordinate.titleID) && hasMiscibileGreases()
+          ) {
+            <ga-selected-competitor-grease
+              class="flex flex-row gap-4 items-center pb-4"
+            ></ga-selected-competitor-grease>
+          }
+
           @if (hasMessages$ | ngrxPush) {
             @for (
               entry of resultMessages$ | ngrxPush;

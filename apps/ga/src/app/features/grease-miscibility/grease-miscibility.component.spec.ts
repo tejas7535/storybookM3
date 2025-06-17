@@ -55,8 +55,6 @@ describe('GreaseMiscibilityComponent', () => {
         useValue: {
           langChanges$: of('en'),
           translate: jest.fn((key) => key),
-          selectTranslate: jest.fn(() => of('')),
-          getTranslation: jest.fn(() => of({})),
         },
       },
     ],
@@ -70,13 +68,6 @@ describe('GreaseMiscibilityComponent', () => {
 
   it('should create the component', () => {
     expect(spectator.component).toBeTruthy();
-  });
-
-  it('should expose selectedCompetitorGrease signal', () => {
-    expect(spectator.component.selectedCompetitorGrease()).toEqual({
-      id: '1',
-      name: 'Test Grease',
-    });
   });
 
   it('should expose mixableSchaefflerGreases signal', () => {

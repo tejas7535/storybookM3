@@ -28,14 +28,9 @@
       <p class="text-title-large text-high-emphasis">
         {{ t('greasesTitle') }}
       </p>
-      <p class="text-title-medium text-high-emphasis">
-        {{ t('greaseSelectionDescription') }}
-      </p>
-      <div class="flex">
-        <mat-card appearance="outlined" class="!bg-surface-container-lowest">
-          <p class="p-2">{{ selectedCompetitorGrease()?.name }}</p>
-        </mat-card>
-      </div>
+      <ga-selected-competitor-grease
+        class="flex flex-col gap-4"
+      ></ga-selected-competitor-grease>
 
       @if (mixableSchaefflerGreases().length > 0) {
         <div class="flex flex-wrap gap-8 sm:mt-4">

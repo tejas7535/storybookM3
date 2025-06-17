@@ -83,13 +83,13 @@ importers:
         version: 19.2.11(@angular/common@19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(@angular/platform-browser@19.2.11(@angular/animations@19.2.11(@angular/common@19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0)))(@angular/common@19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0)))(rxjs@7.8.2)
       '@angular/material':
         specifier: 19.2.16
-        version: 19.2.16(d662ebe69ec9330f95f33e3c88917022)
+        version: 19.2.16(bi3gz2tqcqkjlsfum6452humpq)
       '@angular/material-date-fns-adapter':
         specifier: 19.2.16
-        version: 19.2.16(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(@angular/material@19.2.16(d662ebe69ec9330f95f33e3c88917022))(date-fns@3.6.0)
+        version: 19.2.16(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(@angular/material@19.2.16(bi3gz2tqcqkjlsfum6452humpq))(date-fns@3.6.0)
       '@angular/material-moment-adapter':
         specifier: 19.2.16
-        version: 19.2.16(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(@angular/material@19.2.16(d662ebe69ec9330f95f33e3c88917022))(moment@2.30.1)
+        version: 19.2.16(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(@angular/material@19.2.16(bi3gz2tqcqkjlsfum6452humpq))(moment@2.30.1)
       '@angular/platform-browser':
         specifier: 19.2.11
         version: 19.2.11(@angular/animations@19.2.11(@angular/common@19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0)))(@angular/common@19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))
@@ -210,10 +210,17 @@ importers:
       zone.js:
         specifier: 0.15.0
         version: 0.15.0
+    optionalDependencies:
+      '@swc-node/register':
+        specifier: 1.10.9
+        version: 1.10.9(@swc/core@1.10.18(@swc/helpers@0.5.17))(@swc/types@0.1.21)(typescript@5.7.3)
+      '@swc/core':
+        specifier: 1.10.18
+        version: 1.10.18(@swc/helpers@0.5.17)
     devDependencies:
       '@angular-devkit/build-angular':
         specifier: 19.2.12
-        version: 19.2.12(e50d6dd9f5572bba217dbfcea1b9d5dc)
+        version: 19.2.12(om3w746cpsq3up7a4d643mm2y4)
       '@angular-devkit/core':
         specifier: 19.2.12
         version: 19.2.12(chokidar@4.0.3)
@@ -273,7 +280,7 @@ importers:
         version: 19.2.0(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(@ngrx/store@19.2.0(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(rxjs@7.8.2)
       '@nx/angular':
         specifier: 20.8.2
-        version: 20.8.2(512bf558ba5d2dc668270fb7243bf5d1)
+        version: 20.8.2(6iqgea25emmotuutl6pvht5hhe)
       '@nx/cypress':
         specifier: 20.8.2
         version: 20.8.2(@babel/traverse@7.27.1)(@swc-node/register@1.10.9(@swc/core@1.10.18(@swc/helpers@0.5.17))(@swc/types@0.1.21)(typescript@5.7.3))(@swc/core@1.10.18(@swc/helpers@0.5.17))(@zkochan/js-yaml@0.0.7)(cypress@13.9.0)(eslint@8.57.0)(nx@20.8.2(@swc-node/register@1.10.9(@swc/core@1.10.18(@swc/helpers@0.5.17))(@swc/types@0.1.21)(typescript@5.7.3))(@swc/core@1.10.18(@swc/helpers@0.5.17)))(typescript@5.7.3)
@@ -321,7 +328,7 @@ importers:
         version: 7.6.20
       '@storybook/angular':
         specifier: 7.6.20
-        version: 7.6.20(0f7521ae5ca72156c4996a11fa5f2d0c)
+        version: 7.6.20(hb7ui7yv7jpqqufektk4ojpvzu)
       '@storybook/core-common':
         specifier: 7.6.20
         version: 7.6.20(encoding@0.1.13)
@@ -526,13 +533,6 @@ importers:
       yargs:
         specifier: 17.7.2
         version: 17.7.2
-    optionalDependencies:
-      '@swc-node/register':
-        specifier: 1.10.9
-        version: 1.10.9(@swc/core@1.10.18(@swc/helpers@0.5.17))(@swc/types@0.1.21)(typescript@5.7.3)
-      '@swc/core':
-        specifier: 1.10.18
-        version: 1.10.18(@swc/helpers@0.5.17)
 
   apps/cdba: {}
 
@@ -572,23 +572,23 @@ importers:
   apps/ga:
     dependencies:
       '@capacitor-community/file-opener':
-        specifier: 6.0.1
-        version: 6.0.1(@capacitor/core@6.2.1)
+        specifier: 7.0.1
+        version: 7.0.1(@capacitor/core@7.0.0)
       '@capacitor-community/firebase-analytics':
-        specifier: 6.0.0
-        version: 6.0.0(@capacitor/core@6.2.1)
+        specifier: 7.0.0
+        version: 7.0.0(@capacitor/core@7.0.0)
       '@capacitor-mlkit/barcode-scanning':
-        specifier: 7.0.0-next.0
-        version: 7.0.0-next.0(@capacitor/core@6.2.1)
+        specifier: 7.1.0
+        version: 7.1.0(@capacitor/core@7.0.0)
       '@capacitor/core':
-        specifier: 6.2.1
-        version: 6.2.1
+        specifier: 7.0.0
+        version: 7.0.0
       '@capacitor/filesystem':
-        specifier: 6.0.3
-        version: 6.0.3(@capacitor/core@6.2.1)
+        specifier: 7.0.0
+        version: 7.0.0(@capacitor/core@7.0.0)
       '@capacitor/share':
-        specifier: 6.0.3
-        version: 6.0.3(@capacitor/core@6.2.1)
+        specifier: 7.0.0
+        version: 7.0.0(@capacitor/core@7.0.0)
       '@zxing/browser':
         specifier: 0.1.5
         version: 0.1.5(@zxing/library@0.21.3)
@@ -1805,23 +1805,42 @@ packages:
     peerDependencies:
       '@capacitor/core': ^6.0.0
 
+  '@capacitor-community/file-opener@7.0.1':
+    resolution: {integrity: sha512-Jg/S7p93vI7Lk7rBCeqesgN9wvvZwBcvKkLMaTj7xruIGzU+iXizR5dVntBV6ooDArp25/B5iF6J3BvA6YVppA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor-community/file-opener/-/file-opener-7.0.1.tgz}
+    engines: {node: '>=16.0.0', npm: '>=8.0.0'}
+    peerDependencies:
+      '@capacitor/core': '>=7.0.0'
+
   '@capacitor-community/firebase-analytics@6.0.0':
     resolution: {integrity: sha512-3/B4V8V6exw4pits9H5JWqfyzvgsoW+NfxdaJoimNVx2YcpDYJtYj79DsmuMe5DXf6mxRIbQ+InxfGV4vwoxDA==}
     peerDependencies:
       '@capacitor/core': ^6.0.0
 
-  '@capacitor-mlkit/barcode-scanning@7.0.0-next.0':
-    resolution: {integrity: sha512-cjXTOwnKhhxRyFUyR51g4/bM5jri4PyeXdJb2tEp9giF4fdTJq0ilgTIn0nFaIs0k7+QWezCmM8ylTNLnDH0JA==}
+  '@capacitor-community/firebase-analytics@7.0.0':
+    resolution: {integrity: sha512-PwdscXyp8Yxi90Ge6w8xAd9DXnuukoFzH/yvmfD7LjgXzDmkI1H0A/I/xkzv4LdXxwU6M9/MP5cATEq95wGfpg==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor-community/firebase-analytics/-/firebase-analytics-7.0.0.tgz}
     peerDependencies:
-      '@capacitor/core': ^6.0.0
+      '@capacitor/core': ^7.0.0
+
+  '@capacitor-mlkit/barcode-scanning@7.1.0':
+    resolution: {integrity: sha512-CIxhGadUnCJeO9xuVhf5TVkg5YQXBPOMeFBXoswotZ7YPjNI4P+I4a4lZs1pRcx1FjxG4fPIVCnuO4wMAvT9Mg==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor-mlkit/barcode-scanning/-/barcode-scanning-7.1.0.tgz}
+    peerDependencies:
+      '@capacitor/core': '>=7.0.0'
 
   '@capacitor/core@6.2.1':
     resolution: {integrity: sha512-urZwxa7hVE/BnA18oCFAdizXPse6fCKanQyEqpmz6cBJ2vObwMpyJDG5jBeoSsgocS9+Ax+9vb4ducWJn0y2qQ==}
+
+  '@capacitor/core@7.0.0':
+    resolution: {integrity: sha512-JMJxPi/tHeOR/I87/P0kc1DUKrj+XfXlYTnNZ8sCp4LA/MPLkTOzpZm3cga7fTY0nWaSqLll2xalrC0psQBfuA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor/core/-/core-7.0.0.tgz}
 
   '@capacitor/filesystem@6.0.3':
     resolution: {integrity: sha512-PdIP/yOGAbG1lq1wbFbSPhXQ9/5lpTpeiok2NneawJOk6UXvy9W7QZXRo7wXAP7J6FdzU7bKfOORRXpOJpgXyw==}
     peerDependencies:
       '@capacitor/core': ^6.0.0
+
+  '@capacitor/filesystem@7.0.0':
+    resolution: {integrity: sha512-xMzLq+ZaqYBAincYOKF1eNy/3UWwx1XM6TuvWBTVQTHeRsURzqwwbqBKtfkhbRzk5wnXEprWZz5k5iFo2s2BXw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor/filesystem/-/filesystem-7.0.0.tgz}
+    peerDependencies:
+      '@capacitor/core': '>=7.0.0'
 
   '@capacitor/keyboard@6.0.3':
     resolution: {integrity: sha512-V/mURxBI68HvClYjrGBlOriWkwYN7r+cWid/igJz/3scNc/V81DgQ9fpoLr4W0I5NY7YxOesjIJLuLO+LT18mQ==}
@@ -1832,6 +1851,11 @@ packages:
     resolution: {integrity: sha512-BkNM73Ix+yxQ7fkni8CrrGcp1kSl7u+YNoPLwWKQ1MuQ5Uav0d+CT8M67ie+3dc4jASmegnzlC6tkTmFcPTLeA==}
     peerDependencies:
       '@capacitor/core': ^6.0.0
+
+  '@capacitor/share@7.0.0':
+    resolution: {integrity: sha512-UL/czyt0nr4/O88pFfBK0wP0VNxaQvAmOAtD95Q0srgtJJAdkS0bIvCuhIeVxEeyWG2TyylzzQ2rI/4nexwCyQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor/share/-/share-7.0.0.tgz}
+    peerDependencies:
+      '@capacitor/core': '>=7.0.0'
 
   '@colors/colors@1.5.0':
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@colors/colors/-/colors-1.5.0.tgz}
@@ -5731,7 +5755,7 @@ packages:
     engines: {node: '>= 0.4'}
 
   b4a@1.6.7:
-    resolution: {integrity: sha512-OnAYlL5b7LEkALw87fUVafQw5rVR9RjwGd4KUwNQ6DrrNmaVaUCgLipfVlzrPQ4tWOR9P0IXGNOx50jYCCdSJg==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/b4a/-/b4a-1.6.7.tgz}
+    resolution: {integrity: sha512-OnAYlL5b7LEkALw87fUVafQw5rVR9RjwGd4KUwNQ6DrrNmaVaUCgLipfVlzrPQ4tWOR9P0IXGNOx50jYCCdSJg==}
 
   babel-core@7.0.0-bridge.0:
     resolution: {integrity: sha512-poPX9mZH/5CSanm50Q+1toVci6pv5KSRv/5TWCwtzQS5XEwn40BcCrgIeMFWP9CKKIniKXNxoIOnOq4VVlGXhg==}
@@ -5822,7 +5846,7 @@ packages:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
   bare-events@2.5.4:
-    resolution: {integrity: sha512-+gFfDkR8pj4/TrWCGUGWmJIkBwuxPS5F+a5yWjOHQt2hHvNZd5YLzadjmDUtFmMM4y429bnKLa8bYBMHcYdnQA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/bare-events/-/bare-events-2.5.4.tgz}
+    resolution: {integrity: sha512-+gFfDkR8pj4/TrWCGUGWmJIkBwuxPS5F+a5yWjOHQt2hHvNZd5YLzadjmDUtFmMM4y429bnKLa8bYBMHcYdnQA==}
 
   bare-fs@4.1.5:
     resolution: {integrity: sha512-1zccWBMypln0jEE05LzZt+V/8y8AQsQQqxtklqaIyg5nu6OAYFhZxPXinJTSG+kU5qyNmeLgcn9AW7eHiCHVLA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/bare-fs/-/bare-fs-4.1.5.tgz}
@@ -5834,14 +5858,14 @@ packages:
         optional: true
 
   bare-os@3.6.1:
-    resolution: {integrity: sha512-uaIjxokhFidJP+bmmvKSgiMzj2sV5GPHaZVAIktcxcpCyBFFWO+YlikVAdhmUo2vYFvFhOXIAlldqV29L8126g==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/bare-os/-/bare-os-3.6.1.tgz}
+    resolution: {integrity: sha512-uaIjxokhFidJP+bmmvKSgiMzj2sV5GPHaZVAIktcxcpCyBFFWO+YlikVAdhmUo2vYFvFhOXIAlldqV29L8126g==}
     engines: {bare: '>=1.14.0'}
 
   bare-path@3.0.0:
     resolution: {integrity: sha512-tyfW2cQcB5NN8Saijrhqn0Zh7AnFNsnczRcuWODH0eYAXBsJ5gVxAUuNr7tsHSC6IZ77cA0SitzT+s47kot8Mw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/bare-path/-/bare-path-3.0.0.tgz}
 
   bare-stream@2.6.5:
-    resolution: {integrity: sha512-jSmxKJNJmHySi6hC42zlZnq00rga4jjxcgNZjY9N5WlOe/iOoGRtdwGsHzQv2RlH2KOYMwGUXhf2zXd32BA9RA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/bare-stream/-/bare-stream-2.6.5.tgz}
+    resolution: {integrity: sha512-jSmxKJNJmHySi6hC42zlZnq00rga4jjxcgNZjY9N5WlOe/iOoGRtdwGsHzQv2RlH2KOYMwGUXhf2zXd32BA9RA==}
     peerDependencies:
       bare-buffer: '*'
       bare-events: '*'
@@ -7594,7 +7618,7 @@ packages:
     resolution: {integrity: sha512-caj/ZmjHljPrZtbzJ3kfH5ia/k4mTJe/qSiXAGzxZWRZgsgDV0cvNaQULqUX8t0/JVlzzEdYOwCN5DmzTxoD4w==}
 
   fast-fifo@1.3.2:
-    resolution: {integrity: sha512-/d9sfos4yxzpwkDkuN7k2SqFKtYNmCTzgfEpz82x34IM9/zc8KGxQoXg1liNC/izpRM/MBdt44Nmx41ZWqk+FQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/fast-fifo/-/fast-fifo-1.3.2.tgz}
+    resolution: {integrity: sha512-/d9sfos4yxzpwkDkuN7k2SqFKtYNmCTzgfEpz82x34IM9/zc8KGxQoXg1liNC/izpRM/MBdt44Nmx41ZWqk+FQ==}
 
   fast-glob@3.3.2:
     resolution: {integrity: sha512-oX2ruAFQwf/Orj8m737Y5adxDQO0LAB7/S5MnxCdTNDd4p6BsyIVsv9JQsATbTSq8KHRpLwIHbVlUNatxd+1Ow==}
@@ -8072,7 +8096,7 @@ packages:
     engines: {node: '>= 0.4'}
 
   graceful-fs@4.2.11:
-    resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/graceful-fs/-/graceful-fs-4.2.11.tgz}
+    resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
 
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
@@ -9627,7 +9651,7 @@ packages:
     engines: {node: '>= 0.6'}
 
   mime@1.6.0:
-    resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/mime/-/mime-1.6.0.tgz}
+    resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==}
     engines: {node: '>=4'}
     hasBin: true
 
@@ -11912,7 +11936,7 @@ packages:
     resolution: {integrity: sha512-LK4e7TfCV8HzuM0PKXuVUfKyCB1FtT9L0EGxsFk5Up8njj0bXK8pJM9+Wq2Nya7/jslmCQwRK39LFm55h7NBTw==}
 
   streamx@2.22.0:
-    resolution: {integrity: sha512-sLh1evHOzBy/iWRiR6d1zRcLao4gGZr3C1kzNz4fopCOKJb6xD9ub8Mpi9Mr1R6id5o43S+d93fI48UC5uM9aw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/streamx/-/streamx-2.22.0.tgz}
+    resolution: {integrity: sha512-sLh1evHOzBy/iWRiR6d1zRcLao4gGZr3C1kzNz4fopCOKJb6xD9ub8Mpi9Mr1R6id5o43S+d93fI48UC5uM9aw==}
 
   string-argv@0.3.2:
     resolution: {integrity: sha512-aqD2Q0144Z+/RqG52NeHEkZauTAUWJO8c6yTftGJKO3Tja5tUgIfmIl6kExvhtxSDP7fXB6DvzkfMpCd/F3G+Q==}
@@ -12105,14 +12129,14 @@ packages:
     engines: {node: '>=6'}
 
   tar-fs@3.0.9:
-    resolution: {integrity: sha512-XF4w9Xp+ZQgifKakjZYmFdkLoSWd34VGKcsTCwlNWM7QG3ZbaxnTsaBwnjFZqHRf/rROxaR8rXnbtwdvaDI+lA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/tar-fs/-/tar-fs-3.0.9.tgz}
+    resolution: {integrity: sha512-XF4w9Xp+ZQgifKakjZYmFdkLoSWd34VGKcsTCwlNWM7QG3ZbaxnTsaBwnjFZqHRf/rROxaR8rXnbtwdvaDI+lA==}
 
   tar-stream@2.2.0:
     resolution: {integrity: sha512-ujeqbceABgwMZxEJnk2HDY2DlnUZ+9oEcb1KzTVfYHio0UE6dG71n60d8D2I4qNvleWrrXpmjpt7vZeF1LnMZQ==}
     engines: {node: '>=6'}
 
   tar-stream@3.1.7:
-    resolution: {integrity: sha512-qJj60CXt7IU1Ffyc3NJMjh6EkuCFej46zUqJ4J7pqYlThyd9bO0XBTmcOIhSzZJVWfsLks0+nle/j538YAW9RQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/tar-stream/-/tar-stream-3.1.7.tgz}
+    resolution: {integrity: sha512-qJj60CXt7IU1Ffyc3NJMjh6EkuCFej46zUqJ4J7pqYlThyd9bO0XBTmcOIhSzZJVWfsLks0+nle/j538YAW9RQ==}
 
   tar@6.2.1:
     resolution: {integrity: sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==}
@@ -12169,7 +12193,7 @@ packages:
     engines: {node: '>=8'}
 
   text-decoder@1.2.3:
-    resolution: {integrity: sha512-3/o9z3X0X0fTupwsYvR03pJ/DjWuqqrfwBgTQzdWDiQSm9KitAyz/9WqsT2JQW7KV2m+bC2ol/zqpW37NHxLaA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/text-decoder/-/text-decoder-1.2.3.tgz}
+    resolution: {integrity: sha512-3/o9z3X0X0fTupwsYvR03pJ/DjWuqqrfwBgTQzdWDiQSm9KitAyz/9WqsT2JQW7KV2m+bC2ol/zqpW37NHxLaA==}
 
   text-extensions@1.9.0:
     resolution: {integrity: sha512-wiBrwC1EhBelW12Zy26JeOUkQ5mRu+5o8rpsJk5+2t+Y5vE7e842qtZDQ2g1NpX/29HdyFeJ4nSIhI47ENSxlQ==}
@@ -13233,7 +13257,7 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@angular-devkit/build-angular@19.2.12(e50d6dd9f5572bba217dbfcea1b9d5dc)':
+  '@angular-devkit/build-angular@19.2.12(om3w746cpsq3up7a4d643mm2y4)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@angular-devkit/architect': 0.1902.12(chokidar@4.0.3)
@@ -13569,21 +13593,21 @@ snapshots:
 
   '@angular/language-service@19.2.11': {}
 
-  '@angular/material-date-fns-adapter@19.2.16(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(@angular/material@19.2.16(d662ebe69ec9330f95f33e3c88917022))(date-fns@3.6.0)':
+  '@angular/material-date-fns-adapter@19.2.16(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(@angular/material@19.2.16(bi3gz2tqcqkjlsfum6452humpq))(date-fns@3.6.0)':
     dependencies:
       '@angular/core': 19.2.11(rxjs@7.8.2)(zone.js@0.15.0)
-      '@angular/material': 19.2.16(d662ebe69ec9330f95f33e3c88917022)
+      '@angular/material': 19.2.16(bi3gz2tqcqkjlsfum6452humpq)
       date-fns: 3.6.0
       tslib: 2.8.1
 
-  '@angular/material-moment-adapter@19.2.16(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(@angular/material@19.2.16(d662ebe69ec9330f95f33e3c88917022))(moment@2.30.1)':
+  '@angular/material-moment-adapter@19.2.16(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(@angular/material@19.2.16(bi3gz2tqcqkjlsfum6452humpq))(moment@2.30.1)':
     dependencies:
       '@angular/core': 19.2.11(rxjs@7.8.2)(zone.js@0.15.0)
-      '@angular/material': 19.2.16(d662ebe69ec9330f95f33e3c88917022)
+      '@angular/material': 19.2.16(bi3gz2tqcqkjlsfum6452humpq)
       moment: 2.30.1
       tslib: 2.8.1
 
-  '@angular/material@19.2.16(d662ebe69ec9330f95f33e3c88917022)':
+  '@angular/material@19.2.16(bi3gz2tqcqkjlsfum6452humpq)':
     dependencies:
       '@angular/cdk': 19.2.16(@angular/common@19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2)
       '@angular/common': 19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2)
@@ -15115,21 +15139,37 @@ snapshots:
     dependencies:
       '@capacitor/core': 6.2.1
 
+  '@capacitor-community/file-opener@7.0.1(@capacitor/core@7.0.0)':
+    dependencies:
+      '@capacitor/core': 7.0.0
+
   '@capacitor-community/firebase-analytics@6.0.0(@capacitor/core@6.2.1)':
     dependencies:
       '@capacitor/core': 6.2.1
 
-  '@capacitor-mlkit/barcode-scanning@7.0.0-next.0(@capacitor/core@6.2.1)':
+  '@capacitor-community/firebase-analytics@7.0.0(@capacitor/core@7.0.0)':
     dependencies:
-      '@capacitor/core': 6.2.1
+      '@capacitor/core': 7.0.0
+
+  '@capacitor-mlkit/barcode-scanning@7.1.0(@capacitor/core@7.0.0)':
+    dependencies:
+      '@capacitor/core': 7.0.0
 
   '@capacitor/core@6.2.1':
+    dependencies:
+      tslib: 2.8.1
+
+  '@capacitor/core@7.0.0':
     dependencies:
       tslib: 2.8.1
 
   '@capacitor/filesystem@6.0.3(@capacitor/core@6.2.1)':
     dependencies:
       '@capacitor/core': 6.2.1
+
+  '@capacitor/filesystem@7.0.0(@capacitor/core@7.0.0)':
+    dependencies:
+      '@capacitor/core': 7.0.0
 
   '@capacitor/keyboard@6.0.3(@capacitor/core@6.2.1)':
     dependencies:
@@ -15138,6 +15178,10 @@ snapshots:
   '@capacitor/share@6.0.3(@capacitor/core@6.2.1)':
     dependencies:
       '@capacitor/core': 6.2.1
+
+  '@capacitor/share@7.0.0(@capacitor/core@7.0.0)':
+    dependencies:
+      '@capacitor/core': 7.0.0
 
   '@colors/colors@1.5.0':
     optional: true
@@ -15227,7 +15271,7 @@ snapshots:
       '@types/node': 20.5.1
       chalk: 4.1.2
       cosmiconfig: 8.3.6(typescript@5.7.3)
-      cosmiconfig-typescript-loader: 4.4.0(@types/node@20.5.1)(cosmiconfig@8.3.6(typescript@5.7.3))(ts-node@10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.17))(@types/node@18.19.87)(typescript@5.7.3))(typescript@5.7.3)
+      cosmiconfig-typescript-loader: 4.4.0(@types/node@20.5.1)(cosmiconfig@8.3.6(typescript@5.7.3))(ts-node@10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.17))(@types/node@20.5.1)(typescript@5.7.3))(typescript@5.7.3)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -16963,9 +17007,9 @@ snapshots:
       - bluebird
       - supports-color
 
-  '@nx/angular@20.8.2(512bf558ba5d2dc668270fb7243bf5d1)':
+  '@nx/angular@20.8.2(6iqgea25emmotuutl6pvht5hhe)':
     dependencies:
-      '@angular-devkit/build-angular': 19.2.12(e50d6dd9f5572bba217dbfcea1b9d5dc)
+      '@angular-devkit/build-angular': 19.2.12(om3w746cpsq3up7a4d643mm2y4)
       '@angular-devkit/core': 19.2.12(chokidar@4.0.3)
       '@angular-devkit/schematics': 19.2.12(chokidar@4.0.3)
       '@nx/devkit': 20.8.2(nx@20.8.2(@swc-node/register@1.10.9(@swc/core@1.10.18(@swc/helpers@0.5.17))(@swc/types@0.1.21)(typescript@5.7.3))(@swc/core@1.10.18(@swc/helpers@0.5.17)))
@@ -18380,10 +18424,10 @@ snapshots:
       - react
       - react-dom
 
-  '@storybook/angular@7.6.20(0f7521ae5ca72156c4996a11fa5f2d0c)':
+  '@storybook/angular@7.6.20(hb7ui7yv7jpqqufektk4ojpvzu)':
     dependencies:
       '@angular-devkit/architect': 0.1902.12(chokidar@4.0.3)
-      '@angular-devkit/build-angular': 19.2.12(e50d6dd9f5572bba217dbfcea1b9d5dc)
+      '@angular-devkit/build-angular': 19.2.12(om3w746cpsq3up7a4d643mm2y4)
       '@angular-devkit/core': 19.2.12(chokidar@4.0.3)
       '@angular/common': 19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2)
       '@angular/compiler': 19.2.11
@@ -21130,11 +21174,11 @@ snapshots:
 
   corser@2.0.1: {}
 
-  cosmiconfig-typescript-loader@4.4.0(@types/node@20.5.1)(cosmiconfig@8.3.6(typescript@5.7.3))(ts-node@10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.17))(@types/node@18.19.87)(typescript@5.7.3))(typescript@5.7.3):
+  cosmiconfig-typescript-loader@4.4.0(@types/node@20.5.1)(cosmiconfig@8.3.6(typescript@5.7.3))(ts-node@10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.17))(@types/node@20.5.1)(typescript@5.7.3))(typescript@5.7.3):
     dependencies:
       '@types/node': 20.5.1
       cosmiconfig: 8.3.6(typescript@5.7.3)
-      ts-node: 10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.17))(@types/node@18.19.87)(typescript@5.7.3)
+      ts-node: 10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.17))(@types/node@20.5.1)(typescript@5.7.3)
       typescript: 5.7.3
 
   cosmiconfig-typescript-loader@5.0.0(@types/node@18.19.87)(cosmiconfig@9.0.0(typescript@5.7.3))(typescript@5.7.3):
