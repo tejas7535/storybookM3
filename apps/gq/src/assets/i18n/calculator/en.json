@@ -80,6 +80,9 @@
         "invalidProductionPlant": "Enter valid Production Plant",
         "maxCharacters": "Max {charLimit} Characters allowed"
       }
+    },
+    "snackBarMessages": {
+      "assignRfq": "You are assigned and the RFQ is set to in Progress"
     }
   },
   "rfq4Overview": {

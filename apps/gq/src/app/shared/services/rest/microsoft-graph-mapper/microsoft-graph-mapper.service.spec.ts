@@ -144,4 +144,17 @@ describe('microsoftGraphMapperService', () => {
       req.flush(response);
     });
   });
+
+  describe('getActiveDirectoryUserByUserId', () => {
+    test('should call with correct path and header', () => {
+      const userId = 'user';
+      service.getActiveDirectoryUserByUserId(userId).subscribe();
+      const req = httpMock.expectOne(
+        `${service['PATH_USERS']}/user@schaeffler.com?$select=givenName,surname,displayName,userPrincipalName,mail`
+      );
+
+      expect(req.request.method).toBe(HttpMethod.GET);
+      expect(req.request.headers.get('ConsistencyLevel')).toBe('eventual');
+    });
+  });
 });

@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { of } from 'rxjs';
 
 import { ProductionPlantService } from '@gq/calculator/rfq-4-detail-view/service/rest/production-plant.service';
 import { ActiveDirectoryUser } from '@gq/shared/models';
 import { MicrosoftGraphMapperService } from '@gq/shared/services/rest/microsoft-graph-mapper/microsoft-graph-mapper.service';
+import { translate } from '@jsverse/transloco';
 import { patchState } from '@ngrx/signals';
 import { unprotected } from '@ngrx/signals/testing';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -16,6 +18,7 @@ import {
   RFQ_DETAIL_VIEW_DATA_MOCK,
   RFQ_PRODUCTION_PLANTS,
 } from '../../../../testing/mocks/models/calculator/rfq-4-detail-view/rfq-4-detail-view-data.mock';
+import { RecalculateSqvStatus } from '../models/recalculate-sqv-status.enum';
 import { Rfq4DetailViewService } from '../service/rest/rfq-4-detail-view.service';
 import { Rfq4DetailViewStore } from './rfq-4-detail-view.store';
 
@@ -24,6 +27,13 @@ describe('Rfq4DetailViewStore', () => {
     getRfq4DetailViewData: jest
       .fn()
       .mockReturnValue(of(RFQ_DETAIL_VIEW_DATA_MOCK)),
+    assignRfq: jest.fn().mockReturnValue(
+      of({
+        ...CALCULATOR_RFQ_4_PROCESS_DATA_MOCK,
+        assignedUserId: 'responseId',
+        calculatorRequestRecalculationStatus: RecalculateSqvStatus.CONFIRMED,
+      })
+    ),
   };
   const aadUser: ActiveDirectoryUser = {
     firstName: 'firstName',
@@ -32,9 +42,7 @@ describe('Rfq4DetailViewStore', () => {
     mail: 'user@mail.com',
   };
   const microsoftGraphMapperService = {
-    getActiveDirectoryUserByMultipleUserIds: jest
-      .fn()
-      .mockReturnValue(of([aadUser])),
+    getActiveDirectoryUserByUserId: jest.fn().mockReturnValue(of(aadUser)),
   };
   const productionPlantService = {
     getProductionPlantsForRfq: jest.fn().mockReturnValue(
@@ -68,6 +76,12 @@ describe('Rfq4DetailViewStore', () => {
         {
           provide: ProductionPlantService,
           useValue: productionPlantService,
+        },
+        {
+          provide: MatSnackBar,
+          useValue: {
+            open: jest.fn(),
+          },
         },
       ],
     });
@@ -119,6 +133,40 @@ describe('Rfq4DetailViewStore', () => {
       const productionPlants = store.getProductionPlants();
       expect(productionPlants).toEqual(RFQ_PRODUCTION_PLANTS);
     });
+
+    test('getStartedByUserId', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+
+      patchState(unprotected(store), {
+        rfq4DetailViewData: RFQ_DETAIL_VIEW_DATA_MOCK,
+      });
+      const startedByUserId = store.getStartedByUserId();
+      expect(startedByUserId).toEqual(
+        CALCULATOR_RFQ_4_PROCESS_DATA_MOCK.startedByUserId
+      );
+    });
+    test('getAssignedUserId', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      patchState(unprotected(store), {
+        rfq4DetailViewData: RFQ_DETAIL_VIEW_DATA_MOCK,
+      });
+
+      const assignedUserId = store.getAssignedUserId();
+      expect(assignedUserId).toEqual(
+        CALCULATOR_RFQ_4_PROCESS_DATA_MOCK.assignedUserId
+      );
+    });
+    test('getRecalculationStatus', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      patchState(unprotected(store), {
+        rfq4DetailViewData: RFQ_DETAIL_VIEW_DATA_MOCK,
+      });
+
+      const recalculationStatus = store.getRecalculationStatus();
+      expect(recalculationStatus).toEqual(
+        CALCULATOR_RFQ_4_PROCESS_DATA_MOCK.calculatorRequestRecalculationStatus
+      );
+    });
   });
 
   describe('methods', () => {
@@ -130,19 +178,21 @@ describe('Rfq4DetailViewStore', () => {
       expect(rfq4DetailViewService.getRfq4DetailViewData).toHaveBeenCalledWith(
         rfqId
       );
-      expect(store.loading()).toBeTruthy();
+      expect(store.rfq4DetailViewDataLoading()).toBeFalsy();
       expect(store.rfq4DetailViewData()).toEqual(RFQ_DETAIL_VIEW_DATA_MOCK);
     });
-    test('loadAdUser', () => {
+    test('loadAdUser for processStartedByUser', () => {
       const store = TestBed.inject(Rfq4DetailViewStore);
       const userId = 'userId';
 
-      store.loadAdUser(userId);
+      store.loadProcessStartedByAdUser({
+        userId,
+      });
 
       expect(
-        microsoftGraphMapperService.getActiveDirectoryUserByMultipleUserIds
-      ).toHaveBeenCalledWith([userId]);
-      expect(store.loading()).toBeFalsy();
+        microsoftGraphMapperService.getActiveDirectoryUserByUserId
+      ).toHaveBeenCalledWith(userId);
+      expect(store.processStartedByAdUserLoading()).toBeFalsy();
       expect(store.processStartedByAdUser()).toEqual(aadUser);
     });
     test('loadProductionPlants', () => {
@@ -158,6 +208,46 @@ describe('Rfq4DetailViewStore', () => {
         RFQ_PRODUCTION_PLANTS
       );
     });
+    test('loadAdUser for processAssignedToAdUser', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      const userId = 'userId';
+
+      store.loadProcessAssignedToAdUser({
+        userId,
+      });
+
+      expect(
+        microsoftGraphMapperService.getActiveDirectoryUserByUserId
+      ).toHaveBeenCalledWith(userId);
+      expect(store.processAssignedToAdUserLoading()).toBeFalsy();
+      expect(store.processAssignedToAdUser()).toEqual(aadUser);
+    });
+
+    test('assignRfq', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+
+      patchState(unprotected(store), {
+        rfq4DetailViewData: RFQ_DETAIL_VIEW_DATA_MOCK,
+      });
+
+      store.assignRfq();
+
+      expect(rfq4DetailViewService.assignRfq).toHaveBeenCalledWith(
+        RFQ_DETAIL_VIEW_DATA_MOCK.rfq4ProcessData.rfqId
+      );
+      expect(store.rfq4DetailViewDataLoading()).toBeFalsy();
+      expect(store.rfq4DetailViewData().rfq4ProcessData.assignedUserId).toEqual(
+        'responseId'
+      );
+      expect(
+        store.rfq4DetailViewData().rfq4ProcessData
+          .calculatorRequestRecalculationStatus
+      ).toEqual(RecalculateSqvStatus.CONFIRMED);
+      expect(store.snackBar.open).toHaveBeenCalled();
+      expect(translate).toHaveBeenCalledWith(
+        'calculator.rfq4DetailView.snackBarMessages.assignRfq'
+      );
+    });
   });
 
   describe('hooks', () => {
@@ -168,7 +258,7 @@ describe('Rfq4DetailViewStore', () => {
       expect(rfq4DetailViewService.getRfq4DetailViewData).toHaveBeenCalledWith(
         routerRfqId
       );
-      expect(store.loading()).toBeFalsy();
+      expect(store.rfq4DetailViewDataLoading()).toBeFalsy();
     });
     test('onInit calls loadProductionPlants', () => {
       TestBed.flushEffects();

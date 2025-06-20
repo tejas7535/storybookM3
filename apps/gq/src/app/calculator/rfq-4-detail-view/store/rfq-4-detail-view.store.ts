@@ -1,4 +1,5 @@
 import { computed, effect, inject } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { pipe, switchMap, tap } from 'rxjs';
 
@@ -7,6 +8,7 @@ import { ProductionPlantService } from '@gq/calculator/rfq-4-detail-view/service
 import { getRouteQueryParams } from '@gq/core/store/selectors/router/router.selector';
 import { ActiveDirectoryUser } from '@gq/shared/models';
 import { MicrosoftGraphMapperService } from '@gq/shared/services/rest/microsoft-graph-mapper/microsoft-graph-mapper.service';
+import { translate } from '@jsverse/transloco';
 import { tapResponse } from '@ngrx/operators';
 import {
   signalStore,
@@ -19,6 +21,7 @@ import {
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { Store } from '@ngrx/store';
 
+import { RecalculateSqvStatus } from '../models/recalculate-sqv-status.enum';
 import {
   CalculatorQuotationData,
   CalculatorQuotationDetailData,
@@ -32,15 +35,21 @@ import { RFQ4_DETAIL_VIEW_ACTIONS } from './actions.const';
 
 interface Rfq4DetailViewState {
   rfq4DetailViewData: RfqDetailViewData | null;
+  rfq4DetailViewDataLoading: boolean;
   processStartedByAdUser: ActiveDirectoryUser;
-  loading: boolean;
+  processStartedByAdUserLoading: boolean;
+  processAssignedToAdUser: ActiveDirectoryUser;
+  processAssignedToAdUserLoading: boolean;
   productionPlantData: ProductionPlantData | null;
 }
 
 const initalState: Rfq4DetailViewState = {
   rfq4DetailViewData: null,
+  rfq4DetailViewDataLoading: false,
   processStartedByAdUser: undefined,
-  loading: false,
+  processStartedByAdUserLoading: false,
+  processAssignedToAdUser: undefined,
+  processAssignedToAdUserLoading: false,
   productionPlantData: null,
 };
 
@@ -70,62 +79,119 @@ export const Rfq4DetailViewStore = signalStore(
       (): string =>
         store.rfq4DetailViewData()?.rfq4ProcessData?.processProductionPlant
     ),
+    getStartedByUserId: computed(
+      (): string => store.rfq4DetailViewData()?.rfq4ProcessData.startedByUserId
+    ),
+    getAssignedUserId: computed(
+      (): string => store.rfq4DetailViewData()?.rfq4ProcessData.assignedUserId
+    ),
+    getRecalculationStatus: computed(
+      (): RecalculateSqvStatus =>
+        store.rfq4DetailViewData()?.rfq4ProcessData
+          .calculatorRequestRecalculationStatus
+    ),
   })),
   withProps(() => ({
     rfq4DetailViewService: inject(Rfq4DetailViewService),
     msGraphMapperService: inject(MicrosoftGraphMapperService),
     productionPlantService: inject(ProductionPlantService),
+    snackBar: inject(MatSnackBar),
   })),
   withMethods(
     ({
       rfq4DetailViewService,
       msGraphMapperService,
       productionPlantService,
+      snackBar,
       ...store
     }) => {
-      const loadAdUser = rxMethod<string>(
+      const loadProcessAssignedToAdUser = rxMethod<{
+        userId: string;
+      }>(
         pipe(
           tap(() =>
-            updateState(store, RFQ4_DETAIL_VIEW_ACTIONS.LOAD_AD_USER, {
-              loading: true,
+            updateState(store, RFQ4_DETAIL_VIEW_ACTIONS.LOAD_ASSIGNED_AD_USER, {
+              processAssignedToAdUserLoading: true,
             })
           ),
-          switchMap((userId: string) =>
+          switchMap((obj: { userId: string }) =>
             msGraphMapperService
-              .getActiveDirectoryUserByMultipleUserIds([userId])
+              .getActiveDirectoryUserByUserId(obj.userId)
               .pipe(
                 tapResponse({
-                  next: (users) => {
+                  next: (user) => {
                     updateState(
                       store,
-                      RFQ4_DETAIL_VIEW_ACTIONS.LOAD_AD_USER_SUCCESS,
+                      RFQ4_DETAIL_VIEW_ACTIONS.LOAD_ASSIGNED_AD_USER_SUCCESS,
                       {
-                        processStartedByAdUser:
-                          users && users.length > 0 ? users[0] : undefined,
+                        processAssignedToAdUser: user,
                       },
                       {
-                        loading: false,
+                        processAssignedToAdUserLoading: false,
                       }
                     );
                   },
                   error: () =>
                     updateState(
                       store,
-                      RFQ4_DETAIL_VIEW_ACTIONS.LOAD_AD_USER_FAILURE,
-                      { loading: false }
+                      RFQ4_DETAIL_VIEW_ACTIONS.LOAD_ASSIGNED_AD_USER_FAILURE,
+                      { processAssignedToAdUserLoading: false }
                     ),
                 })
               )
           )
         )
       );
+
+      const loadProcessStartedByAdUser = rxMethod<{
+        userId: string;
+      }>(
+        pipe(
+          tap(() =>
+            updateState(
+              store,
+              RFQ4_DETAIL_VIEW_ACTIONS.LOAD_STARTED_BY_AD_USER,
+              {
+                processStartedByAdUserLoading: true,
+              }
+            )
+          ),
+          switchMap((obj: { userId: string }) =>
+            msGraphMapperService
+              .getActiveDirectoryUserByUserId(obj.userId)
+              .pipe(
+                tapResponse({
+                  next: (user) => {
+                    updateState(
+                      store,
+                      RFQ4_DETAIL_VIEW_ACTIONS.LOAD_STARTED_BY_AD_USER_SUCCESS,
+                      {
+                        processStartedByAdUser: user,
+                      },
+                      {
+                        processStartedByAdUserLoading: false,
+                      }
+                    );
+                  },
+                  error: () =>
+                    updateState(
+                      store,
+                      RFQ4_DETAIL_VIEW_ACTIONS.LOAD_STARTED_BY_AD_USER_FAILURE,
+                      { processStartedByAdUserLoading: false }
+                    ),
+                })
+              )
+          )
+        )
+      );
+
       const loadRfq4DetailViewData = rxMethod<string>(
         pipe(
           tap(() =>
             updateState(
               store,
               RFQ4_DETAIL_VIEW_ACTIONS.LOAD_RFQ4_DETAIL_VIEW_DATA,
-              { loading: true }
+              { rfq4DetailViewDataLoading: true }
             )
           ),
           switchMap((rfqId: string) =>
@@ -137,6 +203,9 @@ export const Rfq4DetailViewStore = signalStore(
                     RFQ4_DETAIL_VIEW_ACTIONS.LOAD_RFQ4_DETAIL_VIEW_DATA_SUCCESS,
                     {
                       rfq4DetailViewData: rfq4Data,
+                    },
+                    {
+                      rfq4DetailViewDataLoading: false,
                     }
                   );
                 },
@@ -144,13 +213,14 @@ export const Rfq4DetailViewStore = signalStore(
                   updateState(
                     store,
                     RFQ4_DETAIL_VIEW_ACTIONS.LOAD_RFQ4_DETAIL_VIEW_DATA_FAILURE,
-                    { loading: false }
+                    { rfq4DetailViewDataLoading: false }
                   ),
               })
             )
           )
         )
       );
+
       const loadProductionPlants = rxMethod<void>(
         pipe(
           tap(() =>
@@ -197,7 +267,56 @@ export const Rfq4DetailViewStore = signalStore(
         )
       );
 
-      return { loadRfq4DetailViewData, loadAdUser, loadProductionPlants };
+      const assignRfq = rxMethod<void>(
+        pipe(
+          tap(() =>
+            updateState(store, RFQ4_DETAIL_VIEW_ACTIONS.ASSIGN_RFQ, {
+              rfq4DetailViewDataLoading: true,
+            })
+          ),
+          switchMap(() =>
+            rfq4DetailViewService
+              .assignRfq(store.getRfq4ProcessData().rfqId)
+              .pipe(
+                tapResponse({
+                  next: (rfq4ProcessData: CalculatorRfq4ProcessData) => {
+                    updateState(
+                      store,
+                      RFQ4_DETAIL_VIEW_ACTIONS.ASSIGN_RFQ_SUCCESS,
+                      {
+                        rfq4DetailViewData: {
+                          ...store.rfq4DetailViewData(),
+                          rfq4ProcessData,
+                        },
+                      },
+                      {
+                        rfq4DetailViewDataLoading: false,
+                      }
+                    );
+                    const toastMessage = translate(
+                      'calculator.rfq4DetailView.snackBarMessages.assignRfq'
+                    );
+                    snackBar.open(toastMessage);
+                  },
+                  error: () =>
+                    updateState(
+                      store,
+                      RFQ4_DETAIL_VIEW_ACTIONS.ASSIGN_RFQ_FAILURE,
+                      { rfq4DetailViewDataLoading: false }
+                    ),
+                })
+              )
+          )
+        )
+      );
+
+      return {
+        loadRfq4DetailViewData,
+        loadProcessAssignedToAdUser,
+        loadProcessStartedByAdUser,
+        assignRfq,
+        loadProductionPlants,
+      };
     }
   ),
   withHooks((store, globalStore = inject(Store)) => ({
@@ -215,9 +334,19 @@ export const Rfq4DetailViewStore = signalStore(
       store.loadProductionPlants();
 
       effect(() => {
-        const startedByUserId = store.getRfq4ProcessData()?.startedByUserId;
+        const startedByUserId = store.getStartedByUserId();
         if (startedByUserId) {
-          store.loadAdUser(startedByUserId);
+          store.loadProcessStartedByAdUser({
+            userId: startedByUserId,
+          });
+        }
+      });
+      effect(() => {
+        const assigneeId = store.getAssignedUserId();
+        if (assigneeId) {
+          store.loadProcessAssignedToAdUser({
+            userId: assigneeId,
+          });
         }
       });
     },

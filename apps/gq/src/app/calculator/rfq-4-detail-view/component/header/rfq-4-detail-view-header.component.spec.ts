@@ -16,6 +16,10 @@ describe('HeaderComponent', () => {
   let component: Rfq4DetailViewHeaderComponent;
   let spectator: Spectator<Rfq4DetailViewHeaderComponent>;
   const rfq4DetailViewData = signal(RFQ_DETAIL_VIEW_DATA_MOCK);
+  const recalculateStatus = signal(
+    RFQ_DETAIL_VIEW_DATA_MOCK.rfq4ProcessData
+      .calculatorRequestRecalculationStatus
+  );
 
   const createComponent = createComponentFactory({
     component: Rfq4DetailViewHeaderComponent,
@@ -27,6 +31,7 @@ describe('HeaderComponent', () => {
         provide: Rfq4DetailViewStore,
         useValue: {
           rfq4DetailViewData,
+          getRecalculationStatus: recalculateStatus,
         },
       },
     ],
@@ -70,14 +75,7 @@ describe('HeaderComponent', () => {
       expect(result).toEqual(TagType.NEUTRAL);
     });
     test('should update tag type when changes', () => {
-      rfq4DetailViewData.set({
-        ...rfq4DetailViewData(),
-        rfq4ProcessData: {
-          ...rfq4DetailViewData().rfq4ProcessData,
-          calculatorRequestRecalculationStatus:
-            RecalculateSqvStatus.IN_PROGRESS,
-        },
-      });
+      recalculateStatus.set(RecalculateSqvStatus.IN_PROGRESS);
 
       const result = component.tagType();
       expect(result).toEqual(TagType.INFO);

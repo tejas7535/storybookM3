@@ -1,9 +1,11 @@
 import { signal } from '@angular/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { AUTH_STATE_MOCK } from '../../../../../testing/mocks';
 import {
   CALCULATOR_QUOTATION_DATA_MOCK,
   CALCULATOR_QUOTATION_DETAIL_DATA_MOCK,
@@ -33,8 +35,14 @@ describe('InformationComponent', () => {
           getQuotationData: signal(CALCULATOR_QUOTATION_DATA_MOCK),
           getRfq4ProcessData: signal(CALCULATOR_RFQ_4_PROCESS_DATA_MOCK),
           processStartedByAdUser: signal(null),
+          processAssignedToAdUser: signal(null),
         },
       },
+      provideMockStore({
+        initialState: {
+          'azure-auth': AUTH_STATE_MOCK,
+        },
+      }),
     ],
   });
 

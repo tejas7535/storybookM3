@@ -43,9 +43,21 @@
       </gq-label-text>
       <gq-label-text>
         <span label>{{ t('assignedTo') }}</span>
-        <span text class="text-primary cursor-pointer hover:underline">
-          {{ t('assignToMe') }}</span
-        >
+        <span text>
+          @if (processAssignedToAdUser()) {
+            <span class="pr-2">
+              {{ processAssignedToAdUser() | userDisplay: true }}</span
+            >
+          }
+          @if (showAssignButton()) {
+            <span
+              class="text-primary cursor-pointer hover:underline"
+              (click)="assignRfq()"
+            >
+              {{ t('assignToMe') }}
+            </span>
+          }
+        </span>
       </gq-label-text>
       <gq-label-text [marginBottom]="false">
         <span label>{{ t('message') }}</span>

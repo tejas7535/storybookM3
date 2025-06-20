@@ -45,4 +45,15 @@ describe('Rfq4DetailViewService', () => {
       expect(req.request.method).toBe('GET');
     });
   });
+
+  describe('assignRfq', () => {
+    test('should call get with correct URL', () => {
+      service.assignRfq(123).subscribe();
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${DetailViewPaths.PATH_CALCULATOR}/123/${DetailViewPaths.PATH_CLAIM_CALCULATION}`
+      );
+
+      expect(req.request.method).toBe('POST');
+    });
+  });
 });

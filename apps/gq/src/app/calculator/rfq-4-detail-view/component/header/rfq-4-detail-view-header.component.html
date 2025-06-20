@@ -19,13 +19,21 @@
     </ng-container>
     <ng-container subheaderBlockContent>
       <div class="flex flex-row pt-2 text-caption pl-9">
-        <span class="text-medium-emphasis">{{
-          t('recalculateSqvStatus', {
-            status:
-              rfq4DetailViewData()?.rfq4ProcessData
-                .calculatorRequestRecalculationStatus,
-          })
-        }}</span>
+        <span
+          [ngClass]="{
+            'text-medium-emphasis': recalculationStatus() === 'OPEN',
+            'text-info': recalculationStatus() === 'IN_PROGRESS',
+            'text-warning': recalculationStatus() === 'REOPEN',
+            'text-success': recalculationStatus() === 'CONFIRMED',
+          }"
+          >{{
+            t('recalculateSqvStatus', {
+              status:
+                rfq4DetailViewData()?.rfq4ProcessData
+                  .calculatorRequestRecalculationStatus,
+            })
+          }}</span
+        >
         <span class="ml-[10px] mr-[10px] text-caption opacity-[0.12]">|</span>
         <gq-customer-subheader-content
           [customer]="rfq4DetailViewData()?.customerData"

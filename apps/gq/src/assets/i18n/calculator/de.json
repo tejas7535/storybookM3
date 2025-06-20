@@ -80,6 +80,9 @@
         "invalidProductionPlant": "Gib ein valides Produktionswerk ein",
         "maxCharacters": "Max {charLimit} Zeichen erlaubt"
       }
+    },
+    "snackBarMessages": {
+      "assignRfq": "Sie sind zugewiesen und der RFQ ist auf 'In Bearbeitung' gesetzt"
     }
   },
   "rfq4Overview": {

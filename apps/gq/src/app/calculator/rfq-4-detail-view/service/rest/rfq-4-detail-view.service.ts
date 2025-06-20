@@ -6,9 +6,11 @@ import { Observable } from 'rxjs';
 import { ApiVersion } from '@gq/shared/models';
 import { Rfq4PathsEnum } from '@gq/shared/services/rest/rfq4/models/rfq-4-paths.enum';
 
-import { RfqDetailViewData } from '../../models/rfq-4-detail-view-data.interface';
+import {
+  CalculatorRfq4ProcessData,
+  RfqDetailViewData,
+} from '../../models/rfq-4-detail-view-data.interface';
 import { DetailViewPaths } from './rfq-4-detail-view-paths.enum';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -18,6 +20,13 @@ export class Rfq4DetailViewService {
   getRfq4DetailViewData(rfqId: string): Observable<RfqDetailViewData> {
     return this.http.get<RfqDetailViewData>(
       `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${DetailViewPaths.PATH_CALCULATOR}/${rfqId}/${DetailViewPaths.PATH_RFQ_4_DETAIL_VIEW}`
+    );
+  }
+
+  assignRfq(rfqId: number): Observable<CalculatorRfq4ProcessData> {
+    return this.http.post<CalculatorRfq4ProcessData>(
+      `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${DetailViewPaths.PATH_CALCULATOR}/${rfqId}/${DetailViewPaths.PATH_CLAIM_CALCULATION}`,
+      {}
     );
   }
 }

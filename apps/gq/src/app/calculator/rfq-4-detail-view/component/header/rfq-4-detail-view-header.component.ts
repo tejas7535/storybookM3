@@ -38,16 +38,16 @@ export class Rfq4DetailViewHeaderComponent {
   rfq4DetailViewData: DeepSignal<RfqDetailViewData> =
     this.store.rfq4DetailViewData;
 
+  recalculationStatus: Signal<RecalculateSqvStatus> =
+    this.store.getRecalculationStatus;
+
   breadcrumbs: Signal<Breadcrumb[]> = computed(() =>
     this.breadcrumbsService.getRfqDetailViewBreadcrumbs(
       this.rfq4DetailViewData().rfq4ProcessData.rfqId.toString()
     )
   );
   tagType: Signal<TagType> = computed(() =>
-    this.getTagType(
-      this.rfq4DetailViewData()?.rfq4ProcessData
-        .calculatorRequestRecalculationStatus
-    )
+    this.getTagType(this.recalculationStatus())
   );
 
   getTagType(status: RecalculateSqvStatus): TagType {

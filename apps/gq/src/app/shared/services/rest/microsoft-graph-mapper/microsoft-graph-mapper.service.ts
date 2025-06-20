@@ -8,6 +8,7 @@ import {
   MicrosoftUser,
   MicrosoftUsersResponse,
 } from '@gq/shared/models/user.model';
+import { withCache } from '@ngneat/cashew';
 
 @Injectable({
   providedIn: 'root',
@@ -42,11 +43,9 @@ export class MicrosoftGraphMapperService {
       )
       .pipe(
         map((userResponse: MicrosoftUsersResponse) =>
-          userResponse.value.map((microsoftUser: MicrosoftUser) => ({
-            firstName: microsoftUser.givenName,
-            lastName: microsoftUser.surname,
-            userId: microsoftUser.userPrincipalName.split('@')[0],
-          }))
+          userResponse.value.map((microsoftUser: MicrosoftUser) =>
+            this.mapMicrosoftUser(microsoftUser)
+          )
         )
       );
   }
@@ -67,13 +66,38 @@ export class MicrosoftGraphMapperService {
       )
       .pipe(
         map((userResponse: MicrosoftUsersResponse) =>
-          userResponse.value.map((microsoftUser: MicrosoftUser) => ({
-            firstName: microsoftUser.givenName,
-            lastName: microsoftUser.surname,
-            userId: microsoftUser.userPrincipalName.split('@')[0],
-            mail: microsoftUser.mail,
-          }))
+          userResponse.value.map((microsoftUser: MicrosoftUser) =>
+            this.mapMicrosoftUser(microsoftUser)
+          )
         )
       );
+  }
+
+  getActiveDirectoryUserByUserId(
+    userId: string
+  ): Observable<ActiveDirectoryUser> {
+    const headers: HttpHeaders = new HttpHeaders({
+      ConsistencyLevel: 'eventual',
+    });
+
+    return this.http
+      .get<MicrosoftUser>(
+        `${this.PATH_USERS}/${`${userId}@schaeffler.com`}?$select=${this.USERS_FIELDS.join(',')}`,
+        { headers, context: withCache() }
+      )
+      .pipe(
+        map((microsoftUser: MicrosoftUser) =>
+          this.mapMicrosoftUser(microsoftUser)
+        )
+      );
+  }
+
+  private mapMicrosoftUser(microsoftUser: MicrosoftUser): ActiveDirectoryUser {
+    return {
+      firstName: microsoftUser.givenName,
+      lastName: microsoftUser.surname,
+      userId: microsoftUser.userPrincipalName.split('@')[0],
+      mail: microsoftUser.mail,
+    };
   }
 }

@@ -28,5 +28,5 @@ import { Rfq4DetailViewStore } from './store/rfq-4-detail-view.store';
 export class Rfq4DetailViewComponent {
   private readonly store = inject(Rfq4DetailViewStore);
 
-  loading = this.store.loading;
+  loading = this.store.rfq4DetailViewDataLoading;
 }
