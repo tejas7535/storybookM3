@@ -125,7 +125,6 @@ export class IronTechnologyComponent implements OnInit, OnDestroy {
       .subscribe((technology) => {
         if (technology) {
           this.dialogFacade.fetchProcessTechnologyComments(technology);
-          this.steelTechnologyCommentControl.reset();
         }
       });
 

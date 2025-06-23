@@ -32,6 +32,7 @@ import {
   RELEASE_DATE,
   RELEASE_RESTRICTIONS,
   RELEASED_STATUS,
+  STEEL_MAKING_PROCESS,
 } from '@mac/msd/constants';
 import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';
 import {
@@ -270,6 +271,12 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     },
     hide: true,
     cellRenderer: Co2UploadFileCellRendererComponent,
+  },
+  {
+    field: STEEL_MAKING_PROCESS,
+    headerName: STEEL_MAKING_PROCESS,
+    filter: false,
+    hide: true,
   },
   {
     field: PROCESS_TECHNOLOGY,

@@ -164,18 +164,12 @@ describe('IronTechnologyComponent', () => {
     });
 
     describe('modify steelTechnologyControl', () => {
-      beforeEach(() => {
-        component.steelTechnologyCommentControl.reset = jest.fn();
-      });
       it('should fetch the comments if value is changed', () => {
         component.steelTechnologyControl.setValue('type1');
 
         expect(
           component.dialogFacade.fetchProcessTechnologyComments
         ).toHaveBeenCalledWith('type1');
-        expect(
-          component.steelTechnologyCommentControl.reset
-        ).toHaveBeenCalled();
       });
     });
 
