@@ -1,4 +1,19 @@
 # Release Notes of Guided Quoting
+## [6.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v6.2.0...gq-v6.3.0) (2025-06-25)
+
+
+### Features
+
+* **gq:** create Layout for Rfq4 Process History ([#7328](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7328)) ([b835b5b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b835b5b93a53552ab7b34cb4ae76848cf7ccd747))
+* **gq:** Rfq4 request  Overview for Calculators (GQUOTE-5959) ([#7262](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7262)) ([d4976f0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d4976f02ad1c4d915ba1e50f12006f8be49e32c9))
+* **gq:** show ipExposure-Dialog (GQUOTE-6222) ([#7346](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7346)) ([5ef89b7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5ef89b7a9e5800225faaba2d98901517b78a06bc))
+* **gq:** validate rfq detail view form fields (GQUOTE-6132) ([#7334](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7334)) ([8c07d57](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8c07d57c33e87ba82ab7d7a649c596e6662b54c7))
+
+
+### Bug Fixes
+
+* **gq:** translation source of snackBarMessages for case creation (GQUOTE-6250) ([#7352](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7352)) ([4520b82](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4520b82f41931c994c79776a81d86c488aee33d0))
+
 ## [6.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v6.1.0...gq-v6.2.0) (2025-06-04)
 
 
