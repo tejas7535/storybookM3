@@ -22,7 +22,7 @@
       "DEVIFC": "Mengen-/Wertabweichung Validated FC",
       "DMPFIN": "Der Forecast wurde aktualisiert",
       "DPLEOR": "Absatzvalidierung (A)",
-      "DPOPDL": "Neueinstufung SP zu OP, prüfe Validated Forecast",
+      "DPOPDL": "Re-Klassifizierung OP, Absatzprognose gelöscht",
       "IAUSAO": "Portfolio Status und/oder Absatzplanung validieren",
       "IAUSDP": "Phase-Out Datum geändert (Kundenauftrag)",
       "NPOSDP": "Neues Phase-Out für SP Material",

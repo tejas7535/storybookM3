@@ -22,7 +22,7 @@
       "DEVIFC": "Desvio de quantidade/valor Validated FC",
       "DMPFIN": "A previsão foi atualizada",
       "DPLEOR": "Validação da demanda (A)",
-      "DPOPDL": "Reclassificação de SP para OP, verificação da previsão validada",
+      "DPOPDL": "Re-classificação OP, Previsão validada eliminada",
       "IAUSAO": "Validar o status do portfólio e/ou demanda",
       "IAUSDP": "Alteração da data de eliminação (pedido do cliente)",
       "NPOSDP": "Nova eliminação progressiva para o material SP",

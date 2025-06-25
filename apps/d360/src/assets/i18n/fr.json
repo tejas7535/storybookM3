@@ -22,7 +22,7 @@
       "DEVIFC": "Écart de quantité/de valeur Validated FC",
       "DMPFIN": "Les prévisions ont été mises à jour",
       "DPLEOR": "Validation de la demande (A)",
-      "DPOPDL": "Reclassement de SP en OP, vérification des prévisions validées",
+      "DPOPDL": "Re-classification OP, Validée Prévision supprimée",
       "IAUSAO": "Valider l'état du portefeuille et/ou demande",
       "IAUSDP": "Date de sortie de phase modifiée (commande client)",
       "NPOSDP": "Nouvelle élimination progressive des matériaux SP",
