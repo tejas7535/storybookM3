@@ -1,4 +1,11 @@
 # Release Notes of Hardness Converter
+## [0.2.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hc-v0.2.2...hc-v0.2.3) (2025-06-25)
+
+
+### Bug Fixes
+
+* **hc:** implement ui findings ([#7362](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7362)) ([1ce0fb2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1ce0fb2fbceadee56eb20ce123eb3e86ffeae61f))
+
 ## [0.2.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hc-v0.2.1...hc-v0.2.2) (2025-05-22)
 
 
