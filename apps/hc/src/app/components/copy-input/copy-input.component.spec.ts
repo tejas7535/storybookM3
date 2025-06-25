@@ -33,7 +33,7 @@ describe('CopyInputComponent', () => {
       {
         provide: DecimalPipe,
         useValue: {
-          transform: jest.fn(() => '1'),
+          transform: jest.fn((number) => number.toString()),
         },
       },
     ],
@@ -42,7 +42,12 @@ describe('CopyInputComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
+
     spectator.detectChanges();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should create', () => {
@@ -55,9 +60,22 @@ describe('CopyInputComponent', () => {
 
       const result = component.transformedValue;
 
-      expect(result).toBe('1');
+      expect(result).toBe('5');
       expect(component['decimalPipe'].transform).toHaveBeenCalledWith(
         5,
+        '1.0-0'
+      );
+    });
+
+    it('should remove comma from the result', () => {
+      component.value = 5_000_000;
+      component['decimalPipe'].transform = jest.fn(() => '5,000,000') as any;
+
+      const result = component.transformedValue;
+
+      expect(result).toBe('5000000');
+      expect(component['decimalPipe'].transform).toHaveBeenCalledWith(
+        5_000_000,
         '1.0-0'
       );
     });
@@ -71,7 +89,9 @@ describe('CopyInputComponent', () => {
 
       component.onCopyButtonClick();
 
-      expect(component['clipboard'].copy).toHaveBeenCalledWith('1\u00A0G-UNIT');
+      expect(component['clipboard'].copy).toHaveBeenCalledWith(
+        '5000000\u00A0G-UNIT'
+      );
       expect(component['snackbar'].open).toHaveBeenCalledWith(
         'Value copied to clipboard',
         'Close',

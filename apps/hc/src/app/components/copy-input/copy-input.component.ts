@@ -36,7 +36,9 @@ export class CopyInputComponent {
   ) {}
 
   public get transformedValue(): string {
-    return this.decimalPipe.transform(this.value, `1.0-${this.precision}`);
+    return this.decimalPipe
+      .transform(this.value, `1.0-${this.precision}`)
+      .replaceAll(',', '');
   }
 
   public onCopyButtonClick(): void {
