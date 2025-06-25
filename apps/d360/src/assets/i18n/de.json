@@ -204,6 +204,25 @@
     },
     "title": "Aufgaben Regel Editor"
   },
+  "banner": {
+    "active": "Banner ist aktiv",
+    "adminTitle": "Administration",
+    "closable": "Banner ist schließbar",
+    "goToHome": "Zurück zur Startseite",
+    "headline": "Überschrift",
+    "message": "Nachricht",
+    "save": "Banner speichern",
+    "saved": "Banner erfolgreich gespeichert.",
+    "title": "Banner Einstellungen",
+    "toSettings": "Einstellungen ändern",
+    "type": "Type",
+    "types": {
+      "ERROR": "Als Fehler anzeigen",
+      "INFO": "Als Information anzeigen",
+      "SUCCESS": "Als Erfolg anzeigen",
+      "WARNING": "Als Warnung anzeigen"
+    }
+  },
   "button": {
     "cancel": "Abbrechen",
     "change": "Ändern",

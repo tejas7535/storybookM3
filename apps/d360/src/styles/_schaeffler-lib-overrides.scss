@@ -1,0 +1,13 @@
+@mixin apply() {
+  schaeffler-alert {
+    &.no-html {
+      .text-body-medium {
+        @apply whitespace-pre-wrap;
+      }
+    }
+
+    .alert-icon {
+      @apply h-6;
+    }
+  }
+}

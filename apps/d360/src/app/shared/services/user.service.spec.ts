@@ -204,6 +204,46 @@ describe('UserService', () => {
 
       expect(result).toEqual([]);
     });
+
+    it('should handle undefined routes gracefully', () => {
+      const result = service.filterVisibleRoutes(undefined as any);
+      expect(result).toEqual(undefined);
+    });
+
+    it('should handle empty routes array', () => {
+      const result = service.filterVisibleRoutes([]);
+      expect(result).toEqual([]);
+    });
+
+    it('should handle routes with undefined data property', () => {
+      const routes: CustomRoute[] = [
+        { visible: true, data: undefined },
+        { visible: true, data: {} },
+      ] as any;
+
+      const result = service.filterVisibleRoutes(routes);
+      expect(result).toHaveLength(2);
+    });
+
+    it('should handle routes with undefined visible property', () => {
+      const routes: CustomRoute[] = [
+        { data: {} }, // visible is undefined
+        { visible: true, data: {} },
+      ] as any;
+
+      const result = service.filterVisibleRoutes(routes);
+      expect(result).toHaveLength(2);
+    });
+
+    it('should filter routes when region is null but allowedRegions is defined', () => {
+      service.region.set(null);
+      const routes: CustomRoute[] = [
+        { visible: true, data: { allowedRegions: [Region.Europe] } },
+      ] as any;
+
+      const result = service.filterVisibleRoutes(routes);
+      expect(result).toEqual([]);
+    });
   });
 
   describe('updateUserSettings', () => {
@@ -213,6 +253,7 @@ describe('UserService', () => {
         'saveUserSettings'
       );
       const newSettings: UserSettings = {
+        systemMessage: null,
         startPage: 'newStartPage' as any,
         demandValidation: null,
         overviewPage: null,
@@ -246,6 +287,32 @@ describe('UserService', () => {
         userSettings
       );
     });
+
+    it('should exclude systemMessage when saving user settings', () => {
+      const httpPutSpy = jest
+        .spyOn(service['http'], 'put')
+        .mockReturnValue(of(null));
+
+      const userSettings = {
+        systemMessage: 'This is a system message',
+        startPage: 'someStartPage' as any,
+        demandValidation: null,
+      } as any;
+
+      service.userSettings.set(userSettings);
+
+      (service as any).saveUserSettings();
+
+      // Verify systemMessage is not included in the PUT request
+      const savedSettings = httpPutSpy.mock.calls[0][1];
+      expect(savedSettings).not.toHaveProperty('systemMessage');
+      expect(httpPutSpy).toHaveBeenCalledWith(
+        service['USER_SETTINGS_API'],
+        expect.not.objectContaining({
+          systemMessage: 'This is a system message',
+        })
+      );
+    });
   });
 
   describe('loadUserSettings', () => {
@@ -261,6 +328,7 @@ describe('UserService', () => {
 
     it('should update userSettings with the result from http.get', () => {
       const userSettings: UserSettings = {
+        systemMessage: null,
         startPage: 'someStartPage' as any,
         demandValidation: null,
         overviewPage: null,
@@ -308,6 +376,7 @@ describe('UserService', () => {
     it('should return the configured start page if available', () => {
       const startPage = 'configuredStartPage' as any;
       service.userSettings.set({
+        systemMessage: null,
         startPage,
         demandValidation: null,
         overviewPage: null,
@@ -320,6 +389,7 @@ describe('UserService', () => {
 
     it('should return the default start page based on region if not configured', () => {
       service.userSettings.set({
+        systemMessage: null,
         startPage: null,
         demandValidation: null,
         overviewPage: null,

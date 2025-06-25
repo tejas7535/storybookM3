@@ -1,4 +1,5 @@
 import {
+  adminsOnly,
   apPortfolioAllowedRoles,
   checkRoles,
   customerMaterialPortfolioChangeAllowedRoles,
@@ -126,6 +127,11 @@ describe('roles.ts', () => {
       expect(salesPlanningAllowedEditRoles).toContain('salesUser');
       expect(salesPlanningAllowedEditRoles).toContain('superUser');
       expect(salesPlanningAllowedEditRoles.length).toBe(2);
+    });
+
+    it('should define adminsOnly correctly', () => {
+      expect(adminsOnly).toContain('superUser');
+      expect(adminsOnly.length).toBe(1);
     });
   });
 });

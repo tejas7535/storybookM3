@@ -35,8 +35,11 @@ describe('UserSettingsComponent', () => {
           ],
           startPage: startPageSignal,
         }),
+        Stub.getStoreProvider(),
       ],
     });
+
+    Stub.setInput('shell', { sidenavOpen: null });
   });
 
   it('should create', () => {
@@ -188,11 +191,8 @@ describe('UserSettingsComponent', () => {
         .spyOn(component['translocoLocaleService'], 'localizeNumber')
         .mockReturnValue(testNumber);
 
-      const translateSpy = jest.spyOn(
-        component['translocoService'],
-        'translate'
-      );
       Stub.detectChanges();
+
       expect(localizeDateSpy).toHaveBeenCalledWith(
         expect.any(Date),
         testLocale,
@@ -207,10 +207,6 @@ describe('UserSettingsComponent', () => {
         'decimal',
         testLocale
       );
-      expect(translateSpy).toHaveBeenCalledWith('drawer.localization-tooltip', {
-        date: testDate,
-        number: testNumber,
-      });
     });
 
     it('should handle errors when localizing data', () => {
@@ -308,7 +304,7 @@ describe('UserSettingsComponent', () => {
 
     it('should update when locale changes', () => {
       const testLocale = 'en-EN';
-      const tooltipText = 'Localized tooltip text';
+      const tooltipText = 'drawer.localization-tooltip';
 
       jest.replaceProperty(
         component['translocoLocaleService'],
@@ -316,13 +312,35 @@ describe('UserSettingsComponent', () => {
         of(testLocale)
       );
 
-      jest
-        .spyOn(component['translocoService'], 'translate')
-        .mockReturnValue(tooltipText);
-
       component.ngOnInit();
 
       expect(component['localizationTooltip']()).toBe(tooltipText);
+    });
+  });
+
+  describe('isAdmin', () => {
+    it('should return false if backendRoles is null', () => {
+      jest.spyOn(component as any, 'backendRoles').mockReturnValue(null);
+
+      const result = component['isAdmin']();
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false if backendRoles is empty', () => {
+      jest.spyOn(component as any, 'backendRoles').mockReturnValue([]);
+
+      const result = component['isAdmin']();
+
+      expect(result).toBe(false);
+    });
+
+    it('should return true if backendRoles includes multiple allowed roles', () => {
+      jest
+        .spyOn(component as any, 'backendRoles')
+        .mockReturnValue(['admin', 'SD-D360_ADMIN']);
+
+      expect(component['isAdmin']()).toBe(true);
     });
   });
 });

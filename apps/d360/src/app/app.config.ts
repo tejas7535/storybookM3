@@ -135,6 +135,7 @@ export const appConfig: ApplicationConfig = {
       [
         appRoutes.root,
         appRoutes.todos,
+        ...appRoutes.admin,
         ...appRoutes.functions.salesSuite,
         ...appRoutes.functions.demandSuite,
         ...appRoutes.functions.general,

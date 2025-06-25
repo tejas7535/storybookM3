@@ -204,6 +204,25 @@
     },
     "title": "Éditeur de règles pour les tâches"
   },
+  "banner": {
+    "active": "La bannière est active",
+    "adminTitle": "Administration",
+    "closable": "La bannière peut être fermée",
+    "goToHome": "Retour à l'accueil",
+    "headline": "En-tête",
+    "message": "Message",
+    "save": "Enregistrer la bannière",
+    "saved": "Paramètres de bannière enregistrés avec succès.",
+    "title": "Paramètres de bannière",
+    "toSettings": "Modifier",
+    "type": "Type",
+    "types": {
+      "ERROR": "Afficher comme erreur",
+      "INFO": "Afficher comme information",
+      "SUCCESS": "Afficher comme succès",
+      "WARNING": "Afficher comme avertissement"
+    }
+  },
   "button": {
     "cancel": "Annuler",
     "change": "Modifier",

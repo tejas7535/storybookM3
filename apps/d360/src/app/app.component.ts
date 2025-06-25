@@ -6,6 +6,7 @@ import {
   inject,
   OnInit,
   signal,
+  WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DateAdapter } from '@angular/material/core';
@@ -18,7 +19,7 @@ import {
   RouterModule,
 } from '@angular/router';
 
-import { EMPTY, map, Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 
 import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
@@ -42,8 +43,9 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import packageJson from '../../package.json';
 import { appRoutes, getAllRoutes } from './app.routes';
-import { AppRoutePath } from './app.routes.enum';
+import { AppRoutePath, AppRouteValue } from './app.routes.enum';
 import { AlertService } from './feature/alerts/alert.service';
+import { BannerComponent } from './shared/components/banner/banner.component';
 import { GlobalSelectionStateService } from './shared/components/global-selection-criteria/global-selection-state.service';
 import { TabBarNavigationComponent } from './shared/components/tab-bar-navigation/tab-bar-navigation.component';
 import { UserSettingsComponent } from './shared/components/user-settings/user-settings.component';
@@ -66,6 +68,7 @@ import { ValidationHelper } from './shared/utils/validation/validation-helper';
     TabBarNavigationComponent,
     MatTabsModule,
     CommonModule,
+    BannerComponent,
   ],
   selector: 'd360-root',
   templateUrl: './app.component.html',
@@ -119,7 +122,7 @@ export class AppComponent implements OnInit {
 
   protected username$: Observable<string>;
   protected profileImage$: Observable<string>;
-  protected isTabNavigationVisible$: Observable<boolean>;
+  protected isTabNavigationVisible: WritableSignal<boolean> = signal(false);
 
   protected footerLinks: AppShellFooterLink[] = [
     {
@@ -231,7 +234,7 @@ export class AppComponent implements OnInit {
   public ngOnInit(): void {
     this.username$ = this.store.select(getUsername);
     this.profileImage$ = this.store.select(getProfileImage);
-    this.isTabNavigationVisible$ = this.showTabNavigationOnPage$();
+    this.showTabNavigationOnPage$().subscribe();
 
     this.authService.handleRedirectObservable().subscribe();
 
@@ -285,24 +288,25 @@ export class AppComponent implements OnInit {
     }
   }
 
-  private showTabNavigationOnPage$(): Observable<boolean> {
-    const routesWithTabNavigation = [
+  private showTabNavigationOnPage$(): Observable<NavigationEnd> {
+    const routesWithTabNavigation = new Set([
       appRoutes.root.path,
       appRoutes.todos.path,
       ...appRoutes.functions.salesSuite.map((route) => route.path),
       ...appRoutes.functions.demandSuite.map((route) => route.path),
       ...appRoutes.functions.general.map((route) => route.path),
-    ];
+    ]);
 
     return this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
-      map((event: NavigationEnd) => {
-        const currentUrl = this.getRelativeUrl(event.url);
-
-        return routesWithTabNavigation.some((route) =>
-          new RegExp(route).test(currentUrl)
+      tap((event: NavigationEnd) => {
+        this.isTabNavigationVisible.set(
+          routesWithTabNavigation.has(
+            this.getRelativeUrl(event.url) as AppRouteValue
+          )
         );
-      })
+      }),
+      takeUntilDestroyed(this.destroyRef)
     );
   }
 

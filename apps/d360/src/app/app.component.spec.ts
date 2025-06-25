@@ -361,6 +361,17 @@ describe('AppComponent', () => {
         component['translocoLocaleService']
       );
     });
+
+    it('should initialize streamSaverService in ngOnInit', () => {
+      const streamSaverService = component['streamSaverService'];
+      const initSpy = jest
+        .spyOn(streamSaverService, 'init')
+        .mockImplementation(() => {});
+
+      component.ngOnInit();
+
+      expect(initSpy).toHaveBeenCalled();
+    });
   });
 
   describe('checkAndSetActiveAccount', () => {
@@ -439,59 +450,136 @@ describe('AppComponent', () => {
   });
 
   describe('showTabNavigationOnPage$', () => {
-    it('should return true if the current URL matches a route with tab navigation', (done) => {
-      const mockRoutesWithTabNavigation = [
+    beforeEach(() => {
+      jest
+        .spyOn(component as any, 'getRelativeUrl')
+        .mockImplementation((url) => String(url).replace(/^\//, ''));
+    });
+
+    it('should show tab navigation for root path', (done) => {
+      const mockEvent = new NavigationEnd(
+        1,
         appRoutes.root.path,
-        appRoutes.todos.path,
-        ...appRoutes.functions.salesSuite.map((route) => route.path),
-        ...appRoutes.functions.demandSuite.map((route) => route.path),
-        ...appRoutes.functions.general.map((route) => route.path),
-      ];
-      const mockEvent = new NavigationEnd(1, '/test-url', '/test-url');
-      const routerEvents$ = component['router'].events as any;
-      jest
-        .spyOn(component as any, 'getRelativeUrl')
-        .mockReturnValue(mockRoutesWithTabNavigation[0]);
-
-      component['showTabNavigationOnPage$']().subscribe((result) => {
-        expect(result).toBe(true);
-        done();
-      });
-
-      routerEvents$.next(mockEvent);
-    });
-
-    it('should filter only NavigationEnd events', (done) => {
-      const mockEvent = new NavigationEnd(1, '/test-url', '/test-url');
-      const routerEvents$ = component['router'].events as any;
-      const nonNavigationEndEvent = { type: 'OtherEvent' };
-
-      jest
-        .spyOn(component as any, 'getRelativeUrl')
-        .mockReturnValue(appRoutes.root.path);
-
-      component['showTabNavigationOnPage$']().subscribe((result) => {
-        expect(result).toBe(true);
-        done();
-      });
-
-      routerEvents$.next(nonNavigationEndEvent); // Should be ignored
-      routerEvents$.next(mockEvent); // Should trigger the observable
-    });
-
-    it('should call getRelativeUrl with the correct URL', (done) => {
-      const mockEvent = new NavigationEnd(1, '/test-url', '/test-url');
-      const routerEvents$ = component['router'].events as any;
-      const getRelativeUrlSpy = jest
-        .spyOn(component as any, 'getRelativeUrl')
-        .mockReturnValue(appRoutes.root.path);
+        appRoutes.root.path
+      );
+      const setTabNavigationSpy = jest.spyOn(
+        component['isTabNavigationVisible'],
+        'set'
+      );
 
       component['showTabNavigationOnPage$']().subscribe(() => {
-        expect(getRelativeUrlSpy).toHaveBeenCalledWith('/test-url');
+        expect(setTabNavigationSpy).toHaveBeenCalledWith(true);
         done();
       });
 
-      routerEvents$.next(mockEvent);
+      routerEvents.next(mockEvent);
+    });
+
+    it('should show tab navigation for todos path', (done) => {
+      const mockEvent = new NavigationEnd(
+        1,
+        `/${appRoutes.todos.path}`,
+        `/${appRoutes.todos.path}`
+      );
+      const setTabNavigationSpy = jest.spyOn(
+        component['isTabNavigationVisible'],
+        'set'
+      );
+
+      component['showTabNavigationOnPage$']().subscribe(() => {
+        expect(setTabNavigationSpy).toHaveBeenCalledWith(true);
+        done();
+      });
+
+      routerEvents.next(mockEvent);
+    });
+
+    it('should show tab navigation for sales suite paths', (done) => {
+      const salesSuitePath = appRoutes.functions.salesSuite[0].path;
+      const mockEvent = new NavigationEnd(
+        1,
+        `/${salesSuitePath}`,
+        `/${salesSuitePath}`
+      );
+      const setTabNavigationSpy = jest.spyOn(
+        component['isTabNavigationVisible'],
+        'set'
+      );
+
+      component['showTabNavigationOnPage$']().subscribe(() => {
+        expect(setTabNavigationSpy).toHaveBeenCalledWith(true);
+        done();
+      });
+
+      routerEvents.next(mockEvent);
+    });
+
+    it('should show tab navigation for demand suite paths', (done) => {
+      const demandSuitePath = appRoutes.functions.demandSuite[0].path;
+      const mockEvent = new NavigationEnd(
+        1,
+        `/${demandSuitePath}`,
+        `/${demandSuitePath}`
+      );
+      const setTabNavigationSpy = jest.spyOn(
+        component['isTabNavigationVisible'],
+        'set'
+      );
+
+      component['showTabNavigationOnPage$']().subscribe(() => {
+        expect(setTabNavigationSpy).toHaveBeenCalledWith(true);
+        done();
+      });
+
+      routerEvents.next(mockEvent);
+    });
+
+    it('should show tab navigation for general function paths', (done) => {
+      const generalPath = appRoutes.functions.general[0].path;
+      const mockEvent = new NavigationEnd(
+        1,
+        `/${generalPath}`,
+        `/${generalPath}`
+      );
+      const setTabNavigationSpy = jest.spyOn(
+        component['isTabNavigationVisible'],
+        'set'
+      );
+
+      component['showTabNavigationOnPage$']().subscribe(() => {
+        expect(setTabNavigationSpy).toHaveBeenCalledWith(true);
+        done();
+      });
+
+      routerEvents.next(mockEvent);
+    });
+
+    it('should hide tab navigation for unknown paths', (done) => {
+      const mockEvent = new NavigationEnd(1, '/unknown-path', '/unknown-path');
+      const setTabNavigationSpy = jest.spyOn(
+        component['isTabNavigationVisible'],
+        'set'
+      );
+
+      component['showTabNavigationOnPage$']().subscribe(() => {
+        expect(setTabNavigationSpy).toHaveBeenCalledWith(false);
+        done();
+      });
+
+      routerEvents.next(mockEvent);
+    });
+
+    it('should filter out non-NavigationEnd events', () => {
+      const setTabNavigationSpy = jest.spyOn(
+        component['isTabNavigationVisible'],
+        'set'
+      );
+
+      component['showTabNavigationOnPage$']().subscribe();
+
+      routerEvents.next({ type: 'NavigationStart' });
+
+      expect(setTabNavigationSpy).not.toHaveBeenCalled();
     });
   });
 
@@ -554,6 +642,18 @@ describe('AppComponent', () => {
       const url = '/';
       const result = (component as any).getRelativeUrl(url);
       expect(result).toBe('');
+    });
+
+    it('should handle relative URLs with query parameters', () => {
+      const url = 'some/path?param=value';
+      const result = (component as any).getRelativeUrl(url);
+      expect(result).toBe('path');
+    });
+
+    it('should handle URLs with fragments', () => {
+      const url = 'https://example.com/some/path#section';
+      const result = (component as any).getRelativeUrl(url);
+      expect(result).toBe('some/path#section');
     });
   });
 });

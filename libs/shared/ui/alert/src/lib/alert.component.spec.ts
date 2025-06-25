@@ -59,4 +59,29 @@ describe('AlertComponent', () => {
     const alertContainer = spectator.query('.alert-success');
     expect(alertContainer).not.toBeNull();
   });
+
+  describe('property "actionText"', () => {
+    it('should not render the button when actionText is an empty string', () => {
+      spectator.setInput('actionText', '');
+      spectator.detectChanges();
+      const button = spectator.query('button');
+      expect(button).toBeNull();
+    });
+
+    it('should not render the button when actionText is null', () => {
+      // eslint-disable-next-line unicorn/no-null
+      spectator.setInput('actionText', null);
+      spectator.detectChanges();
+      const button = spectator.query('button');
+      expect(button).toBeNull();
+    });
+
+    it('should render the button when actionText is a non-empty string', () => {
+      spectator.setInput('actionText', 'Click me');
+      spectator.detectChanges();
+      const button = spectator.query('button');
+      expect(button).not.toBeNull();
+      expect(button).toHaveText('Click me');
+    });
+  });
 });

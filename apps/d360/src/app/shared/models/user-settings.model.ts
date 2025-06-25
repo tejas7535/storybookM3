@@ -1,10 +1,12 @@
 import { AppRouteValue } from '../../app.routes.enum';
 import { KpiType } from '../../feature/demand-validation/model';
+import { AlertType } from '../../pages/admin/banner-settings/banner-settings.component';
 import { FilterValues } from '../../pages/demand-validation/tables/demand-validation-table/column-definitions';
 import { DateRangePeriod } from '../utils/date-range';
 
 // Enum-Keys
 export enum UserSettingsKey {
+  SystemMessage = 'systemMessage',
   StartPage = 'startPage',
   DemandValidation = 'demandValidation',
   OverviewPage = 'overviewPage',
@@ -18,6 +20,14 @@ export enum DemandValidationTimeRangeUserSettingsKey {
   StartDate = 'startDate',
   EndDate = 'endDate',
   OptionalEndDate = 'optionalEndDate',
+}
+export enum SystemMessageKey {
+  Message = 'message',
+  Headline = 'headline',
+  ContentHash = 'contentHash',
+  Active = 'active',
+  Closable = 'closable',
+  Type = 'type',
 }
 
 // Interfaces
@@ -36,6 +46,15 @@ export interface DemandValidationSettings {
   [DemandValidationUserSettingsKey.TimeRange]: DemandValidationTimeRangeUserSettings;
 }
 
+export interface SystemMessageSettings {
+  [SystemMessageKey.Message]: string | null;
+  [SystemMessageKey.Headline]: string | null;
+  [SystemMessageKey.ContentHash]?: string | null;
+  [SystemMessageKey.Active]: boolean;
+  [SystemMessageKey.Closable]: boolean;
+  [SystemMessageKey.Type]: AlertType | null;
+}
+
 export interface OverviewPageSettings {
   [OverviewPageSettingsKey.OnlyAssignedToMe]: boolean;
 }
@@ -45,6 +64,7 @@ export enum OverviewPageSettingsKey {
 }
 
 export interface UserSettings {
+  [UserSettingsKey.SystemMessage]: SystemMessageSettings | null;
   [UserSettingsKey.StartPage]: AppRouteValue | null;
   [UserSettingsKey.DemandValidation]: DemandValidationSettings | null;
   [UserSettingsKey.OverviewPage]: OverviewPageSettings | null;

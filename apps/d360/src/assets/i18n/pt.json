@@ -204,6 +204,25 @@
     },
     "title": "Tarefas Editor de regras"
   },
+  "banner": {
+    "active": "O banner está ativo",
+    "adminTitle": "Administração",
+    "closable": "O banner pode ser fechado",
+    "goToHome": "Voltar para a Página Inicial",
+    "headline": "Título",
+    "message": "Mensagem",
+    "save": "Salvar Banner",
+    "saved": "Configurações do banner salvas com sucesso.",
+    "title": "Configurações do banner",
+    "toSettings": "Editar",
+    "type": "Tipo",
+    "types": {
+      "ERROR": "Mostrar como Erro",
+      "INFO": "Mostrar como Informação",
+      "SUCCESS": "Mostrar como Sucesso",
+      "WARNING": "Mostrar como Aviso"
+    }
+  },
   "button": {
     "cancel": "Cancelar",
     "change": "Mudança",

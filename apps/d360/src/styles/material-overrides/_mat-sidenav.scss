@@ -1,0 +1,7 @@
+@mixin mat-sidenav() {
+  .mat-sidenav-content {
+    &.footer-fixed {
+      overflow: hidden;
+    }
+  }
+}

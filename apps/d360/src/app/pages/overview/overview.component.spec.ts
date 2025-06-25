@@ -87,6 +87,7 @@ describe('OverviewComponent', () => {
     it('should set isAssignedToMe to true if no user settings exist', () => {
       // Override the userSettings stub to return null for the overviewPage
       jest.spyOn(component['userService'], 'userSettings').mockReturnValue({
+        systemMessage: null,
         demandValidation: null,
         startPage: null,
         overviewPage: null,

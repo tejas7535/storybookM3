@@ -21,7 +21,7 @@ export class AlertComponent {
   public type = input.required<AlertType>();
   public headline = input<string>();
   public description = input<string>();
-  public actionText = input.required<string>();
+  public actionText = input.required<string | null>();
   public showIcon = input<boolean>(true);
 
   public buttonClicked = output();

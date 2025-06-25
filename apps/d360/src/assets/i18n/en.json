@@ -204,6 +204,25 @@
     },
     "title": "Task Rule Editor"
   },
+  "banner": {
+    "active": "Banner is active",
+    "adminTitle": "Administration",
+    "closable": "Banner is closable",
+    "goToHome": "Back to Home",
+    "headline": "Headline",
+    "message": "Message",
+    "save": "Save Banner",
+    "saved": "Banner settings successfully saved.",
+    "title": "Banner settings",
+    "toSettings": "Edit Banner settings",
+    "type": "Type",
+    "types": {
+      "ERROR": "Show as Error",
+      "INFO": "Show as Info",
+      "SUCCESS": "Show as Success",
+      "WARNING": "Show as Warning"
+    }
+  },
   "button": {
     "cancel": "Cancel",
     "change": "Change",

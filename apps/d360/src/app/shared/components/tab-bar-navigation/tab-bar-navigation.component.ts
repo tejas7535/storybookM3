@@ -22,6 +22,7 @@ import { AlertService } from '../../../feature/alerts/alert.service';
 import { Alert } from '../../../feature/alerts/model';
 import { UserSettingsKey } from '../../models/user-settings.model';
 import { UserService } from '../../services/user.service';
+import { BannerComponent } from '../banner/banner.component';
 
 export enum TabItem {
   StartPage = 'start-page',
@@ -49,6 +50,7 @@ export const enum ProductType {
     MatTabsModule,
     MatMenuModule,
     MatIconModule,
+    BannerComponent,
   ],
   templateUrl: './tab-bar-navigation.component.html',
   styleUrl: './tab-bar-navigation.component.scss',

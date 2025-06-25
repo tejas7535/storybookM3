@@ -8,6 +8,7 @@
 @use 'ag-grid-community/styles' as ag;
 @use 'styles/material-overrides' as matOverrides;
 @use 'styles/ag-grid-overrides' as agGridOverrides;
+@use 'styles/schaeffler-lib-overrides' as schaefflerLibOverrides;
 
 /*
  * TailwindCSS, utility-first css framework
@@ -43,11 +44,8 @@ html {
   /** Ag-Grid overrides */
   @include agGridOverrides.apply;
 
-  .mat-sidenav-content {
-    &.footer-fixed {
-      overflow: hidden;
-    }
-  }
+  /** Schaeffler Lib overrides */
+  @include schaefflerLibOverrides.apply;
 }
 
 /** Here we define our global CSS vars */

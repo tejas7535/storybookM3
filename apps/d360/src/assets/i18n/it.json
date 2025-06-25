@@ -204,6 +204,25 @@
     },
     "title": "Editor delle regole dei compiti"
   },
+  "banner": {
+    "active": "Il banner è attivo",
+    "adminTitle": "Amministrazione",
+    "closable": "Il banner è chiudibile",
+    "goToHome": "Torna alla home",
+    "headline": "Intestazione",
+    "message": "Messaggio",
+    "save": "Salva banner",
+    "saved": "Impostazioni del banner salvate con successo.",
+    "title": "Impostazioni banner",
+    "toSettings": "Modifica",
+    "type": "Tipo",
+    "types": {
+      "ERROR": "Mostra come errore",
+      "INFO": "Mostra come informazione",
+      "SUCCESS": "Mostra come successo",
+      "WARNING": "Mostra come avviso"
+    }
+  },
   "button": {
     "cancel": "Annullare",
     "change": "Cambiamento",

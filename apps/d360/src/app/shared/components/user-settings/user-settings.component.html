@@ -9,6 +9,7 @@
       [tooltipText]="localizationTooltip()"
     />
   </div>
+
   <div class="w-full mt-8">
     <d360-filter-dropdown
       [control]="currencyControl"
@@ -18,6 +19,7 @@
       (selectionChange)="onCurrencySelectionChange($any($event))"
     />
   </div>
+
   <div class="w-full mt-8">
     <mat-form-field appearance="outline" [formGroup]="userSettingsForm">
       <mat-label>{{ t('tabbar.start-page.label') }}</mat-label>
@@ -42,4 +44,19 @@
       </mat-select>
     </mat-form-field>
   </div>
+
+  @if (isAdmin()) {
+    <h2 class="text-title-medium mt-8">{{ t('banner.adminTitle') }}</h2>
+    <div class="w-full flex flex-wrap gap-4 justify-between items-center">
+      <span class="text-body-medium font-normal">{{ t('banner.title') }}:</span>
+
+      <button
+        mat-button
+        [routerLink]="[AppRoutePath.BannerSettings]"
+        (click)="shell().sidenavOpen = false"
+      >
+        {{ t('banner.toSettings') }}
+      </button>
+    </div>
+  }
 </div>

@@ -12,6 +12,7 @@ import { CanDeactivateGuard } from './shared/utils/auth/can-deactivate-guard.ser
 import { RegionGuard } from './shared/utils/auth/region-guard.service';
 import { RoleGuard } from './shared/utils/auth/role-guard.service';
 import {
+  adminsOnly,
   internalMaterialReplacementAllowedRoles,
   Role,
   salesPlanningAllowedRoles,
@@ -36,6 +37,7 @@ export interface RouteConfig {
   root: CustomRoute;
   functions: Record<ProductType, CustomRoute[]>;
   todos: CustomRoute;
+  admin: CustomRoute[];
   others: CustomRoute[];
 }
 
@@ -45,7 +47,7 @@ export const appRoutes: RouteConfig = {
     path: AppRoutePath.Root,
     canActivate: [MsalGuard],
     loadComponent: /* istanbul ignore next */ () =>
-      import('../app/pages/root/root.component').then((m) => m.RootComponent),
+      import('./pages/root/root.component').then((m) => m.RootComponent),
   },
   functions: {
     [ProductType.SalesSuite]: [
@@ -61,7 +63,7 @@ export const appRoutes: RouteConfig = {
           hasSalesValidationSelection: true,
         },
         loadComponent: /* istanbul ignore next */ () =>
-          import('../app/pages/sales-planning/sales-planning.component').then(
+          import('./pages/sales-planning/sales-planning.component').then(
             (m) => m.SalesPlanningComponent
           ),
       },
@@ -102,9 +104,9 @@ export const appRoutes: RouteConfig = {
         },
         canDeactivate: [CanDeactivateGuard],
         loadComponent: /* istanbul ignore next */ () =>
-          import(
-            '../app/pages/demand-validation/demand-validation.component'
-          ).then((m) => m.DemandValidationComponent),
+          import('./pages/demand-validation/demand-validation.component').then(
+            (m) => m.DemandValidationComponent
+          ),
       },
       {
         path: AppRoutePath.CustomerMaterialPortfolioPage,
@@ -120,7 +122,7 @@ export const appRoutes: RouteConfig = {
         },
         loadComponent: /* istanbul ignore next */ () =>
           import(
-            '../app/pages/customer-material-portfolio/customer-material-portfolio.component'
+            './pages/customer-material-portfolio/customer-material-portfolio.component'
           ).then((m) => m.CustomerMaterialPortfolioComponent),
       },
       {
@@ -137,7 +139,7 @@ export const appRoutes: RouteConfig = {
         },
         loadComponent: /* istanbul ignore next */ () =>
           import(
-            '../app/pages/internal-material-replacement/internal-material-replacement.component'
+            './pages/internal-material-replacement/internal-material-replacement.component'
           ).then((m) => m.InternalMaterialReplacementComponent),
       },
       {
@@ -153,9 +155,7 @@ export const appRoutes: RouteConfig = {
         path: AppRoutePath.CustomerMaterialDetailsPage,
         canActivate: [MsalGuard],
         loadComponent: /* istanbul ignore next */ () =>
-          import('../app/pages/home/home.component').then(
-            (m) => m.HomeComponent
-          ),
+          import('./pages/home/home.component').then((m) => m.HomeComponent),
       },
     ],
     [ProductType.General]: [
@@ -184,7 +184,7 @@ export const appRoutes: RouteConfig = {
           hasTaskRulesSelection: true,
         },
         loadComponent: /* istanbul ignore next */ () =>
-          import('../app/pages/alert-rules/alert-rules.component').then(
+          import('./pages/alert-rules/alert-rules.component').then(
             (m) => m.AlertRulesComponent
           ),
       },
@@ -199,10 +199,24 @@ export const appRoutes: RouteConfig = {
     canActivate: [MsalGuard],
     visible: true,
     loadComponent: /* istanbul ignore next */ () =>
-      import('../app/pages/alerts/alerts.component').then(
-        (m) => m.AlertsComponent
-      ),
+      import('./pages/alerts/alerts.component').then((m) => m.AlertsComponent),
   },
+  admin: [
+    {
+      path: AppRoutePath.BannerSettings,
+      label: 'banner.title',
+      data: {
+        allowedRoles: adminsOnly,
+        titles: ['header.title', 'banner.title'],
+      },
+      canActivate: [MsalGuard, RoleGuard],
+      visible: true,
+      loadComponent: /* istanbul ignore next */ () =>
+        import('./pages/admin/banner-settings/banner-settings.component').then(
+          (m) => m.BannerSettingsComponent
+        ),
+    },
+  ],
   others: [
     {
       path: LegalRoute,
@@ -227,6 +241,7 @@ export function getAllRoutes(): CustomRoute[] {
     appRoutes.root,
     ...Object.values(appRoutes.functions).flat(),
     appRoutes.todos,
+    ...appRoutes.admin,
     ...appRoutes.others,
   ];
 }

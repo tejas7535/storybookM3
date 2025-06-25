@@ -204,6 +204,25 @@
     },
     "title": "任务条件编辑器"
   },
+  "banner": {
+    "active": "横幅已激活",
+    "adminTitle": "管理",
+    "closable": "横幅可关闭",
+    "goToHome": "返回首页",
+    "headline": "标题",
+    "message": "消息",
+    "save": "保存横幅",
+    "saved": "横幅设置已成功保存。",
+    "title": "横幅设置",
+    "toSettings": "编辑横幅设置",
+    "type": "类型",
+    "types": {
+      "ERROR": "显示为错误",
+      "INFO": "显示为信息",
+      "SUCCESS": "显示为成功",
+      "WARNING": "显示为警告"
+    }
+  },
   "button": {
     "cancel": "取消",
     "change": "变更",

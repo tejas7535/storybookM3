@@ -67,4 +67,6 @@ export const salesPlanningAllowedRoles: Role[] = [
   'superUser',
 ];
 
+export const adminsOnly: Role[] = ['superUser'];
+
 export const salesPlanningAllowedEditRoles: Role[] = ['salesUser', 'superUser'];

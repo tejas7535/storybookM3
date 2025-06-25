@@ -17,9 +17,12 @@
       <div class="text-body-medium">{{ description() }}</div>
     }
   </div>
-  <div class="ml-auto">
-    <button mat-stroked-button (click)="onButtonClick()">
-      {{ actionText() }}
-    </button>
-  </div>
+
+  @if (actionText()) {
+    <div class="ml-auto">
+      <button mat-stroked-button (click)="onButtonClick()">
+        {{ actionText() }}
+      </button>
+    </div>
+  }
 </div>

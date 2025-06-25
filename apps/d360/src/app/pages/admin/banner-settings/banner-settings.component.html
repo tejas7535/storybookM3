@@ -1,0 +1,124 @@
+<d360-styled-section
+  [grow]="true"
+  class="flex flex-col h-full"
+  *transloco="let t"
+>
+  <div class="flex items-center gap-3 cursor-pointer" [routerLink]="['/']">
+    <mat-icon class="mat-icon text-medium-emphasis text-title-large">
+      arrow_back
+    </mat-icon>
+    <h5
+      class="text-medium-emphasis text-title-medium flex flex-auto flex-row items-center truncate"
+    >
+      {{ t('banner.goToHome') }}
+    </h5>
+  </div>
+
+  <mat-divider [class.!my-4]="true" />
+
+  <form
+    [formGroup]="form"
+    class="w-full md:w-1/2 md:max-w-xl flex flex-col self-center relative"
+    (submit)="onSubmit()"
+  >
+    @if (loading()) {
+      <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
+    }
+
+    <h2 class="text-title-large my-4">{{ t('banner.title') }}</h2>
+
+    <div class="grid grid-cols-1 w-full">
+      @for (item of formContent; track item.name) {
+        @switch (item.type) {
+          @case ('input') {
+            <mat-form-field appearance="outline">
+              <mat-label>{{ t('banner.' + item.name) }}</mat-label>
+              <input
+                #input
+                matInput
+                [attr.aria-label]="t('banner.' + item.name)"
+                [formControlName]="item.name"
+                [maxLength]="item?.maxLength || null"
+              />
+              @if (item?.maxLength) {
+                <mat-hint align="end">
+                  {{ input.value?.length || 0 }} / {{ item?.maxLength }}
+                </mat-hint>
+              }
+              @if ($any(form.controls)[item.name].hasError('required')) {
+                <mat-error>{{
+                  t('generic.validation.missing_field')
+                }}</mat-error>
+              }
+            </mat-form-field>
+          }
+
+          @case ('textarea') {
+            <mat-form-field appearance="outline">
+              <mat-label>{{ t('banner.' + item.name) }}</mat-label>
+              <textarea
+                #input
+                matInput
+                [attr.aria-label]="t('banner.' + item.name)"
+                [formControlName]="item.name"
+                [maxLength]="item?.maxLength || null"
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"
+              ></textarea>
+              @if (item?.maxLength) {
+                <mat-hint align="end">
+                  {{ input.value?.length || 0 }} / {{ item?.maxLength }}
+                </mat-hint>
+              }
+              @if ($any(form.controls)[item.name].hasError('required')) {
+                <mat-error>{{
+                  t('generic.validation.missing_field')
+                }}</mat-error>
+              }
+            </mat-form-field>
+          }
+
+          @case ('toggle') {
+            <mat-slide-toggle
+              [hideIcon]="true"
+              [formControlName]="item.name"
+              [attr.aria-label]="t('banner.' + item.name)"
+              class="mb-4"
+            >
+              {{ t('banner.' + item.name) }}
+            </mat-slide-toggle>
+          }
+
+          @case ('select') {
+            <mat-form-field appearance="outline">
+              <mat-label>{{ t('banner.' + item.name) }}</mat-label>
+              <mat-select
+                [formControlName]="item.name"
+                [aria-label]="t('banner.' + item.name)"
+              >
+                @for (option of item.options; track option) {
+                  <mat-option [value]="option">
+                    {{ t('banner.types.' + option) }}
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          }
+
+          @default {}
+        }
+      }
+    </div>
+
+    <div class="flex flex-col items-end">
+      <button
+        mat-flat-button
+        [disabled]="form.pristine && form.untouched"
+        type="submit"
+      >
+        {{ t('banner.save') }}
+      </button>
+    </div>
+  </form>
+</d360-styled-section>

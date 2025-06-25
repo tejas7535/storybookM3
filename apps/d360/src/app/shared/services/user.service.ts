@@ -53,11 +53,13 @@ export class UserService {
   private readonly userRoles = toSignal(this.authService.getUserRoles());
 
   public readonly region = signal<Region>(null);
-  public readonly userSettings: WritableSignal<UserSettings | null> = signal({
-    startPage: null,
-    demandValidation: null,
-    overviewPage: null,
-  });
+  public readonly userSettings: WritableSignal<UserSettings | null> = signal(
+    // eslint-disable-next-line unicorn/no-array-reduce
+    Object.values(UserSettingsKey).reduce(
+      (acc, key): UserSettings => ({ ...acc, [key]: null }),
+      {} as UserSettings
+    )
+  );
   public settingsLoaded$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
 
@@ -171,8 +173,12 @@ export class UserService {
   }
 
   private saveUserSettings(): void {
+    const settingsToSave = { ...this.userSettings() };
+
+    delete settingsToSave[UserSettingsKey.SystemMessage]; // System message is not saved to the backend
+
     this.http
-      .put(this.USER_SETTINGS_API, this.userSettings())
+      .put(this.USER_SETTINGS_API, settingsToSave)
       .pipe(take(1), takeUntilDestroyed(this.destroyRef))
       .subscribe();
   }

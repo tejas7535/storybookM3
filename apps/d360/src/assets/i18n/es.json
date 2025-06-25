@@ -204,6 +204,25 @@
     },
     "title": "Editor de reglas de tareas"
   },
+  "banner": {
+    "active": "El banner está activo",
+    "adminTitle": "Administración",
+    "closable": "El banner se puede cerrar",
+    "goToHome": "Volver al inicio",
+    "headline": "Título",
+    "message": "Mensaje",
+    "save": "Guardar banner",
+    "saved": "Configuración del banner guardada exitosamente.",
+    "title": "Configuración del banner",
+    "toSettings": "Editar configuración",
+    "type": "Tipo",
+    "types": {
+      "ERROR": "Mostrar como error",
+      "INFO": "Mostrar como información",
+      "SUCCESS": "Mostrar como éxito",
+      "WARNING": "Mostrar como advertencia"
+    }
+  },
   "button": {
     "cancel": "Cancelar",
     "change": "Cambia",

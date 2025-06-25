@@ -114,6 +114,16 @@ describe('appRoutes', () => {
     );
   });
 
+  it('should define admin routes with correct configuration', () => {
+    const adminRoutes = appRoutes.admin;
+    expect(adminRoutes).toContainEqual(
+      expect.objectContaining({
+        path: AppRoutePath.BannerSettings,
+        loadComponent: expect.any(Function),
+      })
+    );
+  });
+
   it('should return all routes from getAllRoutes', () => {
     const allRoutes = getAllRoutes();
     expect(allRoutes).toContain(appRoutes.root);
@@ -121,6 +131,7 @@ describe('appRoutes', () => {
       expect.arrayContaining([
         ...Object.values(appRoutes.functions).flat(),
         appRoutes.todos,
+        ...appRoutes.admin,
         ...appRoutes.others,
       ])
     );

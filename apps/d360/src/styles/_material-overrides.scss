@@ -11,6 +11,7 @@
 @use 'material-overrides/mat-chips' as matChips;
 @use 'material-overrides/mat-paginator' as matPaginator;
 @use 'material-overrides/mat-card' as matCard;
+@use 'material-overrides/mat-sidenav' as matSidenav;
 
 @mixin apply() {
   @include matGeneral.mat-general;
@@ -26,4 +27,5 @@
   @include matChips.mat-chips;
   @include matPaginator.mat-paginator;
   @include matCard.mat-card;
+  @include matSidenav.mat-sidenav;
 }
