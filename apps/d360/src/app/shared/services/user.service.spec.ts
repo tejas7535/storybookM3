@@ -2,7 +2,7 @@ import { BehaviorSubject, of, throwError } from 'rxjs';
 
 import { CustomRoute } from '../../app.routes';
 import { AppRoutePath } from '../../app.routes.enum';
-import { KpiType } from '../../feature/demand-validation/model';
+import { SelectedKpisAndMetadata } from '../../feature/demand-validation/model';
 import { Region } from '../../feature/global-selection/model';
 import {
   DemandValidationTimeRangeUserSettingsKey,
@@ -407,7 +407,7 @@ describe('UserService', () => {
       const currentSettings = {
         [UserSettingsKey.DemandValidation]: {
           [DemandValidationUserSettingsKey.Workbench]: {
-            [KpiType.Deliveries]: false,
+            [SelectedKpisAndMetadata.Deliveries]: false,
           },
         },
       };
@@ -415,7 +415,7 @@ describe('UserService', () => {
 
       service.updateDemandValidationUserSettings(
         DemandValidationUserSettingsKey.Workbench,
-        { [KpiType.Deliveries]: true } as any
+        { [SelectedKpisAndMetadata.Deliveries]: true } as any
       );
 
       const updatedSettings = service.userSettings();
@@ -424,7 +424,7 @@ describe('UserService', () => {
           DemandValidationUserSettingsKey.Workbench
         ]
       ).toEqual({
-        [KpiType.Deliveries]: true,
+        [SelectedKpisAndMetadata.Deliveries]: true,
       });
     });
 
@@ -458,12 +458,52 @@ describe('UserService', () => {
       });
     });
 
-    it('should use default values if no current settings exist', () => {
-      service.userSettings.set(null);
+    it('should update the exports array when the key is Exports', () => {
+      const currentSettings = {
+        [UserSettingsKey.DemandValidation]: {
+          [DemandValidationUserSettingsKey.Exports]: [],
+        } as any,
+      };
+      service.userSettings.set(currentSettings as any);
+
+      const newExports = [
+        { name: 'Export 1', type: 'excel' },
+        { name: 'Export 2', type: 'csv' },
+      ];
 
       service.updateDemandValidationUserSettings(
-        DemandValidationUserSettingsKey.Workbench,
-        { [KpiType.Deliveries]: true } as any
+        DemandValidationUserSettingsKey.Exports,
+        newExports as any
+      );
+
+      const updatedSettings = service.userSettings();
+      expect(
+        updatedSettings?.[UserSettingsKey.DemandValidation]?.[
+          DemandValidationUserSettingsKey.Exports
+        ]
+      ).toEqual(newExports);
+    });
+
+    it('should preserve existing workbench and timeRange settings when updating exports', () => {
+      const currentSettings = {
+        [UserSettingsKey.DemandValidation]: {
+          [DemandValidationUserSettingsKey.Workbench]: {
+            [SelectedKpisAndMetadata.Deliveries]: true,
+          },
+          [DemandValidationUserSettingsKey.TimeRange]: {
+            [DemandValidationTimeRangeUserSettingsKey.Type]:
+              DateRangePeriod.Monthly,
+          },
+          [DemandValidationUserSettingsKey.Exports]: [],
+        } as any,
+      };
+      service.userSettings.set(currentSettings as any);
+
+      const newExports = [{ name: 'Export 1', type: 'excel' }];
+
+      service.updateDemandValidationUserSettings(
+        DemandValidationUserSettingsKey.Exports,
+        newExports as any
       );
 
       const updatedSettings = service.userSettings();
@@ -472,15 +512,39 @@ describe('UserService', () => {
           DemandValidationUserSettingsKey.Workbench
         ]
       ).toEqual({
-        [KpiType.Deliveries]: true,
-        [KpiType.FirmBusiness]: true,
-        [KpiType.ForecastProposal]: true,
-        [KpiType.ForecastProposalDemandPlanner]: true,
-        [KpiType.DemandRelevantSales]: true,
-        [KpiType.SalesAmbition]: true,
-        [KpiType.Opportunities]: true,
-        [KpiType.SalesPlan]: true,
+        [SelectedKpisAndMetadata.Deliveries]: true,
       });
+
+      expect(
+        updatedSettings?.[UserSettingsKey.DemandValidation]?.[
+          DemandValidationUserSettingsKey.TimeRange
+        ]
+      ).toEqual({
+        [DemandValidationTimeRangeUserSettingsKey.Type]:
+          DateRangePeriod.Monthly,
+      });
+
+      expect(
+        updatedSettings?.[UserSettingsKey.DemandValidation]?.[
+          DemandValidationUserSettingsKey.Exports
+        ]
+      ).toEqual(newExports);
+    });
+
+    it('should create an empty exports array when updating other settings if no exports exist', () => {
+      service.userSettings.set(null);
+
+      service.updateDemandValidationUserSettings(
+        DemandValidationUserSettingsKey.Workbench,
+        { [SelectedKpisAndMetadata.Deliveries]: true } as any
+      );
+
+      const updatedSettings = service.userSettings();
+      expect(
+        updatedSettings?.[UserSettingsKey.DemandValidation]?.[
+          DemandValidationUserSettingsKey.Exports
+        ]
+      ).toEqual([]);
     });
 
     it('should call updateUserSettings with the correct key and value', () => {
@@ -488,7 +552,7 @@ describe('UserService', () => {
 
       service.updateDemandValidationUserSettings(
         DemandValidationUserSettingsKey.Workbench,
-        { [KpiType.Deliveries]: true } as any
+        { [SelectedKpisAndMetadata.Deliveries]: true } as any
       );
 
       expect(updateUserSettingsSpy).toHaveBeenCalledWith(

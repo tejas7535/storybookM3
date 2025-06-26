@@ -32,8 +32,8 @@ export class ExportMaterialCustomerService {
     'api/material-customer/export';
 
   private readonly customErrorMessages: CustomErrorMessages = {
-    'material_customer.export.max_count_exceeded': (detail) =>
-      translate('material_customer.export.max_count_exceeded', {
+    'material_customer.export.maxCountExceeded': (detail) =>
+      translate('material_customer.export.maxCountExceeded', {
         max_count: detail.values?.max_export_count,
       }),
   };
@@ -67,7 +67,7 @@ export class ExportMaterialCustomerService {
     };
 
     this.snackBarService.openSnackBar(
-      translate('material_customer.export.download_started')
+      translate('material_customer.export.downloadStarted')
     );
 
     // we will just export the visible columns

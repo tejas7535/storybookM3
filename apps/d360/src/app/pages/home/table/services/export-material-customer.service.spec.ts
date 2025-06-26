@@ -110,7 +110,7 @@ describe('ExportMaterialCustomerService', () => {
         .subscribe();
 
       expect(snackbarServiceSpy).toHaveBeenCalledWith(
-        'material_customer.export.download_started'
+        'material_customer.export.downloadStarted'
       );
     });
 
@@ -140,7 +140,7 @@ describe('ExportMaterialCustomerService', () => {
     it('should handle error response', (done) => {
       const errorResponse = {
         error: {
-          code: 'material_customer.export.max_count_exceeded',
+          code: 'material_customer.export.maxCountExceeded',
           detail: { values: { max_export_count: 1000 } },
         },
       };

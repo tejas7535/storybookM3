@@ -83,13 +83,13 @@ importers:
         version: 19.2.11(@angular/common@19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(@angular/platform-browser@19.2.11(@angular/animations@19.2.11(@angular/common@19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0)))(@angular/common@19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0)))(rxjs@7.8.2)
       '@angular/material':
         specifier: 19.2.16
-        version: 19.2.16(bi3gz2tqcqkjlsfum6452humpq)
+        version: 19.2.16(d662ebe69ec9330f95f33e3c88917022)
       '@angular/material-date-fns-adapter':
         specifier: 19.2.16
-        version: 19.2.16(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(@angular/material@19.2.16(bi3gz2tqcqkjlsfum6452humpq))(date-fns@3.6.0)
+        version: 19.2.16(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(@angular/material@19.2.16(d662ebe69ec9330f95f33e3c88917022))(date-fns@3.6.0)
       '@angular/material-moment-adapter':
         specifier: 19.2.16
-        version: 19.2.16(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(@angular/material@19.2.16(bi3gz2tqcqkjlsfum6452humpq))(moment@2.30.1)
+        version: 19.2.16(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(@angular/material@19.2.16(d662ebe69ec9330f95f33e3c88917022))(moment@2.30.1)
       '@angular/platform-browser':
         specifier: 19.2.11
         version: 19.2.11(@angular/animations@19.2.11(@angular/common@19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0)))(@angular/common@19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))
@@ -204,23 +204,19 @@ importers:
       tslib:
         specifier: 2.8.1
         version: 2.8.1
+      uuid:
+        specifier: 11.1.0
+        version: 11.1.0
       web-streams-polyfill:
         specifier: 4.1.0
         version: 4.1.0
       zone.js:
         specifier: 0.15.0
         version: 0.15.0
-    optionalDependencies:
-      '@swc-node/register':
-        specifier: 1.10.9
-        version: 1.10.9(@swc/core@1.10.18(@swc/helpers@0.5.17))(@swc/types@0.1.21)(typescript@5.7.3)
-      '@swc/core':
-        specifier: 1.10.18
-        version: 1.10.18(@swc/helpers@0.5.17)
     devDependencies:
       '@angular-devkit/build-angular':
         specifier: 19.2.12
-        version: 19.2.12(om3w746cpsq3up7a4d643mm2y4)
+        version: 19.2.12(e50d6dd9f5572bba217dbfcea1b9d5dc)
       '@angular-devkit/core':
         specifier: 19.2.12
         version: 19.2.12(chokidar@4.0.3)
@@ -280,7 +276,7 @@ importers:
         version: 19.2.0(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(@ngrx/store@19.2.0(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(rxjs@7.8.2)
       '@nx/angular':
         specifier: 20.8.2
-        version: 20.8.2(6iqgea25emmotuutl6pvht5hhe)
+        version: 20.8.2(512bf558ba5d2dc668270fb7243bf5d1)
       '@nx/cypress':
         specifier: 20.8.2
         version: 20.8.2(@babel/traverse@7.27.1)(@swc-node/register@1.10.9(@swc/core@1.10.18(@swc/helpers@0.5.17))(@swc/types@0.1.21)(typescript@5.7.3))(@swc/core@1.10.18(@swc/helpers@0.5.17))(@zkochan/js-yaml@0.0.7)(cypress@13.9.0)(eslint@8.57.0)(nx@20.8.2(@swc-node/register@1.10.9(@swc/core@1.10.18(@swc/helpers@0.5.17))(@swc/types@0.1.21)(typescript@5.7.3))(@swc/core@1.10.18(@swc/helpers@0.5.17)))(typescript@5.7.3)
@@ -328,7 +324,7 @@ importers:
         version: 7.6.20
       '@storybook/angular':
         specifier: 7.6.20
-        version: 7.6.20(hb7ui7yv7jpqqufektk4ojpvzu)
+        version: 7.6.20(0f7521ae5ca72156c4996a11fa5f2d0c)
       '@storybook/core-common':
         specifier: 7.6.20
         version: 7.6.20(encoding@0.1.13)
@@ -533,6 +529,13 @@ importers:
       yargs:
         specifier: 17.7.2
         version: 17.7.2
+    optionalDependencies:
+      '@swc-node/register':
+        specifier: 1.10.9
+        version: 1.10.9(@swc/core@1.10.18(@swc/helpers@0.5.17))(@swc/types@0.1.21)(typescript@5.7.3)
+      '@swc/core':
+        specifier: 1.10.18
+        version: 1.10.18(@swc/helpers@0.5.17)
 
   apps/cdba: {}
 
@@ -1806,7 +1809,7 @@ packages:
       '@capacitor/core': ^6.0.0
 
   '@capacitor-community/file-opener@7.0.1':
-    resolution: {integrity: sha512-Jg/S7p93vI7Lk7rBCeqesgN9wvvZwBcvKkLMaTj7xruIGzU+iXizR5dVntBV6ooDArp25/B5iF6J3BvA6YVppA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor-community/file-opener/-/file-opener-7.0.1.tgz}
+    resolution: {integrity: sha512-Jg/S7p93vI7Lk7rBCeqesgN9wvvZwBcvKkLMaTj7xruIGzU+iXizR5dVntBV6ooDArp25/B5iF6J3BvA6YVppA==}
     engines: {node: '>=16.0.0', npm: '>=8.0.0'}
     peerDependencies:
       '@capacitor/core': '>=7.0.0'
@@ -1817,12 +1820,12 @@ packages:
       '@capacitor/core': ^6.0.0
 
   '@capacitor-community/firebase-analytics@7.0.0':
-    resolution: {integrity: sha512-PwdscXyp8Yxi90Ge6w8xAd9DXnuukoFzH/yvmfD7LjgXzDmkI1H0A/I/xkzv4LdXxwU6M9/MP5cATEq95wGfpg==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor-community/firebase-analytics/-/firebase-analytics-7.0.0.tgz}
+    resolution: {integrity: sha512-PwdscXyp8Yxi90Ge6w8xAd9DXnuukoFzH/yvmfD7LjgXzDmkI1H0A/I/xkzv4LdXxwU6M9/MP5cATEq95wGfpg==}
     peerDependencies:
       '@capacitor/core': ^7.0.0
 
   '@capacitor-mlkit/barcode-scanning@7.1.0':
-    resolution: {integrity: sha512-CIxhGadUnCJeO9xuVhf5TVkg5YQXBPOMeFBXoswotZ7YPjNI4P+I4a4lZs1pRcx1FjxG4fPIVCnuO4wMAvT9Mg==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor-mlkit/barcode-scanning/-/barcode-scanning-7.1.0.tgz}
+    resolution: {integrity: sha512-CIxhGadUnCJeO9xuVhf5TVkg5YQXBPOMeFBXoswotZ7YPjNI4P+I4a4lZs1pRcx1FjxG4fPIVCnuO4wMAvT9Mg==}
     peerDependencies:
       '@capacitor/core': '>=7.0.0'
 
@@ -1830,7 +1833,7 @@ packages:
     resolution: {integrity: sha512-urZwxa7hVE/BnA18oCFAdizXPse6fCKanQyEqpmz6cBJ2vObwMpyJDG5jBeoSsgocS9+Ax+9vb4ducWJn0y2qQ==}
 
   '@capacitor/core@7.0.0':
-    resolution: {integrity: sha512-JMJxPi/tHeOR/I87/P0kc1DUKrj+XfXlYTnNZ8sCp4LA/MPLkTOzpZm3cga7fTY0nWaSqLll2xalrC0psQBfuA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor/core/-/core-7.0.0.tgz}
+    resolution: {integrity: sha512-JMJxPi/tHeOR/I87/P0kc1DUKrj+XfXlYTnNZ8sCp4LA/MPLkTOzpZm3cga7fTY0nWaSqLll2xalrC0psQBfuA==}
 
   '@capacitor/filesystem@6.0.3':
     resolution: {integrity: sha512-PdIP/yOGAbG1lq1wbFbSPhXQ9/5lpTpeiok2NneawJOk6UXvy9W7QZXRo7wXAP7J6FdzU7bKfOORRXpOJpgXyw==}
@@ -1838,7 +1841,7 @@ packages:
       '@capacitor/core': ^6.0.0
 
   '@capacitor/filesystem@7.0.0':
-    resolution: {integrity: sha512-xMzLq+ZaqYBAincYOKF1eNy/3UWwx1XM6TuvWBTVQTHeRsURzqwwbqBKtfkhbRzk5wnXEprWZz5k5iFo2s2BXw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor/filesystem/-/filesystem-7.0.0.tgz}
+    resolution: {integrity: sha512-xMzLq+ZaqYBAincYOKF1eNy/3UWwx1XM6TuvWBTVQTHeRsURzqwwbqBKtfkhbRzk5wnXEprWZz5k5iFo2s2BXw==}
     peerDependencies:
       '@capacitor/core': '>=7.0.0'
 
@@ -1853,7 +1856,7 @@ packages:
       '@capacitor/core': ^6.0.0
 
   '@capacitor/share@7.0.0':
-    resolution: {integrity: sha512-UL/czyt0nr4/O88pFfBK0wP0VNxaQvAmOAtD95Q0srgtJJAdkS0bIvCuhIeVxEeyWG2TyylzzQ2rI/4nexwCyQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor/share/-/share-7.0.0.tgz}
+    resolution: {integrity: sha512-UL/czyt0nr4/O88pFfBK0wP0VNxaQvAmOAtD95Q0srgtJJAdkS0bIvCuhIeVxEeyWG2TyylzzQ2rI/4nexwCyQ==}
     peerDependencies:
       '@capacitor/core': '>=7.0.0'
 
@@ -8096,7 +8099,7 @@ packages:
     engines: {node: '>= 0.4'}
 
   graceful-fs@4.2.11:
-    resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
+    resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/graceful-fs/-/graceful-fs-4.2.11.tgz}
 
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
@@ -9651,7 +9654,7 @@ packages:
     engines: {node: '>= 0.6'}
 
   mime@1.6.0:
-    resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==}
+    resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/mime/-/mime-1.6.0.tgz}
     engines: {node: '>=4'}
     hasBin: true
 
@@ -12739,6 +12742,10 @@ packages:
   utrie@1.0.2:
     resolution: {integrity: sha512-1MLa5ouZiOmQzUbjbu9VmjLzn1QLXBhwpUa7kdLUQK+KQ5KA9I1vk5U4YHe/X2Ch7PYnJfWuWT+VbuxbGwljhw==}
 
+  uuid@11.1.0:
+    resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
+    hasBin: true
+
   uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
@@ -13257,7 +13264,7 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@angular-devkit/build-angular@19.2.12(om3w746cpsq3up7a4d643mm2y4)':
+  '@angular-devkit/build-angular@19.2.12(e50d6dd9f5572bba217dbfcea1b9d5dc)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@angular-devkit/architect': 0.1902.12(chokidar@4.0.3)
@@ -13593,21 +13600,21 @@ snapshots:
 
   '@angular/language-service@19.2.11': {}
 
-  '@angular/material-date-fns-adapter@19.2.16(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(@angular/material@19.2.16(bi3gz2tqcqkjlsfum6452humpq))(date-fns@3.6.0)':
+  '@angular/material-date-fns-adapter@19.2.16(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(@angular/material@19.2.16(d662ebe69ec9330f95f33e3c88917022))(date-fns@3.6.0)':
     dependencies:
       '@angular/core': 19.2.11(rxjs@7.8.2)(zone.js@0.15.0)
-      '@angular/material': 19.2.16(bi3gz2tqcqkjlsfum6452humpq)
+      '@angular/material': 19.2.16(d662ebe69ec9330f95f33e3c88917022)
       date-fns: 3.6.0
       tslib: 2.8.1
 
-  '@angular/material-moment-adapter@19.2.16(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(@angular/material@19.2.16(bi3gz2tqcqkjlsfum6452humpq))(moment@2.30.1)':
+  '@angular/material-moment-adapter@19.2.16(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(@angular/material@19.2.16(d662ebe69ec9330f95f33e3c88917022))(moment@2.30.1)':
     dependencies:
       '@angular/core': 19.2.11(rxjs@7.8.2)(zone.js@0.15.0)
-      '@angular/material': 19.2.16(bi3gz2tqcqkjlsfum6452humpq)
+      '@angular/material': 19.2.16(d662ebe69ec9330f95f33e3c88917022)
       moment: 2.30.1
       tslib: 2.8.1
 
-  '@angular/material@19.2.16(bi3gz2tqcqkjlsfum6452humpq)':
+  '@angular/material@19.2.16(d662ebe69ec9330f95f33e3c88917022)':
     dependencies:
       '@angular/cdk': 19.2.16(@angular/common@19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2)
       '@angular/common': 19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2)
@@ -15271,7 +15278,7 @@ snapshots:
       '@types/node': 20.5.1
       chalk: 4.1.2
       cosmiconfig: 8.3.6(typescript@5.7.3)
-      cosmiconfig-typescript-loader: 4.4.0(@types/node@20.5.1)(cosmiconfig@8.3.6(typescript@5.7.3))(ts-node@10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.17))(@types/node@20.5.1)(typescript@5.7.3))(typescript@5.7.3)
+      cosmiconfig-typescript-loader: 4.4.0(@types/node@20.5.1)(cosmiconfig@8.3.6(typescript@5.7.3))(ts-node@10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.17))(@types/node@18.19.87)(typescript@5.7.3))(typescript@5.7.3)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -17007,9 +17014,9 @@ snapshots:
       - bluebird
       - supports-color
 
-  '@nx/angular@20.8.2(6iqgea25emmotuutl6pvht5hhe)':
+  '@nx/angular@20.8.2(512bf558ba5d2dc668270fb7243bf5d1)':
     dependencies:
-      '@angular-devkit/build-angular': 19.2.12(om3w746cpsq3up7a4d643mm2y4)
+      '@angular-devkit/build-angular': 19.2.12(e50d6dd9f5572bba217dbfcea1b9d5dc)
       '@angular-devkit/core': 19.2.12(chokidar@4.0.3)
       '@angular-devkit/schematics': 19.2.12(chokidar@4.0.3)
       '@nx/devkit': 20.8.2(nx@20.8.2(@swc-node/register@1.10.9(@swc/core@1.10.18(@swc/helpers@0.5.17))(@swc/types@0.1.21)(typescript@5.7.3))(@swc/core@1.10.18(@swc/helpers@0.5.17)))
@@ -18424,10 +18431,10 @@ snapshots:
       - react
       - react-dom
 
-  '@storybook/angular@7.6.20(hb7ui7yv7jpqqufektk4ojpvzu)':
+  '@storybook/angular@7.6.20(0f7521ae5ca72156c4996a11fa5f2d0c)':
     dependencies:
       '@angular-devkit/architect': 0.1902.12(chokidar@4.0.3)
-      '@angular-devkit/build-angular': 19.2.12(om3w746cpsq3up7a4d643mm2y4)
+      '@angular-devkit/build-angular': 19.2.12(e50d6dd9f5572bba217dbfcea1b9d5dc)
       '@angular-devkit/core': 19.2.12(chokidar@4.0.3)
       '@angular/common': 19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2)
       '@angular/compiler': 19.2.11
@@ -21174,11 +21181,11 @@ snapshots:
 
   corser@2.0.1: {}
 
-  cosmiconfig-typescript-loader@4.4.0(@types/node@20.5.1)(cosmiconfig@8.3.6(typescript@5.7.3))(ts-node@10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.17))(@types/node@20.5.1)(typescript@5.7.3))(typescript@5.7.3):
+  cosmiconfig-typescript-loader@4.4.0(@types/node@20.5.1)(cosmiconfig@8.3.6(typescript@5.7.3))(ts-node@10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.17))(@types/node@18.19.87)(typescript@5.7.3))(typescript@5.7.3):
     dependencies:
       '@types/node': 20.5.1
       cosmiconfig: 8.3.6(typescript@5.7.3)
-      ts-node: 10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.17))(@types/node@20.5.1)(typescript@5.7.3)
+      ts-node: 10.9.2(@swc/core@1.10.18(@swc/helpers@0.5.17))(@types/node@18.19.87)(typescript@5.7.3)
       typescript: 5.7.3
 
   cosmiconfig-typescript-loader@5.0.0(@types/node@18.19.87)(cosmiconfig@9.0.0(typescript@5.7.3))(typescript@5.7.3):
@@ -28585,6 +28592,8 @@ snapshots:
     dependencies:
       base64-arraybuffer: 1.0.2
     optional: true
+
+  uuid@11.1.0: {}
 
   uuid@8.3.2: {}
 

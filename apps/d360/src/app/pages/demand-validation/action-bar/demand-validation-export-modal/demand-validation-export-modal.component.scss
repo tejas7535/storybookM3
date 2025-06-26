@@ -1,0 +1,15 @@
+:host {
+  ::ng-deep {
+    .mdc-label {
+      min-width: calc(100% - 16px);
+    }
+  }
+
+  .new {
+    ::ng-deep {
+      .mdc-label {
+        min-width: calc(100% - 64px);
+      }
+    }
+  }
+}

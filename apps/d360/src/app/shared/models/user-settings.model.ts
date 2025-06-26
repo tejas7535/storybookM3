@@ -1,5 +1,5 @@
 import { AppRouteValue } from '../../app.routes.enum';
-import { KpiType } from '../../feature/demand-validation/model';
+import { SelectedKpisAndMetadata } from '../../feature/demand-validation/model';
 import { AlertType } from '../../pages/admin/banner-settings/banner-settings.component';
 import { FilterValues } from '../../pages/demand-validation/tables/demand-validation-table/column-definitions';
 import { DateRangePeriod } from '../utils/date-range';
@@ -14,6 +14,7 @@ export enum UserSettingsKey {
 export enum DemandValidationUserSettingsKey {
   Workbench = 'workbench',
   TimeRange = 'timeRange',
+  Exports = 'exports',
 }
 export enum DemandValidationTimeRangeUserSettingsKey {
   Type = 'type',
@@ -38,12 +39,20 @@ export interface DemandValidationTimeRangeUserSettings {
   [DemandValidationTimeRangeUserSettingsKey.OptionalEndDate]: number | null;
 }
 
+export interface DemandValidationExport {
+  id: string;
+  title: string;
+  active: boolean;
+  selectedKpisAndMetadata: SelectedKpisAndMetadata[];
+}
+
 export interface DemandValidationSettings {
   [DemandValidationUserSettingsKey.Workbench]: Omit<
     FilterValues,
-    KpiType.ValidatedForecast
+    SelectedKpisAndMetadata.ValidatedForecast
   >;
   [DemandValidationUserSettingsKey.TimeRange]: DemandValidationTimeRangeUserSettings;
+  [DemandValidationUserSettingsKey.Exports]: DemandValidationExport[];
 }
 
 export interface SystemMessageSettings {

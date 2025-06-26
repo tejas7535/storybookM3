@@ -55,8 +55,8 @@ import {
   KpiData,
   KpiDateRanges,
   KpiEntry,
-  KpiType,
   MaterialListEntry,
+  SelectedKpisAndMetadata,
   WriteKpiData,
   WriteKpiEntry,
 } from '../../../../feature/demand-validation/model';
@@ -164,18 +164,18 @@ export class DemandValidationTableComponent implements OnInit {
     Boolean(this.kpiData())
   );
 
-  public KpiType: typeof KpiType = KpiType;
+  public KpiType: typeof SelectedKpisAndMetadata = SelectedKpisAndMetadata;
 
   protected filterValues: WritableSignal<FilterValues> = signal({
-    [KpiType.Deliveries]: true,
-    [KpiType.FirmBusiness]: true,
-    [KpiType.ForecastProposal]: true,
-    [KpiType.ForecastProposalDemandPlanner]: true,
-    [KpiType.ValidatedForecast]: true,
-    [KpiType.DemandRelevantSales]: true,
-    [KpiType.SalesAmbition]: true,
-    [KpiType.Opportunities]: true,
-    [KpiType.SalesPlan]: true,
+    [SelectedKpisAndMetadata.Deliveries]: true,
+    [SelectedKpisAndMetadata.FirmBusiness]: true,
+    [SelectedKpisAndMetadata.ForecastProposal]: true,
+    [SelectedKpisAndMetadata.ForecastProposalDemandPlanner]: true,
+    [SelectedKpisAndMetadata.ValidatedForecast]: true,
+    [SelectedKpisAndMetadata.DemandRelevantSales]: true,
+    [SelectedKpisAndMetadata.SalesAmbition]: true,
+    [SelectedKpisAndMetadata.Opportunities]: true,
+    [SelectedKpisAndMetadata.SalesPlan]: true,
   });
 
   /**
@@ -286,7 +286,9 @@ export class DemandValidationTableComponent implements OnInit {
             showSyncIcon: (
               params: TextWithDotParams<CustomTreeDataAutoGroupColumnDef>
             ) =>
-              params.data?.path.includes(KpiType.ValidatedForecast)
+              params.data?.path.includes(
+                SelectedKpisAndMetadata.ValidatedForecast
+              )
                 ? !this.kpiData().isValidatedForecastSynced
                 : false,
             syncIconTooltip: translate(
@@ -342,7 +344,8 @@ export class DemandValidationTableComponent implements OnInit {
           this.filterValues.update((current) => ({
             ...current,
             ...(filterValues || ({} as any)),
-            [KpiType.ValidatedForecast]: current.validatedForecast,
+            [SelectedKpisAndMetadata.ValidatedForecast]:
+              current.validatedForecast,
           }))
         ),
         takeUntilDestroyed(this.destroyRef)
@@ -432,7 +435,7 @@ export class DemandValidationTableComponent implements OnInit {
           }),
           tooltipComponent: GridTooltipComponent,
           tooltipValueGetter: (params: ITooltipParams) => {
-            if (getKey(params) === KpiType.ValidatedForecast) {
+            if (getKey(params) === SelectedKpisAndMetadata.ValidatedForecast) {
               if (this.isValueNoNumberOrTooSmall(params.value)) {
                 return translate('error.valueTooSmall');
               } else if (
@@ -483,7 +486,7 @@ export class DemandValidationTableComponent implements OnInit {
     }));
 
     const newSettings = this.filterValues();
-    delete newSettings[KpiType.ValidatedForecast];
+    delete newSettings[SelectedKpisAndMetadata.ValidatedForecast];
 
     this.userService.updateDemandValidationUserSettings(
       DemandValidationUserSettingsKey.Workbench,
@@ -676,7 +679,7 @@ export class DemandValidationTableComponent implements OnInit {
       if (
         !editable ||
         (this.planningView() === PlanningView.CONFIRMED &&
-          rowKey === KpiType.ValidatedForecast)
+          rowKey === SelectedKpisAndMetadata.ValidatedForecast)
       ) {
         return {
           backgroundColor: demandValidationNotEditableColor,
@@ -685,7 +688,7 @@ export class DemandValidationTableComponent implements OnInit {
 
       if (
         isInFixZone(parseISO(data.fromDate)) &&
-        rowKey === KpiType.DemandRelevantSales
+        rowKey === SelectedKpisAndMetadata.DemandRelevantSales
       ) {
         return { backgroundColor: demandValidationInFixZoneColor };
       } else if ((params.data as CustomTreeDataAutoGroupColumnDef)?.editable) {

@@ -34,7 +34,7 @@ export function demandValidationFilterToStringFilter(
       if (filterValues?.length > 0) {
         filterValuesObject = {
           ...filterValuesObject,
-          [key]: filterValues.map((v) => v.id),
+          [key]: filterValues?.map((v) => v.id),
         };
       }
     }

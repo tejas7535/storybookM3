@@ -1,4 +1,5 @@
 /* eslint-disable max-lines */
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { HttpClient } from '@angular/common/http';
 import {
   ClassProvider,
@@ -663,6 +664,14 @@ export class Stub {
     return MockProvider(
       MsalBroadcastService,
       { msalSubject$, inProgress$ },
+      'useValue'
+    );
+  }
+
+  public static getBreakpointObserverProvider(): ValueProvider {
+    return MockProvider(
+      BreakpointObserver,
+      { observe: () => of() },
       'useValue'
     );
   }

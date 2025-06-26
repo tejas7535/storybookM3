@@ -664,6 +664,7 @@
       "accountOwnerID": "帐户所有者 ID",
       "currentRLTCustomer": "当前客户RLT",
       "currentRLTSchaeffler": "当前舍弗勒RLT",
+      "currentRLTSchaefflerWithTransitTime": "补货周期 (包括 运输时间)",
       "customerClassification": "客户分类 (订单优先级)",
       "customerCountry": "国家 (客户)",
       "customerMaterialNumber": "客户物料号",
@@ -681,6 +682,7 @@
       "forecastValidatedBy": "验证由",
       "forecastValidatedFrom": "验证从",
       "forecastValidatedTo": "验证以",
+      "frozenZone": "冻结区 (包括 运输时间)",
       "gkam": "GKAM",
       "gkamID": "GKAM ID",
       "gkamName": "GKAM 名称",
@@ -703,6 +705,7 @@
       "pfStatusAutoSwitch": "自动更改状态",
       "planningPlant": "计划工厂",
       "portfolioStatus": "组合状态",
+      "portfolioStatusDate": "组合状态 日期",
       "productCluster": "Product Cluster",
       "productionLine": "生产线 (Train)",
       "productionPlant": "生产工厂",
@@ -738,15 +741,16 @@
       "successorSchaefflerMaterialDescription": "物料描述 (舍弗勒后续)",
       "successorSchaefflerMaterialPackagingSize": "包装规格 (舍弗勒后续)",
       "successorStochasticType": "随机类型 (后续客户)",
+      "supplyConcept": "供应概念",
       "tlMessageType": "更换情况",
       "tooltipTextIA": "物料处于非活动状态",
       "tooltipTextRE": "更换物料"
     },
     "export": {
-      "download_started": "导出：下载已开始",
+      "downloadStarted": "导出：下载已开始",
       "failed": "导出失败：{{reason}}",
-      "in_progress": "导出正在进行中。这可能需要几分钟时间。",
-      "max_count_exceeded": "不能导出超过 {{max_count}} 行。"
+      "inProgress": "导出正在进行中。这可能需要几分钟时间。",
+      "maxCountExceeded": "不能导出超过 {{max_count}} 行。"
     },
     "portfolio_status": {
       "AC": "活跃",
@@ -835,7 +839,7 @@
     }
   },
   "paste_from_clipboard": "从剪贴板粘贴",
-  "planing_type": {
+  "planningType": {
     "title": {
       "CONFIRMED": "有限的",
       "REQUESTED": "无限的",
@@ -1233,15 +1237,26 @@
     "error": {
       "no_data": "没有有效数据。"
     },
-    "export_modal": {
-      "button_export": "导出",
-      "date_headline": "选择一个日期",
-      "download_started": "导出：下载已开始",
-      "excel_header_view": "视图",
-      "in_progress": "导出正在进行中。这可能需要几分钟时间。",
-      "selected_customer": "{{number}} 已选定客户",
-      "selected_customer_headline": "已选定客户",
-      "selected_kpis": "导出已选定的KPIs",
+    "exportModal": {
+      "buttonBack": "返回",
+      "buttonExport": "导出",
+      "buttonNext": "下一步",
+      "chooseTemplate": "选择模板",
+      "downloadStarted": "导出：下载已开始",
+      "excelHeaderView": "视图",
+      "inProgress": "导出正在进行中。这可能需要几分钟时间。",
+      "newTemplate": "新建模板",
+      "selectedCustomer": "{{number}} 已选定客户",
+      "selectedCustomerHeadline": "已选定客户",
+      "steps": {
+        "contactPerson": "联系人",
+        "customerInformation": "客户信息",
+        "date": "模板和日期",
+        "kpis": "选择 KPIs",
+        "materialInformation": "材料信息",
+        "supplyChain": "供应链"
+      },
+      "templateChanged": "模板已更改，是否用当前选择覆盖模板?",
       "title": "导出"
     },
     "filter": {
@@ -1299,10 +1314,6 @@
           "SP": "零星"
         },
         "entries": {
-          "<--- Customer Box Left -->": "",
-          "<--- Customer Box Right -->": "",
-          "<--- Material Box Left -->": "",
-          "<--- Material Box Right -->": "",
           "accountOwner": "帐户所有者",
           "currentRLTSchaeffler": "补货周期 (包括 运输时间)",
           "customerClassification": "客户分类 (订单优先级)",

@@ -1,119 +1,340 @@
 <div *transloco="let t">
+  <!--  headline -->
   <div mat-dialog-title class="m-0 pt-0">
     <div class="flex">
       <h2 class="text-title-large flex-auto">
-        {{ t('validation_of_demand.export_modal.title') }}
+        {{ t('validation_of_demand.exportModal.title') }}
       </h2>
     </div>
   </div>
+
   <mat-dialog-content>
-    <!-- KPI Selection -->
-    <div class="flex flex-col">
-      <div class="pr-12">
-        <p class="text-body-large font-bold mb-3">
-          {{
-            t('validation_of_demand.export_modal.selected_customer_headline')
-          }}
+    <p class="mb-3">
+      <span class="font-bold">
+        {{ t('validation_of_demand.exportModal.selectedCustomerHeadline') }}
+      </span>
+      {{
+        t('validation_of_demand.exportModal.selectedCustomer', {
+          number: data.customerData.length,
+        })
+      }}
+    </p>
+
+    <mat-stepper [orientation]="stepperOrientation$ | ngrxPush" #stepper>
+      <!-- Step: Template and Date Selection -->
+      <mat-step>
+        <ng-template matStepLabel>{{
+          t('validation_of_demand.exportModal.steps.date')
+        }}</ng-template>
+
+        <!-- templates -->
+        <p class="text-body-large mb-4">
+          {{ t('validation_of_demand.exportModal.chooseTemplate') }}
         </p>
-        <p class="text-body-large">
-          {{
-            t('validation_of_demand.export_modal.selected_customer', {
-              number: data.customerData.length,
-            })
-          }}
-        </p>
-      </div>
-      <div class="flex flex-col">
-        <p class="text-body-large font-bold mt-3">
-          {{ t('validation_of_demand.export_modal.selected_kpis') }}
-        </p>
-        <form [formGroup]="kpiFormGroup">
-          <div class="flex flex-row mb-3">
-            <div class="flex flex-col gap-2 w-1/2">
-              <p class="text-body-large mt-3">
-                {{ t('planing_type.title.REQUESTED') }}
-              </p>
 
-              @for (
-                requestedToggleType of requestedToggleTypes;
-                track requestedToggleType
-              ) {
-                <mat-slide-toggle
-                  [hideIcon]="true"
-                  formControlName="{{ requestedToggleType }}"
-                >
-                  {{
-                    t('validation_of_demand.menu_item.' + requestedToggleType)
-                  }}
-                </mat-slide-toggle>
-              }
-            </div>
-
-            <!-- Confirmed KPIs -->
-            <div class="flex flex-col gap-2 w-1/2">
-              <p class="text-body-large mt-3">
-                {{ t('planing_type.title.CONFIRMED') }}
-              </p>
-
-              @for (
-                confirmedToggleType of confirmedToggleTypes;
-                track confirmedToggleType
-              ) {
-                <mat-slide-toggle
-                  [hideIcon]="true"
-                  formControlName="{{ confirmedToggleType }}"
-                >
-                  {{ translateConfirmedToggleType(confirmedToggleType) }}
-                </mat-slide-toggle>
-              }
-            </div>
-          </div>
-
-          <mat-divider />
-
-          <!-- Additional Options -->
-          <div class="flex flex-col gap-2 mt-3">
-            <mat-slide-toggle
-              [hideIcon]="true"
-              formControlName="activeAndPredecessor"
+        <mat-radio-group class="flex flex-col">
+          @for (template of templates(); track template.id) {
+            <mat-radio-button
+              #radio
+              [value]="template"
+              [checked]="template.active"
+              (change)="onTemplateChange(template.id, input.value)"
+              class="mb-4 grid grid-cols-1 lg:grid-cols-3 gap-4"
             >
-              {{ t('validation_of_demand.menu_item.activeAndPredecessor') }}
-            </mat-slide-toggle>
-          </div>
-        </form>
-      </div>
-    </div>
+              <div class="flex flex-row items-center">
+                <mat-form-field
+                  class="!mb-0"
+                  [formGroup]="formGroup"
+                  appearance="outline"
+                >
+                  <input
+                    #input
+                    matInput
+                    [value]="template.title"
+                    [disabled]="!radio.checked"
+                  />
+                </mat-form-field>
 
-    <div>
-      <div class="pt-5">
-        <p class="text-body-large font-bold">
-          {{ t('validation_of_demand.export_modal.date_headline') }}
+                <button
+                  mat-icon-button
+                  (click)="deleteTemplate(template.id)"
+                  class="ml-2"
+                  [class.invisible]="
+                    !(
+                      templates().length > 1 ||
+                      (templates().length === 1 && template.id !== newId)
+                    )
+                  "
+                >
+                  <mat-icon class="text-icon-link">delete</mat-icon>
+                </button>
+              </div>
+            </mat-radio-button>
+          }
+
+          @if (isNewAllowed) {
+            <mat-radio-button
+              #radioNew
+              [value]="{
+                id: newId,
+                title: t('validation_of_demand.exportModal.newTemplate'),
+                active: false,
+                column: [],
+              }"
+              (change)="onTemplateChange(newId, inputNew.value)"
+              [checked]="templates().length === 0"
+              class="mb-4 grid grid-cols-1 lg:grid-cols-3 gap-4 new"
+            >
+              <mat-form-field
+                [formGroup]="formGroup"
+                appearance="outline"
+                class="!mb-0"
+              >
+                <input
+                  #inputNew
+                  matInput
+                  [value]="t('validation_of_demand.exportModal.newTemplate')"
+                  [disabled]="!radioNew.checked"
+                />
+              </mat-form-field>
+            </mat-radio-button>
+          }
+        </mat-radio-group>
+
+        <!-- date picker -->
+        <p class="text-body-large mb-4 mt-4">
+          {{ t('validation_of_demand.exportModal.steps.date') }}
         </p>
 
         <d360-demand-validation-date-picker
-          [formGroup]="dateSelectionFormGroup"
-          [startDatePeriod1]="dateSelectionFormGroup.controls.startDatePeriod1"
-          [endDatePeriod1]="dateSelectionFormGroup.controls.endDatePeriod1"
-          [periodType1]="dateSelectionFormGroup.controls.periodType1"
-          [startDatePeriod2]="dateSelectionFormGroup.controls.startDatePeriod2"
-          [endDatePeriod2]="dateSelectionFormGroup.controls.endDatePeriod2"
-          [periodType2]="dateSelectionFormGroup.controls.periodType2"
+          class="block -mt-4 -mb-8"
+          [formGroup]="formGroup"
+          [startDatePeriod1]="$any(formGroup.controls.startDatePeriod1)"
+          [endDatePeriod1]="$any(formGroup.controls.endDatePeriod1)"
+          [periodType1]="$any(formGroup.controls.periodType1)"
+          [startDatePeriod2]="$any(formGroup.controls.startDatePeriod2)"
+          [endDatePeriod2]="$any(formGroup.controls.endDatePeriod2)"
+          [periodType2]="$any(formGroup.controls.periodType2)"
           [periodTypes]="periodTypeOptions"
         />
-      </div>
-    </div>
+
+        <!-- buttons -->
+        <ng-container
+          *ngTemplateOutlet="
+            buttons;
+            context: { stepper, next: true, back: false }
+          "
+        />
+      </mat-step>
+
+      <!-- Step: KPI Selection -->
+      <mat-step>
+        <ng-template matStepLabel>{{
+          t('validation_of_demand.exportModal.steps.kpis')
+        }}</ng-template>
+
+        <!-- toggles sections -->
+        <ng-container
+          *ngTemplateOutlet="
+            toggles;
+            context: {
+              types: [PlanningView.REQUESTED, PlanningView.CONFIRMED],
+              title: true,
+            }
+          "
+        />
+
+        <mat-divider [class.!mt-4]="true" [class.!mb-1]="true" />
+
+        <!-- Additional Options -->
+        <div class="flex flex-col gap-2 mt-3">
+          <mat-slide-toggle
+            [hideIcon]="true"
+            [formControl]="$any(formGroup.controls.activeAndPredecessor)"
+          >
+            {{ t('validation_of_demand.menu_item.activeAndPredecessor') }}
+          </mat-slide-toggle>
+        </div>
+
+        <!-- buttons -->
+        <ng-container
+          *ngTemplateOutlet="
+            buttons;
+            context: { stepper, next: true, back: true }
+          "
+        />
+      </mat-step>
+
+      <!-- Step: Customer Information Selection -->
+      <mat-step>
+        <ng-template matStepLabel>{{
+          t('validation_of_demand.exportModal.steps.customerInformation')
+        }}</ng-template>
+
+        <!-- toggles sections -->
+        <ng-container
+          *ngTemplateOutlet="
+            toggles;
+            context: { types: [AdditionalProps.CustomerInformation] }
+          "
+        />
+
+        <!-- buttons -->
+        <ng-container
+          *ngTemplateOutlet="
+            buttons;
+            context: { stepper, next: true, back: true }
+          "
+        />
+      </mat-step>
+
+      <!-- Step: Contact Person Selection -->
+      <mat-step>
+        <ng-template matStepLabel>{{
+          t('validation_of_demand.exportModal.steps.contactPerson')
+        }}</ng-template>
+
+        <!-- toggles sections -->
+        <ng-container
+          *ngTemplateOutlet="
+            toggles;
+            context: { types: [AdditionalProps.ContactPerson] }
+          "
+        />
+
+        <!-- buttons -->
+        <ng-container
+          *ngTemplateOutlet="
+            buttons;
+            context: { stepper, next: true, back: true }
+          "
+        />
+      </mat-step>
+
+      <!-- Step: Material Information Selection -->
+      <mat-step>
+        <ng-template matStepLabel>{{
+          t('validation_of_demand.exportModal.steps.materialInformation')
+        }}</ng-template>
+
+        <!-- toggles sections -->
+        <ng-container
+          *ngTemplateOutlet="
+            toggles;
+            context: { types: [AdditionalProps.MaterialInformation] }
+          "
+        />
+
+        <!-- buttons -->
+        <ng-container
+          *ngTemplateOutlet="
+            buttons;
+            context: { stepper, next: true, back: true }
+          "
+        />
+      </mat-step>
+
+      <!-- Step: Supply Chain Selection -->
+      <mat-step>
+        <ng-template matStepLabel>{{
+          t('validation_of_demand.exportModal.steps.supplyChain')
+        }}</ng-template>
+
+        <!-- toggles sections -->
+        <ng-container
+          *ngTemplateOutlet="
+            toggles;
+            context: { types: [AdditionalProps.SupplyChain] }
+          "
+        />
+
+        <!-- buttons -->
+        <ng-container
+          *ngTemplateOutlet="
+            buttons;
+            context: { stepper, next: false, back: true }
+          "
+        />
+      </mat-step>
+    </mat-stepper>
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
-    <button (click)="onClose()" mat-button>
+    <button (click)="dialogRef.close()" mat-button>
       {{ t('button.close') }}
     </button>
     <button
       mat-flat-button
       (click)="handleExcelExport()"
-      [disabled]="demandValidationDatePickerHasError()"
+      [disabled]="formGroup.invalid"
     >
-      {{ t('validation_of_demand.export_modal.button_export') }}
+      {{ t('validation_of_demand.exportModal.buttonExport') }}
     </button>
   </mat-dialog-actions>
 </div>
+
+<!-- ----------------------------------------
+  --              Templates                --
+  ---------------------------------------- -->
+
+<!-- toggles -->
+<ng-template #toggles let-types="types" let-title="title">
+  @for (toggleType of toggleTypes; track toggleType.type; let first = $first) {
+    @if (isAllowedToggleSection(types, toggleType)) {
+      <!-- title -->
+      @if (title) {
+        <p
+          class="text-body-large mb-4"
+          [class.mt-4]="!first"
+          *transloco="let t"
+        >
+          {{ t('planningType.title.' + toggleType.type) }}
+        </p>
+      }
+
+      <!-- toggles -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+        @for (data of toggleType.data; track $index) {
+          <div class="grid grid-cols-1 gap-2" *transloco="let t">
+            @for (toggle of data; track toggle) {
+              <mat-slide-toggle
+                [hideIcon]="true"
+                [formControl]="$any(formGroup.controls[toggle])"
+              >
+                @if (toggleType.type === PlanningView.CONFIRMED) {
+                  {{ translateConfirmedToggleType(toggle) }}
+                } @else if (toggleType.type === PlanningView.REQUESTED) {
+                  {{ t('validation_of_demand.menu_item.' + toggle) }}
+                } @else if (toggle === 'currentRLTSchaeffler') {
+                  {{
+                    t('material_customer.column.' + toggle + 'WithTransitTime')
+                  }}
+                } @else {
+                  {{ t('material_customer.column.' + toggle) }}
+                }
+              </mat-slide-toggle>
+            }
+          </div>
+        }
+      </div>
+    }
+  }
+</ng-template>
+
+<!-- buttons -->
+<ng-template #buttons let-stepper="stepper" let-next="next" let-back="back">
+  @if (next || back) {
+    <div class="mt-4" *transloco="let t">
+      @if (back) {
+        <button mat-button (click)="stepper.previous()">
+          {{ t('validation_of_demand.exportModal.buttonBack') }}
+        </button>
+      }
+      @if (next) {
+        <button mat-button (click)="stepper.next()">
+          {{ t('validation_of_demand.exportModal.buttonNext') }}
+        </button>
+      }
+    </div>
+  }
+</ng-template>

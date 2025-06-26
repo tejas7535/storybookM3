@@ -664,6 +664,7 @@
       "accountOwnerID": "Account Owner ID",
       "currentRLTCustomer": "Current RLT Customer",
       "currentRLTSchaeffler": "Current RLT Schaeffler",
+      "currentRLTSchaefflerWithTransitTime": "Current RLT Schaeffler (Transit Time)",
       "customerClassification": "Customer Classification (Order Prio)",
       "customerCountry": "Country (Customer)",
       "customerMaterialNumber": "Customer Material Number",
@@ -681,6 +682,7 @@
       "forecastValidatedBy": "Validated by",
       "forecastValidatedFrom": "Validated from",
       "forecastValidatedTo": "Validated to",
+      "frozenZone": "Frozen Zone (incl. Transit Time)",
       "gkam": "GKAM",
       "gkamID": "GKAM ID",
       "gkamName": "GKAM Name",
@@ -703,6 +705,7 @@
       "pfStatusAutoSwitch": "Automatic status change",
       "planningPlant": "Planning Plant",
       "portfolioStatus": "Portfolio Status",
+      "portfolioStatusDate": "Portfolio Status Date",
       "productCluster": "Product Cluster",
       "productionLine": "Production Line (Train)",
       "productionPlant": "Production Plant",
@@ -720,33 +723,34 @@
       "subKeyAccount": "Sub Key Account",
       "subKeyAccountName": "Sub Key Account name",
       "successorCustomerMaterialDescription": "Material Description (Successor Customer)",
-      "successorCustomerMaterialNumber": "Customer material numbers (successor customer)",
+      "successorCustomerMaterialNumber": "Customer material numbers (Successor Customer)",
       "successorCustomerMaterialPackagingSize": "Packaging Size (Successor Customer)",
-      "successorMaterial": "Validated follow-up material (customer)",
-      "successorMaterialClassification": "Material classification (successor customer)",
+      "successorMaterial": "Validated follow-up material (Customer)",
+      "successorMaterialClassification": "Material classification (Successor Customer)",
       "successorMaterialClassificationCustomer": "Material Classification (Predecessor Customer)",
       "successorMaterialClassificationSchaeffler": "Material Classification (Predecessor Schaeffler)",
       "successorMaterialCustomer": "Successor Material (Customer)",
-      "successorMaterialDescription": "Material description (successor customer)",
-      "successorMaterialPackagingSize": "Packing size (successor customer)",
-      "successorProductionLine": "Production line (successor customer)",
-      "successorProductionPlant": "Production plant (successor customer)",
-      "successorProductionSegment": "Production segment (successor customer)",
-      "successorProductLine": "Product line (successor customer)",
-      "successorProductLineText": "Product line designation (successor customer)",
+      "successorMaterialDescription": "Material description (Successor Customer)",
+      "successorMaterialPackagingSize": "Packing size (Successor Customer)",
+      "successorProductionLine": "Production line (Successor Customer)",
+      "successorProductionPlant": "Production plant (Successor Customer)",
+      "successorProductionSegment": "Production segment (Successor Customer)",
+      "successorProductLine": "Product line (Successor Customer)",
+      "successorProductLineText": "Product line designation (Successor Customer)",
       "successorSchaefflerMaterial": "Successor Material (Schaeffler)",
       "successorSchaefflerMaterialDescription": "Material Description (Successor Schaeffler)",
       "successorSchaefflerMaterialPackagingSize": "Packaging Size (Successor Schaeffler)",
-      "successorStochasticType": "Stochastic type (successor customer)",
+      "successorStochasticType": "Stochastic type (Successor Customer)",
+      "supplyConcept": "Supply Concept",
       "tlMessageType": "Substitution Status",
       "tooltipTextIA": "Material is inactive",
       "tooltipTextRE": "Material is substituted"
     },
     "export": {
-      "download_started": "Export: Download started",
+      "downloadStarted": "Export: Download started",
       "failed": "Export failed: {{reason}}",
-      "in_progress": "Export in progress. This may take several minutes.",
-      "max_count_exceeded": "No more than {{max_count}} rows may be exported."
+      "inProgress": "Export in progress. This may take several minutes.",
+      "maxCountExceeded": "No more than {{max_count}} rows may be exported."
     },
     "portfolio_status": {
       "AC": "Active",
@@ -835,7 +839,7 @@
     }
   },
   "paste_from_clipboard": "Paste from clipboard",
-  "planing_type": {
+  "planningType": {
     "title": {
       "CONFIRMED": "Constrained",
       "REQUESTED": "Unconstrained",
@@ -1233,15 +1237,26 @@
     "error": {
       "no_data": "No valid data."
     },
-    "export_modal": {
-      "button_export": "Export",
-      "date_headline": "Choose a date",
-      "download_started": "Export: Download started",
-      "excel_header_view": "View",
-      "in_progress": "Export in progress. This may take several minutes.",
-      "selected_customer": "{{number}} customer selected",
-      "selected_customer_headline": "Selected Customer:",
-      "selected_kpis": "Selected KPIs for Export:",
+    "exportModal": {
+      "buttonBack": "Back",
+      "buttonExport": "Export",
+      "buttonNext": "Next Step",
+      "chooseTemplate": "Choose a template",
+      "downloadStarted": "Export: Download started",
+      "excelHeaderView": "View",
+      "inProgress": "Export in progress. This may take several minutes.",
+      "newTemplate": "New template",
+      "selectedCustomer": "{{number}} customer selected",
+      "selectedCustomerHeadline": "Selected Customer:",
+      "steps": {
+        "contactPerson": "Contact Person",
+        "customerInformation": "Customer Information",
+        "date": "Template & Date",
+        "kpis": "Select KPIs",
+        "materialInformation": "Material Information",
+        "supplyChain": "Supply Chain"
+      },
+      "templateChanged": "The template was changed, do you want to override the template with the current selections?",
       "title": "Export"
     },
     "filter": {
@@ -1299,10 +1314,6 @@
           "SP": "Sporadic"
         },
         "entries": {
-          "<--- Customer Box Left -->": "",
-          "<--- Customer Box Right -->": "",
-          "<--- Material Box Left -->": "",
-          "<--- Material Box Right -->": "",
           "accountOwner": "Account Owner",
           "currentRLTSchaeffler": "Current RLT Schaeffler (Transit Time)",
           "customerClassification": "Customer Classification (Order Prio)",

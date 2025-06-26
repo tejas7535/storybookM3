@@ -1,6 +1,6 @@
 import { HttpContext, HttpParams } from '@angular/common/http';
 
-import { of, take, throwError } from 'rxjs';
+import { catchError, of, take, throwError } from 'rxjs';
 
 import { MessageType } from '../../shared/models/message-type.enum';
 import { Stub } from '../../shared/test/stub.class';
@@ -17,10 +17,10 @@ import {
   KpiBucketTypeEnum,
   KpiData,
   KpiDateRanges,
-  KpiType,
   MaterialListEntry,
   MultiType,
   SelectedKpis,
+  SelectedKpisAndMetadata,
   WriteKpiData,
 } from './model';
 
@@ -703,15 +703,16 @@ describe('DemandValidationService', () => {
               customerNumber: '67890',
               materialNumber: '12345',
               selectedKpis: expect.objectContaining({
-                [KpiType.ActiveAndPredecessor]: true,
-                [KpiType.Deliveries]: true,
-                [KpiType.FirmBusiness]: true,
+                [SelectedKpisAndMetadata.ActiveAndPredecessor]: true,
+                [SelectedKpisAndMetadata.Deliveries]: true,
+                [SelectedKpisAndMetadata.FirmBusiness]: true,
               }),
               range1: {
                 from: '2023-01-01',
                 to: '2023-01-31',
                 period: DateRangePeriod.Monthly,
               },
+              range2: undefined,
               exceptions: ['2023-01-15'],
             }
           );
@@ -768,9 +769,9 @@ describe('DemandValidationService', () => {
               customerNumber: '67890',
               materialNumber: '12345',
               selectedKpis: expect.objectContaining({
-                [KpiType.ActiveAndPredecessor]: true,
-                [KpiType.Deliveries]: true,
-                [KpiType.FirmBusiness]: true,
+                [SelectedKpisAndMetadata.ActiveAndPredecessor]: true,
+                [SelectedKpisAndMetadata.Deliveries]: true,
+                [SelectedKpisAndMetadata.FirmBusiness]: true,
               }),
               range1: {
                 from: '2023-01-01',
@@ -945,6 +946,171 @@ describe('DemandValidationService', () => {
           done();
         });
     });
+
+    it('should convert dates to string format correctly', (done) => {
+      const selectedKpis: SelectedKpis = {
+        activeAndPredecessor: true,
+        deliveries: false,
+        firmBusiness: true,
+      } as any;
+      const filledRange: { range1: DateRange; range2?: DateRange } = {
+        range1: {
+          from: new Date('2023-01-01'),
+          to: new Date('2023-01-31'),
+          period: DateRangePeriod.Monthly,
+        },
+      };
+      const demandValidationFilters: DemandValidationFilter = {} as any;
+      const mockResponse = new Blob(['mock data'], {
+        type: 'application/vnd.ms-excel',
+      });
+
+      jest
+        .spyOn(service['http'], 'post')
+        .mockReturnValue(of({ body: mockResponse } as any));
+      jest
+        .spyOn(service['streamSaverService'], 'streamResponseToFile')
+        .mockReturnValue(Promise.resolve());
+
+      service
+        .triggerExport(selectedKpis, filledRange, demandValidationFilters)
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(service['http'].post).toHaveBeenCalledWith(
+            service['EXPORT_DEMAND_VALIDATION_API'],
+            expect.objectContaining({
+              range1: {
+                from: '2023-01-01',
+                to: '2023-01-31',
+                period: DateRangePeriod.Monthly,
+              },
+              selectedKpisAndMetadata: ['activeAndPredecessor', 'firmBusiness'],
+            }),
+            expect.any(Object)
+          );
+          done();
+        });
+    });
+
+    it('should log failure event with app insights on export error', (done) => {
+      const selectedKpis: SelectedKpis = {
+        activeAndPredecessor: true,
+      } as any;
+      const filledRange: { range1: DateRange; range2?: DateRange } = {
+        range1: {
+          from: new Date('2023-01-01'),
+          to: new Date('2023-01-31'),
+          period: DateRangePeriod.Monthly,
+        },
+      };
+      const demandValidationFilters: DemandValidationFilter = {} as any;
+
+      jest
+        .spyOn(service['http'], 'post')
+        .mockReturnValue(throwError(() => new Error('Export failed')));
+      jest.spyOn(service['appInsights'], 'logEvent');
+
+      service
+        .triggerExport(selectedKpis, filledRange, demandValidationFilters)
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(service['appInsights'].logEvent).toHaveBeenCalledWith(
+            '[Validated Sales Planning] Export Data'
+          );
+          expect(service['appInsights'].logEvent).toHaveBeenCalledWith(
+            '[Validated Sales Planning] Export Data Failure'
+          );
+          done();
+        });
+    });
+
+    it('should properly format the filename for the exported file', (done) => {
+      const selectedKpis: SelectedKpis = {
+        activeAndPredecessor: true,
+      } as any;
+      const filledRange: { range1: DateRange; range2?: DateRange } = {
+        range1: {
+          from: new Date('2023-01-01'),
+          to: new Date('2023-01-31'),
+          period: DateRangePeriod.Monthly,
+        },
+      };
+      const demandValidationFilters: DemandValidationFilter = {} as any;
+      const mockResponse = new Blob(['mock data'], {
+        type: 'application/vnd.ms-excel',
+      });
+
+      jest
+        .spyOn(service['http'], 'post')
+        .mockReturnValue(of({ body: mockResponse } as any));
+      const streamSpy = jest
+        .spyOn(service['streamSaverService'], 'streamResponseToFile')
+        .mockReturnValue(Promise.resolve());
+
+      service
+        .triggerExport(selectedKpis, filledRange, demandValidationFilters)
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(streamSpy).toHaveBeenCalledWith(
+            'demandValidationExport.xlsx',
+            expect.any(Object)
+          );
+          done();
+        });
+    });
+
+    it('should properly pass filters to the export request', (done) => {
+      const selectedKpis: SelectedKpis = {
+        activeAndPredecessor: true,
+        deliveries: true,
+        firmBusiness: false,
+      } as any;
+      const filledRange: { range1: DateRange; range2?: DateRange } = {
+        range1: {
+          from: new Date('2023-01-01'),
+          to: new Date('2023-01-31'),
+          period: DateRangePeriod.Monthly,
+        },
+      };
+      const demandValidationFilters: DemandValidationFilter = {
+        materialNumber: [{ id: '12345' }],
+        customerNumber: [{ id: '67890' }],
+        plantCode: [{ id: 'PLANT1' }],
+        salesOrg: [{ id: 'SALES1' }],
+      } as any;
+      const mockResponse = new Blob(['mock data'], {
+        type: 'application/vnd.ms-excel',
+      });
+
+      jest
+        .spyOn(service['http'], 'post')
+        .mockReturnValue(of({ body: mockResponse } as any));
+      jest
+        .spyOn(service['streamSaverService'], 'streamResponseToFile')
+        .mockReturnValue(Promise.resolve());
+
+      service
+        .triggerExport(selectedKpis, filledRange, demandValidationFilters)
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(service['http'].post).toHaveBeenCalledWith(
+            service['EXPORT_DEMAND_VALIDATION_API'],
+            expect.objectContaining({
+              dataFilters: {
+                columnFilters: [],
+                selectionFilters: {
+                  customerNumber: ['67890'],
+                  materialNumber: ['12345'],
+                  plantCode: ['PLANT1'],
+                  salesOrg: ['SALES1'],
+                },
+              },
+            }),
+            expect.any(Object)
+          );
+          done();
+        });
+    });
   });
 
   describe('getMaterialCustomerData', () => {
@@ -1032,6 +1198,163 @@ describe('DemandValidationService', () => {
             }
           );
 
+          done();
+        });
+    });
+
+    it('should handle empty selection filters', (done) => {
+      const httpSpy = jest
+        .spyOn(service['http'], 'post')
+        .mockReturnValue(of({ rows: [], rowCount: 0 }));
+
+      service
+        .getMaterialCustomerData({}, {
+          startRow: 0,
+          endRow: 10,
+          sortModel: [],
+          columnFilters: {},
+        } as any)
+        .pipe(take(1))
+        .subscribe((response) => {
+          expect(response).toEqual({ rows: [], rowCount: 0 });
+          expect(httpSpy).toHaveBeenCalledWith(
+            service['DEMAND_VALIDATION_CUSTOMER_MATERIAL_LIST_API'],
+            {
+              startRow: 0,
+              endRow: 10,
+              sortModel: [],
+              selectionFilters: {},
+              columnFilters: {},
+            },
+            expect.any(Object)
+          );
+          done();
+        });
+    });
+
+    it('should handle complex selection filters correctly', (done) => {
+      const complexFilters = {
+        materialNumbers: ['123', '456'],
+        customerNumbers: ['789', '012'],
+        plants: ['Plant1', 'Plant2'],
+        salesOrganizations: ['SO1', 'SO2'],
+      };
+      const httpSpy = jest
+        .spyOn(service['http'], 'post')
+        .mockReturnValue(of({ rows: [{ id: 'test' }], rowCount: 1 }));
+
+      service
+        .getMaterialCustomerData(complexFilters, {
+          startRow: 0,
+          endRow: 50,
+          sortModel: [{ colId: 'material', sort: 'desc' }],
+          columnFilters: { status: 'active' },
+        } as any)
+        .pipe(take(1))
+        .subscribe((response) => {
+          expect(response).toEqual({ rows: [{ id: 'test' }], rowCount: 1 });
+          expect(httpSpy).toHaveBeenCalledWith(
+            service['DEMAND_VALIDATION_CUSTOMER_MATERIAL_LIST_API'],
+            {
+              startRow: 0,
+              endRow: 50,
+              sortModel: [{ colId: 'material', sort: 'desc' }],
+              selectionFilters: complexFilters,
+              columnFilters: { status: 'active' },
+            },
+            expect.any(Object)
+          );
+          done();
+        });
+    });
+
+    it('should handle HTTP errors gracefully', (done) => {
+      jest
+        .spyOn(service['http'], 'post')
+        .mockReturnValue(throwError(() => new Error('Network error')));
+
+      service
+        .getMaterialCustomerData({}, {
+          startRow: 0,
+          endRow: 10,
+          sortModel: [],
+          columnFilters: {},
+        } as any)
+        .pipe(
+          take(1),
+          catchError((error) => {
+            expect(error).toBeInstanceOf(Error);
+            expect(error.message).toBe('Network error');
+            done();
+
+            return of(null);
+          })
+        )
+        .subscribe();
+    });
+
+    it('should handle pagination parameters correctly', (done) => {
+      const httpSpy = jest
+        .spyOn(service['http'], 'post')
+        .mockReturnValue(
+          of({ rows: Array.from({ length: 25 }).fill({}), rowCount: 100 })
+        );
+
+      service
+        .getMaterialCustomerData({}, {
+          startRow: 25,
+          endRow: 50,
+          sortModel: [],
+          columnFilters: {},
+        } as any)
+        .pipe(take(1))
+        .subscribe((response) => {
+          expect(response.rows.length).toBe(25);
+          expect(response.rowCount).toBe(100);
+          expect(httpSpy).toHaveBeenCalledWith(
+            service['DEMAND_VALIDATION_CUSTOMER_MATERIAL_LIST_API'],
+            {
+              startRow: 25,
+              endRow: 50,
+              sortModel: [],
+              selectionFilters: {},
+              columnFilters: {},
+            },
+            expect.any(Object)
+          );
+          done();
+        });
+    });
+
+    it('should handle multiple sort criteria correctly', (done) => {
+      const sortModel = [
+        { colId: 'material', sort: 'asc' },
+        { colId: 'customer', sort: 'desc' },
+      ];
+      const httpSpy = jest
+        .spyOn(service['http'], 'post')
+        .mockReturnValue(of({ rows: [], rowCount: 0 }));
+
+      service
+        .getMaterialCustomerData({}, {
+          startRow: 0,
+          endRow: 10,
+          sortModel,
+          columnFilters: {},
+        } as any)
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(httpSpy).toHaveBeenCalledWith(
+            service['DEMAND_VALIDATION_CUSTOMER_MATERIAL_LIST_API'],
+            {
+              startRow: 0,
+              endRow: 10,
+              sortModel,
+              selectionFilters: {},
+              columnFilters: {},
+            },
+            expect.any(Object)
+          );
           done();
         });
     });

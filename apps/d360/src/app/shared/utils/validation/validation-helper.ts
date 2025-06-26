@@ -280,7 +280,7 @@ export class ValidationHelper {
     startDateControlName: string = 'startDate',
     endDateControlName: string = 'endDate'
   ) {
-    const errors: { [key: string]: string[] } = {};
+    let errors: { [key: string]: string[] } = {};
 
     // touch start- / endDate, so we show directly all errors
     if (touchFields) {
@@ -309,6 +309,7 @@ export class ValidationHelper {
       }
 
       // set the new error state
+      errors = fieldErrors || {};
       formGroup.get(endDateControlName).setErrors(fieldErrors);
     }
 

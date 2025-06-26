@@ -21,8 +21,8 @@ import {
   KpiData,
   KpiDateRanges,
   KpiEntry,
-  KpiType,
   MaterialListEntry,
+  SelectedKpisAndMetadata,
 } from '../../../../feature/demand-validation/model';
 import { clientSideTableDefaultProps } from '../../../../shared/ag-grid/grid-defaults';
 import { TextWithDotCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/text-with-dot-cell-renderer/text-with-dot-cell-renderer.component';
@@ -42,7 +42,7 @@ import * as Numbers from '../../../../shared/utils/number';
 import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
 import { PlanningView } from './../../../../feature/demand-validation/planning-view';
 import * as CellClass from './cell-style';
-import * as Columns from './column-definitions';
+import * as ColumnsHelper from './column-definitions';
 import { FilterValues } from './column-definitions';
 import { DemandValidationTableComponent } from './demand-validation-table.component';
 
@@ -281,14 +281,14 @@ describe('DemandValidationTableComponent', () => {
   describe('setPersistedKPIs', () => {
     it('should update filterValues with persisted KPIs from user settings', () => {
       const persistedFilterValues = {
-        [KpiType.Deliveries]: false,
-        [KpiType.FirmBusiness]: false,
-        [KpiType.ForecastProposal]: false,
-        [KpiType.ForecastProposalDemandPlanner]: false,
-        [KpiType.DemandRelevantSales]: false,
-        [KpiType.SalesAmbition]: false,
-        [KpiType.Opportunities]: false,
-        [KpiType.SalesPlan]: false,
+        [SelectedKpisAndMetadata.Deliveries]: false,
+        [SelectedKpisAndMetadata.FirmBusiness]: false,
+        [SelectedKpisAndMetadata.ForecastProposal]: false,
+        [SelectedKpisAndMetadata.ForecastProposalDemandPlanner]: false,
+        [SelectedKpisAndMetadata.DemandRelevantSales]: false,
+        [SelectedKpisAndMetadata.SalesAmbition]: false,
+        [SelectedKpisAndMetadata.Opportunities]: false,
+        [SelectedKpisAndMetadata.SalesPlan]: false,
       };
       component['userService'].userSettings.set({
         [UserSettingsKey.DemandValidation]: {
@@ -301,20 +301,20 @@ describe('DemandValidationTableComponent', () => {
 
       expect(component['filterValues']()).toEqual({
         ...persistedFilterValues,
-        [KpiType.ValidatedForecast]: true,
+        [SelectedKpisAndMetadata.ValidatedForecast]: true,
       });
     });
 
     it('should retain validated forecast KPI in filterValues', () => {
       const persistedFilterValues = {
-        [KpiType.Deliveries]: false,
-        [KpiType.FirmBusiness]: false,
-        [KpiType.ForecastProposal]: false,
-        [KpiType.ForecastProposalDemandPlanner]: false,
-        [KpiType.DemandRelevantSales]: false,
-        [KpiType.SalesAmbition]: false,
-        [KpiType.Opportunities]: false,
-        [KpiType.SalesPlan]: false,
+        [SelectedKpisAndMetadata.Deliveries]: false,
+        [SelectedKpisAndMetadata.FirmBusiness]: false,
+        [SelectedKpisAndMetadata.ForecastProposal]: false,
+        [SelectedKpisAndMetadata.ForecastProposalDemandPlanner]: false,
+        [SelectedKpisAndMetadata.DemandRelevantSales]: false,
+        [SelectedKpisAndMetadata.SalesAmbition]: false,
+        [SelectedKpisAndMetadata.Opportunities]: false,
+        [SelectedKpisAndMetadata.SalesPlan]: false,
       };
       component['userService'].userSettings.set({
         [UserSettingsKey.DemandValidation]: {
@@ -325,7 +325,9 @@ describe('DemandValidationTableComponent', () => {
 
       component['setPersistedKPIs']();
 
-      expect(component['filterValues']()[KpiType.ValidatedForecast]).toBe(true);
+      expect(
+        component['filterValues']()[SelectedKpisAndMetadata.ValidatedForecast]
+      ).toBe(true);
     });
 
     it('should handle null persisted filter values gracefully', () => {
@@ -339,15 +341,15 @@ describe('DemandValidationTableComponent', () => {
       component['setPersistedKPIs']();
 
       expect(component['filterValues']()).toEqual({
-        [KpiType.Deliveries]: true,
-        [KpiType.FirmBusiness]: true,
-        [KpiType.ForecastProposal]: true,
-        [KpiType.ForecastProposalDemandPlanner]: true,
-        [KpiType.ValidatedForecast]: true,
-        [KpiType.DemandRelevantSales]: true,
-        [KpiType.SalesAmbition]: true,
-        [KpiType.Opportunities]: true,
-        [KpiType.SalesPlan]: true,
+        [SelectedKpisAndMetadata.Deliveries]: true,
+        [SelectedKpisAndMetadata.FirmBusiness]: true,
+        [SelectedKpisAndMetadata.ForecastProposal]: true,
+        [SelectedKpisAndMetadata.ForecastProposalDemandPlanner]: true,
+        [SelectedKpisAndMetadata.ValidatedForecast]: true,
+        [SelectedKpisAndMetadata.DemandRelevantSales]: true,
+        [SelectedKpisAndMetadata.SalesAmbition]: true,
+        [SelectedKpisAndMetadata.Opportunities]: true,
+        [SelectedKpisAndMetadata.SalesPlan]: true,
       });
     });
 
@@ -362,15 +364,15 @@ describe('DemandValidationTableComponent', () => {
       component['setPersistedKPIs']();
 
       expect(component['filterValues']()).toEqual({
-        [KpiType.Deliveries]: true,
-        [KpiType.FirmBusiness]: true,
-        [KpiType.ForecastProposal]: true,
-        [KpiType.ForecastProposalDemandPlanner]: true,
-        [KpiType.ValidatedForecast]: true,
-        [KpiType.DemandRelevantSales]: true,
-        [KpiType.SalesAmbition]: true,
-        [KpiType.Opportunities]: true,
-        [KpiType.SalesPlan]: true,
+        [SelectedKpisAndMetadata.Deliveries]: true,
+        [SelectedKpisAndMetadata.FirmBusiness]: true,
+        [SelectedKpisAndMetadata.ForecastProposal]: true,
+        [SelectedKpisAndMetadata.ForecastProposalDemandPlanner]: true,
+        [SelectedKpisAndMetadata.ValidatedForecast]: true,
+        [SelectedKpisAndMetadata.DemandRelevantSales]: true,
+        [SelectedKpisAndMetadata.SalesAmbition]: true,
+        [SelectedKpisAndMetadata.Opportunities]: true,
+        [SelectedKpisAndMetadata.SalesPlan]: true,
       });
     });
   });
@@ -382,7 +384,7 @@ describe('DemandValidationTableComponent', () => {
         { visible: jest.fn().mockReturnValue(false) },
       ] as any;
       jest
-        .spyOn(Columns, 'getColumnDefinitions')
+        .spyOn(ColumnsHelper, 'getColumnDefinitions')
         .mockReturnValue(mockColumnDefinitions);
 
       component['updateRowData']();
@@ -396,7 +398,7 @@ describe('DemandValidationTableComponent', () => {
         { visible: jest.fn().mockReturnValue(false) },
       ] as any;
       jest
-        .spyOn(Columns, 'getColumnDefinitions')
+        .spyOn(ColumnsHelper, 'getColumnDefinitions')
         .mockReturnValue(mockColumnDefinitions);
       component['gridApi'] = Stub.getGridApi();
 
@@ -414,7 +416,7 @@ describe('DemandValidationTableComponent', () => {
         { visible: jest.fn().mockReturnValue(false) },
       ] as any;
       jest
-        .spyOn(Columns, 'getColumnDefinitions')
+        .spyOn(ColumnsHelper, 'getColumnDefinitions')
         .mockReturnValue(mockColumnDefinitions);
       component['gridApi'] = undefined;
 
@@ -429,7 +431,7 @@ describe('DemandValidationTableComponent', () => {
         { visible: jest.fn().mockReturnValue(false) },
       ] as any;
       jest
-        .spyOn(Columns, 'getColumnDefinitions')
+        .spyOn(ColumnsHelper, 'getColumnDefinitions')
         .mockReturnValue(mockColumnDefinitions);
       component['gridApi'] = Stub.getGridApi();
 
@@ -857,7 +859,7 @@ describe('DemandValidationTableComponent', () => {
         const params = {
           value: 'testValue',
           data: {
-            key: () => KpiType.ValidatedForecast,
+            key: () => SelectedKpisAndMetadata.ValidatedForecast,
           },
           node: { expanded: true },
         } as any;
@@ -889,7 +891,7 @@ describe('DemandValidationTableComponent', () => {
         const params = {
           value: 'testValue',
           data: {
-            key: () => KpiType.ValidatedForecast,
+            key: () => SelectedKpisAndMetadata.ValidatedForecast,
           },
           node: { expanded: true },
         } as any;
@@ -942,7 +944,7 @@ describe('DemandValidationTableComponent', () => {
 
     beforeEach(() => {
       event = { checked: true } as MatSlideToggleChange;
-      key = KpiType.Deliveries;
+      key = SelectedKpisAndMetadata.Deliveries;
     });
 
     it('should update filterValues with the new toggle state', () => {
@@ -959,14 +961,16 @@ describe('DemandValidationTableComponent', () => {
 
     it('should delete ValidatedForecast from newSettings', () => {
       component['filterValues'].set({
-        [KpiType.Deliveries]: true,
-        [KpiType.ValidatedForecast]: true,
+        [SelectedKpisAndMetadata.Deliveries]: true,
+        [SelectedKpisAndMetadata.ValidatedForecast]: true,
       } as any);
 
       component['onSlideToggleChange'](event, key);
 
       const newSettings = component['filterValues']();
-      expect(newSettings[KpiType.ValidatedForecast]).toBeUndefined();
+      expect(
+        newSettings[SelectedKpisAndMetadata.ValidatedForecast]
+      ).toBeUndefined();
     });
 
     it('should call updateUserSettings with the correct parameters', () => {
@@ -986,7 +990,7 @@ describe('DemandValidationTableComponent', () => {
     it('should merge newSettings with existing user settings', () => {
       const existingSettings = {
         [DemandValidationUserSettingsKey.Workbench]: {
-          [KpiType.Deliveries]: {
+          [SelectedKpisAndMetadata.Deliveries]: {
             deliveries: true,
             demandRelevantSales: true,
             firmBusiness: true,
@@ -1005,8 +1009,12 @@ describe('DemandValidationTableComponent', () => {
       component['onSlideToggleChange'](event, key);
 
       const newSettings = component['filterValues']();
-      expect(newSettings[KpiType.Deliveries]).toBe(event.checked);
-      expect(newSettings[KpiType.ValidatedForecast]).toBeUndefined();
+      expect(newSettings[SelectedKpisAndMetadata.Deliveries]).toBe(
+        event.checked
+      );
+      expect(
+        newSettings[SelectedKpisAndMetadata.ValidatedForecast]
+      ).toBeUndefined();
     });
 
     it('should handle undefined user settings gracefully', () => {
@@ -1015,8 +1023,12 @@ describe('DemandValidationTableComponent', () => {
       component['onSlideToggleChange'](event, key);
 
       const newSettings = component['filterValues']();
-      expect(newSettings[KpiType.Deliveries]).toBe(event.checked);
-      expect(newSettings[KpiType.ValidatedForecast]).toBeUndefined();
+      expect(newSettings[SelectedKpisAndMetadata.Deliveries]).toBe(
+        event.checked
+      );
+      expect(
+        newSettings[SelectedKpisAndMetadata.ValidatedForecast]
+      ).toBeUndefined();
     });
 
     it('should handle null user settings gracefully', () => {
@@ -1025,8 +1037,12 @@ describe('DemandValidationTableComponent', () => {
       component['onSlideToggleChange'](event, key);
 
       const newSettings = component['filterValues']();
-      expect(newSettings[KpiType.Deliveries]).toBe(event.checked);
-      expect(newSettings[KpiType.ValidatedForecast]).toBeUndefined();
+      expect(newSettings[SelectedKpisAndMetadata.Deliveries]).toBe(
+        event.checked
+      );
+      expect(
+        newSettings[SelectedKpisAndMetadata.ValidatedForecast]
+      ).toBeUndefined();
     });
   });
 
@@ -1460,7 +1476,9 @@ describe('DemandValidationTableComponent', () => {
       } as KpiEntry;
       params = {
         data: {
-          key: jest.fn().mockReturnValue(KpiType.DemandRelevantSales),
+          key: jest
+            .fn()
+            .mockReturnValue(SelectedKpisAndMetadata.DemandRelevantSales),
           editable: true,
         },
         node: {
@@ -1590,7 +1608,9 @@ describe('DemandValidationTableComponent', () => {
       const colorCellFn = component['colorCell'](data);
       const result = colorCellFn({
         data: {
-          key: jest.fn().mockReturnValue(KpiType.DemandRelevantSales),
+          key: jest
+            .fn()
+            .mockReturnValue(SelectedKpisAndMetadata.DemandRelevantSales),
           editable: false,
         },
         node: {
@@ -1612,7 +1632,9 @@ describe('DemandValidationTableComponent', () => {
       const colorCellFn = component['colorCell'](data);
       const result = colorCellFn({
         data: {
-          key: jest.fn().mockReturnValue(KpiType.DemandRelevantSales),
+          key: jest
+            .fn()
+            .mockReturnValue(SelectedKpisAndMetadata.DemandRelevantSales),
           editable: false,
         },
         node: {
@@ -1989,15 +2011,15 @@ describe('DemandValidationTableComponent', () => {
         updateColumnDefsSpy.mockClear();
 
         component['filterValues'].update(() => ({
-          [KpiType.Deliveries]: false,
-          [KpiType.FirmBusiness]: true,
-          [KpiType.ForecastProposal]: true,
-          [KpiType.ForecastProposalDemandPlanner]: true,
-          [KpiType.ValidatedForecast]: true,
-          [KpiType.DemandRelevantSales]: true,
-          [KpiType.SalesAmbition]: true,
-          [KpiType.Opportunities]: true,
-          [KpiType.SalesPlan]: true,
+          [SelectedKpisAndMetadata.Deliveries]: false,
+          [SelectedKpisAndMetadata.FirmBusiness]: true,
+          [SelectedKpisAndMetadata.ForecastProposal]: true,
+          [SelectedKpisAndMetadata.ForecastProposalDemandPlanner]: true,
+          [SelectedKpisAndMetadata.ValidatedForecast]: true,
+          [SelectedKpisAndMetadata.DemandRelevantSales]: true,
+          [SelectedKpisAndMetadata.SalesAmbition]: true,
+          [SelectedKpisAndMetadata.Opportunities]: true,
+          [SelectedKpisAndMetadata.SalesPlan]: true,
         }));
         Stub.detectChanges();
 
@@ -2040,7 +2062,7 @@ describe('DemandValidationTableComponent', () => {
         // Create a mock params object that includes KpiType.ValidatedForecast in the path
         const mockParams = {
           data: {
-            path: [KpiType.ValidatedForecast],
+            path: [SelectedKpisAndMetadata.ValidatedForecast],
           },
         };
 
@@ -2058,7 +2080,7 @@ describe('DemandValidationTableComponent', () => {
         // Now test with a different path that doesn't include ValidatedForecast
         const otherPathParams = {
           data: {
-            path: [KpiType.Deliveries],
+            path: [SelectedKpisAndMetadata.Deliveries],
           },
         };
 
@@ -2091,15 +2113,15 @@ describe('DemandValidationTableComponent', () => {
         updateRowDataSpy.mockClear();
 
         component['filterValues'].update(() => ({
-          [KpiType.Deliveries]: false,
-          [KpiType.FirmBusiness]: true,
-          [KpiType.ForecastProposal]: true,
-          [KpiType.ForecastProposalDemandPlanner]: true,
-          [KpiType.ValidatedForecast]: true,
-          [KpiType.DemandRelevantSales]: true,
-          [KpiType.SalesAmbition]: true,
-          [KpiType.Opportunities]: true,
-          [KpiType.SalesPlan]: true,
+          [SelectedKpisAndMetadata.Deliveries]: false,
+          [SelectedKpisAndMetadata.FirmBusiness]: true,
+          [SelectedKpisAndMetadata.ForecastProposal]: true,
+          [SelectedKpisAndMetadata.ForecastProposalDemandPlanner]: true,
+          [SelectedKpisAndMetadata.ValidatedForecast]: true,
+          [SelectedKpisAndMetadata.DemandRelevantSales]: true,
+          [SelectedKpisAndMetadata.SalesAmbition]: true,
+          [SelectedKpisAndMetadata.Opportunities]: true,
+          [SelectedKpisAndMetadata.SalesPlan]: true,
         }));
         Stub.detectChanges();
 
@@ -2128,7 +2150,7 @@ describe('DemandValidationTableComponent', () => {
         // Create params where path includes ValidatedForecast
         const params = {
           data: {
-            path: [KpiType.ValidatedForecast],
+            path: [SelectedKpisAndMetadata.ValidatedForecast],
           },
         };
 
@@ -2288,7 +2310,7 @@ describe('DemandValidationTableComponent', () => {
 
         // Check unsynced state
         const syncParams = {
-          data: { path: [KpiType.ValidatedForecast] },
+          data: { path: [SelectedKpisAndMetadata.ValidatedForecast] },
         } as any;
 
         const showSyncIconFn =
@@ -2445,7 +2467,9 @@ describe('DemandValidationTableComponent', () => {
 
         const params = {
           data: {
-            key: jest.fn().mockReturnValue(KpiType.ValidatedForecast),
+            key: jest
+              .fn()
+              .mockReturnValue(SelectedKpisAndMetadata.ValidatedForecast),
             editable: true,
           },
           node: { expanded: true },

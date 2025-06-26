@@ -1,0 +1,53 @@
+@mixin mat-stepper() {
+  .mat-step-label {
+    &.mat-step-label-active {
+      &.mat-step-label-selected {
+        .mat-step-text-label {
+          @apply text-link;
+        }
+      }
+    }
+  }
+
+  .mat-stepper {
+    &-vertical,
+    &-horizontal {
+      @apply bg-transparent;
+    }
+
+    &-horizontal {
+      .mat-horizontal-content-container {
+        @apply pb-0 pl-4;
+      }
+
+      .mat-horizontal-stepper-header-container {
+        @apply max-h-12 mb-4;
+
+        mat-step-header {
+          @apply max-h-12 pl-3.5;
+        }
+      }
+
+      .mat-stepper-horizontal-line {
+        border-top-color: rgba(0, 0, 0, 0.12);
+        @apply max-w-none;
+        @apply -ml-4 -mr-1;
+      }
+    }
+
+    &-vertical {
+      .mat-vertical-content-container {
+        margin-left: 19px;
+      }
+
+      .mat-vertical-stepper-header {
+        @apply py-4 px-2 mb-4;
+      }
+
+      .mat-stepper-vertical-line::before {
+        border-left-color: rgba(0, 0, 0, 0.12);
+        @apply -top-6 -bottom-2;
+      }
+    }
+  }
+}

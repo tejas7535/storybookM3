@@ -664,6 +664,7 @@
       "accountOwnerID": "Identifiant du propriétaire du compte",
       "currentRLTCustomer": "Délai de Réappro Client actuel",
       "currentRLTSchaeffler": "Délai de Réappro Schaeffler actuel",
+      "currentRLTSchaefflerWithTransitTime": "Délai de réapprovisionnement (compris le temps de transit)",
       "customerClassification": "Classification du client (Order Prio)",
       "customerCountry": "Pays (client)",
       "customerMaterialNumber": "Référence client",
@@ -681,6 +682,7 @@
       "forecastValidatedBy": "Validé par",
       "forecastValidatedFrom": "Validé à partir de",
       "forecastValidatedTo": "Validé jusqu'au",
+      "frozenZone": "Frozen Zone (compris le temps de transit)",
       "gkam": "GKAM",
       "gkamID": "Identitfiant GKAM",
       "gkamName": "Nom du GKAM",
@@ -703,6 +705,7 @@
       "pfStatusAutoSwitch": "Changement d'état automatique",
       "planningPlant": "usine de planification",
       "portfolioStatus": "statuts du portefeuil",
+      "portfolioStatusDate": "Status du portefeuil Date",
       "productCluster": "Product Cluster",
       "productionLine": "Ligne de Production (Train)",
       "productionPlant": "Usine de production",
@@ -720,33 +723,34 @@
       "subKeyAccount": "Sub Key Account",
       "subKeyAccountName": "Sub Key Account nom",
       "successorCustomerMaterialDescription": "Description de l'Article (Successeur Client)",
-      "successorCustomerMaterialNumber": "Numéros d'article client (successeur du client)",
-      "successorCustomerMaterialPackagingSize": "Taille de l'emballage (successeur Client)",
+      "successorCustomerMaterialNumber": "Numéros d'article client (Successeur Client)",
+      "successorCustomerMaterialPackagingSize": "Taille de l'emballage (Successeur Client)",
       "successorMaterial": "Matériel de suivi validé (client)",
-      "successorMaterialClassification": "Classification des articles (client suivant)",
+      "successorMaterialClassification": "Classification des articles (Successeur Client)",
       "successorMaterialClassificationCustomer": "Classification Article (Successeur Client)",
       "successorMaterialClassificationSchaeffler": "Classification Article (Successeur Schaeffler)",
       "successorMaterialCustomer": "Article Successeur (Client)",
-      "successorMaterialDescription": "Désignation de l'article (successeur du client)",
-      "successorMaterialPackagingSize": "Taille de l'emballage (client suivant)",
-      "successorProductionLine": "Ligne de production (successeur du client)",
-      "successorProductionPlant": "Division de production (successeur du client)",
-      "successorProductionSegment": "Segment de production (client successeur)",
-      "successorProductLine": "Ligne de produits (successeur du client)",
-      "successorProductLineText": "Désignation de la ligne de produits (successeur du client)",
+      "successorMaterialDescription": "Désignation de l'article (Successeur Client)",
+      "successorMaterialPackagingSize": "Taille de l'emballage (Successeur Client)",
+      "successorProductionLine": "Ligne de production (Successeur Client)",
+      "successorProductionPlant": "Division de production (Successeur Client)",
+      "successorProductionSegment": "Segment de production (Successeur Client)",
+      "successorProductLine": "Ligne de produits (Successeur Client)",
+      "successorProductLineText": "Désignation de la ligne de produits (Successeur Client)",
       "successorSchaefflerMaterial": "Article Successeur (Schaeffler)",
-      "successorSchaefflerMaterialDescription": "Description de l'Article (Successeur schaeffler)",
-      "successorSchaefflerMaterialPackagingSize": "Taille de l'emballage (successeur Schaeffler)",
-      "successorStochasticType": "Type de stochastique (client successeur)",
+      "successorSchaefflerMaterialDescription": "Description de l'Article (Successeur Schaeffler)",
+      "successorSchaefflerMaterialPackagingSize": "Taille de l'emballage (Successeur Schaeffler)",
+      "successorStochasticType": "Type de stochastique (Successeur Client)",
+      "supplyConcept": "Concept d'approvisionnement",
       "tlMessageType": "Statut de Substitution",
       "tooltipTextIA": "Article inactif",
       "tooltipTextRE": "L'article est substituted"
     },
     "export": {
-      "download_started": "Exportation des données: le téléchargement a commencé",
+      "downloadStarted": "Exportation des données: le téléchargement a commencé",
       "failed": "Échec de l'exportation des données: {{reason}}",
-      "in_progress": "Exportation des données en cours. Cela peut prendre plusieurs minutes.",
-      "max_count_exceeded": "Vous ne pouvez pas exporter plus de {{max_count}} lignes."
+      "inProgress": "Exportation des données en cours. Cela peut prendre plusieurs minutes.",
+      "maxCountExceeded": "Vous ne pouvez pas exporter plus de {{max_count}} lignes."
     },
     "portfolio_status": {
       "AC": "Actif",
@@ -835,7 +839,7 @@
     }
   },
   "paste_from_clipboard": "Coller depuis le presse-papiers",
-  "planing_type": {
+  "planningType": {
     "title": {
       "CONFIRMED": "Constrained",
       "REQUESTED": "Unconstrained",
@@ -1233,15 +1237,26 @@
     "error": {
       "no_data": "Données non valide"
     },
-    "export_modal": {
-      "button_export": "Exporter",
-      "date_headline": "Selection de la Date",
-      "download_started": "Exportation des données: Telecharment a commencé",
-      "excel_header_view": "Vue",
-      "in_progress": "Exportation des données en cours. Cela peut prendre plusieurs minutes.",
-      "selected_customer": "{{number}} Client selectionné",
-      "selected_customer_headline": "Client selectionné",
-      "selected_kpis": "KPI selectionné pour l'exportation des données",
+    "exportModal": {
+      "buttonBack": "Retour",
+      "buttonExport": "Exporter",
+      "buttonNext": "Étape suivante",
+      "chooseTemplate": "Choisir un modèle",
+      "downloadStarted": "Exportation des données: Telecharment a commencé",
+      "excelHeaderView": "Vue",
+      "inProgress": "Exportation des données en cours. Cela peut prendre plusieurs minutes.",
+      "newTemplate": "Nouveau modèle",
+      "selectedCustomer": "{{number}} Client selectionné",
+      "selectedCustomerHeadline": "Client selectionné",
+      "steps": {
+        "contactPerson": "Personne de contact",
+        "customerInformation": "Informations sur le client",
+        "date": "Modèle et Date",
+        "kpis": "Sélectionner les ICP",
+        "materialInformation": "Informations sur les matériaux",
+        "supplyChain": "Chaîne d'approvisionnement"
+      },
+      "templateChanged": "Le modèle a été modifié, voulez-vous remplacer le modèle par les sélections actuelles ?",
       "title": "Exportation des données"
     },
     "filter": {
@@ -1299,10 +1314,6 @@
           "SP": "Sporadic"
         },
         "entries": {
-          "<--- Customer Box Left -->": "",
-          "<--- Customer Box Right -->": "",
-          "<--- Material Box Left -->": "",
-          "<--- Material Box Right -->": "",
           "accountOwner": "Propriétaire du compte",
           "currentRLTSchaeffler": "Délai de réapprovisionnement (compris le temps de transit)",
           "customerClassification": "Classification du client (Order Prio)",

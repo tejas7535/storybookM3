@@ -5,7 +5,7 @@
         {{ t('home.chart.title') }}
         {{
           typeForm.get('count').value
-            ? ' | ' + t('planing_type.title.' + typeForm.get('count').value, {})
+            ? ' | ' + t('planningType.title.' + typeForm.get('count').value, {})
             : ''
         }}
       </h6>
@@ -91,10 +91,10 @@
                 formControlName="count"
               >
                 <mat-radio-button value="REQUESTED">
-                  {{ t('planing_type.title.REQUESTED') }}
+                  {{ t('planningType.title.REQUESTED') }}
                 </mat-radio-button>
                 <mat-radio-button value="CONFIRMED">
-                  {{ t('planing_type.title.CONFIRMED') }}
+                  {{ t('planningType.title.CONFIRMED') }}
                 </mat-radio-button>
               </mat-radio-group>
             </div>

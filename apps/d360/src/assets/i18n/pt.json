@@ -664,6 +664,7 @@
       "accountOwnerID": "ID Gerente de conta",
       "currentRLTCustomer": "Prazo de Reabastecimento atual Cliente",
       "currentRLTSchaeffler": "Prazo de Reabastecimento atual Schaeffler",
+      "currentRLTSchaefflerWithTransitTime": "Prazo de Reabastecimento (incluindo tempo de trânsito)",
       "customerClassification": "Classificação do cliente (Order Prio)",
       "customerCountry": "País (Cliente)",
       "customerMaterialNumber": "Número de material do cliente",
@@ -681,6 +682,7 @@
       "forecastValidatedBy": "Validado por",
       "forecastValidatedFrom": "Validado de",
       "forecastValidatedTo": "Validado até",
+      "frozenZone": "Frozen Zone (incluindo tempo de trânsito)",
       "gkam": "GKAM",
       "gkamID": "ID GKAM",
       "gkamName": "Nome GKAM",
@@ -703,6 +705,7 @@
       "pfStatusAutoSwitch": "Mudança automática de status",
       "planningPlant": "Planta de planejamento",
       "portfolioStatus": "Status do portfólio",
+      "portfolioStatusDate": "Status do portfólio Data",
       "productCluster": "Product Cluster",
       "productionLine": "Linha de produção (Trem)",
       "productionPlant": "Planta de Produção",
@@ -720,33 +723,34 @@
       "subKeyAccount": "Sub Key Account",
       "subKeyAccountName": "Sub Key Account nome",
       "successorCustomerMaterialDescription": "Descrição do Material (Sucessor Cliente)",
-      "successorCustomerMaterialNumber": "Números de material do cliente (cliente sucessor)",
+      "successorCustomerMaterialNumber": "Números de material do cliente (Sucessor Cliente)",
       "successorCustomerMaterialPackagingSize": "Tamanho da Embalagem (Sucessor Cliente)",
       "successorMaterial": "Material de acompanhamento validado (cliente)",
-      "successorMaterialClassification": "Classificação de material (cliente sucessor)",
+      "successorMaterialClassification": "Classificação de material (Sucessor Cliente)",
       "successorMaterialClassificationCustomer": "Classificação do Material (Sucessor Cliente)",
       "successorMaterialClassificationSchaeffler": "Classificação do Material (Sucessor Schaeffler)",
       "successorMaterialCustomer": "Material sucessor (Cliente)",
-      "successorMaterialDescription": "Designação de material (cliente sucessor)",
-      "successorMaterialPackagingSize": "Tamanho da embalagem (cliente sucessor)",
-      "successorProductionLine": "Linha de produção (cliente sucessor)",
-      "successorProductionPlant": "Planta de produção (cliente sucessor)",
-      "successorProductionSegment": "Segmento de produção (cliente sucessor)",
-      "successorProductLine": "Linha de produtos (cliente sucessor)",
-      "successorProductLineText": "Designação da linha de produtos (cliente sucessor)",
+      "successorMaterialDescription": "Designação de material (Sucessor Cliente)",
+      "successorMaterialPackagingSize": "Tamanho da embalagem (Sucessor Cliente)",
+      "successorProductionLine": "Linha de produção (Sucessor Cliente)",
+      "successorProductionPlant": "Planta de produção (Sucessor Cliente)",
+      "successorProductionSegment": "Segmento de produção (Sucessor Cliente)",
+      "successorProductLine": "Linha de produtos (Sucessor Cliente)",
+      "successorProductLineText": "Designação da linha de produtos (Sucessor Cliente)",
       "successorSchaefflerMaterial": "Material sucessor (Schaeffler)",
       "successorSchaefflerMaterialDescription": "Descrição do Material (Sucessor Schaeffler)",
       "successorSchaefflerMaterialPackagingSize": "Tamanho da Embalagem (Sucessor Schaeffler)",
-      "successorStochasticType": "Tipo estocástico (cliente sucessor)",
+      "successorStochasticType": "Tipo estocástico (Sucessor Cliente)",
+      "supplyConcept": "Conceito de fornecimento",
       "tlMessageType": "Estado de Substituição",
       "tooltipTextIA": "O material está inativo",
       "tooltipTextRE": "O material foi substituído"
     },
     "export": {
-      "download_started": "Exportar: download iniciado",
+      "downloadStarted": "Exportar: download iniciado",
       "failed": "Falha na exportação: {{reason}}",
-      "in_progress": "Exportação em andamento. Esse processo pode levar alguns minutos.",
-      "max_count_exceeded": "Podem ser exportadas no máximo {{max_count}} linhas."
+      "inProgress": "Exportação em andamento. Esse processo pode levar alguns minutos.",
+      "maxCountExceeded": "Podem ser exportadas no máximo {{max_count}} linhas."
     },
     "portfolio_status": {
       "AC": "Ativo",
@@ -835,7 +839,7 @@
     }
   },
   "paste_from_clipboard": "Colar da área de transferência",
-  "planing_type": {
+  "planningType": {
     "title": {
       "CONFIRMED": "Constrained",
       "REQUESTED": "Unconstrained",
@@ -1233,15 +1237,26 @@
     "error": {
       "no_data": "Dados inválidos."
     },
-    "export_modal": {
-      "button_export": "Exportar",
-      "date_headline": "Escolha uma data",
-      "download_started": "Exportação: download iniciado",
-      "excel_header_view": "View",
-      "in_progress": "Exportação em andamento. Esse processo pode levar alguns minutos.",
-      "selected_customer": "{{number}} cliente selecionado",
-      "selected_customer_headline": "Cliente Selecionado:",
-      "selected_kpis": "KPIs selecionados para exportação:",
+    "exportModal": {
+      "buttonBack": "Voltar",
+      "buttonExport": "Exportar",
+      "buttonNext": "Próxima etapa",
+      "chooseTemplate": "Escolha um modelo",
+      "downloadStarted": "Exportação: download iniciado",
+      "excelHeaderView": "View",
+      "inProgress": "Exportação em andamento. Esse processo pode levar alguns minutos.",
+      "newTemplate": "Novo modelo",
+      "selectedCustomer": "{{number}} cliente selecionado",
+      "selectedCustomerHeadline": "Cliente Selecionado:",
+      "steps": {
+        "contactPerson": "Pessoa de contato",
+        "customerInformation": "Informações sobre o cliente",
+        "date": "Modelo e Data",
+        "kpis": "Selecionar KPIs",
+        "materialInformation": "Informações sobre materiais",
+        "supplyChain": "Cadeia de suprimentos"
+      },
+      "templateChanged": "O modelo foi alterado, deseja substituir o modelo com as seleções atuais?",
       "title": "Exportar"
     },
     "filter": {
@@ -1299,10 +1314,6 @@
           "SP": "Sporadic"
         },
         "entries": {
-          "<--- Customer Box Left -->": "",
-          "<--- Customer Box Right -->": "",
-          "<--- Material Box Left -->": "",
-          "<--- Material Box Right -->": "",
           "accountOwner": "Gerente de conta",
           "currentRLTSchaeffler": "Prazo de Reabastecimento (incluindo tempo de trânsito)",
           "customerClassification": "Classificação do cliente (Order Prio)",

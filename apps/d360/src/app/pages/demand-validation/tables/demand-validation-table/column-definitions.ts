@@ -1,17 +1,17 @@
 import { ColDef } from 'ag-grid-enterprise';
 
-import { KpiType } from '../../../../feature/demand-validation/model';
+import { SelectedKpisAndMetadata } from '../../../../feature/demand-validation/model';
 import { PlanningView } from '../../../../feature/demand-validation/planning-view';
 export interface FilterValues {
-  [KpiType.Deliveries]: boolean;
-  [KpiType.FirmBusiness]: boolean;
-  [KpiType.ForecastProposal]: boolean;
-  [KpiType.ForecastProposalDemandPlanner]: boolean;
-  [KpiType.ValidatedForecast]: boolean;
-  [KpiType.DemandRelevantSales]: boolean;
-  [KpiType.SalesAmbition]: boolean;
-  [KpiType.Opportunities]: boolean;
-  [KpiType.SalesPlan]: boolean;
+  [SelectedKpisAndMetadata.Deliveries]: boolean;
+  [SelectedKpisAndMetadata.FirmBusiness]: boolean;
+  [SelectedKpisAndMetadata.ForecastProposal]: boolean;
+  [SelectedKpisAndMetadata.ForecastProposalDemandPlanner]: boolean;
+  [SelectedKpisAndMetadata.ValidatedForecast]: boolean;
+  [SelectedKpisAndMetadata.DemandRelevantSales]: boolean;
+  [SelectedKpisAndMetadata.SalesAmbition]: boolean;
+  [SelectedKpisAndMetadata.Opportunities]: boolean;
+  [SelectedKpisAndMetadata.SalesPlan]: boolean;
 }
 
 type FilterProps = FilterValues & {
@@ -68,32 +68,34 @@ export function getColumnDefinitions(config: {
     // ////////////////////////
     // Deliveries (Active / Combined) | CONFIRMED & REQUESTED
     createColumnDef({
-      key: (options) => createToggleKey(KpiType.Deliveries, options),
-      title: (options) => createToggleTitle(KpiType.Deliveries, options),
-      visible: (options) => options[KpiType.Deliveries],
+      key: (options) =>
+        createToggleKey(SelectedKpisAndMetadata.Deliveries, options),
+      title: (options) =>
+        createToggleTitle(SelectedKpisAndMetadata.Deliveries, options),
+      visible: (options) => options[SelectedKpisAndMetadata.Deliveries],
       additionalProps: {
         color: 'dimmed-grey',
-        path: [KpiType.Deliveries],
+        path: [SelectedKpisAndMetadata.Deliveries],
       },
     }),
     // Extended: Active
     createColumnDef({
-      key: () => `${createKey(KpiType.Deliveries)}Active`,
-      title: () => `${key}.${KpiType.Deliveries}Active`,
-      visible: (options) => options[KpiType.Deliveries],
+      key: () => `${createKey(SelectedKpisAndMetadata.Deliveries)}Active`,
+      title: () => `${key}.${SelectedKpisAndMetadata.Deliveries}Active`,
+      visible: (options) => options[SelectedKpisAndMetadata.Deliveries],
       additionalProps: {
         titleStyle: 'indented',
-        path: [KpiType.Deliveries, 'active'],
+        path: [SelectedKpisAndMetadata.Deliveries, 'active'],
       },
     }),
     // Extended: Predecessor
     createColumnDef({
-      key: () => `${createKey(KpiType.Deliveries)}Predecessor`,
-      title: () => `${key}.${KpiType.Deliveries}Predecessor`,
-      visible: (options) => options[KpiType.Deliveries],
+      key: () => `${createKey(SelectedKpisAndMetadata.Deliveries)}Predecessor`,
+      title: () => `${key}.${SelectedKpisAndMetadata.Deliveries}Predecessor`,
+      visible: (options) => options[SelectedKpisAndMetadata.Deliveries],
       additionalProps: {
         titleStyle: 'indented',
-        path: [KpiType.Deliveries, 'predecessor'],
+        path: [SelectedKpisAndMetadata.Deliveries, 'predecessor'],
       },
     }),
     // ////////////
@@ -101,32 +103,35 @@ export function getColumnDefinitions(config: {
     // ////////////////////////
     // Firm Business (Active / Combined) | CONFIRMED & REQUESTED
     createColumnDef({
-      key: (options) => createToggleKey(KpiType.FirmBusiness, options),
-      title: (options) => createToggleTitle(KpiType.FirmBusiness, options),
-      visible: (options) => options[KpiType.FirmBusiness],
+      key: (options) =>
+        createToggleKey(SelectedKpisAndMetadata.FirmBusiness, options),
+      title: (options) =>
+        createToggleTitle(SelectedKpisAndMetadata.FirmBusiness, options),
+      visible: (options) => options[SelectedKpisAndMetadata.FirmBusiness],
       additionalProps: {
         color: 'dimmed-yellow',
-        path: [KpiType.FirmBusiness],
+        path: [SelectedKpisAndMetadata.FirmBusiness],
       },
     }),
     // Extended: Active
     createColumnDef({
-      key: () => `${createKey(KpiType.FirmBusiness)}Active`,
-      title: () => `${key}.${KpiType.FirmBusiness}`,
-      visible: (options) => options[KpiType.FirmBusiness],
+      key: () => `${createKey(SelectedKpisAndMetadata.FirmBusiness)}Active`,
+      title: () => `${key}.${SelectedKpisAndMetadata.FirmBusiness}`,
+      visible: (options) => options[SelectedKpisAndMetadata.FirmBusiness],
       additionalProps: {
         titleStyle: 'indented',
-        path: [KpiType.FirmBusiness, 'active'],
+        path: [SelectedKpisAndMetadata.FirmBusiness, 'active'],
       },
     }),
     // Extended: Predecessor
     createColumnDef({
-      key: () => `${createKey(KpiType.FirmBusiness)}Predecessor`,
-      title: () => `${key}.${KpiType.FirmBusiness}Predecessor`,
-      visible: (options) => options[KpiType.FirmBusiness],
+      key: () =>
+        `${createKey(SelectedKpisAndMetadata.FirmBusiness)}Predecessor`,
+      title: () => `${key}.${SelectedKpisAndMetadata.FirmBusiness}Predecessor`,
+      visible: (options) => options[SelectedKpisAndMetadata.FirmBusiness],
       additionalProps: {
         titleStyle: 'indented',
-        path: [KpiType.FirmBusiness, 'predecessor'],
+        path: [SelectedKpisAndMetadata.FirmBusiness, 'predecessor'],
       },
     }),
     // ////////////
@@ -134,12 +139,13 @@ export function getColumnDefinitions(config: {
     // ////////////////////////
     // Forecast Proposal (ADD*ONE) | CONFIRMED (inactive) & REQUESTED
     createColumnDef({
-      key: () => (isConfirmed ? undefined : KpiType.ForecastProposal),
-      title: () => `${key}.${KpiType.ForecastProposal}`,
-      visible: (options) => options[KpiType.ForecastProposal],
+      key: () =>
+        isConfirmed ? undefined : SelectedKpisAndMetadata.ForecastProposal,
+      title: () => `${key}.${SelectedKpisAndMetadata.ForecastProposal}`,
+      visible: (options) => options[SelectedKpisAndMetadata.ForecastProposal],
       additionalProps: {
         titleStyle: isConfirmed ? 'pseudo-deactivated' : '',
-        path: [KpiType.ForecastProposal],
+        path: [SelectedKpisAndMetadata.ForecastProposal],
       },
     }),
     // ////////////
@@ -148,12 +154,16 @@ export function getColumnDefinitions(config: {
     // Forecast Proposal (Demand Planner) | CONFIRMED (inactive) & REQUESTED
     createColumnDef({
       key: () =>
-        isConfirmed ? undefined : KpiType.ForecastProposalDemandPlanner,
-      title: () => `${key}.${KpiType.ForecastProposalDemandPlanner}`,
-      visible: (options) => options[KpiType.ForecastProposalDemandPlanner],
+        isConfirmed
+          ? undefined
+          : SelectedKpisAndMetadata.ForecastProposalDemandPlanner,
+      title: () =>
+        `${key}.${SelectedKpisAndMetadata.ForecastProposalDemandPlanner}`,
+      visible: (options) =>
+        options[SelectedKpisAndMetadata.ForecastProposalDemandPlanner],
       additionalProps: {
         titleStyle: isConfirmed ? 'pseudo-deactivated' : '',
-        path: [KpiType.ForecastProposalDemandPlanner],
+        path: [SelectedKpisAndMetadata.ForecastProposalDemandPlanner],
       },
     }),
     // ////////////
@@ -161,13 +171,14 @@ export function getColumnDefinitions(config: {
     // ////////////////////////
     // Validated Customer Forecast | CONFIRMED (inactive) & REQUESTED
     createColumnDef({
-      key: () => (isConfirmed ? undefined : KpiType.ValidatedForecast),
-      title: () => `${key}.${KpiType.ValidatedForecast}`,
+      key: () =>
+        isConfirmed ? undefined : SelectedKpisAndMetadata.ValidatedForecast,
+      title: () => `${key}.${SelectedKpisAndMetadata.ValidatedForecast}`,
       visible: () => true,
       additionalProps: {
         titleStyle: isConfirmed ? 'pseudo-deactivated' : 'highlighted',
         editable: !isConfirmed,
-        path: [KpiType.ValidatedForecast],
+        path: [SelectedKpisAndMetadata.ValidatedForecast],
       },
     }),
     // ////////////
@@ -175,42 +186,56 @@ export function getColumnDefinitions(config: {
     // ////////////////////////
     // Demand Relevant Sales | CONFIRMED & REQUESTED
     createColumnDef({
-      key: () => createKey(KpiType.DemandRelevantSales),
-      title: () => `${key}.${KpiType.DemandRelevantSales}`,
-      visible: (options) => options[KpiType.DemandRelevantSales],
-      additionalProps: { path: [KpiType.DemandRelevantSales] },
+      key: () => createKey(SelectedKpisAndMetadata.DemandRelevantSales),
+      title: () => `${key}.${SelectedKpisAndMetadata.DemandRelevantSales}`,
+      visible: (options) =>
+        options[SelectedKpisAndMetadata.DemandRelevantSales],
+      additionalProps: { path: [SelectedKpisAndMetadata.DemandRelevantSales] },
     }),
     // Extended: Firm Business (Active)
     createColumnDef({
-      key: () => `${createKey(KpiType.FirmBusiness)}Active`,
-      title: (options) => `${createToggleTitle(KpiType.FirmBusiness, options)}`,
-      visible: (options) => options[KpiType.DemandRelevantSales],
+      key: () => `${createKey(SelectedKpisAndMetadata.FirmBusiness)}Active`,
+      title: (options) =>
+        `${createToggleTitle(SelectedKpisAndMetadata.FirmBusiness, options)}`,
+      visible: (options) =>
+        options[SelectedKpisAndMetadata.DemandRelevantSales],
       additionalProps: {
         dotStyle: 'indented',
         color: 'dimmed-yellow',
-        path: [KpiType.DemandRelevantSales, KpiType.FirmBusiness],
+        path: [
+          SelectedKpisAndMetadata.DemandRelevantSales,
+          SelectedKpisAndMetadata.FirmBusiness,
+        ],
       },
     }),
     // Extended: On Top Order in Production
     createColumnDef({
-      key: () => createKey(KpiType.OnTopOrder),
-      title: () => `${key}.${KpiType.OnTopOrder}`,
-      visible: (options) => options[KpiType.DemandRelevantSales],
+      key: () => createKey(SelectedKpisAndMetadata.OnTopOrder),
+      title: () => `${key}.${SelectedKpisAndMetadata.OnTopOrder}`,
+      visible: (options) =>
+        options[SelectedKpisAndMetadata.DemandRelevantSales],
       additionalProps: {
         dotStyle: 'indented',
         color: 'dimmed-green',
-        path: [KpiType.DemandRelevantSales, KpiType.OnTopOrder],
+        path: [
+          SelectedKpisAndMetadata.DemandRelevantSales,
+          SelectedKpisAndMetadata.OnTopOrder,
+        ],
       },
     }),
     // Extended: On Top Capacity Forecast for Production
     createColumnDef({
-      key: () => createKey(KpiType.OnTopCapacityForecast),
-      title: () => `${key}.${KpiType.OnTopCapacityForecast}`,
-      visible: (options) => options[KpiType.DemandRelevantSales],
+      key: () => createKey(SelectedKpisAndMetadata.OnTopCapacityForecast),
+      title: () => `${key}.${SelectedKpisAndMetadata.OnTopCapacityForecast}`,
+      visible: (options) =>
+        options[SelectedKpisAndMetadata.DemandRelevantSales],
       additionalProps: {
         dotStyle: 'indented',
         color: 'dimmed-blue',
-        path: [KpiType.DemandRelevantSales, KpiType.OnTopCapacityForecast],
+        path: [
+          SelectedKpisAndMetadata.DemandRelevantSales,
+          SelectedKpisAndMetadata.OnTopCapacityForecast,
+        ],
       },
     }),
     // ////////////
@@ -218,12 +243,12 @@ export function getColumnDefinitions(config: {
     // ////////////////////////
     // Sales Ambition | CONFIRMED & REQUESTED
     createColumnDef({
-      key: () => createKey(KpiType.SalesAmbition),
-      title: () => `${key}.${KpiType.SalesAmbition}`,
-      visible: (options) => options[KpiType.SalesAmbition],
+      key: () => createKey(SelectedKpisAndMetadata.SalesAmbition),
+      title: () => `${key}.${SelectedKpisAndMetadata.SalesAmbition}`,
+      visible: (options) => options[SelectedKpisAndMetadata.SalesAmbition],
       additionalProps: {
         color: 'dimmed-pink',
-        path: [KpiType.SalesAmbition],
+        path: [SelectedKpisAndMetadata.SalesAmbition],
       },
     }),
     // ////////////
@@ -231,12 +256,12 @@ export function getColumnDefinitions(config: {
     // ////////////////////////
     // Opportunities | CONFIRMED & REQUESTED
     createColumnDef({
-      key: () => createKey(KpiType.Opportunities),
-      title: () => `${key}.${KpiType.Opportunities}`,
-      visible: (options) => options[KpiType.Opportunities],
+      key: () => createKey(SelectedKpisAndMetadata.Opportunities),
+      title: () => `${key}.${SelectedKpisAndMetadata.Opportunities}`,
+      visible: (options) => options[SelectedKpisAndMetadata.Opportunities],
       additionalProps: {
         color: 'dimmed-red',
-        path: [KpiType.Opportunities],
+        path: [SelectedKpisAndMetadata.Opportunities],
       },
     }),
     // ////////////
@@ -244,10 +269,10 @@ export function getColumnDefinitions(config: {
     // ////////////////////////
     // Sales Plan | CONFIRMED & REQUESTED
     createColumnDef({
-      key: () => createKey(KpiType.SalesPlan),
-      title: () => `${key}.${KpiType.SalesPlan}`,
-      visible: (options) => options[KpiType.SalesPlan],
-      additionalProps: { path: [KpiType.SalesPlan] },
+      key: () => createKey(SelectedKpisAndMetadata.SalesPlan),
+      title: () => `${key}.${SelectedKpisAndMetadata.SalesPlan}`,
+      visible: (options) => options[SelectedKpisAndMetadata.SalesPlan],
+      additionalProps: { path: [SelectedKpisAndMetadata.SalesPlan] },
     }),
     // ////////////
   ];

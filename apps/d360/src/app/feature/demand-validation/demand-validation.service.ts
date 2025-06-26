@@ -50,12 +50,12 @@ import {
   KpiData,
   KpiDataRequest,
   KpiDateRanges,
-  KpiType,
   MaterialListEntry,
   MaterialType,
   MultiType,
   MultiTypes,
   SelectedKpis,
+  SelectedKpisAndMetadata,
   WriteKpiData,
   WriteKpiDataResponse,
 } from './model';
@@ -328,26 +328,26 @@ export class DemandValidationService {
             customerNumber: materialListEntry.customerNumber,
             materialNumber: materialListEntry.materialNumber,
             selectedKpis: {
-              [KpiType.ActiveAndPredecessor]: true,
-              [KpiType.Deliveries]: true,
-              [KpiType.FirmBusiness]: true,
-              [KpiType.Opportunities]: true,
-              [KpiType.ForecastProposal]: true,
-              [KpiType.ForecastProposalDemandPlanner]: true,
-              [KpiType.ValidatedForecast]: true,
-              [KpiType.DemandRelevantSales]: true,
-              [KpiType.OnTopOrder]: true,
-              [KpiType.OnTopCapacityForecast]: true,
-              [KpiType.SalesAmbition]: true,
-              [KpiType.SalesPlan]: true,
-              [KpiType.ConfirmedDeliveries]: true,
-              [KpiType.ConfirmedFirmBusiness]: true,
-              [KpiType.ConfirmedDemandRelevantSales]: true,
-              [KpiType.ConfirmedOnTopOrder]: true,
-              [KpiType.ConfirmedOnTopCapacityForecast]: true,
-              [KpiType.ConfirmedSalesAmbition]: true,
-              [KpiType.ConfirmedSalesPlan]: true,
-              [KpiType.ConfirmedOpportunities]: true,
+              [SelectedKpisAndMetadata.ActiveAndPredecessor]: true,
+              [SelectedKpisAndMetadata.Deliveries]: true,
+              [SelectedKpisAndMetadata.FirmBusiness]: true,
+              [SelectedKpisAndMetadata.Opportunities]: true,
+              [SelectedKpisAndMetadata.ForecastProposal]: true,
+              [SelectedKpisAndMetadata.ForecastProposalDemandPlanner]: true,
+              [SelectedKpisAndMetadata.ValidatedForecast]: true,
+              [SelectedKpisAndMetadata.DemandRelevantSales]: true,
+              [SelectedKpisAndMetadata.OnTopOrder]: true,
+              [SelectedKpisAndMetadata.OnTopCapacityForecast]: true,
+              [SelectedKpisAndMetadata.SalesAmbition]: true,
+              [SelectedKpisAndMetadata.SalesPlan]: true,
+              [SelectedKpisAndMetadata.ConfirmedDeliveries]: true,
+              [SelectedKpisAndMetadata.ConfirmedFirmBusiness]: true,
+              [SelectedKpisAndMetadata.ConfirmedDemandRelevantSales]: true,
+              [SelectedKpisAndMetadata.ConfirmedOnTopOrder]: true,
+              [SelectedKpisAndMetadata.ConfirmedOnTopCapacityForecast]: true,
+              [SelectedKpisAndMetadata.ConfirmedSalesAmbition]: true,
+              [SelectedKpisAndMetadata.ConfirmedSalesPlan]: true,
+              [SelectedKpisAndMetadata.ConfirmedOpportunities]: true,
             },
             range1: {
               from: formatISO(kpiDateRanges.range1.from, {
@@ -409,7 +409,7 @@ export class DemandValidationService {
   }
 
   public triggerExport(
-    selectedKpis: SelectedKpis,
+    selectedKpisAndMetadata: SelectedKpis,
     filledRange: { range1: DateRange; range2?: DateRange } | undefined,
     demandValidationFilters: DemandValidationFilter
   ): Observable<void> {
@@ -424,7 +424,7 @@ export class DemandValidationService {
     };
 
     this.snackBarService.openSnackBar(
-      translate('validation_of_demand.export_modal.download_started')
+      translate('validation_of_demand.exportModal.downloadStarted')
     );
 
     this.appInsights.logEvent('[Validated Sales Planning] Export Data');
@@ -434,7 +434,9 @@ export class DemandValidationService {
         this.EXPORT_DEMAND_VALIDATION_API,
         {
           dataFilters,
-          selectedKpis,
+          selectedKpisAndMetadata: Object.entries(selectedKpisAndMetadata)
+            .filter(([_, value]) => [true].includes(value))
+            .map(([key]) => key),
           range1: {
             from: formatISO(filledRange.range1.from, {
               representation: 'date',
@@ -457,7 +459,7 @@ export class DemandValidationService {
                 }
               : undefined,
           translations: getTranslationsForExport(
-            selectedKpis.activeAndPredecessor,
+            selectedKpisAndMetadata.activeAndPredecessor,
             this.translocoLocaleService.getLocale()
           ),
         },

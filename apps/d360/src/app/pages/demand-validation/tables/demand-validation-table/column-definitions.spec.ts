@@ -1,4 +1,4 @@
-import { KpiType } from '../../../../feature/demand-validation/model';
+import { SelectedKpisAndMetadata } from '../../../../feature/demand-validation/model';
 import { PlanningView } from '../../../../feature/demand-validation/planning-view';
 import { getColumnDefinitions } from './column-definitions';
 
@@ -10,11 +10,17 @@ describe('getColumnDefinitions', () => {
       const columns = getColumnDefinitions(config);
 
       expect(
-        columns[0].key({ expanded: true, [KpiType.Deliveries]: true } as any)
+        columns[0].key({
+          expanded: true,
+          [SelectedKpisAndMetadata.Deliveries]: true,
+        } as any)
       ).toBe('confirmedDeliveriesCombined');
 
       expect(
-        columns[0].title({ expanded: false, [KpiType.Deliveries]: true } as any)
+        columns[0].title({
+          expanded: false,
+          [SelectedKpisAndMetadata.Deliveries]: true,
+        } as any)
       ).toBe('validation_of_demand.planningTable.deliveries');
     });
   });
@@ -26,7 +32,10 @@ describe('getColumnDefinitions', () => {
       const columns = getColumnDefinitions(config);
 
       expect(
-        columns[0].key({ expanded: false, [KpiType.Deliveries]: true } as any)
+        columns[0].key({
+          expanded: false,
+          [SelectedKpisAndMetadata.Deliveries]: true,
+        } as any)
       ).toBe('deliveriesActive');
     });
   });
@@ -36,8 +45,8 @@ describe('getColumnDefinitions', () => {
       const config = { planningView: PlanningView.CONFIRMED };
       const columns = getColumnDefinitions(config);
       const filterOptions = {
-        [KpiType.Deliveries]: true,
-        [KpiType.FirmBusiness]: false,
+        [SelectedKpisAndMetadata.Deliveries]: true,
+        [SelectedKpisAndMetadata.FirmBusiness]: false,
       } as any;
 
       const visibleColumns = columns.filter((column) =>
@@ -57,13 +66,17 @@ describe('getColumnDefinitions', () => {
       const deliveriesColumn = columns.find(
         (col) => col.key({ expanded: false } as any) === 'deliveriesActive'
       );
-      expect(deliveriesColumn?.path).toEqual([KpiType.Deliveries]);
+      expect(deliveriesColumn?.path).toEqual([
+        SelectedKpisAndMetadata.Deliveries,
+      ]);
 
       // Check Firm Business column path
       const firmBusinessColumn = columns.find(
         (col) => col.key({ expanded: false } as any) === 'firmBusinessActive'
       );
-      expect(firmBusinessColumn?.path).toEqual([KpiType.FirmBusiness]);
+      expect(firmBusinessColumn?.path).toEqual([
+        SelectedKpisAndMetadata.FirmBusiness,
+      ]);
     });
 
     it('should assign correct colors to specific columns', () => {
@@ -106,7 +119,8 @@ describe('getColumnDefinitions', () => {
       const columns = getColumnDefinitions(config);
 
       const validatedForecastColumn = columns.find(
-        (col) => col.key({} as any) === KpiType.ValidatedForecast
+        (col) =>
+          col.key({} as any) === SelectedKpisAndMetadata.ValidatedForecast
       );
 
       expect(validatedForecastColumn?.visible({} as any)).toBe(true);
@@ -117,14 +131,14 @@ describe('getColumnDefinitions', () => {
       const columns = getColumnDefinitions(config);
 
       const filterOptions = {
-        [KpiType.Deliveries]: true,
-        [KpiType.FirmBusiness]: true,
-        [KpiType.ForecastProposal]: false,
-        [KpiType.ForecastProposalDemandPlanner]: false,
-        [KpiType.SalesAmbition]: true,
-        [KpiType.Opportunities]: false,
-        [KpiType.SalesPlan]: false,
-        [KpiType.DemandRelevantSales]: true,
+        [SelectedKpisAndMetadata.Deliveries]: true,
+        [SelectedKpisAndMetadata.FirmBusiness]: true,
+        [SelectedKpisAndMetadata.ForecastProposal]: false,
+        [SelectedKpisAndMetadata.ForecastProposalDemandPlanner]: false,
+        [SelectedKpisAndMetadata.SalesAmbition]: true,
+        [SelectedKpisAndMetadata.Opportunities]: false,
+        [SelectedKpisAndMetadata.SalesPlan]: false,
+        [SelectedKpisAndMetadata.DemandRelevantSales]: true,
       } as any;
 
       const visibleColumns = columns.filter((col) =>
@@ -133,11 +147,11 @@ describe('getColumnDefinitions', () => {
 
       // Count columns that should be visible based on our filter options
       const expectedVisibleColumns = [
-        KpiType.Deliveries,
-        KpiType.FirmBusiness,
-        KpiType.ValidatedForecast, // Always visible
-        KpiType.SalesAmbition,
-        KpiType.DemandRelevantSales,
+        SelectedKpisAndMetadata.Deliveries,
+        SelectedKpisAndMetadata.FirmBusiness,
+        SelectedKpisAndMetadata.ValidatedForecast, // Always visible
+        SelectedKpisAndMetadata.SalesAmbition,
+        SelectedKpisAndMetadata.DemandRelevantSales,
       ].length;
 
       // Plus additional sub-columns for expanded types
@@ -159,14 +173,14 @@ describe('getColumnDefinitions', () => {
       expect(
         deliveriesColumn.key({
           expanded: true,
-          [KpiType.Deliveries]: true,
+          [SelectedKpisAndMetadata.Deliveries]: true,
         } as any)
       ).toBe('deliveriesCombined');
 
       expect(
         deliveriesColumn.key({
           expanded: false,
-          [KpiType.Deliveries]: true,
+          [SelectedKpisAndMetadata.Deliveries]: true,
         } as any)
       ).toBe('deliveriesActive');
     });
@@ -181,12 +195,14 @@ describe('getColumnDefinitions', () => {
       // Check a specific column like SalesAmbition
       const confirmedSalesAmbitionColumn = confirmedColumns.find(
         (col) =>
-          col.path.includes(KpiType.SalesAmbition) && col.path.length === 1
+          col.path.includes(SelectedKpisAndMetadata.SalesAmbition) &&
+          col.path.length === 1
       );
 
       const requestedSalesAmbitionColumn = requestedColumns.find(
         (col) =>
-          col.path.includes(KpiType.SalesAmbition) && col.path.length === 1
+          col.path.includes(SelectedKpisAndMetadata.SalesAmbition) &&
+          col.path.length === 1
       );
 
       expect(confirmedSalesAmbitionColumn?.key({} as any)).toBe(
@@ -204,7 +220,8 @@ describe('getColumnDefinitions', () => {
       // Find the forecast proposal column
       const forecastProposalColumn = columns.find(
         (col) =>
-          col.path.includes(KpiType.ForecastProposal) && col.path.length === 1
+          col.path.includes(SelectedKpisAndMetadata.ForecastProposal) &&
+          col.path.length === 1
       );
 
       // Check that the key is undefined in CONFIRMED view
@@ -220,14 +237,14 @@ describe('getColumnDefinitions', () => {
       expect(
         deliveriesColumn.title({
           expanded: true,
-          [KpiType.Deliveries]: true,
+          [SelectedKpisAndMetadata.Deliveries]: true,
         } as any)
       ).toBe('validation_of_demand.planningTable.deliveriesCombined');
 
       expect(
         deliveriesColumn.title({
           expanded: false,
-          [KpiType.Deliveries]: true,
+          [SelectedKpisAndMetadata.Deliveries]: true,
         } as any)
       ).toBe('validation_of_demand.planningTable.deliveries');
     });
@@ -239,7 +256,8 @@ describe('getColumnDefinitions', () => {
       const columns = getColumnDefinitions(config);
 
       const validatedForecastColumn = columns.find(
-        (col) => col.key({} as any) === KpiType.ValidatedForecast
+        (col) =>
+          col.key({} as any) === SelectedKpisAndMetadata.ValidatedForecast
       );
 
       expect(validatedForecastColumn?.editable).toBe(true);
@@ -250,7 +268,7 @@ describe('getColumnDefinitions', () => {
       const columns = getColumnDefinitions(config);
 
       const validatedForecastColumn = columns.find((col) =>
-        col.path.includes(KpiType.ValidatedForecast)
+        col.path.includes(SelectedKpisAndMetadata.ValidatedForecast)
       );
 
       expect(validatedForecastColumn?.editable).toBe(false);
@@ -261,15 +279,15 @@ describe('getColumnDefinitions', () => {
       const columns = getColumnDefinitions(config);
 
       const onTopOrderColumn = columns.find(
-        (col) => col.key({} as any) === KpiType.OnTopOrder
+        (col) => col.key({} as any) === SelectedKpisAndMetadata.OnTopOrder
       );
 
       expect(onTopOrderColumn).toBeDefined();
       expect(onTopOrderColumn?.dotStyle).toBe('indented');
       expect(onTopOrderColumn?.color).toBe('dimmed-green');
       expect(onTopOrderColumn?.path).toEqual([
-        KpiType.DemandRelevantSales,
-        KpiType.OnTopOrder,
+        SelectedKpisAndMetadata.DemandRelevantSales,
+        SelectedKpisAndMetadata.OnTopOrder,
       ]);
     });
 
@@ -278,15 +296,16 @@ describe('getColumnDefinitions', () => {
       const columns = getColumnDefinitions(config);
 
       const onTopCapacityForecastColumn = columns.find(
-        (col) => col.key({} as any) === KpiType.OnTopCapacityForecast
+        (col) =>
+          col.key({} as any) === SelectedKpisAndMetadata.OnTopCapacityForecast
       );
 
       expect(onTopCapacityForecastColumn).toBeDefined();
       expect(onTopCapacityForecastColumn?.dotStyle).toBe('indented');
       expect(onTopCapacityForecastColumn?.color).toBe('dimmed-blue');
       expect(onTopCapacityForecastColumn?.path).toEqual([
-        KpiType.DemandRelevantSales,
-        KpiType.OnTopCapacityForecast,
+        SelectedKpisAndMetadata.DemandRelevantSales,
+        SelectedKpisAndMetadata.OnTopCapacityForecast,
       ]);
     });
   });
@@ -301,15 +320,15 @@ describe('getColumnDefinitions', () => {
 
       // Check that all key KPI types are represented
       const kpiTypes = [
-        KpiType.Deliveries,
-        KpiType.FirmBusiness,
-        KpiType.ForecastProposal,
-        KpiType.ForecastProposalDemandPlanner,
-        KpiType.ValidatedForecast,
-        KpiType.DemandRelevantSales,
-        KpiType.SalesAmbition,
-        KpiType.Opportunities,
-        KpiType.SalesPlan,
+        SelectedKpisAndMetadata.Deliveries,
+        SelectedKpisAndMetadata.FirmBusiness,
+        SelectedKpisAndMetadata.ForecastProposal,
+        SelectedKpisAndMetadata.ForecastProposalDemandPlanner,
+        SelectedKpisAndMetadata.ValidatedForecast,
+        SelectedKpisAndMetadata.DemandRelevantSales,
+        SelectedKpisAndMetadata.SalesAmbition,
+        SelectedKpisAndMetadata.Opportunities,
+        SelectedKpisAndMetadata.SalesPlan,
       ];
 
       kpiTypes.forEach((kpiType) => {

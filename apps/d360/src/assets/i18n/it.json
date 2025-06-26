@@ -664,6 +664,7 @@
       "accountOwnerID": "Account Owner ID",
       "currentRLTCustomer": "Attuale Lead Time Cliente",
       "currentRLTSchaeffler": "Attuale Lead Time Schaeffler",
+      "currentRLTSchaefflerWithTransitTime": "Tempi di consegna - Lead Time (incluso il tempo di transito)",
       "customerClassification": "Classificazione Cliente (Order Prio)",
       "customerCountry": "Paese (Cliente)",
       "customerMaterialNumber": "Codice Materiale Cliente",
@@ -681,6 +682,7 @@
       "forecastValidatedBy": "confermata da",
       "forecastValidatedFrom": "confermata da",
       "forecastValidatedTo": "confermata fino a",
+      "frozenZone": "Frozen Zone (incluso il tempo di transito)",
       "gkam": "GKAM",
       "gkamID": "GKAM ID",
       "gkamName": "GKAM Nome",
@@ -703,6 +705,7 @@
       "pfStatusAutoSwitch": "Cambio di stato automatico",
       "planningPlant": "Pianificazione dello stabilimento",
       "portfolioStatus": "Stato Portafoglio",
+      "portfolioStatusDate": "Stato Portafoglio Data",
       "productCluster": "Product Cluster",
       "productionLine": "Linea di produzione (Treno)",
       "productionPlant": "Stabilimento produttivo",
@@ -719,34 +722,35 @@
       "stochasticType": "Tipo Stocastico",
       "subKeyAccount": "Sub Key Account",
       "subKeyAccountName": "Sub Key Account nome",
-      "successorCustomerMaterialDescription": "Descrizione prodotto (Cliente Successivo)",
-      "successorCustomerMaterialNumber": "Numeri di materiale del cliente (cliente subentrante)",
-      "successorCustomerMaterialPackagingSize": "Dimensioni Imballo (Successivo Schaeffler)",
-      "successorMaterial": "Materiale di follow-up convalidato (cliente)",
-      "successorMaterialClassification": "Classificazione del materiale (cliente successore)",
-      "successorMaterialClassificationCustomer": "Classificazione dei Materiali (Successivo Schaeffler)",
+      "successorCustomerMaterialDescription": "Descrizione prodotto (Successivo Cliente)",
+      "successorCustomerMaterialNumber": "Numeri di materiale del cliente (Successivo Cliente)",
+      "successorCustomerMaterialPackagingSize": "Dimensioni Imballo (Successivo Cliente)",
+      "successorMaterial": "Materiale di follow-up convalidato (Cliente)",
+      "successorMaterialClassification": "Classificazione del materiale (Successivo Cliente)",
+      "successorMaterialClassificationCustomer": "Classificazione dei Materiali (Successivo Cliente)",
       "successorMaterialClassificationSchaeffler": "Classificazione dei Materiali (Successivo Schaeffler)",
       "successorMaterialCustomer": "Prodotto sostitutivo (Cliente)",
-      "successorMaterialDescription": "Designazione del materiale (cliente subentrante)",
-      "successorMaterialPackagingSize": "Dimensioni dell'imballaggio (cliente successore)",
-      "successorProductionLine": "Linea di produzione (cliente subentrante)",
-      "successorProductionPlant": "Stabilimento di produzione (cliente subentrante)",
-      "successorProductionSegment": "Segmento di produzione (cliente successivo)",
-      "successorProductLine": "Linea di prodotti (cliente successore)",
-      "successorProductLineText": "Designazione della linea di prodotto (cliente successivo)",
+      "successorMaterialDescription": "Designazione del materiale (Successivo Cliente)",
+      "successorMaterialPackagingSize": "Dimensioni dell'imballaggio (Successivo Cliente)",
+      "successorProductionLine": "Linea di produzione (Successivo Cliente)",
+      "successorProductionPlant": "Stabilimento di produzione (Successivo Cliente)",
+      "successorProductionSegment": "Segmento di produzione (Successivo Cliente)",
+      "successorProductLine": "Linea di prodotti (Successivo Cliente)",
+      "successorProductLineText": "Designazione della linea di prodotto (Successivo Cliente)",
       "successorSchaefflerMaterial": "Tipo Prodotto Successivo (Schaeffler)",
       "successorSchaefflerMaterialDescription": "Descrizione prodotto (Successivo Schaeffler)",
       "successorSchaefflerMaterialPackagingSize": "Dimensioni Imballo (Successivo Schaeffler)",
-      "successorStochasticType": "Tipo stocastico (cliente successore)",
+      "successorStochasticType": "Tipo stocastico (Successivo Cliente)",
+      "supplyConcept": "Concetto di fornitura",
       "tlMessageType": "Stato di Sostituzione",
       "tooltipTextIA": "Materiale è inattivo",
       "tooltipTextRE": "Materiale viene sostituito"
     },
     "export": {
-      "download_started": "Esportazione: download avviato",
+      "downloadStarted": "Esportazione: download avviato",
       "failed": "Esportazione non riuscita: {{reason}}",
-      "in_progress": "Viene creata l'esportazione. Questo può richiedere alcuni minuti.",
-      "max_count_exceeded": "È possibile esportare un massimo di {{max_count}} righe."
+      "inProgress": "Viene creata l'esportazione. Questo può richiedere alcuni minuti.",
+      "maxCountExceeded": "È possibile esportare un massimo di {{max_count}} righe."
     },
     "portfolio_status": {
       "AC": "Attivo",
@@ -835,7 +839,7 @@
     }
   },
   "paste_from_clipboard": "Incolla dagli appunti",
-  "planing_type": {
+  "planningType": {
     "title": {
       "CONFIRMED": "Constrained",
       "REQUESTED": "Unconstrained",
@@ -1233,15 +1237,26 @@
     "error": {
       "no_data": "Nessun dato valido inserito."
     },
-    "export_modal": {
-      "button_export": "Export",
-      "date_headline": "Scegli una data",
-      "download_started": "Esportazione: download avviato",
-      "excel_header_view": "Vista",
-      "in_progress": "Viene creata l'esportazione. Questo può richiedere alcuni minuti.",
-      "selected_customer": "{{number}} Cliente(i) selezionati",
-      "selected_customer_headline": "Clienti selezionati': ",
-      "selected_kpis": "KPI selezionati per l'esportazione:",
+    "exportModal": {
+      "buttonBack": "Indietro",
+      "buttonExport": "Export",
+      "buttonNext": "Passo successivo",
+      "chooseTemplate": "Scegli un template",
+      "downloadStarted": "Esportazione: download avviato",
+      "excelHeaderView": "Vista",
+      "inProgress": "Viene creata l'esportazione. Questo può richiedere alcuni minuti.",
+      "newTemplate": "Nuovo template",
+      "selectedCustomer": "{{number}} Cliente(i) selezionati",
+      "selectedCustomerHeadline": "Clienti selezionati': ",
+      "steps": {
+        "contactPerson": "Persona di contatto",
+        "customerInformation": "Informazioni sul cliente",
+        "date": "Modello e Data",
+        "kpis": "Selezionare i KPI",
+        "materialInformation": "Informazioni sui materiali",
+        "supplyChain": "Catena di fornitura"
+      },
+      "templateChanged": "Il template è stato modificato, vuoi sovrascrivere il template con le selezioni correnti?",
       "title": "Export"
     },
     "filter": {
@@ -1299,10 +1314,6 @@
           "SP": "Sporadic"
         },
         "entries": {
-          "<--- Customer Box Left -->": "",
-          "<--- Customer Box Right -->": "",
-          "<--- Material Box Left -->": "",
-          "<--- Material Box Right -->": "",
           "accountOwner": "Account Owner",
           "currentRLTSchaeffler": "Tempi di consegna - Lead Time (incluso il tempo di transito)",
           "customerClassification": "Classificazione Cliente (Order Prio)",
@@ -1344,9 +1355,9 @@
           "subKeyAccount": "Sub Key Account",
           "subKeyAccountName": "Sub Key Account Nome",
           "successorCustomerMaterial": "Prodotto sostitutivo (Cliente)",
-          "successorCustomerMaterialDescription": "Descrizione prodotto (Cliente Successivo)",
-          "successorSchaefflerMaterialSchaeffler": "Tipo Prodotto Successivo (Schaeffler)",
-          "successorSchaefflerMaterialSchaefflerDescription": "Descrizione prodotto (Successivo Schaeffler)"
+          "successorCustomerMaterialDescription": "Descrizione prodotto (Successivo Cliente)",
+          "successorSchaefflerMaterial": "Tipo Prodotto Successivo (Schaeffler)",
+          "successorSchaefflerMaterialDescription": "Descrizione prodotto (Successivo Schaeffler)"
         },
         "tabs": {
           "customer": "Cliente",

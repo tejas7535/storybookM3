@@ -1,3 +1,6 @@
+import { AbstractControl, ValidationErrors } from '@angular/forms';
+
+import { SelectableValue } from '../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { DateRange, DateRangePeriodType } from '../../shared/utils/date-range';
 import {
   ResponseWithResultMessage,
@@ -38,7 +41,7 @@ export interface BucketRequest {
 }
 
 export interface KpiDataRequest {
-  selectedKpis: SelectedKpis;
+  selectedKpis: Partial<SelectedKpis>;
   customerNumber: string;
   materialNumber: string;
   range1: KpiDataRequestDateRange;
@@ -214,29 +217,112 @@ export type WriteKpiEntryResult = {
   fromDate: string;
 } & ResponseWithResultMessage;
 
-export enum KpiType {
+export enum SelectedKpisAndMetadata {
+  // ////////////////
+  // KPIs
+
+  // Requested KPIs
   ActiveAndPredecessor = 'activeAndPredecessor',
   Deliveries = 'deliveries',
+  DemandRelevantSales = 'demandRelevantSales',
   FirmBusiness = 'firmBusiness',
-  Opportunities = 'opportunities',
   ForecastProposal = 'forecastProposal',
   ForecastProposalDemandPlanner = 'forecastProposalDemandPlanner',
-  ValidatedForecast = 'validatedForecast',
-  DemandRelevantSales = 'demandRelevantSales',
-  OnTopOrder = 'onTopOrder',
   OnTopCapacityForecast = 'onTopCapacityForecast',
+  OnTopOrder = 'onTopOrder',
+  Opportunities = 'opportunities',
   SalesAmbition = 'salesAmbition',
   SalesPlan = 'salesPlan',
+  ValidatedForecast = 'validatedForecast',
+  // Confirmed KPIs
   ConfirmedDeliveries = 'confirmedDeliveries',
-  ConfirmedFirmBusiness = 'confirmedFirmBusiness',
   ConfirmedDemandRelevantSales = 'confirmedDemandRelevantSales',
-  ConfirmedOnTopOrder = 'confirmedOnTopOrder',
+  ConfirmedFirmBusiness = 'confirmedFirmBusiness',
   ConfirmedOnTopCapacityForecast = 'confirmedOnTopCapacityForecast',
-  ConfirmedSalesAmbition = 'confirmedSalesAmbition',
+  ConfirmedOnTopOrder = 'confirmedOnTopOrder',
   ConfirmedOpportunities = 'confirmedOpportunities',
+  ConfirmedSalesAmbition = 'confirmedSalesAmbition',
   ConfirmedSalesPlan = 'confirmedSalesPlan',
+
+  // ////////////////
+  // Customer Information
+  CustomerClassification = 'customerClassification',
+  CustomerCountry = 'customerCountry',
+  GKAMName = 'gkamName',
+  GKAMNumber = 'gkamNumber',
+  MainCustomerName = 'mainCustomerName',
+  MainCustomerNumber = 'mainCustomerNumber',
+  Region = 'region',
+  SalesArea = 'salesArea',
+  SalesOrg = 'salesOrg',
+  Sector = 'sector',
+  SectorManagement = 'sectorManagement',
+  SubKeyAccount = 'subKeyAccount',
+  SubKeyAccountName = 'subKeyAccountName',
+
+  // ////////////////
+  // Contact Person
+  AccountOwner = 'accountOwner',
+  DemandPlanner = 'demandPlanner',
+  GKAM = 'gkam',
+  InternalSales = 'internalSales',
+  KAM = 'kam',
+
+  // ////////////////
+  // Material Information
+  CustomerMaterialNumber = 'customerMaterialNumber',
+  DemandCharacteristic = 'demandCharacteristic',
+  ForecastMaintained = 'forecastMaintained',
+  ForecastValidatedAt = 'forecastValidatedAt',
+  ForecastValidatedBy = 'forecastValidatedBy',
+  ForecastValidatedFrom = 'forecastValidatedFrom',
+  ForecastValidatedTo = 'forecastValidatedTo',
+  Gpsd = 'gpsd',
+  GpsdName = 'gpsdName',
+  MaterialClassification = 'materialClassification',
+  MaterialNumberS4 = 'materialNumberS4',
+  PackagingSize = 'packagingSize',
+  PortfolioStatus = 'portfolioStatus',
+  PortfolioStatusDate = 'portfolioStatusDate',
+  ProductCluster = 'productCluster',
+  ProductLine = 'productLine',
+  ProductLineText = 'productLineText',
+  SuccessorCustomerMaterialDescription = 'successorCustomerMaterialDescription',
+  SuccessorCustomerMaterialPackagingSize = 'successorCustomerMaterialPackagingSize',
+  SuccessorMaterialCustomer = 'successorMaterialCustomer',
+  SuccessorSchaefflerMaterial = 'successorSchaefflerMaterial',
+  SuccessorSchaefflerMaterialDescription = 'successorSchaefflerMaterialDescription',
+  SuccessorSchaefflerMaterialPackagingSize = 'successorSchaefflerMaterialPackagingSize',
+  SupplyConcept = 'supplyConcept',
+
+  // ////////////////
+  // Supply Chain
+  CurrentRLTSchaeffler = 'currentRLTSchaeffler',
+  DeliveryPlant = 'deliveryPlant',
+  FrozenZone = 'frozenZone',
+  MrpGroup = 'mrpGroup',
+  PlanningPlant = 'planningPlant',
+  ProductionLine = 'productionLine',
+  ProductionPlant = 'productionPlant',
+  ProductionPlantName = 'productionPlantName',
+  ProductionSegment = 'productionSegment',
 }
-export type SelectedKpis = Record<KpiType, boolean>;
+export type SelectedKpis = Record<SelectedKpisAndMetadata, boolean>;
+
+export interface DateRanges {
+  startDatePeriod1: (
+    | Date
+    | ((control: AbstractControl<any, any>) => ValidationErrors)[]
+  )[];
+  endDatePeriod1: (
+    | Date
+    | ((control: AbstractControl<any, any>) => ValidationErrors)[]
+  )[];
+  periodType1: SelectableValue;
+  startDatePeriod2: Date | null;
+  endDatePeriod2: Date | null;
+  periodType2: SelectableValue;
+}
 
 export interface DeleteKpiDataRequest {
   customerNumber: string;

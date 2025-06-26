@@ -4,7 +4,10 @@ import {
   getDateFormatString,
   getMonthYearFormatString,
 } from '../../shared/utils/date-format';
-import { KpiType, SUPPLY_CONCEPT_SUPPORTED_STOCHASTIC_TYPES } from './model';
+import {
+  SelectedKpisAndMetadata,
+  SUPPLY_CONCEPT_SUPPORTED_STOCHASTIC_TYPES,
+} from './model';
 
 export function getTranslationsForExport(
   activeAndPredecessor: boolean,
@@ -15,6 +18,12 @@ export function getTranslationsForExport(
 
   const translateConcept = (stochasticType: string, options?: any) =>
     translateKey(`supply_concept.${stochasticType}`, options);
+
+  const translateAdditionalProps = (key: string, options?: any) =>
+    translate(
+      `material_customer.column.${key === 'currentRLTSchaeffler' ? 'currentRLTSchaefflerWithTransitTime' : key}`,
+      options
+    );
 
   // eslint-disable-next-line unicorn/no-array-reduce
   const conceptTranslations = SUPPLY_CONCEPT_SUPPORTED_STOCHASTIC_TYPES.reduce(
@@ -37,59 +46,112 @@ export function getTranslationsForExport(
     {} as any
   );
 
-  const kpiTranslations: Partial<Record<KpiType, string>> = {
-    [KpiType.ActiveAndPredecessor]: translateKey(
+  const kpiTranslations: Partial<Record<SelectedKpisAndMetadata, string>> = {
+    [SelectedKpisAndMetadata.ActiveAndPredecessor]: translateKey(
       'menu_item.activeAndPredecessor'
     ),
-    [KpiType.SalesPlan]: translateKey('menu_item.salesPlan'),
-    [KpiType.DemandRelevantSales]: translateKey(
+    [SelectedKpisAndMetadata.SalesPlan]: translateKey('menu_item.salesPlan'),
+    [SelectedKpisAndMetadata.DemandRelevantSales]: translateKey(
       'menu_item.demandRelevantSales'
     ),
-    [KpiType.OnTopCapacityForecast]: translateKey(
+    [SelectedKpisAndMetadata.OnTopCapacityForecast]: translateKey(
       'menu_item.onTopCapacityForecast'
     ),
-    [KpiType.OnTopOrder]: translateKey('menu_item.onTopOrder'),
-    [KpiType.SalesAmbition]: translateKey('menu_item.salesAmbition'),
-    [KpiType.ValidatedForecast]: translateKey('menu_item.validatedForecast'),
-    [KpiType.Deliveries]: activeAndPredecessor
+    [SelectedKpisAndMetadata.OnTopOrder]: translateKey('menu_item.onTopOrder'),
+    [SelectedKpisAndMetadata.SalesAmbition]: translateKey(
+      'menu_item.salesAmbition'
+    ),
+    [SelectedKpisAndMetadata.ValidatedForecast]: translateKey(
+      'menu_item.validatedForecast'
+    ),
+    [SelectedKpisAndMetadata.Deliveries]: activeAndPredecessor
       ? translateKey('menu_item.deliveriesCombined')
       : translateKey('menu_item.deliveriesActive'),
-    [KpiType.FirmBusiness]: activeAndPredecessor
+    [SelectedKpisAndMetadata.FirmBusiness]: activeAndPredecessor
       ? translateKey('menu_item.firmBusinessCombined')
       : translateKey('menu_item.firmBusiness'),
-    [KpiType.Opportunities]: translateKey('menu_item.opportunities'),
-    [KpiType.ForecastProposal]: translateKey('menu_item.forecastProposal'),
-    [KpiType.ForecastProposalDemandPlanner]: translateKey(
+    [SelectedKpisAndMetadata.Opportunities]: translateKey(
+      'menu_item.opportunities'
+    ),
+    [SelectedKpisAndMetadata.ForecastProposal]: translateKey(
+      'menu_item.forecastProposal'
+    ),
+    [SelectedKpisAndMetadata.ForecastProposalDemandPlanner]: translateKey(
       'menu_item.forecastProposalDemandPlanner'
     ),
   };
 
+  const additionalPropsTranslations: Partial<
+    Record<SelectedKpisAndMetadata, string>
+  > = Object.fromEntries(
+    [
+      'customerName',
+      'customerNumber',
+      'materialDescription',
+      'materialNumber',
+      'packageSize',
+      SelectedKpisAndMetadata.AccountOwner,
+      SelectedKpisAndMetadata.CurrentRLTSchaeffler,
+      SelectedKpisAndMetadata.CustomerClassification,
+      SelectedKpisAndMetadata.CustomerCountry,
+      SelectedKpisAndMetadata.CustomerMaterialNumber,
+      SelectedKpisAndMetadata.DeliveryPlant,
+      SelectedKpisAndMetadata.DemandCharacteristic,
+      SelectedKpisAndMetadata.DemandPlanner,
+      SelectedKpisAndMetadata.ForecastMaintained,
+      SelectedKpisAndMetadata.ForecastValidatedAt,
+      SelectedKpisAndMetadata.ForecastValidatedBy,
+      SelectedKpisAndMetadata.ForecastValidatedFrom,
+      SelectedKpisAndMetadata.ForecastValidatedTo,
+      SelectedKpisAndMetadata.FrozenZone,
+      SelectedKpisAndMetadata.GKAM,
+      SelectedKpisAndMetadata.GKAMName,
+      SelectedKpisAndMetadata.GKAMNumber,
+      SelectedKpisAndMetadata.Gpsd,
+      SelectedKpisAndMetadata.GpsdName,
+      SelectedKpisAndMetadata.InternalSales,
+      SelectedKpisAndMetadata.KAM,
+      SelectedKpisAndMetadata.MainCustomerName,
+      SelectedKpisAndMetadata.MainCustomerNumber,
+      SelectedKpisAndMetadata.MaterialClassification,
+      SelectedKpisAndMetadata.MaterialNumberS4,
+      SelectedKpisAndMetadata.MrpGroup,
+      SelectedKpisAndMetadata.PackagingSize,
+      SelectedKpisAndMetadata.PlanningPlant,
+      SelectedKpisAndMetadata.PortfolioStatus,
+      SelectedKpisAndMetadata.PortfolioStatusDate,
+      SelectedKpisAndMetadata.ProductCluster,
+      SelectedKpisAndMetadata.ProductionLine,
+      SelectedKpisAndMetadata.ProductionPlant,
+      SelectedKpisAndMetadata.ProductionPlantName,
+      SelectedKpisAndMetadata.ProductionSegment,
+      SelectedKpisAndMetadata.ProductLine,
+      SelectedKpisAndMetadata.ProductLineText,
+      SelectedKpisAndMetadata.Region,
+      SelectedKpisAndMetadata.SalesArea,
+      SelectedKpisAndMetadata.SalesOrg,
+      SelectedKpisAndMetadata.Sector,
+      SelectedKpisAndMetadata.SectorManagement,
+      SelectedKpisAndMetadata.SubKeyAccount,
+      SelectedKpisAndMetadata.SubKeyAccountName,
+      SelectedKpisAndMetadata.SuccessorCustomerMaterialDescription,
+      SelectedKpisAndMetadata.SuccessorCustomerMaterialPackagingSize,
+      SelectedKpisAndMetadata.SuccessorMaterialCustomer,
+      SelectedKpisAndMetadata.SuccessorSchaefflerMaterial,
+      SelectedKpisAndMetadata.SuccessorSchaefflerMaterialDescription,
+      SelectedKpisAndMetadata.SuccessorSchaefflerMaterialPackagingSize,
+      SelectedKpisAndMetadata.SupplyConcept,
+    ].map((column) => [column, translateAdditionalProps(column)])
+  );
+
   return {
     ...conceptTranslations,
-    requested: translate('planing_type.title.REQUESTED'),
-    confirmed: translate('planing_type.title.CONFIRMED'),
-    salesOrg: translate('material_customer.column.salesOrg'),
-    customerNumber: translate('material_customer.column.customerNumber'),
-    customerName: translate('material_customer.column.customerName'),
-    materialNumber: translate('material_customer.column.materialNumber'),
-    materialDescription: translate(
-      'material_customer.column.materialDescription'
-    ),
-    customerMaterialNumber: translate(
-      'material_customer.column.customerMaterialNumber'
-    ),
-    packageSize: translate('material_customer.column.packagingSize'),
-    materialClassification: translate(
-      'material_customer.column.materialClassification'
-    ),
-    currentRltSchaeffler: translate(
-      'material_customer.column.currentRLTSchaeffler'
-    ),
-    productionSegment: translate('material_customer.column.productionSegment'),
-    productionLine: translate('material_customer.column.productionLine'),
-    dateFormatWeek: getDateFormatString(locale),
+    ...kpiTranslations,
+    ...additionalPropsTranslations,
+    'supplyConcept.ELSE': translateKey('supply_concept.ELSE'),
+    confirmed: translate('planningType.title.CONFIRMED'),
     dateFormatMonth: getMonthYearFormatString(locale),
-    viewType: translateKey('export_modal.excel_header_view'),
+    dateFormatWeek: getDateFormatString(locale),
     headerCalenderWeek: translateKey(
       'planningTable.calendarWeekTableHeaderKw',
       { calendar_week: '{}' }
@@ -98,10 +160,10 @@ export function getTranslationsForExport(
       'planningTable.calendarWeekTableHeaderPartWeek',
       { days: '{}' }
     ),
-    productLineAndText: translateKey('more_information.product_line_and_text'),
-    supplyConcept: translateKey('supply_concept.title'),
     kpi: translateKey('planningTable.kpi'),
-    'supplyConcept.ELSE': translateKey('supply_concept.ELSE'),
-    ...kpiTranslations,
+    productLineAndText: translateKey('more_information.product_line_and_text'),
+    requested: translate('planningType.title.REQUESTED'),
+    supplyConcept: translateKey('supply_concept.title'),
+    viewType: translateKey('exportModal.excelHeaderView'),
   };
 }

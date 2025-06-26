@@ -25,10 +25,11 @@ import { translate } from '@jsverse/transloco';
 
 import { CustomRoute } from '../../app.routes';
 import { AppRoutePath, AppRouteValue } from '../../app.routes.enum';
-import { KpiType } from '../../feature/demand-validation/model';
+import { SelectedKpisAndMetadata } from '../../feature/demand-validation/model';
 import { Region } from '../../feature/global-selection/model';
 import { FilterValues } from '../../pages/demand-validation/tables/demand-validation-table/column-definitions';
 import {
+  DemandValidationExport,
   DemandValidationSettings,
   DemandValidationTimeRangeUserSettings,
   DemandValidationTimeRangeUserSettingsKey,
@@ -135,16 +136,16 @@ export class UserService {
       }) as T;
 
     const workbench = mergeSettings<
-      Omit<FilterValues, KpiType.ValidatedForecast>
+      Omit<FilterValues, SelectedKpisAndMetadata.ValidatedForecast>
     >(DemandValidationUserSettingsKey.Workbench, {
-      [KpiType.Deliveries]: true,
-      [KpiType.FirmBusiness]: true,
-      [KpiType.ForecastProposal]: true,
-      [KpiType.ForecastProposalDemandPlanner]: true,
-      [KpiType.DemandRelevantSales]: true,
-      [KpiType.SalesAmbition]: true,
-      [KpiType.Opportunities]: true,
-      [KpiType.SalesPlan]: true,
+      [SelectedKpisAndMetadata.Deliveries]: true,
+      [SelectedKpisAndMetadata.FirmBusiness]: true,
+      [SelectedKpisAndMetadata.ForecastProposal]: true,
+      [SelectedKpisAndMetadata.ForecastProposalDemandPlanner]: true,
+      [SelectedKpisAndMetadata.DemandRelevantSales]: true,
+      [SelectedKpisAndMetadata.SalesAmbition]: true,
+      [SelectedKpisAndMetadata.Opportunities]: true,
+      [SelectedKpisAndMetadata.SalesPlan]: true,
     });
 
     const timeRange = mergeSettings<DemandValidationTimeRangeUserSettings>(
@@ -158,9 +159,16 @@ export class UserService {
       }
     );
 
+    const exports = [
+      ...(key === DemandValidationUserSettingsKey.Exports
+        ? (value as DemandValidationExport[])
+        : []),
+    ];
+
     this.updateUserSettings(UserSettingsKey.DemandValidation, {
       workbench,
       timeRange,
+      exports,
     });
   }
 

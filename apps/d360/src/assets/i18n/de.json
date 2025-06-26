@@ -664,6 +664,7 @@
       "accountOwnerID": "Account Owner ID",
       "currentRLTCustomer": "Aktuelle WBZ Kunde",
       "currentRLTSchaeffler": "Aktuelle WBZ Schaeffler",
+      "currentRLTSchaefflerWithTransitTime": "Aktuelle WBZ Schaeffler (Transitzeit)",
       "customerClassification": "Kundenklassifizierung (Order Prio)",
       "customerCountry": "Land (Kunde)",
       "customerMaterialNumber": "Kundenmaterialnummer",
@@ -681,6 +682,7 @@
       "forecastValidatedBy": "Validiert von",
       "forecastValidatedFrom": "Validiert ab",
       "forecastValidatedTo": "Validiert bis",
+      "frozenZone": "Frozen Zone (inkl. Transitzeit)",
       "gkam": "GKAM",
       "gkamID": "GKAM ID",
       "gkamName": "GKAM Name",
@@ -703,6 +705,7 @@
       "pfStatusAutoSwitch": "Automatischer Statuswechsel",
       "planningPlant": "Planungswerk",
       "portfolioStatus": "Portfolio Status",
+      "portfolioStatusDate": "Portfolio Status Datum",
       "productCluster": "Product Cluster",
       "productionLine": "Produktionslinie (Zug)",
       "productionPlant": "Produktionswerk",
@@ -738,15 +741,16 @@
       "successorSchaefflerMaterialDescription": "Materialbezeichnung (Nachfolger Schaeffler)",
       "successorSchaefflerMaterialPackagingSize": "Verpackungsgröße (Nachfolger Schaeffler)",
       "successorStochasticType": "Stochastiktyp (Nachfolger Kunde)",
+      "supplyConcept": "Versorgungskonzept",
       "tlMessageType": "Ersetzungsstatus",
       "tooltipTextIA": "Material ist inaktiv",
       "tooltipTextRE": "Material ist ersetzt"
     },
     "export": {
-      "download_started": "Export: Download gestartet",
+      "downloadStarted": "Export: Download gestartet",
       "failed": "Export fehlgeschlagen: {{reason}}",
-      "in_progress": "Export wird erstellt. Dies kann einige Minuten dauern.",
-      "max_count_exceeded": "Es können maximal {{max_count}} Zeilen exportiert werden."
+      "inProgress": "Export wird erstellt. Dies kann einige Minuten dauern.",
+      "maxCountExceeded": "Es können maximal {{max_count}} Zeilen exportiert werden."
     },
     "portfolio_status": {
       "AC": "Aktiv",
@@ -835,7 +839,7 @@
     }
   },
   "paste_from_clipboard": "Einfügen aus Zwischenablage",
-  "planing_type": {
+  "planningType": {
     "title": {
       "CONFIRMED": "Constrained",
       "REQUESTED": "Unconstrained",
@@ -1233,15 +1237,26 @@
     "error": {
       "no_data": "Keine gültigen Daten eingegeben."
     },
-    "export_modal": {
-      "button_export": "Export",
-      "date_headline": "Datumsauswahl",
-      "download_started": "Export: Download gestartet",
-      "excel_header_view": "Sicht",
-      "in_progress": "Export wird erstellt. Dies kann einige Minuten dauern.",
-      "selected_customer": "{{number}} Kunde(n) ausgewählt",
-      "selected_customer_headline": "Ausgewählte Kunden:",
-      "selected_kpis": "Ausgewählte KPIs für Export:",
+    "exportModal": {
+      "buttonBack": "Zurück",
+      "buttonExport": "Export",
+      "buttonNext": "Nächster Schritt",
+      "chooseTemplate": "Vorlage auswählen",
+      "downloadStarted": "Export: Download gestartet",
+      "excelHeaderView": "Sicht",
+      "inProgress": "Export wird erstellt. Dies kann einige Minuten dauern.",
+      "newTemplate": "Neues Vorlage",
+      "selectedCustomer": "{{number}} Kunde(n) ausgewählt",
+      "selectedCustomerHeadline": "Ausgewählte Kunden:",
+      "steps": {
+        "contactPerson": "Kontaktperson",
+        "customerInformation": "Kundeninformationen",
+        "date": "Vorlage & Datum",
+        "kpis": "KPIs auswählen",
+        "materialInformation": "Informationen zum Material",
+        "supplyChain": "Lieferkette"
+      },
+      "templateChanged": "Die Vorlage wurde geändert, soll die Vorlage mit der aktuellen Auswahl ersetzt werden?",
       "title": "Export"
     },
     "filter": {
@@ -1299,10 +1314,6 @@
           "SP": "Sporadisch"
         },
         "entries": {
-          "<--- Customer Box Left -->": "",
-          "<--- Customer Box Right -->": "",
-          "<--- Material Box Left -->": "",
-          "<--- Material Box Right -->": "",
           "accountOwner": "Account Owner",
           "currentRLTSchaeffler": "Aktuelle WBZ Schaeffler (Transitzeit)",
           "customerClassification": "Kundenklassifizierung (Order Prio)",

@@ -320,6 +320,8 @@ export class ActionBarComponent implements OnInit {
       disableClose: true,
       autoFocus: false,
       panelClass: ['form-dialog', 'demand-validation-export'],
+      maxWidth: '90vw',
+      maxHeight: '90vh',
     });
   }
 

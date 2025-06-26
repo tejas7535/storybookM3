@@ -73,8 +73,7 @@
 
       &.customer-material-portfolio,
       &.alert-rule,
-      &.internal-material-replacement,
-      &.demand-validation-export {
+      &.internal-material-replacement {
         .mat-mdc-dialog-content {
           min-height: 300px;
         }
@@ -85,6 +84,19 @@
         min-width: 30vw;
         width: auto;
         max-width: 80vw;
+      }
+
+      &.demand-validation-export {
+        max-height: 95vh;
+
+        .mat-mdc-dialog-content {
+          min-height: 250px;
+          max-height: calc(95vh - 190px);
+        }
+
+        .mat-mdc-dialog-surface {
+          overflow: hidden;
+        }
       }
 
       &.customer-material-portfolio {
