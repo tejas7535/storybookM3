@@ -1,4 +1,11 @@
 # Release Notes of Material App Center
+## [1.32.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.32.0...mac-v1.32.1) (2025-06-26)
+
+
+### Bug Fixes
+
+* **mac:** add previously removed column steelmaking ([#7361](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7361)) ([884345e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/884345e134aae45015ea79f5676ae51b23dc78cd))
+
 ## [1.32.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.31.1...mac-v1.32.0) (2025-06-11)
 
 
