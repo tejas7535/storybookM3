@@ -63,7 +63,7 @@ export class QuotationDetail {
   sapGrossPrice: number;
   materialStockByPlant: MaterialStockByPlant;
   filteredSapConditionDetails: SapPriceConditionDetail[];
-  materialClassificationSOP: string;
+  materialClassificationSop: string;
   strategicMaterial: string;
   sapSyncStatus: SAP_SYNC_STATUS;
   deliveryUnit: number;

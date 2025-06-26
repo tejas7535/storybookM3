@@ -4,7 +4,7 @@ import { Keyboard } from '../../models';
 import { MaterialClassificationSOP } from '../../models/quotation-detail';
 
 @Pipe({
-  name: 'materialClassificationSOP',
+  name: 'materialClassificationSop',
   standalone: false,
 })
 export class MaterialClassificationSOPPipe implements PipeTransform {
