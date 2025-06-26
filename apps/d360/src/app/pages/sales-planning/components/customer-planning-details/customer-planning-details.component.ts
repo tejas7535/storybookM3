@@ -45,6 +45,7 @@ import {
 } from '../../../../shared/components/table';
 import { NumberWithoutFractionDigitsPipe } from '../../../../shared/pipes/number-without-fraction-digits.pipe';
 import { Customer } from '../../sales-planning.component';
+import { CommentsModalComponent } from '../comments-modal/comments-modal.component';
 import { CustomerPlanningDetailsChangeHistoryModalComponent } from '../customer-planning-details-change-history-modal/customer-planning-details-change-history-modal.component';
 import { CustomerPlanningLevelConfigurationModalComponent } from '../customer-planning-level-configuration-modal/customer-planning-level-configuration-modal.component';
 import { SalesPlanningGroupLevelCellRendererComponent } from './ag-grid/cell-renderer/sales-planning-group-level-cell-renderer/sales-planning-group-level-cell-renderer.component';
@@ -319,6 +320,22 @@ export class CustomerPlanningDetailsComponent extends AbstractFrontendTableCompo
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
+  }
+
+  protected openComments(): void {
+    this.dialog.open(CommentsModalComponent, {
+      data: {
+        customerName: this.customer().customerName,
+        customerNumber: this.customer().customerNumber,
+      },
+      minWidth: '350px',
+      width: '100%',
+      maxWidth: '560px',
+      minHeight: '300px',
+      maxHeight: '840px',
+      height: '100%',
+      autoFocus: false,
+    });
   }
 
   private getDataPath(data: DetailedCustomerSalesPlan) {

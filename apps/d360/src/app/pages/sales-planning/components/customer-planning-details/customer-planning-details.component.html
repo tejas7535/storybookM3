@@ -31,6 +31,15 @@
     >
       <div toolbarRight class="flex items-center">
         <button
+          [disabled]="!isCustomerSelected()"
+          (click)="openComments()"
+          mat-button
+        >
+          <mat-icon class="icon-button relative top-0.5">sms</mat-icon>
+          {{ t('sales_planning.comments.button') }}
+        </button>
+
+        <button
           [disabled]="planningLevelMaterialConfiguration() === null"
           (click)="handlePlanningLevelModalClicked()"
           mat-button

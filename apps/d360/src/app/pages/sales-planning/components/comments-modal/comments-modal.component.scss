@@ -1,0 +1,15 @@
+.viewport {
+  height: 440px;
+
+  .item {
+    min-height: 50px;
+
+    &:last-child {
+      @apply mb-0;
+    }
+  }
+
+  .text-body-2 {
+    font-size: 12px;
+  }
+}

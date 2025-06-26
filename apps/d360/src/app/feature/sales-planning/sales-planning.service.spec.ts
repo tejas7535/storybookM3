@@ -1,7 +1,15 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { fakeAsync, flush } from '@angular/core/testing';
 
-import { of, take } from 'rxjs';
+import { of, take, throwError } from 'rxjs';
 
+import { BackendTableResponse } from '../../shared/components/table';
+import {
+  Comment,
+  CommentCreateRequest,
+  CommentParams,
+  Sort,
+} from '../../shared/models/comments.model';
 import { Stub } from '../../shared/test/stub.class';
 import { Region } from '../global-selection/model';
 import {
@@ -386,5 +394,154 @@ describe('SalesPlanningService', () => {
         expect.objectContaining({ params })
       );
     });
+  });
+
+  describe('getComments$', () => {
+    const mockParams: CommentParams = {
+      startRow: 0,
+      endRow: 10,
+      sortModel: [{ colId: 'createdAt', sort: Sort.ASC }],
+      selectionFilters: { customerNumber: ['12345'] },
+    };
+    const mockResponse: BackendTableResponse<Comment> = {
+      rows: [
+        {
+          id: '1',
+          text: 'Test comment',
+          createdByUserId: 'user1',
+          createdByUserName: 'Test User',
+          createdAt: new Date('2023-01-01'),
+        },
+      ],
+      rowCount: 1,
+    };
+
+    it('should return comments when API call is successful', fakeAsync(() => {
+      const httpClientStub = jest.spyOn(service['http'], 'post');
+      httpClientStub.mockReturnValue(of(mockResponse));
+
+      let result: BackendTableResponse<Comment> | null = null;
+      expect(service.loadingComments()).toBeFalsy();
+
+      service.getComments$(mockParams).subscribe((response) => {
+        result = response;
+      });
+
+      // Flush the async operations
+      flush();
+
+      expect(httpClientStub).toHaveBeenCalledWith(
+        '/api/sales-planning/comments',
+        mockParams,
+        { responseType: 'json' }
+      );
+      expect(result).toEqual(mockResponse);
+      expect(service.loadingComments()).toBeFalsy();
+    }));
+
+    it('should handle error and show snackbar on API error', fakeAsync(() => {
+      const httpClientStub = jest.spyOn(service['http'], 'post');
+      httpClientStub.mockReturnValue(throwError(() => new Error('API Error')));
+      const snackbarServiceStub = jest.spyOn(
+        service['snackbarService'],
+        'openSnackBar'
+      );
+
+      let result: BackendTableResponse<Comment> | null = null;
+      expect(service.loadingComments()).toBeFalsy();
+
+      service.getComments$(mockParams).subscribe({
+        next: (response) => {
+          result = response;
+        },
+        error: () => {
+          // Error should be caught by the service
+        },
+      });
+
+      // Flush the async operations
+      flush();
+
+      expect(httpClientStub).toHaveBeenCalled();
+      expect(snackbarServiceStub).toHaveBeenCalledWith('error.loading_failed');
+      expect(result).toBeNull();
+      expect(service.loadingComments()).toBeFalsy();
+    }));
+  });
+
+  describe('postComment$', () => {
+    const mockData: CommentCreateRequest = { text: 'New comment' };
+    const customerNumber = '12345';
+    const mockResponse: Comment = {
+      id: '1',
+      text: 'New comment',
+      createdByUserId: 'user1',
+      createdByUserName: 'Test User',
+      createdAt: new Date('2023-01-01'),
+    };
+
+    it('should post comment and show success message', fakeAsync(() => {
+      const snackbarServiceStub = jest.spyOn(
+        service['snackbarService'],
+        'openSnackBar'
+      );
+      const httpClientStub = jest.spyOn(service['http'], 'post');
+      httpClientStub.mockReturnValue(of(mockResponse));
+
+      expect(service.loadingComments()).toBeFalsy();
+
+      service.postComment$(mockData, customerNumber).subscribe();
+
+      // Flush the async operations
+      flush();
+
+      expect(httpClientStub).toHaveBeenCalledWith(
+        '/api/sales-planning/comments/create',
+        mockData,
+        {
+          responseType: 'json',
+          params: new HttpParams().set('customerNumber', customerNumber),
+        }
+      );
+      expect(snackbarServiceStub).toHaveBeenCalledWith(
+        'sales_planning.comments.saved'
+      );
+      expect(service.loadingComments()).toBeFalsy();
+    }));
+
+    it('should set loading to false after API call even when it fails', fakeAsync(() => {
+      const error = new Error('API Error');
+      const httpClientStub = jest.spyOn(service['http'], 'post');
+      httpClientStub.mockReturnValue(throwError(() => error));
+
+      expect(service.loadingComments()).toBeFalsy();
+
+      let caughtError: Error | null = null;
+      service.postComment$(mockData, customerNumber).subscribe({
+        error: (err) => {
+          caughtError = err;
+        },
+      });
+
+      // Flush the async operations
+      flush();
+
+      expect(httpClientStub).toHaveBeenCalled();
+      expect(caughtError).toEqual(error);
+      expect(service.loadingComments()).toBeFalsy();
+    }));
+
+    it('should take only one value from the observable', fakeAsync(() => {
+      const httpClientStub = jest.spyOn(service['http'], 'post');
+      httpClientStub.mockReturnValue(of(mockResponse, mockResponse));
+
+      const nextSpy = jest.fn();
+      service.postComment$(mockData, customerNumber).subscribe(nextSpy);
+
+      // Flush to ensure all async operations complete
+      flush();
+
+      expect(nextSpy).toHaveBeenCalledTimes(1);
+    }));
   });
 });

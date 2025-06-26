@@ -523,6 +523,8 @@ export class Stub {
         deleteShares: () => of(),
         updateShares: () => of(),
         updateOtherRevenues: () => of(),
+        getComments$: () => of([]),
+        postComment$: () => of(),
       },
       'useValue'
     );

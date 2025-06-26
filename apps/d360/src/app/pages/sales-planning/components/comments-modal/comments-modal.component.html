@@ -1,0 +1,87 @@
+<div *transloco="let t">
+  <!-- title -->
+  <div mat-dialog-title class="m-0 pt-0">
+    <h2 class="text-title-large">{{ t('sales_planning.comments.title') }}</h2>
+  </div>
+
+  <!-- content -->
+  <mat-dialog-content class="max-h-none">
+    <div class="relative">
+      @if (loading()) {
+        <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
+      }
+
+      <!-- messages -->
+      <cdk-virtual-scroll-viewport
+        itemSize="50"
+        class="viewport"
+        [class.!invisible]="loading()"
+      >
+        <mat-card
+          appearance="outlined"
+          *cdkVirtualFor="let comment of dataSource"
+          class="item mb-4"
+        >
+          <mat-card-header>
+            <div class="text-medium-emphasis grid grid-cols-2 w-full">
+              @if (comment) {
+                <span>{{ comment.createdByUserName }}</span>
+                <span class="text-right text-body-2">{{
+                  getDate(comment.createdAt)
+                }}</span>
+              } @else {
+                {{ t('alert.loading') }}
+              }
+            </div>
+          </mat-card-header>
+          <mat-card-content class="text-body-2 whitespace-pre-line">
+            {{ comment ? comment.text : '' }}
+          </mat-card-content>
+        </mat-card>
+      </cdk-virtual-scroll-viewport>
+    </div>
+
+    <!-- form -->
+    <form [formGroup]="form" (submit)="onSubmit()">
+      <div class="grid grid-cols-1 w-full mt-6">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>{{ t('sales_planning.comments.text') }}</mat-label>
+          <textarea
+            #input
+            matInput
+            [attr.aria-label]="t('sales_planning.comments.text')"
+            [placeholder]="t('sales_planning.comments.textPlaceholder')"
+            formControlName="text"
+            [maxLength]="maxLength"
+            [rows]="5"
+            class="resize-none"
+          ></textarea>
+          <mat-hint align="end">
+            {{ input.value?.length || 0 }} / {{ maxLength }}
+          </mat-hint>
+          @if ($any(form.controls).text.hasError('required')) {
+            <mat-error>{{ t('generic.validation.missing_field') }}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="flex flex-col items-end">
+        <button
+          mat-button
+          [disabled]="form.pristine && form.untouched"
+          type="submit"
+          class="flex flex-row-reverse"
+        >
+          <span>{{ t('sales_planning.comments.publish') }}</span>
+          <mat-icon class="!ml-2 !mr-0">send</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-dialog-close mat-button>
+      {{ t('button.close') }}
+    </button>
+  </mat-dialog-actions>
+</div>

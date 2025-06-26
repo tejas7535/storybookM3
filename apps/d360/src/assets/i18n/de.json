@@ -893,6 +893,14 @@
         "valueOld": "Alter Wert"
       }
     },
+    "comments": {
+      "button": "Kommentare",
+      "publish": "Veröffentlichen",
+      "saved": "Neuer Kommentar erfolgreich gespeichert",
+      "text": "Kommentar",
+      "textPlaceholder": "Neuen Kommentar hinzufügen",
+      "title": "Kommentare"
+    },
     "customer": "Kunde",
     "customer_info_modal": {
       "accountOwner": "Account Owner",

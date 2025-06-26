@@ -1,4 +1,4 @@
-import { of, take } from 'rxjs';
+import { of, take, throwError } from 'rxjs';
 
 import { ColDef } from 'ag-grid-enterprise';
 
@@ -580,6 +580,28 @@ describe('CustomerPlanningDetailsComponent', () => {
     });
   });
 
+  describe('openComments', () => {
+    it('should open comments modal with correct customer data', () => {
+      const dialogSpy = jest.spyOn(component['dialog'], 'open');
+
+      component['openComments']();
+
+      expect(dialogSpy).toHaveBeenCalledWith(expect.any(Function), {
+        data: {
+          customerName: 'Tesla Inc',
+          customerNumber: '0000086023',
+        },
+        minWidth: '350px',
+        width: '100%',
+        maxWidth: '560px',
+        minHeight: '300px',
+        maxHeight: '840px',
+        height: '100%',
+        autoFocus: false,
+      });
+    });
+  });
+
   describe('integration tests', () => {
     it('should handle empty data response gracefully', () => {
       jest
@@ -592,6 +614,99 @@ describe('CustomerPlanningDetailsComponent', () => {
       component['loadData']();
 
       expect(component).toBeTruthy();
+    });
+
+    it('should update data when customer changes', () => {
+      const loadDataSpy = jest.spyOn<any, any>(component, 'loadData');
+
+      // Initial customer is already set in beforeEach
+
+      // Change to a different customer
+      Stub.setInput('customer', {
+        customerName: 'New Customer',
+        customerNumber: '9999999',
+        planningCurrency: 'EUR',
+      });
+      Stub.detectChanges();
+
+      // Verify loadData was called
+      expect(loadDataSpy).toHaveBeenCalled();
+
+      // Verify planningLevelMaterialConfiguration was reset
+      expect(component['planningLevelMaterialConfiguration']()).toEqual({
+        isDefaultPlanningLevelMaterialType: true,
+        planningLevelMaterialType: 'GP',
+      });
+    });
+
+    it('should handle API errors gracefully when fetching planning level material', () => {
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
+      const planningLevelServiceSpy = jest
+        .spyOn(
+          component['planningLevelService'],
+          'getMaterialTypeByCustomerNumber'
+        )
+        .mockReturnValue(throwError(() => new Error('API Error')));
+
+      // This shouldn't throw an error that breaks the test
+      expect(() =>
+        component['fetchPlanningLevelMaterial']('12345')
+      ).not.toThrow();
+
+      expect(planningLevelServiceSpy).toHaveBeenCalledWith('12345');
+      consoleErrorSpy.mockRestore();
+    });
+
+    it('should handle complex data path scenarios', () => {
+      // Test with various data structures
+      const testCases = [
+        {
+          data: { planningYear: '2023', planningMaterial: 'Material1' },
+          expected: ['2023', 'Material1'],
+        },
+        {
+          data: { planningYear: '2023', planningMaterial: '' },
+          expected: ['2023'],
+        },
+        {
+          data: { planningYear: '2023', planningMaterial: null },
+          expected: ['2023'],
+        },
+        {
+          data: { planningYear: '', planningMaterial: 'Material1' },
+          expected: ['', 'Material1'],
+        },
+      ];
+
+      testCases.forEach((testCase) => {
+        expect(component['getDataPath'](testCase.data as any)).toEqual(
+          testCase.expected
+        );
+      });
+    });
+
+    it('should properly integrate with planning level service', () => {
+      const mockPlanningLevelMaterial = {
+        planningLevelMaterialType: 'GP',
+        isDefaultPlanningLevelMaterialType: true,
+      };
+
+      const planningLevelServiceSpy = jest
+        .spyOn(
+          component['planningLevelService'],
+          'getMaterialTypeByCustomerNumber'
+        )
+        .mockReturnValue(of(mockPlanningLevelMaterial as any));
+
+      const configSetSpy = jest.spyOn(
+        component['planningLevelMaterialConfiguration'],
+        'set'
+      );
+
+      component['fetchPlanningLevelMaterial']('0000086023');
+
+      expect(planningLevelServiceSpy).toHaveBeenCalledWith('0000086023');
+      expect(configSetSpy).toHaveBeenCalledWith(mockPlanningLevelMaterial);
     });
   });
 });

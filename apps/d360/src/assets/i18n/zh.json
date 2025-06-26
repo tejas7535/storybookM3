@@ -893,6 +893,14 @@
         "valueOld": "旧值"
       }
     },
+    "comments": {
+      "button": "备注",
+      "publish": "发布",
+      "saved": "新备注已成功保存",
+      "text": "备注",
+      "textPlaceholder": "添加备注",
+      "title": "备注"
+    },
     "customer": "客户",
     "customer_info_modal": {
       "accountOwner": "帐户所有者",

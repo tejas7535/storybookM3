@@ -1,10 +1,18 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { DestroyRef, inject, Injectable, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { Observable } from 'rxjs';
+import { catchError, finalize, map, Observable, of, take, tap } from 'rxjs';
 
-import { TranslocoService } from '@jsverse/transloco';
+import { translate, TranslocoService } from '@jsverse/transloco';
 
+import { BackendTableResponse } from '../../shared/components/table';
+import {
+  Comment,
+  CommentCreateRequest,
+  CommentParams,
+} from '../../shared/models/comments.model';
+import { SnackbarService } from '../../shared/utils/service/snackbar.service';
 import {
   CustomerInfo,
   DetailedCustomerSalesPlan,
@@ -38,10 +46,17 @@ export class SalesPlanningService {
   private readonly SALES_PLANNING_MATERIAL_SHARE_API: string =
     'api/sales-planning/material-share';
 
+  private readonly COMMENTS_READ_API = '/api/sales-planning/comments';
+  private readonly COMMENTS_CREATE_API = '/api/sales-planning/comments/create';
+
   private readonly translocoService: TranslocoService =
     inject(TranslocoService);
 
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly http: HttpClient = inject(HttpClient);
+  private readonly snackbarService: SnackbarService = inject(SnackbarService);
+
+  public loadingComments = signal<boolean>(false);
 
   public getCustomerInfo(
     customerNumber: string,
@@ -206,5 +221,51 @@ export class SalesPlanningService {
     return this.http.delete<void>(this.SALES_PLANNING_MATERIAL_SHARE_API, {
       params,
     });
+  }
+
+  public getComments$(
+    params: CommentParams
+  ): Observable<BackendTableResponse<Comment> | null> {
+    this.loadingComments.set(true);
+
+    return this.http
+      .post<BackendTableResponse<Comment> | null>(
+        this.COMMENTS_READ_API,
+        params,
+        { responseType: 'json' }
+      )
+      .pipe(
+        map((response: BackendTableResponse<Comment> | null) => response),
+        catchError(() => {
+          this.snackbarService.openSnackBar(translate('error.loading_failed'));
+
+          return of(null);
+        }),
+        finalize(() => this.loadingComments.set(false)),
+        takeUntilDestroyed(this.destroyRef)
+      );
+  }
+
+  public postComment$(
+    data: CommentCreateRequest,
+    customerNumber: string
+  ): Observable<unknown> {
+    this.loadingComments.set(true);
+
+    return this.http
+      .post<Comment | void>(this.COMMENTS_CREATE_API, data, {
+        responseType: 'json',
+        params: new HttpParams().set('customerNumber', customerNumber),
+      })
+      .pipe(
+        take(1),
+        tap(() =>
+          this.snackbarService.openSnackBar(
+            translate('sales_planning.comments.saved')
+          )
+        ),
+        finalize(() => this.loadingComments.set(false)),
+        takeUntilDestroyed(this.destroyRef)
+      );
   }
 }
