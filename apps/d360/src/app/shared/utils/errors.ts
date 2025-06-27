@@ -42,7 +42,7 @@ export type CustomErrorMessages = Record<
 export function getErrorMessage(
   e: unknown,
   customMessages?: CustomErrorMessages
-) {
+): string {
   if (e instanceof HttpError) {
     return getHttpErrorMessage(e, customMessages);
   } else if (e instanceof NetworkError) {

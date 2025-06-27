@@ -91,17 +91,43 @@ describe('CustomerMaterialPortfolioComponent', () => {
     it('should return false if backendRoles is null', () => {
       jest.spyOn(component as any, 'backendRoles').mockReturnValue(null);
 
-      const result = component['authorizedToChange']();
-
-      expect(result).toBe(false);
+      expect(component['authorizedToChange']()).toBe(false);
     });
 
     it('should return false if backendRoles is empty', () => {
       jest.spyOn(component as any, 'backendRoles').mockReturnValue([]);
 
-      const result = component['authorizedToChange']();
+      expect(component['authorizedToChange']()).toBe(false);
+    });
 
-      expect(result).toBe(false);
+    it('should return false if backendRoles does not include any allowed roles', () => {
+      jest.spyOn(component as any, 'backendRoles').mockReturnValue(['user']);
+
+      expect(component['authorizedToChange']()).toBe(false);
+    });
+
+    it('should return true if backendRoles includes at least one allowed role', () => {
+      jest
+        .spyOn(component as any, 'backendRoles')
+        .mockReturnValue(['SD-D360_ADMIN']);
+
+      expect(component['authorizedToChange']()).toBe(true);
+    });
+
+    it('should return true if backendRoles includes multiple allowed roles', () => {
+      jest
+        .spyOn(component as any, 'backendRoles')
+        .mockReturnValue(['admin', 'SD-D360_ADMIN']);
+
+      expect(component['authorizedToChange']()).toBe(true);
+    });
+
+    it('should return false if backendRoles includes roles but none are allowed', () => {
+      jest
+        .spyOn(component as any, 'backendRoles')
+        .mockReturnValue(['guest', 'viewer']);
+
+      expect(component['authorizedToChange']()).toBe(false);
     });
   });
 

@@ -102,7 +102,7 @@ describe('AlertRuleTableComponent', () => {
   describe('toggleAlertRuleStatus', () => {
     let params: ICellRendererParams<any, AlertRule>;
     let saveMultiAlertRulesSpy: jest.SpyInstance;
-    let openSnackBarSpy: jest.SpyInstance;
+    let showSnackBarSpy: jest.SpyInstance;
     let setValueSpy: jest.SpyInstance;
     let updateDataSpy: jest.SpyInstance;
     let refreshCellsSpy: jest.SpyInstance;
@@ -130,10 +130,7 @@ describe('AlertRuleTableComponent', () => {
       saveMultiAlertRulesSpy = jest
         .spyOn(component['alertRulesService'], 'saveMultiAlertRules')
         .mockReturnValue(of({ overallStatus: 'success', response: [] } as any));
-      openSnackBarSpy = jest.spyOn(
-        component['snackBarService'],
-        'openSnackBar'
-      );
+      showSnackBarSpy = jest.spyOn(component['snackbarService'], 'show');
       setValueSpy = jest.spyOn(params, 'setValue');
       updateDataSpy = jest.spyOn(
         params.api.getRowNode(params.node.id),
@@ -158,10 +155,15 @@ describe('AlertRuleTableComponent', () => {
       ]);
     });
 
-    it('should call openSnackBar with correct message on success', (done) => {
+    it('should call show with correct message on success', (done) => {
       component['toggleAlertRuleStatus'](params);
       setTimeout(() => {
-        expect(openSnackBarSpy).toHaveBeenCalledWith(expect.any(String));
+        expect(showSnackBarSpy).toHaveBeenCalledWith(
+          'alert_rules.action_menu_deactivated',
+          undefined,
+          undefined,
+          'success'
+        );
         done();
       });
     });

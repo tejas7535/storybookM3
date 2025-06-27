@@ -3,12 +3,13 @@
  */
 
 /***************************************************************************************************
-  * DECLARATIONS
-  */
+ * DECLARATIONS
+ */
 @use 'ag-grid-community/styles' as ag;
 @use 'styles/material-overrides' as matOverrides;
 @use 'styles/ag-grid-overrides' as agGridOverrides;
 @use 'styles/schaeffler-lib-overrides' as schaefflerLibOverrides;
+@use 'styles/toastr-overrides' as toastrOverrides;
 
 /*
  * TailwindCSS, utility-first css framework
@@ -28,6 +29,11 @@
  */
 @use 'lib/scss/m3-theme' as m3;
 
+/*
+ * Import toastr styles
+ */
+@import 'ngx-toastr/toastr';
+
 @include ag.grid-styles(
   (
     theme: material,
@@ -46,6 +52,9 @@ html {
 
   /** Schaeffler Lib overrides */
   @include schaefflerLibOverrides.apply;
+
+  /** Toastr overrides */
+  @include toastrOverrides.apply;
 }
 
 /** Here we define our global CSS vars */

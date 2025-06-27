@@ -237,7 +237,7 @@ export class SalesPlanningService {
       .pipe(
         map((response: BackendTableResponse<Comment> | null) => response),
         catchError(() => {
-          this.snackbarService.openSnackBar(translate('error.loading_failed'));
+          this.snackbarService.error(translate('error.loading_failed'));
 
           return of(null);
         }),
@@ -260,7 +260,7 @@ export class SalesPlanningService {
       .pipe(
         take(1),
         tap(() =>
-          this.snackbarService.openSnackBar(
+          this.snackbarService.success(
             translate('sales_planning.comments.saved')
           )
         ),

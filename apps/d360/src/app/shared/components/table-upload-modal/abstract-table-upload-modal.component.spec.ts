@@ -639,10 +639,7 @@ describe('AbstractTableUploadModalComponent', () => {
 
   describe('checkForNoRows', () => {
     it('should return true and show a message when no data', () => {
-      const snackbarSpy = jest.spyOn(
-        component['snackbarService'],
-        'openSnackBar'
-      );
+      const snackbarSpy = jest.spyOn(component['snackbarService'], 'warning');
 
       const result = (component as any).checkForNoRows([]);
 
@@ -653,10 +650,7 @@ describe('AbstractTableUploadModalComponent', () => {
     });
 
     it('should return false when data exists', () => {
-      const snackbarSpy = jest.spyOn(
-        component['snackbarService'],
-        'openSnackBar'
-      );
+      const snackbarSpy = jest.spyOn(component['snackbarService'], 'warning');
 
       const result = (component as any).checkForNoRows([
         { id: '1', name: 'Test' },
@@ -669,10 +663,7 @@ describe('AbstractTableUploadModalComponent', () => {
 
   describe('checkForTooManyRows', () => {
     it('should return true and show a message when too many rows', () => {
-      const snackbarSpy = jest.spyOn(
-        component['snackbarService'],
-        'openSnackBar'
-      );
+      const snackbarSpy = jest.spyOn(component['snackbarService'], 'warning');
 
       // Component's maxRows is 200, so 202 rows (201 + empty row) is too many
       jest.spyOn(gridApi, 'getDisplayedRowCount').mockReturnValue(202);
@@ -684,10 +675,7 @@ describe('AbstractTableUploadModalComponent', () => {
     });
 
     it('should return false when row count is acceptable', () => {
-      const snackbarSpy = jest.spyOn(
-        component['snackbarService'],
-        'openSnackBar'
-      );
+      const snackbarSpy = jest.spyOn(component['snackbarService'], 'warning');
 
       jest.spyOn(gridApi, 'getDisplayedRowCount').mockReturnValue(200);
 
@@ -979,10 +967,7 @@ describe('AbstractTableUploadModalComponent', () => {
         .spyOn(component as any, 'getMultiPostResultsToUserMessages')
         .mockReturnValue([{ message: 'Success', variant: 'success' }]);
       const onAddedSpy = jest.spyOn(component as any, 'onAdded');
-      const snackbarSpy = jest.spyOn(
-        component['snackbarService'],
-        'openSnackBar'
-      );
+      const snackbarSpy = jest.spyOn(component['snackbarService'], 'show');
 
       await component['onApplyData'](false);
 
@@ -1026,10 +1011,7 @@ describe('AbstractTableUploadModalComponent', () => {
       jest.spyOn(component as any, 'getValidationErrors').mockReturnValue([]);
       jest.spyOn(component as any, 'countErrorRows').mockReturnValue(1);
       const applyFnSpy = jest.spyOn(component, 'applyFunction' as any);
-      const snackbarSpy = jest.spyOn(
-        component['snackbarService'],
-        'openSnackBar'
-      );
+      const snackbarSpy = jest.spyOn(component['snackbarService'], 'warning');
 
       await component['onApplyData'](true);
 
@@ -1051,10 +1033,7 @@ describe('AbstractTableUploadModalComponent', () => {
       jest
         .spyOn(component, 'applyFunction' as any)
         .mockRejectedValue(new Error('Test error'));
-      const snackbarSpy = jest.spyOn(
-        component['snackbarService'],
-        'openSnackBar'
-      );
+      const snackbarSpy = jest.spyOn(component['snackbarService'], 'error');
 
       await component['onApplyData'](true);
 
@@ -1161,6 +1140,30 @@ describe('AbstractTableUploadModalComponent', () => {
       await component['onApplyData'](true); // true = dry run
 
       expect(onAddedSpy).not.toHaveBeenCalled();
+    });
+
+    it('should call snackbarService with warning for dryRun', async () => {
+      jest.spyOn(component as any, 'dataFromRowModel').mockReturnValue([]);
+      jest.spyOn(component as any, 'checkForNoRows').mockReturnValue(false);
+      const snackbarSpy = jest.spyOn(component['snackbarService'], 'warning');
+
+      await component['onApplyData'](true);
+
+      expect(snackbarSpy).toHaveBeenCalledWith(
+        expect.stringContaining('generic.validation.upload.check.error')
+      );
+    });
+
+    it('should call snackbarService with error for non-dryRun', async () => {
+      jest.spyOn(component as any, 'dataFromRowModel').mockReturnValue([]);
+      jest.spyOn(component as any, 'checkForNoRows').mockReturnValue(false);
+      const snackbarSpy = jest.spyOn(component['snackbarService'], 'error');
+
+      await component['onApplyData'](false);
+
+      expect(snackbarSpy).toHaveBeenCalledWith(
+        expect.stringContaining('generic.validation.upload.save.error')
+      );
     });
   });
 });

@@ -61,9 +61,9 @@ describe('DemandValidationLoadingModalComponent', () => {
       onInit: mockOnInit,
     };
     const snackbarService = component['snackbarService'];
-    jest.spyOn(snackbarService, 'openSnackBar');
+    jest.spyOn(snackbarService, 'error');
 
     expect(() => component.ngOnInit()).not.toThrow();
-    expect(snackbarService.openSnackBar).toHaveBeenCalled();
+    expect(snackbarService.error).toHaveBeenCalled();
   });
 });

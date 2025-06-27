@@ -1,0 +1,21 @@
+@mixin apply() {
+  .toast-info,
+  .toast-error,
+  .toast-success,
+  .toast-warning {
+    background: none;
+  }
+
+  .toast-container {
+    .ngx-toastr {
+      box-shadow: none;
+      padding: 4px 16px;
+      display: block;
+      width: fit-content !important;
+
+      &:hover {
+        box-shadow: none;
+      }
+    }
+  }
+}

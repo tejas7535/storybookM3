@@ -437,7 +437,7 @@ export class ActionBarComponent implements OnInit {
           this.reloadValidationTable.emit(false);
 
           // send message: BE-/SAP-Error or Success
-          this.snackbarService.openSnackBar(
+          this.snackbarService[result ? 'error' : 'success'](
             result ||
               translate(
                 `validation_of_demand.${dryRun ? 'check' : 'save'}.success`

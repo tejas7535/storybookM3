@@ -88,7 +88,7 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
 
   describe('activate', () => {
     let saveMultiAlertRulesSpy: jest.SpyInstance;
-    let openSnackBarSpy: jest.SpyInstance;
+    let snackBarSpy: jest.SpyInstance;
     let updateDataSpy: jest.SpyInstance;
     let handleCloseSpy: jest.SpyInstance;
 
@@ -102,10 +102,7 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
             response: [],
           })
         );
-      openSnackBarSpy = jest.spyOn(
-        component['snackBarService'],
-        'openSnackBar'
-      );
+      snackBarSpy = jest.spyOn(component['snackbarService'], 'show');
       updateDataSpy = jest.spyOn(component as any, 'updateData');
       handleCloseSpy = jest.spyOn(component as any, 'handleClose');
     });
@@ -124,11 +121,16 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
       ]);
     });
 
-    it('should call openSnackBar with correct message on success', (done) => {
+    it('should call show with correct message on success', (done) => {
       component['data'] = { id: '1', deactivated: true } as AlertRule;
       component['activate']();
       setTimeout(() => {
-        expect(openSnackBarSpy).toHaveBeenCalledWith(expect.any(String));
+        expect(snackBarSpy).toHaveBeenCalledWith(
+          'alert_rules.action_menu_activated',
+          undefined,
+          undefined,
+          'success'
+        );
         done();
       });
     });
@@ -149,7 +151,7 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
 
   describe('deactivate', () => {
     let saveMultiAlertRulesSpy: jest.SpyInstance;
-    let openSnackBarSpy: jest.SpyInstance;
+    let snackBarSpy: jest.SpyInstance;
     let updateDataSpy: jest.SpyInstance;
     let handleCloseSpy: jest.SpyInstance;
 
@@ -163,10 +165,7 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
             response: [],
           })
         );
-      openSnackBarSpy = jest.spyOn(
-        component['snackBarService'],
-        'openSnackBar'
-      );
+      snackBarSpy = jest.spyOn(component['snackbarService'], 'show');
       updateDataSpy = jest.spyOn(component as any, 'updateData');
       handleCloseSpy = jest.spyOn(component as any, 'handleClose');
     });
@@ -185,11 +184,16 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
       ]);
     });
 
-    it('should call openSnackBar with correct message on success', (done) => {
+    it('should call show with correct message on success', (done) => {
       component['data'] = { id: '1', deactivated: false } as AlertRule;
       component['deactivate']();
       setTimeout(() => {
-        expect(openSnackBarSpy).toHaveBeenCalledWith(expect.any(String));
+        expect(snackBarSpy).toHaveBeenCalledWith(
+          'alert_rules.action_menu_deactivated',
+          undefined,
+          undefined,
+          'success'
+        );
         done();
       });
     });
@@ -305,16 +309,18 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
 
       const updateDataSpy = jest.spyOn(component as any, 'updateData');
       const handleCloseSpy = jest.spyOn(component as any, 'handleClose');
-      const openSnackBarSpy = jest.spyOn(
-        component['snackBarService'],
-        'openSnackBar'
-      );
+      const snackBarSpy = jest.spyOn(component['snackbarService'], 'show');
 
       component['data'] = { id: '1', deactivated: false } as AlertRule;
       component['deactivate']();
 
       setTimeout(() => {
-        expect(openSnackBarSpy).toHaveBeenCalledWith(expect.any(String));
+        expect(snackBarSpy).toHaveBeenCalledWith(
+          'Error message',
+          undefined,
+          undefined,
+          'error'
+        );
         expect(updateDataSpy).not.toHaveBeenCalled();
         expect(handleCloseSpy).not.toHaveBeenCalled();
         done();

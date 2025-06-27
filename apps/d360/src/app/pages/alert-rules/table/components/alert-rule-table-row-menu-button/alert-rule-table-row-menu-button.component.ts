@@ -27,7 +27,7 @@ import {
   templateUrl: './alert-rule-table-row-menu-button.component.html',
 })
 export class AlertRuleTableRowMenuButtonComponent extends RowMenuComponent<AlertRule> {
-  private readonly snackBarService: SnackbarService = inject(SnackbarService);
+  private readonly snackbarService: SnackbarService = inject(SnackbarService);
   private readonly alertRulesService: AlertRulesService =
     inject(AlertRulesService);
   private readonly dialog: MatDialog = inject(MatDialog);
@@ -65,8 +65,12 @@ export class AlertRuleTableRowMenuButtonComponent extends RowMenuComponent<Alert
           translate('alert_rules.action_menu_activated', {})
         );
 
-        // TODO add variant like before... enqueueSnackbar(userMessage.message, { variant: userMessage.variant });
-        this.snackBarService.openSnackBar(userMessage.message);
+        this.snackbarService.show(
+          userMessage.message,
+          undefined,
+          undefined,
+          userMessage.variant as any
+        );
 
         if (userMessage.variant !== 'error') {
           this.updateData(workflow[0]);
@@ -91,8 +95,12 @@ export class AlertRuleTableRowMenuButtonComponent extends RowMenuComponent<Alert
           translate('alert_rules.action_menu_deactivated', {})
         );
 
-        // TODO add variant like before... enqueueSnackbar(userMessage.message, { variant: userMessage.variant });
-        this.snackBarService.openSnackBar(userMessage.message);
+        this.snackbarService.show(
+          userMessage.message,
+          undefined,
+          undefined,
+          userMessage.variant as any
+        );
 
         if (userMessage.variant !== 'error') {
           this.updateData(workflow[0]);

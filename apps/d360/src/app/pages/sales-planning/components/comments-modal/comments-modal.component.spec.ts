@@ -150,7 +150,7 @@ describe('CommentsModalComponent', () => {
 
       const snackbarServiceSpy = jest.spyOn(
         component['snackbarService'],
-        'openSnackBar'
+        'error'
       );
 
       component['form'].setValue({ text: 'Test comment' });

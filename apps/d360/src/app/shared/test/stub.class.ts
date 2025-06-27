@@ -114,7 +114,13 @@ export class Stub {
       'useValue'
     ),
     MockProvider(IMRService, this.getIMRService(), 'useValue'),
-    MockProvider(SnackbarService, { openSnackBar: jest.fn() }),
+    MockProvider(SnackbarService, {
+      show: jest.fn(),
+      success: jest.fn(),
+      error: jest.fn(),
+      info: jest.fn(),
+      warning: jest.fn(),
+    }),
     MockProvider(
       SelectableOptionsService,
       {

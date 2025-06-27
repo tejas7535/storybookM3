@@ -35,7 +35,7 @@ import { SnackbarService } from '../../../../../../shared/utils/service/snackbar
   templateUrl: './alert-rule-delete-single-modal.component.html',
 })
 export class AlertRuleDeleteSingleModalComponent {
-  private readonly snackBarService: SnackbarService = inject(SnackbarService);
+  private readonly snackbarService: SnackbarService = inject(SnackbarService);
   private readonly alertRuleService: AlertRulesService =
     inject(AlertRulesService);
   public data: { gridApi: GridApi; alertRule: AlertRule } =
@@ -58,9 +58,12 @@ export class AlertRuleDeleteSingleModalComponent {
             translate('alert_rules.action_menu_deleted', {})
           );
 
-          this.snackBarService.openSnackBar(userMessage.message);
-          // TODO implement with variant...
-          // enqueueSnackbar(userMessage.message, { variant: userMessage.variant });
+          this.snackbarService.show(
+            userMessage.message,
+            undefined,
+            undefined,
+            userMessage.variant as any
+          );
 
           if (userMessage.variant !== 'error') {
             this.data.gridApi.applyTransaction({

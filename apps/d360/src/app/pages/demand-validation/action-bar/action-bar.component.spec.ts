@@ -37,7 +37,6 @@ describe('ActionBarComponent', () => {
       { property: 'isMaterialListVisible', value: true },
       { property: 'changedKPIs', value: null },
     ]);
-    Stub.detectChanges();
   });
 
   it('should create', () => {
@@ -46,7 +45,7 @@ describe('ActionBarComponent', () => {
 
   describe('handleOnSaveForecast', () => {
     let saveValidatedDemandSingleMccSpy: jest.SpyInstance;
-    let openSnackBarSpy: jest.SpyInstance;
+    let snackBarSpy: jest.SpyInstance;
     let logEventSpy: jest.SpyInstance;
     let emitSpy: jest.SpyInstance;
 
@@ -58,10 +57,7 @@ describe('ActionBarComponent', () => {
         )
         .mockReturnValue(of(null));
 
-      openSnackBarSpy = jest.spyOn(
-        component['snackbarService'],
-        'openSnackBar'
-      );
+      snackBarSpy = jest.spyOn(component['snackbarService'], 'success');
 
       logEventSpy = jest.spyOn(component['appInsights'], 'logEvent');
 
@@ -103,7 +99,7 @@ describe('ActionBarComponent', () => {
       component['handleOnSaveForecast'](false);
 
       expect(saveValidatedDemandSingleMccSpy).toHaveBeenCalled();
-      expect(openSnackBarSpy).toHaveBeenCalledWith(
+      expect(snackBarSpy).toHaveBeenCalledWith(
         'validation_of_demand.save.success'
       );
       expect(emitSpy).toHaveBeenCalledWith(false);
@@ -128,6 +124,55 @@ describe('ActionBarComponent', () => {
     });
   });
 
+  describe('handleOnSaveForecast - snackbarService calls', () => {
+    let saveValidatedDemandSingleMccSpy: jest.SpyInstance;
+    let snackbarErrorSpy: jest.SpyInstance;
+    let snackbarSuccessSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      saveValidatedDemandSingleMccSpy = jest
+        .spyOn(
+          component['demandValidationService'],
+          'saveValidatedDemandSingleMcc'
+        )
+        .mockReturnValue(of(null));
+
+      snackbarErrorSpy = jest.spyOn(component['snackbarService'], 'error');
+      snackbarSuccessSpy = jest.spyOn(component['snackbarService'], 'success');
+    });
+
+    it('should call snackbarService.error when result is truthy', () => {
+      saveValidatedDemandSingleMccSpy.mockReturnValue(of('Error occurred'));
+
+      component['handleOnSaveForecast'](false);
+
+      expect(snackbarErrorSpy).toHaveBeenCalledWith('Error occurred');
+      expect(snackbarSuccessSpy).not.toHaveBeenCalled();
+    });
+
+    it('should call snackbarService.success when result is falsy', () => {
+      saveValidatedDemandSingleMccSpy.mockReturnValue(of(null));
+
+      component['handleOnSaveForecast'](false);
+
+      expect(snackbarSuccessSpy).toHaveBeenCalledWith(
+        'validation_of_demand.save.success'
+      );
+      expect(snackbarErrorSpy).not.toHaveBeenCalled();
+    });
+
+    it('should display the correct message for dryRun', () => {
+      saveValidatedDemandSingleMccSpy.mockReturnValue(of(null));
+
+      component['handleOnSaveForecast'](true);
+
+      expect(snackbarSuccessSpy).toHaveBeenCalledWith(
+        'validation_of_demand.check.success'
+      );
+      expect(snackbarErrorSpy).not.toHaveBeenCalled();
+    });
+  });
+
   describe('handleToggleMaterialListVisible', () => {
     it('should emit toggle event with opposite of current isMaterialListVisible value', () => {
       const emitSpy = jest.spyOn(component.toggleMaterialListVisible, 'emit');
@@ -137,6 +182,22 @@ describe('ActionBarComponent', () => {
       expect(emitSpy).toHaveBeenCalledWith({ open: false });
 
       // Set to false and test again
+      Stub.setInput('isMaterialListVisible', false);
+      Stub.detectChanges();
+
+      component['handleToggleMaterialListVisible']();
+      expect(emitSpy).toHaveBeenCalledWith({ open: true });
+    });
+
+    it('should toggle isMaterialListVisible and emit the new state', () => {
+      const emitSpy = jest.spyOn(component.toggleMaterialListVisible, 'emit');
+
+      Stub.setInput('isMaterialListVisible', true);
+      Stub.detectChanges();
+
+      component['handleToggleMaterialListVisible']();
+      expect(emitSpy).toHaveBeenCalledWith({ open: false });
+
       Stub.setInput('isMaterialListVisible', false);
       Stub.detectChanges();
 
@@ -210,28 +271,34 @@ describe('ActionBarComponent', () => {
   });
 
   describe('handleDownloadButtonClicked', () => {
-    it('should open DemandValidationExportModalComponent dialog', () => {
+    it('should open the export modal with correct data', () => {
       const openDialogSpy = jest.spyOn(component['dialog'], 'open');
       const mockCustomerData = [
-        {
-          customerNumber: '123',
-          customerName: 'Test Customer',
-        },
-      ] as CustomerEntry[];
-      const mockFilters = {
+        { customerNumber: '123', customerName: 'Test Customer' },
+      ];
+      const mockFilters: {
+        customerMaterialNumber: any[];
+        productLine: any[];
+        productionLine: any[];
+        stochasticType: any[];
+      } = {
         customerMaterialNumber: [],
         productLine: [],
         productionLine: [],
         stochasticType: [],
-      } as any;
+      };
 
       Stub.setInput('customerData', mockCustomerData);
       Stub.setInput('demandValidationFilters', mockFilters);
       Stub.detectChanges();
 
       component['dateRange'] = {
-        range1: { from: new Date(), to: new Date() },
-      } as any;
+        range1: {
+          from: new Date(),
+          to: new Date(),
+          period: DateRangePeriod.Monthly,
+        },
+      };
 
       component['handleDownloadButtonClicked']();
 
@@ -243,20 +310,18 @@ describe('ActionBarComponent', () => {
             demandValidationFilters: mockFilters,
             dateRanges: component['dateRange'],
           }),
-          disableClose: true,
-          autoFocus: false,
         })
       );
     });
   });
 
   describe('handleListModalClicked', () => {
-    it('should open DemandValidationMultiListConfigurationModalComponent dialog and handle result', () => {
+    it('should open the list configuration modal and handle result', () => {
       const openDialogSpy = jest.spyOn(component['dialog'], 'open');
       const mockSelectedCustomer = {
         customerNumber: '123',
         customerName: 'Test Customer',
-      } as CustomerEntry;
+      };
       const mockDialogRef = { afterClosed: () => of(true) };
       openDialogSpy.mockReturnValue(mockDialogRef as any);
 
@@ -278,7 +343,6 @@ describe('ActionBarComponent', () => {
             customerName: mockSelectedCustomer.customerName,
             customerNumber: mockSelectedCustomer.customerNumber,
           },
-          disableClose: true,
         })
       );
 
@@ -290,12 +354,12 @@ describe('ActionBarComponent', () => {
   });
 
   describe('handleGridModalClicked', () => {
-    it('should open DemandValidationMultiGridComponent dialog and handle result', () => {
+    it('should open the grid modal and handle result', () => {
       const openDialogSpy = jest.spyOn(component['dialog'], 'open');
       const mockSelectedCustomer = {
         customerNumber: '123',
         customerName: 'Test Customer',
-      } as CustomerEntry;
+      };
       const mockDialogRef = { afterClosed: () => of(true) };
       openDialogSpy.mockReturnValue(mockDialogRef as any);
 
@@ -317,7 +381,6 @@ describe('ActionBarComponent', () => {
             customerName: mockSelectedCustomer.customerName,
             customerNumber: mockSelectedCustomer.customerNumber,
           },
-          disableClose: true,
         })
       );
 
@@ -329,12 +392,12 @@ describe('ActionBarComponent', () => {
   });
 
   describe('handleDeleteModalClicked', () => {
-    it('should open DemandValidationMultiDeleteModalComponent dialog with correct data', () => {
+    it('should open the delete modal with correct data', () => {
       const openDialogSpy = jest.spyOn(component['dialog'], 'open');
       const mockSelectedCustomer = {
         customerNumber: '123',
         customerName: 'Test Customer',
-      } as CustomerEntry;
+      };
 
       Stub.setInput('selectedCustomer', mockSelectedCustomer);
       Stub.detectChanges();
@@ -349,7 +412,6 @@ describe('ActionBarComponent', () => {
             customerNumber: mockSelectedCustomer.customerNumber,
             onSave: expect.any(Function),
           }),
-          disableClose: true,
         })
       );
     });
@@ -482,17 +544,79 @@ describe('ActionBarComponent', () => {
       expect(component['dateRange']).toEqual(mockDateRange);
       expect(emitSpy).toHaveBeenCalledWith(mockDateRange);
     });
+
+    it('should initialize customerSelectableValues and customerControl', () => {
+      const mockCustomerData = [
+        { customerNumber: '123', customerName: 'Test Customer' },
+        { customerNumber: '456', customerName: 'Another Customer' },
+      ];
+
+      Stub.setInput('customerData', mockCustomerData);
+      Stub.setInput('selectedCustomer', mockCustomerData[0]);
+      Stub.detectChanges();
+
+      component.ngOnInit();
+
+      expect(component['customerSelectableValues']()).toEqual({
+        options: [
+          { id: '123', text: 'Test Customer' },
+          { id: '456', text: 'Another Customer' },
+        ],
+      });
+
+      expect(component['formGroup'].controls.customerControl.value).toEqual({
+        id: '123',
+        text: 'Test Customer',
+      });
+    });
+  });
+
+  describe('authorizedToChange', () => {
+    it('should return false if backendRoles is null', () => {
+      jest.spyOn(component as any, 'backendRoles').mockReturnValue(null);
+
+      expect(component['authorizedToChange']()).toBe(false);
+    });
+
+    it('should return false if backendRoles is empty', () => {
+      jest.spyOn(component as any, 'backendRoles').mockReturnValue([]);
+
+      expect(component['authorizedToChange']()).toBe(false);
+    });
+
+    it('should return false if backendRoles does not include any allowed roles', () => {
+      jest.spyOn(component as any, 'backendRoles').mockReturnValue(['user']);
+
+      expect(component['authorizedToChange']()).toBe(false);
+    });
+
+    it('should return true if backendRoles includes at least one allowed role', () => {
+      jest
+        .spyOn(component as any, 'backendRoles')
+        .mockReturnValue(['SD-D360_ADMIN']);
+
+      expect(component['authorizedToChange']()).toBe(true);
+    });
+
+    it('should return true if backendRoles includes multiple allowed roles', () => {
+      jest
+        .spyOn(component as any, 'backendRoles')
+        .mockReturnValue(['D360_DM_DPLANNER', 'SD-D360_ADMIN']);
+
+      expect(component['authorizedToChange']()).toBe(true);
+    });
+
+    it('should return false if backendRoles includes roles but none are allowed', () => {
+      jest
+        .spyOn(component as any, 'backendRoles')
+        .mockReturnValue(['guest', 'viewer']);
+
+      expect(component['authorizedToChange']()).toBe(false);
+    });
   });
 
   describe('disableUpload', () => {
-    it('should return true when planningView is CONFIRMED', () => {
-      Stub.setInput('planningView', PlanningView.CONFIRMED);
-      Stub.detectChanges();
-
-      expect(component['disableUpload']()).toBe(true);
-    });
-
-    it('should return false when planningView is not CONFIRMED', () => {
+    it('should return false for disableUpload if planningView is not CONFIRMED', () => {
       Stub.setInput('planningView', PlanningView.REQUESTED);
       Stub.detectChanges();
 
@@ -517,6 +641,39 @@ describe('ActionBarComponent', () => {
   });
 
   describe('leftSide and rightSide buttons', () => {
+    it('should disable buttons based on cleanKPIs, authorizedToChange, and disableUpload', () => {
+      Stub.setInput('changedKPIs', { kpiEntries: [] });
+      Stub.setInput('planningView', PlanningView.CONFIRMED);
+      Stub.detectChanges();
+
+      const leftSideButtons = component['leftSide']();
+      const rightSideButtons = component['rightSide']();
+
+      const menuButton = leftSideButtons.find(
+        (btn) => btn.tooltip === 'validation_of_demand.actionBar.editAsList'
+      );
+      const gridButton = leftSideButtons.find(
+        (btn) => btn.tooltip === 'validation_of_demand.actionBar.editAsGrid'
+      );
+      const deleteButton = leftSideButtons.find(
+        (btn) => btn.tooltip === 'validation_of_demand.actionBar.bashDelete'
+      );
+
+      expect(menuButton?.disabled).toBe(true);
+      expect(gridButton?.disabled).toBe(true);
+      expect(deleteButton?.disabled).toBe(true);
+
+      const checkButton = rightSideButtons.find(
+        (btn) => btn.tooltip === 'validation_of_demand.actionBar.checkInput'
+      );
+      const saveButton = rightSideButtons.find(
+        (btn) => btn.text === 'button.save'
+      );
+
+      expect(checkButton?.disabled).toBe(false);
+      expect(saveButton?.disabled).toBe(false);
+    });
+
     it('should disable appropriate buttons when cleanKPIs is true', () => {
       Stub.setInput('changedKPIs', { kpiEntries: [] });
       Stub.detectChanges();

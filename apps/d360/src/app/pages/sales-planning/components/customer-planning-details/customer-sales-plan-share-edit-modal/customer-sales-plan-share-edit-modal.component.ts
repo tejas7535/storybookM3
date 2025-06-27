@@ -135,7 +135,7 @@ export class CustomerSalesPlanShareEditModalComponent {
         })
         .pipe(
           catchError((error) => {
-            this.snackbarService.openSnackBar(getErrorMessage(error));
+            this.snackbarService.error(getErrorMessage(error));
 
             return EMPTY;
           }),

@@ -37,7 +37,7 @@ export class AlertRuleTableComponent extends AbstractFrontendTableComponent {
   private readonly alertRulesService: AlertRulesService =
     inject(AlertRulesService);
   private readonly dialog: MatDialog = inject(MatDialog);
-  private readonly snackBarService: SnackbarService = inject(SnackbarService);
+  private readonly snackbarService: SnackbarService = inject(SnackbarService);
 
   /** @inheritdoc */
   protected override readonly getData$ =
@@ -130,8 +130,12 @@ export class AlertRuleTableComponent extends AbstractFrontendTableComponent {
             )
           );
 
-          // TODO: add variant like before... enqueueSnackbar(userMessage.message, { variant: userMessage.variant });
-          this.snackBarService.openSnackBar(userMessage.message);
+          this.snackbarService.show(
+            userMessage.message,
+            undefined,
+            undefined,
+            userMessage.variant as any
+          );
 
           if (userMessage.variant !== 'error') {
             params.setValue(workflow);

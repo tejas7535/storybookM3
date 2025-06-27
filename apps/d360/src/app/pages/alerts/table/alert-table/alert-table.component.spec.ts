@@ -148,7 +148,7 @@ describe('AlertTableComponent', () => {
           .mockReturnValue(of({}));
         jest.spyOn(component['alertService'], 'refreshHashTimer');
         jest.spyOn(component['alertService'], 'loadActiveAlerts');
-        jest.spyOn(component['snackbarService'], 'openSnackBar');
+        jest.spyOn(component['snackbarService'], 'success');
         component['gridApi'] = {
           applyServerSideTransaction: jest.fn(),
         } as unknown as GridApi<Alert>;
@@ -168,7 +168,7 @@ describe('AlertTableComponent', () => {
         ).toHaveBeenCalled();
         expect(component['alertService'].refreshHashTimer).toHaveBeenCalled();
         expect(component['alertService'].loadActiveAlerts).toHaveBeenCalled();
-        expect(component['snackbarService'].openSnackBar).toHaveBeenCalledWith(
+        expect(component['snackbarService'].success).toHaveBeenCalledWith(
           'alert.action_menu.alert_completed'
         );
       });
@@ -181,7 +181,7 @@ describe('AlertTableComponent', () => {
           .mockReturnValue(of({}));
         jest.spyOn(component['alertService'], 'refreshHashTimer');
         jest.spyOn(component['alertService'], 'loadActiveAlerts');
-        jest.spyOn(component['snackbarService'], 'openSnackBar');
+        jest.spyOn(component['snackbarService'], 'success');
         component['gridApi'] = {
           applyServerSideTransaction: jest.fn(),
         } as unknown as GridApi<Alert>;
@@ -201,7 +201,7 @@ describe('AlertTableComponent', () => {
         ).toHaveBeenCalled();
         expect(component['alertService'].refreshHashTimer).toHaveBeenCalled();
         expect(component['alertService'].loadActiveAlerts).toHaveBeenCalled();
-        expect(component['snackbarService'].openSnackBar).toHaveBeenCalledWith(
+        expect(component['snackbarService'].success).toHaveBeenCalledWith(
           'alert.action_menu.alert_activated'
         );
       });
@@ -212,7 +212,7 @@ describe('AlertTableComponent', () => {
           .mockReturnValue(of({}));
         jest.spyOn(component['alertService'], 'refreshHashTimer');
         jest.spyOn(component['alertService'], 'loadActiveAlerts');
-        jest.spyOn(component['snackbarService'], 'openSnackBar');
+        jest.spyOn(component['snackbarService'], 'success');
         component['gridApi'] = {
           applyServerSideTransaction: jest.fn(),
         } as unknown as GridApi<Alert>;
@@ -232,7 +232,7 @@ describe('AlertTableComponent', () => {
         ).toHaveBeenCalled();
         expect(component['alertService'].refreshHashTimer).toHaveBeenCalled();
         expect(component['alertService'].loadActiveAlerts).toHaveBeenCalled();
-        expect(component['snackbarService'].openSnackBar).toHaveBeenCalledWith(
+        expect(component['snackbarService'].success).toHaveBeenCalledWith(
           'alert.action_menu.alert_deactivated'
         );
       });

@@ -96,10 +96,7 @@ describe('GlobalSelectionCriteriaComponent', () => {
       const isEmptySpy = jest
         .spyOn(component['globalSelectionStateService'], 'isEmpty')
         .mockReturnValue(true);
-      const snackbarSpy = jest.spyOn(
-        component['snackBarService'],
-        'openSnackBar'
-      );
+      const snackbarSpy = jest.spyOn(component['snackbarService'], 'warning');
       const countSetSpy = jest.spyOn(component.count, 'set');
 
       component['saveFilters']();

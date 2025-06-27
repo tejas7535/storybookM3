@@ -8,10 +8,11 @@ import {
   AlertTypeDescription,
 } from '../../../../../../feature/alert-rules/model';
 import { SelectableValue } from '../../../../../../shared/components/inputs/autocomplete/selectable-values.utils';
-import { Stub } from '../../../../../../shared/test/stub.class';
 import { SingleAutocompleteSelectedEvent } from './../../../../../../shared/components/inputs/autocomplete/model';
 import { MessageType } from './../../../../../../shared/models/message-type.enum';
+import { Stub } from './../../../../../../shared/test/stub.class';
 import { AlertRuleEditSingleModalComponent } from './alert-rule-edit-single-modal.component';
+import * as Helper from './alert-rule-options-config';
 
 describe('AlertRuleEditSingleModalComponent', () => {
   let component: AlertRuleEditSingleModalComponent;
@@ -497,6 +498,16 @@ describe('AlertRuleEditSingleModalComponent', () => {
       expect(component.formGroup.get('execDay')?.value).toEqual('M01');
     });
 
+    it('should update execDay based on the selected execInterval for D1 and W1', () => {
+      component.formGroup.patchValue({ execDay: { id: 'D1' } });
+      component['onIntervalSelectionChange']({ id: 'D1' } as SelectableValue);
+      expect(component.formGroup.get('execDay')?.value).toEqual('D');
+
+      component.formGroup.patchValue({ execDay: { id: 'W1' } });
+      component['onIntervalSelectionChange']({ id: 'W1' } as SelectableValue);
+      expect(component.formGroup.get('execDay')?.value).toEqual('W6');
+    });
+
     it('should keep the current execDay if it is valid for the selected execInterval', () => {
       const value = { id: 'M1' } as SelectableValue;
       component.formGroup.patchValue({ execDay: 'M15' });
@@ -513,6 +524,17 @@ describe('AlertRuleEditSingleModalComponent', () => {
       component['onIntervalSelectionChange'](value);
 
       expect(component.formGroup.get('execDay')?.value).toBeNull();
+    });
+
+    it('should use currentExecDay when valid', () => {
+      const execInterval = 'M1';
+      const currentExecDay = 'M01';
+      Helper.possibleWhenOptions[execInterval] = ['M01', 'M15'];
+
+      component.formGroup.get('execDay')?.setValue(currentExecDay);
+      component['onIntervalSelectionChange']({ id: execInterval, text: '' });
+
+      expect(component.formGroup.get('execDay')?.value).toBe(currentExecDay);
     });
   });
 
@@ -601,7 +623,7 @@ describe('AlertRuleEditSingleModalComponent', () => {
           })
         );
 
-      jest.spyOn(component['snackbarService'], 'openSnackBar');
+      jest.spyOn(component['snackbarService'], 'show');
       jest.spyOn(component as any, 'handleOnClose');
 
       component['onSave']();
@@ -610,7 +632,7 @@ describe('AlertRuleEditSingleModalComponent', () => {
         expect(
           component['alertRuleService'].saveMultiAlertRules
         ).toHaveBeenCalled();
-        expect(component['snackbarService'].openSnackBar).toHaveBeenCalled();
+        expect(component['snackbarService'].show).toHaveBeenCalled();
         expect(component['handleOnClose']).toHaveBeenCalled();
         done();
       });
@@ -642,13 +664,16 @@ describe('AlertRuleEditSingleModalComponent', () => {
           })
         );
 
-      jest.spyOn(component['snackbarService'], 'openSnackBar');
+      jest.spyOn(component['snackbarService'], 'show');
 
       component['onSave']();
 
       setTimeout(() => {
-        expect(component['snackbarService'].openSnackBar).toHaveBeenCalledWith(
-          'error.unknown'
+        expect(component['snackbarService'].show).toHaveBeenCalledWith(
+          'error.unknown',
+          undefined,
+          undefined,
+          'error'
         );
         expect(component.loading()).toBe(false);
         done();
@@ -664,6 +689,14 @@ describe('AlertRuleEditSingleModalComponent', () => {
       component['handleOnClose'](result);
 
       expect(component['dialogRef'].close).toHaveBeenCalledWith(result);
+    });
+
+    it('should handle empty result gracefully', () => {
+      jest.spyOn(component['dialogRef'], 'close');
+
+      component['handleOnClose']([]);
+
+      expect(component['dialogRef'].close).toHaveBeenCalledWith([]);
     });
   });
 });

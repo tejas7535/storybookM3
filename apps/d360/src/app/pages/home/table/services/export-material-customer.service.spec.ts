@@ -8,7 +8,8 @@ import { ExportMaterialCustomerService } from './export-material-customer.servic
 describe('ExportMaterialCustomerService', () => {
   let service: ExportMaterialCustomerService;
   let httpClientSpy: jest.SpyInstance;
-  let snackbarServiceSpy: jest.SpyInstance;
+  let successSpy: jest.SpyInstance;
+  let errorSpy: jest.SpyInstance;
   let streamSaverServiceSpy: jest.SpyInstance;
   let appInsightsSpy: jest.SpyInstance;
 
@@ -29,7 +30,8 @@ describe('ExportMaterialCustomerService', () => {
       .spyOn(service['http'], 'post')
       .mockReturnValue(of(new HttpResponse({ body: new Blob(), status: 200 })));
 
-    snackbarServiceSpy = jest.spyOn(service['snackBarService'], 'openSnackBar');
+    successSpy = jest.spyOn(service['snackbarService'], 'success');
+    errorSpy = jest.spyOn(service['snackbarService'], 'error');
     streamSaverServiceSpy = jest.spyOn(
       service['streamSaverService'],
       'streamResponseToFile'
@@ -109,7 +111,7 @@ describe('ExportMaterialCustomerService', () => {
         .pipe(take(1))
         .subscribe();
 
-      expect(snackbarServiceSpy).toHaveBeenCalledWith(
+      expect(successSpy).toHaveBeenCalledWith(
         'material_customer.export.downloadStarted'
       );
     });
@@ -151,7 +153,7 @@ describe('ExportMaterialCustomerService', () => {
         .triggerExport(mockGridApi, mockGlobalSelectionFilters)
         .pipe(take(1))
         .subscribe(() => {
-          expect(snackbarServiceSpy).toHaveBeenCalledTimes(2);
+          expect(errorSpy).toHaveBeenCalledTimes(1);
           expect(appInsightsSpy).toHaveBeenCalledWith(
             '[Home] Export Field List Data Failure'
           );

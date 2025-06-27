@@ -66,7 +66,7 @@ describe('DemandValidationMultiDeleteModalComponent', () => {
       component['formGroup'].controls.materialNumbers.setValue([]);
       component['deleteOnConfirmation']();
 
-      expect(component['snackbarService'].openSnackBar).toHaveBeenCalled();
+      expect(component['snackbarService'].warning).toHaveBeenCalled();
       expect(dialogSpy).not.toHaveBeenCalled();
     });
 
@@ -161,7 +161,7 @@ describe('DemandValidationMultiDeleteModalComponent', () => {
         );
       component['deleteDemandBatch']().subscribe();
 
-      expect(component['snackbarService'].openSnackBar).toHaveBeenCalled();
+      expect(component['snackbarService'].success).toHaveBeenCalled();
       expect(onSaveMock).toHaveBeenCalled();
       expect(dialogRefSpy).toHaveBeenCalled();
     });
@@ -189,7 +189,7 @@ describe('DemandValidationMultiDeleteModalComponent', () => {
 
       component['deleteDemandBatch']().subscribe();
 
-      expect(component['snackbarService'].openSnackBar).toHaveBeenCalled();
+      expect(component['snackbarService'].error).toHaveBeenCalled();
       expect(onSaveMock).not.toHaveBeenCalled();
       expect(dialogRefSpy).not.toHaveBeenCalled();
     });
@@ -214,7 +214,7 @@ describe('DemandValidationMultiDeleteModalComponent', () => {
         error: () => {},
       });
 
-      expect(component['snackbarService'].openSnackBar).toHaveBeenCalled();
+      expect(component['snackbarService'].error).toHaveBeenCalled();
     });
   });
 
@@ -319,10 +319,7 @@ describe('DemandValidationMultiDeleteModalComponent', () => {
 
   describe('error handling in deleteDemandBatch', () => {
     it('should handle general API errors with proper error message', () => {
-      const snackbarSpy = jest.spyOn(
-        component['snackbarService'],
-        'openSnackBar'
-      );
+      const snackbarSpy = jest.spyOn(component['snackbarService'], 'error');
       const errorMessage = 'API Error';
 
       jest
@@ -340,10 +337,7 @@ describe('DemandValidationMultiDeleteModalComponent', () => {
     });
 
     it('should show specific error messages for each material with error', () => {
-      const snackbarSpy = jest.spyOn(
-        component['snackbarService'],
-        'openSnackBar'
-      );
+      const snackbarSpy = jest.spyOn(component['snackbarService'], 'error');
 
       jest
         .spyOn(

@@ -576,7 +576,7 @@ export class AlertRuleEditSingleModalComponent implements OnInit {
             currentExecDay
           )
             ? 'M01'
-            : currentExecDay ?? null;
+            : currentExecDay;
         break;
       }
 
@@ -685,7 +685,12 @@ export class AlertRuleEditSingleModalComponent implements OnInit {
             result: AlertRuleSaveResponse[];
           }) => {
             // show SnackBar
-            this.snackbarService.openSnackBar(userMessage.message);
+            this.snackbarService.show(
+              userMessage.message,
+              undefined,
+              undefined,
+              userMessage.variant as any
+            );
 
             if (userMessage.variant === 'error') {
               this.loading.set(false);

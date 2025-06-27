@@ -19,14 +19,14 @@ export function checkRoles(
   allowedRoles: readonly Role[]
 ): boolean {
   // use roles without territory information and without business area information
-  const givenRolesWithoutTerritory = givenRoles.map(
+  const givenRolesWithoutTerritory = givenRoles?.map(
     (role) => role.split('=')[0]
   );
   const allowedRoleNames = new Set(
     allowedRoles.flatMap((role) => RoleMapping[role])
   );
 
-  return givenRolesWithoutTerritory.some((role) => allowedRoleNames.has(role));
+  return givenRolesWithoutTerritory?.some((role) => allowedRoleNames.has(role));
 }
 
 export const demandValidationChangeAllowedRoles: Role[] = [

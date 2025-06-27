@@ -362,12 +362,12 @@ describe('InternalMaterialReplacementSingleSubstitutionModalComponent', () => {
           (_formName: string) => (_target: any, _key: any, descriptor: any) =>
             descriptor
         );
-      jest.spyOn(component['snackbarService'], 'openSnackBar');
+      jest.spyOn(component['snackbarService'], 'error');
 
       component['formGroup'].setErrors({ invalid: true });
       component['onSave']();
 
-      expect(component['snackbarService'].openSnackBar).toHaveBeenCalledWith(
+      expect(component['snackbarService'].error).toHaveBeenCalledWith(
         'generic.validation.check_inputs'
       );
     });
@@ -398,15 +398,18 @@ describe('InternalMaterialReplacementSingleSubstitutionModalComponent', () => {
         );
 
       jest.spyOn(component as any, 'handleOnClose');
-      jest.spyOn(component['snackbarService'], 'openSnackBar');
+      jest.spyOn(component['snackbarService'], 'show');
 
       component['onSave']();
 
       expect(
         component['iMRService'].saveSingleIMRSubstitution
       ).toHaveBeenCalled();
-      expect(component['snackbarService'].openSnackBar).toHaveBeenCalledWith(
-        'customer_material_portfolio.phase_in_out_single_modal.save.success'
+      expect(component['snackbarService'].show).toHaveBeenCalledWith(
+        'customer_material_portfolio.phase_in_out_single_modal.save.success',
+        undefined,
+        undefined,
+        'success'
       );
 
       spy1.mockRestore();

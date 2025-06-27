@@ -83,7 +83,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             }
           }
 
-          this.snackbarService.openSnackBar(messageToDisplay);
+          this.snackbarService.error(messageToDisplay);
         }
 
         throw new HttpError(error.status, errorDetails);

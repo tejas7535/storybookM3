@@ -454,7 +454,7 @@ export abstract class AbstractTableUploadModalComponent<
           this.updateColumnDefinitions();
         }
 
-        this.snackbarService.openSnackBar(
+        this.snackbarService[action === 'check' ? 'warning' : 'error'](
           this.getErrorMessageFn(action)(errorRowCount)
         );
 
@@ -480,7 +480,12 @@ export abstract class AbstractTableUploadModalComponent<
       });
 
       userMessages.forEach((msg) =>
-        this.snackbarService.openSnackBar(msg.message)
+        this.snackbarService.show(
+          msg.message,
+          undefined,
+          undefined,
+          msg.variant
+        )
       );
 
       if (
@@ -492,7 +497,7 @@ export abstract class AbstractTableUploadModalComponent<
         this.onAdded();
       }
     } catch (error: unknown) {
-      this.snackbarService.openSnackBar(
+      this.snackbarService.error(
         translate('generic.validation.upload.upload_failed', {
           reason: getErrorMessage(error),
         })
@@ -563,8 +568,8 @@ export abstract class AbstractTableUploadModalComponent<
   private checkForNoRows(data: T[]): boolean {
     // Check the data not the rows because rows can be empty
     if (data.length === 0) {
-      this.snackbarService.openSnackBar(
-        translate('generic.validation.upload.no_entries', {})
+      this.snackbarService.warning(
+        translate('generic.validation.upload.no_entries')
       );
 
       return true;
@@ -585,7 +590,7 @@ export abstract class AbstractTableUploadModalComponent<
     // More than max rows (@see this.maxRows) are not allowed because we would wait to long,
     // one row is always empty at the end.
     if (this.gridApi()?.getDisplayedRowCount() > this.maxRows + 1) {
-      this.snackbarService.openSnackBar(
+      this.snackbarService.warning(
         translate('generic.validation.upload.too_many_entries', {
           maxRows: this.maxRows,
         })

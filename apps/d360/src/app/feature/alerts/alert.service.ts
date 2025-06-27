@@ -165,9 +165,7 @@ export class AlertService {
         }),
         finalize(() => {
           if (hasError) {
-            this.snackbarService.openSnackBar(
-              translate('error.loading_failed')
-            );
+            this.snackbarService.error(translate('error.loading_failed'));
             this.fetchErrorEvent.next(true);
             this.allActiveAlerts.set([]);
           } else {
@@ -377,13 +375,12 @@ export class AlertService {
               }
               if (this.currentHash !== hash) {
                 this.snackbarService
-                  .openSnackBar(
-                    translate('alert.new_data'),
-                    translate('alert.refresh'),
-                    15_000
-                  )
-                  .onAction()
-                  .pipe(
+                  .info(translate('alert.new_data'), undefined, {
+                    timeOut: 15_000,
+                    payload: { buttonName: translate('alert.refresh') },
+                  })
+                  .onTap.pipe(
+                    take(1),
                     tap(() => this.refreshEvent.next()),
                     takeUntilDestroyed(this.destroyRef)
                   )

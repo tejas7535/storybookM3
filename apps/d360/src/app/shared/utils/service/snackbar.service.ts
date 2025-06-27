@@ -1,21 +1,61 @@
 import { inject, Injectable } from '@angular/core';
-import {
-  MatSnackBar,
-  MatSnackBarRef,
-  TextOnlySnackBar,
-} from '@angular/material/snack-bar';
+
+import { ActiveToast, IndividualConfig, ToastrService } from 'ngx-toastr';
+
+import { AlertType } from '@schaeffler/alert';
+
+import { SnackbarComponent } from '../../components/snackbar/snackbar.component';
 
 @Injectable({ providedIn: 'root' })
 export class SnackbarService {
-  private readonly snackBar: MatSnackBar = inject(MatSnackBar);
+  private readonly toastr: ToastrService = inject(ToastrService);
 
-  public openSnackBar(
+  public show(
     message: string,
-    action: string = 'Close',
-    duration: number = 5000
-  ): MatSnackBarRef<TextOnlySnackBar> {
-    return this.snackBar.open(message, action, {
-      duration,
+    title: string = '',
+    override?: Partial<IndividualConfig>,
+    type?: AlertType
+  ): ActiveToast<SnackbarComponent> {
+    return this.toastr.show(message, title, override, type);
+  }
+
+  public success(
+    message: string,
+    title: string = '',
+    override?: Partial<IndividualConfig>
+  ): ActiveToast<SnackbarComponent> {
+    return this.toastr.success(message, title, override);
+  }
+
+  public error(
+    message: string,
+    title: string = '',
+    override?: Partial<IndividualConfig>
+  ): ActiveToast<SnackbarComponent> {
+    return this.toastr.error(message, title, {
+      timeOut: 0,
+      extendedTimeOut: 0,
+      ...override,
+    });
+  }
+
+  public info(
+    message: string,
+    title: string = '',
+    override?: Partial<IndividualConfig>
+  ): ActiveToast<SnackbarComponent> {
+    return this.toastr.info(message, title, override);
+  }
+
+  public warning(
+    message: string,
+    title: string = '',
+    override?: Partial<IndividualConfig>
+  ): ActiveToast<SnackbarComponent> {
+    return this.toastr.warning(message, title, {
+      timeOut: 0,
+      extendedTimeOut: 0,
+      ...override,
     });
   }
 }

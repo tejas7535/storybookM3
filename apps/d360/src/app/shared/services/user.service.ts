@@ -83,7 +83,7 @@ export class UserService {
         })
         .pipe(
           catchError(() => {
-            this.snackbarService.openSnackBar(
+            this.snackbarService.error(
               translate('error.loadingConfigurationFailed')
             );
 

@@ -148,7 +148,7 @@ export class GlobalSelectionHelperService {
     values: string[]
   ): Observable<ResolveSelectableValueResult[]> {
     if (values.length > 150) {
-      this.snackbarService.openSnackBar(
+      this.snackbarService.error(
         translate('error.tooManyValues', { maxNumber: 150 })
       );
 

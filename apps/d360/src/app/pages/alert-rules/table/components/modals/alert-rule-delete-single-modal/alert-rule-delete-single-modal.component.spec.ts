@@ -67,10 +67,7 @@ describe('AlertRuleDeleteSingleModalComponent', () => {
       jest
         .spyOn(component['alertRuleService'], 'deleteSingleAlterRule')
         .mockReturnValue(of(response));
-      const snackBarSpy = jest.spyOn(
-        component['snackBarService'],
-        'openSnackBar'
-      );
+      const snackBarSpy = jest.spyOn(component['snackbarService'], 'show');
       const applyTransactionSpy = jest.spyOn(
         component.data.gridApi,
         'applyTransaction'
@@ -81,7 +78,10 @@ describe('AlertRuleDeleteSingleModalComponent', () => {
 
       setTimeout(() => {
         expect(snackBarSpy).toHaveBeenCalledWith(
-          'alert_rules.action_menu_deleted'
+          'alert_rules.action_menu_deleted',
+          undefined,
+          undefined,
+          'success'
         );
         expect(applyTransactionSpy).toHaveBeenCalledWith({
           remove: [alertRule],
@@ -102,10 +102,7 @@ describe('AlertRuleDeleteSingleModalComponent', () => {
       jest
         .spyOn(component['alertRuleService'], 'deleteSingleAlterRule')
         .mockReturnValue(of(response));
-      const snackBarSpy = jest.spyOn(
-        component['snackBarService'],
-        'openSnackBar'
-      );
+      const snackBarSpy = jest.spyOn(component['snackbarService'], 'show');
       const applyTransactionSpy = jest.spyOn(
         component.data.gridApi,
         'applyTransaction'
@@ -115,7 +112,12 @@ describe('AlertRuleDeleteSingleModalComponent', () => {
       component['deleteEntry']();
 
       setTimeout(() => {
-        expect(snackBarSpy).toHaveBeenCalledWith('Error');
+        expect(snackBarSpy).toHaveBeenCalledWith(
+          'Error',
+          undefined,
+          undefined,
+          'error'
+        );
         expect(applyTransactionSpy).not.toHaveBeenCalled();
         expect(closeSpy).not.toHaveBeenCalled();
         done();

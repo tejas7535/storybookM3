@@ -178,6 +178,7 @@
     "markdown-magic-version-badge": "1.1.2",
     "ng-mocks": "14.13.4",
     "ng-packagr": "19.2.2",
+    "ngx-toastr": "19.0.0",
     "nx": "20.8.2",
     "postcss": "8.5.3",
     "postcss-import": "15.0.0",

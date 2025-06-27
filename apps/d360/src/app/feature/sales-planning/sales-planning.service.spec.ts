@@ -444,7 +444,7 @@ describe('SalesPlanningService', () => {
       httpClientStub.mockReturnValue(throwError(() => new Error('API Error')));
       const snackbarServiceStub = jest.spyOn(
         service['snackbarService'],
-        'openSnackBar'
+        'error'
       );
 
       let result: BackendTableResponse<Comment> | null = null;
@@ -483,7 +483,7 @@ describe('SalesPlanningService', () => {
     it('should post comment and show success message', fakeAsync(() => {
       const snackbarServiceStub = jest.spyOn(
         service['snackbarService'],
-        'openSnackBar'
+        'success'
       );
       const httpClientStub = jest.spyOn(service['http'], 'post');
       httpClientStub.mockReturnValue(of(mockResponse));

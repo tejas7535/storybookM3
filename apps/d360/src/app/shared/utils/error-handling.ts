@@ -1,5 +1,7 @@
 import { translate } from '@jsverse/transloco';
 
+import { AlertType } from '@schaeffler/alert';
+
 import { MessageType, MessageTypes } from '../models/message-type.enum';
 import { messageFromSAP } from './sap-localisation';
 
@@ -37,7 +39,7 @@ export interface ResultMessage {
  * The result of a post request with a toast variant and message
  */
 export interface ToastResult {
-  variant: any; // TODO fix when notistack or schaeffler snackbar is available VariantType was the former type;
+  variant: AlertType;
   message: string;
 }
 

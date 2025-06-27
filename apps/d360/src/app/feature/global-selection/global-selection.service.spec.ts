@@ -120,11 +120,11 @@ describe('GlobalSelectionHelperService', () => {
     });
 
     it('should show a snackbar error if values exceed the limit', () => {
-      const openSnackBarSpy = jest.spyOn(snackbarService, 'openSnackBar');
+      const errorSpy = jest.spyOn(snackbarService, 'error');
       service.resolveProductionSegment(
         Array.from({ length: 151 }).fill('value') as any
       );
-      expect(openSnackBarSpy).toHaveBeenCalledWith('error.tooManyValues');
+      expect(errorSpy).toHaveBeenCalledWith('error.tooManyValues');
     });
   });
 

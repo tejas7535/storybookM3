@@ -629,7 +629,13 @@ export class CustomerMaterialSingleModalComponent implements OnInit {
             )
           );
 
-          this.snackbarService.openSnackBar(userMessage.message);
+          this.snackbarService.show(
+            userMessage.message,
+            undefined,
+            undefined,
+            userMessage.variant as any
+          );
+
           this.loading.set(false);
 
           if (['success', 'warning'].includes(userMessage.variant)) {

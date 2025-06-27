@@ -541,10 +541,7 @@ describe('CustomerMaterialSingleModalComponent', () => {
       const saveCMPChangeSpy = jest
         .spyOn(component['cmpService'], 'saveCMPChange')
         .mockReturnValue(of({ overallStatus: 'success', response: [] } as any));
-      const snackbarSpy = jest.spyOn(
-        component['snackbarService'],
-        'openSnackBar'
-      );
+      const snackbarSpy = jest.spyOn(component['snackbarService'], 'show');
       const getRequestDataMock = jest
         .spyOn(component as any, 'getRequestData')
         .mockReturnValue({ portfolioStatus: 'SE' } as any);

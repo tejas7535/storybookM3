@@ -41,9 +41,7 @@ describe('HttpErrorInterceptor', () => {
       mockRequest = new HttpRequest('GET', 'https://example.com/api');
       mockNext = new CustomHttpHandler();
 
-      jest
-        .spyOn(service['snackbarService'], 'openSnackBar')
-        .mockImplementation();
+      jest.spyOn(service['snackbarService'], 'error').mockImplementation();
     });
 
     it('should handle JSON error responses and parse error details', async () => {
@@ -95,7 +93,7 @@ describe('HttpErrorInterceptor', () => {
         await firstValueFrom(service.intercept(mockRequest, mockNext));
       } catch {
         // eslint-disable-next-line jest/no-conditional-expect
-        expect(service['snackbarService'].openSnackBar).toHaveBeenCalledWith(
+        expect(service['snackbarService'].error).toHaveBeenCalledWith(
           'SAP Message'
         );
       }
@@ -119,7 +117,7 @@ describe('HttpErrorInterceptor', () => {
         await firstValueFrom(service.intercept(mockRequest, mockNext));
       } catch {
         // eslint-disable-next-line jest/no-conditional-expect
-        expect(service['snackbarService'].openSnackBar).not.toHaveBeenCalled();
+        expect(service['snackbarService'].error).not.toHaveBeenCalled();
       }
     });
 

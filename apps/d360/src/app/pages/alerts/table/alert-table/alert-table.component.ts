@@ -87,7 +87,10 @@ export class AlertTableComponent
     this.alertService
       .getRefreshEvent()
       .pipe(
-        tap(() => this.alertService.refreshHashTimer()),
+        tap(() => {
+          this.alertService.refreshHashTimer();
+          this.reload$().next(true);
+        }),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
@@ -234,7 +237,7 @@ export class AlertTableComponent
                           }
                           this.alertService.refreshHashTimer();
                           this.alertService.loadActiveAlerts();
-                          this.snackbarService.openSnackBar(
+                          this.snackbarService.success(
                             translate('alert.action_menu.alert_completed')
                           );
                         }),
@@ -262,7 +265,7 @@ export class AlertTableComponent
                             rowCount:
                               this.dataFetchedEvent$.getValue().rowCount - 1,
                           });
-                          this.snackbarService.openSnackBar(
+                          this.snackbarService.success(
                             translate('alert.action_menu.alert_activated')
                           );
                         }),
@@ -289,7 +292,7 @@ export class AlertTableComponent
                             rowCount:
                               this.dataFetchedEvent$.getValue().rowCount - 1,
                           });
-                          this.snackbarService.openSnackBar(
+                          this.snackbarService.success(
                             translate('alert.action_menu.alert_deactivated')
                           );
                         })

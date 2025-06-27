@@ -55,7 +55,7 @@ export class SystemMessageService {
       .pipe(
         map((response: SystemMessageSettings | null) => response),
         catchError(() => {
-          this.snackbarService.openSnackBar(translate('error.loading_failed'));
+          this.snackbarService.error(translate('error.loading_failed'));
 
           return of(null);
         }),
@@ -74,12 +74,12 @@ export class SystemMessageService {
     return this.http.put<SystemMessageSettings>(this.API, message).pipe(
       take(1),
       switchMap(() => {
-        this.snackbarService.openSnackBar(translate('banner.saved'));
+        this.snackbarService.success(translate('banner.saved'));
 
         return EMPTY;
       }),
       catchError(() => {
-        this.snackbarService.openSnackBar(translate('error.save.failed'));
+        this.snackbarService.error(translate('error.save.failed'));
 
         return EMPTY;
       }),

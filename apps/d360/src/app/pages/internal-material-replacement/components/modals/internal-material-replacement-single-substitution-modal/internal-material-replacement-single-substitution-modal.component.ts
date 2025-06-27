@@ -343,9 +343,7 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
   @ValidateForm('formGroup')
   protected onSave(): void {
     if (!this.formGroup.valid) {
-      this.snackbarService.openSnackBar(
-        translate('generic.validation.check_inputs')
-      );
+      this.snackbarService.error(translate('generic.validation.check_inputs'));
 
       return;
     }
@@ -388,7 +386,12 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
           )
         ),
         tap((userMessage: ToastResult) => {
-          this.snackbarService.openSnackBar(userMessage.message);
+          this.snackbarService.show(
+            userMessage.message,
+            undefined,
+            undefined,
+            userMessage.variant as any
+          );
 
           this.loading.set(false);
 

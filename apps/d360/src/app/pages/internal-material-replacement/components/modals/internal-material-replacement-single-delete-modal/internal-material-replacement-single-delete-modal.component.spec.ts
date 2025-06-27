@@ -54,7 +54,7 @@ describe('InternalMaterialReplacementSingleDeleteModalComponent', () => {
       jest
         .spyOn(imrService, 'deleteIMRSubstitution')
         .mockReturnValue(of(mockResponse));
-      jest.spyOn(snackbarService, 'openSnackBar');
+      jest.spyOn(snackbarService, 'show');
       jest.spyOn(dialogRef, 'close');
       jest.spyOn(component as any, 'handleOnClose');
 
@@ -64,8 +64,11 @@ describe('InternalMaterialReplacementSingleDeleteModalComponent', () => {
         component['imrSubstitution'],
         false
       );
-      expect(snackbarService.openSnackBar).toHaveBeenCalledWith(
-        'generic.validation.save.success'
+      expect(snackbarService.show).toHaveBeenCalledWith(
+        'generic.validation.save.success',
+        undefined,
+        undefined,
+        'success'
       );
       expect(component['handleOnClose']).toHaveBeenCalledWith(true);
       expect(dialogRef.close).toHaveBeenCalledWith(true);
@@ -84,7 +87,7 @@ describe('InternalMaterialReplacementSingleDeleteModalComponent', () => {
       jest
         .spyOn(imrService, 'deleteIMRSubstitution')
         .mockReturnValue(of(mockResponse));
-      jest.spyOn(snackbarService, 'openSnackBar');
+      jest.spyOn(snackbarService, 'show');
       jest.spyOn(dialogRef, 'close');
       jest.spyOn(component as any, 'handleOnClose');
 
@@ -94,7 +97,7 @@ describe('InternalMaterialReplacementSingleDeleteModalComponent', () => {
         component['imrSubstitution'],
         false
       );
-      expect(snackbarService.openSnackBar).toHaveBeenCalled();
+      expect(snackbarService.show).toHaveBeenCalled();
       expect(component['handleOnClose']).toHaveBeenCalledWith(false);
       expect(dialogRef.close).toHaveBeenCalledWith(false);
     });

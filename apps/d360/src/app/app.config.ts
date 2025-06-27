@@ -34,6 +34,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import * as echarts from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { provideToastr } from 'ngx-toastr';
 
 import {
   ApplicationInsightsModule,
@@ -57,6 +58,7 @@ import {
 import { environment } from '../environments/environment';
 import { appRoutes } from './app.routes';
 import { AppRoutePath } from './app.routes.enum';
+import { SnackbarComponent } from './shared/components/snackbar/snackbar.component';
 import {
   dateFormatFactory,
   getDefaultLocale,
@@ -176,6 +178,17 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({
       eventCoalescing: true,
       runCoalescing: true,
+    }),
+
+    provideToastr({
+      toastComponent: SnackbarComponent,
+      positionClass: 'toast-bottom-center',
+      preventDuplicates: true,
+      closeButton: false,
+      timeOut: 5000,
+      extendedTimeOut: 5000,
+      progressBar: false,
+      maxOpened: 5,
     }),
   ],
 };

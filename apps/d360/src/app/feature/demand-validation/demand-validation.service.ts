@@ -78,7 +78,7 @@ export class DemandValidationService {
   private readonly destroyRef = inject(DestroyRef);
   private readonly translocoService = inject(TranslocoService);
   private readonly streamSaverService = inject(StreamSaverService);
-  private readonly snackBarService = inject(SnackbarService);
+  private readonly snackbarService = inject(SnackbarService);
   private readonly translocoLocaleService = inject(TranslocoLocaleService);
   private readonly globalSelectionStateService = inject(
     GlobalSelectionStateService
@@ -423,7 +423,7 @@ export class DemandValidationService {
       },
     };
 
-    this.snackBarService.openSnackBar(
+    this.snackbarService.success(
       translate('validation_of_demand.exportModal.downloadStarted')
     );
 
@@ -486,7 +486,7 @@ export class DemandValidationService {
           return of(null);
         }),
         catchError((error) => {
-          this.snackBarService.openSnackBar(getErrorMessage(error));
+          this.snackbarService.error(getErrorMessage(error));
 
           this.appInsights.logEvent(
             '[Validated Sales Planning] Export Data Failure'

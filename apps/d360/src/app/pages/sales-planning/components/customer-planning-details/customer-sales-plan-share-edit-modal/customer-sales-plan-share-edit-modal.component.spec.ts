@@ -265,10 +265,7 @@ describe('CustomerSalesPlanShareEditModalComponent', () => {
       const updateSharesSpy = jest
         .spyOn(component['salesPlanningService'], 'updateShares')
         .mockReturnValue(throwError(() => new Error('Error')));
-      const snackbarSpy = jest.spyOn(
-        component['snackbarService'],
-        'openSnackBar'
-      );
+      const snackbarSpy = jest.spyOn(component['snackbarService'], 'error');
       const closeSpy = jest.spyOn(component['dialogRef'], 'close');
       const setLoadingSpy = jest.spyOn(component['loading'], 'set');
 

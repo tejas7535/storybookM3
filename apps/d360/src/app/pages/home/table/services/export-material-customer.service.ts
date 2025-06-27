@@ -25,7 +25,7 @@ import { ColId } from '../column-definition';
 export class ExportMaterialCustomerService {
   private readonly http = inject(HttpClient);
   private readonly streamSaverService = inject(StreamSaverService);
-  private readonly snackBarService = inject(SnackbarService);
+  private readonly snackbarService = inject(SnackbarService);
   private readonly appInsights = inject(ApplicationInsightsService);
 
   private readonly EXPORT_MATERIAL_CUSTOMER_API =
@@ -66,7 +66,7 @@ export class ExportMaterialCustomerService {
       columnFilters,
     };
 
-    this.snackBarService.openSnackBar(
+    this.snackbarService.success(
       translate('material_customer.export.downloadStarted')
     );
 
@@ -121,7 +121,7 @@ export class ExportMaterialCustomerService {
             reason: getErrorMessage(error, this.customErrorMessages),
           });
 
-          this.snackBarService.openSnackBar(errorMessage);
+          this.snackbarService.error(errorMessage);
           this.appInsights.logEvent('[Home] Export Field List Data Failure');
 
           return of(null);

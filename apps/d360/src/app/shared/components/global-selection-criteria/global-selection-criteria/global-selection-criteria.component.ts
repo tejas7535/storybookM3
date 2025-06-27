@@ -84,7 +84,7 @@ export class GlobalSelectionCriteriaComponent implements OnInit {
    * @type {SnackbarService}
    * @memberof GlobalSelectionCriteriaComponent
    */
-  private readonly snackBarService: SnackbarService = inject(SnackbarService);
+  private readonly snackbarService: SnackbarService = inject(SnackbarService);
 
   /**
    * The TranslocoLocaleService instance.
@@ -217,7 +217,7 @@ export class GlobalSelectionCriteriaComponent implements OnInit {
     const values: GlobalSelectionState = this.getFilters();
 
     if (this.globalSelectionStateService.isEmpty()) {
-      this.snackBarService.openSnackBar(
+      this.snackbarService.warning(
         translate('globalSelection.selection_empty')
       );
 

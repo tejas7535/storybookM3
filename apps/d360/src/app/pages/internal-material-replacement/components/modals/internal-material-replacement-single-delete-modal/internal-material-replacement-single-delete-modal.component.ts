@@ -59,7 +59,13 @@ export class InternalMaterialReplacementSingleDeleteModalComponent {
           )
         ),
         tap((userMessage) => {
-          this.snackbarService.openSnackBar(userMessage.message);
+          this.snackbarService.show(
+            userMessage.message,
+            undefined,
+            undefined,
+            userMessage.variant as any
+          );
+
           if (userMessage.variant === 'success') {
             this.handleOnClose(true);
           } else {

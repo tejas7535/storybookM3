@@ -805,14 +805,14 @@ describe('DemandValidationService', () => {
         .spyOn(service['http'], 'post')
         .mockReturnValue(throwError(() => new Error('HTTP error')));
 
-      jest.spyOn(service['snackBarService'], 'openSnackBar');
+      jest.spyOn(service['snackbarService'], 'error');
 
       service
         .triggerExport(selectedKpis, filledRange, demandValidationFilters)
         .pipe(take(1))
         .subscribe((value) => {
           expect(value).toBeNull();
-          expect(service['snackBarService'].openSnackBar).toHaveBeenCalledWith(
+          expect(service['snackbarService'].error).toHaveBeenCalledWith(
             'HTTP error'
           );
 

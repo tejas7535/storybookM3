@@ -98,10 +98,7 @@ describe('SystemMessageService', () => {
       jest
         .spyOn(service['http'], 'get')
         .mockReturnValue(throwError(() => new Error('Test error')));
-      const snackbarSpy = jest.spyOn(
-        service['snackbarService'],
-        'openSnackBar'
-      );
+      const snackbarSpy = jest.spyOn(service['snackbarService'], 'error');
       jest.spyOn(service.loading, 'set');
 
       let result: any;
@@ -145,10 +142,7 @@ describe('SystemMessageService', () => {
       const httpSpy = jest
         .spyOn(service['http'], 'put')
         .mockReturnValue(of(message));
-      const snackbarSpy = jest.spyOn(
-        service['snackbarService'],
-        'openSnackBar'
-      );
+      const snackbarSpy = jest.spyOn(service['snackbarService'], 'success');
       jest.spyOn(service.loading, 'set');
 
       let completed = false;
@@ -176,10 +170,7 @@ describe('SystemMessageService', () => {
       jest
         .spyOn(service['http'], 'put')
         .mockReturnValue(throwError(() => new Error('Test error')));
-      const snackbarSpy = jest.spyOn(
-        service['snackbarService'],
-        'openSnackBar'
-      );
+      const snackbarSpy = jest.spyOn(service['snackbarService'], 'error');
       jest.spyOn(service.loading, 'set');
 
       let completed = false;

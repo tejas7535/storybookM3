@@ -112,13 +112,13 @@ describe('AlertService', () => {
       });
     });
 
-    it('should call snackbarService.openSnackBar on request error', (done) => {
+    it('should call snackbarService.error on request error', (done) => {
       jest
         .spyOn(service as any, 'requestAlerts')
         .mockReturnValue(throwError(() => new Error('error')));
       const snackbarServiceSpy = jest.spyOn(
         service['snackbarService'],
-        'openSnackBar'
+        'error'
       );
 
       service.loadActiveAlerts();
@@ -334,7 +334,49 @@ describe('AlertService', () => {
       });
     });
 
-    it('should call loadActiveAlerts if clientSideHash is different from hash', (done) => {
+    it('should call snackbarService.info when currentHash differs from the new hash', (done) => {
+      const hash = 'newHash';
+      jest.spyOn(service, 'getAlertHash').mockReturnValue(of(hash));
+      const snackbarSpy = jest
+        .spyOn(service['snackbarService'], 'info')
+        .mockReturnValue({
+          onTap: of(null),
+        } as any);
+
+      service['currentHash'] = 'oldHash';
+      service.refreshHashTimer();
+
+      setTimeout(() => {
+        expect(snackbarSpy).toHaveBeenCalledWith(
+          'alert.new_data',
+          undefined,
+          expect.objectContaining({
+            timeOut: 15_000,
+            payload: { buttonName: 'alert.refresh' },
+          })
+        );
+        done();
+      });
+    });
+
+    it('should trigger refreshEvent.next when snackbar button is clicked', (done) => {
+      const hash = 'newHash';
+      jest.spyOn(service, 'getAlertHash').mockReturnValue(of(hash));
+      jest.spyOn(service['snackbarService'], 'info').mockReturnValue({
+        onTap: of(null),
+      } as any);
+      const refreshEventSpy = jest.spyOn(service['refreshEvent'], 'next');
+
+      service['currentHash'] = 'oldHash';
+      service.refreshHashTimer();
+
+      setTimeout(() => {
+        expect(refreshEventSpy).toHaveBeenCalled();
+        done();
+      });
+    });
+
+    it('should call loadActiveAlerts when clientSideHash differs from the new hash', (done) => {
       const hash = 'newHash';
       jest.spyOn(service, 'getAlertHash').mockReturnValue(of(hash));
       const loadActiveAlertsSpy = jest.spyOn(service, 'loadActiveAlerts');
@@ -344,45 +386,6 @@ describe('AlertService', () => {
 
       setTimeout(() => {
         expect(loadActiveAlertsSpy).toHaveBeenCalledWith(true);
-        done();
-      });
-    });
-
-    it('should call snackbarService.openSnackBar if currentHash is different from hash', (done) => {
-      const hash = 'newHash';
-      jest.spyOn(service, 'getAlertHash').mockReturnValue(of(hash));
-      const snackbarServiceSpy = jest
-        .spyOn(service['snackbarService'], 'openSnackBar')
-        .mockReturnValue({
-          onAction: () => of(),
-        } as any);
-
-      service['currentHash'] = 'oldHash';
-      service.refreshHashTimer();
-
-      setTimeout(() => {
-        expect(snackbarServiceSpy).toHaveBeenCalledWith(
-          'alert.new_data',
-          'alert.refresh',
-          15_000
-        );
-        done();
-      });
-    });
-
-    it('should call refreshEvent.next if snackbar action is triggered', (done) => {
-      const hash = 'newHash';
-      jest.spyOn(service, 'getAlertHash').mockReturnValue(of(hash));
-      jest.spyOn(service['snackbarService'], 'openSnackBar').mockReturnValue({
-        onAction: () => of(true),
-      } as any);
-      const refreshEventSpy = jest.spyOn(service['refreshEvent'], 'next');
-
-      service['currentHash'] = 'oldHash';
-      service.refreshHashTimer();
-
-      setTimeout(() => {
-        expect(refreshEventSpy).toHaveBeenCalled();
         done();
       });
     });

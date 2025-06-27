@@ -153,7 +153,7 @@ export class CommentsModalComponent implements AfterViewInit {
           }),
 
           catchError(() => {
-            this.snackbarService.openSnackBar(translate('error.save.failed'));
+            this.snackbarService.error(translate('error.save.failed'));
 
             return EMPTY;
           }),

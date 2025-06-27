@@ -45,7 +45,7 @@ export class DemandValidationLoadingModalComponent implements OnInit {
           this.dialogRef.close();
         }),
         catchError((e) => {
-          this.snackbarService.openSnackBar(getErrorMessage(e));
+          this.snackbarService.error(getErrorMessage(e));
 
           return EMPTY;
         }),

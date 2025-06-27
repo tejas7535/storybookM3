@@ -155,7 +155,7 @@ export class DemandValidationMultiDeleteModalComponent {
       this.formGroup.invalid ||
       this.formGroup.controls.materialNumbers.getRawValue().length === 0
     ) {
-      this.snackbarService.openSnackBar(
+      this.snackbarService.warning(
         translate('validation_of_demand.deletion_modal.selection_not_complete')
       );
 
@@ -251,11 +251,9 @@ export class DemandValidationMultiDeleteModalComponent {
               );
             });
 
-            this.snackbarService.openSnackBar(
-              errorMessagesToDisplay.join('\n')
-            );
+            this.snackbarService.error(errorMessagesToDisplay.join('\n'));
           } else {
-            this.snackbarService.openSnackBar(
+            this.snackbarService.success(
               translate('validation_of_demand.deletion_modal.deletion_success')
             );
 
@@ -264,7 +262,7 @@ export class DemandValidationMultiDeleteModalComponent {
           }
         }),
         catchError((e) => {
-          this.snackbarService.openSnackBar(getErrorMessage(e));
+          this.snackbarService.error(getErrorMessage(e));
 
           return EMPTY;
         }),

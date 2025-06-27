@@ -81,10 +81,7 @@ describe('UserService', () => {
       jest
         .spyOn(service['http'], 'get')
         .mockReturnValue(throwError(() => new Error('any error')));
-      const snackbarSpy = jest.spyOn(
-        service['snackbarService'],
-        'openSnackBar'
-      );
+      const snackbarSpy = jest.spyOn(service['snackbarService'], 'error');
 
       service.loadRegion().subscribe((region) => {
         expect(region).toBeNull();
