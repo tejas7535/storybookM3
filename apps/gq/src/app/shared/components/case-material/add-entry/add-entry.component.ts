@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   inject,
@@ -49,15 +50,16 @@ import { MaterialTableItem } from '../../../models/table/material-table-item-mod
 import { ValidationDescription } from '../../../models/table/validation-description.enum';
 import { PasteMaterialsService } from '../../../services/paste-materials/paste-materials.service';
 import { priceValidator } from '../../../validators/price-validator';
-import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
+import { CustomerMaterialAutoCompleteInputComponent } from '../../autocomplete-input/customer-material/customer-material-autocomplete-input.component';
+import { MaterialDescriptionAutoCompleteInputComponent } from '../../autocomplete-input/material-description/material-description-autocomplete-input.component';
+import { MaterialNumberAutoCompleteInputComponent } from '../../autocomplete-input/material-number/material-number-autocomplete-input.component';
 import { InfoIconModule } from '../../info-icon/info-icon.module';
 import { TargetPriceSourceSelectComponent } from '../../target-price-source-select/target-price-source-select.component';
 @Component({
   selector: 'gq-add-entry',
   templateUrl: './add-entry.component.html',
   imports: [
-    AutocompleteInputComponent,
     TargetPriceSourceSelectComponent,
     MatInputModule,
     MatButtonModule,
@@ -72,16 +74,20 @@ import { TargetPriceSourceSelectComponent } from '../../target-price-source-sele
     LetDirective,
     MatSelectModule,
     SharedPipesModule,
+    CustomerMaterialAutoCompleteInputComponent,
+    MaterialNumberAutoCompleteInputComponent,
+    MaterialDescriptionAutoCompleteInputComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddEntryComponent implements OnInit, OnDestroy {
   @Input() isCaseView: boolean;
   @ViewChild('materialNumberInput')
-  matNumberInput: AutocompleteInputComponent;
+  matNumberInput: MaterialNumberAutoCompleteInputComponent;
   @ViewChild('materialDescInput')
-  matDescInput: AutocompleteInputComponent;
+  matDescInput: MaterialDescriptionAutoCompleteInputComponent;
   @ViewChild('customerMaterialNumberInput')
-  customerMatNumberInput: AutocompleteInputComponent;
+  customerMatNumberInput: CustomerMaterialAutoCompleteInputComponent;
 
   private readonly autoCompleteFacade: AutoCompleteFacade =
     inject(AutoCompleteFacade);
@@ -130,6 +136,8 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     this.autoCompleteFacade.customerMaterialNumberForCreateCase$;
   customerMaterialNumberForAddEntry$: Observable<CaseFilterItem> =
     this.autoCompleteFacade.customerMaterialNumberForAddEntry$;
+  defaultCustomerMaterialNumber$: Observable<string> =
+    this.autoCompleteFacade.defaultCustomerMaterialNumber$;
 
   selectedMaterialAutocomplete$: Observable<IdValue> =
     this.autoCompleteFacade.getSelectedAutocompleteMaterialNumber$;
@@ -138,9 +146,6 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     this.autoCompleteFacade.getSelectedAutocompleteRequestDialog$;
 
   CUSTOMER_MATERIAL_MAX_LENGTH = 35;
-  materialNumber$: Observable<CaseFilterItem>;
-  materialDesc$: Observable<CaseFilterItem>;
-  autoSelectMaterial$: Observable<CaseFilterItem>;
 
   materialNumberInput: boolean;
   customerMaterialInput: boolean;
@@ -286,16 +291,15 @@ export class AddEntryComponent implements OnInit, OnDestroy {
 
     const items: MaterialTableItem[] = [
       {
-        materialNumber: this.matNumberInput.searchFormControl.value,
-        materialDescription: this.matDescInput.searchFormControl.value,
+        materialNumber: this.matNumberInput.formControl.value,
+        materialDescription: this.matDescInput.formControl.value,
         quantity: this.quantityFormControl.value,
         targetPrice:
           parseNullableLocalizedInputValue(
             this.targetPriceFormControl.value?.toString(),
             this.translocoLocaleService.getLocale()
           ) ?? undefined,
-        customerMaterialNumber:
-          this.customerMatNumberInput.searchFormControl.value,
+        customerMaterialNumber: this.customerMatNumberInput.formControl.value,
 
         targetPriceSource: targetPriceSourceValue,
 
@@ -352,6 +356,10 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     customerId?: CustomerId
   ): void {
     this.autoCompleteFacade.autocomplete(autocompleteSearch, customerId);
+  }
+
+  autocompleteClear(): void {
+    this.autoCompleteFacade.resetAutocompleteMaterials();
   }
 
   autocompleteUnselectOptions(autocompleteFilter: string): void {

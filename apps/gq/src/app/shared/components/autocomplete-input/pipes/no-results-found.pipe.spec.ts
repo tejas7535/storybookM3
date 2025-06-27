@@ -110,6 +110,27 @@ describe('NoResultsFoundPipe', () => {
     expect(result).toBeTruthy();
   });
 
+  it('should return false when selected option string is part of provided options', () => {
+    const opt = new IdValue('abcdef', 'test', false);
+    const filterOptions: IdValue[] = [opt];
+    const selected: IdValue = opt;
+
+    const searchStr = 'abcde';
+
+    const autoCompleteLoading = false;
+    const debounceIsActive = false;
+
+    const result = pipe.transform(
+      filterOptions,
+      selected,
+      searchStr,
+      autoCompleteLoading,
+      debounceIsActive
+    );
+
+    expect(result).toBeFalsy();
+  });
+
   it('should return true when only selected options avl or searchStr is not part of filterOption', () => {
     const opt = new IdValue('001', 'test', false);
     const opt2 = new IdValue('002', 'yikes', false);

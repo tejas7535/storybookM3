@@ -4,6 +4,8 @@ import { AutocompleteRequestDialog } from '../../../app/shared/components/autoco
 export const CREATE_CASE_STORE_STATE_MOCK: CreateCaseState = {
   autocompleteLoading: undefined,
   autoSelectMaterial: undefined,
+  defaultCustomerMaterialNumber: undefined,
+  customerMaterialNumbersFromServer: [],
   autocompleteItems: [],
   requestingDialog: AutocompleteRequestDialog.ADD_ENTRY,
   customer: {

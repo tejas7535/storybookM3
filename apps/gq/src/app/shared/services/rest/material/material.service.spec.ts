@@ -187,6 +187,7 @@ describe('MaterialService', () => {
       expect(req.request.method).toBe('GET');
       req.flush([]);
     });
+
     test('should map the result', () => {
       const mapSpy = jest.spyOn(miscUtils, 'mapMaterialAutocompleteToIdValue');
       const response: MaterialAutoCompleteResponse = {

@@ -86,32 +86,6 @@ describe('Create Case Reducer', () => {
       });
     });
     describe('autocompleteSuccess', () => {
-      test('should merge options', () => {
-        const autoCompleteOptions = [new IdValue('mcd', 'mercedes', false)];
-
-        const fakeOptions = [
-          new IdValue('mcd', 'mercedes', true),
-          new IdValue('aud', 'audi', false),
-        ];
-
-        const fakeState: CreateCaseState = {
-          ...CREATE_CASE_STORE_STATE_MOCK,
-          autocompleteLoading: FilterNames.CUSTOMER,
-          autocompleteItems: [
-            { filter: FilterNames.CUSTOMER, options: fakeOptions },
-          ],
-        };
-
-        const action = autocompleteSuccess({
-          options: autoCompleteOptions,
-          filter: FilterNames.CUSTOMER,
-        });
-
-        const state = createCaseReducer(fakeState, action);
-
-        const stateItem = state.autocompleteItems[0].options;
-        expect(stateItem).toEqual([fakeOptions[0]]);
-      });
       test('should set the autoSelectMaterial', () => {
         const autoCompleteOptions = [new IdValue('mcd', 'mercedes', false)];
 
@@ -438,7 +412,7 @@ describe('Create Case Reducer', () => {
           state.autocompleteItems.find(
             (i) => i.filter === FilterNames.MATERIAL_DESCRIPTION
           ).options
-        ).toEqual([existingOption, option]);
+        ).toEqual([{ ...existingOption, selected: false }, option]);
       });
     });
     describe('unselectAutocompleteOptions', () => {

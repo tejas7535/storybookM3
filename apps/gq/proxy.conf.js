@@ -3,7 +3,7 @@ const proxyConfig = [
   {
     context: ['/api'],
     // target: 'http://localhost:8080',
-    target: 'https://guided-quoting-d.dev.dp.schaeffler', // using dev env,
+    target: 'https://guided-quoting.de-d.aks.schaeffler.com', // using dev env,
     secure: false,
     changeOrigin: true,
   },

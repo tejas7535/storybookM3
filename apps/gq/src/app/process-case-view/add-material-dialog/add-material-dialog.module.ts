@@ -4,7 +4,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
-import { AutocompleteInputComponent } from '@gq/shared/components/autocomplete-input/autocomplete-input.component';
 import { AddEntryComponent } from '@gq/shared/components/case-material/add-entry/add-entry.component';
 import { InputTableComponent } from '@gq/shared/components/case-material/input-table/input-table.component';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
@@ -19,7 +18,6 @@ import { AddMaterialDialogComponent } from './add-material-dialog.component';
 @NgModule({
   declarations: [AddMaterialDialogComponent],
   imports: [
-    AutocompleteInputComponent,
     AddEntryComponent,
     InputTableComponent,
     MatCardModule,

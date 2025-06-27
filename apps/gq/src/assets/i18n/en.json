@@ -311,6 +311,7 @@
         },
         "customerMaterial": {
           "hint": "Enter Customer Material Number",
+          "defaultValueWhenEmptyInputHint": "Material Number will be automatically selected",
           "label": "Customer Material Number",
           "nothingFound": "Nothing found",
           "wrongInput": "Enter valid Customer Material Number"

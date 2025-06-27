@@ -10,15 +10,14 @@
     <div class="mt-8 flex h-full flex-col">
       @if (quotation$ | ngrxPush; as quotation) {
         <div class="h-full">
-          <gq-autocomplete-input
-            [filterName]="quotation.filter"
+          <gq-sap-id-autocomplete-input
             [options]="quotation.options"
             (unselected)="unselectOptions(quotation.filter)"
             (added)="selectOption($event, quotation.filter)"
             (isValid)="quotationValid($event)"
-            [autocompleteLoading]="quotationAutocompleteLoading$ | ngrxPush"
+            [isLoading]="quotationAutocompleteLoading$ | ngrxPush"
             (autocomplete)="autocomplete($event)"
-          ></gq-autocomplete-input>
+          ></gq-sap-id-autocomplete-input>
         </div>
       }
       <div class="flex flex-row">

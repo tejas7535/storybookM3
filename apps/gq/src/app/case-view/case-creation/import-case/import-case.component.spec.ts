@@ -9,8 +9,8 @@ import {
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '@gq/core/store/actions';
-import { AutocompleteInputComponent } from '@gq/shared/components/autocomplete-input/autocomplete-input.component';
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import { SapIdAutoCompleteInputComponent } from '@gq/shared/components/autocomplete-input/sap-id/sap-id-autocomplete-input.component';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { DragDialogDirective } from '@gq/shared/directives/drag-dialog/drag-dialog.directive';
 import {
@@ -41,7 +41,7 @@ describe('ImportCaseComponent', () => {
     component: ImportCaseComponent,
     imports: [
       PushPipe,
-      AutocompleteInputComponent,
+      SapIdAutoCompleteInputComponent,
       MatButtonModule,
       LoadingSpinnerModule,
       DialogHeaderModule,

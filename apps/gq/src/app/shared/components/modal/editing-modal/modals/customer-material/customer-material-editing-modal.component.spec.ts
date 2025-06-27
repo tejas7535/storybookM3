@@ -39,6 +39,9 @@ describe('CustomerMaterialEditingModalComponent', () => {
       options: [],
     });
 
+  const defaultValueWhenEmptyInput$$: BehaviorSubject<string> =
+    new BehaviorSubject<string>(undefined);
+
   const createComponent = createComponentFactory({
     component: CustomerMaterialEditingModalComponent,
     imports: [
@@ -58,6 +61,8 @@ describe('CustomerMaterialEditingModalComponent', () => {
         materialNumberForEditMaterial$:
           materialNumberForEditMaterial$$.asObservable(),
         materialNumberAutocompleteLoading$: of(true),
+        defaultCustomerMaterialNumber$:
+          defaultValueWhenEmptyInput$$.asObservable(),
       }),
     ],
   });
@@ -100,7 +105,10 @@ describe('CustomerMaterialEditingModalComponent', () => {
           },
         ];
         spectator.setInput('modalData', {
-          quotationDetail: { customerMaterial: 'customerMaterial' },
+          quotationDetail: {
+            customerMaterial: 'customerMaterial',
+            material: { materialNumber15: '123' },
+          },
         } as EditingModal);
         materialNumberForEditMaterial$$.next({
           filter: FilterNames.MATERIAL_NUMBER,

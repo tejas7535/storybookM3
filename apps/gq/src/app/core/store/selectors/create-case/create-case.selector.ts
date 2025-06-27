@@ -109,6 +109,11 @@ const getAutocompleteItems = (
     : { filter, options: [] };
 };
 
+export const getDefaultCustomerMaterialNumber = createSelector(
+  getCaseState,
+  (state: CreateCaseState): string => state.defaultCustomerMaterialNumber
+);
+
 export const getCaseAutocompleteLoading = (filter: FilterNames) =>
   createSelector(
     getCaseState,

@@ -270,20 +270,19 @@
     }
     <ng-template #customerCreateInfo>
       @if (autocomplete.createCaseCustomer$ | ngrxPush; as customer) {
-        <gq-autocomplete-input
+        <gq-customer-autocomplete-input
           formControlName="customer"
           class="w-full pt-2 @[0rem]/caseHeader:col-span-1 @sm/caseHeader:col-span-2"
           [isDisabled]="isEditMode"
-          [filterName]="customer.filter"
           [options]="customer.options"
           (unselected)="autocomplete.unselectOptions(customer.filter)"
           (added)="autocomplete.selectCustomer($event, customer.filter)"
-          [autocompleteLoading]="autocomplete.customerLoading$ | ngrxPush"
+          [isLoading]="autocomplete.customerLoading$ | ngrxPush"
           (autocomplete)="autocomplete.autocomplete($event)"
           (inputContent)="
             !$event ? autocomplete.unselectOptions(customer.filter) : null
           "
-        ></gq-autocomplete-input>
+        ></gq-customer-autocomplete-input>
       }
 
       <gq-select-sales-org formControlName="salesOrg"></gq-select-sales-org>

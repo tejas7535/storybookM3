@@ -474,16 +474,16 @@ describe('AddEntryComponent', () => {
       };
 
       component.matNumberInput = {
-        searchFormControl: new FormControl(item.materialNumber),
+        formControl: new FormControl(item.materialNumber),
         clearInput: jest.fn(),
       } as any;
       component.matDescInput = {
-        searchFormControl: new FormControl(item.materialDescription),
+        formControl: new FormControl(item.materialDescription),
         clearInput: jest.fn(),
       } as any;
 
       component.customerMatNumberInput = {
-        searchFormControl: new FormControl(item.customerMaterialNumber),
+        formControl: new FormControl(item.customerMaterialNumber),
         clearInput: jest.fn(),
       } as any;
 
@@ -529,16 +529,16 @@ describe('AddEntryComponent', () => {
       };
 
       component.matNumberInput = {
-        searchFormControl: new FormControl(item.materialNumber),
+        formControl: new FormControl(item.materialNumber),
         clearInput: jest.fn(),
       } as any;
       component.matDescInput = {
-        searchFormControl: new FormControl(item.materialDescription),
+        formControl: new FormControl(item.materialDescription),
         clearInput: jest.fn(),
       } as any;
 
       component.customerMatNumberInput = {
-        searchFormControl: new FormControl(item.customerMaterialNumber),
+        formControl: new FormControl(item.customerMaterialNumber),
         clearInput: jest.fn(),
       } as any;
 
@@ -579,16 +579,16 @@ describe('AddEntryComponent', () => {
       };
 
       component.matNumberInput = {
-        searchFormControl: new FormControl(item.materialNumber),
+        formControl: new FormControl(item.materialNumber),
         clearInput: jest.fn(),
       } as any;
       component.matDescInput = {
-        searchFormControl: new FormControl(item.materialDescription),
+        formControl: new FormControl(item.materialDescription),
         clearInput: jest.fn(),
       } as any;
 
       component.customerMatNumberInput = {
-        searchFormControl: new FormControl(item.customerMaterialNumber),
+        formControl: new FormControl(item.customerMaterialNumber),
         clearInput: jest.fn(),
       } as any;
 
@@ -681,6 +681,18 @@ describe('AddEntryComponent', () => {
       component['matSnackBar'].open = jest.fn();
       component.displaySnackBar();
       expect(component['matSnackBar'].open).toHaveBeenCalled();
+    });
+  });
+
+  describe('autocompleteClear', () => {
+    test('should call resetAutocompleteMaterials', () => {
+      component['autoCompleteFacade'].resetAutocompleteMaterials = jest.fn();
+
+      component.autocompleteClear();
+
+      expect(
+        component['autoCompleteFacade'].resetAutocompleteMaterials
+      ).toHaveBeenCalledTimes(1);
     });
   });
   describe('autoComplete Methods', () => {

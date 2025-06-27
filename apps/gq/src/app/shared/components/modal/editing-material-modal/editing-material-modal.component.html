@@ -16,15 +16,12 @@
       <div class="flex flex-row gap-6">
         @if (materialDescForEditMaterial$ | ngrxPush; as materialDesc) {
           <div class="flex-1">
-            <gq-autocomplete-input
+            <gq-material-description-autocomplete-input
               #materialDescInput
               [showFieldHint]="false"
-              [filterName]="materialDesc.filter"
               [fitContent]="true"
               [options]="materialDesc.options"
-              [autocompleteLoading]="
-                materialDescAutocompleteLoading$ | ngrxPush
-              "
+              [isLoading]="materialDescAutocompleteLoading$ | ngrxPush"
               (autocomplete)="autocomplete($event, customerIdentifier)"
               (inputContent)="materialHasInput($event)"
               (isValid)="materialInputValid($event)"
@@ -35,19 +32,16 @@
                   materialDesc.filter
                 )
               "
-            ></gq-autocomplete-input>
+            ></gq-material-description-autocomplete-input>
           </div>
         }
         @if (materialNumberForEditMaterial$ | ngrxPush; as materialNumber) {
           <div class="flex-1">
-            <gq-autocomplete-input
+            <gq-material-number-autocomplete-input
               #materialNumberInput
-              [filterName]="materialNumber.filter"
               [fitContent]="true"
               [options]="materialNumber.options"
-              [autocompleteLoading]="
-                materialNumberAutocompleteLoading$ | ngrxPush
-              "
+              [isLoading]="materialNumberAutocompleteLoading$ | ngrxPush"
               (isValid)="materialInputValid($event)"
               (autocomplete)="autocomplete($event, customerIdentifier)"
               (inputContent)="materialHasInput($event)"
@@ -58,7 +52,7 @@
                   materialNumber.filter
                 )
               "
-            ></gq-autocomplete-input>
+            ></gq-material-number-autocomplete-input>
           </div>
         }
 
@@ -66,11 +60,13 @@
           *ngrxLet="customerMaterialForEditMaterial$ as customerMaterial"
           class="flex-1"
         >
-          <gq-autocomplete-input
+          <gq-customer-material-autocomplete-input
             #customerMaterialInput
             [showFieldHint]="false"
-            [filterName]="customerMaterial.filter"
             [fitContent]="true"
+            [defaultValueWhenEmptyInput]="
+              defaultCustomerMaterialNumber$ | ngrxPush
+            "
             [options]="customerMaterial.options"
             (unselected)="autocompleteUnselectOptions(customerMaterial.filter)"
             (added)="
@@ -79,13 +75,11 @@
                 customerMaterial.filter
               )
             "
-            [autocompleteLoading]="
-              customerMaterialAutocompleteLoading$ | ngrxPush
-            "
+            [isLoading]="customerMaterialAutocompleteLoading$ | ngrxPush"
             (inputContent)="customerMaterialHasInput()"
             (autocomplete)="autocomplete($event, customerIdentifier)"
             [maxLength]="CUSTOMER_MATERIAL_MAX_LENGTH"
-          ></gq-autocomplete-input>
+          ></gq-customer-material-autocomplete-input>
         </div>
       </div>
       <div class="mt-4 flex flex-row gap-6">
@@ -112,8 +106,6 @@
               (keydown)="handleQuantityKeyDown($event)"
               [attr.data-cy]="'edit-material-quantity'"
             />
-
-            <mat-hint>{{ t('quantity.hint') }}</mat-hint>
 
             @if (selectedMaterial?.deliveryUnit) {
               <mat-hint>{{

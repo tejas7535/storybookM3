@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
@@ -17,6 +19,8 @@ import {
   getCreateCaseLoading,
 } from '@gq/core/store/selectors/create-case/create-case.selector';
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import { SapIdAutoCompleteInputComponent } from '@gq/shared/components/autocomplete-input/sap-id/sap-id-autocomplete-input.component';
+import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import {
   CASE_CREATION_TYPES,
   CaseCreationEventParams,
@@ -24,14 +28,27 @@ import {
 } from '@gq/shared/models';
 import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
 import { TranslocoService } from '@jsverse/transloco';
+import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'gq-import-case',
   templateUrl: './import-case.component.html',
-  standalone: false,
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    SharedTranslocoModule,
+    SapIdAutoCompleteInputComponent,
+    PushPipe,
+    MatButtonModule,
+    LoadingSpinnerModule,
+    DialogHeaderModule,
+  ],
 })
 export class ImportCaseComponent implements OnInit {
   quotation$: Observable<CaseFilterItem>;

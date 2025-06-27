@@ -9,6 +9,7 @@ import {
   MaterialTableItem,
   ValidationDescription,
 } from '@gq/shared/models/table';
+import { MaterialAutoComplete } from '@gq/shared/services/rest/material/models/material-autocomplete-response.interface';
 import { TableService } from '@gq/shared/services/table/table.service';
 import {
   mapIdValueToMaterialAutoComplete,
@@ -27,14 +28,15 @@ import {
   clearPurchaseOrderType,
   clearSectorGpsd,
   clearShipToParty,
-  createCustomerCase,
-  createCustomerCaseFailure,
-  createCustomerCaseSuccess,
   createCase,
   createCaseFailure,
   createCaseSuccess,
+  createCustomerCase,
+  createCustomerCaseFailure,
+  createCustomerCaseSuccess,
   deleteRowDataItem,
   duplicateRowDataItem,
+  findDefaultCustomerMaterialNumberFor,
   getPLsAndSeries,
   getPLsAndSeriesFailure,
   getPLsAndSeriesSuccess,
@@ -80,7 +82,9 @@ import {
 export interface CreateCaseState {
   autocompleteLoading: string;
   autocompleteItems: CaseFilterItem[];
+  customerMaterialNumbersFromServer: MaterialAutoComplete[];
   autoSelectMaterial: CaseFilterItem;
+  defaultCustomerMaterialNumber: string;
   requestingDialog: AutocompleteRequestDialog;
   customer: {
     customerId: string;
@@ -116,6 +120,8 @@ export interface CreateCaseState {
 export const initialState: CreateCaseState = {
   autocompleteLoading: undefined,
   autoSelectMaterial: undefined,
+  customerMaterialNumbersFromServer: [],
+  defaultCustomerMaterialNumber: undefined,
   requestingDialog: AutocompleteRequestDialog.EMPTY,
   autocompleteItems: [
     {
@@ -203,39 +209,22 @@ export const createCaseReducer = createReducer(
     (state: CreateCaseState, { options, filter }): CreateCaseState => ({
       ...state,
       autocompleteLoading: initialState.autocompleteLoading,
+      customerMaterialNumbersFromServer: [
+        ...state.customerMaterialNumbersFromServer,
+        ...(MATERIAL_FILTERS.includes(filter)
+          ? options.map((option) =>
+              mapIdValueToMaterialAutoComplete(option, filter)
+            )
+          : []),
+      ],
       // TODO: map the only option
       autoSelectMaterial: isOnlyOptionForMaterial(options, filter)
         ? { options, filter }
         : undefined,
       autocompleteItems: [...state.autocompleteItems].map((it) => {
         const tmp = { ...it };
-        let itemOptions = [...options];
+        const itemOptions = [...options];
         if (tmp.filter === filter) {
-          if (tmp.filter === FilterNames.MATERIAL_NUMBER) {
-            itemOptions = itemOptions.map((opt) => ({
-              ...opt,
-              id: opt.id,
-            }));
-          } else if (tmp.filter === FilterNames.MATERIAL_DESCRIPTION) {
-            itemOptions = itemOptions.map((opt) => ({
-              ...opt,
-              value: opt.value,
-            }));
-          }
-
-          tmp.options.forEach((oldOption) => {
-            const idxInNewOptions = itemOptions.findIndex(
-              (newOpt) => newOpt.id === oldOption.id
-            );
-
-            if (idxInNewOptions > -1 && oldOption.selected) {
-              // update received options with selected info
-              itemOptions[idxInNewOptions] = {
-                ...itemOptions[idxInNewOptions],
-                selected: true,
-              };
-            }
-          });
           tmp.options = itemOptions;
         }
 
@@ -244,13 +233,28 @@ export const createCaseReducer = createReducer(
     })
   ),
   on(
+    findDefaultCustomerMaterialNumberFor,
+    (
+      state: CreateCaseState,
+      { materialNumber, currentCustomerMaterialNumber }
+    ): CreateCaseState => ({
+      ...state,
+      defaultCustomerMaterialNumber: findDefaultCustomerMaterialNumber(
+        materialNumber,
+        currentCustomerMaterialNumber,
+        state
+      ),
+    })
+  ),
+  on(
     selectAutocompleteOption,
     (state: CreateCaseState, { option, filter }): CreateCaseState => ({
       ...state,
+      customerMaterialNumbersFromServer: [], // customer material numbers are dependend on on the customer/sales org => clear
       autocompleteItems: [...state.autocompleteItems].map((it) => {
         const temp = { ...it };
         if (temp.filter === filter) {
-          return { ...temp, options: selectOption(temp.options, option) };
+          return { ...temp, options: selectOption(temp.options, option, true) };
         }
 
         return temp;
@@ -283,6 +287,11 @@ export const createCaseReducer = createReducer(
     setSelectedAutocompleteOption,
     (state: CreateCaseState, { filter, option }): CreateCaseState => ({
       ...state,
+      defaultCustomerMaterialNumber: findDefaultCustomerMaterialNumberByIdValue(
+        filter,
+        state,
+        option
+      ),
       autocompleteItems: [...state.autocompleteItems].map((it) => {
         const temp = { ...it };
         if (temp.filter === filter) {
@@ -300,9 +309,34 @@ export const createCaseReducer = createReducer(
           temp.filter
         );
 
+        let tempOptions = [...temp.options];
+
+        // try to find additional further cmn options if material number/description were selected by checking already loaded items with the same material number
+        if (
+          temp.filter === FilterNames.CUSTOMER_MATERIAL &&
+          MATERIAL_FILTERS.includes(filter)
+        ) {
+          // check if there are further options
+          tempOptions = state.autocompleteItems
+            .find((item) => item.filter === FilterNames.MATERIAL_NUMBER)
+            ?.options.filter((op) => op.id === option.id)
+            .map((op) => {
+              const transformed = mapIdValueFromOneFilterToAnother(
+                op,
+                FilterNames.MATERIAL_NUMBER,
+                temp.filter
+              );
+
+              // value2 is material number 15 or material description
+              transformed.selected = op.value2 === option.value2;
+
+              return transformed;
+            });
+        }
+
         return {
           ...temp,
-          options: selectOption(temp.options, optionToSelect, true),
+          options: selectOption(tempOptions, optionToSelect, true),
         };
       }),
     })
@@ -348,6 +382,7 @@ export const createCaseReducer = createReducer(
     resetAutocompleteMaterials,
     (state: CreateCaseState): CreateCaseState => ({
       ...state,
+      defaultCustomerMaterialNumber: undefined,
       autocompleteItems: state.autocompleteItems.map((autocompleteItem, i) =>
         [
           FilterNames.CUSTOMER,
@@ -375,6 +410,7 @@ export const createCaseReducer = createReducer(
   ),
   on(addRowDataItems, (state: CreateCaseState, { items }) => ({
     ...state,
+    defaultCustomerMaterialNumber: undefined as any,
     rowData: TableService.addItems(
       TableService.addCurrencyToMaterialItems(items, state.rowDataCurrency),
       [...state.rowData]
@@ -387,6 +423,7 @@ export const createCaseReducer = createReducer(
   })),
   on(updateRowDataItem, (state: CreateCaseState, { item, revalidate }) => ({
     ...state,
+    defaultCustomerMaterialNumber: undefined as any,
     rowData: TableService.updateItem(
       TableService.addCurrencyToMaterialItem(item, state.rowDataCurrency),
       state.rowData,
@@ -542,6 +579,7 @@ export const createCaseReducer = createReducer(
 
       return {
         ...state,
+        customerMaterialNumbersFromServer: [], // customer material numbers are dependend on on the customer/sales org => clear
         customer: {
           ...state.customer,
           salesOrgs: updatedSalesOrgs,
@@ -770,7 +808,7 @@ const selectOption = (
   option: IdValue,
   checkAllValues: boolean = false
 ): IdValue[] => {
-  const itemOptions = [...options];
+  let itemOptions = [...options];
   const index = checkAllValues
     ? itemOptions.findIndex(
         (idValue) =>
@@ -780,7 +818,7 @@ const selectOption = (
       )
     : itemOptions.findIndex((idValue) => idValue.id === option.id);
 
-  itemOptions.map((opt) => ({ ...opt, selected: true }));
+  itemOptions = itemOptions.map((opt) => ({ ...opt, selected: false }));
 
   // if option already in Array
   if (index > -1) {
@@ -813,6 +851,47 @@ const getCurrencyOfSelectedSalesOrg = (salesOrgs: SalesOrg[]): string => {
   }
 
   return salesOrgs[foundIndex]?.currency;
+};
+
+const findDefaultCustomerMaterialNumber = (
+  materialNumber: string,
+  currentCustomerMaterialNumber: string,
+  state: CreateCaseState
+) => {
+  const matches = state.customerMaterialNumbersFromServer.filter(
+    (cmn) => cmn.materialNumber15 === materialNumber
+  );
+
+  const match = matches.find(
+    (elem) => elem.customerMaterial === currentCustomerMaterialNumber
+  )?.customerMaterial;
+
+  return match ?? matches[0]?.customerMaterial;
+};
+
+const findDefaultCustomerMaterialNumberByIdValue = (
+  filter: string,
+  state: CreateCaseState,
+  option: IdValue
+): string => {
+  if (!MATERIAL_FILTERS.includes(filter)) {
+    return undefined;
+  }
+
+  const mappedOption = mapIdValueToMaterialAutoComplete(option, filter);
+
+  const matches = state.customerMaterialNumbersFromServer.filter(
+    (cmn) => cmn.materialNumber15 === mappedOption.materialNumber15
+  );
+
+  // if customer material has been selected, then it was already loaded before and should be selected
+  if (filter === FilterNames.CUSTOMER_MATERIAL) {
+    return matches.find(
+      (match) => match.customerMaterial === mappedOption.customerMaterial
+    )?.customerMaterial;
+  }
+
+  return matches[0]?.customerMaterial;
 };
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions

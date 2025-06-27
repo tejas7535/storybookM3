@@ -26,13 +26,13 @@
                   : materialDescForAddEntry$ as materialDesc
               "
             >
-              <gq-autocomplete-input
+              <gq-material-description-autocomplete-input
                 #materialDescInput
                 [showFieldHint]="false"
-                [filterName]="materialDesc.filter"
                 [fitContent]="true"
                 [options]="materialDesc.options"
                 (inputContent)="materialHasInput($event)"
+                (cleared)="autocompleteClear()"
                 (unselected)="autocompleteUnselectOptions(materialDesc.filter)"
                 (added)="
                   autocompleteSelectMaterialNumberDescriptionOrCustomerMaterial(
@@ -41,12 +41,10 @@
                   )
                 "
                 (isValid)="materialInputValid($event)"
-                [autocompleteLoading]="
-                  materialDescAutocompleteLoading$ | ngrxPush
-                "
+                [isLoading]="materialDescAutocompleteLoading$ | ngrxPush"
                 (autocomplete)="autocomplete($event, customerIdentifier)"
                 [isDisabled]="isAutoCompleteDisabled"
-              ></gq-autocomplete-input>
+              ></gq-material-description-autocomplete-input>
             </div>
 
             <div
@@ -56,12 +54,12 @@
                   : materialNumberForAddEntry$ as materialNumber
               "
             >
-              <gq-autocomplete-input
+              <gq-material-number-autocomplete-input
                 #materialNumberInput
-                [filterName]="materialNumber.filter"
                 [fitContent]="true"
                 [options]="materialNumber.options"
                 (inputContent)="materialHasInput($event)"
+                (cleared)="autocompleteClear()"
                 (unselected)="
                   autocompleteUnselectOptions(materialNumber.filter)
                 "
@@ -72,12 +70,10 @@
                   )
                 "
                 (isValid)="materialInputValid($event)"
-                [autocompleteLoading]="
-                  materialNumberAutocompleteLoading$ | ngrxPush
-                "
+                [isLoading]="materialNumberAutocompleteLoading$ | ngrxPush"
                 (autocomplete)="autocomplete($event, customerIdentifier)"
                 [isDisabled]="isAutoCompleteDisabled"
-              ></gq-autocomplete-input>
+              ></gq-material-number-autocomplete-input>
             </div>
 
             <div
@@ -87,12 +83,15 @@
                   : customerMaterialNumberForAddEntry$ as customerMaterialNumber
               "
             >
-              <gq-autocomplete-input
+              <gq-customer-material-autocomplete-input
                 #customerMaterialNumberInput
                 [showFieldHint]="false"
-                [filterName]="customerMaterialNumber.filter"
                 [fitContent]="true"
+                [defaultValueWhenEmptyInput]="
+                  defaultCustomerMaterialNumber$ | ngrxPush
+                "
                 [options]="customerMaterialNumber.options"
+                (cleared)="autocompleteClear()"
                 (unselected)="
                   autocompleteUnselectOptions(customerMaterialNumber.filter)
                 "
@@ -102,13 +101,14 @@
                     customerMaterialNumber.filter
                   )
                 "
-                [autocompleteLoading]="
-                  customerMaterialNumberLoading$ | ngrxPush
-                "
+                [isLoading]="customerMaterialNumberLoading$ | ngrxPush"
                 (autocomplete)="autocomplete($event, customerIdentifier)"
                 [maxLength]="CUSTOMER_MATERIAL_MAX_LENGTH"
                 [isDisabled]="isAutoCompleteDisabled"
-              ></gq-autocomplete-input>
+                [isAutocompleteSearchDisabled]="
+                  materialInputIsValid && materialNumberInput
+                "
+              ></gq-customer-material-autocomplete-input>
             </div>
             <div
               *ngrxLet="

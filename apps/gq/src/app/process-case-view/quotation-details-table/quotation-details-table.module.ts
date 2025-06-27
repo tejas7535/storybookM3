@@ -17,7 +17,6 @@ import { ColumnHeadersModule } from '@gq/shared/ag-grid/column-headers/column-he
 import { CustomStatusBarModule } from '@gq/shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { DeleteItemsButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/delete-items-button/delete-items-button.component';
 import { StatusBarModalComponent } from '@gq/shared/ag-grid/custom-status-bar/quotation-details-status/component/status-bar-modal/status-bar-modal.component';
-import { AutocompleteInputComponent } from '@gq/shared/components/autocomplete-input/autocomplete-input.component';
 import { EditCaseHeaderInformationComponent } from '@gq/shared/components/case-header-information/edit-case-header-information/edit-case-header-information.component';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { EditingModalModule } from '@gq/shared/components/modal/editing-modal/editing-modal.module';
@@ -37,7 +36,6 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
 @NgModule({
   declarations: [QuotationDetailsTableComponent],
   imports: [
-    AutocompleteInputComponent,
     EditCaseHeaderInformationComponent,
     CommonModule,
     AgGridModule,

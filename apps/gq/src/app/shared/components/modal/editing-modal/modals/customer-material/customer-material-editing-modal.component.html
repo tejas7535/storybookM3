@@ -33,6 +33,11 @@
         [isLoading]="false"
         formControlName="customerMaterialNumber"
         [initalValue]="modalData().quotationDetail.customerMaterial"
+        [defaultValueWhenEmptyInput]="defaultValueWhenEmptyInput$ | ngrxPush"
+        [defaultValueWhenEmptyInputHint]="
+          'shared.caseMaterial.addEntry.customerMaterial.defaultValueWhenEmptyInputHint'
+            | transloco
+        "
       ></gq-autocomplete-selection>
     </form>
     <!-- Action Buttons -->

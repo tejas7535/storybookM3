@@ -13,6 +13,7 @@
     [formControl]="formControl"
     [maxlength]="maxLength() ?? null"
     (blur)="onBlur()"
+    (focus)="onFocus($event)"
     matInput
     type="text"
   />
@@ -23,10 +24,16 @@
     [displayWith]="displaySelectableValue.bind(this)"
   >
     <!-- Options -->
-    @for (idValue of filteredOptions(); track idValue) {
-      <mat-option [value]="idValue">
-        <span> {{ idValue | displaySelectableValue }} </span>
-      </mat-option>
+    @for (idValue of filteredOptions(); track idValue; let first = $first) {
+      @if (first && showDefaultValueWhenEmptyInputHint) {
+        <mat-option disabled>
+          {{ idValue }}
+        </mat-option>
+      } @else {
+        <mat-option [value]="idValue">
+          <span> {{ idValue | displaySelectableValue }} </span>
+        </mat-option>
+      }
     } @empty {
       @if (allowOptionsValuesOnly()) {
         <!-- Show text for no data available -->
@@ -39,7 +46,6 @@
       <mat-option [disabled]="true">{{ t('loading') }}</mat-option>
     }
   </mat-autocomplete>
-
   @if (maxLength()) {
     <mat-hint align="end">{{
       getFormControlValueLength() + ' / ' + maxLength().toString()

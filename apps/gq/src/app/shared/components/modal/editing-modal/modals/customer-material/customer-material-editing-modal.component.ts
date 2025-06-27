@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   inject,
@@ -12,7 +13,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogRef } from '@angular/material/dialog';
 
-import { map, Observable, take } from 'rxjs';
+import { combineLatest, map, Observable, take, tap } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
@@ -43,6 +44,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
   ],
   standalone: true,
   templateUrl: './customer-material-editing-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomerMaterialEditingModalComponent implements OnInit {
   private readonly dialogRef = inject(
@@ -55,10 +57,23 @@ export class CustomerMaterialEditingModalComponent implements OnInit {
   readonly customerMaterialsAreLoading$ =
     this.autocompleteFacade.materialNumberAutocompleteLoading$;
   readonly updateLoading$ = this.activeCaseFacade.quotationDetailUpdating$;
+  readonly defaultValueWhenEmptyInput$ =
+    this.autocompleteFacade.defaultCustomerMaterialNumber$;
 
   // customer material specific logic to filter out empty values and set default selection to the current customer material
   readonly materialNumberForEditMaterial$: Observable<SelectableValue[]> =
     this.autocompleteFacade.materialNumberForEditMaterial$.pipe(
+      tap((_item) => {
+        // on the first run we can try to find the default customer material number to prevent unallowed empty cmns
+        const materialNumber =
+          this.modalData().quotationDetail.material.materialNumber15;
+        const customerMaterial =
+          this.modalData().quotationDetail.customerMaterial;
+        this.autocompleteFacade.findDefaultCustomerMaterialNumberFor(
+          materialNumber,
+          customerMaterial
+        );
+      }),
       map((caseFilterItem) =>
         caseFilterItem.options
           .filter((opt) => opt.value2 !== null)
@@ -89,14 +104,19 @@ export class CustomerMaterialEditingModalComponent implements OnInit {
   }
 
   addButtonDisabledSubscription(): void {
-    this.customerMaterialForm
-      .get('customerMaterialNumber')
-      .valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
+    combineLatest([
+      this.customerMaterialForm.get('customerMaterialNumber').valueChanges,
+      this.defaultValueWhenEmptyInput$,
+    ])
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(([value, defaultValueWhenEmptyInput]) => {
         const formValue = this.getFormControlValue(value) ?? '';
         const currentCustomerMaterial =
           this.modalData().quotationDetail.customerMaterial ?? '';
-        this.confirmButtonDisabled = formValue === currentCustomerMaterial;
+
+        this.confirmButtonDisabled =
+          formValue === currentCustomerMaterial ||
+          (defaultValueWhenEmptyInput && formValue === '');
       });
   }
 

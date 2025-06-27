@@ -42,6 +42,7 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 import { debounceTime, distinctUntilChanged, startWith } from 'rxjs';
 
+import { IdValue } from '@gq/shared/models/search';
 import { SelectableValue } from '@gq/shared/models/selectable-value.model';
 import { DisplaySelectableValuePipe } from '@gq/shared/pipes/display-selectable-value/display-selectable-value.pipe';
 import { displaySelectableValue } from '@gq/shared/utils/misc.utils';
@@ -105,6 +106,10 @@ export class AutocompleteSelectionComponent
   // eslint-disable-next-line @typescript-eslint/ban-types
   readonly customDisplayFunction: InputSignal<Function> = input<Function>();
   readonly initalValue: InputSignal<string> = input<string>(null);
+  readonly defaultValueWhenEmptyInput: InputSignal<string> =
+    input<string>(null);
+  readonly defaultValueWhenEmptyInputHint: InputSignal<string> =
+    input<string>(null);
 
   readonly defaultSelection: Signal<SelectableValue> = computed(() =>
     this.options()?.find((option) => option.defaultSelection)
@@ -115,7 +120,9 @@ export class AutocompleteSelectionComponent
 
   filteredOptions: WritableSignal<SelectableValue[]> = signal([]);
   isDisabled = false;
-  formControl: FormControl<string | SelectableValue>;
+  inputFocused: boolean;
+  showDefaultValueWhenEmptyInputHint = false;
+  formControl!: FormControl<string | SelectableValue>;
 
   formControlName = input<string>();
   rootFormGroup = inject(FormGroupDirective);
@@ -172,16 +179,26 @@ export class AutocompleteSelectionComponent
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((value) => {
+        this.showDefaultValueWhenEmptyInputHint = !!(
+          !value &&
+          this.inputFocused &&
+          this.defaultValueWhenEmptyInput()
+        );
+
+        const tmp = this.options()?.filter((option) => {
+          if (typeof value === 'string') {
+            const searchValue = value.toLowerCase();
+
+            return this.includesOption(option, searchValue);
+          }
+
+          return option;
+        });
+
         this.filteredOptions.set(
-          this.options()?.filter((option) => {
-            if (typeof value === 'string') {
-              const searchValue = value.toLowerCase();
-
-              return this.includesOption(option, searchValue);
-            }
-
-            return option;
-          })
+          this.showDefaultValueWhenEmptyInputHint
+            ? [this.defaultValueWhenEmptyInputHint() as any as IdValue, ...tmp]
+            : tmp
         );
 
         if (this.allowOptionsValuesOnly()) {
@@ -296,6 +313,7 @@ export class AutocompleteSelectionComponent
   }
 
   onBlur() {
+    this.inputFocused = false;
     if (this.allowOptionsValuesOnly()) {
       let error = null;
       const value = this.formControl.value;
@@ -309,6 +327,23 @@ export class AutocompleteSelectionComponent
       }
       this.formControl.setErrors(error);
     }
+    this.handleDefaultValueWhenEmptyInput();
+
     this.onTouched();
+  }
+
+  onFocus(_event: FocusEvent): void {
+    this.inputFocused = true;
+  }
+
+  private handleDefaultValueWhenEmptyInput(): void {
+    if (this.defaultValueWhenEmptyInput() && !this.formControl.value) {
+      this.formControl.setValue({
+        id: null,
+        value: null,
+        value2: this.defaultValueWhenEmptyInput(),
+      });
+      this.showDefaultValueWhenEmptyInputHint = false;
+    }
   }
 }

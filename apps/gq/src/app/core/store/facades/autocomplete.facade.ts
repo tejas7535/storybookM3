@@ -13,6 +13,7 @@ import { Store } from '@ngrx/store';
 import {
   autocomplete,
   autocompleteSuccess,
+  findDefaultCustomerMaterialNumberFor,
   resetAutocompleteMaterials,
   resetRequestingAutoCompleteDialog,
   selectAutocompleteOption,
@@ -30,6 +31,7 @@ import {
   getCaseMaterialNumber,
   getCaseMaterialNumberOrDesc,
   getCustomerMaterialNumber,
+  getDefaultCustomerMaterialNumber,
   getSelectedAutocompleteMaterialNumber,
   getSelectedAutocompleteRequestDialog,
 } from '../selectors';
@@ -143,6 +145,10 @@ export class AutoCompleteFacade {
     getCaseAutocompleteLoading(FilterNames.CUSTOMER_MATERIAL)
   );
 
+  defaultCustomerMaterialNumber$: Observable<string> = this.store.select(
+    getDefaultCustomerMaterialNumber
+  );
+
   optionSelectedForAutoCompleteFilter$ = this.actions$.pipe(
     ofType(setSelectedAutocompleteOption)
   );
@@ -162,6 +168,18 @@ export class AutoCompleteFacade {
 
   resetAutocompleteMaterials(): void {
     this.store.dispatch(resetAutocompleteMaterials());
+  }
+
+  findDefaultCustomerMaterialNumberFor(
+    materialNumber: string,
+    currentCustomerMaterialNumber: string
+  ): void {
+    this.store.dispatch(
+      findDefaultCustomerMaterialNumberFor({
+        materialNumber,
+        currentCustomerMaterialNumber,
+      })
+    );
   }
 
   autocomplete(

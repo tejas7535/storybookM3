@@ -10,17 +10,20 @@ import { take } from 'rxjs';
 
 import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { MaterialColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
-import { AutocompleteInputComponent } from '@gq/shared/components/autocomplete-input/autocomplete-input.component';
+import { BaseAutocompleteInputComponent } from '@gq/shared/components/autocomplete-input/base-autocomplete-input.component';
+import { CustomerMaterialAutoCompleteInputComponent } from '@gq/shared/components/autocomplete-input/customer-material/customer-material-autocomplete-input.component';
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import { MaterialDescriptionAutoCompleteInputComponent } from '@gq/shared/components/autocomplete-input/material-description/material-description-autocomplete-input.component';
+import { MaterialNumberAutoCompleteInputComponent } from '@gq/shared/components/autocomplete-input/material-number/material-number-autocomplete-input.component';
 import { TargetPriceSourceSelectComponent } from '@gq/shared/components/target-price-source-select/target-price-source-select.component';
 import { IdValue } from '@gq/shared/models/search';
 import { MaterialTableItem } from '@gq/shared/models/table';
 import { cloneDeep } from 'lodash';
 
 export class EditMaterialInputs {
-  matNumberInput: AutocompleteInputComponent;
-  matDescInput: AutocompleteInputComponent;
-  customerMaterialInput: AutocompleteInputComponent;
+  matNumberInput: MaterialNumberAutoCompleteInputComponent;
+  matDescInput: MaterialDescriptionAutoCompleteInputComponent;
+  customerMaterialInput: CustomerMaterialAutoCompleteInputComponent;
   quantityInput: ElementRef<HTMLInputElement>;
   targetPriceInput: ElementRef<HTMLInputElement>;
   targetPriceSourceInput: TargetPriceSourceSelectComponent;
@@ -59,6 +62,7 @@ export class InitializeMaterialControlsServiceService {
    *
    * Conditions:
    * - If the requested field is falsy (no value), the form control will not perform autocomplete.
+   * - As a customer material number can have a length of <1 (which usually prevents autocomplete), an autocomplete for a material number is triggerd to fill material number and material description.
    *
    * @param fieldToFocus The field to initially focus on.
    * @param materialToEdit The material item being edited.
@@ -81,11 +85,11 @@ export class InitializeMaterialControlsServiceService {
 
   private markFieldsAsTouched(inputs: EditMaterialInputs): void {
     // MatNumber15 and MatDescription are mandatory fields, those need to be checked and when invalid the errorMsg shall be displayed directly
-    if (inputs.matNumberInput.searchFormControl.invalid) {
-      inputs.matNumberInput.searchFormControl.markAllAsTouched();
+    if (inputs.matNumberInput.formControl.invalid) {
+      inputs.matNumberInput.formControl.markAllAsTouched();
     }
-    if (inputs.matDescInput.searchFormControl.invalid) {
-      inputs.matDescInput.searchFormControl.markAllAsTouched();
+    if (inputs.matDescInput.formControl.invalid) {
+      inputs.matDescInput.formControl.markAllAsTouched();
     }
   }
 
@@ -98,7 +102,7 @@ export class InitializeMaterialControlsServiceService {
     switch (fieldToFocus) {
       case MaterialColumnFields.MATERIAL: {
         if (materialToEdit.materialNumber) {
-          inputs.matNumberInput.searchFormControl.setValue(
+          inputs.matNumberInput.formControl.setValue(
             materialToEdit.materialNumber
           );
 
@@ -110,7 +114,7 @@ export class InitializeMaterialControlsServiceService {
           );
         } else {
           // when mat15 has no value (matDesc than will also not have), try autoComplete for customerMaterial
-          inputs.customerMaterialInput.searchFormControl.setValue(
+          inputs.customerMaterialInput.formControl.setValue(
             materialToEdit.customerMaterialNumber
           );
         }
@@ -119,7 +123,7 @@ export class InitializeMaterialControlsServiceService {
       }
       case MaterialColumnFields.MATERIAL_DESCRIPTION: {
         if (materialToEdit.materialDescription) {
-          inputs.matDescInput.searchFormControl.setValue(
+          inputs.matDescInput.formControl.setValue(
             materialToEdit.materialDescription
           );
           this.validateAutocompleteResult(
@@ -131,7 +135,7 @@ export class InitializeMaterialControlsServiceService {
         } else {
           // when MatDesc has no Value than try to autoComplete via MatNumber
           if (materialToEdit.materialNumber) {
-            inputs.matNumberInput.searchFormControl.setValue(
+            inputs.matNumberInput.formControl.setValue(
               materialToEdit.materialNumber
             );
 
@@ -144,7 +148,7 @@ export class InitializeMaterialControlsServiceService {
           }
           // when matDesc and Mat15 have no value try autocomplete for customerMaterial
           else if (materialToEdit.customerMaterialNumber) {
-            inputs.customerMaterialInput.searchFormControl.setValue(
+            inputs.customerMaterialInput.formControl.setValue(
               materialToEdit.customerMaterialNumber
             );
             this.validateAutocompleteResult(
@@ -160,20 +164,51 @@ export class InitializeMaterialControlsServiceService {
       }
       case MaterialColumnFields.CUSTOMER_MATERIAL_NUMBER: {
         if (materialToEdit.customerMaterialNumber) {
-          inputs.customerMaterialInput.searchFormControl.setValue(
+          inputs.customerMaterialInput.formControl.setValue(
             materialToEdit.customerMaterialNumber
           );
-          this.validateAutocompleteResult(
-            FilterNames.CUSTOMER_MATERIAL,
-            inputs,
-            materialToEdit,
-            cdref
-          );
+          inputs.customerMaterialInput.selectedIdValue = {
+            id: materialToEdit.customerMaterialNumber,
+            value: materialToEdit.materialNumber,
+            value2: materialToEdit.materialDescription,
+            selected: true,
+          };
+
+          // autcomplete is only triggered for input lenghts > 1, so we need to trigger it manually
+          if (
+            materialToEdit.customerMaterialNumber.length <=
+            BaseAutocompleteInputComponent.ONE_CHAR_LENGTH
+          ) {
+            // update material description form but no need to trigger autocomplete (once for material number is enough)
+            inputs.matDescInput.selectedIdValue = {
+              id: materialToEdit.materialDescription,
+            } as any;
+            inputs.matDescInput.formControl.setValue(
+              materialToEdit.materialDescription,
+              { emitEvent: false }
+            );
+
+            // set material number to prevent a form field error on validation
+            inputs.matNumberInput.selectedIdValue = {
+              id: materialToEdit.materialNumber,
+            } as any;
+            // update material form to trigger autocomplete for material number + description
+            inputs.matNumberInput.formControl.setValue(
+              materialToEdit.materialNumber
+            );
+          } else {
+            this.validateAutocompleteResult(
+              FilterNames.CUSTOMER_MATERIAL,
+              inputs,
+              materialToEdit,
+              cdref
+            );
+          }
         } else {
           // try a autoComplete for Mat15 Number
           // autocomplete for Mat15 can be performed, no special Case for customerMaterial needed so the default process can be performed (will be handled within the autocomplete component)
           if (materialToEdit.materialNumber) {
-            inputs.matNumberInput.searchFormControl.setValue(
+            inputs.matNumberInput.formControl.setValue(
               materialToEdit.materialNumber
             );
           }
@@ -186,7 +221,7 @@ export class InitializeMaterialControlsServiceService {
         // autocomplete either for mat15 or customerMaterial will be performed
         // the results must be validated by subscribing to the getAutocompleteOptionsSuccess Action
         if (materialToEdit.materialNumber) {
-          inputs.matNumberInput.searchFormControl.setValue(
+          inputs.matNumberInput.formControl.setValue(
             materialToEdit.materialNumber
           );
           this.validateAutocompleteResult(
@@ -196,7 +231,7 @@ export class InitializeMaterialControlsServiceService {
             cdref
           );
         } else {
-          inputs.customerMaterialInput.searchFormControl.setValue(
+          inputs.customerMaterialInput.formControl.setValue(
             materialToEdit.customerMaterialNumber
           );
           this.validateAutocompleteResult(
@@ -283,6 +318,7 @@ export class InitializeMaterialControlsServiceService {
             opt.value === optionToCheck.value &&
             opt.value2 === optionToCheck.value2
         );
+
         if (directMatch) {
           this.autoCompleteFacade.selectMaterialNumberDescriptionOrCustomerMaterial(
             directMatch,
@@ -323,18 +359,18 @@ export class InitializeMaterialControlsServiceService {
           );
         } else {
           // mat15 or matDesc are invalid, so both fields will be preset with the values from the row of materialInputTable
-          inputs.matNumberInput.searchFormControl.setValue(
+          inputs.matNumberInput.formControl.setValue(
             materialToEdit.materialNumber,
             { emitEvent: false } // to not trigger autocomplete
           );
-          inputs.matDescInput.searchFormControl.setValue(
+          inputs.matDescInput.formControl.setValue(
             materialToEdit.materialDescription,
             { emitEvent: false } // to not trigger autocomplete
           );
           // when customerMaterial has a value perform an additional autocomplete for customerMaterial as fallback
           // autocomplete will not have a direct match , what is valid so no field will be overwritten
           if (materialToEdit.customerMaterialNumber) {
-            inputs.customerMaterialInput.searchFormControl.setValue(
+            inputs.customerMaterialInput.formControl.setValue(
               materialToEdit.customerMaterialNumber
             );
           }
@@ -354,11 +390,11 @@ export class InitializeMaterialControlsServiceService {
           // this is a useCase where mat15 or matDesc is invalid but customerMaterial has a value, additionally try autoComplete for Mat15
           // autocomplete will not have a direct match (mat15/matDesc) is invalid so no field will be overwritten
           // the user will see possible options for mat15 (e.g. when Mat15 is incomplete)
-          inputs.matNumberInput.searchFormControl.setValue(
+          inputs.matNumberInput.formControl.setValue(
             materialToEdit.materialNumber
           );
           // mat15 field is invalid the errorMsg shall be displayed directly
-          inputs.matNumberInput.searchFormControl.markAllAsTouched();
+          inputs.matNumberInput.formControl.markAllAsTouched();
         }
         break;
       }

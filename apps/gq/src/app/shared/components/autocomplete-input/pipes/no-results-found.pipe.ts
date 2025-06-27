@@ -19,7 +19,8 @@ export class NoResultsFoundPipe implements PipeTransform {
     const noOptionsAtAll = filterOptions.length === 0;
 
     return (
-      (noOptionsAtAll || selectedOption) &&
+      (noOptionsAtAll ||
+        (selectedOption && !selectedOption.id.startsWith(searchStr))) &&
       searchStr &&
       !autoCompleteLoading &&
       !debounceIsActive

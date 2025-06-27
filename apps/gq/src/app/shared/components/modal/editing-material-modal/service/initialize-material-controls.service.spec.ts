@@ -193,20 +193,20 @@ describe('InitializeMaterialControlsServiceTsService', () => {
 
       beforeEach(() => {
         materialNumberAutocomplete = {
-          searchFormControl: {
+          formControl: {
             setValue: jest.fn(),
             markAllAsTouched: jest.fn(),
           },
           focus: jest.fn(),
         } as any;
         materialDescriptionAutocomplete = {
-          searchFormControl: {
+          formControl: {
             setValue: jest.fn(),
           },
           focus: jest.fn(),
         } as any;
         customerMaterialNumberAutocomplete = {
-          searchFormControl: {
+          formControl: {
             setValue: jest.fn(),
           },
           focus: jest.fn(),
@@ -325,15 +325,15 @@ describe('InitializeMaterialControlsServiceTsService', () => {
             cdref
           );
           expect(
-            materialNumberAutocomplete.searchFormControl.setValue
+            materialNumberAutocomplete.formControl.setValue
           ).toHaveBeenCalledWith(optionToCheck.id, {
             emitEvent: false,
           });
           expect(
-            materialDescriptionAutocomplete.searchFormControl.setValue
+            materialDescriptionAutocomplete.formControl.setValue
           ).toHaveBeenCalledWith(optionToCheck.value, { emitEvent: false });
           expect(
-            customerMaterialNumberAutocomplete.searchFormControl.setValue
+            customerMaterialNumberAutocomplete.formControl.setValue
           ).toHaveBeenCalledWith(optionToCheck.value2);
         });
         test('matNumber is not set, set value for matNumber+matDesc', () => {
@@ -358,15 +358,15 @@ describe('InitializeMaterialControlsServiceTsService', () => {
             cdref
           );
           expect(
-            materialNumberAutocomplete.searchFormControl.setValue
+            materialNumberAutocomplete.formControl.setValue
           ).toHaveBeenCalledWith(optionToCheck.id, {
             emitEvent: false,
           });
           expect(
-            materialDescriptionAutocomplete.searchFormControl.setValue
+            materialDescriptionAutocomplete.formControl.setValue
           ).toHaveBeenCalledWith(optionToCheck.value, { emitEvent: false });
           expect(
-            customerMaterialNumberAutocomplete.searchFormControl.setValue
+            customerMaterialNumberAutocomplete.formControl.setValue
           ).not.toHaveBeenCalledWith(optionToCheck.value2);
         });
       });
@@ -406,10 +406,10 @@ describe('InitializeMaterialControlsServiceTsService', () => {
             cdref
           );
           expect(
-            materialNumberAutocomplete.searchFormControl.setValue
+            materialNumberAutocomplete.formControl.setValue
           ).toHaveBeenCalledWith(optionToCheck.id);
           expect(
-            materialNumberAutocomplete.searchFormControl.markAllAsTouched
+            materialNumberAutocomplete.formControl.markAllAsTouched
           ).toHaveBeenCalled();
         });
       });
@@ -494,13 +494,13 @@ describe('InitializeMaterialControlsServiceTsService', () => {
     test('should mark all fields as touched', () => {
       const inputs = {
         matDescInput: {
-          searchFormControl: {
+          formControl: {
             markAllAsTouched: jest.fn(),
             invalid: true,
           },
         },
         matNumberInput: {
-          searchFormControl: {
+          formControl: {
             markAllAsTouched: jest.fn(),
             invalid: true,
           },
@@ -509,10 +509,10 @@ describe('InitializeMaterialControlsServiceTsService', () => {
 
       service['markFieldsAsTouched'](inputs);
       expect(
-        inputs.matDescInput.searchFormControl.markAllAsTouched
+        inputs.matDescInput.formControl.markAllAsTouched
       ).toHaveBeenCalled();
       expect(
-        inputs.matNumberInput.searchFormControl.markAllAsTouched
+        inputs.matNumberInput.formControl.markAllAsTouched
       ).toHaveBeenCalled();
     });
   });
@@ -527,7 +527,7 @@ describe('InitializeMaterialControlsServiceTsService', () => {
       test('should set for materialNumber with materialNumber present', () => {
         const inputs: EditMaterialInputs = {
           matNumberInput: {
-            searchFormControl: {
+            formControl: {
               setValue: jest.fn(),
             },
           },
@@ -541,9 +541,9 @@ describe('InitializeMaterialControlsServiceTsService', () => {
           inputs,
           cdref
         );
-        expect(
-          inputs.matNumberInput.searchFormControl.setValue
-        ).toHaveBeenCalledWith(materialToEdit.materialNumber);
+        expect(inputs.matNumberInput.formControl.setValue).toHaveBeenCalledWith(
+          materialToEdit.materialNumber
+        );
         expect(service['validateAutocompleteResult']).toHaveBeenCalledWith(
           FilterNames.MATERIAL_NUMBER,
           inputs,
@@ -554,7 +554,7 @@ describe('InitializeMaterialControlsServiceTsService', () => {
       test('should set for materialNumber with materialNumber not present', () => {
         const inputs: EditMaterialInputs = {
           customerMaterialInput: {
-            searchFormControl: {
+            formControl: {
               setValue: jest.fn(),
             },
           },
@@ -569,7 +569,7 @@ describe('InitializeMaterialControlsServiceTsService', () => {
           cdref
         );
         expect(
-          inputs.customerMaterialInput.searchFormControl.setValue
+          inputs.customerMaterialInput.formControl.setValue
         ).toHaveBeenCalledWith(materialToEdit.customerMaterialNumber);
       });
     });
@@ -578,7 +578,7 @@ describe('InitializeMaterialControlsServiceTsService', () => {
       test('should set for materialDescription with materialDescription present', () => {
         const inputs: EditMaterialInputs = {
           matDescInput: {
-            searchFormControl: {
+            formControl: {
               setValue: jest.fn(),
             },
           },
@@ -594,9 +594,9 @@ describe('InitializeMaterialControlsServiceTsService', () => {
           cdref
         );
 
-        expect(
-          inputs.matDescInput.searchFormControl.setValue
-        ).toHaveBeenCalledWith(materialToEdit.materialDescription);
+        expect(inputs.matDescInput.formControl.setValue).toHaveBeenCalledWith(
+          materialToEdit.materialDescription
+        );
         expect(service['validateAutocompleteResult']).toHaveBeenCalledWith(
           FilterNames.MATERIAL_DESCRIPTION,
           inputs,
@@ -607,7 +607,7 @@ describe('InitializeMaterialControlsServiceTsService', () => {
       test('should set for materialDescription with materialDescription not present and materialNumber present', () => {
         const inputs: EditMaterialInputs = {
           matNumberInput: {
-            searchFormControl: {
+            formControl: {
               setValue: jest.fn(),
             },
           },
@@ -623,9 +623,9 @@ describe('InitializeMaterialControlsServiceTsService', () => {
           cdref
         );
 
-        expect(
-          inputs.matNumberInput.searchFormControl.setValue
-        ).toHaveBeenCalledWith(materialToEdit.materialNumber);
+        expect(inputs.matNumberInput.formControl.setValue).toHaveBeenCalledWith(
+          materialToEdit.materialNumber
+        );
         expect(service['validateAutocompleteResult']).toHaveBeenCalledWith(
           FilterNames.MATERIAL_NUMBER,
           inputs,
@@ -636,7 +636,7 @@ describe('InitializeMaterialControlsServiceTsService', () => {
       test('should set for materialDescription with materialDescription and materialNumber not present and customerMaterialNumber present', () => {
         const inputs: EditMaterialInputs = {
           customerMaterialInput: {
-            searchFormControl: {
+            formControl: {
               setValue: jest.fn(),
             },
           },
@@ -653,7 +653,7 @@ describe('InitializeMaterialControlsServiceTsService', () => {
         );
 
         expect(
-          inputs.customerMaterialInput.searchFormControl.setValue
+          inputs.customerMaterialInput.formControl.setValue
         ).toHaveBeenCalledWith(materialToEdit.customerMaterialNumber);
         expect(service['validateAutocompleteResult']).toHaveBeenCalledWith(
           FilterNames.CUSTOMER_MATERIAL,
@@ -668,7 +668,7 @@ describe('InitializeMaterialControlsServiceTsService', () => {
       test('should set for customerMaterialNumber with customerMaterialNumber present', () => {
         const inputs: EditMaterialInputs = {
           customerMaterialInput: {
-            searchFormControl: {
+            formControl: {
               setValue: jest.fn(),
             },
           },
@@ -685,7 +685,7 @@ describe('InitializeMaterialControlsServiceTsService', () => {
         );
 
         expect(
-          inputs.customerMaterialInput.searchFormControl.setValue
+          inputs.customerMaterialInput.formControl.setValue
         ).toHaveBeenCalledWith(materialToEdit.customerMaterialNumber);
         expect(service['validateAutocompleteResult']).toHaveBeenCalledWith(
           FilterNames.CUSTOMER_MATERIAL,
@@ -697,7 +697,7 @@ describe('InitializeMaterialControlsServiceTsService', () => {
       test('should set for customerMaterialNumber with customerMaterialNumber not present and materialNumber present', () => {
         const inputs: EditMaterialInputs = {
           matNumberInput: {
-            searchFormControl: {
+            formControl: {
               setValue: jest.fn(),
             },
           },
@@ -713,9 +713,9 @@ describe('InitializeMaterialControlsServiceTsService', () => {
           cdref
         );
 
-        expect(
-          inputs.matNumberInput.searchFormControl.setValue
-        ).toHaveBeenCalledWith(materialToEdit.materialNumber);
+        expect(inputs.matNumberInput.formControl.setValue).toHaveBeenCalledWith(
+          materialToEdit.materialNumber
+        );
       });
     });
 
@@ -723,7 +723,7 @@ describe('InitializeMaterialControlsServiceTsService', () => {
       test('should set MaterialNumber if present', () => {
         const inputs: EditMaterialInputs = {
           matNumberInput: {
-            searchFormControl: {
+            formControl: {
               setValue: jest.fn(),
             },
           },
@@ -739,9 +739,9 @@ describe('InitializeMaterialControlsServiceTsService', () => {
           cdref
         );
 
-        expect(
-          inputs.matNumberInput.searchFormControl.setValue
-        ).toHaveBeenCalledWith(materialToEdit.materialNumber);
+        expect(inputs.matNumberInput.formControl.setValue).toHaveBeenCalledWith(
+          materialToEdit.materialNumber
+        );
         expect(service['validateAutocompleteResult']).toHaveBeenCalledWith(
           FilterNames.MATERIAL_NUMBER,
           inputs,
@@ -752,7 +752,7 @@ describe('InitializeMaterialControlsServiceTsService', () => {
       test('should set customerMaterial when materialNumer is not present', () => {
         const inputs: EditMaterialInputs = {
           customerMaterialInput: {
-            searchFormControl: {
+            formControl: {
               setValue: jest.fn(),
             },
           },
@@ -769,7 +769,7 @@ describe('InitializeMaterialControlsServiceTsService', () => {
         );
 
         expect(
-          inputs.customerMaterialInput.searchFormControl.setValue
+          inputs.customerMaterialInput.formControl.setValue
         ).toHaveBeenCalledWith(materialToEdit.customerMaterialNumber);
         expect(service['validateAutocompleteResult']).toHaveBeenCalledWith(
           FilterNames.CUSTOMER_MATERIAL,

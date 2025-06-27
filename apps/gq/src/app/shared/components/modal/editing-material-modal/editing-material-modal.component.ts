@@ -53,8 +53,10 @@ import {
   ValidationDescription,
 } from '../../../models/table';
 import { priceValidator } from '../../../validators/price-validator';
-import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
+import { CustomerMaterialAutoCompleteInputComponent } from '../../autocomplete-input/customer-material/customer-material-autocomplete-input.component';
+import { MaterialDescriptionAutoCompleteInputComponent } from '../../autocomplete-input/material-description/material-description-autocomplete-input.component';
+import { MaterialNumberAutoCompleteInputComponent } from '../../autocomplete-input/material-number/material-number-autocomplete-input.component';
 import { DialogHeaderModule } from '../../header/dialog-header/dialog-header.module';
 import { TargetPriceSourceSelectComponent } from '../../target-price-source-select/target-price-source-select.component';
 import { EditMaterialModalData } from './edit-material-modal-data.model';
@@ -71,7 +73,6 @@ const TARGET_PRICE_SOURCE_FORM_CONTROL_NAME = 'targetPriceSource';
   templateUrl: './editing-material-modal.component.html',
   imports: [
     CommonModule,
-    AutocompleteInputComponent,
     MatInputModule,
     DialogHeaderModule,
     FormsModule,
@@ -83,6 +84,9 @@ const TARGET_PRICE_SOURCE_FORM_CONTROL_NAME = 'targetPriceSource';
     SharedTranslocoModule,
     LetDirective,
     TargetPriceSourceSelectComponent,
+    CustomerMaterialAutoCompleteInputComponent,
+    MaterialNumberAutoCompleteInputComponent,
+    MaterialDescriptionAutoCompleteInputComponent,
   ],
 })
 export class EditingMaterialModalComponent
@@ -131,6 +135,8 @@ export class EditingMaterialModalComponent
     this.autoCompleteFacade.customerMaterialNumberForEditMaterial$;
   customerMaterialAutocompleteLoading$ =
     this.autoCompleteFacade.customerMaterialNumberLoading$;
+  defaultCustomerMaterialNumber$: Observable<string> =
+    this.autoCompleteFacade.defaultCustomerMaterialNumber$;
   editFormGroup: FormGroup;
   fields: MaterialColumnFields;
   isCaseView: boolean;
@@ -141,11 +147,11 @@ export class EditingMaterialModalComponent
   private targetPrice: string;
 
   @ViewChild('materialNumberInput')
-  public matNumberInput: AutocompleteInputComponent;
+  public matNumberInput: MaterialNumberAutoCompleteInputComponent;
   @ViewChild('materialDescInput')
-  public matDescInput: AutocompleteInputComponent;
+  public matDescInput: MaterialDescriptionAutoCompleteInputComponent;
   @ViewChild('customerMaterialInput')
-  public customerMaterialInput: AutocompleteInputComponent;
+  public customerMaterialInput: CustomerMaterialAutoCompleteInputComponent;
   @ViewChild('valueInput')
   public valueInput: ElementRef<HTMLInputElement>;
   @ViewChild('targetPriceInput')

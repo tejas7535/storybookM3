@@ -1,0 +1,77 @@
+<mat-form-field
+  #formField
+  class="w-full"
+  appearance="outline"
+  *transloco="let t; read: 'shared.caseMaterial.addEntry'"
+  [ngClass]="{ 'error-quotation': !isValid }"
+>
+  <mat-label class="error-quotation-label">{{
+    t(filterName + '.label')
+  }}</mat-label>
+  <input
+    [formControl]="formControl"
+    (paste)="onPaste($event)"
+    (blur)="onBlur($event)"
+    (focus)="onFocus($event)"
+    matInput
+    #valueInput
+    [matAutocomplete]="auto"
+    cdkFocusInitial
+    [maxlength]="maxLength()"
+    pinDropDown="matAutocompleteTrigger"
+    [attr.data-cy]="'autocomplete-' + filterName + '_input'"
+  />
+  @if (isLoading()) {
+    <mat-spinner matSuffix [diameter]="18"></mat-spinner>
+  }
+
+  @if (showFieldHint()) {
+    <mat-hint>{{ t(filterName + '.hint') }}</mat-hint>
+  }
+  @if (maxLength()) {
+    <mat-hint align="end" class="whitespace-nowrap">{{
+      (formControl.value?.length?.toString() || '0') +
+        ' / ' +
+        maxLength().toString()
+    }}</mat-hint>
+  }
+  @if (formControl.hasError('invalidInput')) {
+    <mat-error>{{ t(filterName + '.wrongInput') }}</mat-error>
+  }
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    [autoActiveFirstOption]="false"
+    (optionSelected)="selected($event)"
+  >
+    @for (
+      idValue of autocompleteOptions;
+      track idValue.id + idValue.value + idValue.value2;
+      let first = $first
+    ) {
+      @if (first && showDefaultValueWhenEmptyInputHint) {
+        <mat-option disabled [value]="idValue">
+          {{ t(filterName + '.defaultValueWhenEmptyInputHint') }}
+        </mat-option>
+      } @else {
+        <mat-option [value]="idValue">
+          <span> {{ idValue.id }} | {{ idValue.value }}</span>
+          @if (idValue.value2) {
+            <span> | {{ idValue.value2 }}</span>
+          }
+        </mat-option>
+      }
+    }
+    @if (
+      autocompleteOptions
+        | noResultsFoundPipe
+          : selectedIdValue
+          : formControl.value
+          : isLoading()
+          : debounceIsActive
+    ) {
+      <mat-option disabled>
+        {{ t(filterName + '.nothingFound') }}
+      </mat-option>
+    }
+  </mat-autocomplete>
+</mat-form-field>

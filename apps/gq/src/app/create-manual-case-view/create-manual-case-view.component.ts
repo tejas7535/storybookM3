@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, DestroyRef, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -52,6 +58,7 @@ type typeAnimation = 'fade-in' | 'fade-out';
   providers: [
     { provide: TRANSLOCO_SCOPE, useValue: 'create-manual-case-view' },
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateManualCaseViewComponent implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);

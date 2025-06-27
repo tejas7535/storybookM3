@@ -311,6 +311,7 @@
         },
         "customerMaterial": {
           "hint": "Kundenmaterialnummer eingeben",
+          "defaultValueWhenEmptyInputHint": "Materialnummer wird automatisch ausgewählt",
           "label": "Kundenmaterialnummer",
           "nothingFound": "Keine Ergebnisse",
           "wrongInput": "Gib valide Kundenmaterialnummer eingeben"

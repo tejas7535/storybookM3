@@ -91,6 +91,11 @@ export const validateMaterialsOnCustomerAndSalesOrgSuccess = createAction(
   }>()
 );
 
+export const findDefaultCustomerMaterialNumberFor = createAction(
+  '[Create Case] Set Default Customer Material Number for Provided Material Number',
+  props<{ materialNumber: string; currentCustomerMaterialNumber: string }>()
+);
+
 export const createCase = createAction(
   '[Create Case] Create Case',
   props<{ createCaseData: CreateCaseHeaderData }>()

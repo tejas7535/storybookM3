@@ -45,8 +45,8 @@ import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
+import { CustomerAutoCompleteInputComponent } from '../../autocomplete-input/customer/customer-autocomplete-input.component';
 import { StatusCustomerInfoHeaderModule } from '../../header/status-customer-info-header/status-customer-info-header.module';
 import { EditCaseModalComponent } from '../../modal/edit-case-modal/edit-case-modal.component';
 import { EditCaseModalData } from '../../modal/edit-case-modal/edit-case-modal-data.model';
@@ -76,10 +76,10 @@ import { CaseHeaderInformationComponent } from '../case-header-information.compo
     MatButtonModule,
     MatIconModule,
     LetDirective,
-    AutocompleteInputComponent,
     StatusCustomerInfoHeaderModule,
     AutocompleteSelectionComponent,
     ShipToPartyModule,
+    CustomerAutoCompleteInputComponent,
   ],
   providers: [
     {
