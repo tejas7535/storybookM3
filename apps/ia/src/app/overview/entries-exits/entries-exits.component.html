@@ -1,15 +1,11 @@
-<div *transloco="let t; read: 'overview.workforceBalance'">
-  <h5 class="flex items-center">
+<div
+  *transloco="let t; read: 'overview.workforceBalance'"
+  class="flex flex-col items-center justify-center h-full"
+>
+  <h5 class="mr-auto">
     {{ t('title') }}
-    <mat-icon
-      [matTooltip]="t('hint', { dimension: dimensionHint })"
-      matTooltipClass="ia-tooltip-justify"
-      class="text-on-surface ml-1 cursor-default"
-    >
-      info
-    </mat-icon>
   </h5>
-  <div class="grid grid-cols-6 gap-4 pb-5">
+  <div class="h-full content-center grid grid-cols-6 gap-4">
     <ia-kpi
       class="col-span-2 text-center"
       [type]="'newJoiners'"
@@ -55,29 +51,5 @@
       [viewRights]="true"
       (openTeamMembers)="triggerExitEmployeesAction()"
     ></ia-kpi>
-
-    <ia-loose-doughnut-chart
-      class="col-span-3"
-      [data]="entriesDoughnutConfig"
-      [initialConfig]="initialConfig"
-      [isLoading]="isDataLoading"
-      [legendSelectAction]="legendSelectAction"
-    ></ia-loose-doughnut-chart>
-
-    <ia-loose-doughnut-chart
-      class="col-span-3"
-      [data]="exitsDoughnutConfig"
-      [initialConfig]="initialConfig"
-      [isLoading]="isDataLoading"
-      [legendSelectAction]="legendSelectAction"
-    ></ia-loose-doughnut-chart>
-  </div>
-  <div class="flex justify-center">
-    @if (!isDataLoading && !!entriesDoughnutConfig && !!exitsDoughnutConfig) {
-      <ia-external-legend
-        [legend]="legend"
-        (selectedLegendItem)="onSelectedLegendItem($event)"
-      ></ia-external-legend>
-    }
   </div>
 </div>

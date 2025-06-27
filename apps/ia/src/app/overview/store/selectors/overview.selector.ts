@@ -29,7 +29,6 @@ import {
   OverviewWorkforceBalanceMeta,
 } from '../../models';
 import { OverviewState, selectOverviewState } from '..';
-import * as utils from './overview-selector-utils';
 
 const DIMENSION_SERIE_ID = 'dimension';
 const BENCHMARK_SERIE_ID = 'benchmark';
@@ -195,12 +194,6 @@ export const getIsUserAllowedToViewDimensionRates = createSelector(
     !state.fluctuationRates.dimension.data?.responseModified
 );
 
-export const getIsLoadingDoughnutsConfig = createSelector(
-  selectOverviewState,
-  (overviewState: OverviewState) =>
-    overviewState.workforceBalanceMeta.dimension.loading
-);
-
 export const getInternalExitCount = createSelector(
   selectOverviewState,
   (overviewState: OverviewState) =>
@@ -225,17 +218,6 @@ export const getExternalEntryCount = createSelector(
     overviewState.workforceBalanceMeta.dimension.data?.externalEntryCount
 );
 
-export const getOverviewFluctuationExitsDoughnutConfig = createSelector(
-  getInternalExitCount,
-  getExternalExitCount,
-  (internalExitCount: number, externalExitCount: number) =>
-    utils.createDoughnutConfig(
-      internalExitCount ?? 0,
-      externalExitCount ?? 0,
-      'Exits'
-    )
-);
-
 export const getOverviewFluctuationExitsCount = createSelector(
   getExternalExitCount,
   getInternalExitCount,
@@ -258,17 +240,6 @@ export const getOverviewFluctuationTotalEmployeesCount = createSelector(
   selectOverviewState,
   (overviewState: OverviewState) =>
     overviewState.workforceBalanceMeta.dimension.data?.totalEmployeesCount
-);
-
-export const getOverviewFluctuationEntriesDoughnutConfig = createSelector(
-  getInternalEntryCount,
-  getExternalEntryCount,
-  (internalEntryCount: number, externalEntryCount: number) =>
-    utils.createDoughnutConfig(
-      internalEntryCount ?? 0,
-      externalEntryCount ?? 0,
-      'Entries'
-    )
 );
 
 export const getDefaultFluctuationChartConfig = createSelector(

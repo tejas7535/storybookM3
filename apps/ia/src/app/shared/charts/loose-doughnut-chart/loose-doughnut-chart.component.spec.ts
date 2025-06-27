@@ -106,7 +106,7 @@ describe('LooseDoughnutChartComponent', () => {
       const result = component.createSeriesOptions(data);
 
       expect(doughnutChartConfig.createPieChartSeries).toHaveBeenCalledWith(
-        ['60%', '70%'],
+        ['70%', '80%'],
         data.series[0].data[0].value,
         data.series[0].data[0].value,
         color,

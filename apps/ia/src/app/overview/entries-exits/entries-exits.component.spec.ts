@@ -12,12 +12,8 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { ExternalLegendComponent } from '../../shared/charts/external-legend/external-legend.component';
 import { LooseDoughnutChartComponent } from '../../shared/charts/loose-doughnut-chart/loose-doughnut-chart.component';
 import { LegendSelectAction } from '../../shared/charts/models';
-import { ChartLegendItem } from '../../shared/charts/models/chart-legend-item.model';
-import { DoughnutConfig } from '../../shared/charts/models/doughnut-config.model';
-import { DoughnutSeriesConfig } from '../../shared/charts/models/doughnut-series-config.model';
 import { KpiModule } from '../../shared/kpi/kpi.module';
 import { FilterDimension } from '../../shared/models';
-import { Color } from '../../shared/models/color';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { SharedModule } from '../../shared/shared.module';
 import { initialState } from '../store';
@@ -84,12 +80,6 @@ describe('EntriesExitsComponent', () => {
 
   describe('template', () => {
     test('should create template', () => {
-      component.entriesDoughnutConfig = new DoughnutConfig('Demo Entries', [
-        new DoughnutSeriesConfig([{ value: 23 }], 'entries', Color.WHITE),
-      ]);
-      component.exitsDoughnutConfig = new DoughnutConfig('Demo Exits', [
-        new DoughnutSeriesConfig([{ value: 23 }], 'exits', Color.TEXT_PRIMARY),
-      ]);
       component.entriesCount = 65;
       component.exitsCount = 72;
       component.exitEmployees = [];
@@ -100,29 +90,11 @@ describe('EntriesExitsComponent', () => {
       const kpiValues = fixture.debugElement
         .queryAll(By.css('h4'))
         .map((element) => element.nativeElement.textContent);
-      const charts = fixture.debugElement.queryAll(
-        By.css('ia-loose-doughnut-chart')
-      );
 
       const trimmedKpiValues = kpiValues.map((value) => value.trim());
       expect(trimmedKpiValues.length).toEqual(3);
       expect(trimmedKpiValues).toContainEqual(`${component.entriesCount}`);
       expect(trimmedKpiValues).toContainEqual(`${component.exitsCount}`);
-      expect(charts.length).toEqual(2);
-    });
-  });
-
-  describe('set data', () => {
-    test('should set data', () => {
-      const data: [DoughnutConfig, DoughnutConfig] = [
-        new DoughnutConfig('donnut 1', []),
-        new DoughnutConfig('donnut 2', []),
-      ];
-
-      component.data = data;
-
-      expect(component.entriesDoughnutConfig).toEqual(data[0]);
-      expect(component.exitsDoughnutConfig).toEqual(data[1]);
     });
   });
 
@@ -130,11 +102,9 @@ describe('EntriesExitsComponent', () => {
     test('should set dimensionHint and create legend', () => {
       const dimensionHint = 'test';
 
-      component.createLegend = jest.fn();
       component.dimensionHint = dimensionHint;
 
       expect(component.dimensionHint).toEqual(dimensionHint);
-      expect(component.createLegend).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -145,22 +115,6 @@ describe('EntriesExitsComponent', () => {
       component.onSelectedLegendItem(action);
 
       expect(component.legendSelectAction).toBe(action);
-    });
-  });
-
-  describe('createLegend', () => {
-    test('should create legend', () => {
-      component.createLegend();
-
-      expect(component.legend).toEqual([
-        new ChartLegendItem('translate it', Color.LIME, 'translate it', true),
-        new ChartLegendItem(
-          'translate it',
-          Color.LIGHT_BLUE,
-          'translate it',
-          true
-        ),
-      ]);
     });
   });
 

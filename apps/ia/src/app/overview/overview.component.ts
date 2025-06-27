@@ -11,7 +11,6 @@ import {
   getBeautifiedFilterValues,
   getSelectedDimension,
 } from '../core/store/selectors/filter/filter.selector';
-import { DoughnutConfig } from '../shared/charts/models/doughnut-config.model';
 import { EmployeeListDialogMetaFilters } from '../shared/dialogs/employee-list-dialog/models';
 import { EmployeeListDialogMetaHeadings } from '../shared/dialogs/employee-list-dialog/models/employee-list-dialog-meta-headings.model';
 import { AttritionOverTime, EmployeeWithAction } from '../shared/models';
@@ -41,7 +40,6 @@ import {
   getIsLoadingAttritionOverTimeOverview,
   getIsLoadingBenchmarkFluctuationRates,
   getIsLoadingDimensionFluctuationRates,
-  getIsLoadingDoughnutsConfig,
   getIsLoadingFluctuationRatesForChart,
   getIsLoadingOpenApplications,
   getIsLoadingOpenApplicationsCount,
@@ -57,9 +55,7 @@ import {
   getOverviewExternalExitEmployees,
   getOverviewExternalUnforcedExitEmployees,
   getOverviewFluctuationEntriesCount,
-  getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
-  getOverviewFluctuationExitsDoughnutConfig,
   getOverviewFluctuationTotalEmployeesCount,
   getResignedEmployees,
   getResignedEmployeesCount,
@@ -101,11 +97,8 @@ export class OverviewComponent implements OnInit {
   attritionEmployeesLoading$: Observable<boolean>;
 
   dimensionHint$: Observable<string>;
-  exitsDoughnutConfig$: Observable<DoughnutConfig>;
-  entriesDoughnutConfig$: Observable<DoughnutConfig>;
-  chartData$: Observable<[DoughnutConfig, DoughnutConfig]>;
 
-  isLoadingDoughnutsConfig$: Observable<boolean>;
+  isEntriesExitsLoading$: Observable<boolean>;
   entriesCount$: Observable<number>;
   exitsCount$: Observable<number>;
   exitEmployees$: Observable<EmployeeWithAction[]>;
@@ -245,21 +238,9 @@ export class OverviewComponent implements OnInit {
   }
 
   loadWorkforceBalanceData() {
-    this.entriesDoughnutConfig$ = this.store.select(
-      getOverviewFluctuationEntriesDoughnutConfig
+    this.isEntriesExitsLoading$ = this.store.select(
+      getIsLoadingDimensionFluctuationRates
     );
-    this.isLoadingDoughnutsConfig$ = this.store.select(
-      getIsLoadingDoughnutsConfig
-    );
-
-    this.exitsDoughnutConfig$ = this.store.select(
-      getOverviewFluctuationExitsDoughnutConfig
-    );
-
-    this.chartData$ = combineLatest([
-      this.entriesDoughnutConfig$,
-      this.exitsDoughnutConfig$,
-    ]);
 
     this.entriesCount$ = this.store.select(getOverviewFluctuationEntriesCount);
     this.exitsCount$ = this.store.select(getOverviewFluctuationExitsCount);

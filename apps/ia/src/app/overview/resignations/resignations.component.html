@@ -2,11 +2,13 @@
   *transloco="let t; read: 'overview.resignationsReceived'"
   class="flex h-full w-full flex-col"
 >
-  <h5>{{ t('title') }}</h5>
+  <h5 class="flex items-center">
+    {{ t('title') }}
+    <mat-icon class="ml-1" [matTooltip]="t('tooltip')"> info </mat-icon>
+  </h5>
   <div class="pl-4">
     <span class="text-body-medium mt-4 flex flex-row">
       {{ t('totalResignations') }}&nbsp;({{ syncOn | date: 'dd/MM/yyyy' }})
-      <mat-icon class="ml-1" [matTooltip]="t('tooltip')"> info </mat-icon>
     </span>
     <h4 class="mb-4 flex flex-row">{{ totalCount | defaultValue }}</h4>
   </div>

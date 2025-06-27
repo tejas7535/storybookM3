@@ -77,30 +77,32 @@ export class LooseDoughnutChartComponent extends ExternalLegend {
   }
 
   createSeriesOptions = (data: DoughnutConfig): SeriesOption[] => {
-    let radiusStart = 60;
+    let radiusStart = 70;
     const radiusStep = 10;
     const radiusGap = 5;
 
-    const series: any[] = data.series.map((seriesObj: DoughnutSeriesConfig) => {
-      const radius = [`${radiusStart}%`, `${radiusStart + radiusStep}%`];
-      let totalValue = 0;
-      for (const serie of data.series) {
-        totalValue += serie.data[0].value;
+    const series: any[] = [data.series[0]].map(
+      (seriesObj: DoughnutSeriesConfig) => {
+        const radius = [`${radiusStart}%`, `${radiusStart + radiusStep}%`];
+        let totalValue = 0;
+        for (const serie of data.series) {
+          totalValue += serie.data[0].value;
+        }
+
+        const pieChartSeries = createPieChartSeries(
+          radius,
+          seriesObj.data[0].value,
+          totalValue,
+          seriesObj.color ?? Color.TEXT_PRIMARY,
+          data.name,
+          seriesObj.title
+        );
+
+        radiusStart += radiusStep + radiusGap;
+
+        return pieChartSeries;
       }
-
-      const pieChartSeries = createPieChartSeries(
-        radius,
-        seriesObj.data[0].value,
-        totalValue,
-        seriesObj.color ?? Color.TEXT_PRIMARY,
-        data.name,
-        seriesObj.title
-      );
-
-      radiusStart += radiusStep + radiusGap;
-
-      return pieChartSeries;
-    });
+    );
 
     return series;
   };

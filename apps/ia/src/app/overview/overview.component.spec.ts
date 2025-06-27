@@ -6,7 +6,6 @@ import { marbles } from 'rxjs-marbles/marbles';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { getAreOpenApplicationsAvailable } from '../core/store/selectors';
-import { DoughnutConfig } from '../shared/charts/models';
 import { FluctuationKpi, OpenApplication } from './models';
 import { OverviewComponent } from './overview.component';
 import {
@@ -23,7 +22,6 @@ import {
   getIsLoadingAttritionOverTimeOverview,
   getIsLoadingBenchmarkFluctuationRates,
   getIsLoadingDimensionFluctuationRates,
-  getIsLoadingDoughnutsConfig,
   getIsLoadingFluctuationRatesForChart,
   getIsLoadingOpenApplications,
   getIsLoadingOpenApplicationsCount,
@@ -36,9 +34,7 @@ import {
   getOverviewExternalExitEmployees,
   getOverviewExternalUnforcedExitEmployees,
   getOverviewFluctuationEntriesCount,
-  getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
-  getOverviewFluctuationExitsDoughnutConfig,
   getResignedEmployeesSyncOn,
 } from './store/selectors/overview.selector';
 
@@ -151,79 +147,17 @@ describe('OverviewComponent', () => {
       })
     );
 
-    test(
-      'should set isLoadingDoughnutsConfig$',
+    test('should set isEntriesExitsLoading$', () => {
       marbles((m) => {
-        const result = true;
-        store.overrideSelector(getIsLoadingDoughnutsConfig, result);
+        store.overrideSelector(getIsLoadingFluctuationRatesForChart, true);
         component.ngOnInit();
-        m.expect(component.isLoadingDoughnutsConfig$).toBeObservable(
+        m.expect(component.isEntriesExitsLoading$).toBeObservable(
           m.cold('a', {
-            a: result,
+            a: true,
           })
         );
-      })
-    );
-
-    test(
-      'should set entriesDoughnutConfig$',
-      marbles((m) => {
-        const result = new DoughnutConfig('donnut', []);
-        store.overrideSelector(
-          getOverviewFluctuationEntriesDoughnutConfig,
-          result
-        );
-        component.ngOnInit();
-        m.expect(component.entriesDoughnutConfig$).toBeObservable(
-          m.cold('a', {
-            a: result,
-          })
-        );
-      })
-    );
-
-    test(
-      'should set exitsDoughnutConfig$',
-      marbles((m) => {
-        const result = new DoughnutConfig('donnut', []);
-        store.overrideSelector(
-          getOverviewFluctuationExitsDoughnutConfig,
-          result
-        );
-        component.ngOnInit();
-        m.expect(component.exitsDoughnutConfig$).toBeObservable(
-          m.cold('a', {
-            a: result,
-          })
-        );
-      })
-    );
-
-    test(
-      'should set chartData$',
-      marbles((m) => {
-        const result: [DoughnutConfig, DoughnutConfig] = [
-          new DoughnutConfig('donnut 1', []),
-          new DoughnutConfig('donnut 2', []),
-        ];
-        store.overrideSelector(
-          getOverviewFluctuationEntriesDoughnutConfig,
-          result[0]
-        );
-        store.overrideSelector(
-          getOverviewFluctuationExitsDoughnutConfig,
-          result[1]
-        );
-
-        component.ngOnInit();
-
-        m.expect(component.chartData$).toBeObservable(
-          m.cold('a', {
-            a: result,
-          })
-        );
-      })
-    );
+      });
+    });
 
     test(
       'should set entriesCount$',

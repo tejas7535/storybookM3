@@ -1,11 +1,8 @@
 import moment from 'moment';
 
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
-import { DoughnutConfig } from '../../../shared/charts/models/doughnut-config.model';
-import { DoughnutSeriesConfig } from '../../../shared/charts/models/doughnut-series-config.model';
 import {
   ActionType,
-  Color,
   Employee,
   EmployeeWithAction,
   FilterDimension,
@@ -41,7 +38,6 @@ import {
   getIsLoadingAttritionOverTimeOverview,
   getIsLoadingBenchmarkFluctuationRates,
   getIsLoadingDimensionFluctuationRates,
-  getIsLoadingDoughnutsConfig,
   getIsLoadingFluctuationRatesForChart,
   getIsLoadingOpenApplications,
   getIsLoadingOpenApplicationsCount,
@@ -55,9 +51,7 @@ import {
   getOverviewExternalExitEmployees,
   getOverviewExternalUnforcedExitEmployees,
   getOverviewFluctuationEntriesCount,
-  getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
-  getOverviewFluctuationExitsDoughnutConfig,
   getOverviewFluctuationTotalEmployeesCount,
   getResignedEmployees,
   getResignedEmployeesCount,
@@ -408,42 +402,6 @@ describe('Overview Selector', () => {
         unforcedFluctuationRate: 8.1,
         responseModified: false,
       });
-    });
-  });
-
-  describe('getIsLoadingDoughnutsConfig', () => {
-    it('should return true when doughnuts config loading', () => {
-      expect(getIsLoadingDoughnutsConfig(fakeState)).toBeTruthy();
-    });
-  });
-
-  describe('getOverviewFluctuationEntriesDoughnutConfig', () => {
-    it('should return config for doughnut chart with entries', () => {
-      expect(getOverviewFluctuationEntriesDoughnutConfig(fakeState)).toEqual(
-        new DoughnutConfig('Entries', [
-          new DoughnutSeriesConfig([{ value: 2 }], 'internal', Color.LIME),
-          new DoughnutSeriesConfig(
-            [{ value: 5 }],
-            'external',
-            Color.LIGHT_BLUE
-          ),
-        ])
-      );
-    });
-  });
-
-  describe('getOverviewFluctuationExitsDoughnutConfig', () => {
-    it('should return config for doughnut chart with exits', () => {
-      expect(getOverviewFluctuationExitsDoughnutConfig(fakeState)).toEqual(
-        new DoughnutConfig('Exits', [
-          new DoughnutSeriesConfig([{ value: 5 }], 'internal', Color.LIME),
-          new DoughnutSeriesConfig(
-            [{ value: 3 }],
-            'external',
-            Color.LIGHT_BLUE
-          ),
-        ])
-      );
     });
   });
 
