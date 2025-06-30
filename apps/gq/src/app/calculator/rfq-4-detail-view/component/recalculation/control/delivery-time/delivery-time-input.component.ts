@@ -48,7 +48,6 @@ export class DeliveryTimeInputComponent
   deliveryTimeUnitFormControl: FormControl;
 
   deliveryTimeUnitOptions = [
-    { value: DeliveryTimeUnit.YEARS },
     { value: DeliveryTimeUnit.MONTHS },
     { value: DeliveryTimeUnit.DAYS },
   ];

@@ -71,14 +71,18 @@
         }
       },
       "validation": {
-        "notValid": "Enter valid {fieldName}",
+        "notValid": "Enter decimal number",
         "required": "{fieldName} required",
-        "maxlength": "Max {inputLimit} places allowed",
-        "notAllowedNegativeValues": "Enter a number greater than 0",
+        "maxlength": "Enter max {inputLimit} digits",
+        "notAllowedNegativeValues": "Enter number greater than 0",
         "notAllowedDecimals": "Enter integer only",
-        "maxDecimalsAllowed": "Max {decimalLimit} decimal numbers allowed",
+        "maxDecimalsAllowed": "Enter max {decimalLimit} decimal places",
         "invalidProductionPlant": "Enter valid Production Plant",
-        "maxCharacters": "Max {charLimit} Characters allowed"
+        "maxCharacters": "Enter max {charLimit} characters"
+      },
+      "snackBarMessages": {
+        "saved": "Recalculation input saved successfully",
+        "error": "An error occurred while saving the Recalculation input. Try again later"
       }
     },
     "snackBarMessages": {

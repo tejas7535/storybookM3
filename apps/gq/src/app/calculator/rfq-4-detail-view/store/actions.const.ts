@@ -22,4 +22,10 @@ export const RFQ4_DETAIL_VIEW_ACTIONS = {
   ASSIGN_RFQ: '[RFQ4 Detail View] Assign RFQ',
   ASSIGN_RFQ_SUCCESS: '[RFQ4 Detail View] Assign RFQ Success',
   ASSIGN_RFQ_FAILURE: '[RFQ4 Detail View] Assign RFQ Failure',
+  SAVE_RFQ4_DETAIL_VIEW_CALCULATION_DATA:
+    '[RFQ4 Detail View] Save RFQ4 Detail View Calculation Data',
+  SAVE_RFQ4_DETAIL_VIEW_CALCULATION_DATA_SUCCESS:
+    '[RFQ4 Detail View] Save RFQ4 Detail View Calculation Data Success',
+  SAVE_RFQ4_DETAIL_VIEW_CALCULATION_DATA_FAILURE:
+    '[RFQ4 Detail View] Save RFQ4 Detail View Calculation Data Failure',
 };

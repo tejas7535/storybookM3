@@ -8,9 +8,11 @@ import { Rfq4PathsEnum } from '@gq/shared/services/rest/rfq4/models/rfq-4-paths.
 
 import {
   CalculatorRfq4ProcessData,
+  RfqDetailViewCalculationData,
   RfqDetailViewData,
 } from '../../models/rfq-4-detail-view-data.interface';
 import { DetailViewPaths } from './rfq-4-detail-view-paths.enum';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -27,6 +29,16 @@ export class Rfq4DetailViewService {
     return this.http.post<CalculatorRfq4ProcessData>(
       `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${DetailViewPaths.PATH_CALCULATOR}/${rfqId}/${DetailViewPaths.PATH_CLAIM_CALCULATION}`,
       {}
+    );
+  }
+
+  saveRfq4CalculationData(
+    rfqId: number,
+    requestBody: RfqDetailViewCalculationData
+  ): Observable<RfqDetailViewCalculationData> {
+    return this.http.post<RfqDetailViewCalculationData>(
+      `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${DetailViewPaths.PATH_CALCULATOR}/${rfqId}/${DetailViewPaths.PATH_RFQ4_RECALCULATE_DETAIL_VIEW_SAVE}`,
+      requestBody
     );
   }
 }

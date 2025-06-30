@@ -22,7 +22,7 @@ export abstract class BaseInputComponent
 
   ngOnInit(): void {
     this.form = this.rootFormGroup.control;
-    this.formControl = this.rootFormGroup.control.get(
+    this.formControl = this.rootFormGroup.control?.get(
       this.formControlName()
     ) as FormControl;
   }

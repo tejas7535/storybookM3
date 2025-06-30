@@ -290,6 +290,32 @@ describe('MiscUtils', () => {
     });
   });
 
+  describe('parseNumberValueToLocalizedInputValue', () => {
+    [
+      {
+        locale: 'de-DE',
+        inputs: [undefined, 10.23, 1.5],
+        expectedOutputs: [null, '10,23', '1,5'],
+      },
+      {
+        locale: 'en-US',
+        inputs: [undefined, 10.23, 1.5],
+        expectedOutputs: [null, '10.23', '1.5'],
+      },
+    ].forEach((testCase) => {
+      testCase.inputs.forEach((input, index) => {
+        test(`should return ${testCase.expectedOutputs[index]} for ${testCase.inputs[index]} for locale ${testCase.locale}`, () => {
+          const result = miscUtils.parseNumberValueToLocalizedInputValue(
+            input,
+            testCase.locale
+          );
+
+          expect(result).toEqual(testCase.expectedOutputs[index]);
+        });
+      });
+    });
+  });
+
   describe('parseNullableLocalizedInputValue', () => {
     [
       {

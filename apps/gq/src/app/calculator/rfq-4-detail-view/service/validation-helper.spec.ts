@@ -22,121 +22,154 @@ describe('ValidationHelper', () => {
     service = spectator.service;
   });
 
-  describe('validateNoDecimalsAllowed', () => {
-    test('should return null for integer values', () => {
-      const control = new FormControl('123');
-      const result = service.validateNoDecimalsAllowed()(control);
-      expect(result).toBeNull();
+  describe('validateNumericInputWithDecimals', () => {
+    test('should return null when value is null', () => {
+      const control = new FormControl(null);
+      const result = service.validateNumericInputWithDecimals()(control);
+      expect(result).toEqual(null);
     });
 
-    test('should return an error object for decimal values', () => {
-      const control = new FormControl('123.45');
-      const result = service.validateNoDecimalsAllowed()(control);
-      expect(result).toEqual({ notAllowedDecimals: true });
-    });
-
-    test('should return an error object for values with commas', () => {
-      const control = new FormControl('123,45');
-      const result = service.validateNoDecimalsAllowed()(control);
-      expect(result).toEqual({ notAllowedDecimals: true });
-    });
-  });
-
-  describe('validateOnlyNumbersAllowed', () => {
-    test('should return null for integer values', () => {
-      const control = new FormControl('123');
-      const result = service.validateOnlyNumbersAllowed()(control);
-      expect(result).toBeNull();
-    });
-
-    test('should return an error object for decimal values', () => {
-      const control = new FormControl('123.45');
-      const result = service.validateOnlyNumbersAllowed()(control);
-      expect(result).toEqual({ notValid: true });
-    });
-
-    test('should return an error object for values with letters', () => {
-      const control = new FormControl('123aa');
-      const result = service.validateOnlyNumbersAllowed()(control);
-      expect(result).toEqual({ notValid: true });
-    });
-  });
-
-  describe('validateNegativeValue', () => {
-    test('should return null for positive values', () => {
-      const control = new FormControl('123');
-      const result = service.validateNegativeValue()(control);
-      expect(result).toBeNull();
-    });
-
-    test('should return an error object for negative values', () => {
-      const control = new FormControl('-123');
-      const result = service.validateNegativeValue()(control);
-      expect(result).toEqual({ notAllowedNegativeValues: true });
-    });
-
-    test('should return an error object for zero value', () => {
+    test('should return an error when value is 0', () => {
       const control = new FormControl('0');
-      const result = service.validateNegativeValue()(control);
+      const result = service.validateNumericInputWithDecimals()(control);
       expect(result).toEqual({ notAllowedNegativeValues: true });
     });
-  });
 
-  describe('validateMaxLengthWithDecimals', () => {
-    test('should return null for valid length', () => {
-      const control = new FormControl('123.45');
-      const result = service.validateMaxLengthWithDecimals(6)(control);
-      expect(result).toBeNull();
+    test('should return an error when value is 0.00', () => {
+      const control = new FormControl('0.00');
+      const result = service.validateNumericInputWithDecimals()(control);
+      expect(result).toEqual({ notAllowedNegativeValues: true });
     });
 
-    test('should return an error object for exceeding length', () => {
-      const control = new FormControl('123456.78');
-      const result = service.validateMaxLengthWithDecimals(6)(control);
+    test('should return an error when value is 0,00', () => {
+      const control = new FormControl('0,00');
+      const result = service.validateNumericInputWithDecimals()(control);
+      expect(result).toEqual({ notAllowedNegativeValues: true });
+    });
+
+    test('should return an error when value has leading zeros', () => {
+      const control = new FormControl('001');
+      const result = service.validateNumericInputWithDecimals()(control);
+      expect(result).toEqual({ notAllowedNegativeValues: true });
+    });
+
+    test('should return an error when value has leading zeros and comma', () => {
+      const control = new FormControl('001,');
+      const result = service.validateNumericInputWithDecimals()(control);
+      expect(result).toEqual({ notAllowedNegativeValues: true });
+    });
+
+    test('should return an error when value has leading zeros and dot', () => {
+      const control = new FormControl('001.');
+      const result = service.validateNumericInputWithDecimals()(control);
+      expect(result).toEqual({ notAllowedNegativeValues: true });
+    });
+
+    test('should return an error when value is less than zero and contains dot', () => {
+      const control = new FormControl('-21.23');
+      const result = service.validateNumericInputWithDecimals()(control);
+      expect(result).toEqual({ notAllowedNegativeValues: true });
+    });
+
+    test('should return an error when value is less than zero and contains letter', () => {
+      const control = new FormControl('-21a');
+      const result = service.validateNumericInputWithDecimals()(control);
+      expect(result).toEqual({ notValid: true });
+    });
+
+    test('should return an error when value is longer than max length allowed', () => {
+      const control = new FormControl('12345');
+      const result = service.validateNumericInputWithDecimals(4)(control);
       expect(result).toEqual({ maxlength: true });
     });
 
-    test('should return an error object for exceeding length with commas and dots', () => {
-      const control = new FormControl('123,456.78');
-      const result = service.validateMaxLengthWithDecimals(6)(control);
+    test('should return an error when value is longer than max digits allowed', () => {
+      const control = new FormControl('12345.67');
+      const result = service.validateNumericInputWithDecimals(4)(control);
       expect(result).toEqual({ maxlength: true });
     });
 
-    test('should return null for empty value', () => {
-      const control = new FormControl('');
-      const result = service.validateMaxLengthWithDecimals(6)(control);
-      expect(result).toBeNull();
-    });
-  });
-
-  describe('validateForNumericWithMaxDecimals', () => {
     test('should return null for valid numeric values', () => {
       const control = new FormControl('123.45');
-      const result = service.validateForNumericWithMaxDecimals()(control);
+      const result = service.validateNumericInputWithDecimals()(control);
       expect(result).toBeNull();
     });
 
     test('should return an error object for non-numeric values', () => {
       const control = new FormControl('abc');
-      const result = service.validateForNumericWithMaxDecimals()(control);
+      const result = service.validateNumericInputWithDecimals()(control);
       expect(result).toEqual({ notValid: true });
     });
 
     test('should return null for empty value', () => {
       const control = new FormControl(' ');
-      const result = service.validateForNumericWithMaxDecimals()(control);
+      const result = service.validateNumericInputWithDecimals()(control);
       expect(result).toEqual({ notValid: true });
     });
 
     test('should return maxDecimalsAllowed when value has more than two decimal places', () => {
       const control = new FormControl('123.456');
-      const result = service.validateForNumericWithMaxDecimals()(control);
+      const result = service.validateNumericInputWithDecimals()(control);
       expect(result).toEqual({ maxDecimalsAllowed: true });
     });
 
     test('should return notValid when value has more than one decimal part', () => {
       const control = new FormControl('123.45.56');
-      const result = service.validateForNumericWithMaxDecimals()(control);
+      const result = service.validateNumericInputWithDecimals()(control);
       expect(result).toEqual({ notValid: true });
+    });
+  });
+
+  describe('validateNumericInputWithoutDecimals', () => {
+    test('should return null when value is empty', () => {
+      const control = new FormControl(' ');
+      const result = service.validateNumericInputWithoutDecimals()(control);
+      expect(result).toEqual({ notAllowedDecimals: true });
+    });
+    test('should return null when value is null', () => {
+      const control = new FormControl(null);
+      const result = service.validateNumericInputWithoutDecimals()(control);
+      expect(result).toEqual(null);
+    });
+    test('should return an error when value has leading zeros', () => {
+      const control = new FormControl('001');
+      const result = service.validateNumericInputWithoutDecimals()(control);
+      expect(result).toEqual({ notAllowedNegativeValues: true });
+    });
+    test('should return an error when value contains dot', () => {
+      const control = new FormControl('123.45');
+      const result = service.validateNumericInputWithoutDecimals()(control);
+      expect(result).toEqual({ notAllowedDecimals: true });
+    });
+    test('should return an error when value contains comma', () => {
+      const control = new FormControl('123,45');
+      const result = service.validateNumericInputWithoutDecimals()(control);
+      expect(result).toEqual({ notAllowedDecimals: true });
+    });
+    test('should return an error when value contains not allowed characters', () => {
+      const control = new FormControl('-21.asd334');
+      const result = service.validateNumericInputWithoutDecimals()(control);
+      expect(result).toEqual({ notAllowedDecimals: true });
+    });
+    test('should return an error when value is less than zero', () => {
+      const control = new FormControl('-21');
+      const result = service.validateNumericInputWithoutDecimals()(control);
+      expect(result).toEqual({ notAllowedNegativeValues: true });
+    });
+    test('should return an error when value is less than zero and contains dot', () => {
+      const control = new FormControl('-21.23');
+      const result = service.validateNumericInputWithoutDecimals()(control);
+      expect(result).toEqual({ notAllowedDecimals: true });
+    });
+    test('should return an error when value is less than zero and contains comma', () => {
+      const control = new FormControl('-21,23');
+      const result = service.validateNumericInputWithoutDecimals()(control);
+      expect(result).toEqual({ notAllowedDecimals: true });
+    });
+    test('should return an error when value is longer than max length allowed', () => {
+      const control = new FormControl('12345');
+      const result = service.validateNumericInputWithoutDecimals(4)(control);
+      expect(result).toEqual({ maxlength: true });
     });
   });
 });

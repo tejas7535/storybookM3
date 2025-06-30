@@ -74,6 +74,21 @@ export const calculateDuration = (
 export const getMomentUtcStartOfDayDate = (date: string): moment.Moment =>
   moment(date).utc().startOf('day');
 
+export const parseNumberValueToLocalizedInputValue = (
+  val: number,
+  locale: string
+): string => {
+  if (!val) {
+    return null;
+  }
+  const isGermanLocale = locale === LOCALE_DE.id;
+  const valueToString = val.toString();
+
+  return isGermanLocale
+    ? valueToString.replaceAll(Keyboard.DOT, Keyboard.COMMA)
+    : valueToString;
+};
+
 export const parseLocalizedInputValue = (
   val: string,
   locale: string

@@ -8,6 +8,7 @@ import { ApiVersion } from '@gq/shared/models';
 import { Rfq4PathsEnum } from '@gq/shared/services/rest/rfq4/models/rfq-4-paths.enum';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
+import { RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK } from '../../../../../testing/mocks/models/calculator/rfq-4-detail-view/rfq-4-detail-view-data.mock';
 import { Rfq4DetailViewService } from './rfq-4-detail-view.service';
 import { DetailViewPaths } from './rfq-4-detail-view-paths.enum';
 
@@ -54,6 +55,20 @@ describe('Rfq4DetailViewService', () => {
       );
 
       expect(req.request.method).toBe('POST');
+    });
+  });
+
+  describe('saveRfq4CalculationData', () => {
+    test('should call post with correct url and request body', () => {
+      service
+        .saveRfq4CalculationData(123, RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK)
+        .subscribe();
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${DetailViewPaths.PATH_CALCULATOR}/123/${DetailViewPaths.PATH_RFQ4_RECALCULATE_DETAIL_VIEW_SAVE}`
+      );
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual(RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK);
     });
   });
 });

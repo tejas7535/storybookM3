@@ -1,3 +1,4 @@
+import { DeliveryTimeUnit } from '@gq/calculator/rfq-4-detail-view/component/recalculation/control/delivery-time/delivery-time-input.component';
 import { CustomerId } from '@gq/shared/models';
 import { GQUser } from '@gq/shared/models/user.model';
 
@@ -8,6 +9,7 @@ export interface RfqDetailViewData {
   quotationData: CalculatorQuotationData;
   quotationDetailData: CalculatorQuotationDetailData;
   rfq4ProcessData: CalculatorRfq4ProcessData;
+  rfq4RecalculationData: RfqDetailViewCalculationData;
 }
 
 export interface CalculatorCustomerData {
@@ -26,6 +28,7 @@ export interface CalculatorQuotationData {
 export interface CalculatorQuotationDetailData {
   gqPositionId: string;
   orderQuantity: number;
+  priceUnit: number;
   deliveryUnit: number | null;
   materialData: CalculatorMaterialData;
 }
@@ -61,4 +64,17 @@ export interface ProductionPlantForRfq {
   plantNumber: string;
   city: string;
   country: string;
+}
+
+export interface RfqDetailViewCalculationData {
+  currency: string;
+  sqv: number;
+  lotSize: number;
+  priceUnit: number;
+  toolCosts: number;
+  productionPlantNumber: string;
+  comment: string;
+  calculationDetails: string;
+  deliveryTime: number;
+  deliveryTimeUnit: DeliveryTimeUnit;
 }

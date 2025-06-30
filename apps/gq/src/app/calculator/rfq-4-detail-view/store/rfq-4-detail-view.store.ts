@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { computed, effect, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -28,6 +29,7 @@ import {
   CalculatorRfq4ProcessData,
   ProductionPlantData,
   ProductionPlantForRfq,
+  RfqDetailViewCalculationData,
   RfqDetailViewData,
 } from '../models/rfq-4-detail-view-data.interface';
 import { Rfq4DetailViewService } from '../service/rest/rfq-4-detail-view.service';
@@ -89,6 +91,16 @@ export const Rfq4DetailViewStore = signalStore(
       (): RecalculateSqvStatus =>
         store.rfq4DetailViewData()?.rfq4ProcessData
           .calculatorRequestRecalculationStatus
+    ),
+    getRfq4DetailViewCalculationData: computed(
+      (): RfqDetailViewCalculationData =>
+        store.rfq4DetailViewData()?.rfq4RecalculationData
+    ),
+    getSelectedProdPlant: computed(
+      (): string =>
+        store.rfq4DetailViewData()?.rfq4RecalculationData
+          ?.productionPlantNumber ??
+        store.rfq4DetailViewData().rfq4ProcessData.processProductionPlant
     ),
   })),
   withProps(() => ({
@@ -266,6 +278,63 @@ export const Rfq4DetailViewStore = signalStore(
           )
         )
       );
+      const saveRfq4DetailViewCalculationData =
+        rxMethod<RfqDetailViewCalculationData>(
+          pipe(
+            tap((calculationData: RfqDetailViewCalculationData) =>
+              updateState(
+                store,
+                RFQ4_DETAIL_VIEW_ACTIONS.SAVE_RFQ4_DETAIL_VIEW_CALCULATION_DATA,
+                {
+                  rfq4DetailViewData: {
+                    ...store.rfq4DetailViewData(),
+                    rfq4RecalculationData: calculationData,
+                  },
+                  rfq4DetailViewDataLoading: true,
+                }
+              )
+            ),
+            switchMap((calculationData: RfqDetailViewCalculationData) =>
+              rfq4DetailViewService
+                .saveRfq4CalculationData(
+                  store.getRfq4ProcessData()?.rfqId,
+                  calculationData
+                )
+                .pipe(
+                  tapResponse({
+                    next: (response: RfqDetailViewCalculationData) => {
+                      updateState(
+                        store,
+                        RFQ4_DETAIL_VIEW_ACTIONS.SAVE_RFQ4_DETAIL_VIEW_CALCULATION_DATA_SUCCESS,
+                        {
+                          rfq4DetailViewData: {
+                            ...store.rfq4DetailViewData(),
+                            rfq4RecalculationData: response,
+                          },
+                          rfq4DetailViewDataLoading: false,
+                        }
+                      );
+                      const successMessage = translate(
+                        'calculator.rfq4DetailView.recalculation.snackBarMessages.saved'
+                      );
+                      snackBar.open(successMessage);
+                    },
+                    error: () => {
+                      updateState(
+                        store,
+                        RFQ4_DETAIL_VIEW_ACTIONS.SAVE_RFQ4_DETAIL_VIEW_CALCULATION_DATA_FAILURE,
+                        { rfq4DetailViewDataLoading: false }
+                      );
+                      const errorMessage = translate(
+                        'calculator.rfq4DetailView.recalculation.snackBarMessages.error'
+                      );
+                      snackBar.open(errorMessage);
+                    },
+                  })
+                )
+            )
+          )
+        );
 
       const assignRfq = rxMethod<void>(
         pipe(
@@ -316,6 +385,7 @@ export const Rfq4DetailViewStore = signalStore(
         loadProcessStartedByAdUser,
         assignRfq,
         loadProductionPlants,
+        saveRfq4DetailViewCalculationData,
       };
     }
   ),

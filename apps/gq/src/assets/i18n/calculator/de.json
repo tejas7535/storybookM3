@@ -71,14 +71,18 @@
         }
       },
       "validation": {
-        "notValid": "Gib gültigen {fieldName} ein",
+        "notValid": "Gib Dezimalzahl ein",
         "required": "{fieldName} erforderlich",
-        "maxlength": "Max {inputLimit} Ziffern erlaubt",
-        "notAllowedNegativeValues": "Gib eine Zahl größer 0 ein",
-        "notAllowedDecimals": "Gib eine Ganzzahl ein",
-        "maxDecimalsAllowed": "Max {decimalLimit} Nachkommastellen erlaubt",
-        "invalidProductionPlant": "Gib ein valides Produktionswerk ein",
-        "maxCharacters": "Max {charLimit} Zeichen erlaubt"
+        "maxlength": "Gib max {inputLimit} Ziffern ein",
+        "notAllowedNegativeValues": "Gib Zahl größer 0 ein",
+        "notAllowedDecimals": "Gib Ganzzahl ein",
+        "maxDecimalsAllowed": "Gib max {decimalLimit} Nachkommastellen ein",
+        "invalidProductionPlant": "Gib valides Produktionswerk ein",
+        "maxCharacters": "Gib max {charLimit} Zeichen ein"
+      },
+      "snackBarMessages": {
+        "saved": "Eingabe zur Wiederholkalkulation erfolgreich gespeichert",
+        "error": "Beim Speichern der Eingabe für die Wiederholkalkulation ist ein Fehler aufgetreten. Versuche es später erneut"
       }
     },
     "snackBarMessages": {

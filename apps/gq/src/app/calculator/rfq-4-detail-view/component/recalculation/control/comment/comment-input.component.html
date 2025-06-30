@@ -8,16 +8,20 @@
 >
   <mat-form-field appearance="outline" class="w-full">
     <mat-label>{{ t('label') }}</mat-label>
-    <input matInput type="text" [formControlName]="formControlName()" />
-    @if (formControl.errors) {
-      <mat-error>
-        <gq-show-error
-          [errors]="formControl.errors"
-          [label]="t('label')"
-        ></gq-show-error>
-      </mat-error>
-    } @else {
-      <mat-hint>{{ t('hint') }}</mat-hint>
-    }
+    <textarea
+      class="text-overline !leading-7"
+      [formControlName]="formControlName()"
+      appearance="fill"
+      type="text"
+      maxlength="1000"
+      cdkTextareaAutosize
+      cdkAutosizeMinRows="1"
+      cdkAutosizeMaxRows="4"
+      matInput
+    ></textarea>
+    <mat-hint align="start">{{ t('hint') }}</mat-hint>
+    <mat-hint align="end">
+      {{ formControl.value?.length || 0 }} / 1000</mat-hint
+    >
   </mat-form-field>
 </div>

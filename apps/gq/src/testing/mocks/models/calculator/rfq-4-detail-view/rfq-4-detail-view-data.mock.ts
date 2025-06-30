@@ -1,4 +1,5 @@
-import { RecalculateSqvStatus } from '../../../../../app/calculator/rfq-4-detail-view/models/recalculate-sqv-status.enum';
+import { DeliveryTimeUnit } from '@gq/calculator/rfq-4-detail-view/component/recalculation/control/delivery-time/delivery-time-input.component';
+import { RecalculateSqvStatus } from '@gq/calculator/rfq-4-detail-view/models/recalculate-sqv-status.enum';
 import {
   CalculatorCustomerData,
   CalculatorMaterialData,
@@ -6,8 +7,9 @@ import {
   CalculatorQuotationDetailData,
   CalculatorRfq4ProcessData,
   ProductionPlantForRfq,
+  RfqDetailViewCalculationData,
   RfqDetailViewData,
-} from '../../../../../app/calculator/rfq-4-detail-view/models/rfq-4-detail-view-data.interface';
+} from '@gq/calculator/rfq-4-detail-view/models/rfq-4-detail-view-data.interface';
 
 export const CALCULATOR_CUSTOMER_DATA_MOCK: CalculatorCustomerData = {
   identifier: {
@@ -38,6 +40,7 @@ export const CALCULATOR_QUOTATION_DETAIL_DATA_MOCK: CalculatorQuotationDetailDat
   {
     gqPositionId: '12345',
     orderQuantity: 100,
+    priceUnit: 1,
     deliveryUnit: 100,
     materialData: CALCULATOR_MATERIAL_DATA_MOCK,
   };
@@ -54,11 +57,26 @@ export const CALCULATOR_RFQ_4_PROCESS_DATA_MOCK: CalculatorRfq4ProcessData = {
   processProductionPlant: '0072',
 };
 
+export const RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK: RfqDetailViewCalculationData =
+  {
+    currency: 'EUR',
+    sqv: 123_456.78,
+    lotSize: 1200,
+    priceUnit: 10,
+    toolCosts: 123.45,
+    productionPlantNumber: '0078',
+    comment: 'Comment',
+    calculationDetails: 'Calculator Data',
+    deliveryTime: 12,
+    deliveryTimeUnit: DeliveryTimeUnit.MONTHS,
+  };
+
 export const RFQ_DETAIL_VIEW_DATA_MOCK: RfqDetailViewData = {
   customerData: CALCULATOR_CUSTOMER_DATA_MOCK,
   quotationData: CALCULATOR_QUOTATION_DATA_MOCK,
   quotationDetailData: CALCULATOR_QUOTATION_DETAIL_DATA_MOCK,
   rfq4ProcessData: CALCULATOR_RFQ_4_PROCESS_DATA_MOCK,
+  rfq4RecalculationData: RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK,
 };
 
 export const RFQ_PRODUCTION_PLANTS: ProductionPlantForRfq[] = [
@@ -78,3 +96,16 @@ export const RFQ_PRODUCTION_PLANTS: ProductionPlantForRfq[] = [
     country: 'US',
   },
 ];
+
+export const RFQ_CALCULATION_DATA: RfqDetailViewCalculationData = {
+  currency: 'EUR',
+  sqv: 123_456.78,
+  lotSize: 1200,
+  priceUnit: 10,
+  toolCosts: 123.45,
+  productionPlantNumber: '0078',
+  comment: 'Comment',
+  calculationDetails: 'Calculator Data',
+  deliveryTime: 12,
+  deliveryTimeUnit: DeliveryTimeUnit.MONTHS,
+};

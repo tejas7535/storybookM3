@@ -4,7 +4,7 @@
   @if (errors()['required']) {
     {{ t('required', { fieldName: label() }) }}
   } @else if (errors()['notValid']) {
-    {{ t('notValid', { fieldName: label() }) }}
+    {{ t('notValid') }}
   } @else if (errors()['maxlength']) {
     {{ t('maxlength', { inputLimit: inputLimit() }) }}
   } @else if (errors()['notAllowedDecimals']) {

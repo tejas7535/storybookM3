@@ -12,7 +12,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 export class ShowErrorComponent {
   label: InputSignal<string> = input('');
   errors: InputSignal<ValidationErrors> = input.required<ValidationErrors>({});
-  inputLimit: InputSignal<number> = input(13);
+  inputLimit: InputSignal<number> = input(11);
   decimalLimit: InputSignal<number> = input(2);
   charLimit: InputSignal<number> = input(1000);
 }

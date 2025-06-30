@@ -50,6 +50,7 @@ describe('ProdPlantInputComponent', () => {
             CALCULATOR_RFQ_4_PROCESS_DATA_MOCK.processProductionPlant
           ),
           getProductionPlantsLoading: signal(false),
+          getSelectedProdPlant: signal('0072'),
         },
       },
       MockProvider(TranslocoLocaleService),

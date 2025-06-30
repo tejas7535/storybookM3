@@ -15,6 +15,7 @@ import {
   CALCULATOR_QUOTATION_DATA_MOCK,
   CALCULATOR_QUOTATION_DETAIL_DATA_MOCK,
   CALCULATOR_RFQ_4_PROCESS_DATA_MOCK,
+  RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK,
   RFQ_DETAIL_VIEW_DATA_MOCK,
   RFQ_PRODUCTION_PLANTS,
 } from '../../../../testing/mocks/models/calculator/rfq-4-detail-view/rfq-4-detail-view-data.mock';
@@ -34,6 +35,9 @@ describe('Rfq4DetailViewStore', () => {
         calculatorRequestRecalculationStatus: RecalculateSqvStatus.CONFIRMED,
       })
     ),
+    saveRfq4CalculationData: jest
+      .fn()
+      .mockReturnValue(of(RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK)),
   };
   const aadUser: ActiveDirectoryUser = {
     firstName: 'firstName',
@@ -167,6 +171,31 @@ describe('Rfq4DetailViewStore', () => {
         CALCULATOR_RFQ_4_PROCESS_DATA_MOCK.calculatorRequestRecalculationStatus
       );
     });
+    test('getSelectedProdPlant', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      patchState(unprotected(store), {
+        rfq4DetailViewData: RFQ_DETAIL_VIEW_DATA_MOCK,
+      });
+
+      const productionPlant = store.getSelectedProdPlant();
+      expect(productionPlant).toEqual(
+        RFQ_DETAIL_VIEW_DATA_MOCK.rfq4RecalculationData.productionPlantNumber
+      );
+    });
+    test('getSelectedProdPlant with process production plant', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      patchState(unprotected(store), {
+        rfq4DetailViewData: {
+          ...RFQ_DETAIL_VIEW_DATA_MOCK,
+          rfq4RecalculationData: null,
+        },
+      });
+
+      const productionPlant = store.getSelectedProdPlant();
+      expect(productionPlant).toEqual(
+        RFQ_DETAIL_VIEW_DATA_MOCK.rfq4ProcessData.processProductionPlant
+      );
+    });
   });
 
   describe('methods', () => {
@@ -246,6 +275,19 @@ describe('Rfq4DetailViewStore', () => {
       expect(store.snackBar.open).toHaveBeenCalled();
       expect(translate).toHaveBeenCalledWith(
         'calculator.rfq4DetailView.snackBarMessages.assignRfq'
+      );
+    });
+    test('saveRfq4DetailViewCalculationData', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+
+      store.saveRfq4DetailViewCalculationData(
+        RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK
+      );
+
+      expect(rfq4DetailViewService.saveRfq4CalculationData).toHaveBeenCalled();
+      expect(store.rfq4DetailViewDataLoading()).toBeFalsy();
+      expect(store.rfq4DetailViewData().rfq4RecalculationData).toEqual(
+        RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK
       );
     });
   });

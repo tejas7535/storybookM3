@@ -34,12 +34,10 @@ import { BaseInputComponent } from '../base-input.component';
 })
 export class ProdPlantInputComponent extends BaseInputComponent {
   private readonly store = inject(Rfq4DetailViewStore);
-
   private readonly productionPlants: Signal<ProductionPlantForRfq[]> =
     this.store.getProductionPlants;
-
-  readonly processProductionPlant: Signal<string> =
-    this.store.getProcessProductionPlant;
+  private readonly selectedProductionPlant: Signal<string> =
+    this.store.getSelectedProdPlant;
 
   readonly productionPlantsLoading: Signal<boolean> =
     this.store.getProductionPlantsLoading;
@@ -49,7 +47,8 @@ export class ProdPlantInputComponent extends BaseInputComponent {
       id: prodPlant.plantNumber,
       value: prodPlant.city,
       value2: prodPlant.country,
-      defaultSelection: prodPlant.plantNumber === this.processProductionPlant(),
+      defaultSelection:
+        prodPlant.plantNumber === this.selectedProductionPlant(),
     }))
   );
 }
