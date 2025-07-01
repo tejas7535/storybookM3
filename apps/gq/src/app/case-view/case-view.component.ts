@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
 import { OverviewCasesFacade } from '@gq/core/store/overview-cases/overview-cases.facade';
+import { UserSettingsStore } from '@gq/core/store/user-settings/user-settings.store';
 import { AgStatusBar } from '@gq/shared/ag-grid/models/ag-status-bar.model';
 import { ViewQuotation } from '@gq/shared/models/quotation';
 
@@ -16,6 +17,7 @@ import { ViewToggle } from '@schaeffler/view-toggle';
 })
 export class CaseViewComponent {
   private readonly overviewCasesFacade = inject(OverviewCasesFacade);
+  private readonly userSettingsStore = inject(UserSettingsStore);
 
   readonly caseViews$: Observable<ViewToggle[]> =
     this.overviewCasesFacade.viewToggles$;
@@ -29,6 +31,8 @@ export class CaseViewComponent {
     this.overviewCasesFacade.statusBarForQuotationStatus$;
   readonly activeTab$: Observable<QuotationTab> =
     this.overviewCasesFacade.activeTab$;
+
+  readonly userSettingsLoaded = this.userSettingsStore.userSettingsLoaded;
 
   onViewToggle(view: ViewToggle) {
     this.overviewCasesFacade.loadCasesForView(view.id);

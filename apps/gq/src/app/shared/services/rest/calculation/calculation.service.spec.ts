@@ -168,16 +168,4 @@ describe('CalculationService', () => {
       expect(result).toEqual(requestBody);
     });
   });
-
-  describe('requestBodyToHashCode', () => {
-    test('should hash request body', () => {
-      const requestBody = {
-        name: 'Guided Quoting',
-      };
-
-      const result = service['requestBodyToHashCode'](requestBody);
-
-      expect(result).toEqual('12262258836');
-    });
-  });
 });

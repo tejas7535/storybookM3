@@ -1,9 +1,16 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { of } from 'rxjs';
 
 import { OverviewCasesFacade } from '@gq/core/store/overview-cases/overview-cases.facade';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { UserSettingsStore } from '@gq/core/store/user-settings/user-settings.store';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
@@ -26,6 +33,9 @@ describe('CaseViewComponent', () => {
         getCasesCount: jest.fn(),
         loadCasesForView: jest.fn(),
       }),
+      provideHttpClient(),
+      provideHttpClientTesting(),
+      mockProvider(UserSettingsStore),
     ],
 
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

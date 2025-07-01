@@ -17,7 +17,8 @@
     </schaeffler-view-toggle>
     @if (
       (quotationsLoading$ | ngrxPush) === false &&
-      (deleteLoading$ | ngrxPush) === false
+      (deleteLoading$ | ngrxPush) === false &&
+      userSettingsLoaded()
     ) {
       <gq-case-table
         class="h-full"

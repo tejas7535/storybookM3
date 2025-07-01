@@ -1,11 +1,5 @@
 /* eslint-disable ngrx/avoid-mapping-selectors */
-import {
-  Component,
-  DestroyRef,
-  HostListener,
-  inject,
-  OnInit,
-} from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { NavigationEnd, Router } from '@angular/router';
@@ -39,14 +33,15 @@ import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import packageJson from '../../package.json';
 import { AppRoutePath } from './app-route-path.enum';
 import { ActiveCaseFacade } from './core/store/active-case/active-case.facade';
+import { RolesFacade } from './core/store/facades/roles.facade';
 import { HealthCheckFacade } from './core/store/health-check/health-check.facade';
 import {
   getRouteQueryParams,
   getRouteUrl,
 } from './core/store/selectors/router/router.selector';
+import { UserSettingsStore } from './core/store/user-settings/user-settings.store';
 import { IpExposureComponent } from './shared/components/ip-exposure/ip-exposure.component';
 import { Customer } from './shared/models';
-import { UserSettingsService } from './shared/services/rest/user-settings/user-settings.service';
 
 @Component({
   selector: 'gq-root',
@@ -56,14 +51,14 @@ import { UserSettingsService } from './shared/services/rest/user-settings/user-s
 })
 export class AppComponent implements OnInit {
   private readonly store: Store = inject(Store);
+  private readonly rolesFacade = inject(RolesFacade);
+  private readonly userSettingsStore = inject(UserSettingsStore);
   private readonly router: Router = inject(Router);
   private readonly translocoService: TranslocoService =
     inject(TranslocoService);
   private readonly appInsightsService: ApplicationInsightsService = inject(
     ApplicationInsightsService
   );
-  private readonly userSettingsService: UserSettingsService =
-    inject(UserSettingsService);
   private readonly dialog = inject(MatDialog);
 
   private readonly activeCaseFacade = inject(ActiveCaseFacade);
@@ -114,12 +109,6 @@ export class AppComponent implements OnInit {
   isCookieRouteActive$: Observable<boolean>;
   showGlobalSearch$: Observable<boolean>;
 
-  @HostListener('window:beforeunload', ['$event'])
-  @HostListener('window:blur', ['$event'])
-  async handleBeforeUnload() {
-    await this.userSettingsService?.updateUserSettingsAsPromise();
-  }
-
   public ngOnInit(): void {
     this.username$ = this.store.select(getUsername);
     this.profileImage$ = this.store.select(getProfileImage);
@@ -132,10 +121,11 @@ export class AppComponent implements OnInit {
       this.appVersion
     );
 
-    window.addEventListener('beforeunload', this.handleBeforeUnload);
-    window.addEventListener('blur', this.handleBeforeUnload);
-
     this.handleIpExposureDialog();
+
+    this.rolesFacade.isLoggedIn$
+      .pipe(filter((isLoggedIn) => isLoggedIn))
+      .subscribe(() => this.userSettingsStore.loadUserSettings());
   }
 
   handleCurrentRoute(): void {

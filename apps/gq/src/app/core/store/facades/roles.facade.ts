@@ -18,7 +18,11 @@ import { UserRoles } from '@gq/shared/constants';
 import { Store } from '@ngrx/store';
 import { ColDef } from 'ag-grid-enterprise';
 
-import { getRoles, getUserUniqueIdentifier } from '@schaeffler/azure-auth';
+import {
+  getIsLoggedIn,
+  getRoles,
+  getUserUniqueIdentifier,
+} from '@schaeffler/azure-auth';
 
 @Injectable({
   providedIn: 'root',
@@ -40,6 +44,8 @@ export class RolesFacade {
   userHasRegionWorldRole$ = this.store.pipe(userHasRegionWorldRole);
 
   loggedInUserId$ = this.store.select(getUserUniqueIdentifier);
+
+  isLoggedIn$ = this.store.select(getIsLoggedIn);
 
   /**
    * user of greater china can only see comparable transaction when they have GPC and SQV role

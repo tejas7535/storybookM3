@@ -11,6 +11,7 @@ import { ApiVersion } from '@gq/shared/models/api-version.enum';
 import { TranslocoService } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
+import { HttpCacheManager } from '@ngneat/cashew';
 import {
   createServiceFactory,
   mockProvider,
@@ -29,7 +30,7 @@ describe('Service: UserSettings', () => {
   let service: UserSettingsService;
   let httpMock: HttpTestingController;
   let localStorage: LocalStorageMock;
-  const userId = '1234';
+  const userId = 'gqhelper';
   const langChanges$ = new BehaviorSubject<string>('en');
   const localeChanges$ = new BehaviorSubject<string>('en-US');
 
@@ -39,6 +40,7 @@ describe('Service: UserSettings', () => {
       provideHttpClient(),
       provideHttpClientTesting(),
       { provide: LOCAL_STORAGE, useClass: LocalStorageMock },
+      mockProvider(HttpCacheManager),
       mockProvider(RolesFacade, {
         loggedInUserId$: of(userId),
       }),
@@ -73,9 +75,6 @@ describe('Service: UserSettings', () => {
 
   describe('REST calls', () => {
     describe('getUserSettings', () => {
-      beforeEach(() => {
-        service['userId'] = userId;
-      });
       test('should call GET and return user settings', () => {
         const mockResponse = {
           result: {
@@ -356,65 +355,30 @@ describe('Service: UserSettings', () => {
     });
   });
   describe('initializeUserSettings', () => {
-    test('should initialize App, and update the userSettings', () => {
-      localStorage.clear();
-      const mockResponse: UserSettingsResponse = {
-        result: {
-          userId: 'userId',
-          userSettingsList: [],
-        },
-      };
-
-      service['getUserSettings'] = jest.fn().mockReturnValue(of(mockResponse));
-      service['updateUserSettings'] = jest.fn().mockImplementation(() => {});
-      service['addSubscriptionForLanguageChange'] = jest
-        .fn()
-        .mockImplementation(() => {});
-
-      service.initializeUserSettings();
-
-      expect(service.updateUserSettings).toHaveBeenCalled();
-    });
-
-    test('should initialize the and subscribe to languageChanges', () => {
-      localStorage.setItem(service['INIT_KEY'], 'someValue');
+    test('should updateDatabaseValuesForLangLocale and add sub for lang changes', () => {
+      service['setDefaultLangAndLocale'] = jest.fn();
+      service['updateDatabaseValuesForLangLocale'] = jest.fn();
       service['addSubscriptionForLanguageChange'] = jest.fn();
 
-      service.initializeUserSettings();
+      service.initializeUserSettings([]);
 
+      expect(service['setDefaultLangAndLocale']).toHaveBeenCalled();
+      expect(service['updateDatabaseValuesForLangLocale']).toHaveBeenCalled();
       expect(service['addSubscriptionForLanguageChange']).toHaveBeenCalled();
     });
 
-    test('should initialize the app and overwrite localSettings with response result and reload the page', () => {
-      localStorage.clear();
-      delete window.location;
-      window.location = { reload: jest.fn() } as any;
-      service['setSettingsToLocalStorage'] = jest.fn();
+    test('should holdDatabaseValuesForLangLocale, setSettingsToLocalStorage and addSubscriptionForLanguageChange if settings provided', () => {
+      service['setDefaultLangAndLocale'] = jest.fn();
       service['holdDatabaseValuesForLangLocale'] = jest.fn();
-      const mockResponse: UserSettingsResponse = {
-        result: {
-          userId: 'any',
-          userSettingsList: [
-            { key: UserSettingsKeys.LANGUAGE, value: 'en' },
-            { key: UserSettingsKeys.LOCALE, value: 'en-US' },
-          ],
-        },
-      };
+      service['setSettingsToLocalStorage'] = jest.fn();
+      service['addSubscriptionForLanguageChange'] = jest.fn();
 
-      service['getUserSettings'] = jest.fn().mockReturnValue(of(mockResponse));
+      service.initializeUserSettings([{} as UserSetting]);
 
-      service.initializeUserSettings();
-
-      service.userId$.subscribe(() => {
-        expect(service['holdDatabaseValuesForLangLocale']).toHaveBeenCalledWith(
-          mockResponse.result.userSettingsList
-        );
-        expect(service['setSettingsToLocalStorage']).toHaveBeenCalledWith(
-          mockResponse.result.userSettingsList
-        );
-        expect(localStorage.getItem(service['INIT_KEY'])).toBeTruthy();
-        expect(window.location.reload).toHaveBeenCalled();
-      });
+      expect(service['setDefaultLangAndLocale']).toHaveBeenCalled();
+      expect(service['holdDatabaseValuesForLangLocale']).toHaveBeenCalled();
+      expect(service['setSettingsToLocalStorage']).toHaveBeenCalled();
+      expect(service['addSubscriptionForLanguageChange']).toHaveBeenCalled();
     });
   });
 
@@ -685,8 +649,6 @@ describe('Service: UserSettings', () => {
         service['createJsonFile'] = jest
           .fn()
           .mockReturnValue('JsonFileMockReturnValue');
-        const user = '123';
-        service['userId'] = user;
 
         const settings = [
           { key: UserSettingsKeys.LANGUAGE, value: 'en' } as UserSetting,
@@ -694,7 +656,7 @@ describe('Service: UserSettings', () => {
         ];
         const formData = service['createFormData'](settings);
         expect(formData.get('userSettings')).toEqual('JsonFileMockReturnValue');
-        expect(service['createJsonFile']).toHaveBeenCalledWith(user, settings);
+        expect(service['createJsonFile']).toHaveBeenCalledWith(settings);
       });
     });
     describe('processUserSettings', () => {

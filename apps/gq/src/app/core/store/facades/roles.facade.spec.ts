@@ -7,7 +7,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ColDef } from 'ag-grid-enterprise';
 import { marbles } from 'rxjs-marbles';
 
-import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
+import { getIsLoggedIn, getUserUniqueIdentifier } from '@schaeffler/azure-auth';
 
 import {
   userHasGPCRole,
@@ -44,6 +44,15 @@ describe('RolesFacade', () => {
         m.expect(service.userHasManualPriceRole$).toBeObservable(
           m.cold('a', { a: true })
         );
+      });
+    });
+  });
+
+  describe('should provide isLoggedIn$', () => {
+    it('should return true', () => {
+      marbles((m) => {
+        mockStore.overrideSelector(getIsLoggedIn, true);
+        m.expect(service.isLoggedIn$).toBeObservable(m.cold('a', { a: true }));
       });
     });
   });

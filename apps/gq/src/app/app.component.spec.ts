@@ -34,6 +34,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ActiveCaseFacade } from './core/store/active-case/active-case.facade';
 import { QuotationIdentifier } from './core/store/active-case/models';
 import { HealthCheckFacade } from './core/store/health-check/health-check.facade';
+import { UserSettingsStore } from './core/store/user-settings/user-settings.store';
 import { GlobalSearchBarModule } from './shared/components/global-search-bar/global-search-bar.module';
 import { UserSettingsComponent } from './shared/components/user-settings/user-settings.component';
 import { Customer } from './shared/models/customer/customer.model';
@@ -88,7 +89,6 @@ describe('AppComponent', () => {
           healthCheck: HEALTH_CHECK_STATE_MOCK,
         },
       }),
-
       {
         provide: Router,
         useValue: routerMock,
@@ -106,6 +106,9 @@ describe('AppComponent', () => {
       }),
       mockProvider(HealthCheckFacade),
       mockProvider(ApplicationInsightsService),
+      mockProvider(UserSettingsStore, {
+        loadUserSettings: jest.fn(),
+      }),
     ],
     declarations: [AppComponent],
   });
@@ -120,14 +123,6 @@ describe('AppComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('handleBeforeUnload', () => {
-    test('should call the method', () => {
-      component.handleBeforeUnload();
-      expect(
-        component['userSettingsService'].updateUserSettingsAsPromise
-      ).toHaveBeenCalledTimes(1);
-    });
-  });
   describe('ngOnInit', () => {
     test('should set observables and dispatch login', () => {
       store.dispatch = jest.fn();

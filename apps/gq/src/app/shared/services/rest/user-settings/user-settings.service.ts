@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
-import { HttpClient } from '@angular/common/http';
-import { DestroyRef, inject, Injectable } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { DestroyRef, inject, Injectable, Signal } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 import { combineLatest, lastValueFrom, Observable, of } from 'rxjs';
 import {
@@ -9,7 +9,6 @@ import {
   distinctUntilChanged,
   filter,
   skip,
-  switchMap,
   take,
   tap,
 } from 'rxjs/operators';
@@ -20,16 +19,18 @@ import { ApiVersion } from '@gq/shared/models';
 import { TranslocoService } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
+import { HttpCacheManager } from '@ngneat/cashew';
+import isEqual from 'lodash/isEqual';
 
 import { UserSetting } from './models/user-setting.interface';
 import { UserSettingsResponse } from './models/user-settings.response.interface';
 import { UserSettingsKeys } from './models/user-settings-keys.enum';
+const USER_SETTINGS_CACHE_KEY = 'user-settings';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserSettingsService {
-  private readonly INIT_KEY = 'initAt';
   readonly #http = inject(HttpClient);
   readonly localStorage = inject(LOCAL_STORAGE);
   readonly rolesFacade = inject(RolesFacade);
@@ -37,6 +38,7 @@ export class UserSettingsService {
   readonly localeService: TranslocoLocaleService = inject(
     TranslocoLocaleService
   );
+  readonly cacheManager = inject(HttpCacheManager);
   readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   readonly PATH_USER_SETTINGS = 'user-settings';
@@ -46,13 +48,7 @@ export class UserSettingsService {
   readonly DB_VALUE_LOCALE = 'dbLocale';
   readonly DB_VALUE_LANG = 'dbLang';
 
-  readonly userId$ = this.rolesFacade.loggedInUserId$.pipe(
-    takeUntilDestroyed(this.destroyRef),
-    filter(Boolean),
-    take(1)
-  );
-
-  private userId: string;
+  userId: Signal<string> = toSignal(this.rolesFacade.loggedInUserId$);
 
   /**
    * get user settings for loggedIn userId, either all settings or for the requested key
@@ -60,7 +56,7 @@ export class UserSettingsService {
    * @returns all saved settings for the user
    */
   getUserSettings(key?: string): Observable<UserSettingsResponse> {
-    const url = `${ApiVersion.V1}/${this.PATH_USER_SETTINGS}?${this.PARAM_USER_ID}=${this.userId}${
+    const url = `${ApiVersion.V1}/${this.PATH_USER_SETTINGS}?${this.PARAM_USER_ID}=${this.userId()}${
       key ? `&${this.PARAM_SETTINGS_KEY}=${key}` : ''
     }`;
 
@@ -82,6 +78,15 @@ export class UserSettingsService {
     if (storageSettings.length === 0) {
       return;
     }
+
+    const cachedResponse = this.cacheManager.get<UserSettingsResponse>(
+      USER_SETTINGS_CACHE_KEY
+    );
+
+    if (!this.didSettingsChange(cachedResponse, storageSettings)) {
+      return;
+    }
+
     this.processUserSettings(
       this.createFormData(storageSettings),
       (response) => this.processResponse(response, reloadAfterUpdate),
@@ -105,11 +110,43 @@ export class UserSettingsService {
       return;
     }
 
+    // do not send request if last request was the same
+    const cachedResponse = this.cacheManager.get<UserSettingsResponse>(
+      USER_SETTINGS_CACHE_KEY
+    );
+
+    if (!this.didSettingsChange(cachedResponse, storageSettings)) {
+      return;
+    }
+
     this.processUserSettings(
       this.createFormData(storageSettings),
       (response) => this.processResponse(response, reloadAfterUpdate),
       () => this.processError(reloadAfterUpdate)
     ).subscribe();
+  }
+
+  /**
+   * initialize user settings for the logged in user
+   * if no settings are found in the DB, the default settings are set
+   */
+  initializeUserSettings(userSettings: UserSetting[]): void {
+    this.setDefaultLangAndLocale();
+
+    if (userSettings.length === 0) {
+      this.updateDatabaseValuesForLangLocale();
+    } else {
+      this.holdDatabaseValuesForLangLocale(userSettings);
+      this.setSettingsToLocalStorage(userSettings);
+    }
+    this.addSubscriptionForLanguageChange();
+  }
+
+  private createFormData(storageSettings: UserSetting[]) {
+    const formData = new FormData();
+    formData.append('userSettings', this.createJsonFile(storageSettings));
+
+    return formData;
   }
 
   /**
@@ -122,71 +159,21 @@ export class UserSettingsService {
       return Promise.resolve(null as UserSettingsResponse);
     }
 
+    // do not send request if last request was the same
+    const cachedResponse = this.cacheManager.get<UserSettingsResponse>(
+      USER_SETTINGS_CACHE_KEY
+    );
+
+    if (!this.didSettingsChange(cachedResponse, storageSettings)) {
+      return Promise.resolve(null as UserSettingsResponse);
+    }
+
     const result = this.processUserSettings(
       this.createFormData(storageSettings),
       (response) => this.processResponse(response)
     );
 
     return lastValueFrom(result);
-  }
-
-  /**
-   * initialize user settings for the logged in user
-   * if no settings are found in the DB, the default settings are set
-   */
-  initializeUserSettings(): void {
-    this.setDefaultLangAndLocale();
-    // check if user settings are already set and exist in DB
-    this.userId$
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        switchMap((userId) => {
-          this.userId = userId;
-          const lastInit = this.localStorage.getItem(this.INIT_KEY);
-          if (lastInit) {
-            this.localStorage.removeItem(this.INIT_KEY);
-            this.addSubscriptionForLanguageChange();
-
-            return of(null);
-          } else {
-            return this.getUserSettings().pipe(
-              // Tap operator can be used for side effects, such as logging
-              tap((response) => {
-                if (response.result.userSettingsList.length === 0) {
-                  this.updateDatabaseValuesForLangLocale();
-                  this.updateUserSettings();
-                  this.addSubscriptionForLanguageChange();
-                } else {
-                  // settings from the DB are restored to the localStorage and DB Changes overwrite localSettings
-                  this.holdDatabaseValuesForLangLocale(
-                    response.result.userSettingsList
-                  );
-                  this.setSettingsToLocalStorage(
-                    response.result.userSettingsList
-                  );
-                  this.localStorage.setItem(
-                    this.INIT_KEY,
-                    Date.now().toString()
-                  );
-
-                  window.location.reload();
-                }
-              })
-            );
-          }
-        })
-      )
-      .subscribe();
-  }
-
-  private createFormData(storageSettings: UserSetting[]) {
-    const formData = new FormData();
-    formData.append(
-      'userSettings',
-      this.createJsonFile(this.userId, storageSettings)
-    );
-
-    return formData;
   }
 
   private processUserSettings(
@@ -259,9 +246,6 @@ export class UserSettingsService {
         filter(([lang, locale]) => lang !== dbLang || locale !== dbLocale)
       )
       .subscribe(([lang, locale]) => {
-        // a complete init process is not needed by this UseCase
-        this.localStorage.setItem(this.INIT_KEY, Date.now().toString());
-
         // Language and Locale are updated as a pair and page is reloaded
         this.updateUserSettings(true, [
           {
@@ -372,11 +356,11 @@ export class UserSettingsService {
     }
   }
 
-  createJsonFile(userId: string, storageSettings: UserSetting[]): File {
+  createJsonFile(storageSettings: UserSetting[]): File {
     const jsonFile: File = new File(
       [
         JSON.stringify({
-          userId,
+          userId: this.userId(),
           userSettingsList: storageSettings,
         }),
       ],
@@ -387,5 +371,22 @@ export class UserSettingsService {
     );
 
     return jsonFile;
+  }
+
+  private didSettingsChange(
+    cachedResponse: HttpResponse<UserSettingsResponse>,
+    newUserSettings: UserSetting[]
+  ) {
+    return !isEqual(
+      (
+        cachedResponse?.body as UserSettingsResponse
+      )?.result.userSettingsList.map((el) => {
+        const copy = { ...el };
+        delete copy.lastUpdated;
+
+        return copy;
+      }),
+      newUserSettings
+    );
   }
 }
