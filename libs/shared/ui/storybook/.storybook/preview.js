@@ -1,4 +1,4 @@
-import { themes } from '@storybook/theming';
+import { themes } from 'storybook/theming';
 
 import logo from './schaeffler-logo.svg';
 import { Badges } from './storybook-badges.constants';
@@ -57,6 +57,7 @@ export const parameters = {
   },
   docs: {
     iframeHeight: 400,
+
     // use existing notes from Readme.md files as docs description
     extractComponentDescription: (component, { notes }) => {
       if (notes) {
@@ -70,6 +71,8 @@ export const parameters = {
       }
       return null;
     },
+
+    codePanel: true,
   },
   badgesConfig: {
     [Badges.InProgress]: {

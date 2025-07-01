@@ -14,7 +14,7 @@ import { SelectComponent, SelectModule } from '@schaeffler/inputs/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormControl, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { action } from '@storybook/addon-actions';
+import { action } from 'storybook/actions';
 import { StringOption } from '@schaeffler/inputs';
 import { STORYBOOK_TRANSLOCO_CONFIG } from 'libs/shared/ui/storybook/.storybook/storybook-transloco.constants';
 import { Component } from '@angular/core';

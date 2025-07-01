@@ -15,7 +15,7 @@ import READMEMd from '../../../../../banner/README.md';
 
 import { STORYBOOK_TRANSLOCO_CONFIG } from '../../../../.storybook/storybook-transloco.constants';
 import { Badges } from 'libs/shared/ui/storybook/.storybook/storybook-badges.constants';
-import { action } from '@storybook/addon-actions';
+import { action } from 'storybook/actions';
 
 const meta: Meta<BannerTextComponent> = {
   title: 'Atomic/Organisms/Banner',

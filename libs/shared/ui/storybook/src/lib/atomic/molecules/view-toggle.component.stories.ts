@@ -12,7 +12,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ViewToggle, ViewToggleComponent } from '@schaeffler/view-toggle';
 import READMEMd from '../../../../../view-toggle/README.md';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
-import { action } from '@storybook/addon-actions';
+import { action } from 'storybook/actions';
 
 const meta: Meta<ViewToggle> = {
   title: 'Atomic/Molecules/View Toggle',
