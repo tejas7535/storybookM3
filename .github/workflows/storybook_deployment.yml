@@ -1,6 +1,16 @@
 name: frontend-mono-storybook-deployment
 
-on: [push]
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: 'Deploy build to GitHub Pages'
+        required: true
+        default: 'No'
+        options:
+          - Yes
+          - No
 
 jobs:
   build_storybook:
@@ -57,9 +67,10 @@ jobs:
     runs-on: standard-ghc
     needs: build_storybook
     name: Deploy Storybook to Pages
-    if: ${{ needs.build_storybook.outputs.STORYBOOK_AFFECTED == 'Yes' && github.ref_name == 'master' }}
+    if: ${{ (needs.build_storybook.outputs.STORYBOOK_AFFECTED == 'Yes' && github.ref_name == 'master') || inputs.deploy == 'Yes' }}
     permissions:
       pages: write
+      id-token: write
     steps:
       - name: Deploy to Pages
         uses: actions/deploy-pages@v4
