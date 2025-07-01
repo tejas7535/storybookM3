@@ -10,7 +10,7 @@ const config: StorybookConfig = {
   addons: [
     '@storybook/addon-essentials',
     '@storybook/addon-a11y',
-    'storybook-addon-designs',
+    '@storybook/addon-designs',
     '@storybook/addon-storysource',
     'storybook-dark-mode',
     '@geometricpanda/storybook-addon-badges',

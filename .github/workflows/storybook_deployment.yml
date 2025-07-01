@@ -1,0 +1,67 @@
+name: frontend-mono-storybook-deployment
+
+on: [push]
+
+jobs:
+  build_storybook:
+    runs-on: standard-ghc
+    name: Build Storybook
+    outputs:
+      STORYBOOK_AFFECTED: ${{ steps.storybook_affected.outputs.STORYBOOK_AFFECTED }}
+    steps:
+      - name: Setup Nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.17.x'
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Enable pnpm
+        run: |
+          corepack enable pnpm
+      - name: Install NX
+        run: npm install -g nx
+      - name: pnpm version
+        run: pnpm -v
+      - name: pnpm install
+        run: pnpm install
+      - name: Detect build base on master
+        if: ${{ github.ref_name == 'master' }}
+        run: |
+          echo "BUILD_BASE=$(git rev-parse HEAD^)" >> "$GITHUB_ENV"
+      - name: Detect build base on feature branch
+        if: ${{ github.ref_name != 'master' }}
+        run: |
+          git fetch origin master --no-tags
+          git fetch origin $GITHUB_REF --prune --unshallow
+          echo "BUILD_BASE=$(git merge-base origin/master HEAD^)" >> "$GITHUB_ENV"
+      - name: Check storybook status
+        id: storybook_affected
+        run: |
+          echo "::debug::Build base commit $BUILD_BASE"
+          STORYBOOK_AFFECTED=$(nx show projects --affected --base=$BUILD_BASE --projects 'shared-*' --exclude '*-e2e' | grep -q 'shared-ui-storybook' && echo 'YES' || echo 'NO')
+          echo "STORYBOOK_AFFECTED=$STORYBOOK_AFFECTED" >> "$GITHUB_ENV"
+          echo "STORYBOOK_AFFECTED=$STORYBOOK_AFFECTED" >> "$GITHUB_OUTPUT"
+      - name: NX build task
+        if: env.STORYBOOK_AFFECTED=='YES'
+        run: pnpm nx affected --base=$BUILD_BASE --target=build-storybook
+      - name: Upload bundle
+        if: env.STORYBOOK_AFFECTED=='YES'
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook-deployment-bundle
+          path: dist/storybook/shared-ui-storybook/**
+
+  deploy_storybook:
+    runs-on: standard-ghc
+    needs: build_storybook
+    name: Deploy Storybook to Pages
+    if: ${{ needs.build_storybook.outputs.STORYBOOK_AFFECTED == 'Yes' && github.ref_name == 'master' }}
+    permissions:
+      pages: write
+    steps:
+      - name: Deploy to Pages
+        uses: actions/deploy-pages@v4
+        with:
+          artifact-name: storybook-deployment-bundle

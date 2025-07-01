@@ -5,7 +5,7 @@ import {
   applicationConfig,
   Meta,
   moduleMetadata,
-  StoryFn,
+  StoryObj,
 } from '@storybook/angular';
 import { BannerTextModule } from 'libs/shared/ui/banner/src/lib/banner-text/banner-text.module';
 
@@ -15,8 +15,9 @@ import READMEMd from '../../../../../banner/README.md';
 
 import { STORYBOOK_TRANSLOCO_CONFIG } from '../../../../.storybook/storybook-transloco.constants';
 import { Badges } from 'libs/shared/ui/storybook/.storybook/storybook-badges.constants';
+import { action } from '@storybook/addon-actions';
 
-export default {
+const meta: Meta<BannerTextComponent> = {
   title: 'Atomic/Organisms/Banner',
   component: BannerTextComponent,
   parameters: {
@@ -35,12 +36,13 @@ export default {
       providers: [provideTransloco({ config: STORYBOOK_TRANSLOCO_CONFIG })],
     }),
   ],
-} as Meta<BannerTextComponent>;
-
-const Template: StoryFn<BannerTextComponent> = (args: BannerTextComponent) => ({
-  component: BannerTextComponent,
-  props: args,
-});
+  args: {
+    closeBanner: action('closeBanner'),
+    toggleFullText: action('toggleFullText'),
+  },
+};
+export default meta;
+type Story = StoryObj<BannerTextComponent>;
 
 const props = (icon: BannerType, fullText = false) => ({
   text: 'This text can be modified to be longer.',
@@ -50,47 +52,32 @@ const props = (icon: BannerType, fullText = false) => ({
   buttonText: 'Okay',
 });
 
-const actions = {
-  closeBanner: { action: 'closeBanner' },
-  toggleFullText: { action: 'toggleFullText' },
+export const Info: Story = {
+  args: {
+    ...props('info'),
+  },
 };
 
-export const Info = Template.bind({});
-Info.args = {
-  ...props('info'),
-};
-Info.argTypes = {
-  ...actions,
+export const Warning: Story = {
+  args: {
+    ...props('warning'),
+  },
 };
 
-export const Warning = Template.bind({});
-Warning.args = {
-  ...props('warning'),
-};
-Warning.argTypes = {
-  ...actions,
+export const Error: Story = {
+  args: {
+    ...props('error'),
+  },
 };
 
-export const Error = Template.bind({});
-Error.args = {
-  ...props('error'),
-};
-Error.argTypes = {
-  ...actions,
+export const Success: Story = {
+  args: {
+    ...props('success'),
+  },
 };
 
-export const Success = Template.bind({});
-Success.args = {
-  ...props('success'),
-};
-Success.argTypes = {
-  ...actions,
-};
-
-export const Expanded = Template.bind({});
-Expanded.args = {
-  ...props('info', true),
-};
-Expanded.argTypes = {
-  ...actions,
+export const Expanded: Story = {
+  args: {
+    ...props('info', true),
+  },
 };

@@ -10,9 +10,8 @@ import {
   applicationConfig,
   Meta,
   moduleMetadata,
-  StoryFn,
+  StoryObj,
 } from '@storybook/angular';
-import { withDesign } from 'storybook-addon-designs';
 
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 import READMEMd from './snackbar/README.md';
@@ -69,7 +68,7 @@ class SnackbarExampleComponent {
   }
 }
 
-export default {
+const meta: Meta<SnackbarExampleComponent> = {
   title: 'Atomic/Molecules/Snackbar',
   component: SnackbarExampleComponent,
   decorators: [
@@ -83,7 +82,6 @@ export default {
         MatInputModule,
       ],
     }),
-    withDesign,
     applicationConfig({
       providers: [provideAnimations()],
     }),
@@ -100,14 +98,9 @@ export default {
       url: 'https://www.figma.com/file/hhhgg57rQRgJ3YJwOHewZ9/DS-Test?node-id=784%3A1768',
     },
   },
-} as Meta<SnackbarExampleComponent>;
+};
+export default meta;
 
-const Template: StoryFn<SnackbarExampleComponent> = (
-  args: SnackbarExampleComponent
-) => ({
-  component: SnackbarExampleComponent,
-  props: args,
-});
+type Story = StoryObj<SnackbarExampleComponent>;
 
-export const Default = Template.bind({});
-Default.args = {};
+export const Default: Story = {};

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 
 import {
   LoadingSpinnerComponent,
@@ -10,7 +10,7 @@ import {
 import READMEMd from '../../../../../loading-spinner/README.md';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
-export default {
+const meta: Meta<LoadingSpinnerComponent> = {
   title: 'Atomic/Atoms/Loading Spinner',
   component: LoadingSpinnerComponent,
   decorators: [
@@ -26,17 +26,21 @@ export default {
     },
     badges: [Badges.Final],
   },
-} as Meta<LoadingSpinnerComponent>;
+};
+export default meta;
 
-const Template: StoryFn<LoadingSpinnerComponent> = (
-  args: LoadingSpinnerComponent
-) => ({
-  component: LoadingSpinnerComponent,
-  props: args,
-});
+type Story = StoryObj<LoadingSpinnerComponent>;
 
-export const Primary = Template.bind({});
-Primary.args = {
-  backgroundColor: '',
-  useBearingLoadingSpinner: false,
+export const Primary: Story = {
+  args: {
+    useBearingLoadingSpinner: false,
+    backgroundColor: '',
+  },
+};
+
+export const BearingSpinner: Story = {
+  args: {
+    useBearingLoadingSpinner: true,
+    backgroundColor: '',
+  },
 };

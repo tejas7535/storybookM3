@@ -4,7 +4,7 @@ import {
   applicationConfig,
   Meta,
   moduleMetadata,
-  StoryFn,
+  StoryObj,
 } from '@storybook/angular';
 
 import {
@@ -19,7 +19,7 @@ import { STORYBOOK_TRANSLOCO_CONFIG } from '../../../../.storybook/storybook-tra
 
 import { provideTransloco } from '@jsverse/transloco';
 
-export default {
+const meta: Meta<typeof PageNotFoundComponent> = {
   title: 'Atomic/Pages/Page Not Found',
   component: PageNotFoundComponent,
   decorators: [
@@ -41,14 +41,9 @@ export default {
     },
     badges: [Badges.Final],
   },
-} as Meta<PageNotFoundComponent>;
+};
+export default meta;
 
-const Template: StoryFn<PageNotFoundComponent> = (
-  args: PageNotFoundComponent
-) => ({
-  component: PageNotFoundComponent,
-  props: args,
-});
+type Story = StoryObj<typeof meta>;
 
-export const Primary = Template.bind({});
-Primary.args = {};
+export const Primary: Story = {};

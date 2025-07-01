@@ -16,7 +16,7 @@ import {
   applicationConfig,
   Meta,
   moduleMetadata,
-  StoryFn,
+  StoryObj,
 } from '@storybook/angular';
 
 import { StepperModule } from '@schaeffler/stepper';
@@ -90,7 +90,7 @@ class WrapperComponentForStepper implements OnInit {
   }
 }
 
-export default {
+const meta: Meta<typeof WrapperComponentForStepper> = {
   title: 'Atomic/Organisms/Stepper',
   component: WrapperComponentForStepper,
   decorators: [
@@ -117,14 +117,9 @@ export default {
     },
     badges: [Badges.Final],
   },
-} as Meta<WrapperComponentForStepper>;
+};
+export default meta;
 
-const Template: StoryFn<WrapperComponentForStepper> = (
-  args: WrapperComponentForStepper
-) => ({
-  component: WrapperComponentForStepper,
-  props: args,
-});
+type Story = StoryObj<typeof meta>;
 
-export const Primary = Template.bind({});
-Primary.args = {};
+export const Primary: Story = {};

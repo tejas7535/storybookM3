@@ -5,7 +5,7 @@ import {
   applicationConfig,
   Meta,
   moduleMetadata,
-  StoryFn,
+  StoryObj,
 } from '@storybook/angular';
 
 import {
@@ -44,7 +44,7 @@ import { interval, take } from 'rxjs';
       ></schaeffler-file-upload>
     </div>
   `,
-  standalone: false,
+  standalone: true,
 })
 class FileUploadExampleComponent {
   loadingIndicator: 'spinner' | 'bar';
@@ -151,7 +151,7 @@ class FileUploadExampleComponent {
   }
 }
 
-export default {
+const meta: Meta<FileUploadExampleComponent> = {
   title: 'Atomic/Molecules/File Upload',
   component: FileUploadExampleComponent,
   decorators: [
@@ -177,22 +177,8 @@ export default {
     },
     badges: [Badges.InProgress],
   },
-} as Meta<FileUploadExampleComponent>;
-
-const Template: StoryFn<FileUploadExampleComponent> = (
-  args: FileUploadExampleComponent
-) => ({
-  component: FileUploadExampleComponent,
-  props: args,
-});
-
-const TemplateWithMessages: StoryFn<FileUploadExampleComponent> = (
-  args: FileUploadExampleComponent
-) => ({
-  component: FileUploadExampleComponent,
-  props: {
-    ...args,
-    defaultMessages: [
+  args: {
+    messages: [
       {
         type: 'info',
         title: 'My info message',
@@ -210,41 +196,36 @@ const TemplateWithMessages: StoryFn<FileUploadExampleComponent> = (
       },
     ],
   },
-  template: `
-    <div class="p-4">
-      <schaeffler-file-upload
-        [messages]="defaultMessages"
-      ></schaeffler-file-upload>
-    </div>
-    `,
-});
+};
+export default meta;
 
-export const WithAllOptions = Template.bind({});
-WithAllOptions.args = {
-  loadingIndicator: 'bar',
-  maxFileCount: 3,
-  autoOverwriteOldestFile: true,
-  displayMaxFileCountError: false,
-  autoReadFileData: true,
-  messages: [],
-  loading: false,
-  acceptTypeString: '',
-  fileHint: 'Files with maximum 5MB. Must provide 3 files.',
-  disableDragAndDrop: false,
-  unknownFileTypeText:
-    'file type not recognized. Please make sure your file name ends with .xlsx',
+type Story = StoryObj<FileUploadExampleComponent>;
+
+export const WithAllOptions: Story = {
+  args: {
+    loadingIndicator: 'bar',
+    maxFileCount: 3,
+    autoOverwriteOldestFile: true,
+    displayMaxFileCountError: false,
+    autoReadFileData: true,
+    messages: [],
+    loading: false,
+    acceptTypeString: '',
+    fileHint: 'Files with maximum 5MB. Must provide 3 files.',
+    disableDragAndDrop: false,
+    unknownFileTypeText:
+      'file type not recognized. Please make sure your file name ends with .xlsx',
+  },
 };
 
-export const Default = Template.bind({});
-Default.args = {};
+export const Default: Story = {};
 
-export const WithMessages = TemplateWithMessages.bind({});
-WithMessages.args = {};
-
-WithAllOptions.argTypes = {
-  loadingIndicator: {
-    options: ['bar', 'spinner'],
-    control: 'radio',
-    defaultValue: 'bar',
+export const WithMessages: Story = {
+  argTypes: {
+    loadingIndicator: {
+      options: ['bar', 'spinner'],
+      control: 'radio',
+      defaultValue: 'bar',
+    },
   },
 };

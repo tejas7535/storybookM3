@@ -4,7 +4,7 @@ import {
   applicationConfig,
   Meta,
   moduleMetadata,
-  StoryFn,
+  StoryObj,
 } from '@storybook/angular';
 
 import READMEMd from '../../../../../inputs/select/src/lib/README.md';
@@ -75,7 +75,7 @@ import { provideTransloco } from '@jsverse/transloco';
 })
 class WrapperComponentForSelect extends SelectComponent {}
 
-export default {
+const meta: Meta<WrapperComponentForSelect> = {
   title: 'Atomic/Organisms/Select',
   component: WrapperComponentForSelect,
   decorators: [
@@ -97,116 +97,112 @@ export default {
     },
     badges: [Badges.Final],
   },
-} as Meta<WrapperComponentForSelect>;
-
-const Template: StoryFn<WrapperComponentForSelect> = (
-  args: WrapperComponentForSelect
-) => ({
-  component: WrapperComponentForSelect,
-  props: {
-    ...args,
-    onSearchUpdated: action('onSearchUpdated'),
-    onEntryAdded: action('onEntryAdded'),
-    onOptionRemoved: action('onOptionRemoved'),
-    onOptionSelected: action('onOptionSelected'),
-    onOpenedChange: action('onOpenedChange'),
+  args: {
+    entryAdded: action('onEntryAdded'),
+    searchUpdated: action('onSearchUpdated'),
+    optionRemoved: action('onOptionRemoved'),
+    optionSelected: action('onOptionSelected'),
+    openedChange: action('onOpenedChange'),
   },
-});
-
-export const Primary = Template.bind({});
-Primary.args = {
-  stringOptions: [
-    {
-      id: 0,
-      title: 'option0',
-      tooltip: 'tooltip',
-      tooltipDelay: 1000,
-      removable: true,
+  argTypes: {
+    control: {
+      options: ['Default', 'Required'],
+      control: 'radio',
+      mapping: {
+        Default: new FormControl(),
+        Required: new FormControl('', [Validators.required]),
+      },
+      defaultValue: 'Default',
     },
-    { id: 1, title: 'option1' },
-    { id: 2, title: 'option2' },
-    { id: 3, title: 'option3' },
-    { id: 4, title: 'option4' },
-    { id: 5, title: 'option5' },
-    { id: 6, title: 'option6' },
-    { id: 7, title: 'option7' },
-    { id: 8, title: 'option8' },
-    { id: 9, title: 'option9' },
-  ],
-  label: 'Option Selection',
-  placeholder: 'Select an option',
-  searchPlaceholder: 'Search...',
-  addEntryPlaceholder: 'New Entry',
-  hint: 'optional hint',
-  formFieldHint: 'optional outer hint',
-  initialSearchValue: '',
-  searchValueLengthTrigger: 1,
-  showNumberOfSelected: false,
-  loading: false,
-  error: false,
-  multiple: false,
-  noResultsText: 'No Results',
-  addEntry: false,
-  resetButton: true,
-  showTriggerTooltip: false,
-  triggerTooltipDelay: 1500,
-  filterFn: (option?: StringOption, value?: string) => {
-    if (!value) {
-      return true;
-    }
-
-    return option?.title
-      ?.toLowerCase()
-      .trim()
-      .includes(value.toLowerCase().trim());
-  },
-};
-
-Primary.argTypes = {
-  control: {
-    options: ['Default', 'Required'],
-    control: 'radio',
-    mapping: {
-      Default: new FormControl(),
-      Required: new FormControl('', [Validators.required]),
+    appearance: {
+      options: ['fill', 'outline'],
+      control: 'radio',
+      defaultValue: 'fill',
     },
-    defaultValue: 'Default',
-  },
-  appearance: {
-    options: ['fill', 'outline'],
-    control: 'radio',
-    defaultValue: 'fill',
-  },
-  initialValue: {
-    options: ['none', 'option1'],
-    control: 'radio',
-    defaultValue: 'none',
-    mapping: {
-      none: undefined,
-      option1: { id: 1, title: 'option1' },
-    },
-  },
-  filterFn: {
-    options: ['No Filter', 'Custom Filter'],
-    control: 'radio',
-    mapping: {
-      'No Filter': undefined,
-      'Custom Filter': (option: StringOption, value: string): boolean => {
-        if (!value) {
-          return true;
-        }
-
-        return option.title
-          ?.toLowerCase()
-          .trimEnd()
-          .includes(value.toLowerCase().trim());
+    initialValue: {
+      options: ['none', 'option1'],
+      control: 'radio',
+      defaultValue: 'none',
+      mapping: {
+        none: undefined,
+        option1: { id: 1, title: 'option1' },
       },
     },
-    defaultValue: 'No Filter',
+    filterFn: {
+      options: ['No Filter', 'Custom Filter'],
+      control: 'radio',
+      mapping: {
+        'No Filter': undefined,
+        'Custom Filter': (option: StringOption, value: string): boolean => {
+          if (!value) {
+            return true;
+          }
+
+          return option.title
+            ?.toLowerCase()
+            .trimEnd()
+            .includes(value.toLowerCase().trim());
+        },
+      },
+      defaultValue: 'No Filter',
+    },
+    tooltipPosition: {
+      options: ['left', 'right', 'above', 'below', 'before', 'after'],
+      control: 'select',
+      defaultValue: 'below',
+    },
   },
-  tooltipPosition: {
-    options: ['left', 'right', 'above', 'below', 'before', 'after'],
-    control: 'select',
-    defaultValue: 'below',
+};
+export default meta;
+
+type Story = StoryObj<WrapperComponentForSelect>;
+
+export const Primary: Story = {
+  args: {
+    stringOptions: [
+      {
+        id: 0,
+        title: 'option0',
+        tooltip: 'tooltip',
+        tooltipDelay: 1000,
+        removable: true,
+      },
+      { id: 1, title: 'option1' },
+      { id: 2, title: 'option2' },
+      { id: 3, title: 'option3' },
+      { id: 4, title: 'option4' },
+      { id: 5, title: 'option5' },
+      { id: 6, title: 'option6' },
+      { id: 7, title: 'option7' },
+      { id: 8, title: 'option8' },
+      { id: 9, title: 'option9' },
+    ],
+    label: 'Option Selection',
+    placeholder: 'Select an option',
+    searchPlaceholder: 'Search...',
+    addEntryPlaceholder: 'New Entry',
+    hint: 'optional hint',
+    formFieldHint: 'optional outer hint',
+    initialSearchValue: '',
+    searchValueLengthTrigger: 1,
+    showNumberOfSelected: false,
+    loading: false,
+    error: false,
+    multiple: false,
+    noResultsText: 'No Results',
+    addEntry: false,
+    resetButton: true,
+    showTriggerTooltip: false,
+    triggerTooltipDelay: 1500,
+    filterFn: (option?: StringOption, value?: string) => {
+      if (!value) {
+        return true;
+      }
+
+      return option?.title
+        ?.toLowerCase()
+        .trim()
+        .includes(value.toLowerCase().trim());
+    },
   },
 };

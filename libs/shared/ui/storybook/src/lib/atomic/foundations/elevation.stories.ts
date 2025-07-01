@@ -1,5 +1,4 @@
 import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
-import { withDesign } from 'storybook-addon-designs';
 
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
@@ -11,7 +10,6 @@ export default {
     moduleMetadata({
       imports: [],
     }),
-    withDesign,
   ],
   parameters: {
     docs: {

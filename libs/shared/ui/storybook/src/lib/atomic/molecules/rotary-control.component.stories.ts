@@ -5,7 +5,7 @@ import {
   applicationConfig,
   Meta,
   moduleMetadata,
-  StoryFn,
+  StoryObj,
 } from '@storybook/angular';
 
 import {
@@ -43,7 +43,7 @@ const itemsWithHighlight: RotaryControlItem[] = Array.from(
   })
 );
 
-export default {
+const meta: Meta<RotaryControlComponent> = {
   title: 'Atomic/Molecules/Rotary Control',
   component: RotaryControlComponent,
   decorators: [
@@ -62,44 +62,45 @@ export default {
     },
     badges: [Badges.NeedsRevision],
   },
-} as Meta<RotaryControlComponent>;
+};
+export default meta;
 
-const Template: StoryFn<RotaryControlComponent> = (
-  args: RotaryControlComponent
-) => ({
-  component: RotaryControlComponent,
-  props: args,
-});
+type Story = StoryObj<RotaryControlComponent>;
 
-export const Concept1Control = Template.bind({});
-Concept1Control.args = {
-  controlValue: duration,
-  controlItems: availableMonths,
-  offsetAngle: 45,
+export const Concept1Control: Story = {
+  args: {
+    controlValue: duration,
+    controlItems: availableMonths,
+    offsetAngle: 45,
+  },
 };
 
-export const Default = Template.bind({});
-Default.args = {
-  controlValue: defaultValue,
-  controlItems: defaultItems,
+export const Default: Story = {
+  args: {
+    controlValue: defaultValue,
+    controlItems: defaultItems,
+  },
 };
 
-export const HighlightedValue = Template.bind({});
-HighlightedValue.args = {
-  controlValue: highlightedValue,
-  controlItems: itemsWithHighlight,
+export const HighlightedValue: Story = {
+  args: {
+    controlValue: highlightedValue,
+    controlItems: itemsWithHighlight,
+  },
 };
 
-export const RotateScale = Template.bind({});
-RotateScale.args = {
-  controlValue: defaultValue,
-  controlItems: defaultItems,
-  rotateScale: true,
+export const RotateScale: Story = {
+  args: {
+    controlValue: defaultValue,
+    controlItems: defaultItems,
+    rotateScale: true,
+  },
 };
 
-export const ValueChangeable = Template.bind({});
-ValueChangeable.args = {
-  controlValue: defaultValue,
-  controlItems: defaultItems,
-  controlValueChangeable: true,
+export const ValueChangeable: Story = {
+  args: {
+    controlValue: defaultValue,
+    controlItems: defaultItems,
+    controlValueChangeable: true,
+  },
 };

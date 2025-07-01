@@ -3,7 +3,7 @@ import {
   applicationConfig,
   Meta,
   moduleMetadata,
-  StoryFn,
+  StoryObj,
 } from '@storybook/angular';
 
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -14,7 +14,7 @@ import READMEMd from '../../../../../view-toggle/README.md';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 import { action } from '@storybook/addon-actions';
 
-export default {
+const meta: Meta<ViewToggle> = {
   title: 'Atomic/Molecules/View Toggle',
   component: ViewToggleComponent,
   decorators: [
@@ -33,12 +33,11 @@ export default {
     },
     badges: [Badges.InProgress],
   },
-} as Meta<ViewToggleComponent>;
+  args: {},
+};
+export default meta;
 
-const Template: StoryFn<ViewToggleComponent> = (args: ViewToggleComponent) => ({
-  component: ViewToggleComponent,
-  props: { ...args, iconClicked: action('iconClicked') },
-});
+type Story = StoryObj<ViewToggleComponent>;
 
 const views: ViewToggle[] = [
   {
@@ -115,8 +114,10 @@ const views: ViewToggle[] = [
   },
 ];
 
-export const Default = Template.bind({});
-Default.args = {
-  views,
-  displayBorderBottom: false,
+export const Default: Story = {
+  args: {
+    views,
+    displayBorderBottom: false,
+    iconClicked: action('Icon Clicked'),
+  },
 };

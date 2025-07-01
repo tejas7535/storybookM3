@@ -14,8 +14,6 @@ import {
   StoryFn,
 } from '@storybook/angular';
 
-import { withDesign } from 'storybook-addon-designs';
-
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 import READMEMd from './tooltip/README.md';
 
@@ -101,7 +99,6 @@ export default {
         MatTooltipModule,
       ],
     }),
-    withDesign,
     applicationConfig({
       providers: [provideAnimations()],
     }),

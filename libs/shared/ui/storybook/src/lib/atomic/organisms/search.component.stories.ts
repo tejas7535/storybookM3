@@ -3,10 +3,9 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 
 import {
   applicationConfig,
-  ArgTypes,
   Meta,
   moduleMetadata,
-  StoryFn,
+  StoryObj,
 } from '@storybook/angular';
 
 import READMEMd from '../../../../../inputs/search/src/lib/README.md';
@@ -92,7 +91,7 @@ class WrapperComponentForSearch extends SearchComponent {
   public includeCustomOptions: boolean = false;
 }
 
-export default {
+const meta: Meta<WrapperComponentForSearch> = {
   title: 'Atomic/Organisms/Search',
   component: WrapperComponentForSearch,
   decorators: [
@@ -118,112 +117,99 @@ export default {
     },
     badges: [Badges.Final],
   },
-} as Meta<WrapperComponentForSearch>;
-
-const Template: StoryFn<WrapperComponentForSearch> = (
-  args: WrapperComponentForSearch
-) => ({
-  component: WrapperComponentForSearch,
-  props: {
-    ...args,
-    onSearchUpdated: action('onSearchUpdated'),
-    onOptionSelected: action('onOptionSelected'),
-  },
-});
-
-let args: Partial<WrapperComponentForSearch> = {
-  stringOptions: [
-    {
-      id: 0,
-      title: 'option0',
-      tooltip: 'tooltip',
-      tooltipDelay: 1000,
-      removable: true,
-    },
-    { id: 1, title: 'option1' },
-    { id: 2, title: 'option2' },
-    { id: 3, title: 'option3 (disabled)', disabled: true },
-    { id: 4, title: 'option4' },
-    { id: 5, title: 'option5' },
-    { id: 6, title: 'option6' },
-    { id: 7, title: 'option7' },
-    { id: 8, title: 'option8' },
-    { id: 9, title: 'option9' },
-  ],
-  label: 'Option Selection',
-  placeholder: 'Select an option',
-  hint: 'optional hint',
-  loading: false,
-  error: false,
-  noResultsText: 'No Results',
-  filterFn: (option?: StringOption, value?: string) => {
-    if (!value) {
-      return true;
-    }
-
-    return option?.title
-      ?.toLowerCase()
-      .trim()
-      .includes(value.toLowerCase().trim());
-  },
-};
-
-const argTypes: Partial<ArgTypes<WrapperComponentForSearch>> = {
-  control: {
-    options: ['Default', 'Required'],
-    control: 'radio',
-    mapping: {
-      Default: new FormControl(),
-      Required: new FormControl(undefined, [Validators.required]),
-    },
-    defaultValue: 'Default',
-  },
-  displayWith: {
-    options: ['id', 'title'],
-    control: 'radio',
-    defaultValue: 'title',
-  },
-  appearance: {
-    options: ['fill', 'outline'],
-    control: 'radio',
-    defaultValue: 'fill',
-  },
-  filterFn: {
-    options: ['No Filter', 'Custom Filter'],
-    control: 'radio',
-    mapping: {
-      'No Filter': undefined,
-      'Custom Filter': (option: StringOption, value: string): boolean => {
-        if (!value) {
-          return true;
-        }
-
-        return option.title
-          ?.toLowerCase()
-          .trimEnd()
-          .includes(value.toLowerCase().trim());
+  args: {
+    searchUpdated: action('searchUpdated'),
+    optionSelected: action('optionSelected'),
+    stringOptions: [
+      {
+        id: 0,
+        title: 'option0',
+        tooltip: 'tooltip',
+        tooltipDelay: 1000,
+        removable: true,
       },
+      { id: 1, title: 'option1' },
+      { id: 2, title: 'option2' },
+      { id: 3, title: 'option3 (disabled)', disabled: true },
+      { id: 4, title: 'option4' },
+      { id: 5, title: 'option5' },
+      { id: 6, title: 'option6' },
+      { id: 7, title: 'option7' },
+      { id: 8, title: 'option8' },
+      { id: 9, title: 'option9' },
+    ],
+    label: 'Option Selection',
+    placeholder: 'Select an option',
+    hint: 'optional hint',
+    loading: false,
+    error: false,
+    noResultsText: 'No Results',
+    filterFn: (option?: StringOption, value?: string) => {
+      if (!value) {
+        return true;
+      }
+
+      return option?.title
+        ?.toLowerCase()
+        .trim()
+        .includes(value.toLowerCase().trim());
     },
-    defaultValue: 'No Filter',
+  },
+  argTypes: {
+    control: {
+      options: ['Default', 'Required'],
+      control: 'radio',
+      mapping: {
+        Default: new FormControl(),
+        Required: new FormControl(undefined, [Validators.required]),
+      },
+      defaultValue: 'Default',
+    },
+    displayWith: {
+      options: ['id', 'title'],
+      control: 'radio',
+      defaultValue: 'title',
+    },
+    appearance: {
+      options: ['fill', 'outline'],
+      control: 'radio',
+      defaultValue: 'fill',
+    },
+    filterFn: {
+      options: ['No Filter', 'Custom Filter'],
+      control: 'radio',
+      mapping: {
+        'No Filter': undefined,
+        'Custom Filter': (option: StringOption, value: string): boolean => {
+          if (!value) {
+            return true;
+          }
+
+          return option.title
+            ?.toLowerCase()
+            .trimEnd()
+            .includes(value.toLowerCase().trim());
+        },
+      },
+      defaultValue: 'No Filter',
+    },
+  },
+};
+export default meta;
+
+type Story = StoryObj<WrapperComponentForSearch>;
+
+export const Primary: Story = {
+  args: {
+    includeCustomOptions: false,
   },
 };
 
-export const Primary = Template.bind({});
-Primary.args = { ...args, includeCustomOptions: false };
-Primary.argTypes = argTypes;
-
-export const WithRoundedBorders = Template.bind({});
-WithRoundedBorders.args = {
-  ...args,
-  isRoundedSearchComponent: true,
-  label: '',
-  appearance: 'outline',
-  includeCustomOptions: true,
-};
-
-WithRoundedBorders.argTypes = {
-  ...argTypes,
-  isRoundedSearchComponent: {
-    defaultValue: 'true',
+export const WithRoundedBorders: Story = {
+  args: {
+    isRoundedSearchComponent: true,
+    label: '',
+    appearance: 'outline',
+    includeCustomOptions: true,
   },
 };

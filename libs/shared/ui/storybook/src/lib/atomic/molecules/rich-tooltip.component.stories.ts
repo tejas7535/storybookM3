@@ -9,8 +9,6 @@ import {
   StoryFn,
 } from '@storybook/angular';
 
-import { withDesign } from 'storybook-addon-designs';
-
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 import READMEMd from '../../../../../rich-tooltip/README.md';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
@@ -87,7 +85,6 @@ export default {
     moduleMetadata({
       imports: [RichTooltipComponent, MatIconModule, CdkOverlayOrigin],
     }),
-    withDesign,
     applicationConfig({
       providers: [provideAnimations()],
     }),

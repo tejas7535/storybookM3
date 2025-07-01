@@ -5,7 +5,7 @@ import {
   applicationConfig,
   Meta,
   moduleMetadata,
-  StoryFn,
+  StoryObj,
 } from '@storybook/angular';
 
 import { AlertComponent } from '@schaeffler/alert';
@@ -14,8 +14,9 @@ import READMEMd from '../../../../../alert/README.md';
 
 import { STORYBOOK_TRANSLOCO_CONFIG } from '../../../../.storybook/storybook-transloco.constants';
 import { Badges } from 'libs/shared/ui/storybook/.storybook/storybook-badges.constants';
+import { action } from '@storybook/addon-actions';
 
-export default {
+const meta: Meta<AlertComponent> = {
   title: 'Atomic/Organisms/Alert',
   component: AlertComponent,
   parameters: {
@@ -34,8 +35,16 @@ export default {
       providers: [provideTransloco({ config: STORYBOOK_TRANSLOCO_CONFIG })],
     }),
   ],
-} as Meta<AlertComponent>;
+  args: {
+    headline: 'Headline',
+    actionText: 'Dismiss',
+    buttonClicked: action('Button Clicked'),
+  },
+};
+export default meta;
 
+type Story = StoryObj<AlertComponent>;
+/*
 const Template: StoryFn<AlertComponent> = (args: AlertComponent) => ({
   template: `
    <section class="bg-surface text-on-surface p-4 mb-6 text-headline-large rounded-xl">
@@ -58,17 +67,30 @@ const Template: StoryFn<AlertComponent> = (args: AlertComponent) => ({
    > </schaeffler-alert>
     </div>
   </section>
- 
+
   `,
   props: args,
 });
+*/
 
-export const Default = Template.bind({});
-
-const actions = {
-  buttonClicked: { action: 'buttonClicked' },
+export const Info: Story = {
+  args: {
+    type: 'info',
+  },
 };
 
-Default.argTypes = {
-  ...actions,
+export const Warning: Story = {
+  args: {
+    type: 'warning',
+  },
+};
+export const Success: Story = {
+  args: {
+    type: 'success',
+  },
+};
+export const Error: Story = {
+  args: {
+    type: 'error',
+  },
 };

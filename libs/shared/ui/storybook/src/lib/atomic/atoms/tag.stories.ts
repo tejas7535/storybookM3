@@ -1,7 +1,6 @@
 import { MatIconModule } from '@angular/material/icon';
 
 import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
-import { withDesign } from 'storybook-addon-designs';
 
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 import READMEMd from '../../../../../tag/README.md';
@@ -14,7 +13,6 @@ export default {
     moduleMetadata({
       imports: [TagComponent, MatIconModule, MatTooltipModule],
     }),
-    withDesign,
   ],
   parameters: {
     docs: {
@@ -42,7 +40,7 @@ const Template: StoryFn = (args) => ({
     <div class=" flex flex-row gap-6 py-3">
         <schaeffler-tag [value]="'Info tag'" type="info" ></schaeffler-tag>
         <schaeffler-tag [value]="'Info tag with border'" type="info" withBorder="true" > </schaeffler-tag>
-        
+
         <schaeffler-tag [value]="'Info tag small'" type="info" [size] ="'small'"></schaeffler-tag>
         <schaeffler-tag [value]="'Info tag with border small'" type="info" withBorder="true" [size] ="'small'"> </schaeffler-tag>
     </div>
@@ -128,8 +126,8 @@ const Template: StoryFn = (args) => ({
     info_outline
   </mat-icon> </schaeffler-tag>
 
-  <schaeffler-tag [value]="'Tag with custom classes'" type="info" withBorder="true" [styleClass]="'uppercase font-bold border '" > 
-  <mat-icon      
+  <schaeffler-tag [value]="'Tag with custom classes'" type="info" withBorder="true" [styleClass]="'uppercase font-bold border '" >
+  <mat-icon
   [color]="'secondary'"
   class="cursor-help order-first mr-1 !h-4 !text-[16px] !w-5"
   [inline]="inline"
@@ -142,7 +140,7 @@ const Template: StoryFn = (args) => ({
   tune
 </mat-icon> </schaeffler-tag>
 
-  
+
     </div>
     </section>
   `,

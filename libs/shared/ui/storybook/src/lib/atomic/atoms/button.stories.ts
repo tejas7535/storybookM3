@@ -2,7 +2,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
-import { withDesign } from 'storybook-addon-designs';
 
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 import READMEMd from './button/README.md';
@@ -14,7 +13,6 @@ export default {
     moduleMetadata({
       imports: [MatButtonModule, MatCardModule, MatIconModule],
     }),
-    withDesign,
   ],
   parameters: {
     docs: {
@@ -57,7 +55,7 @@ const Template: StoryFn = (args) => ({
               <button mat-flat-button disabled>{{ buttonText }}</button>
               <button mat-flat-button disabled><mat-icon>add</mat-icon>{{ buttonText }}</button>
             </div>
-        </div> 
+        </div>
         <h6 class="text-on-surface text-body-medium mt-12">Text only buttons (Detaulf for Secondary action)</h6>
         <div class="flex flex-col">
             <div class="flex flex-row gap-6 py-3">
@@ -79,7 +77,7 @@ const Template: StoryFn = (args) => ({
               <button mat-stroked-button disabled>{{ buttonText }}</button>
               <button mat-stroked-button disabled><mat-icon>add</mat-icon>{{ buttonText }}</button>
             </div>
-        </div> 
+        </div>
         <h6 class="text-on-surface text-body-medium mt-12">Elevated buttons</h6>
         <div class="flex flex-col">
             <div class="flex flex-row gap-6 py-3">
@@ -101,7 +99,7 @@ const Template: StoryFn = (args) => ({
               <button mat-flat-button class="tonal-button" disabled>{{ buttonText }}</button>
               <button mat-flat-button class="tonal-button" disabled><mat-icon>add</mat-icon>{{ buttonText }}</button>
             </div>
-        </div>  
+        </div>
       </div>
       <div>
         <h6 class="text-on-surface text-body-medium mt-12 md:mt-4 ">FAB (default)</h6>

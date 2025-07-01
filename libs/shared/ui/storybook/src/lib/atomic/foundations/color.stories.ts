@@ -1,5 +1,4 @@
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { withDesign } from 'storybook-addon-designs';
 
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
@@ -796,7 +795,6 @@ export default {
   title: 'Atomic/Foundations/Color',
   component: ColorComponentExample,
   decorators: [
-    withDesign,
     moduleMetadata({
       imports: [
         MatIconModule,
