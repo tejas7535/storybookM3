@@ -278,7 +278,8 @@ export class DemandValidationExportModalComponent implements OnInit {
           SelectedKpisAndMetadata.ProductionPlantName,
           SelectedKpisAndMetadata.ProductionSegment,
           SelectedKpisAndMetadata.ProductionLine,
-          SelectedKpisAndMetadata.FrozenZone,
+          // TODO: uncomment when frozen zone is returned by SAP, see D360-454, will be implemented with https://jira.schaeffler.com/browse/D360-163
+          // SelectedKpisAndMetadata.FrozenZone,
         ],
         [
           SelectedKpisAndMetadata.CurrentRLTSchaeffler,
