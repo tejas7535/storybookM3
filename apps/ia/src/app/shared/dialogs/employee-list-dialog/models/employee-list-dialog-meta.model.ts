@@ -4,7 +4,7 @@ import { EmployeeListDialogMetaHeadings } from './employee-list-dialog-meta-head
 export class EmployeeListDialogMeta {
   public constructor(
     public headings: EmployeeListDialogMetaHeadings,
-    public employees: EmployeeTableEntry[],
+    public employees: EmployeeTableEntry[] | undefined,
     public employeesLoading: boolean,
     public enoughRightsToShowAllEmployees: boolean,
     public type: 'workforce' | 'leavers' | 'newJoiners',

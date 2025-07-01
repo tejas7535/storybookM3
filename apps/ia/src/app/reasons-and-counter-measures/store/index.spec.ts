@@ -1,15 +1,26 @@
 import { Action } from '@ngrx/store';
 
-import { ReasonForLeavingTab } from '../models';
+import { ReasonForLeavingTab, TextAnalysisResponse } from '../models';
 import { ReasonForLeavingStats } from '../models/reason-for-leaving-stats.model';
-import { initialState, reasonsAndCounterMeasuresReducer, reducer } from '.';
+import {
+  initialState,
+  reasonsAndCounterMeasuresReducer,
+  ReasonsAndCounterMeasuresState,
+  reducer,
+} from '.';
 import {
   loadComparedLeaversByReason,
+  loadComparedReasonAnalysis,
+  loadComparedReasonAnalysisFailure,
+  loadComparedReasonAnalysisSuccess,
   loadComparedReasonsWhyPeopleLeft,
   loadComparedReasonsWhyPeopleLeftFailure,
   loadComparedReasonsWhyPeopleLeftSuccess,
   loadLeaversByReason,
   loadLeaversByReasonSuccess,
+  loadReasonAnalysis,
+  loadReasonAnalysisFailure,
+  loadReasonAnalysisSuccess,
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
@@ -47,7 +58,7 @@ describe('ReasonsAndCounterMeasures Reducer', () => {
       const action = loadReasonsWhyPeopleLeft();
       const state = reasonsAndCounterMeasuresReducer(initialState, action);
 
-      expect(state.reasonsForLeaving.reasons.loading).toBeTruthy();
+      expect(state.reasonsForLeaving.reasons.reasonsData.loading).toBeTruthy();
     });
   });
 
@@ -58,8 +69,8 @@ describe('ReasonsAndCounterMeasures Reducer', () => {
       });
       const state = reasonsAndCounterMeasuresReducer(initialState, action);
 
-      expect(state.reasonsForLeaving.reasons.data).toBeDefined();
-      expect(state.reasonsForLeaving.reasons.loading).toBeFalsy();
+      expect(state.reasonsForLeaving.reasons.reasonsData.data).toBeDefined();
+      expect(state.reasonsForLeaving.reasons.reasonsData.loading).toBeFalsy();
     });
   });
 
@@ -70,8 +81,8 @@ describe('ReasonsAndCounterMeasures Reducer', () => {
       });
       const state = reasonsAndCounterMeasuresReducer(initialState, action);
 
-      expect(state.reasonsForLeaving.reasons.data).toBeUndefined();
-      expect(state.reasonsForLeaving.reasons.loading).toBeFalsy();
+      expect(state.reasonsForLeaving.reasons.reasonsData.data).toBeUndefined();
+      expect(state.reasonsForLeaving.reasons.reasonsData.loading).toBeFalsy();
     });
   });
 
@@ -80,7 +91,9 @@ describe('ReasonsAndCounterMeasures Reducer', () => {
       const action = loadComparedReasonsWhyPeopleLeft();
       const state = reasonsAndCounterMeasuresReducer(initialState, action);
 
-      expect(state.reasonsForLeaving.comparedReasons.loading).toBeTruthy();
+      expect(
+        state.reasonsForLeaving.comparedReasons.reasonsData.loading
+      ).toBeTruthy();
     });
   });
 
@@ -91,8 +104,12 @@ describe('ReasonsAndCounterMeasures Reducer', () => {
       });
       const state = reasonsAndCounterMeasuresReducer(initialState, action);
 
-      expect(state.reasonsForLeaving.comparedReasons.data).toBeDefined();
-      expect(state.reasonsForLeaving.comparedReasons.loading).toBeFalsy();
+      expect(
+        state.reasonsForLeaving.comparedReasons.reasonsData.data
+      ).toBeDefined();
+      expect(
+        state.reasonsForLeaving.comparedReasons.reasonsData.loading
+      ).toBeFalsy();
     });
   });
 
@@ -103,8 +120,12 @@ describe('ReasonsAndCounterMeasures Reducer', () => {
       });
       const state = reasonsAndCounterMeasuresReducer(initialState, action);
 
-      expect(state.reasonsForLeaving.comparedReasons.data).toBeUndefined();
-      expect(state.reasonsForLeaving.comparedReasons.loading).toBeFalsy();
+      expect(
+        state.reasonsForLeaving.comparedReasons.reasonsData.data
+      ).toBeUndefined();
+      expect(
+        state.reasonsForLeaving.comparedReasons.reasonsData.loading
+      ).toBeFalsy();
     });
   });
 
@@ -148,8 +169,225 @@ describe('ReasonsAndCounterMeasures Reducer', () => {
       });
       const state = reasonsAndCounterMeasuresReducer(initialState, action);
 
-      expect(state.reasonsForLeaving.reasons.data).toBeUndefined();
-      expect(state.reasonsForLeaving.reasons.loading).toBeFalsy();
+      expect(state.reasonsForLeaving.reasons.reasonsData.data).toBeUndefined();
+      expect(state.reasonsForLeaving.reasons.reasonsData.loading).toBeFalsy();
+    });
+  });
+
+  describe('loadReasonAnalysis', () => {
+    test('should create new reason analysis', () => {
+      const action = loadReasonAnalysis({ reasonIds: [99] });
+      const state = reasonsAndCounterMeasuresReducer(initialState, action);
+
+      expect(
+        state.reasonsForLeaving.reasons.reasonAnalysis.data.answer.reasons
+          .length
+      ).toBe(1);
+      expect(
+        state.reasonsForLeaving.reasons.reasonAnalysis.data.answer.reasons[0]
+          .reasonId
+      ).toBe(99);
+      expect(
+        state.reasonsForLeaving.reasons.reasonAnalysis.data.answer.reasons[0]
+          .show
+      ).toBeTruthy();
+    });
+  });
+
+  describe('loadReasonAnalysisSuccess', () => {
+    test('should set data and unset loading', () => {
+      const action = loadReasonAnalysisSuccess({
+        data: {
+          answer: {
+            reasons: [
+              { reasonId: 0, show: true, fullWidth: true, title: 'A' },
+              { reasonId: 1, show: true, fullWidth: true, title: 'B' },
+            ],
+          },
+        } as TextAnalysisResponse,
+        selectedReasonIds: [0, 1],
+      });
+      const fakeState: ReasonsAndCounterMeasuresState = {
+        ...initialState,
+        reasonsForLeaving: {
+          ...initialState.reasonsForLeaving,
+          reasons: {
+            ...initialState.reasonsForLeaving.reasons,
+            reasonAnalysis: {
+              data: {
+                answer: {
+                  reasons: [
+                    { reasonId: 0, show: true, fullWidth: true },
+                    { reasonId: 1, show: true, fullWidth: true },
+                  ],
+                },
+              } as TextAnalysisResponse,
+              loading: false,
+            },
+          },
+        },
+      };
+
+      const state = reasonsAndCounterMeasuresReducer(fakeState, action);
+
+      expect(
+        state.reasonsForLeaving.reasons.reasonAnalysis.loading
+      ).toBeFalsy();
+      expect(
+        state.reasonsForLeaving.reasons.reasonAnalysis.data.answer.reasons[0]
+          .title
+      ).toBe('A');
+      expect(
+        state.reasonsForLeaving.reasons.reasonAnalysis.data.answer.reasons[1]
+          .title
+      ).toBe('B');
+    });
+  });
+
+  describe('loadReasonAnalysisFailure', () => {
+    test('should unset loading and set error message', () => {
+      const action = loadReasonAnalysisFailure({
+        errorMessage,
+      });
+      const fakeState: ReasonsAndCounterMeasuresState = {
+        ...initialState,
+        reasonsForLeaving: {
+          ...initialState.reasonsForLeaving,
+          reasons: {
+            ...initialState.reasonsForLeaving.reasons,
+            reasonAnalysis: {
+              data: {
+                answer: {
+                  reasons: [
+                    { reasonId: 0, show: true, fullWidth: true },
+                    { reasonId: 1, show: true, fullWidth: true },
+                  ],
+                },
+              } as TextAnalysisResponse,
+              loading: false,
+            },
+          },
+        },
+      };
+      const state = reasonsAndCounterMeasuresReducer(fakeState, action);
+
+      expect(
+        state.reasonsForLeaving.reasons.reasonAnalysis.loading
+      ).toBeFalsy();
+      expect(state.reasonsForLeaving.reasons.reasonAnalysis.errorMessage).toBe(
+        'Failure!'
+      );
+    });
+  });
+
+  describe('loadComparedReasonAnalysis', () => {
+    test('should create new compared reason analysis', () => {
+      const action = loadComparedReasonAnalysis({ reasonIds: [99] });
+      const state = reasonsAndCounterMeasuresReducer(initialState, action);
+
+      expect(
+        state.reasonsForLeaving.comparedReasons.reasonAnalysis.data.answer
+          .reasons.length
+      ).toBe(1);
+      expect(
+        state.reasonsForLeaving.comparedReasons.reasonAnalysis.data.answer
+          .reasons[0].reasonId
+      ).toBe(99);
+      expect(
+        state.reasonsForLeaving.comparedReasons.reasonAnalysis.data.answer
+          .reasons[0].show
+      ).toBeTruthy();
+      expect(
+        state.reasonsForLeaving.comparedReasons.reasonAnalysis.data.answer
+          .reasons[0].fullWidth
+      ).toBeTruthy();
+    });
+  });
+
+  describe('loadComparedReasonAnalysisSuccess', () => {
+    test('should set data and unset loading', () => {
+      const action = loadComparedReasonAnalysisSuccess({
+        data: {
+          answer: {
+            reasons: [
+              { reasonId: 0, show: true, fullWidth: true, title: 'A' },
+              { reasonId: 1, show: true, fullWidth: true, title: 'B' },
+            ],
+          },
+        } as TextAnalysisResponse,
+        selectedReasonIds: [0, 1],
+      });
+      const fakeState: ReasonsAndCounterMeasuresState = {
+        ...initialState,
+        reasonsForLeaving: {
+          ...initialState.reasonsForLeaving,
+          comparedReasons: {
+            ...initialState.reasonsForLeaving.comparedReasons,
+            reasonAnalysis: {
+              data: {
+                answer: {
+                  reasons: [
+                    { reasonId: 0, show: true, fullWidth: true },
+                    { reasonId: 1, show: true, fullWidth: true },
+                  ],
+                },
+              } as TextAnalysisResponse,
+              loading: false,
+            },
+          },
+        },
+      };
+
+      const state = reasonsAndCounterMeasuresReducer(fakeState, action);
+
+      expect(
+        state.reasonsForLeaving.comparedReasons.reasonAnalysis.loading
+      ).toBeFalsy();
+      expect(
+        state.reasonsForLeaving.comparedReasons.reasonAnalysis.data.answer
+          .reasons[0].title
+      ).toBe('A');
+      expect(
+        state.reasonsForLeaving.comparedReasons.reasonAnalysis.data.answer
+          .reasons[1].title
+      ).toBe('B');
+    });
+  });
+
+  describe('loadComparedReasonAnalysisFailure', () => {
+    test('should unset loading and set error message', () => {
+      const action = loadComparedReasonAnalysisFailure({
+        errorMessage,
+      });
+      const fakeState: ReasonsAndCounterMeasuresState = {
+        ...initialState,
+        reasonsForLeaving: {
+          ...initialState.reasonsForLeaving,
+          comparedReasons: {
+            ...initialState.reasonsForLeaving.comparedReasons,
+            reasonAnalysis: {
+              data: {
+                answer: {
+                  reasons: [
+                    { reasonId: 0, show: true, fullWidth: true },
+                    { reasonId: 1, show: true, fullWidth: true },
+                  ],
+                },
+              } as TextAnalysisResponse,
+              loading: false,
+            },
+          },
+        },
+      };
+
+      const state = reasonsAndCounterMeasuresReducer(fakeState, action);
+
+      expect(
+        state.reasonsForLeaving.comparedReasons.reasonAnalysis.loading
+      ).toBeFalsy();
+      expect(
+        state.reasonsForLeaving.comparedReasons.reasonAnalysis.errorMessage
+      ).toBe(errorMessage);
     });
   });
 });

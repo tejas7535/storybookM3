@@ -11,6 +11,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { FilterModule } from '../../shared/filter/filter.module';
 import { NavButtonsComponent } from '../../shared/nav-buttons/nav-buttons.component';
 import { SharedModule } from '../../shared/shared.module';
+import { GeneralQuestionsTextAnalysisComponent } from './general-questions-text-analysis/general-questions-text-analysis.component';
 import { ReasonsForLeavingComponent } from './reasons-for-leaving.component';
 import { ReasonsForLeavingChartModule } from './reasons-for-leaving-chart/reasons-for-leaving-chart.module';
 import { ReasonsForLeavingTableModule } from './reasons-for-leaving-table/reasons-for-leaving-table.module';
@@ -28,6 +29,7 @@ import { ReasonsForLeavingTableModule } from './reasons-for-leaving-table/reason
     FilterModule,
     ReasonsForLeavingTableModule,
     ReasonsForLeavingChartModule,
+    GeneralQuestionsTextAnalysisComponent,
   ],
   providers: [
     { provide: TRANSLOCO_SCOPE, useValue: 'reasons-and-counter-measures' },

@@ -1,10 +1,16 @@
 import { DoughnutChartData } from '../../../shared/charts/models/doughnut-chart-data.model';
-import { Reason, ReasonForLeavingRank, ReasonImpact } from '../../models';
+import {
+  AnalysisData,
+  Reason,
+  ReasonForLeavingRank,
+  ReasonImpact,
+} from '../../models';
 
 export function mapReasonsToTableData(
   reasons: Reason[],
-  selectedReason?: string
-): ReasonForLeavingRank[] {
+  selectedReason?: string,
+  reasonAnalysis?: AnalysisData[]
+): (ReasonForLeavingRank | AnalysisData)[] {
   if (reasons.length === 0) {
     return [];
   }
@@ -17,7 +23,10 @@ export function mapReasonsToTableData(
     selectedReason ? 'detailedReasonId' : 'reasonId'
   );
 
-  const rankedReasons = rankReasons(reasonsArray, !!selectedReason);
+  const rankedReasons: (ReasonForLeavingRank | AnalysisData)[] = rankReasons(
+    reasonsArray,
+    !!selectedReason
+  );
 
   if (selectedReason && rankedReasons.length > 0) {
     const mainReason = reasons.find((item) => item.reason === selectedReason);
@@ -37,6 +46,15 @@ export function mapReasonsToTableData(
       )
     );
   }
+
+  reasonAnalysis?.forEach((analysis) => {
+    const reasonIndex = rankedReasons.findIndex(
+      (item) => item.reasonId === analysis.reasonId && analysis.show
+    );
+    if (reasonIndex !== -1) {
+      rankedReasons.splice(reasonIndex + 1, 0, analysis);
+    }
+  });
 
   return rankedReasons;
 }
@@ -118,7 +136,7 @@ export function prepareReasonsForRanking(
         detailedReason:
           type === 'detailedReasonId' ? reason?.detailedReason : undefined,
         leavers: reasonCountMap.get(+reasonId)?.size,
-        rank: undefined,
+        rank: undefined as number,
         percentage: getPercentageValue(
           reasonCountMap.get(+reasonId)
             ? reasonCountMap.get(+reasonId)?.size

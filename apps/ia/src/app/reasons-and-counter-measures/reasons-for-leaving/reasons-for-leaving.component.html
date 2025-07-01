@@ -39,8 +39,15 @@
         [timeRange]="timeRange$ | ngrxPush"
         [loading]="reasonsLoading$ | ngrxPush"
         (leaversRequested)="onLeaversRequested($event)"
+        (toggleReasonAnalysis)="onToggleReasonAnalysis($event)"
       >
       </ia-reasons-for-leaving-table>
+      <ia-general-questions-text-analysis
+        class="xl:w-4/5"
+        [data]="generalQuestionsData$ | ngrxPush"
+        [loading]="reasonAnalysisLoading$ | ngrxPush"
+      >
+      </ia-general-questions-text-analysis>
     </div>
     <div class="flex flex-col lg:col-span-6">
       <ia-reasons-for-leaving-chart
@@ -61,8 +68,15 @@
         [timeRange]="timeRange$ | ngrxPush"
         [loading]="comparedReasonsLoading$ | ngrxPush"
         (leaversRequested)="onComparedLeaversRequested($event)"
+        (toggleReasonAnalysis)="onComparedToggleReasonAnalysis($event)"
       >
       </ia-reasons-for-leaving-table>
+      <ia-general-questions-text-analysis
+        class="xl:w-4/5 ml-auto"
+        [data]="comparedGeneralQuestionsData$ | ngrxPush"
+        [loading]="comparedReasonAnalysisLoading$ | ngrxPush"
+      >
+      </ia-general-questions-text-analysis>
     </div>
   </div>
 </mat-card>

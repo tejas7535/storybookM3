@@ -11,6 +11,12 @@ import { ICellRendererParams } from 'ag-grid-community';
   imports: [CommonModule, MatIconModule, MatTooltipModule],
   selector: 'ia-amount-cell-renderer',
   templateUrl: './amount-cell-renderer.component.html',
+  styles: `
+    ::ng-deep .ia-ag-header-align-right .ag-header-cell-label,
+    .ag-cell-value ia-amount-cell-renderer .flex {
+      justify-content: flex-end;
+    }
+  `,
 })
 export class AmountCellRendererComponent implements ICellRendererAngularComp {
   amount: number;

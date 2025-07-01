@@ -1,5 +1,10 @@
 import { DoughnutChartData } from '../../../shared/charts/models';
-import { Reason, ReasonForLeavingRank, ReasonImpact } from '../../models';
+import {
+  AnalysisData,
+  Reason,
+  ReasonForLeavingRank,
+  ReasonImpact,
+} from '../../models';
 import * as utils from './reasons-and-counter-measures.selector.utils';
 
 describe('mapReasonsToTableData', () => {
@@ -108,13 +113,47 @@ describe('mapReasonsToTableData', () => {
         detailedReasonId: 12,
       },
     ];
+    const reasonAnalysis: AnalysisData[] = [
+      {
+        reasonId: 1,
+        fullWidth: true,
+        loading: false,
+        show: true,
+        impacts: [],
+        quotes: [],
+      },
+      {
+        reasonId: 3,
+        fullWidth: true,
+        loading: false,
+        show: true,
+        impacts: [],
+        quotes: [],
+      },
+    ];
 
-    const result = utils.mapReasonsToTableData(data);
+    const result = utils.mapReasonsToTableData(data, undefined, reasonAnalysis);
 
     expect(result).toEqual([
       { reason: reasonA, leavers: 2, rank: 1, percentage: 18.2, reasonId: 1 },
+      {
+        reasonId: 1,
+        fullWidth: true,
+        loading: false,
+        show: true,
+        impacts: [],
+        quotes: [],
+      },
       { reason: reasonB, leavers: 2, rank: 1, percentage: 18.2, reasonId: 2 },
       { reason: reasonC, leavers: 2, rank: 1, percentage: 18.2, reasonId: 3 },
+      {
+        reasonId: 3,
+        fullWidth: true,
+        loading: false,
+        show: true,
+        impacts: [],
+        quotes: [],
+      },
       { reason: reasonE, leavers: 2, rank: 1, percentage: 18.2, reasonId: 5 },
       { reason: reasonF, leavers: 2, rank: 1, percentage: 18.2, reasonId: 6 },
       { reason: reasonD, leavers: 1, rank: 6, percentage: 9.1, reasonId: 4 },

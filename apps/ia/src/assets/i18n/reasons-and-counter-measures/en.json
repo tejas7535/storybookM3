@@ -21,7 +21,16 @@
       "answers": "Answers",
       "popup": {
         "titleLeavers": "Leavers"
+      },
+      "analysis": {
+        "button": {
+          "seeMore": "see more",
+          "seeLess": "see less"
+        }
       }
+    },
+    "generalQuestionsTextAnalysis": {
+      "header": "Text analysis of general questions:"
     }
   },
   "exitSurvey": {

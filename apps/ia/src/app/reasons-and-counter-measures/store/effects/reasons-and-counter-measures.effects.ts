@@ -25,16 +25,26 @@ import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.mod
 import { ReasonsAndCounterMeasuresService } from '../../reasons-and-counter-measures.service';
 import {
   loadComparedLeaversByReason,
+  loadComparedReasonAnalysis,
+  loadComparedReasonAnalysisFailure,
+  loadComparedReasonAnalysisSuccess,
   loadComparedReasonsWhyPeopleLeft,
   loadComparedReasonsWhyPeopleLeftFailure,
   loadComparedReasonsWhyPeopleLeftSuccess,
   loadLeaversByReason,
   loadLeaversByReasonFailure,
   loadLeaversByReasonSuccess,
+  loadReasonAnalysis,
+  loadReasonAnalysisFailure,
+  loadReasonAnalysisSuccess,
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
 } from '../actions/reasons-and-counter-measures.actions';
+import {
+  getTopBenchmarkReasonsIds,
+  getTopReasonsIds,
+} from '../selectors/reasons-and-counter-measures.selector';
 
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
 @Injectable()
@@ -54,7 +64,7 @@ export class ReasonsAndCounterMeasuresEffects {
         ([_action, router]) =>
           router.state.url === this.REASONS_AND_COUNTER_MEASURES_URL
       ),
-      map(() => loadReasonsWhyPeopleLeft())
+      switchMap(() => [loadReasonsWhyPeopleLeft()])
     )
   );
 
@@ -178,6 +188,116 @@ export class ReasonsAndCounterMeasuresEffects {
             )
           )
         )
+      )
+    )
+  );
+
+  loadReasonsWhyPeopleLeftSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadReasonsWhyPeopleLeftSuccess),
+      concatLatestFrom(() => [
+        this.store.select(getCurrentFilters),
+        this.store.select(getTopReasonsIds),
+      ]),
+      filter(
+        ([_action, filters, topReasonIds]) =>
+          !!(
+            filters.filterDimension &&
+            filters.timeRange &&
+            filters.value &&
+            topReasonIds.length > 0
+          )
+      ),
+      map(([_action, _request, topReasonIds]) => ({
+        topReasonIds,
+      })),
+      switchMap((request) => [
+        loadReasonAnalysis({ reasonIds: request.topReasonIds }),
+      ])
+    )
+  );
+
+  loadComparedReasonsWhyPeopleLeftSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadComparedReasonsWhyPeopleLeftSuccess),
+      concatLatestFrom(() => [
+        this.store.select(getCurrentBenchmarkFilters),
+        this.store.select(getTopBenchmarkReasonsIds),
+      ]),
+      filter(
+        ([_action, filters, topReasonIds]) =>
+          !!(
+            filters.filterDimension &&
+            filters.timeRange &&
+            filters.value &&
+            topReasonIds.length > 0
+          )
+      ),
+      map(([_action, _request, topReasonIds]) => ({
+        topReasonIds,
+      })),
+      switchMap((request) => [
+        loadComparedReasonAnalysis({ reasonIds: request.topReasonIds }),
+      ])
+    )
+  );
+
+  loadReasonAnalysis$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadReasonAnalysis),
+      concatLatestFrom(() => [this.store.select(getCurrentFilters)]),
+      filter(
+        ([_action, filters]) =>
+          !!(filters.filterDimension && filters.timeRange && filters.value)
+      ),
+      switchMap(([action, request]) =>
+        this.reasonsAndCounterMeasuresService
+          .getReasonTextAnalysis(request)
+          .pipe(
+            map((data) =>
+              loadReasonAnalysisSuccess({
+                data,
+                selectedReasonIds: action.reasonIds,
+              })
+            ),
+            catchError((error) =>
+              of(
+                loadReasonAnalysisFailure({
+                  errorMessage: error.message,
+                })
+              )
+            )
+          )
+      )
+    )
+  );
+
+  loadComparedReasonAnalysis$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadComparedReasonAnalysis),
+      concatLatestFrom(() => [this.store.select(getCurrentBenchmarkFilters)]),
+      filter(
+        ([_action, filters]) =>
+          !!(filters.filterDimension && filters.timeRange && filters.value)
+      ),
+      switchMap(([action, request]) =>
+        this.reasonsAndCounterMeasuresService
+          .getReasonTextAnalysis(request)
+          .pipe(
+            map((data) =>
+              loadComparedReasonAnalysisSuccess({
+                data,
+                selectedReasonIds: action.reasonIds,
+              })
+            ),
+            catchError((error) =>
+              of(
+                loadComparedReasonAnalysisFailure({
+                  errorMessage: error.message,
+                })
+              )
+            )
+          )
       )
     )
   );

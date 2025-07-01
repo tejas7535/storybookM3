@@ -14,24 +14,35 @@ import { EmployeeListDialogMetaFilters } from '../../shared/dialogs/employee-lis
 import { IdValue } from '../../shared/models';
 import { NavItem } from '../../shared/nav-buttons/models';
 import { EXIT_SURVEY_URL } from '../../shared/urls';
-import { ReasonForLeavingRank, ReasonForLeavingTab } from '../models';
+import {
+  AnalysisData,
+  GeneralQuestionsGridData,
+  ReasonForLeavingRank,
+  ReasonForLeavingTab,
+} from '../models';
 import {
   loadComparedLeaversByReason,
   loadLeaversByReason,
   selectComparedReason,
   selectReason,
   selectReasonsForLeavingTab,
+  toggleComparedReasonAnalysis,
+  toggleReasonAnalysis,
 } from '../store/actions/reasons-and-counter-measures.actions';
 import {
   getComparedConductedInterviewsInfo,
+  getComparedGeneralQuestionsAnalysis,
+  getComparedReasonAnalysisLoading,
   getComparedReasonsChartData,
   getComparedReasonsChildren,
   getComparedReasonsLoading,
   getComparedReasonsTableData,
   getConductedInterviewsInfo,
   getCurrentTab,
+  getGeneralQuestionsAnalysis,
   getLeaversByReasonData,
   getLeaversByReasonLoading,
+  getReasonAnalysisLoading,
   getReasonsChartData,
   getReasonsChildren,
   getReasonsLoading,
@@ -61,7 +72,7 @@ export class ReasonsForLeavingComponent implements OnInit {
 
   selectedTab$: Observable<ReasonForLeavingTab>;
   reasonsLoading$: Observable<boolean>;
-  reasonsTableData$: Observable<ReasonForLeavingRank[]>;
+  reasonsTableData$: Observable<(ReasonForLeavingRank | AnalysisData)[]>;
   reasonsChartData$: Observable<DoughnutChartData[]>;
   reasonsChildren$: Observable<
     { reason: string; children: DoughnutChartData[] }[]
@@ -70,7 +81,9 @@ export class ReasonsForLeavingComponent implements OnInit {
     conducted: number;
   }>;
   comparedReasonsLoading$: Observable<boolean>;
-  comparedReasonsTableData$: Observable<ReasonForLeavingRank[]>;
+  comparedReasonsTableData$: Observable<
+    (ReasonForLeavingRank | AnalysisData)[]
+  >;
   comparedReasonsChartData$: Observable<DoughnutChartData[]>;
   comparedReasonsChildren$: Observable<
     { reason: string; children: DoughnutChartData[] }[]
@@ -82,6 +95,11 @@ export class ReasonsForLeavingComponent implements OnInit {
   leaversData$: Observable<ExitEntryEmployeesResponse>;
   beautifiedFilters$: Observable<EmployeeListDialogMetaFilters>;
   timeRange$: Observable<IdValue>;
+
+  generalQuestionsData$: Observable<GeneralQuestionsGridData[]>;
+  comparedGeneralQuestionsData$: Observable<GeneralQuestionsGridData[]>;
+  reasonAnalysisLoading$: Observable<boolean>;
+  comparedReasonAnalysisLoading$: Observable<boolean>;
 
   constructor(private readonly store: Store) {}
 
@@ -111,6 +129,15 @@ export class ReasonsForLeavingComponent implements OnInit {
     this.leaversData$ = this.store.select(getLeaversByReasonData);
     this.beautifiedFilters$ = this.store.select(getBeautifiedFilterValues);
     this.timeRange$ = this.store.select(getSelectedTimeRange);
+
+    this.reasonAnalysisLoading$ = this.store.select(getReasonAnalysisLoading);
+    this.comparedReasonAnalysisLoading$ = this.store.select(
+      getComparedReasonAnalysisLoading
+    );
+    this.generalQuestionsData$ = this.store.select(getGeneralQuestionsAnalysis);
+    this.comparedGeneralQuestionsData$ = this.store.select(
+      getComparedGeneralQuestionsAnalysis
+    );
   }
 
   onLeaversRequested(reason: {
@@ -141,11 +168,13 @@ export class ReasonsForLeavingComponent implements OnInit {
     const reasonType = Object.values(ReasonForLeavingTab).find(
       (tab) => tab === selectedTab
     );
-    this.store.dispatch(
-      selectReasonsForLeavingTab({
-        selectedTab: reasonType,
-      })
-    );
+    if (reasonType) {
+      this.store.dispatch(
+        selectReasonsForLeavingTab({
+          selectedTab: reasonType,
+        })
+      );
+    }
   }
 
   onSelectedReason(reason: string): void {
@@ -154,5 +183,13 @@ export class ReasonsForLeavingComponent implements OnInit {
 
   onSelectedComparedReason(reason: string): void {
     this.store.dispatch(selectComparedReason({ reason }));
+  }
+
+  onToggleReasonAnalysis(reasonId: number): void {
+    this.store.dispatch(toggleReasonAnalysis({ reasonId }));
+  }
+
+  onComparedToggleReasonAnalysis(reasonId: number): void {
+    this.store.dispatch(toggleComparedReasonAnalysis({ reasonId }));
   }
 }

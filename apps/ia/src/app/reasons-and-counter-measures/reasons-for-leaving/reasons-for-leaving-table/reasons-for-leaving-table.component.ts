@@ -2,7 +2,14 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { translate } from '@jsverse/transloco';
-import { CellClickedEvent, ColDef, ValueGetterParams } from 'ag-grid-community';
+import {
+  CellClickedEvent,
+  ColDef,
+  GetRowIdFunc,
+  GetRowIdParams,
+  IsFullWidthRowParams,
+  ValueGetterParams,
+} from 'ag-grid-community';
 
 import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { EmployeeListDialogComponent } from '../../../shared/dialogs/employee-list-dialog/employee-list-dialog.component';
@@ -15,7 +22,8 @@ import { EmployeeWithAction, IdValue } from '../../../shared/models';
 import { AmountCellRendererComponent } from '../../../shared/tables/employee-list-table/amount-cell-renderer/amount-cell-renderer.component';
 import { LoadingDataTableComponent } from '../../../shared/tables/loading-data-table';
 import { countComparator } from '../../../shared/utils/comparators';
-import { ReasonForLeavingRank } from '../../models';
+import { AnalysisData, ReasonForLeavingRank } from '../../models';
+import { ReasonAnalysisRendererComponent } from './reason-analysis-renderer/reason-analysis-renderer.component';
 
 @Component({
   selector: 'ia-reasons-for-leaving-table',
@@ -23,9 +31,8 @@ import { ReasonForLeavingRank } from '../../models';
   styles: [
     `
       ::ng-deep {
-        .ia-ag-header-align-right .ag-header-cell-label,
-        .ag-cell-value ia-amount-cell-renderer .flex {
-          justify-content: flex-end;
+        .ag-row:not(.ag-full-width-row) {
+          cursor: pointer;
         }
       }
     `,
@@ -33,14 +40,17 @@ import { ReasonForLeavingRank } from '../../models';
   standalone: false,
 })
 export class ReasonsForLeavingTableComponent
-  extends LoadingDataTableComponent<ReasonForLeavingRank>
+  extends LoadingDataTableComponent<ReasonForLeavingRank | AnalysisData>
   implements OnInit
 {
   private readonly answersColumnId = 'answers';
-  private _data: ReasonForLeavingRank[];
+  private readonly leaversColumnId = 'leavers';
+  private _data: (ReasonForLeavingRank | AnalysisData)[];
   leavers: EmployeeWithAction[];
+  reasonAnalysisRendererComponent = ReasonAnalysisRendererComponent;
   components = {
     AmountCellRendererComponent,
+    ReasonAnalysisRendererComponent,
   };
 
   @Input() filters: EmployeeListDialogMetaFilters;
@@ -51,12 +61,14 @@ export class ReasonsForLeavingTableComponent
     detailedReasonId: number;
   }>();
 
-  @Input() set data(data: ReasonForLeavingRank[]) {
+  @Output() toggleReasonAnalysis = new EventEmitter<number>();
+
+  @Input() set data(data: (ReasonForLeavingRank | AnalysisData)[]) {
     this._data = data;
     this.showOrHideAnswersColumn();
   }
 
-  get data(): ReasonForLeavingRank[] {
+  get data(): (ReasonForLeavingRank | AnalysisData)[] {
     return this._data;
   }
 
@@ -89,9 +101,8 @@ export class ReasonsForLeavingTableComponent
   );
 
   defaultColDef: ColDef = {
-    sortable: true,
-    filter: true,
-    floatingFilter: true,
+    sortable: false,
+    filter: false,
     resizable: true,
     suppressHeaderMenuButton: true,
     headerClass: () => this.headerClass,
@@ -116,8 +127,6 @@ export class ReasonsForLeavingTableComponent
         headerName: translate(
           'reasonsAndCounterMeasures.reasonsForLeaving.table.position'
         ),
-        sort: 'asc',
-        floatingFilter: false,
         minWidth: 86,
       },
       {
@@ -135,18 +144,16 @@ export class ReasonsForLeavingTableComponent
         ),
         type: 'numericColumn',
         headerClass: [this.headerClass, 'ia-ag-header-align-right'],
-        filter: 'agNumberColumnFilter',
         valueGetter: (params) => this.getPercentageValueGetter(params),
         minWidth: 82,
       },
       {
-        field: 'leavers',
+        field: this.leaversColumnId,
         headerName: translate(
           'reasonsAndCounterMeasures.reasonsForLeaving.table.leavers'
         ),
         type: 'numericColumn',
         headerClass: [this.headerClass, 'ia-ag-header-align-right'],
-        filter: 'agNumberColumnFilter',
         cellClass: 'amount-cell',
         cellRenderer: AmountCellRendererComponent,
         onCellClicked: (params) =>
@@ -165,7 +172,6 @@ export class ReasonsForLeavingTableComponent
         ),
         type: 'numericColumn',
         headerClass: [this.headerClass, 'ia-ag-header-align-right'],
-        filter: 'agNumberColumnFilter',
         cellClass: 'amount-cell',
         cellRenderer: AmountCellRendererComponent,
         onCellClicked: (params) =>
@@ -180,32 +186,46 @@ export class ReasonsForLeavingTableComponent
     ];
   }
 
+  getRowId: GetRowIdFunc = (params: GetRowIdParams) => {
+    const sufix = params.data.detailedReasonId
+      ? `${params.data.reasonId}-${params.data.detailedReasonId}`
+      : `${params.data.reasonId}`;
+
+    return String(
+      params.data.fullWidth ? `analysis-${sufix}` : `reason-${sufix}`
+    );
+  };
+
   getAnswersValueGetter(
-    params: ValueGetterParams<ReasonForLeavingRank, string>
-  ): { count: number; restrictedAccess: boolean } {
-    return params.data.detailedReasonId
+    params: ValueGetterParams<ReasonForLeavingRank | AnalysisData, string>
+  ): { count: number; restrictedAccess: boolean } | undefined {
+    const data = params.data as ReasonForLeavingRank;
+
+    return data?.detailedReasonId
       ? {
-          count: params.data.leavers,
+          count: data.leavers,
           restrictedAccess: false,
         }
       : undefined;
   }
 
   getLeaversValueGetter(
-    params: ValueGetterParams<ReasonForLeavingRank, string>
-  ): { count: number; restrictedAccess: boolean } {
-    return params.data.detailedReasonId
+    params: ValueGetterParams<ReasonForLeavingRank | AnalysisData, string>
+  ): { count?: number; restrictedAccess: boolean } | undefined {
+    const data = params.data as ReasonForLeavingRank;
+
+    return data?.detailedReasonId
       ? undefined
       : {
-          count: params.data.leavers,
+          count: data?.leavers,
           restrictedAccess: false,
         };
   }
 
   getPercentageValueGetter(
-    params: ValueGetterParams<ReasonForLeavingRank, string>
-  ): string {
-    return params.data.percentage.toFixed(1);
+    params: ValueGetterParams<ReasonForLeavingRank | AnalysisData, string>
+  ): string | undefined {
+    return (params.data as ReasonForLeavingRank)?.percentage?.toFixed(1);
   }
 
   getReasonValueGetter(params: ValueGetterParams): string {
@@ -261,18 +281,42 @@ export class ReasonsForLeavingTableComponent
   }
 
   showOrHideLoadingOverlay(): void {
-    if (this.loading) {
-      this.gridApi?.showLoadingOverlay();
-    } else {
-      this.gridApi?.hideOverlay();
-    }
+    this.gridApi?.updateGridOptions({
+      loading: this.loading,
+    });
   }
 
   showOrHideAnswersColumn(): void {
-    if (this.data.some((reason) => reason.detailedReasonId)) {
+    if (
+      this.data.some(
+        (reason) => (reason as ReasonForLeavingRank).detailedReasonId
+      )
+    ) {
       this.gridApi?.setColumnsVisible([this.answersColumnId], true);
     } else {
       this.gridApi?.setColumnsVisible([this.answersColumnId], false);
     }
+  }
+
+  isFullWidthRowRenderer(
+    params: IsFullWidthRowParams<ReasonForLeavingRank | AnalysisData>
+  ): boolean | undefined {
+    return (params.rowNode.data as AnalysisData)?.fullWidth;
+  }
+
+  onCellClicked(
+    event: CellClickedEvent<ReasonForLeavingRank | AnalysisData>
+  ): void {
+    const columnId = event.column.getColId();
+    if (
+      (event.data as AnalysisData)?.fullWidth ||
+      columnId === this.leaversColumnId
+    ) {
+      return;
+    }
+    this.toggleReasonAnalysis.emit(event.data?.reasonId);
+    this.gridApi.updateGridOptions({
+      rowData: this.data,
+    });
   }
 }

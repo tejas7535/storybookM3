@@ -1,8 +1,7 @@
-<div class="flex w-full flex-col">
+<div class="flex w-full flex-col mt-16">
   <ag-grid-angular
     class="ag-theme-material border-border min-h-[400px] h-[85vh] border"
     [rowData]="data"
-    [scrollbarWidth]="8"
     [defaultColDef]="defaultColDef"
     [columnDefs]="columnDefs"
     [components]="components"
@@ -10,11 +9,9 @@
     [suppressCsvExport]="true"
     [suppressExcelExport]="true"
     [suppressCellFocus]="true"
-    [fullWidthCellRenderer]="'ReasonAnalysisRendererComponent'"
+    [fullWidthCellRenderer]="GeneralQuestionsRendererComponent"
     [isFullWidthRow]="isFullWidthRowRenderer"
-    [getRowId]="getRowId"
     (gridReady)="onGridReady($event)"
-    (cellClicked)="onCellClicked($event)"
   >
   </ag-grid-angular>
 </div>

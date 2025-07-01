@@ -24,20 +24,28 @@ import {
   FilterDimension,
   TimePeriod,
 } from '../../../shared/models';
+import { TextAnalysisResponse } from '../../models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 import { ReasonsAndCounterMeasuresService } from '../../reasons-and-counter-measures.service';
 import {
   loadComparedLeaversByReason,
+  loadComparedReasonAnalysis,
+  loadComparedReasonAnalysisFailure,
+  loadComparedReasonAnalysisSuccess,
   loadComparedReasonsWhyPeopleLeft,
   loadComparedReasonsWhyPeopleLeftFailure,
   loadComparedReasonsWhyPeopleLeftSuccess,
   loadLeaversByReason,
   loadLeaversByReasonFailure,
   loadLeaversByReasonSuccess,
+  loadReasonAnalysis,
+  loadReasonAnalysisFailure,
+  loadReasonAnalysisSuccess,
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
 } from '../actions/reasons-and-counter-measures.actions';
+import { getTopReasonsIds } from '../selectors/reasons-and-counter-measures.selector';
 import { ReasonsAndCounterMeasuresEffects } from './reasons-and-counter-measures.effects';
 
 describe('ReasonsAndCounterMeasures Effects', () => {
@@ -78,7 +86,7 @@ describe('ReasonsAndCounterMeasures Effects', () => {
 
   describe('filterChange$', () => {
     test(
-      'should return loadReasonsWhyPeopleLeft when filterSelected action is dispatched',
+      'should return preload the data when filterSelected action is dispatched',
       marbles((m) => {
         store.overrideSelector(selectRouterState, {
           state: {
@@ -90,14 +98,16 @@ describe('ReasonsAndCounterMeasures Effects', () => {
         });
 
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-b', { b: loadReasonsWhyPeopleLeft() });
+        const expected = m.cold('-(b)', {
+          b: loadReasonsWhyPeopleLeft(),
+        });
 
         m.expect(effects.filterChange$).toBeObservable(expected);
       })
     );
 
     test(
-      'should return loadReasonsWhyPeopleLeft when timePeriodSelected action is dispatched',
+      'should return preload the data when timePeriodSelected action is dispatched',
       marbles((m) => {
         store.overrideSelector(selectRouterState, {
           state: {
@@ -109,7 +119,9 @@ describe('ReasonsAndCounterMeasures Effects', () => {
         });
 
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-b', { b: loadReasonsWhyPeopleLeft() });
+        const expected = m.cold('-(b)', {
+          b: loadReasonsWhyPeopleLeft(),
+        });
 
         m.expect(effects.filterChange$).toBeObservable(expected);
       })
@@ -486,6 +498,172 @@ describe('ReasonsAndCounterMeasures Effects', () => {
         expect(
           reasonsAndCounterMeasuresService.getLeaversByReason
         ).toHaveBeenCalledWith({ ...request, reasonId });
+      })
+    );
+  });
+
+  describe('loadReasonsWhyPeopleLeftSuccess', () => {
+    beforeEach(() => {
+      action = loadReasonsWhyPeopleLeftSuccess({
+        data: {} as ReasonForLeavingStats,
+      });
+    });
+
+    test(
+      'should return loadReasonAnalysis for each reason',
+      marbles((m) => {
+        const result1 = loadReasonAnalysis({
+          reasonIds: [1, 2],
+        });
+        store.overrideSelector(getTopReasonsIds, [1, 2]);
+        store.overrideSelector(getCurrentFilters, {
+          filterDimension: FilterDimension.BOARD,
+          timeRange: '123|321',
+          value: 'B01',
+        } as EmployeesRequest);
+
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(b)', { b: result1 });
+
+        m.expect(effects.loadReasonsWhyPeopleLeftSuccess$).toBeObservable(
+          expected
+        );
+        m.flush();
+      })
+    );
+  });
+
+  describe('loadReasonAnalysis', () => {
+    const reasonIds = [1];
+    let request: EmployeesRequest;
+
+    beforeEach(() => {
+      action = loadReasonAnalysis({ reasonIds });
+      request = {
+        filterDimension: FilterDimension.BOARD,
+        timeRange: '123|321',
+        value: 'B01',
+      } as EmployeesRequest;
+    });
+
+    test(
+      'should load reason analysis when REST call is successful',
+      marbles((m) => {
+        const data: TextAnalysisResponse = {} as TextAnalysisResponse;
+        const result = loadReasonAnalysisSuccess({
+          data,
+          selectedReasonIds: [1],
+        });
+        store.overrideSelector(getCurrentFilters, request);
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        reasonsAndCounterMeasuresService.getReasonTextAnalysis = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadReasonAnalysis$).toBeObservable(expected);
+        m.flush();
+        expect(
+          reasonsAndCounterMeasuresService.getReasonTextAnalysis
+        ).toHaveBeenCalledWith({ ...request });
+      })
+    );
+
+    test(
+      'should return loadReasonAnalysisFailure on REST error',
+      marbles((m) => {
+        const result = loadReasonAnalysisFailure({
+          errorMessage: error.message,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+        store.overrideSelector(getCurrentFilters, request);
+
+        reasonsAndCounterMeasuresService.getReasonTextAnalysis = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadReasonAnalysis$).toBeObservable(expected);
+        m.flush();
+        expect(
+          reasonsAndCounterMeasuresService.getReasonTextAnalysis
+        ).toHaveBeenCalledWith({ ...request });
+      })
+    );
+  });
+
+  describe('loadComparedReasonAnalysis', () => {
+    const reasonIds = [1];
+    let request: EmployeesRequest;
+
+    beforeEach(() => {
+      action = loadComparedReasonAnalysis({ reasonIds });
+      request = {
+        filterDimension: FilterDimension.BOARD,
+        timeRange: '123|321',
+        value: 'B01',
+      } as EmployeesRequest;
+    });
+
+    test(
+      'should load compared reason analysis when REST call is successful',
+      marbles((m) => {
+        const data: TextAnalysisResponse = {} as TextAnalysisResponse;
+        const result = loadComparedReasonAnalysisSuccess({
+          data,
+          selectedReasonIds: [1],
+        });
+        store.overrideSelector(getCurrentBenchmarkFilters, request);
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        reasonsAndCounterMeasuresService.getReasonTextAnalysis = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadComparedReasonAnalysis$).toBeObservable(expected);
+        m.flush();
+        expect(
+          reasonsAndCounterMeasuresService.getReasonTextAnalysis
+        ).toHaveBeenCalledWith({ ...request });
+      })
+    );
+
+    test(
+      'should return loadComparedReasonAnalysisFailure on REST error',
+      marbles((m) => {
+        const result = loadComparedReasonAnalysisFailure({
+          errorMessage: error.message,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+        store.overrideSelector(getCurrentBenchmarkFilters, request);
+
+        reasonsAndCounterMeasuresService.getReasonTextAnalysis = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadComparedReasonAnalysis$).toBeObservable(expected);
+        m.flush();
+        expect(
+          reasonsAndCounterMeasuresService.getReasonTextAnalysis
+        ).toHaveBeenCalledWith({ ...request });
       })
     );
   });

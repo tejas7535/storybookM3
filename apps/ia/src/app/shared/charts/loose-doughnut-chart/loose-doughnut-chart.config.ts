@@ -1,7 +1,7 @@
 import { translate } from '@jsverse/transloco';
 import { EChartsOption } from 'echarts';
 
-import { Color } from '../../models/color';
+import { Color } from '../../models';
 
 export const createPieChartBaseOptions = (
   legend: string[],

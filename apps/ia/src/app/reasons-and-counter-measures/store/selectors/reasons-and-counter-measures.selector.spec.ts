@@ -1,19 +1,31 @@
 import { EmployeeWithAction } from '../../../shared/models';
-import { ReasonForLeavingTab, ReasonImpact } from '../../models';
+import {
+  AnalysisData,
+  ReasonForLeavingRank,
+  ReasonForLeavingTab,
+  ReasonImpact,
+} from '../../models';
 import { ReasonsAndCounterMeasuresState } from '..';
 import {
   getComparedConductedInterviewsInfo,
+  getComparedGeneralQuestionsAnalysis,
+  getComparedReasonsAnalysis,
+  getComparedReasonsAnalysisData,
   getComparedReasonsChartData,
   getComparedReasonsChildren,
   getComparedReasonsData,
   getComparedReasonsTableData,
   getConductedInterviewsInfo,
   getCurrentTab,
+  getGeneralQuestionsAnalysis,
   getLeaversByReasonData,
+  getReasonsAnalysis,
+  getReasonsAnalysisData,
   getReasonsChartData,
   getReasonsChildren,
   getReasonsLoading,
   getReasonsTableData,
+  getTopReasonsIds,
 } from './reasons-and-counter-measures.selector';
 
 describe('ReasonsAndCounterMeasures Selector', () => {
@@ -24,55 +36,131 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       reasonsForLeaving: {
         selectedTab: ReasonForLeavingTab.OVERALL_REASONS,
         reasons: {
-          loading: false,
-          data: {
-            conductedInterviews: 14,
-            reasons: [
-              {
-                interviewId: 1,
-                reason: 'Reason 1',
-                reasonId: 2,
-                detailedReason: 'Detailed Reason 1',
-                detailedReasonId: 12,
-                impact: ReasonImpact.HIGH,
-              },
-              {
-                interviewId: 2,
-                reason: 'Reason 1a',
-                reasonId: 3,
-                detailedReason: 'Detailed Reason 1',
-                detailedReasonId: 13,
-                impact: ReasonImpact.MEDIUM,
-              },
-            ],
+          reasonsData: {
+            errorMessage: 'Fancy Error',
+            loading: false,
+            data: {
+              conductedInterviews: 14,
+              reasons: [
+                {
+                  interviewId: 1,
+                  reason: 'Reason 1',
+                  reasonId: 2,
+                  detailedReason: 'Detailed Reason 1',
+                  detailedReasonId: 12,
+                  impact: ReasonImpact.HIGH,
+                },
+                {
+                  interviewId: 2,
+                  reason: 'Reason 1a',
+                  reasonId: 3,
+                  detailedReason: 'Detailed Reason 1',
+                  detailedReasonId: 13,
+                  impact: ReasonImpact.MEDIUM,
+                },
+              ],
+            },
           },
-          errorMessage: 'Fancy Error',
+          reasonAnalysis: {
+            loading: false,
+            data: {
+              answer: {
+                generalQuestions: {
+                  chart: {
+                    data: [
+                      { value: 20, name: 'Yes' },
+                      { value: 0, name: 'No' },
+                    ],
+                    question: 'Will employees miss Schaeffler?',
+                  },
+                  reasonAnalysis: [
+                    {
+                      question: undefined,
+                      data: [
+                        {
+                          reasonId: undefined,
+                          show: undefined,
+                        },
+                      ],
+                    },
+                  ],
+                },
+                reasons: [
+                  {
+                    reasonId: 2,
+                    fullWidth: true,
+                    quotes: [],
+                    impacts: [],
+                    show: true,
+                  },
+                ],
+              },
+            },
+          },
           selectedReason: 'Reason 1',
         },
         comparedReasons: {
-          loading: false,
-          data: {
-            conductedInterviews: 14,
-            reasons: [
-              {
-                interviewId: 1,
-                reason: 'Reason 2',
-                reasonId: 4,
-                detailedReason: 'Detailed Reason 2',
-                detailedReasonId: 14,
-                impact: ReasonImpact.LOW,
-              },
-              {
-                interviewId: 1,
-                reason: 'Reason 2a',
-                reasonId: 4,
-                detailedReason: 'Detailed Reason 2a',
-                detailedReasonId: 14,
-                impact: ReasonImpact.HIGH,
-              },
-            ],
+          reasonsData: {
+            loading: false,
+            errorMessage: 'Fancy Error',
+            data: {
+              conductedInterviews: 14,
+              reasons: [
+                {
+                  interviewId: 1,
+                  reason: 'Reason 2',
+                  reasonId: 4,
+                  detailedReason: 'Detailed Reason 2',
+                  detailedReasonId: 14,
+                  impact: ReasonImpact.LOW,
+                },
+                {
+                  interviewId: 1,
+                  reason: 'Reason 2a',
+                  reasonId: 4,
+                  detailedReason: 'Detailed Reason 2a',
+                  detailedReasonId: 14,
+                  impact: ReasonImpact.HIGH,
+                },
+              ],
+            },
           },
-          errorMessage: 'Fancy Error',
+          reasonAnalysis: {
+            loading: true,
+            data: {
+              answer: {
+                generalQuestions: {
+                  chart: {
+                    data: [
+                      { value: 20, name: 'Yes' },
+                      { value: 0, name: 'No' },
+                    ],
+                    question: 'Will employees miss Schaeffler?',
+                  },
+                  reasonAnalysis: [
+                    {
+                      question: undefined,
+                      data: [
+                        {
+                          reasonId: undefined,
+                          show: undefined,
+                        },
+                      ],
+                    },
+                  ],
+                },
+                reasons: [
+                  {
+                    reasonId: 4,
+                    fullWidth: true,
+                    quotes: [],
+                    impacts: [],
+                    show: true,
+                  },
+                ],
+              },
+            },
+          },
         },
         leavers: {
           loading: false,
@@ -131,6 +219,13 @@ describe('ReasonsAndCounterMeasures Selector', () => {
           reasonId: 2,
         },
         {
+          reasonId: 2,
+          fullWidth: true,
+          quotes: [],
+          impacts: [],
+          show: true,
+        },
+        {
           detailedReason: 'Detailed Reason 1',
           detailedReasonId: 12,
           leavers: 1,
@@ -150,6 +245,13 @@ describe('ReasonsAndCounterMeasures Selector', () => {
           rank: 1,
           reason: 'Reason 1',
           reasonId: 2,
+        },
+        {
+          reasonId: 2,
+          fullWidth: true,
+          quotes: [],
+          impacts: [],
+          show: true,
         },
         {
           detailedReason: 'Detailed Reason 1',
@@ -266,19 +368,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
   });
 
   describe('getComparedReasonsTableData', () => {
-    test('shuold map reasons', () => {
-      expect(getComparedReasonsTableData(fakeState)).toEqual([
-        {
-          leavers: 1,
-          percentage: 100,
-          rank: 1,
-          reason: 'Reason 2',
-          reasonId: 4,
-        },
-      ]);
-    });
-
-    test('should map top reasons', () => {
+    test('should map compared top reasons', () => {
       const result = getComparedReasonsTableData(fakeStateTopReasons);
 
       expect(result).toEqual([
@@ -288,6 +378,13 @@ describe('ReasonsAndCounterMeasures Selector', () => {
           rank: 1,
           reason: 'Reason 2a',
           reasonId: 4,
+        },
+        {
+          reasonId: 4,
+          fullWidth: true,
+          quotes: [],
+          impacts: [],
+          show: true,
         },
       ]);
     });
@@ -376,6 +473,173 @@ describe('ReasonsAndCounterMeasures Selector', () => {
           { employeeName: 'Max', interviewId: 1 } as EmployeeWithAction,
         ],
         responseModified: false,
+      });
+    });
+  });
+
+  describe('getReasonsAnalysis', () => {
+    test('should return reasons analysis', () => {
+      expect(getReasonsAnalysis(fakeState)).toEqual([
+        {
+          reasonId: 2,
+          fullWidth: true,
+          quotes: [],
+          impacts: [],
+          show: true,
+        },
+      ]);
+    });
+  });
+
+  describe('getComparedReasonsAnalysis', () => {
+    test('should return compared reasons analysis', () => {
+      expect(getComparedReasonsAnalysis(fakeState)).toEqual([
+        {
+          reasonId: 4,
+          fullWidth: true,
+          quotes: [],
+          impacts: [],
+          show: true,
+        },
+      ]);
+    });
+  });
+
+  describe('getTopReasonsIds', () => {
+    test('should return 2 top reasons ids', () => {
+      const reasons: (ReasonForLeavingRank | AnalysisData)[] = [
+        { reasonId: 1 } as ReasonForLeavingRank,
+        { reasonId: 2 } as ReasonForLeavingRank,
+        { reasonId: 3 } as ReasonForLeavingRank,
+        { reasonId: 4 } as ReasonForLeavingRank,
+      ];
+
+      const result = getTopReasonsIds.projector(reasons);
+
+      expect(result.length).toBe(2);
+      expect(result).toEqual([1, 2]);
+    });
+
+    test('should return 1 top reasons id when only 1 reason', () => {
+      const reasons: (ReasonForLeavingRank | AnalysisData)[] = [
+        { reasonId: 1 } as ReasonForLeavingRank,
+      ];
+
+      const result = getTopReasonsIds.projector(reasons);
+
+      expect(result.length).toBe(1);
+      expect(result).toEqual([1]);
+    });
+
+    test('should return empty array when no reasons', () => {
+      const result = getTopReasonsIds.projector([]);
+
+      expect(result.length).toBe(0);
+    });
+
+    test('should return empty array when reasons undefined', () => {
+      const result = getTopReasonsIds.projector(
+        undefined as ReasonForLeavingRank[]
+      );
+
+      expect(result.length).toBe(0);
+    });
+  });
+
+  describe('getGeneralQuestionsAnalysis', () => {
+    test('should return general questions analysis', () => {
+      expect(getGeneralQuestionsAnalysis(fakeState)).toEqual([
+        {
+          chart: {
+            data: [
+              { name: 'Yes', value: 20 },
+              { name: 'No', value: 0 },
+            ],
+            question: 'Will employees miss Schaeffler?',
+          },
+          reasonAnalysis: undefined,
+        },
+        {
+          chart: undefined,
+          reasonAnalysis: {
+            question: undefined,
+            reasons: [{ reasonId: undefined, show: undefined }],
+          },
+        },
+      ]);
+    });
+  });
+
+  describe('getComparedGeneralQuestionsAnalysis', () => {
+    test('should return compared general questions analysis', () => {
+      expect(getComparedGeneralQuestionsAnalysis(fakeState)).toEqual([
+        {
+          chart: {
+            data: [
+              { name: 'Yes', value: 20 },
+              { name: 'No', value: 0 },
+            ],
+            question: 'Will employees miss Schaeffler?',
+          },
+          reasonAnalysis: undefined,
+        },
+        {
+          chart: undefined,
+          reasonAnalysis: {
+            question: undefined,
+            reasons: [{ reasonId: undefined, show: undefined }],
+          },
+        },
+      ]);
+    });
+  });
+
+  describe('getReasonsAnalysisData', () => {
+    test('should return reasons analysis data', () => {
+      expect(getReasonsAnalysisData(fakeState)).toEqual({
+        chart: {
+          data: [
+            { value: 20, name: 'Yes' },
+            { value: 0, name: 'No' },
+          ],
+          question: 'Will employees miss Schaeffler?',
+        },
+        reasonAnalysis: [
+          {
+            question: undefined,
+            data: [
+              {
+                reasonId: undefined,
+                show: undefined,
+              },
+            ],
+          },
+        ],
+      });
+    });
+  });
+
+  describe('getComparedReasonsAnalysisData', () => {
+    test('should return compared reasons analysis data', () => {
+      expect(getComparedReasonsAnalysisData(fakeState)).toEqual({
+        chart: {
+          data: [
+            { value: 20, name: 'Yes' },
+            { value: 0, name: 'No' },
+          ],
+          question: 'Will employees miss Schaeffler?',
+        },
+        reasonAnalysis: [
+          {
+            question: undefined,
+            data: [
+              {
+                reasonId: undefined,
+                show: undefined,
+              },
+            ],
+          },
+        ],
       });
     });
   });

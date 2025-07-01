@@ -2,7 +2,9 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { AgGridModule } from 'ag-grid-angular';
 import {
   CellClickedEvent,
+  GetRowIdParams,
   GridApi,
+  IsFullWidthRowParams,
   ValueGetterParams,
 } from 'ag-grid-community';
 
@@ -13,7 +15,7 @@ import {
   EmployeeListDialogMetaHeadings,
 } from '../../../shared/dialogs/employee-list-dialog/models';
 import { EmployeeWithAction, FilterDimension } from '../../../shared/models';
-import { ReasonForLeavingRank } from '../../models';
+import { AnalysisData, ReasonForLeavingRank } from '../../models';
 import { ReasonsForLeavingTableComponent } from './reasons-for-leaving-table.component';
 
 describe('ReasonsForLeavingTableComponent', () => {
@@ -240,6 +242,27 @@ describe('ReasonsForLeavingTableComponent', () => {
     });
   });
 
+  describe('getRowId', () => {
+    test('should return row id when reason', () => {
+      const params = { data: { reasonId: 123 } } as GetRowIdParams<
+        ReasonForLeavingRank | AnalysisData,
+        string
+      >;
+      const result = component.getRowId(params);
+
+      expect(result).toEqual('reason-123');
+    });
+
+    test('should return row id when analysis', () => {
+      const params = {
+        data: { reasonId: 123, show: true, fullWidth: true },
+      } as GetRowIdParams<ReasonForLeavingRank | AnalysisData, string>;
+      const result = component.getRowId(params);
+
+      expect(result).toEqual('analysis-123');
+    });
+  });
+
   describe('getReasonValueGetter', () => {
     test('reason should get detailed reason if detailed reason defined', () => {
       const params = {
@@ -265,7 +288,7 @@ describe('ReasonsForLeavingTableComponent', () => {
     test('should return percentage', () => {
       const params = {
         data: { percentage: 12.345 },
-      } as ValueGetterParams<ReasonForLeavingRank, string>;
+      } as ValueGetterParams<ReasonForLeavingRank | AnalysisData, string>;
       const result = component.getPercentageValueGetter(params);
 
       expect(result).toEqual('12.3');
@@ -276,7 +299,7 @@ describe('ReasonsForLeavingTableComponent', () => {
     test('should return count and restrictedAccess if detailed reason undefined', () => {
       const params = {
         data: { detailedReasonId: undefined, leavers: 123 },
-      } as ValueGetterParams<ReasonForLeavingRank, string>;
+      } as ValueGetterParams<ReasonForLeavingRank | AnalysisData, string>;
       const result = component.getLeaversValueGetter(params);
 
       expect(result).toEqual({ count: 123, restrictedAccess: false });
@@ -285,7 +308,7 @@ describe('ReasonsForLeavingTableComponent', () => {
     test('should return undefined if detailed reason defined', () => {
       const params = {
         data: { detailedReasonId: 12, leavers: 123 },
-      } as ValueGetterParams<ReasonForLeavingRank, string>;
+      } as ValueGetterParams<ReasonForLeavingRank | AnalysisData, string>;
       const result = component.getLeaversValueGetter(params);
 
       expect(result).toBeUndefined();
@@ -296,7 +319,7 @@ describe('ReasonsForLeavingTableComponent', () => {
     test('should return count and restrictedAccess if detailed reason defined', () => {
       const params = {
         data: { detailedReasonId: 12, leavers: 123 },
-      } as ValueGetterParams<ReasonForLeavingRank, string>;
+      } as ValueGetterParams<ReasonForLeavingRank | AnalysisData, string>;
       const result = component.getAnswersValueGetter(params);
 
       expect(result).toEqual({ count: 123, restrictedAccess: false });
@@ -305,7 +328,7 @@ describe('ReasonsForLeavingTableComponent', () => {
     test('should return undefined if detailed reason undefined', () => {
       const params = {
         data: { detailedReasonId: undefined, leavers: 123 },
-      } as ValueGetterParams<ReasonForLeavingRank, string>;
+      } as ValueGetterParams<ReasonForLeavingRank | AnalysisData, string>;
       const result = component.getAnswersValueGetter(params);
 
       expect(result).toBeUndefined();
@@ -380,6 +403,90 @@ describe('ReasonsForLeavingTableComponent', () => {
       const result = component.createExcelFileName('Leavers', filters);
 
       expect(result).toEqual('Leavers some value 123-321 some reason');
+    });
+  });
+
+  describe('isFullWidthRowRenderer', () => {
+    test('should return true', () => {
+      const result = component.isFullWidthRowRenderer({
+        rowNode: {
+          data: { fullWidth: true },
+        },
+      } as unknown as IsFullWidthRowParams<
+        ReasonForLeavingRank | AnalysisData
+      >);
+      expect(result).toBeTruthy();
+    });
+
+    test('should return false', () => {
+      const result = component.isFullWidthRowRenderer({
+        rowNode: {
+          data: {},
+        },
+      } as unknown as IsFullWidthRowParams<
+        ReasonForLeavingRank | AnalysisData
+      >);
+      expect(result).toBeFalsy();
+    });
+  });
+
+  describe('onCellClicked', () => {
+    beforeEach(() => {
+      component.toggleReasonAnalysis.emit = jest.fn();
+      component.gridApi = {
+        updateGridOptions: jest.fn(),
+      } as unknown as GridApi;
+      component.showOrHideAnswersColumn = jest.fn();
+    });
+
+    test('should do nothing when full width row clicked', () => {
+      const event = {
+        data: { fullWidth: true },
+        column: {
+          getColId: () => 'someColumn',
+        },
+      } as unknown as CellClickedEvent<ReasonForLeavingRank | AnalysisData>;
+
+      component.onCellClicked(event);
+
+      expect(component.toggleReasonAnalysis.emit).not.toHaveBeenCalled();
+      expect(component.gridApi.updateGridOptions).not.toHaveBeenCalled();
+    });
+
+    test('should do nothing when leavers column clicked', () => {
+      const event = {
+        data: { fullWidth: true },
+        column: {
+          getColId: () => 'leavers',
+        },
+      } as unknown as CellClickedEvent<ReasonForLeavingRank | AnalysisData>;
+
+      component.onCellClicked(event);
+
+      expect(component.toggleReasonAnalysis.emit).not.toHaveBeenCalled();
+      expect(component.gridApi.updateGridOptions).not.toHaveBeenCalled();
+    });
+
+    test('should emit toggleReasonAnalysis', () => {
+      const data = { reasonId: 123 } as ReasonForLeavingRank;
+      component.data = [
+        data,
+        { reasonId: 123, fullWidth: true } as AnalysisData,
+      ];
+      const event = {
+        data,
+        rowIndex: 0,
+        column: {
+          getColId: () => 'someColumn',
+        },
+      } as unknown as CellClickedEvent<ReasonForLeavingRank | AnalysisData>;
+
+      component.onCellClicked(event);
+
+      expect(component.toggleReasonAnalysis.emit).toHaveBeenCalledWith(123);
+      expect(component.gridApi.updateGridOptions).toHaveBeenCalledWith({
+        rowData: component.data,
+      });
     });
   });
 });

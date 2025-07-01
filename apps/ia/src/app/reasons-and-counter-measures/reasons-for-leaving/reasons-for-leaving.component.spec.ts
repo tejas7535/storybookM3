@@ -18,14 +18,17 @@ import {
   selectComparedReason,
   selectReason,
   selectReasonsForLeavingTab,
+  toggleReasonAnalysis,
 } from '../store/actions/reasons-and-counter-measures.actions';
 import {
   getComparedConductedInterviewsInfo,
+  getComparedGeneralQuestionsAnalysis,
   getComparedReasonsChartData,
   getComparedReasonsChildren,
   getComparedReasonsTableData,
   getConductedInterviewsInfo,
   getCurrentTab,
+  getGeneralQuestionsAnalysis,
   getLeaversByReasonData,
   getLeaversByReasonLoading,
   getReasonsChartData,
@@ -81,6 +84,8 @@ describe('ReasonsForLeavingComponent', () => {
         store.overrideSelector(getLeaversByReasonData, result);
         store.overrideSelector(getBeautifiedFilterValues, result);
         store.overrideSelector(getSelectedTimeRange, result);
+        store.overrideSelector(getGeneralQuestionsAnalysis, result);
+        store.overrideSelector(getComparedGeneralQuestionsAnalysis, result);
 
         component.ngOnInit();
 
@@ -145,6 +150,16 @@ describe('ReasonsForLeavingComponent', () => {
           })
         );
         m.expect(component.timeRange$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.generalQuestionsData$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.comparedGeneralQuestionsData$).toBeObservable(
           m.cold('a', {
             a: result,
           })
@@ -236,6 +251,19 @@ describe('ReasonsForLeavingComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         selectComparedReason({ reason })
+      );
+    });
+  });
+
+  describe('onToggleReasonAnalysis', () => {
+    test('should dispatch toggleReasonAnalysis', () => {
+      const reasonId = 1;
+      store.dispatch = jest.fn();
+
+      component.onToggleReasonAnalysis(reasonId);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        toggleReasonAnalysis({ reasonId })
       );
     });
   });

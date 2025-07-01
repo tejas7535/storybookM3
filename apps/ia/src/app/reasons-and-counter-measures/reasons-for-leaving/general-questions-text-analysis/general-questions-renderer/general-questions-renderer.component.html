@@ -1,0 +1,28 @@
+@if (data.chart) {
+  <div class="px-5">
+    <span class="text-body-2 text-subtitle-2 text-high-emphasis">{{
+      data.chart.question
+    }}</span>
+    <div
+      echarts
+      [options]="chartOptions"
+      [merge]="mergeOptions"
+      (chartInit)="onChartInit($event)"
+      class="h-[160px] w-full"
+    ></div>
+  </div>
+}
+@if (data.reasonAnalysis) {
+  <div class="px-5">
+    <span class="text-subtitle-2 text-high-emphasis">{{
+      data.reasonAnalysis.question
+    }}</span>
+    @for (analysis of data.reasonAnalysis.reasons; track $index) {
+      <ia-reason-analysis
+        [data]="analysis"
+        [expanded]="isExpanded($index)"
+        (expand)="toggleExpand($index)"
+      ></ia-reason-analysis>
+    }
+  </div>
+}

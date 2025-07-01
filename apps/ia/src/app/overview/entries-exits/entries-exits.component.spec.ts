@@ -10,7 +10,6 @@ import { MockComponent } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { ExternalLegendComponent } from '../../shared/charts/external-legend/external-legend.component';
-import { LooseDoughnutChartComponent } from '../../shared/charts/loose-doughnut-chart/loose-doughnut-chart.component';
 import { LegendSelectAction } from '../../shared/charts/models';
 import { KpiModule } from '../../shared/kpi/kpi.module';
 import { FilterDimension } from '../../shared/models';
@@ -62,10 +61,7 @@ describe('EntriesExitsComponent', () => {
       MatIconModule,
       MatTooltipModule,
     ],
-    declarations: [
-      MockComponent(LooseDoughnutChartComponent),
-      MockComponent(ExternalLegendComponent),
-    ],
+    declarations: [MockComponent(ExternalLegendComponent)],
   });
 
   beforeEach(() => {

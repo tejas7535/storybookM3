@@ -108,4 +108,28 @@ describe('ReasonsAndCounterMeasuresService', () => {
       req.flush(request);
     });
   });
+
+  describe('getReasonTextAnalysis', () => {
+    test('should call rest service', () => {
+      const boardKey = 'Schaeffler1';
+      const timeRange = '123-321';
+      const request = {
+        filterDimension: FilterDimension.BOARD,
+        value: boardKey,
+        timeRange,
+      } as EmployeesRequest;
+
+      const response = [] as ReasonForLeavingStats[];
+
+      service.getReasonTextAnalysis(request).subscribe((result) => {
+        expect(result).toEqual(response);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/reason-text-analysis?dimension=${FilterDimension.BOARD}&value=${boardKey}&time_range=${timeRange}`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(response);
+    });
+  });
 });

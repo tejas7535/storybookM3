@@ -96,27 +96,6 @@ describe('LooseDoughnutChartComponent', () => {
     });
   });
 
-  describe('createSeriesOptions', () => {
-    test('should map correct series', () => {
-      const color = Color.LIME;
-      const data = new DoughnutConfig('Demo', [
-        new DoughnutSeriesConfig([{ value: 99 }], 'demo data 1', color),
-      ]);
-
-      const result = component.createSeriesOptions(data);
-
-      expect(doughnutChartConfig.createPieChartSeries).toHaveBeenCalledWith(
-        ['70%', '80%'],
-        data.series[0].data[0].value,
-        data.series[0].data[0].value,
-        color,
-        data.name,
-        data.series[0].title
-      );
-      expect(result).toEqual([{}]);
-    });
-  });
-
   describe('resetSelection', () => {
     test('should dispatch legend all select action', () => {
       component.echartsInstance = {

@@ -1,7 +1,11 @@
 import { createAction, props, union } from '@ngrx/store';
 
 import { ExitEntryEmployeesResponse } from '../../../overview/models';
-import { ReasonForLeavingStats, ReasonForLeavingTab } from '../../models';
+import {
+  ReasonForLeavingStats,
+  ReasonForLeavingTab,
+  TextAnalysisResponse,
+} from '../../models';
 
 export const selectReasonsForLeavingTab = createAction(
   '[ReasonsAndCounterMeasures] Select ReasonsForLeaving Tab',
@@ -66,6 +70,46 @@ export const selectComparedReason = createAction(
   props<{ reason: string }>()
 );
 
+export const loadReasonAnalysis = createAction(
+  '[ReasonsAndCounterMeasures] Load Reason Analysis',
+  props<{ reasonIds: number[] }>()
+);
+
+export const loadReasonAnalysisSuccess = createAction(
+  '[ReasonsAndCounterMeasures] Load Reason Analysis Success',
+  props<{ data: TextAnalysisResponse; selectedReasonIds: number[] }>()
+);
+
+export const loadReasonAnalysisFailure = createAction(
+  '[ReasonsAndCounterMeasures] Load Reason Analysis Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const toggleReasonAnalysis = createAction(
+  '[ReasonsAndCounterMeasures] Toggle Reason Analysis',
+  props<{ reasonId: number }>()
+);
+
+export const loadComparedReasonAnalysis = createAction(
+  '[ReasonsAndCounterMeasures] Load Compared Reason Analysis',
+  props<{ reasonIds: number[] }>()
+);
+
+export const loadComparedReasonAnalysisSuccess = createAction(
+  '[ReasonsAndCounterMeasures] Load Compared Reason Analysis Success',
+  props<{ data: TextAnalysisResponse; selectedReasonIds: number[] }>()
+);
+
+export const loadComparedReasonAnalysisFailure = createAction(
+  '[ReasonsAndCounterMeasures] Load Compared Reason Analysis Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const toggleComparedReasonAnalysis = createAction(
+  '[ReasonsAndCounterMeasures] Toggle Compared Reason Analysis',
+  props<{ reasonId: number }>()
+);
+
 const all = union({
   selectReasonsForLeavingTab,
   loadReasonsWhyPeopleLeft,
@@ -77,6 +121,7 @@ const all = union({
   loadLeaversByReason,
   loadLeaversByReasonSuccess,
   loadLeaversByReasonFailure,
+  reasonAnalysisRequested: loadReasonAnalysis,
 });
 
 export type ReasonsAndCounterMeasuresActions = typeof all;
