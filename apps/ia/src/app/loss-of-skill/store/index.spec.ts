@@ -30,6 +30,20 @@ import {
 describe('LossOfSkill Reducer', () => {
   const errorMessage = 'An error occured';
 
+  describe('setLossOfSkillSelectedTab', () => {
+    test('should set selected tab', () => {
+      const selectedTab = 'performance';
+      const action = {
+        selectedTab,
+        type: '[Loss of Skill] Set Loss of Skill Selected Tab',
+      };
+
+      const state = lossOfSkillReducer(initialState, action);
+
+      expect(state.selectedTab).toEqual(selectedTab);
+    });
+  });
+
   describe('loadJobProfiles', () => {
     test('should set loading', () => {
       const action = loadJobProfiles({

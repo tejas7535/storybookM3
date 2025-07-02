@@ -1,14 +1,20 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { routerNavigationAction, RouterReducerState } from '@ngrx/router-store';
+import {
+  routerNavigationAction,
+  RouterReducerState,
+  routerRequestAction,
+} from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import moment from 'moment';
 import { marbles } from 'rxjs-marbles/jest';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { FilterService } from '../../../../filter-section/filter.service';
+import { LossOfSkillTab } from '../../../../loss-of-skill/models';
 import { clearLossOfSkillDimensionData } from '../../../../loss-of-skill/store/actions/loss-of-skill.actions';
+import { getLossOfSkillSelectedTab } from '../../../../loss-of-skill/store/selectors/loss-of-skill.selector';
 import {
   clearOverviewBenchmarkData,
   clearOverviewDimensionData,
@@ -29,6 +35,7 @@ import {
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
+  resetTimeRangeFilter,
 } from '../../actions/filter/filter.action';
 import { RouterStateUrl, selectRouterState } from '../../reducers';
 import {
@@ -426,6 +433,11 @@ describe('Filter Effects', () => {
     test(
       'should return activateTimePeriodFilters when current route loss of skill',
       marbles((m) => {
+        store.overrideSelector(
+          getLossOfSkillSelectedTab,
+          LossOfSkillTab.PERFORMANCE
+        );
+
         store.overrideSelector(selectRouterState, {
           state: {
             url: `/${AppRoutePath.LostPerformancePath}`,
@@ -454,6 +466,95 @@ describe('Filter Effects', () => {
         m.expect(effects.setTimePeriodsFiltersForCurrentTab$).toBeObservable(
           expected
         );
+      })
+    );
+  });
+
+  describe('resetTimeRangeFilter$', () => {
+    beforeEach(() => {
+      store.overrideSelector(
+        getLossOfSkillSelectedTab,
+        LossOfSkillTab.PERFORMANCE
+      );
+    });
+
+    test(
+      'should return resetTimeRangeFilter when navigating away from LostPerformancePath with Performance tab selected',
+      marbles((m) => {
+        action = {
+          type: routerRequestAction.type,
+          payload: {
+            routerState: {
+              url: `/${AppRoutePath.LostPerformancePath}`,
+            },
+            event: {
+              url: `/${AppRoutePath.OverviewPath}`,
+              id: 1,
+              type: 'NavigationStart',
+            },
+          },
+        };
+
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', {
+          b: resetTimeRangeFilter(),
+        });
+
+        m.expect(effects.resetTimeRangeFilter$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should not return resetTimeRangeFilter when navigating to LostPerformancePath',
+      marbles((m) => {
+        action = {
+          type: routerRequestAction.type,
+          payload: {
+            routerState: {
+              url: `/${AppRoutePath.OverviewPath}`,
+            },
+            event: {
+              url: `/${AppRoutePath.LostPerformancePath}`,
+              id: 1,
+              type: 'NavigationStart',
+            },
+          },
+        };
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('');
+
+        m.expect(effects.resetTimeRangeFilter$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should not return resetTimeRangeFilter when navigating away from LostPerformancePath with non-Performance tab selected',
+      marbles((m) => {
+        store.overrideSelector(
+          getLossOfSkillSelectedTab,
+          LossOfSkillTab.JOB_PROFILES
+        );
+
+        action = {
+          type: routerRequestAction.type,
+          payload: {
+            routerState: {
+              url: `/${AppRoutePath.LostPerformancePath}`,
+            },
+            event: {
+              url: `/${AppRoutePath.OverviewPath}`,
+              id: 1,
+              type: 'NavigationStart',
+            },
+          },
+        };
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('');
+
+        m.expect(effects.resetTimeRangeFilter$).toBeObservable(expected);
       })
     );
   });

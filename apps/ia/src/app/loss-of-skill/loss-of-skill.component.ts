@@ -12,10 +12,17 @@ import {
 import { ExitEntryEmployeesResponse } from '../overview/models';
 import { EmployeeListDialogMetaFilters } from '../shared/dialogs/employee-list-dialog/models';
 import { IdValue } from '../shared/models';
-import { JobProfile, PmgmData, WorkforceResponse } from './models';
+import { NavItem } from '../shared/nav-buttons/models';
+import {
+  JobProfile,
+  LossOfSkillTab,
+  PmgmData,
+  WorkforceResponse,
+} from './models';
 import {
   loadLossOfSkillLeavers,
   loadLossOfSkillWorkforce,
+  setLossOfSkillSelectedTab,
 } from './store/actions/loss-of-skill.actions';
 import {
   getHasUserEnoughRightsToPmgmData,
@@ -23,6 +30,7 @@ import {
   getJobProfilesLoading,
   getLossOfSkillLeaversData,
   getLossOfSkillLeaversLoading,
+  getLossOfSkillSelectedTab,
   getLossOfSkillWorkforceData,
   getLossOfSkillWorkforceLoading,
   getPmgmData,
@@ -34,6 +42,19 @@ import {
   standalone: false,
 })
 export class LossOfSkillComponent implements OnInit {
+  lossOfSkillTab = LossOfSkillTab;
+  selectedTab$: Observable<LossOfSkillTab>;
+  navItems: NavItem[] = [
+    {
+      label: LossOfSkillTab.PERFORMANCE,
+      translation: 'lossOfSkill.tabs.performance',
+    },
+    {
+      label: LossOfSkillTab.JOB_PROFILES,
+      translation: 'lossOfSkill.tabs.jobProfiles',
+    },
+  ];
+
   beautifiedFilters$: Observable<EmployeeListDialogMetaFilters>;
   timeRange$: Observable<IdValue>;
   areOpenPositionsAvailable$: Observable<boolean>;
@@ -49,6 +70,7 @@ export class LossOfSkillComponent implements OnInit {
   constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
+    this.selectedTab$ = this.store.select(getLossOfSkillSelectedTab);
     this.beautifiedFilters$ = this.store.select(getBeautifiedFilterValues);
     this.timeRange$ = this.store.select(getSelectedTimeRange);
     this.areOpenPositionsAvailable$ = this.store.select(
@@ -69,6 +91,12 @@ export class LossOfSkillComponent implements OnInit {
     this.pmgmData$ = this.store.select(getPmgmData);
     this.enoughRightsToAllPmgmData$ = this.store.select(
       getHasUserEnoughRightsToPmgmData
+    );
+  }
+
+  onTabChange(selectedTab: string): void {
+    this.store.dispatch(
+      setLossOfSkillSelectedTab({ selectedTab: selectedTab as LossOfSkillTab })
     );
   }
 

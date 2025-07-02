@@ -2,6 +2,11 @@ import { createSelector } from '@ngrx/store';
 
 import { LossOfSkillState, selectLossOfSkillState } from '..';
 
+export const getLossOfSkillSelectedTab = createSelector(
+  selectLossOfSkillState,
+  (state: LossOfSkillState) => state?.selectedTab
+);
+
 const getJobProfilesState = createSelector(
   selectLossOfSkillState,
   (state: LossOfSkillState) => state.jobProfiles

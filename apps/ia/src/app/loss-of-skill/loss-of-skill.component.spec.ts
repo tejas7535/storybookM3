@@ -14,12 +14,15 @@ import {
 } from '../core/store/selectors';
 import { LossOfSkillComponent } from './loss-of-skill.component';
 import { LostJobProfilesModule } from './lost-job-profiles/lost-job-profiles.module';
+import { LossOfSkillTab } from './models';
+import { setLossOfSkillSelectedTab } from './store/actions/loss-of-skill.actions';
 import {
   getHasUserEnoughRightsToPmgmData,
   getJobProfilesData,
   getJobProfilesLoading,
   getLossOfSkillLeaversData,
   getLossOfSkillLeaversLoading,
+  getLossOfSkillSelectedTab,
   getLossOfSkillWorkforceData,
   getLossOfSkillWorkforceLoading,
   getPmgmData,
@@ -53,6 +56,22 @@ describe('LossOfSkillComponent', () => {
   });
 
   describe('ngOnInit', () => {
+    it(
+      'should set selectedTab$',
+      marbles((m) => {
+        const a = LossOfSkillTab.PERFORMANCE;
+        store.overrideSelector(getLossOfSkillSelectedTab, a);
+
+        component.ngOnInit();
+
+        m.expect(component.selectedTab$).toBeObservable(
+          m.cold('a', {
+            a,
+          })
+        );
+      })
+    );
+
     it(
       'should set beautifiedFilters',
       marbles((m) => {
@@ -229,5 +248,35 @@ describe('LossOfSkillComponent', () => {
         );
       })
     );
+  });
+
+  describe('onTabChange', () => {
+    beforeEach(() => {
+      jest.spyOn(store, 'dispatch');
+    });
+
+    it('should dispatch setLossOfSkillSelectedTab action with the selected tab', () => {
+      const selectedTab = LossOfSkillTab.JOB_PROFILES;
+
+      component.onTabChange(selectedTab);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        setLossOfSkillSelectedTab({
+          selectedTab: selectedTab as LossOfSkillTab,
+        })
+      );
+    });
+
+    it('should dispatch setLossOfSkillSelectedTab action with PERFORMANCE tab', () => {
+      const selectedTab = LossOfSkillTab.PERFORMANCE;
+
+      component.onTabChange(selectedTab);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        setLossOfSkillSelectedTab({
+          selectedTab: selectedTab as LossOfSkillTab,
+        })
+      );
+    });
   });
 });

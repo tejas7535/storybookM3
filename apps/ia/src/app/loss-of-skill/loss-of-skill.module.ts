@@ -9,6 +9,7 @@ import { StoreModule } from '@ngrx/store';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedDirectivesModule } from '../shared/directives/shared-directives.module';
+import { NavButtonsComponent } from '../shared/nav-buttons/nav-buttons.component';
 import { SharedModule } from '../shared/shared.module';
 import { LossOfSkillComponent } from './loss-of-skill.component';
 import { LossOfSkillRoutingModule } from './loss-of-skill-routing.module';
@@ -28,6 +29,7 @@ import { LossOfSkillEffects } from './store/effects/loss-of-skill.effects';
       fromLossOfSkill.reducer
     ),
     EffectsModule.forFeature([LossOfSkillEffects]),
+    NavButtonsComponent,
     LostJobProfilesModule,
     PmgmModule,
     MatCardModule,

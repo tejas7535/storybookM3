@@ -23,6 +23,7 @@ import {
 } from '../../../shared/models';
 import { LossOfSkillService } from '../../loss-of-skill.service';
 import {
+  LossOfSkillTab,
   LostJobProfilesResponse,
   PmgmArrow,
   PmgmAssessment,
@@ -47,6 +48,7 @@ import {
   loadPmgmDataFailure,
   loadPmgmDataSuccess,
 } from '../actions/loss-of-skill.actions';
+import { getLossOfSkillSelectedTab } from '../selectors/loss-of-skill.selector';
 import { LossOfSkillEffects } from './loss-of-skill.effects';
 
 describe('LossOfSkill Effects', () => {
@@ -120,7 +122,7 @@ describe('LossOfSkill Effects', () => {
 
   describe('loadLossOfSkillData$', () => {
     test(
-      'loadLossOfSkillData - should trigger loadJobProfiles and loadPmgmData if orgUnit is set',
+      'loadLossOfSkillData - should trigger loadJobProfiles when orgUnit is set and tab is not PERFORMANCE',
       marbles((m) => {
         const request = {
           filterDimension: FilterDimension.ORG_UNIT,
@@ -129,13 +131,40 @@ describe('LossOfSkill Effects', () => {
         } as EmployeesRequest;
         action = loadLossOfSkillData();
         store.overrideSelector(getCurrentFilters, request);
+        store.overrideSelector(
+          getLossOfSkillSelectedTab,
+          LossOfSkillTab.JOB_PROFILES
+        );
         const resultJobProfiles = loadJobProfiles({ request });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', {
+          b: resultJobProfiles,
+        });
+
+        m.expect(effects.loadLossOfSkillData$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'loadLossOfSkillData - should trigger loadPmgmData when orgUnit is set and tab is PERFORMANCE',
+      marbles((m) => {
+        const request = {
+          filterDimension: FilterDimension.ORG_UNIT,
+          value: 'AVC',
+          timeRange: '12',
+        } as EmployeesRequest;
+        action = loadLossOfSkillData();
+        store.overrideSelector(getCurrentFilters, request);
+        store.overrideSelector(
+          getLossOfSkillSelectedTab,
+          LossOfSkillTab.PERFORMANCE
+        );
         const resultPmgmData = loadPmgmData({ request });
 
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-(bc)', {
-          b: resultJobProfiles,
-          c: resultPmgmData,
+        const expected = m.cold('-b', {
+          b: resultPmgmData,
         });
 
         m.expect(effects.loadLossOfSkillData$).toBeObservable(expected);

@@ -3,10 +3,16 @@ import { createAction, props, union } from '@ngrx/store';
 import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { EmployeesRequest } from '../../../shared/models';
 import {
+  LossOfSkillTab,
   LostJobProfilesResponse,
   PmgmDataResponse,
   WorkforceResponse,
 } from '../../models';
+
+export const setLossOfSkillSelectedTab = createAction(
+  '[Loss of Skill] Set Loss of Skill Selected Tab',
+  props<{ selectedTab: LossOfSkillTab }>()
+);
 
 export const loadLossOfSkillData = createAction(
   '[Loss of Skill] Load Loss of Skill Data'

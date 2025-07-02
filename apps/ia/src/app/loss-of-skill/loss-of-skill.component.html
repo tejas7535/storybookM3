@@ -1,25 +1,31 @@
 <div class="bg-surface-legacy" *transloco="let t; read: 'lossOfSkill'">
+  <ia-nav-buttons
+    [items]="navItems"
+    [selectedTab]="selectedTab$ | ngrxPush"
+    (selectedTabChange)="onTabChange($event)"
+  ></ia-nav-buttons>
   <mat-card class="mt-4">
-    <h5 class="mb-5 font-bold">{{ t('pmgm.title') }}</h5>
-    <ia-pmgm
-      [data]="pmgmData$ | ngrxPush"
-      [enoughRightsToShowAllEmployees]="enoughRightsToAllPmgmData$ | ngrxPush"
-    ></ia-pmgm>
-  </mat-card>
-  <mat-card class="mt-4">
-    <h5 class="mb-5 font-bold">{{ t('lostJobProfiles.title') }}</h5>
-    <ia-lost-job-profiles
-      [filters]="beautifiedFilters$ | ngrxPush"
-      [timeRange]="timeRange$ | ngrxPush"
-      [openPositionsAvailable]="areOpenPositionsAvailable$ | ngrxPush"
-      [loading]="lostJobProfilesLoading$ | ngrxPush"
-      [data]="lostJobProfilesData$ | ngrxPush"
-      [workforceLoading]="lossOfSkillWorkforceLoading$ | ngrxPush"
-      [workforceData]="lossOfSkillWorkforceData$ | ngrxPush"
-      [leaversLoading]="lossOfSkillLeaversLoading$ | ngrxPush"
-      [leaversData]="lossOfSkillLeaversData$ | ngrxPush"
-      (workforceRequested)="triggerLoadWorkforce($event)"
-      (leaversRequested)="triggerLoadLeavers($event)"
-    ></ia-lost-job-profiles>
+    @if ((selectedTab$ | ngrxPush) === lossOfSkillTab.PERFORMANCE) {
+      <h5 class="mb-5 font-bold">{{ t('pmgm.title') }}</h5>
+      <ia-pmgm
+        [data]="pmgmData$ | ngrxPush"
+        [enoughRightsToShowAllEmployees]="enoughRightsToAllPmgmData$ | ngrxPush"
+      ></ia-pmgm>
+    } @else {
+      <h5 class="mb-5 font-bold">{{ t('lostJobProfiles.title') }}</h5>
+      <ia-lost-job-profiles
+        [filters]="beautifiedFilters$ | ngrxPush"
+        [timeRange]="timeRange$ | ngrxPush"
+        [openPositionsAvailable]="areOpenPositionsAvailable$ | ngrxPush"
+        [loading]="lostJobProfilesLoading$ | ngrxPush"
+        [data]="lostJobProfilesData$ | ngrxPush"
+        [workforceLoading]="lossOfSkillWorkforceLoading$ | ngrxPush"
+        [workforceData]="lossOfSkillWorkforceData$ | ngrxPush"
+        [leaversLoading]="lossOfSkillLeaversLoading$ | ngrxPush"
+        [leaversData]="lossOfSkillLeaversData$ | ngrxPush"
+        (workforceRequested)="triggerLoadWorkforce($event)"
+        (leaversRequested)="triggerLoadLeavers($event)"
+      ></ia-lost-job-profiles>
+    }
   </mat-card>
 </div>

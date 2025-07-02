@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
-import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
@@ -10,7 +10,10 @@ import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { selectRouterState } from '../../../core/store';
-import { filterSelected } from '../../../core/store/actions';
+import {
+  filterSelected,
+  resetTimeRangeFilter,
+} from '../../../core/store/actions';
 import {
   getCurrentDimensionValue,
   getCurrentFilters,
@@ -20,6 +23,7 @@ import { EmployeesRequest } from '../../../shared/models';
 import { updateUserSettingsSuccess } from '../../../user/store/actions/user.action';
 import { LossOfSkillService } from '../../loss-of-skill.service';
 import {
+  LossOfSkillTab,
   LostJobProfilesResponse,
   PmgmDataDtoResponse,
   WorkforceResponse,
@@ -41,6 +45,7 @@ import {
   loadPmgmDataFailure,
   loadPmgmDataSuccess,
 } from '../actions/loss-of-skill.actions';
+import { getLossOfSkillSelectedTab } from '../selectors/loss-of-skill.selector';
 
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
 @Injectable()
@@ -60,14 +65,18 @@ export class LossOfSkillEffects {
 
   loadLossOfSkillData$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadLossOfSkillData),
-      concatLatestFrom(() => this.store.select(getCurrentFilters)),
-      map(([_action, request]) => request),
-      filter((request) => !!(request.timeRange && request.value)),
-      mergeMap((request: EmployeesRequest) => [
-        loadJobProfiles({ request }),
-        loadPmgmData({ request }),
-      ])
+      ofType(loadLossOfSkillData, resetTimeRangeFilter),
+      concatLatestFrom(() => [
+        this.store.select(getCurrentFilters),
+        this.store.select(getLossOfSkillSelectedTab),
+      ]),
+      map(([_action, request, selectedTab]) => ({ request, selectedTab })),
+      filter((data) => !!(data.request.timeRange && data.request.value)),
+      map((data) => {
+        return data.selectedTab === LossOfSkillTab.PERFORMANCE
+          ? loadPmgmData({ request: data.request })
+          : loadJobProfiles({ request: data.request });
+      })
     );
   });
 

@@ -1,4 +1,5 @@
 export * from './job-profile.model';
+export * from './loss-of-skill-tab.model';
 export * from './lost-job-profiles-response.model';
 export * from './performance-rating.enum';
 export * from './pmgm-arrow.enum';

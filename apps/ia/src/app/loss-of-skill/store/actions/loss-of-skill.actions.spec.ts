@@ -24,6 +24,19 @@ import {
 describe('LossOfSkill Actions', () => {
   const errorMessage = 'An error occured';
 
+  test('setLossOfSkillSelectedTab', () => {
+    const selectedTab = 'performance';
+    const action = {
+      selectedTab,
+      type: '[Loss of Skill] Set Loss of Skill Selected Tab',
+    };
+
+    expect(action).toEqual({
+      selectedTab,
+      type: '[Loss of Skill] Set Loss of Skill Selected Tab',
+    });
+  });
+
   test('loadJobProfiles', () => {
     const request = {} as unknown as EmployeesRequest;
     const action = loadJobProfiles({ request });

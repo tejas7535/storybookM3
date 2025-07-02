@@ -1,10 +1,11 @@
-import { PmgmDataResponse } from '../../models';
+import { LossOfSkillTab, PmgmDataResponse } from '../../models';
 import { LossOfSkillState } from '..';
 import {
   getJobProfilesData,
   getJobProfilesLoading,
   getLossOfSkillLeaversData,
   getLossOfSkillLeaversLoading,
+  getLossOfSkillSelectedTab,
   getLossOfSkillWorkforceData,
   getLossOfSkillWorkforceLoading,
   getPmgmData,
@@ -15,6 +16,7 @@ describe('LossOfSkill Selector', () => {
     lossOfSkill: LossOfSkillState;
   } = {
     lossOfSkill: {
+      selectedTab: LossOfSkillTab.PERFORMANCE,
       jobProfiles: {
         loading: false,
         data: {
@@ -51,6 +53,13 @@ describe('LossOfSkill Selector', () => {
       },
     },
   };
+
+  describe('getLossOfSkillSelectedTab', () => {
+    it('should return the selected tab', () => {
+      const result = getLossOfSkillSelectedTab.projector(fakeState.lossOfSkill);
+      expect(result).toBe(LossOfSkillTab.PERFORMANCE);
+    });
+  });
 
   describe('getJobProfilesLoading', () => {
     it('should return true if job profiles loading', () => {

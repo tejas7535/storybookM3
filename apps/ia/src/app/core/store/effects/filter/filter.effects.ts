@@ -4,13 +4,22 @@ import { catchError, EMPTY, filter, map, mergeMap, of } from 'rxjs';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
-import { routerNavigationAction } from '@ngrx/router-store';
+import {
+  routerNavigationAction,
+  routerRequestAction,
+  RouterRequestPayload,
+} from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { Moment } from 'moment';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { FilterService } from '../../../../filter-section/filter.service';
-import { clearLossOfSkillDimensionData } from '../../../../loss-of-skill/store/actions/loss-of-skill.actions';
+import { LossOfSkillTab } from '../../../../loss-of-skill/models';
+import {
+  clearLossOfSkillDimensionData,
+  setLossOfSkillSelectedTab,
+} from '../../../../loss-of-skill/store/actions/loss-of-skill.actions';
+import { getLossOfSkillSelectedTab } from '../../../../loss-of-skill/store/selectors/loss-of-skill.selector';
 import {
   clearOverviewBenchmarkData,
   clearOverviewDimensionData,
@@ -36,6 +45,7 @@ import {
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
+  resetTimeRangeFilter,
   setAvailableTimePeriods,
 } from '../../actions';
 import { selectRouterState } from '../../reducers';
@@ -154,11 +164,20 @@ export class FilterEffects {
 
   setTimePeriodsFiltersForCurrentTab$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(routerNavigationAction),
-      concatLatestFrom(() => this.store.select(selectRouterState)),
-      map(([_, routerStateAction]) => routerStateAction.state.url),
-      mergeMap((url) => {
-        if (url === `/${AppRoutePath.LostPerformancePath}`) {
+      ofType(routerNavigationAction, setLossOfSkillSelectedTab),
+      concatLatestFrom(() => [
+        this.store.select(selectRouterState),
+        this.store.select(getLossOfSkillSelectedTab),
+      ]),
+      map(([_, routerStateAction, selectedTab]) => ({
+        url: routerStateAction.state.url,
+        selectedTab,
+      })),
+      mergeMap((data) => {
+        if (
+          this.includesLostPerformancePath(data.url) &&
+          data.selectedTab === LossOfSkillTab.PERFORMANCE
+        ) {
           const lossOfSkillTimePeriods = [
             { id: TimePeriod.YEAR, value: TimePeriod.YEAR },
           ];
@@ -197,6 +216,32 @@ export class FilterEffects {
     );
   });
 
+  resetTimeRangeFilter$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(routerRequestAction, setLossOfSkillSelectedTab),
+      concatLatestFrom(() => [this.store.select(getLossOfSkillSelectedTab)]),
+      map(([action, selectedTab]) => ({
+        action,
+        selectedTab,
+      })),
+      filter(({ action, selectedTab }) => {
+        // Handle router navigation
+        if (action.type === routerRequestAction.type) {
+          return (
+            this.leavingLostPerformancePath(action.payload) &&
+            selectedTab === LossOfSkillTab.PERFORMANCE
+          );
+        }
+
+        // Handle tab selection
+        return selectedTab !== LossOfSkillTab.PERFORMANCE;
+      }),
+      mergeMap(() => {
+        return of(resetTimeRangeFilter());
+      })
+    );
+  });
+
   getStartOfPreviousYearDate = (): Moment =>
     getToday().clone().subtract(1, 'year').startOf('year');
   getEndOfPreviousYearDate = (): Moment =>
@@ -207,4 +252,15 @@ export class FilterEffects {
     private readonly store: Store,
     private readonly filterService: FilterService
   ) {}
+
+  private includesLostPerformancePath(url: string): boolean {
+    return url.includes(AppRoutePath.LostPerformancePath);
+  }
+
+  private leavingLostPerformancePath(payload: RouterRequestPayload): boolean {
+    return (
+      !this.includesLostPerformancePath(payload.event.url) &&
+      this.includesLostPerformancePath(payload.routerState.url)
+    );
+  }
 }

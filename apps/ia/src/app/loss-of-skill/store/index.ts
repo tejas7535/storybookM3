@@ -2,6 +2,7 @@ import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import { ExitEntryEmployeesResponse } from '../../overview/models';
 import {
+  LossOfSkillTab,
   LostJobProfilesResponse,
   PmgmDataResponse,
   WorkforceResponse,
@@ -20,11 +21,13 @@ import {
   loadPmgmData,
   loadPmgmDataFailure,
   loadPmgmDataSuccess,
+  setLossOfSkillSelectedTab,
 } from './actions/loss-of-skill.actions';
 
 export const lossOfSkillFeatureKey = 'lossOfSkill';
 
 export interface LossOfSkillState {
+  selectedTab: LossOfSkillTab;
   jobProfiles: {
     loading: boolean;
     data: LostJobProfilesResponse;
@@ -48,6 +51,7 @@ export interface LossOfSkillState {
 }
 
 export const initialState: LossOfSkillState = {
+  selectedTab: LossOfSkillTab.PERFORMANCE,
   jobProfiles: {
     loading: false,
     data: undefined,
@@ -72,6 +76,13 @@ export const initialState: LossOfSkillState = {
 
 export const lossOfSkillReducer = createReducer(
   initialState,
+  on(
+    setLossOfSkillSelectedTab,
+    (state: LossOfSkillState, { selectedTab }): LossOfSkillState => ({
+      ...state,
+      selectedTab,
+    })
+  ),
   on(
     loadJobProfiles,
     (state: LossOfSkillState): LossOfSkillState => ({

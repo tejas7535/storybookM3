@@ -1,4 +1,8 @@
 {
+  "tabs": {
+    "performance": "Performance",
+    "jobProfiles": "Job Profiles"
+  },
   "lostJobProfiles": {
     "title": "Lost job profiles",
     "table": {

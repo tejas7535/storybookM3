@@ -7,6 +7,10 @@ import {
   TimePeriod,
 } from '../../../../shared/models';
 
+export const resetTimeRangeFilter = createAction(
+  '[Filter] Reset Time Range Filter'
+);
+
 export const loadFilterBenchmarkDimensionData = createAction(
   '[Filter] Load Filter Benchmark Dimension Data',
   props<{ filterDimension: FilterDimension; searchFor?: string }>()

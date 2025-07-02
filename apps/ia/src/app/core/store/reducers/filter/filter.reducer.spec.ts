@@ -18,19 +18,100 @@ import {
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
+  resetTimeRangeFilter,
   setAvailableTimePeriods,
   timePeriodSelected,
 } from '../../actions/filter/filter.action';
 import {
-  filterReducer,
   getInitialSelectedTimeRange,
   getTimeRangeFilterForTimePeriod,
-  initialState,
-  reducer,
-} from './filter.reducer';
+} from './filter.helpers';
+import { filterReducer, initialState, reducer } from './filter.reducer';
 
 describe('Filter Reducer', () => {
   const errorMessage = 'An error occured';
+
+  describe('resetTimeRangeFilter', () => {
+    test('should reset time period to LAST_12_MONTHS', () => {
+      const fakeState = {
+        ...initialState,
+        selectedTimePeriod: TimePeriod.YEAR,
+      };
+      const action = resetTimeRangeFilter();
+
+      const state = filterReducer(fakeState, action);
+
+      expect(state.selectedTimePeriod).toEqual(TimePeriod.LAST_12_MONTHS);
+    });
+
+    test('should reset selected filters with initial time range', () => {
+      const fakeState = {
+        ...initialState,
+        selectedFilters: {
+          ids: [FilterKey.TIME_RANGE],
+          entities: {
+            [FilterKey.TIME_RANGE]: {
+              name: FilterKey.TIME_RANGE,
+              idValue: {
+                id: '1640995200|1672531199',
+                value: '2022',
+              },
+            },
+          },
+        },
+      };
+      const action = resetTimeRangeFilter();
+
+      const state = filterReducer(fakeState, action);
+      expect(
+        state.selectedFilters.entities[FilterKey.TIME_RANGE].idValue.id
+      ).not.toEqual('1640995200|1672531199');
+      expect(
+        state.selectedFilters.entities[FilterKey.TIME_RANGE].idValue.value
+      ).toBeTruthy();
+    });
+
+    test('should reset benchmark filters with initial time range', () => {
+      const fakeState = {
+        ...initialState,
+        benchmarkFilters: {
+          ids: [FilterKey.TIME_RANGE],
+          entities: {
+            [FilterKey.TIME_RANGE]: {
+              name: FilterKey.TIME_RANGE,
+              idValue: {
+                id: '1640995200|1672531199',
+                value: '2022',
+              },
+            },
+          },
+        },
+      };
+      const action = resetTimeRangeFilter();
+
+      const state = filterReducer(fakeState, action);
+      expect(
+        state.benchmarkFilters.entities[FilterKey.TIME_RANGE].idValue.id
+      ).not.toEqual('1640995200|1672531199');
+      expect(
+        state.benchmarkFilters.entities[FilterKey.TIME_RANGE].idValue.value
+      ).toBeTruthy();
+    });
+
+    test('should set timeRangeConstraints', () => {
+      const fakeState = {
+        ...initialState,
+        selectedDimension: FilterDimension.ORG_UNIT,
+      };
+
+      const action = resetTimeRangeFilter();
+
+      const state = filterReducer(fakeState, action);
+
+      expect(state.timeRangeConstraints.min).toBeTruthy();
+      expect(state.timeRangeConstraints.max).toBeTruthy();
+    });
+  });
 
   describe('loadFilterDimensionData', () => {
     test('should set loading and selected dimension', () => {
