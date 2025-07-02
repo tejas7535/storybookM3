@@ -5,17 +5,17 @@
   "
 >
   <div class="flex h-full flex-col gap-6">
-    <gq-dialog-header
-      [title]="title"
-      (closeDialog)="closeDialog()"
-    ></gq-dialog-header>
     @if (dataLoading) {
       <schaeffler-loading-spinner
-        class="h-full"
+        class="h-full m-6"
         backgroundColor="rgba(255,255,255, 0.1)"
         [relative]="true"
       ></schaeffler-loading-spinner>
     } @else {
+      <gq-dialog-header
+        [title]="title"
+        (closeDialog)="closeDialog()"
+      ></gq-dialog-header>
       <!-- decide which component to show. Every Component has it's own Logic and handles it themselves-->
       @switch (modalData.process) {
         @case (processEnum.START) {
