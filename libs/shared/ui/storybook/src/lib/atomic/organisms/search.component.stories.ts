@@ -43,8 +43,8 @@ import { MatChipsModule } from '@angular/material/chips';
         [control]="control"
         [filterFn]="filterFn"
         [isRoundedSearchComponent]="isRoundedSearchComponent"
-        (searchUpdated)="onSearchUpdated($event)"
-        (optionSelected)="onOptionSelected($event)"
+        (searchUpdated)="searchUpdated.emit($event)"
+        (optionSelected)="optionSelected.emit($event)"
       >
         @if (includeCustomOptions; as option) {
           <ng-template #customOptions let-option="option">
@@ -156,6 +156,8 @@ const meta: Meta<WrapperComponentForSearch> = {
     },
   },
   argTypes: {
+    searchUpdated: { action: 'onSearchUpdated' },
+    optionSelected: { action: 'onOptionSelected' },
     control: {
       options: ['Default', 'Required'],
       control: 'radio',

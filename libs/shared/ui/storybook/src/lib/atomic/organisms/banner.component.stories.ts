@@ -36,6 +36,10 @@ const meta: Meta<BannerTextComponent> = {
       providers: [provideTransloco({ config: STORYBOOK_TRANSLOCO_CONFIG })],
     }),
   ],
+  argTypes: {
+    closeBanner: { action: 'closeBanner' },
+    toggleFullText: { action: 'toggleFullText' },
+  },
   args: {
     closeBanner: action('closeBanner'),
     toggleFullText: action('toggleFullText'),

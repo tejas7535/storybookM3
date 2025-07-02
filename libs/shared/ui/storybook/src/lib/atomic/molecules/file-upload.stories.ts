@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import {
@@ -22,6 +22,8 @@ import { STORYBOOK_TRANSLOCO_CONFIG } from 'libs/shared/ui/storybook/.storybook/
 import { provideTransloco } from '@jsverse/transloco';
 import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat';
 import { interval, take } from 'rxjs';
+import { action } from 'storybook/internal/actions';
+
 @Component({
   selector: 'file-upload-example',
   template: `
@@ -44,6 +46,7 @@ import { interval, take } from 'rxjs';
       ></schaeffler-file-upload>
     </div>
   `,
+  imports: [FileUploadComponent],
   standalone: true,
 })
 class FileUploadExampleComponent {
@@ -59,6 +62,8 @@ class FileUploadExampleComponent {
   disableDragAndDrop: boolean;
   unknownFileTypeText: string;
 
+  @Output() public tooManyFilesSelected = new EventEmitter<Message>();
+  @Output() public filesChanged = new EventEmitter<SelectedFile[]>();
   private uploadingFiles: SelectedFile[] = [];
 
   public onTooManyFilesSelected(message: Message): void {
@@ -69,6 +74,7 @@ class FileUploadExampleComponent {
         ...message,
       });
     }
+    this.tooManyFilesSelected.emit(message);
   }
 
   public statusTextFn = (
@@ -122,6 +128,7 @@ class FileUploadExampleComponent {
     if (importantFile) {
       this.uploadFile(importantFile);
     }
+    this.filesChanged.emit(files);
   }
 
   // upload a file and update its upload progress
@@ -177,7 +184,13 @@ const meta: Meta<FileUploadExampleComponent> = {
     },
     badges: [Badges.InProgress],
   },
+  argTypes: {
+    tooManyFilesSelected: { action: 'onTooManyFilesSelected' },
+    filesChanged: { action: 'onFilesChanged' },
+  },
   args: {
+    tooManyFilesSelected: action('onTooManyFilesSelected'),
+    filesChanged: action('onFilesChanged'),
     messages: [
       {
         type: 'info',

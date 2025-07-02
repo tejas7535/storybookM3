@@ -48,10 +48,6 @@ boolean isLibsRelease = false
 @Field
 boolean runQualityStage = true
 @Field
-boolean buildStorybook = false
-@Field
-boolean publishStorybook = false
-@Field
 boolean triggerAppDeployments = false
 @Field
 boolean storybookAffected = false
@@ -188,18 +184,7 @@ void defineIsLibsRelease(isMain) {
     isLibsRelease = params.RELEASE_SCOPE == 'LIBS' && isMain
 }
 
-void defineBuildStorybook(isRelease) {
-    buildStorybook = !skipBuild && !isRelease && !isPreReleaseTrigger && !isHotfixTrigger && !isHotfixBaseWithoutChanges
-}
 
-void definePublishStorybook(isMain) {
-    // should only run if
-    // pipeline runs on master branch
-    // storybook project is affected
-    // buildStorybook returns true
-
-    publishStorybook = isMain && storybookAffected && buildStorybook
-}
 
 void defineRunQualityStage(isRelease) {
     // should always run except in these scenarios:
@@ -512,8 +497,6 @@ pipeline {
                     isRelease = isAppRelease || isLibsRelease || isHotfixRelease
                     ciSkip(isMain, isRelease)
                     defineRunQualityStage(isRelease)
-                    defineBuildStorybook(isRelease)
-                    definePublishStorybook(isMain)
                     defineRunTriggerAppDeploymentsStage(isNightly)
 
                     sh "pnpm config set store-dir $PNPM_HOME/.pnpm-store"
@@ -812,23 +795,6 @@ pipeline {
             }
         }
 
-        stage('Build:Storybook') {
-            when {
-                expression {
-                    return buildStorybook
-                }
-            }
-            steps {
-                echo 'Build Storybooks for Shared Libraries'
-
-                script {
-                    sh "pnpm nx affected --base=${buildBase} --target=build-storybook"
-
-                    publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'dist/storybook/shared-ui-storybook', reportFiles: 'index.html', reportName: 'Storybook Components', reportTitles: ''])
-                }
-            }
-        }
-
         stage('Build:Apps') {
             when {
                 expression {
@@ -951,28 +917,6 @@ pipeline {
                     }
                 }
 
-                stage('Deliver:Storybook') {
-                    when {
-                        expression {
-                            return publishStorybook
-                        }
-                    }
-                    steps {
-                        echo 'Deliver Storybook to Artifactory'
-
-                        script {
-                            zip dir: 'dist/storybook/shared-ui-storybook',  glob: '', zipFile: 'dist/zips/storybook/next.zip'
-                            uploadFile = 'dist/zips/storybook/next.zip'
-                            checksum = sh(
-                                script: "sha1sum ${uploadFile} | awk '{ print \$1 }'",
-                                returnStdout: true
-                            ).trim()
-
-                            target = "${artifactoryBasePath}/storybook/next.zip"
-                            deployArtifact(target, uploadFile, checksum)
-                        }
-                    }
-                }
             }
 
             post {
@@ -1051,47 +995,6 @@ pipeline {
                             println("WARNING: Some error occured while triggering deployment for ${app}, see stacktrace below:")
                             println(error)
                         }
-                    }
-                }
-            }
-        }
-
-        stage('Storybook Deployment') {
-            when {
-                expression {
-                    return publishStorybook
-                }
-            }
-            steps {
-                echo 'Deploy Storybook to GH-Pages'
-
-                script {
-                    // Checkout gh-pages branch and clean folder
-                    github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', 'git fetch --all')
-                    sh 'git checkout -- .'
-                    sh 'git checkout gh-pages'
-                    sh 'git reset --hard origin/gh-pages'
-                    sh 'rm -rf *'
-
-                    // download latest storybook bundle
-                    String target = "${artifactoryBasePath}/storybook/next.zip"
-                    String output = 'storybook.zip'
-                    downloadArtifact(target, output)
-
-                    // unzip bundle
-                    sh 'mkdir docs'
-                    fileOperations([fileUnZipOperation(filePath: 'storybook.zip', targetLocation: './docs')])
-                    writeFile(file: 'docs/CNAME', text: 'storybook.pages.dp.schaeffler')
-                    sh 'rm storybook.zip'
-
-                    try {
-                        // commit and push back to remote
-                        sh 'git add -A'
-                        sh "git commit -m 'chore(storybook): update storybook [$BUILD_NUMBER]' --no-verify"
-                        github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', 'git push')
-                    } catch (error) {
-                        echo 'No changes to commit for storybook deployment'
-                        println(error)
                     }
                 }
             }

@@ -22,6 +22,7 @@ import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
 import READMEMd from '../../../../../app-shell/README.md';
 import { STORYBOOK_TRANSLOCO_CONFIG } from '../../../../.storybook/storybook-transloco.constants';
+import { RouterTestingModule } from '@angular/router/testing';
 interface AppShellStorybookTemplate {
   headerContent?: string;
   sideNavContent?: string;
@@ -53,6 +54,7 @@ export default {
         MatIconModule,
         MatSidenavModule,
         MatToolbarModule,
+        RouterTestingModule,
       ],
     }),
     applicationConfig({
@@ -68,7 +70,7 @@ const TemplateDefault: StoryFn<
   AppShellComponent | AppShellStorybookTemplate
 > = (args) => ({
   props: args,
-  template: `  
+  template: `
 <div  class="absolute inset-0">
 <schaeffler-app-shell class="!relative"
   [appTitle]="appTitle"
@@ -102,7 +104,7 @@ const TemplateDefault: StoryFn<
     <span class="rounded bg-gradient-to-br from-primary-variant to-surface border border-primary px-3 py-1">{{ footerContent }}</span>
   </ng-container>
 </schaeffler-app-shell>
-</div>  
+</div>
   `,
 });
 

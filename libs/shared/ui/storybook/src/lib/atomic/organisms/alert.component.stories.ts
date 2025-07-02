@@ -35,10 +35,15 @@ const meta: Meta<AlertComponent> = {
       providers: [provideTransloco({ config: STORYBOOK_TRANSLOCO_CONFIG })],
     }),
   ],
+  argTypes: {
+    buttonClicked: {
+      action: 'buttonClicked',
+    },
+  },
   args: {
     headline: 'Headline',
     actionText: 'Dismiss',
-    buttonClicked: action('Button Clicked'),
+    buttonClicked: action('buttonClicked'),
   },
 };
 export default meta;

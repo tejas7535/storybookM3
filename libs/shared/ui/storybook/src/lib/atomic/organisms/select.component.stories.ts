@@ -14,11 +14,11 @@ import { SelectComponent, SelectModule } from '@schaeffler/inputs/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormControl, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { action } from 'storybook/actions';
 import { StringOption } from '@schaeffler/inputs';
 import { STORYBOOK_TRANSLOCO_CONFIG } from 'libs/shared/ui/storybook/.storybook/storybook-transloco.constants';
 import { Component } from '@angular/core';
 import { provideTransloco } from '@jsverse/transloco';
+import { action } from 'storybook/internal/actions';
 
 @Component({
   selector: 'wrapper',
@@ -47,11 +47,11 @@ import { provideTransloco } from '@jsverse/transloco';
         [triggerTooltipDelay]="triggerTooltipDelay"
         [tooltipPosition]="tooltipPosition"
         [showNumberOfSelected]="showNumberOfSelected"
-        (searchUpdated)="onSearchUpdated($event)"
-        (entryAdded)="onEntryAdded($event)"
-        (optionRemoved)="onOptionRemoved($event)"
-        (optionSelected)="onOptionSelected($event)"
-        (openedChange)="onOpenedChange($event)"
+        (searchUpdated)="searchUpdated.emit($event)"
+        (entryAdded)="entryAdded.emit($event)"
+        (optionRemoved)="optionRemoved.emit($event)"
+        (optionSelected)="optionSelected.emit($event)"
+        (openedChange)="openedChange.emit($event)"
       >
         <div
           loadingContent
@@ -97,14 +97,22 @@ const meta: Meta<WrapperComponentForSelect> = {
     },
     badges: [Badges.Final],
   },
-  args: {
-    entryAdded: action('onEntryAdded'),
-    searchUpdated: action('onSearchUpdated'),
-    optionRemoved: action('onOptionRemoved'),
-    optionSelected: action('onOptionSelected'),
-    openedChange: action('onOpenedChange'),
-  },
   argTypes: {
+    optionSelected: {
+      action: 'onOptionSelected',
+    },
+    searchUpdated: {
+      action: 'onSearchUpdated',
+    },
+    optionRemoved: {
+      action: 'onOptionRemoved',
+    },
+    entryAdded: {
+      action: 'onEntryAdded',
+    },
+    openedChange: {
+      action: 'onOpenedChange',
+    },
     control: {
       options: ['Default', 'Required'],
       control: 'radio',
@@ -159,6 +167,12 @@ type Story = StoryObj<WrapperComponentForSelect>;
 
 export const Primary: Story = {
   args: {
+    optionSelected: action('onOptionSelected'),
+    searchUpdated: action('onSearchUpdated'),
+
+    optionRemoved: action('onOptionRemoved'),
+    entryAdded: action('onEntryAdded'),
+    openedChange: action('onOpenedChange'),
     stringOptions: [
       {
         id: 0,

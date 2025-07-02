@@ -1,4 +1,4 @@
-name: frontend-mono-storybook-deployment
+name: Frontend Mono Storybook Deployment
 
 on:
   push:
@@ -6,11 +6,8 @@ on:
     inputs:
       deploy:
         description: 'Deploy build to GitHub Pages'
-        required: true
-        default: 'No'
-        options:
-          - Yes
-          - No
+        type: boolean
+        required: false
 
 jobs:
   build_storybook:
@@ -54,25 +51,29 @@ jobs:
           echo "STORYBOOK_AFFECTED=$STORYBOOK_AFFECTED" >> "$GITHUB_ENV"
           echo "STORYBOOK_AFFECTED=$STORYBOOK_AFFECTED" >> "$GITHUB_OUTPUT"
       - name: NX build task
-        if: env.STORYBOOK_AFFECTED=='YES'
-        run: pnpm nx affected --base=$BUILD_BASE --target=build-storybook
+        if: env.STORYBOOK_AFFECTED=='YES' || inputs.deploy
+        run: pnpm nx run shared-ui-storybook:build-storybook
       - name: Upload bundle
-        if: env.STORYBOOK_AFFECTED=='YES'
-        uses: actions/upload-artifact@v4
+        if: env.STORYBOOK_AFFECTED=='YES' || inputs.deploy
+        uses: actions/upload-pages-artifact@v3
         with:
           name: storybook-deployment-bundle
-          path: dist/storybook/shared-ui-storybook/**
+          path: dist/storybook/shared-ui-storybook/
 
   deploy_storybook:
     runs-on: standard-ghc
     needs: build_storybook
     name: Deploy Storybook to Pages
-    if: ${{ (needs.build_storybook.outputs.STORYBOOK_AFFECTED == 'Yes' && github.ref_name == 'master') || inputs.deploy == 'Yes' }}
+    if: ${{ (needs.build_storybook.outputs.STORYBOOK_AFFECTED == 'Yes' && github.ref_name == 'master') || inputs.deploy }}
     permissions:
       pages: write
       id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to Pages
+        id: deployment
         uses: actions/deploy-pages@v4
         with:
-          artifact-name: storybook-deployment-bundle
+          artifact_name: storybook-deployment-bundle
