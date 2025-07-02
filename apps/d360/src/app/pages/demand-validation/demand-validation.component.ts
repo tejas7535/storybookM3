@@ -40,6 +40,12 @@ import { ActionBarComponent } from './action-bar/action-bar.component';
 import { DemandValidationTableComponent } from './tables/demand-validation-table/demand-validation-table.component';
 import { MaterialListTableComponent } from './tables/material-list-table/material-list-table.component';
 
+export enum ValidationTableAction {
+  RELOAD = 'reload',
+  SHOW_LOADER = 'showLoader',
+  HIDE_LOADER = 'hideLoader',
+}
+
 @Component({
   selector: 'd360-demand-validation',
   imports: [
@@ -158,13 +164,28 @@ export class DemandValidationComponent
   /**
    * Show loader or refresh table
    *
-   * @param showLoaderOnly - true: show loader, false: hide loader, null: reload table
+   * @param action
    */
-  protected reloadValidationTable(showLoaderOnly: boolean | null): void {
-    if (showLoaderOnly === null) {
-      this.reloadRequired.set(this.reloadRequired() + 1);
-    } else {
-      this.showLoader.set(showLoaderOnly);
+  protected reloadValidationTable(action: ValidationTableAction): void {
+    switch (action) {
+      case ValidationTableAction.RELOAD: {
+        this.reloadRequired.set(this.reloadRequired() + 1);
+        break;
+      }
+
+      case ValidationTableAction.SHOW_LOADER: {
+        this.showLoader.set(true);
+        break;
+      }
+
+      case ValidationTableAction.HIDE_LOADER: {
+        this.showLoader.set(false);
+        break;
+      }
+
+      default: {
+        break;
+      }
     }
   }
 

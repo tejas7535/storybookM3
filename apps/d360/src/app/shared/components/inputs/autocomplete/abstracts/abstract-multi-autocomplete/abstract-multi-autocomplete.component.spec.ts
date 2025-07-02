@@ -435,4 +435,35 @@ describe('AbstractMultiAutocompleteComponent', () => {
       expect(component['first']).toBe(false);
     });
   });
+
+  describe('togglePanel', () => {
+    beforeEach(() => {
+      (component as any)['trigger'] = {
+        openPanel: jest.fn(),
+        closePanel: jest.fn(),
+      };
+    });
+
+    it('should open the panel if the control is enabled', () => {
+      jest
+        .spyOn(component, 'control')
+        .mockReturnValue({ enabled: true } as any);
+
+      component['togglePanel']();
+
+      expect(component['trigger'].openPanel).toHaveBeenCalled();
+      expect(component['trigger'].closePanel).not.toHaveBeenCalled();
+    });
+
+    it('should close the panel if the control is disabled', () => {
+      jest
+        .spyOn(component, 'control')
+        .mockReturnValue({ enabled: false } as any);
+
+      component['togglePanel']();
+
+      expect(component['trigger'].closePanel).toHaveBeenCalled();
+      expect(component['trigger'].openPanel).not.toHaveBeenCalled();
+    });
+  });
 });

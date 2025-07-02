@@ -1,7 +1,11 @@
 @if (customerMaterialNumberCount <= 1) {
   {{ customerMaterialNumber }}
 } @else {
-  <div (click)="openDialog()" class="flex items-center gap-x-4">
+  <div
+    (click)="openDialog()"
+    class="flex items-center gap-x-4"
+    (keydown)="keyHandler($event)(openDialog.bind(this))"
+  >
     {{ customerMaterialNumber }}
     <mat-icon
       class="small-icon"

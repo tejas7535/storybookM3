@@ -124,11 +124,11 @@
           <div
             class="flex gap-2 items-center"
             [class.cursor-pointer]="chartSeriesConfig[kpi].isToggleable"
-            (click)="
-              chartSeriesConfig[kpi].isToggleable
-                ? updateToggledKpis(kpi)
-                : null
+            (click)="updateToggledKpisIfAllowed(kpi)"
+            (keydown)="
+              keyHandler($event)(updateToggledKpisIfAllowed.bind(this), kpi)
             "
+            [tabindex]="chartSeriesConfig[kpi].isToggleable ? 0 : -1"
           >
             <div
               class="h-4 w-4 rounded-3xl"

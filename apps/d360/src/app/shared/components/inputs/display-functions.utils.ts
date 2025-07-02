@@ -66,7 +66,7 @@ export class DisplayFunctions {
     if (typeof option === 'string') {
       return option;
     } else if (SelectableValueUtils.isSelectableValue(option)) {
-      return `${option?.id} - ${option?.text}` || '-';
+      return `${option.id} - ${option.text}`;
     }
 
     return '-';
@@ -86,7 +86,7 @@ export class DisplayFunctions {
     if (typeof option === 'string') {
       return option;
     } else if (SelectableValueUtils.isSelectableValue(option)) {
-      return `${option?.id} - ${option?.text}` || '-';
+      return `${option.id} - ${option.text}`;
     }
 
     return '';

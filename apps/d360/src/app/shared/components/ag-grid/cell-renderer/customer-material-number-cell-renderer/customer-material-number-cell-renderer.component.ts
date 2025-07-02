@@ -15,6 +15,7 @@ import { finalize, Observable, tap } from 'rxjs';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
+import { keyHandler } from '../../../../utils/general';
 import { CustomerMaterialNumbersModalComponent } from './modal/customer-material-numbers-modal.component';
 
 @Component({
@@ -31,6 +32,7 @@ export class CustomerMaterialNumberCellRendererComponent
 
   private materialNumber = '';
   private customerNumber = '';
+  protected keyHandler = keyHandler;
 
   private readonly isLoading: WritableSignal<boolean> = signal(false);
   private readonly customerMaterialNumbers: WritableSignal<string[]> = signal(

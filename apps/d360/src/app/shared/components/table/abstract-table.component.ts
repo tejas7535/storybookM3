@@ -1177,7 +1177,9 @@ export abstract class AbstractTableComponent implements OnInit {
    * @return {void}
    * @memberof AbstractTableComponent
    */
-  protected loadData(): void {}
+  protected loadData(): void {
+    // This method should be implemented in the derived frontend table class
+  }
 
   /**
    * Handles the event when the grid is ready.
@@ -1329,7 +1331,7 @@ export abstract class AbstractTableComponent implements OnInit {
     if (!errorMessage && isProblemDetail(error?.details)) {
       const values = error?.details?.values ?? {};
 
-      if (values && values[SapErrorMessageHeader.MessageId]) {
+      if (values?.[SapErrorMessageHeader.MessageId]) {
         errorMessage = messageFromSAP(
           translate('error.loading_failed'),
           values[SapErrorMessageHeader.MessageNumber],

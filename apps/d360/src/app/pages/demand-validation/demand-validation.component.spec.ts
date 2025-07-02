@@ -3,7 +3,10 @@ import { EMPTY, of, throwError } from 'rxjs';
 import { MaterialListEntry } from '../../feature/demand-validation/model';
 import { GlobalSelectionState } from '../../shared/components/global-selection-criteria/global-selection-state.service';
 import { Stub } from '../../shared/test/stub.class';
-import { DemandValidationComponent } from './demand-validation.component';
+import {
+  DemandValidationComponent,
+  ValidationTableAction,
+} from './demand-validation.component';
 
 describe('DemandValidationComponent', () => {
   let component: DemandValidationComponent;
@@ -170,17 +173,17 @@ describe('DemandValidationComponent', () => {
   describe('reloadValidationTable', () => {
     it('should increment reloadRequired if showLoaderOnly is null', () => {
       const initialReloadRequired = component['reloadRequired']();
-      component['reloadValidationTable'](null);
+      component['reloadValidationTable'](ValidationTableAction.RELOAD);
       expect(component['reloadRequired']()).toBe(initialReloadRequired + 1);
     });
 
     it('should set showLoader to true if showLoaderOnly is true', () => {
-      component['reloadValidationTable'](true);
+      component['reloadValidationTable'](ValidationTableAction.SHOW_LOADER);
       expect(component['showLoader']()).toBe(true);
     });
 
     it('should set showLoader to false if showLoaderOnly is false', () => {
-      component['reloadValidationTable'](false);
+      component['reloadValidationTable'](ValidationTableAction.HIDE_LOADER);
       expect(component['showLoader']()).toBe(false);
     });
   });

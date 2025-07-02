@@ -29,6 +29,8 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { OptionsLoadingResult } from '../../../../../services/selectable-options.service';
+import { keyHandler } from '../../../../../utils/general';
 import {
   DisplayFunction,
   DisplayFunctions,
@@ -37,7 +39,6 @@ import {
   SelectableValue,
   SelectableValueUtils,
 } from '../../selectable-values.utils';
-import { OptionsLoadingResult } from './../../../../../services/selectable-options.service';
 
 @Component({
   imports: [],
@@ -119,6 +120,14 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
   public panelClass: InputSignal<string | string[]> = input<string | string[]>(
     ''
   );
+
+  /**
+   * The key handler for the mat icon.
+   *
+   * @protected
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  protected keyHandler = keyHandler;
 
   /**
    * Add a clear button to the component.
@@ -461,5 +470,19 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
    */
   protected onAutocompleteClosed(): void {
     this.isAutocompleteOpen = false;
+  }
+
+  /**
+   * Toggles the dropdown panel open or closed.
+   *
+   * @protected
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  protected togglePanel(): void {
+    if (this.control().enabled) {
+      this.trigger.openPanel();
+    } else {
+      this.trigger.closePanel();
+    }
   }
 }

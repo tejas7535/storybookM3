@@ -9,6 +9,7 @@ import { MatTooltip } from '@angular/material/tooltip';
 
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
+import { keyHandler } from '../../../../utils/general';
 import { AbstractBaseCellRendererComponent } from '../abstract-cell-renderer.component';
 
 export type TextWithDotParams<T> = ICellRendererParams<any, T> & {
@@ -38,6 +39,8 @@ export class TextWithDotCellRendererComponent<
   protected isGroup!: boolean;
   protected syncIconTooltip!: string;
   protected expanded: WritableSignal<boolean> = signal(false);
+
+  protected keyHandler = keyHandler;
 
   /**
    * @inheritdoc

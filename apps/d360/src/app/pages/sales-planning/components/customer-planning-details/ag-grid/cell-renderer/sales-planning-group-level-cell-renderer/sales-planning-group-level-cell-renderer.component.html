@@ -3,6 +3,9 @@
     class="cursor-pointer text-link hover:underline"
     [class]="isChildElement ? 'ml-12' : 'ml-4'"
     (click)="onClickAction(rowData, !isChildElement)"
+    (keydown)="
+      keyHandler($event)(onClickAction.bind(this), rowData, !isChildElement)
+    "
   >
     {{ value }}
   </span>
@@ -13,11 +16,11 @@
     [class]="expanded() ? 'ag-group-expanded' : 'ag-group-contracted'"
     [attr.data-ref]="expanded() ? 'eExpanded' : 'eContracted'"
     (click)="onClickExpand()"
+    (keydown)="keyHandler($event)(onClickExpand.bind(this))"
   >
     <span
       [class]="expanded() ? 'ag-icon-tree-open' : 'ag-icon-tree-closed'"
       unselectable="on"
-      role="presentation"
     >
     </span>
   </span>

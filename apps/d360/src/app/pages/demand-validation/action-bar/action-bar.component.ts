@@ -75,6 +75,7 @@ import { DateRangePeriod } from '../../../shared/utils/date-range';
 import { strictlyParseLocalFloat } from '../../../shared/utils/number';
 import { SnackbarService } from '../../../shared/utils/service/snackbar.service';
 import { ValidationHelper } from '../../../shared/utils/validation/validation-helper';
+import { ValidationTableAction } from '../demand-validation.component';
 import { DatePickerSettingDemandValidationModalComponent } from './date-picker-setting-demand-validation-modal/date-picker-setting-demand-validation-modal.component';
 import { DemandValidationExportModalComponent } from './demand-validation-export-modal/demand-validation-export-modal.component';
 import { DemandValidationMultiDeleteModalComponent } from './demand-validation-multi-delete-modal/demand-validation-multi-delete-modal.component';
@@ -132,7 +133,7 @@ export class ActionBarComponent implements OnInit {
   public customerChange = output<CustomerEntry>();
   public toggleMaterialListVisible = output<{ open: boolean }>();
   public dateRangeChanged = output<KpiDateRanges>();
-  public reloadValidationTable = output<boolean | null>();
+  public reloadValidationTable = output<ValidationTableAction>();
   public demandValidationFilterChange = output<DemandValidationFilter>();
 
   private readonly dialog = inject(MatDialog);
@@ -373,7 +374,7 @@ export class ActionBarComponent implements OnInit {
 
   private reloadTheValidationTable(reload: boolean): void {
     if (reload) {
-      this.reloadValidationTable.emit(null);
+      this.reloadValidationTable.emit(ValidationTableAction.RELOAD);
     }
   }
 
@@ -388,11 +389,11 @@ export class ActionBarComponent implements OnInit {
   }
 
   protected handleOnDeleteUnsavedForecast() {
-    this.reloadValidationTable.emit(null);
+    this.reloadValidationTable.emit(ValidationTableAction.RELOAD);
   }
 
   protected handleOnSaveForecast(dryRun: boolean) {
-    this.reloadValidationTable.emit(true);
+    this.reloadValidationTable.emit(ValidationTableAction.SHOW_LOADER);
 
     if (!dryRun) {
       this.appInsights.logEvent(
@@ -434,7 +435,7 @@ export class ActionBarComponent implements OnInit {
         take(1),
         tap((result) => {
           // close loading spinner
-          this.reloadValidationTable.emit(false);
+          this.reloadValidationTable.emit(ValidationTableAction.HIDE_LOADER);
 
           // send message: BE-/SAP-Error or Success
           this.snackbarService[result ? 'error' : 'success'](
@@ -452,7 +453,7 @@ export class ActionBarComponent implements OnInit {
             // ...same for dry-run
             !dryRun
           ) {
-            this.reloadValidationTable.emit(null);
+            this.reloadValidationTable.emit(ValidationTableAction.RELOAD);
           }
         }),
         takeUntilDestroyed(this.destroyRef)
@@ -483,7 +484,7 @@ export class ActionBarComponent implements OnInit {
   }
 
   private readonly onSaveInModal = (eventName: string) => () => {
-    this.reloadValidationTable.emit(null);
+    this.reloadValidationTable.emit(ValidationTableAction.RELOAD);
 
     this.appInsights.logEvent(eventName);
   };

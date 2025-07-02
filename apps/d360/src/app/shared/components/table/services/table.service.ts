@@ -248,7 +248,7 @@ export class TableService<COLUMN_KEYS extends string> {
             colId: col.colId as COLUMN_KEYS,
             visible: !col.hide,
             sort: col.sort,
-            filter: filterModel && filterModel[col.colId],
+            filter: filterModel?.[col.colId],
           })
         )
       ),

@@ -20,6 +20,7 @@ import {
   KpiBucketTypeEnum,
   KpiEntry,
 } from '../../../../feature/demand-validation/model';
+import { keyHandler } from '../../../../shared/utils/general';
 
 export interface ICustomHeaderParams extends IHeaderParams {
   kpiEntry: KpiEntry;
@@ -37,6 +38,7 @@ export class DemandValidationKpiHeaderComponent implements IHeaderAngularComp {
   protected readonly translocoLocaleService = inject(TranslocoLocaleService);
   protected params!: ICustomHeaderParams;
   protected readonly KpiBucketTypeEnum = KpiBucketTypeEnum;
+  protected keyHandler = keyHandler;
 
   public agInit(params: ICustomHeaderParams): void {
     this.params = params;

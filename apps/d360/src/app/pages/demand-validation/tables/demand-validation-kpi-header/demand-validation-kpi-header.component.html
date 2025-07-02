@@ -1,5 +1,9 @@
 @if (params?.kpiEntry) {
-  <div class="header-div" (click)="handleHeaderClick()">
+  <div
+    class="header-div"
+    (click)="handleHeaderClick()"
+    (keydown)="keyHandler($event)(handleHeaderClick.bind(this))"
+  >
     @if (
       params?.kpiEntry?.bucketType === KpiBucketTypeEnum.WEEK ||
       params?.kpiEntry?.bucketType === KpiBucketTypeEnum.PARTIAL_WEEK

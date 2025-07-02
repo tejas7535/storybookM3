@@ -5,6 +5,7 @@ import * as Helper from '../../../feature/demand-validation/time-range';
 import { CustomerEntry } from '../../../feature/global-selection/model';
 import { Stub } from '../../../shared/test/stub.class';
 import { DateRangePeriod } from '../../../shared/utils/date-range';
+import { ValidationTableAction } from '../demand-validation.component';
 import { ActionBarComponent } from './action-bar.component';
 
 describe('ActionBarComponent', () => {
@@ -64,10 +65,10 @@ describe('ActionBarComponent', () => {
       emitSpy = jest.spyOn(component.reloadValidationTable, 'emit');
     });
 
-    it('should emit true and log event when dryRun is false', () => {
+    it('should emit ValidationTableAction.SHOW_LOADER and log event when dryRun is false', () => {
       component['handleOnSaveForecast'](false);
 
-      expect(emitSpy).toHaveBeenCalledWith(true);
+      expect(emitSpy).toHaveBeenCalledWith(ValidationTableAction.SHOW_LOADER);
       expect(logEventSpy).toHaveBeenCalledWith(
         '[Validated Sales Planning] Upload Single Entries'
       );
@@ -102,7 +103,7 @@ describe('ActionBarComponent', () => {
       expect(snackBarSpy).toHaveBeenCalledWith(
         'validation_of_demand.save.success'
       );
-      expect(emitSpy).toHaveBeenCalledWith(false);
+      expect(emitSpy).toHaveBeenCalledWith(ValidationTableAction.HIDE_LOADER);
     });
 
     it('should handle errors and not reload the table if errors exist', () => {
@@ -114,13 +115,13 @@ describe('ActionBarComponent', () => {
 
       component['handleOnSaveForecast'](false);
 
-      expect(emitSpy).not.toHaveBeenCalledWith(null);
+      expect(emitSpy).not.toHaveBeenCalledWith(ValidationTableAction.RELOAD);
     });
 
     it('should not reload the table for dryRun', () => {
       component['handleOnSaveForecast'](true);
 
-      expect(emitSpy).not.toHaveBeenCalledWith(null);
+      expect(emitSpy).not.toHaveBeenCalledWith(ValidationTableAction.RELOAD);
     });
   });
 
@@ -222,7 +223,7 @@ describe('ActionBarComponent', () => {
 
       component['handleOnDeleteUnsavedForecast']();
 
-      expect(emitSpy).toHaveBeenCalledWith(null);
+      expect(emitSpy).toHaveBeenCalledWith(ValidationTableAction.RELOAD);
     });
   });
 
@@ -447,7 +448,7 @@ describe('ActionBarComponent', () => {
 
       component['reloadTheValidationTable'](true);
 
-      expect(emitSpy).toHaveBeenCalledWith(null);
+      expect(emitSpy).toHaveBeenCalledWith(ValidationTableAction.RELOAD);
     });
 
     it('should not emit when reload is false', () => {
@@ -467,7 +468,7 @@ describe('ActionBarComponent', () => {
       const callback = component['onSaveInModal']('Test Event');
       callback();
 
-      expect(emitSpy).toHaveBeenCalledWith(null);
+      expect(emitSpy).toHaveBeenCalledWith(ValidationTableAction.RELOAD);
       expect(logEventSpy).toHaveBeenCalledWith('Test Event');
     });
   });

@@ -17,6 +17,7 @@ import { lastValueFrom, take, tap } from 'rxjs';
 import { translate } from '@jsverse/transloco';
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  CellClassParams,
   ICellRendererParams,
   IRowNode,
   ValueFormatterParams,
@@ -113,6 +114,11 @@ export class DemandValidationMultiGridEditComponent
     super();
 
     effect(() => {
+      const getColumn = (params: CellClassParams<GridBatchUpload>) =>
+        params.api
+          .getColumns()
+          .findIndex((col) => col.getColId() === params.column.getColId());
+
       if (this.kpiBuckets()?.length > 0) {
         this.columnDefinitions = [
           {
@@ -178,11 +184,7 @@ export class DemandValidationMultiGridEditComponent
                 ValidationHelper.detectLocaleAndValidateForLocalFloat(value),
               cellClass: (params) => {
                 const row: number = Number.parseInt(params.node.id, 10);
-                const column: number = params.api
-                  .getColumns()
-                  .findIndex(
-                    (col) => col.getColId() === params.column.getColId()
-                  );
+                const column: number = getColumn(params);
                 const hasValue =
                   params.value !== undefined &&
                   params.value !== null &&

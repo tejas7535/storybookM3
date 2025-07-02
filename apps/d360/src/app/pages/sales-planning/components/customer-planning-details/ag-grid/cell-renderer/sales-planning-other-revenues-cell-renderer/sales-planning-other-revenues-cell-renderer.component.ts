@@ -67,7 +67,11 @@ export class SalesPlanningOtherRevenuesCellRendererComponent extends AbstractSal
     this.dialog
       .open(CustomerSalesPlanNumberEditModalComponent, {
         data: {
-          title: `${translate(`${this.translationKeyPrefix}.otherRevenues`)} ${translate('sales_planning.planning_details.edit_modal.for')} ${this.planningYear}`,
+          title: [
+            translate(`${this.translationKeyPrefix}.otherRevenues`),
+            translate('sales_planning.planning_details.edit_modal.for'),
+            this.planningYear,
+          ].join(' '),
           formLabel: translate(`${this.translationKeyPrefix}.otherRevenues`),
           currentValueLabel: translate(
             `${this.translationKeyPrefix}.otherRevenues`

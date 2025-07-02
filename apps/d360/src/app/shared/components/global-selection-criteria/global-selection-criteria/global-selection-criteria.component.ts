@@ -266,18 +266,16 @@ export class GlobalSelectionCriteriaComponent implements OnInit {
 
     if (this.globalSelectionStateService.isEmpty()) {
       this.count.set(0);
-    } else {
-      if (!untracked(() => this.countLoading())) {
-        this.countLoading.set(true);
-        this.globalSelectionHelperService
-          .getResultCount(filters)
-          .pipe(take(1), takeUntilDestroyed(this.destroyRef))
-          .subscribe((data) => {
-            this.count.set(data || 0);
+    } else if (!untracked(() => this.countLoading())) {
+      this.countLoading.set(true);
+      this.globalSelectionHelperService
+        .getResultCount(filters)
+        .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+        .subscribe((data) => {
+          this.count.set(data || 0);
 
-            this.countLoading.set(false);
-          });
-      }
+          this.countLoading.set(false);
+        });
     }
   }
 

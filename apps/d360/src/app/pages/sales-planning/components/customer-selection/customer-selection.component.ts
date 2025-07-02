@@ -50,7 +50,6 @@ import { CustomerInfoModalComponent } from '../customer-info-modal/customer-info
     StyledSectionComponent,
   ],
   templateUrl: './customer-selection.component.html',
-  styleUrl: './customer-selection.component.scss',
 })
 export class CustomerSelectionComponent implements OnInit {
   protected formGroup = new FormGroup({
@@ -101,12 +100,12 @@ export class CustomerSelectionComponent implements OnInit {
 
   public handleCustomerChange($event: SingleAutocompleteSelectedEvent): void {
     this.selectedCustomer.set(
-      !$event?.option || $event?.option?.id === null
-        ? null
-        : {
+      $event?.option?.id
+        ? {
             customerNumber: $event?.option?.id,
             customerName: $event?.option?.text,
           }
+        : null
     );
 
     this.selectedCustomerSalesPlan.set([]);

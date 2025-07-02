@@ -290,6 +290,28 @@ export class AlertService {
       'customerNumber'
     );
 
+    const getAlert = (
+      array: SelectableValue[],
+      selectableValue: SelectableValue,
+      index: number
+    ): unknown =>
+      array.findIndex((arrayValue) => selectableValue.id === arrayValue.id) ===
+      index;
+
+    const getAlerts = (innerValue: Alert[]) =>
+      innerValue
+        .map((alert) => ({
+          id: alert.materialNumber,
+          text: alert.materialDescription,
+        }))
+        .filter(
+          (
+            selectableValue: SelectableValue,
+            index: number,
+            array: SelectableValue[]
+          ) => getAlert(array, selectableValue, index)
+        );
+
     Object.entries(groupedRows).forEach(([key, value]) => {
       const groupedByPriority: Record<Priority, Alert[]> = this.groupBy(
         value,
@@ -305,24 +327,10 @@ export class AlertService {
         typesByPriority[innerKey] = [...new Set(allTypes)];
       });
 
-      Object.entries(groupedByPriority).forEach(([innerKey, innerValue]) => {
-        const allMaterials = innerValue
-          .map((alert) => ({
-            id: alert.materialNumber,
-            text: alert.materialDescription,
-          }))
-          .filter(
-            (
-              selectableValue: SelectableValue,
-              index: number,
-              array: SelectableValue[]
-            ) =>
-              array.findIndex(
-                (arrayValue) => selectableValue.id === arrayValue.id
-              ) === index
-          );
-        materialByPriority[innerKey] = [...new Set(allMaterials)];
-      });
+      Object.entries(groupedByPriority).forEach(
+        ([innerKey, innerValue]) =>
+          (materialByPriority[innerKey] = [...new Set(getAlerts(innerValue))])
+      );
 
       groupedResult.push({
         customerNumber: key,

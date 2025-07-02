@@ -50,8 +50,6 @@ export class CanDeactivateGuard
     _currentState: RouterStateSnapshot,
     _nextState?: RouterStateSnapshot
   ): boolean | Observable<boolean> | Promise<boolean> {
-    return component && component.canDeactivate
-      ? component.canDeactivate()
-      : true;
+    return component?.canDeactivate ? component.canDeactivate() : true;
   }
 }

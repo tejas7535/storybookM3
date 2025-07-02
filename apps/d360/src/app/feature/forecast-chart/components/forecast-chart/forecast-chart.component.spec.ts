@@ -362,106 +362,112 @@ describe('ForecastChartComponent', () => {
     });
   });
 
-  describe('updateToggledKpis', () => {
-    it('should toggle a KPI', () => {
+  describe('updateToggledKpisIfAllowed', () => {
+    it('should toggle KPI if it is toggleable', () => {
+      component['chartSettings'] = {
+        planningView: PlanningView.CONFIRMED,
+      } as any;
+
       component['toggledKpis'].set({
-        salesAmbition: false,
-        opportunities: false,
-        onTopCapacityForecast: false,
-        onTopOrder: false,
+        [KpiValues.SalesAmbition]: false,
+        [KpiValues.Orders]: true,
       });
-      component['updateToggledKpis'](KpiValues.SalesAmbition);
-      expect(component['toggledKpis']()).toEqual({
-        salesAmbition: true,
-        opportunities: false,
-        onTopCapacityForecast: false,
-        onTopOrder: false,
-      });
+
+      component['updateToggledKpisIfAllowed'](KpiValues.SalesAmbition);
+      expect(component['toggledKpis']().salesAmbition).toBe(true);
+
+      component['updateToggledKpisIfAllowed'](KpiValues.SalesAmbition);
+      expect(component['toggledKpis']().salesAmbition).toBe(false);
     });
 
-    it('should toggle multiple KPIs independently', () => {
+    it('should not toggle KPI if it is not toggleable', () => {
+      component['chartSettings'] = {
+        planningView: PlanningView.CONFIRMED,
+      } as any;
+
       component['toggledKpis'].set({
-        salesAmbition: false,
-        opportunities: false,
-        onTopCapacityForecast: false,
-        onTopOrder: false,
+        [KpiValues.SalesAmbition]: false,
+        [KpiValues.Orders]: true,
       });
 
-      component['updateToggledKpis'](KpiValues.SalesAmbition);
-      component['updateToggledKpis'](KpiValues.Opportunities);
+      component['updateToggledKpisIfAllowed'](KpiValues.Orders);
+      expect(component['toggledKpis']().orders).toBe(true);
 
-      expect(component['toggledKpis']()).toEqual({
-        salesAmbition: true,
-        opportunities: true,
-        onTopCapacityForecast: false,
-        onTopOrder: false,
-      });
+      component['updateToggledKpisIfAllowed'](KpiValues.Orders);
+      expect(component['toggledKpis']().orders).toBe(true);
+    });
+  });
+
+  describe('getIncludeSalesDataWithPlanningView', () => {
+    it('should return true when planningView is CONFIRMED and includeSalesData is true', () => {
+      component['chartSettings'] = {
+        ...mockChartSettings,
+        planningView: PlanningView.CONFIRMED,
+      };
+      Stub.setInput('includeSalesData', true);
+
+      expect(component['getIncludeSalesDataWithPlanningView']()).toBe(true);
     });
 
-    it('should toggle a KPI back to false if already true', () => {
-      component['toggledKpis'].set({
-        salesAmbition: true,
-        opportunities: false,
-        onTopCapacityForecast: false,
-        onTopOrder: false,
-      });
+    it('should return false when planningView is not CONFIRMED', () => {
+      component['chartSettings'] = {
+        ...mockChartSettings,
+        planningView: PlanningView.REQUESTED,
+      };
+      Stub.setInput('includeSalesData', true);
 
-      component['updateToggledKpis'](KpiValues.SalesAmbition);
-
-      expect(component['toggledKpis']()).toEqual({
-        salesAmbition: false,
-        opportunities: false,
-        onTopCapacityForecast: false,
-        onTopOrder: false,
-      });
+      expect(component['getIncludeSalesDataWithPlanningView']()).toBe(false);
     });
 
-    it('should toggle all KPIs one by one', () => {
-      component['toggledKpis'].set({
-        salesAmbition: false,
-        opportunities: false,
-        onTopCapacityForecast: false,
-        onTopOrder: false,
-      });
+    it('should return false when includeSalesData is false', () => {
+      component['chartSettings'] = {
+        ...mockChartSettings,
+        planningView: PlanningView.CONFIRMED,
+      };
+      Stub.setInput('includeSalesData', false);
 
-      component['updateToggledKpis'](KpiValues.SalesAmbition);
-      expect(component['toggledKpis']()[KpiValues.SalesAmbition]).toBe(true);
+      expect(component['getIncludeSalesDataWithPlanningView']()).toBe(false);
+    });
+  });
 
-      component['updateToggledKpis'](KpiValues.Opportunities);
-      expect(component['toggledKpis']()[KpiValues.Opportunities]).toBe(true);
-
-      component['updateToggledKpis'](KpiValues.OnTopCapacityForecast);
-      expect(component['toggledKpis']()[KpiValues.OnTopCapacityForecast]).toBe(
-        true
-      );
-
-      component['updateToggledKpis'](KpiValues.OnTopOrder);
-      expect(component['toggledKpis']()[KpiValues.OnTopOrder]).toBe(true);
-
-      // Final state check
-      expect(component['toggledKpis']()).toEqual({
-        salesAmbition: true,
-        opportunities: true,
-        onTopCapacityForecast: true,
-        onTopOrder: true,
-      });
+  describe('isYearlyChartSelected', () => {
+    it('should return true when period type is YEARLY', () => {
+      component.typeForm.get('period').setValue(PeriodType.YEARLY);
+      expect(component['isYearlyChartSelected']()).toBe(true);
     });
 
-    it('should preserve other KPI states when toggling one KPI', () => {
-      component['toggledKpis'].set({
-        salesAmbition: true,
-        opportunities: true,
-        onTopCapacityForecast: false,
-        onTopOrder: false,
+    it('should return false when period type is not YEARLY', () => {
+      component.typeForm.get('period').setValue(PeriodType.MONTHLY);
+      expect(component['isYearlyChartSelected']()).toBe(false);
+    });
+  });
+
+  describe('crossFieldValidator', () => {
+    it('should return null when dates are valid', () => {
+      const validator = component['crossFieldValidator']();
+
+      // Set valid dates (start before end)
+      component.dateForm.patchValue({
+        startDate: '2021-01-01T00:00:00Z',
+        endDate: '2021-12-31T00:00:00Z',
       });
 
-      component['updateToggledKpis'](KpiValues.OnTopCapacityForecast);
+      expect(validator(component.dateForm)).toBeNull();
+    });
 
-      expect(component['toggledKpis']()).toEqual({
-        salesAmbition: true,
-        opportunities: true,
-        onTopCapacityForecast: true,
-        onTopOrder: false,
+    it('should return error when end date is before start date', () => {
+      const validator = component['crossFieldValidator']();
+
+      // Set invalid dates (end before start)
+      component.dateForm.patchValue({
+        startDate: '2021-12-31T00:00:00Z',
+        endDate: '2021-01-01T00:00:00Z',
+      });
+
+      const errors = validator(component.dateForm);
+      expect(errors).toBeTruthy();
+      expect(errors).toEqual({
+        endDate: ['end-before-start'],
       });
     });
   });

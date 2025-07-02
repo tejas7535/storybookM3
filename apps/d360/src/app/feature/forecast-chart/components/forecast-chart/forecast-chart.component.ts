@@ -49,6 +49,7 @@ import { SelectableValue } from '../../../../shared/components/inputs/autocomple
 import { MenuPanelButtonComponent } from '../../../../shared/components/menu-panel-button/menu-panel-button.component';
 import { ValidateForm } from '../../../../shared/decorators';
 import { disabledGrey } from '../../../../shared/styles/colors';
+import { keyHandler } from '../../../../shared/utils/general';
 import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
 import { PlanningView } from '../../../demand-validation/planning-view';
 import { GlobalSelectionUtils } from '../../../global-selection/global-selection.utils';
@@ -88,9 +89,9 @@ import { YearlyForecastChartComponent } from '../yearly-forecast-chart/yearly-fo
   styleUrl: './forecast-chart.component.scss',
 })
 export class ForecastChartComponent implements OnInit {
-  public currency = input.required<string>();
-  public globalSelectionState = input.required<GlobalSelectionState>();
-  public customerFilter = input<SelectableValue>(null);
+  protected currency = input.required<string>();
+  protected globalSelectionState = input.required<GlobalSelectionState>();
+  protected customerFilter = input<SelectableValue>(null);
   protected readonly currentFilter: Signal<GlobalSelectionState> =
     computed<GlobalSelectionState>(() =>
       this.customerFilter()
@@ -110,12 +111,12 @@ export class ForecastChartComponent implements OnInit {
           }
         : this.globalSelectionState()
     );
-  public columnFilters = input.required<ColumnFilters>();
-  public chartIdentifier = input.required<string>();
-  public defaultPeriodType = input.required<PeriodType>();
-  public includeSalesData = input<boolean>(false);
-  public isAssignedToMe = input<boolean>(null);
-  public disablePreview = input<boolean>(false);
+  protected columnFilters = input.required<ColumnFilters>();
+  protected chartIdentifier = input.required<string>();
+  protected defaultPeriodType = input.required<PeriodType>();
+  protected includeSalesData = input<boolean>(false);
+  protected isAssignedToMe = input<boolean>(null);
+  protected disablePreview = input<boolean>(false);
 
   private readonly destroy = inject(DestroyRef);
   private readonly chartSettingsService: ChartSettingsService =
@@ -131,6 +132,8 @@ export class ForecastChartComponent implements OnInit {
     return config;
   }
   protected readonly disabledGray = disabledGrey;
+
+  protected keyHandler = keyHandler;
 
   protected get kpiTypes(): (keyof ChartSeriesConfig)[] {
     return Object.entries(this.chartSeriesConfig)
@@ -149,7 +152,7 @@ export class ForecastChartComponent implements OnInit {
   private readonly typeSettings =
     viewChild<MenuPanelButtonComponent>('typeSettings');
 
-  constructor() {
+  public constructor() {
     effect(
       () =>
         this.chartSettingsInitialized() &&
@@ -367,6 +370,15 @@ export class ForecastChartComponent implements OnInit {
     return this.settingsDisabled() || this.isYearlyChartSelected();
   }
 
+  protected updateToggledKpisIfAllowed(kpi: ChartValues) {
+    if (this.chartSeriesConfig[kpi].isToggleable) {
+      this.toggledKpis.set({
+        ...this.toggledKpis(),
+        [kpi]: !this.toggledKpis()[kpi],
+      });
+    }
+  }
+
   /**
    * The form cross field validator to check the dates.
    *
@@ -380,12 +392,5 @@ export class ForecastChartComponent implements OnInit {
         formGroup as FormGroup,
         true
       );
-  }
-
-  public updateToggledKpis(kpi: ChartValues) {
-    this.toggledKpis.set({
-      ...this.toggledKpis(),
-      [kpi]: !this.toggledKpis()[kpi],
-    });
   }
 }

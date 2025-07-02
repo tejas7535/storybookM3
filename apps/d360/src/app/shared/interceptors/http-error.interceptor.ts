@@ -70,7 +70,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           if (isProblemDetail(errorDetails)) {
             const values = errorDetails.values;
 
-            if (values && values[SapErrorMessageHeader.MessageId]) {
+            if (values?.[SapErrorMessageHeader.MessageId]) {
               messageToDisplay = messageFromSAP(
                 values[SapErrorMessageHeader.FallbackMessage],
                 values[SapErrorMessageHeader.MessageNumber],

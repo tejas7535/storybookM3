@@ -10,11 +10,11 @@
     [class]="expanded() ? 'ag-group-expanded' : 'ag-group-contracted'"
     [attr.data-ref]="expanded() ? 'eExpanded' : 'eContracted'"
     (click)="onClick()"
+    (keydown)="keyHandler($event)(onClick.bind(this))"
   >
     <span
       [class]="expanded() ? 'ag-icon-tree-open' : 'ag-icon-tree-closed'"
       unselectable="on"
-      role="presentation"
     >
     </span>
   </span>

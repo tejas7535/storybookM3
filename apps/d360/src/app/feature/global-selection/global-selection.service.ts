@@ -27,6 +27,7 @@ import {
 } from '../../shared/utils/validation/filter-validation';
 import { ValidationHelper } from '../../shared/utils/validation/validation-helper';
 import { MaterialCustomerService } from '../material-customer/material-customer.service';
+import { BackendTableResponse } from './../../shared/components/table/interfaces/request-params.interface';
 import { GlobalSelectionUtils } from './global-selection.utils';
 import { CustomerEntry } from './model';
 
@@ -333,44 +334,43 @@ export class GlobalSelectionHelperService {
       .filter((entry) => !entry.error)
       .map((entry) => ValidationHelper.fillZeroOnValueFunc(10, entry.id));
 
+    const processFetchedCustomers = (fetchedCustomers: SelectableValue[]) => {
+      fetchedCustomers.forEach((customer) => {
+        const entry = resolveResults.filter(
+          (e) => customer.id === ValidationHelper.fillZeroOnValueFunc(10, e.id)
+        );
+
+        if (entry) {
+          entry.forEach(
+            (e) =>
+              (e.selectableValue = {
+                id: customer.id,
+                text: customer.text,
+              })
+          );
+        }
+      });
+
+      resolveResults.forEach((entry) => {
+        if (entry.error == null && entry.selectableValue == null) {
+          entry.error = [
+            translate('error.notValidCustomerNumber', {
+              formattedValue: entry.id,
+            }),
+          ];
+        }
+      });
+    };
+
     const requests = GlobalSelectionUtils.splitToChunks(
       formattedCustomerNumbers,
       100
     ).map((chunk) =>
       this.http
         .post<
-          { id: string; text: string }[]
+          SelectableValue[]
         >(this.GLOBAL_SELECTION_CUSTOMER_BY_NAME_API, chunk)
-        .pipe(
-          map((fetchedCustomers) => {
-            fetchedCustomers.forEach((customer) => {
-              const entry = resolveResults.filter(
-                (e) =>
-                  customer.id === ValidationHelper.fillZeroOnValueFunc(10, e.id)
-              );
-
-              if (entry) {
-                entry.forEach(
-                  (e) =>
-                    (e.selectableValue = {
-                      id: customer.id,
-                      text: customer.text,
-                    })
-                );
-              }
-            });
-
-            resolveResults.forEach((entry) => {
-              if (entry.error == null && entry.selectableValue == null) {
-                entry.error = [
-                  translate('error.notValidCustomerNumber', {
-                    formattedValue: entry.id,
-                  }),
-                ];
-              }
-            });
-          })
-        )
+        .pipe(map(processFetchedCustomers))
     );
 
     return requests.length > 0
@@ -404,45 +404,52 @@ export class GlobalSelectionHelperService {
       .filter((entry) => !entry.error)
       .map((entry) => entry.id.replaceAll('-', ''));
 
+    const processFetchedMaterials = (
+      fetchedMaterials: BackendTableResponse<{
+        materialNumber: string;
+        materialDescription: string;
+      }>
+    ) => {
+      fetchedMaterials.rows.forEach((material: any) => {
+        const formattedMaterialNumber = material.materialNumber.replaceAll(
+          '-',
+          ''
+        );
+        const entry = resolveResults.filter(
+          (selectableValueEntry) =>
+            formattedMaterialNumber ===
+            selectableValueEntry.id.replaceAll('-', '')
+        );
+
+        if (entry) {
+          entry.forEach(
+            (e) =>
+              (e.selectableValue = {
+                id: material.materialNumber,
+                text: material.materialDescription,
+              })
+          );
+        }
+      });
+
+      resolveResults.forEach((entry) => {
+        if (entry.error == null && entry.selectableValue == null) {
+          entry.error = [
+            translate('error.notValidMaterialNumber', {
+              formattedValue: entry.id,
+            }),
+          ];
+        }
+      });
+    };
+
     const requests = GlobalSelectionUtils.splitToChunks(
       formattedMaterialNumbers,
       100
     ).map((chunk) =>
-      this.materialCustomerService.getMaterialCustomerData(chunk).pipe(
-        map((fetchedMaterials) => {
-          fetchedMaterials.rows.forEach((material: any) => {
-            const formattedMaterialNumber = material.materialNumber.replaceAll(
-              '-',
-              ''
-            );
-            const entry = resolveResults.filter(
-              (selectableValueEntry) =>
-                formattedMaterialNumber ===
-                selectableValueEntry.id.replaceAll('-', '')
-            );
-
-            if (entry) {
-              entry.forEach(
-                (e) =>
-                  (e.selectableValue = {
-                    id: material.materialNumber,
-                    text: material.materialDescription,
-                  })
-              );
-            }
-          });
-
-          resolveResults.forEach((entry) => {
-            if (entry.error == null && entry.selectableValue == null) {
-              entry.error = [
-                translate('error.notValidMaterialNumber', {
-                  formattedValue: entry.id,
-                }),
-              ];
-            }
-          });
-        })
-      )
+      this.materialCustomerService
+        .getMaterialCustomerData(chunk)
+        .pipe(map(processFetchedMaterials))
     );
 
     return requests.length > 0

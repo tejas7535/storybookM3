@@ -3,6 +3,15 @@
     --mat-form-field-container-vertical-padding: 8px;
     --mat-form-field-container-height: 40px;
 
+    @apply w-full;
+    margin-bottom: 20px;
+    margin-top: 20px;
+
+    .mat-mdc-text-field-wrapper,
+    .mat-mdc-subscript-wrapper {
+      margin-top: -20px;
+    }
+
     .mat-mdc-icon-button {
       &.mat-mdc-button-base {
         --mdc-icon-button-state-layer-size: 40px;
@@ -42,17 +51,6 @@
   mat-hint {
     @apply text-caption;
     @apply text-medium-emphasis;
-  }
-
-  .mat-mdc-form-field {
-    @apply w-full;
-    margin-bottom: 20px;
-    margin-top: 20px;
-
-    .mat-mdc-text-field-wrapper,
-    .mat-mdc-subscript-wrapper {
-      margin-top: -20px;
-    }
   }
 
   .compact .mat-mdc-form-field,

@@ -3,8 +3,6 @@ import { Route } from '@angular/router';
 import { MsalGuard } from '@azure/msal-angular';
 
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { LegalRoute } from '@schaeffler/legal-pages';
-
 import { AppRoutePath, AppRouteValue } from './app.routes.enum';
 import { Region } from './feature/global-selection/model';
 import { ProductType } from './shared/components/tab-bar-navigation/tab-bar-navigation.component';
@@ -219,7 +217,7 @@ export const appRoutes: RouteConfig = {
   ],
   others: [
     {
-      path: LegalRoute,
+      path: AppRoutePath.Legal,
       loadChildren: /* istanbul ignore next */ () =>
         import('@schaeffler/legal-pages').then((m) => m.LegalModule),
     },

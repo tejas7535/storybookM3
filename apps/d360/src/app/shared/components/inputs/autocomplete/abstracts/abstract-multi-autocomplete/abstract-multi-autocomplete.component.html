@@ -92,7 +92,8 @@
   @if (addDropdownIcon()) {
     <mat-icon
       matSuffix
-      (click)="control().enabled ? trigger.openPanel() : trigger.closePanel()"
+      (click)="togglePanel()"
+      (keydown)="keyHandler($event)(togglePanel.bind(this))"
       class="dropdown"
     >
       arrow_drop_down

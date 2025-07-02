@@ -1,6 +1,3 @@
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { LegalRoute } from '@schaeffler/legal-pages';
-
 export enum AppRoutePath {
   Root = '',
   BannerSettings = 'admin-settings/notification-banner',
@@ -17,7 +14,7 @@ export enum AppRoutePath {
   ForbiddenPage = 'forbidden',
   SalesValidationPage = 'sales-validation',
   TestPage = 'test-page',
-  Legal = LegalRoute,
+  Legal = 'legal',
 }
 
 export type AppRouteValue = `${AppRoutePath}` | '**';

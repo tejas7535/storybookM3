@@ -25,6 +25,17 @@ export interface SeriesConfig {
   order: number;
 }
 
+export enum KpiValues {
+  BwDelta = 'bwDelta',
+  Deliveries = 'deliveries',
+  OnTopCapacityForecast = 'onTopCapacityForecast',
+  OnTopOrder = 'onTopOrder',
+  Opportunities = 'opportunities',
+  Orders = 'orders',
+  SalesAmbition = 'salesAmbition',
+  SalesPlan = 'salesPlan',
+}
+
 export interface ChartSeriesConfig {
   [KpiValues.BwDelta]?: SeriesConfig;
   [KpiValues.Deliveries]: SeriesConfig;
@@ -37,26 +48,23 @@ export interface ChartSeriesConfig {
 }
 
 export const chartSeriesConfig: ChartSeriesConfig = {
-  bwDelta: { color: darkGrey, isToggleable: false, order: 2 }, // optional, only for sales data
-  deliveries: { color: dimmedGrey, isToggleable: false, order: 1 },
-  onTopCapacityForecast: { color: dimmedBlue, isToggleable: true, order: 5 },
-  onTopOrder: { color: dimmedGreen, isToggleable: true, order: 4 },
-  opportunities: { color: dimmedRed, isToggleable: true, order: 7 },
-  orders: { color: dimmedYellow, isToggleable: false, order: 3 },
-  salesAmbition: { color: dimmedPurple, isToggleable: true, order: 6 },
-  salesPlan: { color: textDarkGrey, isToggleable: false, order: 8 },
+  [KpiValues.BwDelta]: { color: darkGrey, isToggleable: false, order: 2 }, // optional, only for sales data
+  [KpiValues.Deliveries]: { color: dimmedGrey, isToggleable: false, order: 1 },
+  [KpiValues.OnTopCapacityForecast]: {
+    color: dimmedBlue,
+    isToggleable: true,
+    order: 5,
+  },
+  [KpiValues.OnTopOrder]: { color: dimmedGreen, isToggleable: true, order: 4 },
+  [KpiValues.Opportunities]: { color: dimmedRed, isToggleable: true, order: 7 },
+  [KpiValues.Orders]: { color: dimmedYellow, isToggleable: false, order: 3 },
+  [KpiValues.SalesAmbition]: {
+    color: dimmedPurple,
+    isToggleable: true,
+    order: 6,
+  },
+  [KpiValues.SalesPlan]: { color: textDarkGrey, isToggleable: false, order: 8 },
 } as const;
-
-export enum KpiValues {
-  BwDelta = 'bwDelta',
-  Deliveries = 'deliveries',
-  OnTopCapacityForecast = 'onTopCapacityForecast',
-  OnTopOrder = 'onTopOrder',
-  Opportunities = 'opportunities',
-  Orders = 'orders',
-  SalesAmbition = 'salesAmbition',
-  SalesPlan = 'salesPlan',
-}
 
 export type ChartValues = keyof typeof chartSeriesConfig;
 

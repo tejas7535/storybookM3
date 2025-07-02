@@ -79,6 +79,7 @@ describe('FilterHelpers', () => {
       ${'123'}    | ${false}
       ${'V1'}     | ${true}
       ${'V123'}   | ${true}
+      ${'1V23'}   | ${false}
       ${'V12345'} | ${false}
       ${'I123'}   | ${false}
     `(

@@ -8,6 +8,7 @@ import {
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { DetailedCustomerSalesPlan } from '../../../../../../../feature/sales-planning/model';
+import { keyHandler } from '../../../../../../../shared/utils/general';
 import { AbstractSalesPlanningCellRendererComponent } from '../abstract-sales-planning-cell-renderer.component';
 
 @Component({
@@ -29,6 +30,7 @@ export class SalesPlanningGroupLevelCellRendererComponent extends AbstractSalesP
   public get rowData(): DetailedCustomerSalesPlan {
     return this.parameters?.node?.data;
   }
+  protected keyHandler = keyHandler;
 
   public expanded: WritableSignal<boolean> = signal(false);
 
