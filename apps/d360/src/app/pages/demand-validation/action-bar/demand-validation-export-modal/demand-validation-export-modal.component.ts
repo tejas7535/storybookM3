@@ -557,9 +557,11 @@ export class DemandValidationExportModalComponent implements OnInit {
         ...template,
         // Remove the newId from the templates, if it exists
         id: template.id === this.newId ? uuid() : template.id,
-        selectedKpisAndMetadata: Object.entries(selectedKpisAndMetadata)
-          .filter(([_, value]) => [true].includes(value))
-          .map(([key]) => key) as SelectedKpisAndMetadata[],
+        selectedKpisAndMetadata: template.active
+          ? (Object.entries(selectedKpisAndMetadata)
+              .filter(([_, value]) => [true].includes(value))
+              .map(([key]) => key) as SelectedKpisAndMetadata[])
+          : template.selectedKpisAndMetadata,
       }))
     );
   }
@@ -653,6 +655,8 @@ export class DemandValidationExportModalComponent implements OnInit {
 
   private handleActiveTemplate(): void {
     if (this.templates().length === 0) {
+      this.saveTemplates(null);
+
       this.templates.set([
         {
           id: this.newId,

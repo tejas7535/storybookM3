@@ -1233,6 +1233,99 @@ describe('DemandValidationExportModalComponent', () => {
       expect(savedTemplate.id).not.toBe(component['newId']);
       expect(savedTemplate.id.length).toBeGreaterThan(10); // UUID is much longer
     });
+
+    it('should only update selectedKpisAndMetadata for the active template', () => {
+      const userServiceSpy = jest.spyOn(
+        component['userService'],
+        'updateDemandValidationUserSettings'
+      );
+      const saveTemplatesMethod = (component as any).saveTemplates;
+      const mockSelectedKpis = {
+        [SelectedKpisAndMetadata.Deliveries]: true,
+        [SelectedKpisAndMetadata.FirmBusiness]: true,
+        [SelectedKpisAndMetadata.ForecastProposal]: false,
+      };
+
+      (component as any).templates.set([
+        {
+          id: 'template1',
+          title: 'Template 1',
+          active: true,
+          selectedKpisAndMetadata: [SelectedKpisAndMetadata.Deliveries],
+        },
+        {
+          id: 'template2',
+          title: 'Template 2',
+          active: false,
+          selectedKpisAndMetadata: [
+            SelectedKpisAndMetadata.ForecastProposal,
+            SelectedKpisAndMetadata.ValidatedForecast,
+          ],
+        },
+        {
+          id: 'template3',
+          title: 'Template 3',
+          active: false,
+          selectedKpisAndMetadata: [
+            SelectedKpisAndMetadata.ConfirmedDeliveries,
+            SelectedKpisAndMetadata.ConfirmedFirmBusiness,
+          ],
+        },
+      ]);
+
+      saveTemplatesMethod.call(component, mockSelectedKpis);
+
+      expect(userServiceSpy).toHaveBeenCalledWith(
+        DemandValidationUserSettingsKey.Exports,
+        expect.arrayContaining([
+          {
+            id: 'template1',
+            title: 'Template 1',
+            active: true,
+            selectedKpisAndMetadata: [
+              SelectedKpisAndMetadata.Deliveries,
+              SelectedKpisAndMetadata.FirmBusiness,
+            ],
+          },
+          {
+            id: 'template2',
+            title: 'Template 2',
+            active: false,
+            selectedKpisAndMetadata: [
+              SelectedKpisAndMetadata.ForecastProposal,
+              SelectedKpisAndMetadata.ValidatedForecast,
+            ],
+          },
+          {
+            id: 'template3',
+            title: 'Template 3',
+            active: false,
+            selectedKpisAndMetadata: [
+              SelectedKpisAndMetadata.ConfirmedDeliveries,
+              SelectedKpisAndMetadata.ConfirmedFirmBusiness,
+            ],
+          },
+        ])
+      );
+    });
+
+    it('should handle case where no templates exist', () => {
+      const userServiceSpy = jest.spyOn(
+        component['userService'],
+        'updateDemandValidationUserSettings'
+      );
+      const saveTemplatesMethod = (component as any).saveTemplates;
+      const mockSelectedKpis = null as any;
+
+      (component as any).templates.set([]);
+
+      saveTemplatesMethod.call(component, mockSelectedKpis);
+
+      expect(userServiceSpy).toHaveBeenCalledWith(
+        DemandValidationUserSettingsKey.Exports,
+        []
+      );
+    });
   });
 
   describe('startExport', () => {
@@ -1836,6 +1929,350 @@ describe('DemandValidationExportModalComponent', () => {
         mockRange,
         component['data'].demandValidationFilters
       );
+    });
+
+    it('should handle complex scenarios with multiple templates', () => {
+      const templates = [
+        {
+          id: 'template1',
+          title: 'Template 1',
+          active: false,
+          selectedKpisAndMetadata: [SelectedKpisAndMetadata.Deliveries],
+        },
+        {
+          id: 'template2',
+          title: 'Template 2',
+          active: true,
+          selectedKpisAndMetadata: [
+            SelectedKpisAndMetadata.FirmBusiness,
+            SelectedKpisAndMetadata.Opportunities,
+          ],
+        },
+      ];
+
+      component['initialTemplates'].set([...templates]);
+      component['templates'].set([...templates]);
+
+      component['handleActiveTemplate']();
+
+      expect(
+        component['formGroup'].get(SelectedKpisAndMetadata.FirmBusiness).value
+      ).toBeTruthy();
+      expect(
+        component['formGroup'].get(SelectedKpisAndMetadata.Opportunities).value
+      ).toBeTruthy();
+      expect(
+        component['formGroup'].get(SelectedKpisAndMetadata.Deliveries).value
+      ).toBeFalsy();
+
+      component['onTemplateChange']('template1', 'Template 1 Updated');
+
+      expect(component['templates']()[0].active).toBeTruthy();
+      expect(component['templates']()[1].active).toBeFalsy();
+
+      expect(
+        component['formGroup'].get(SelectedKpisAndMetadata.FirmBusiness).value
+      ).toBeFalsy();
+      expect(
+        component['formGroup'].get(SelectedKpisAndMetadata.Opportunities).value
+      ).toBeFalsy();
+      expect(
+        component['formGroup'].get(SelectedKpisAndMetadata.Deliveries).value
+      ).toBeTruthy();
+    });
+
+    it('should handle edge case with no templates by creating a default one', () => {
+      const userServiceSpy = jest.spyOn(
+        component['userService'],
+        'updateDemandValidationUserSettings'
+      );
+
+      component['templates'].set([]);
+      component['initialTemplates'].set([]);
+
+      component['handleActiveTemplate']();
+
+      expect(component['templates']().length).toBe(1);
+      expect(component['templates']()[0].id).toBe('new');
+      expect(component['templates']()[0].active).toBeTruthy();
+      expect(userServiceSpy).toHaveBeenCalledWith(
+        DemandValidationUserSettingsKey.Exports,
+        []
+      );
+    });
+
+    it('should correctly set form values when switching between templates', () => {
+      const templates = [
+        {
+          id: 'template1',
+          title: 'Template 1',
+          active: true,
+          selectedKpisAndMetadata: [
+            SelectedKpisAndMetadata.Deliveries,
+            SelectedKpisAndMetadata.FirmBusiness,
+          ],
+        },
+        {
+          id: 'template2',
+          title: 'Template 2',
+          active: false,
+          selectedKpisAndMetadata: [
+            SelectedKpisAndMetadata.ConfirmedDeliveries,
+            SelectedKpisAndMetadata.ConfirmedFirmBusiness,
+          ],
+        },
+      ];
+
+      component['templates'].set([...templates]);
+      component['initialTemplates'].set([...templates]);
+
+      component['handleActiveTemplate']();
+
+      expect(
+        component['formGroup'].get(SelectedKpisAndMetadata.Deliveries).value
+      ).toBeTruthy();
+      expect(
+        component['formGroup'].get(SelectedKpisAndMetadata.FirmBusiness).value
+      ).toBeTruthy();
+      expect(
+        component['formGroup'].get(SelectedKpisAndMetadata.ConfirmedDeliveries)
+          .value
+      ).toBeFalsy();
+
+      component['onTemplateChange']('template2', 'Template 2');
+
+      expect(
+        component['formGroup'].get(SelectedKpisAndMetadata.Deliveries).value
+      ).toBeFalsy();
+      expect(
+        component['formGroup'].get(SelectedKpisAndMetadata.FirmBusiness).value
+      ).toBeFalsy();
+      expect(
+        component['formGroup'].get(SelectedKpisAndMetadata.ConfirmedDeliveries)
+          .value
+      ).toBeTruthy();
+      expect(
+        component['formGroup'].get(
+          SelectedKpisAndMetadata.ConfirmedFirmBusiness
+        ).value
+      ).toBeTruthy();
+    });
+
+    it('should enable ActiveAndPredecessor control when related KPIs are selected', () => {
+      component['formGroup']
+        .get(SelectedKpisAndMetadata.Deliveries)
+        .setValue(false);
+      component['formGroup']
+        .get(SelectedKpisAndMetadata.FirmBusiness)
+        .setValue(false);
+      component['formGroup']
+        .get(SelectedKpisAndMetadata.ConfirmedDeliveries)
+        .setValue(false);
+      component['formGroup']
+        .get(SelectedKpisAndMetadata.ConfirmedFirmBusiness)
+        .setValue(false);
+
+      component['formGroup'].updateValueAndValidity();
+      expect(
+        component['formGroup'].get(SelectedKpisAndMetadata.ActiveAndPredecessor)
+          .enabled
+      ).toBeFalsy();
+
+      component['formGroup']
+        .get(SelectedKpisAndMetadata.Deliveries)
+        .setValue(true);
+      component['formGroup'].updateValueAndValidity();
+
+      expect(
+        component['formGroup'].get(SelectedKpisAndMetadata.ActiveAndPredecessor)
+          .enabled
+      ).toBeTruthy();
+    });
+  });
+
+  describe('behavior with empty selections', () => {
+    it('should show form errors when no KPI is selected', () => {
+      component['formGroup']
+        .get('startDatePeriod1')
+        .setValue(new Date(2023, 0, 1));
+      component['formGroup']
+        .get('endDatePeriod1')
+        .setValue(new Date(2023, 1, 1));
+
+      (component as any).toggleTypes.forEach((toggle: any) => {
+        if (
+          toggle.type === PlanningView.REQUESTED ||
+          toggle.type === PlanningView.CONFIRMED
+        ) {
+          toggle.data.flat().forEach((kpi: string) => {
+            component['formGroup'].get(kpi).setValue(false);
+          });
+        }
+      });
+
+      component['formGroup'].updateValueAndValidity();
+
+      expect(component['formGroup'].valid).toBeFalsy();
+      expect(component['formGroup'].errors.atLeastOneKpiRequired).toBeTruthy();
+
+      component['formGroup']
+        .get(SelectedKpisAndMetadata.Deliveries)
+        .setValue(true);
+      component['formGroup'].updateValueAndValidity();
+
+      expect(component['formGroup'].valid).toBeTruthy();
+      expect(component['formGroup'].errors).toBeNull();
+    });
+
+    it('should handle empty date values properly', () => {
+      component['formGroup'].get('startDatePeriod1').setValue(null);
+      component['formGroup'].get('endDatePeriod1').setValue(null);
+      component['formGroup'].updateValueAndValidity();
+
+      expect(component['formGroup'].valid).toBeFalsy();
+
+      component['formGroup']
+        .get('startDatePeriod1')
+        .setValue(new Date(2023, 0, 1));
+      component['formGroup'].updateValueAndValidity();
+
+      expect(component['formGroup'].valid).toBeFalsy();
+
+      component['formGroup']
+        .get('endDatePeriod1')
+        .setValue(new Date(2023, 1, 1));
+      component['formGroup']
+        .get(SelectedKpisAndMetadata.Deliveries)
+        .setValue(true);
+      component['formGroup'].updateValueAndValidity();
+
+      expect(component['formGroup'].valid).toBeTruthy();
+    });
+  });
+
+  describe('template CRUD operations', () => {
+    it('should correctly add a new template with proper active states', () => {
+      component['templates'].set([
+        {
+          id: 'template1',
+          title: 'Template 1',
+          active: true,
+          selectedKpisAndMetadata: [SelectedKpisAndMetadata.Deliveries],
+        },
+      ]);
+
+      component['onTemplateChange']('new', 'Brand New Template');
+
+      expect(component['templates']().length).toBe(2);
+      expect(component['templates']()[0].active).toBeFalsy();
+      expect(component['templates']()[1].id).toBe('new');
+      expect(component['templates']()[1].title).toBe('Brand New Template');
+      expect(component['templates']()[1].active).toBeTruthy();
+      expect(
+        component['templates']()[1].selectedKpisAndMetadata.length
+      ).toBeGreaterThan(0);
+    });
+
+    it('should correctly update the title of an existing template', () => {
+      component['initialTemplates'].set([
+        {
+          id: 'template1',
+          title: 'Original Title',
+          active: true,
+          selectedKpisAndMetadata: [SelectedKpisAndMetadata.Deliveries],
+        },
+      ]);
+
+      component['templates'].set([
+        {
+          id: 'template1',
+          title: 'Original Title',
+          active: true,
+          selectedKpisAndMetadata: [SelectedKpisAndMetadata.Deliveries],
+        },
+      ]);
+
+      component['onTemplateChange']('template1', 'Updated Title');
+
+      expect(component['templates']()[0].title).toBe('Updated Title');
+      expect(component['templates']()[0].active).toBeTruthy();
+    });
+
+    it('should properly delete a template and update active states', () => {
+      component['templates'].set([
+        {
+          id: 'template1',
+          title: 'Template 1',
+          active: true,
+          selectedKpisAndMetadata: [SelectedKpisAndMetadata.Deliveries],
+        },
+        {
+          id: 'template2',
+          title: 'Template 2',
+          active: false,
+          selectedKpisAndMetadata: [SelectedKpisAndMetadata.FirmBusiness],
+        },
+      ]);
+
+      component['deleteTemplate']('template1');
+
+      expect(component['templates']().length).toBe(1);
+      expect(component['templates']()[0].id).toBe('template2');
+
+      expect(component['templates']()[0].active).toBeTruthy();
+    });
+
+    it('should handle deleting the last template by creating a new default one', () => {
+      component['templates'].set([
+        {
+          id: 'template1',
+          title: 'Last Template',
+          active: true,
+          selectedKpisAndMetadata: [SelectedKpisAndMetadata.Deliveries],
+        },
+      ]);
+
+      component['deleteTemplate']('template1');
+
+      expect(component['templates']().length).toBe(1);
+      expect(component['templates']()[0].id).toBe('new');
+      expect(component['templates']()[0].active).toBeTruthy();
+    });
+  });
+
+  describe('edge cases and defensive programming', () => {
+    it('should handle invalid date ranges gracefully', () => {
+      jest.spyOn(Helper, 'fillGapBetweenRanges').mockReturnValue(null);
+
+      component['formGroup']
+        .get('startDatePeriod1')
+        .setValue(new Date(2023, 0, 1));
+      component['formGroup']
+        .get('endDatePeriod1')
+        .setValue(new Date(2023, 1, 1));
+      component['formGroup']
+        .get(SelectedKpisAndMetadata.Deliveries)
+        .setValue(true);
+      component['formGroup'].updateValueAndValidity();
+
+      const dialogSpy = jest.spyOn(component['dialog'], 'open');
+
+      component['handleExcelExport']();
+
+      expect(dialogSpy).not.toHaveBeenCalled();
+    });
+
+    it('should reject export when form is invalid even if manually called', () => {
+      component['formGroup'].get('startDatePeriod1').setValue(null);
+      component['formGroup'].updateValueAndValidity();
+
+      const saveTemplatesSpy = jest.spyOn(component as any, 'saveTemplates');
+      const startExportSpy = jest.spyOn(component as any, 'startExport');
+
+      component['handleExcelExport']();
+
+      expect(saveTemplatesSpy).not.toHaveBeenCalled();
+      expect(startExportSpy).not.toHaveBeenCalled();
     });
   });
 });
