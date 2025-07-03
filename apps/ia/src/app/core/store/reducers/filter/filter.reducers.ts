@@ -10,7 +10,8 @@ import {
 } from '../../../../shared/models';
 import { getBeautifiedTimeRange } from '../../../../shared/utils/utilities';
 import {
-  getMaxDate,
+  getMaxTimeRangeConstraint,
+  getMinTimeRangeConstraint,
   getTimeRangeConstraints,
   getTimeRangeFilterForTimePeriod,
 } from './filter.helpers';
@@ -40,10 +41,10 @@ export function resetTimeRangeFilterReducer(
       }),
       state.benchmarkFilters
     ),
-    timeRangeConstraints: getTimeRangeConstraints(
-      state.selectedDimension,
-      state.timeRangeConstraints
-    ),
+    timeRangeConstraints: getTimeRangeConstraints(state.selectedDimension, {
+      min: getMinTimeRangeConstraint(state.selectedDimension),
+      max: getMaxTimeRangeConstraint(TimePeriod.LAST_12_MONTHS),
+    }),
   };
 }
 
@@ -224,15 +225,7 @@ export function timePeriodSelectedReducer(
     ),
     timeRangeConstraints: {
       ...state.timeRangeConstraints,
-      max:
-        timePeriod === TimePeriod.YEAR
-          ? moment
-              .unix(getMaxDate())
-              .utc()
-              .subtract(1, 'year')
-              .endOf('year')
-              .unix()
-          : getMaxDate(),
+      max: getMaxTimeRangeConstraint(timePeriod),
     },
   };
 }

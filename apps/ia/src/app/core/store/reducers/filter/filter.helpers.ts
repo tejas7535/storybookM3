@@ -48,6 +48,28 @@ export const getInitialSelectedTimeRange = (today: Moment): string => {
 };
 
 /**
+ * Get max time range constraint based on time period
+ * - For YEAR, it returns the end of the previous year
+ * - For other periods, it returns the current max date
+ */
+export const getMaxTimeRangeConstraint = (timePeriod: TimePeriod) =>
+  timePeriod === TimePeriod.YEAR
+    ? moment.unix(getMaxDate()).utc().subtract(1, 'year').endOf('year').unix()
+    : getMaxDate();
+
+/**
+ * Get minimum time range constraint based on selected dimension
+ * - For dimensions with 2021 data, it returns the start of 2022
+ * - For other dimensions, it returns the start of 2023
+ */
+export const getMinTimeRangeConstraint = (
+  selectedDimension: FilterDimension
+) =>
+  DIMENSIONS_WITH_2021_DATA.includes(selectedDimension)
+    ? moment.utc('2022-01-01').unix()
+    : moment.utc('2023-01-01').unix();
+
+/**
  * Get time range filter for specific time period
  */
 export const getTimeRangeFilterForTimePeriod = (
@@ -159,8 +181,6 @@ export function getTimeRangeConstraints(
 ): { min: number; max: number } {
   return {
     ...currentConstraints,
-    min: DIMENSIONS_WITH_2021_DATA.includes(selectedDimension)
-      ? moment.utc('2022-01-01').unix()
-      : moment.utc('2023-01-01').unix(),
+    min: getMinTimeRangeConstraint(selectedDimension),
   };
 }

@@ -155,7 +155,7 @@ export class PmgmComponent {
   onGridReady(event: GridReadyEvent<PmgmData>): void {
     this.gridApi = event.api;
 
-    if (this.data && this.gridApi.getModel().getRowCount() === 0) {
+    if (this.data && this.gridApi.getDisplayedRowCount() === 0) {
       this.gridApi.updateGridOptions({ rowData: this.data });
     }
   }

@@ -1,57 +1,59 @@
-<ng-container *transloco="let t; read: 'filters'" class="gap-2">
-  <div class="flex flex-col flex-wrap w-full md:w-[45%]">
-    @if (layout === filterLayout.DEFAULT && !disableFilters) {
-      <span class="text-body-large mb-2">
-        {{ dimensionFilterTranslation?.title }}
-      </span>
-    }
-    <ia-select-input
-      #selectInput
-      class="flex-1"
-      [appearance]="apparence"
-      [disabled]="disableFilters"
-      [label]="dimensionFilterTranslation?.dimension"
-      [hint]="dimensionFilterTranslation?.hint"
-      [options]="availableDimensions"
-      [selectedOption]="activeDimension"
-      (selected)="onDimensionSelected($event)"
-    ></ia-select-input>
-  </div>
-  <div class="flex flex-col w-full md:w-[45%]">
-    @if (layout === filterLayout.DEFAULT && !disableFilters) {
-      <div class="flex flex-row">
-        <span class="text-body-large mb-2 flex">
-          {{ t('dimensionIdValue.title', { dimension: dimensionName }) }}
+<ng-container *transloco="let t; read: 'filters'">
+  <div class="w-full grid grid-cols-2 gap-4">
+    <div class="flex flex-col flex-wrap w-full">
+      @if (layout === filterLayout.DEFAULT && !disableFilters) {
+        <span class="text-body-large mb-2">
+          {{ dimensionFilterTranslation?.title }}
         </span>
-        <mat-icon
-          [matTooltip]="t('dimensionIdValue.organizationTooltip')"
-          class="text-on-surface ml-1 flex cursor-default"
-        >
-          info
-        </mat-icon>
-      </div>
-    }
-    <ia-autocomplete-input
-      [type]="type"
-      [filter]="dimensionFilter"
-      [autoCompleteLoading]="orgUnitsLoading"
-      [autoCompleteLoading]="dimensionDataLoading"
-      [hint]="
-        disableFilters
-          ? undefined
-          : t('dimensionIdValue.dimensionIdValueHint', {
-              dimension: dimensionName
-            })
-      "
-      [noResultMessage]="t('dimensionIdValue.nothingFound')"
-      [value]="selectedDimensionIdValue"
-      [disabled]="disableFilters"
-      [minCharLength]="minCharLength"
-      [appearance]="apparence"
-      [showCode]="showCode"
-      (selected)="onOptionSelected($event)"
-      (invalidFormControl)="onSelectedDimensionDataInvalid($event)"
-      (autoComplete)="onAutoCompleteInputChange($event)"
-    ></ia-autocomplete-input>
+      }
+      <ia-select-input
+        #selectInput
+        class="flex-1"
+        [appearance]="apparence"
+        [disabled]="disableFilters"
+        [label]="dimensionFilterTranslation?.dimension"
+        [hint]="dimensionFilterTranslation?.hint"
+        [options]="availableDimensions"
+        [selectedOption]="activeDimension"
+        (selected)="onDimensionSelected($event)"
+      ></ia-select-input>
+    </div>
+    <div class="flex flex-col w-full">
+      @if (layout === filterLayout.DEFAULT && !disableFilters) {
+        <div class="flex flex-row">
+          <span class="text-body-large mb-2 flex">
+            {{ t('dimensionIdValue.title', { dimension: dimensionName }) }}
+          </span>
+          <mat-icon
+            [matTooltip]="t('dimensionIdValue.organizationTooltip')"
+            class="text-on-surface ml-1 flex cursor-default"
+          >
+            info
+          </mat-icon>
+        </div>
+      }
+      <ia-autocomplete-input
+        [type]="type"
+        [filter]="dimensionFilter"
+        [autoCompleteLoading]="orgUnitsLoading"
+        [autoCompleteLoading]="dimensionDataLoading"
+        [hint]="
+          disableFilters
+            ? undefined
+            : t('dimensionIdValue.dimensionIdValueHint', {
+                dimension: dimensionName,
+              })
+        "
+        [noResultMessage]="t('dimensionIdValue.nothingFound')"
+        [value]="selectedDimensionIdValue"
+        [disabled]="disableFilters"
+        [minCharLength]="minCharLength"
+        [appearance]="apparence"
+        [showCode]="showCode"
+        (selected)="onOptionSelected($event)"
+        (invalidFormControl)="onSelectedDimensionDataInvalid($event)"
+        (autoComplete)="onAutoCompleteInputChange($event)"
+      ></ia-autocomplete-input>
+    </div>
   </div>
 </ng-container>

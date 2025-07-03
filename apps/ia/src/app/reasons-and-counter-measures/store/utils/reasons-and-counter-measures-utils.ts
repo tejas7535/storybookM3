@@ -1,34 +1,38 @@
-import { AnalysisData } from '../../models';
+import { AnalysisData } from '../../models/analysis-data.model';
 
 export const updateReasonAnalysisDataOnSuccess = (
   data: AnalysisData[],
   allAnalysis: AnalysisData[]
 ): AnalysisData[] => {
   if (!allAnalysis) {
-    return data.map((analysis: AnalysisData) => ({
-      ...analysis,
-      loading: false,
-      show: false,
-      fullWidth: true,
-    }));
+    return mapWithDefaultState(data, { show: false, fullWidth: true });
   }
-  const analysisToUpdate: AnalysisData[] = [...data];
 
-  const reasonIdsToUpdate = new Set(allAnalysis.map((d) => d.reasonId));
+  if (!data) {
+    return mapWithDefaultState(allAnalysis, { show: false, fullWidth: false });
+  }
 
-  const res = analysisToUpdate.map((analysis: AnalysisData) =>
-    reasonIdsToUpdate.has(analysis.reasonId)
-      ? {
-          ...analysis,
-          loading: false,
-          show: true,
-          fullWidth: true,
-        }
-      : { ...analysis, loading: false, fullWidth: true }
+  const reasonIdsToUpdate = new Set(
+    allAnalysis.map((analysis) => analysis.reasonId)
   );
 
-  return res;
+  return data.map((analysis: AnalysisData) => ({
+    ...analysis,
+    loading: false,
+    show: reasonIdsToUpdate.has(analysis.reasonId),
+    fullWidth: true,
+  }));
 };
+
+const mapWithDefaultState = (
+  items: AnalysisData[],
+  defaults: Partial<AnalysisData>
+): AnalysisData[] =>
+  items.map((item) => ({
+    ...item,
+    loading: false,
+    ...defaults,
+  }));
 
 export const showReasonAnalysis = (
   reasonIds: number[],

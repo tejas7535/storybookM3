@@ -129,18 +129,14 @@ describe('PmgmComponent', () => {
 
   describe('onGridReady', () => {
     let event: GridReadyEvent;
-    let model: { getRowCount: jest.Mock };
 
     beforeEach(() => {
       event = {
         api: {
-          getModel: () => model,
+          getDisplayedRowCount: jest.fn(),
           updateGridOptions: jest.fn(),
         } as unknown as GridApi,
       } as GridReadyEvent;
-      model = {
-        getRowCount: jest.fn(),
-      };
     });
 
     test('should set gridApi', () => {
@@ -151,11 +147,11 @@ describe('PmgmComponent', () => {
 
     test('should set row data when data is defined and row count is 0', () => {
       component.data = [{} as PmgmData];
-      model.getRowCount = jest.fn(() => 0);
+      event.api.getDisplayedRowCount = jest.fn(() => 0);
 
       component.onGridReady(event);
 
-      expect(component.gridApi.getModel().getRowCount).toHaveBeenCalled();
+      expect(component.gridApi.getDisplayedRowCount).toHaveBeenCalled();
       expect(component.gridApi.updateGridOptions).toHaveBeenCalledWith({
         rowData: component.data,
       });
@@ -163,11 +159,11 @@ describe('PmgmComponent', () => {
 
     test('should not set row data when data is defined and row count is not 0', () => {
       component.data = [{} as PmgmData];
-      model.getRowCount = jest.fn(() => 1);
+      event.api.getDisplayedRowCount = jest.fn(() => 1);
 
       component.onGridReady(event);
 
-      expect(component.gridApi.getModel().getRowCount).toHaveBeenCalled();
+      expect(component.gridApi.getDisplayedRowCount).toHaveBeenCalled();
       expect(component.gridApi.updateGridOptions).not.toHaveBeenCalled();
     });
   });

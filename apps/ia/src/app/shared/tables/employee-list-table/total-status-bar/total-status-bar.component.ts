@@ -53,7 +53,7 @@ export class TotalStatusBarComponent
   }
 
   onRowDataUpdated(): void {
-    this.total = this.params.api.getModel().getRowCount();
+    this.total = this.params.api.getDisplayedRowCount();
     this.ref.markForCheck();
   }
 

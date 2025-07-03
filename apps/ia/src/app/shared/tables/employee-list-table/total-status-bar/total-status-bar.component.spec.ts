@@ -1,5 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { IRowModel, IStatusPanelParams } from 'ag-grid-community';
+import { IStatusPanelParams } from 'ag-grid-community';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -49,16 +49,9 @@ describe('TotalStatusBarComponent', () => {
   describe('onRowDataUpdated', () => {
     test('should set total count', () => {
       const total = 578_123;
-      const model = {
-        getRowCount() {
-          return total;
-        },
-      } as IRowModel;
       component.params = {
         api: {
-          getModel() {
-            return model;
-          },
+          getDisplayedRowCount: () => total,
           removeEventListener(_eventType, _listener) {},
         },
       } as IStatusPanelParams;

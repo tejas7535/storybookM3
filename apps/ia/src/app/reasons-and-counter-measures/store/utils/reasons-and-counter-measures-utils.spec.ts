@@ -59,5 +59,28 @@ describe('ReasonAndCounterMeasuresUtils', () => {
         show: true,
       });
     });
+
+    test('should return all analysis with fullWidth true if no data', () => {
+      const allAnalysis: AnalysisData[] = [
+        { reasonId: 12, show: false, loading: true },
+        { reasonId: 13, show: false, loading: true },
+      ] as AnalysisData[];
+
+      const result = updateReasonAnalysisDataOnSuccess(undefined, allAnalysis);
+
+      expect(result.length).toBe(2);
+      expect(result[0]).toEqual({
+        reasonId: 12,
+        show: false,
+        loading: false,
+        fullWidth: false,
+      });
+      expect(result[1]).toEqual({
+        reasonId: 13,
+        show: false,
+        loading: false,
+        fullWidth: false,
+      });
+    });
   });
 });
