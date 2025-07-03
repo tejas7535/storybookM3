@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import {
   BehaviorSubject,
+  catchError,
   debounceTime,
   map,
   Observable,
@@ -10,6 +11,7 @@ import {
   Subject,
   switchMap,
   tap,
+  timeout,
   withLatestFrom,
   zip,
 } from 'rxjs';
@@ -187,7 +189,17 @@ export class PDFGeneratorService {
       chooseSelectedProducts(tableData, lookupMap, IMAGE_FALLBACK_URL)
     ),
     switchMap((products) =>
-      this.imagesResolver.fetchImages(products, 'imageUrl')
+      this.imagesResolver.fetchImages(products, 'imageUrl').pipe(
+        timeout(3000),
+        catchError((e) => {
+          console.warn(
+            `Failed to resolve product image, serving a version without images instead.`,
+            e
+          );
+
+          return of(products.map((prod) => ({ ...prod, imageUrl: '' })));
+        })
+      )
     ),
     withLatestFrom(this.pricingAndAvailabilityData$$),
     map(([products, priceInfo]) => {
@@ -248,7 +260,9 @@ export class PDFGeneratorService {
         return selectedProductData;
       }),
       switchMap((data) =>
-        this.imagesResolver.fetchImageObject(data, 'productImage')
+        this.imagesResolver
+          .fetchImageObject(data, 'productImage')
+          .pipe(catchError(() => of({ ...data, productImage: '' })))
       )
     );
 

@@ -1,4 +1,4 @@
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -199,21 +199,44 @@ describe('PDFGeneratorService', () => {
     service.generatePDF(false);
   });
 
-  it('should format the groups for proper filtering in pdf', (done) => {
-    const testResponse: RecommendationResponse = {
-      lubricators: {
-        minimumRequiredLubricator: { ...MOCK_LUBRICATOR, name: 'MINIMUM' },
-        recommendedLubricator: { ...MOCK_LUBRICATOR, name: 'RECOMMENDATION' },
-      },
-    } as unknown as RecommendationResponse;
+  describe('productGroups', () => {
+    it('should format the groups for proper filtering in pdf', (done) => {
+      const testResponse: RecommendationResponse = {
+        lubricators: {
+          minimumRequiredLubricator: { ...MOCK_LUBRICATOR, name: 'MINIMUM' },
+          recommendedLubricator: { ...MOCK_LUBRICATOR, name: 'RECOMMENDATION' },
+        },
+      } as unknown as RecommendationResponse;
 
-    service['productGroups$'].subscribe((groups) => {
-      expect(groups).toMatchSnapshot();
-      done();
+      service['productGroups$'].subscribe((groups) => {
+        expect(groups).toMatchSnapshot();
+        done();
+      });
+      service.setFormData(MOCK_TABLE_DATA);
+      service['restService'].recommendation$.next(testResponse);
+      service.generatePDF(true);
     });
-    service.setFormData(MOCK_TABLE_DATA);
-    service['restService'].recommendation$.next(testResponse);
-    service.generatePDF(true);
+
+    it('should set the image to "" when there is an issue with loading the image', (done) => {
+      const testResponse: RecommendationResponse = {
+        lubricators: {
+          minimumRequiredLubricator: { ...MOCK_LUBRICATOR, name: 'MINIMUM' },
+          recommendedLubricator: { ...MOCK_LUBRICATOR, name: 'RECOMMENDATION' },
+        },
+      } as unknown as RecommendationResponse;
+      (
+        service['imagesResolver'].fetchImages as jest.Mock
+      ).mockImplementationOnce(() =>
+        throwError(() => new Error('something went wrong'))
+      );
+      service['productGroups$'].subscribe((groups) => {
+        expect(groups).toMatchSnapshot();
+        done();
+      });
+      service.setFormData(MOCK_TABLE_DATA);
+      service['restService'].recommendation$.next(testResponse);
+      service.generatePDF(true);
+    });
   });
 
   it('should not show prices if the cart service says so', (done) => {

@@ -87,10 +87,11 @@ export class SelectedProductComponent extends Component {
       this.verticalSpacing +
       10;
 
-    const scaledImageBlogHeight =
-      this.scaleImage(this.productImage, 50)[1] +
-      selectionTitleHeight +
-      2 * this.verticalSpacing;
+    const scaledImageBlogHeight = this.productImage
+      ? this.scaleImage(this.productImage, 50)[1] +
+        selectionTitleHeight +
+        2 * this.verticalSpacing
+      : 0;
     const actualHeight = Math.max(textHeight, scaledImageBlogHeight);
 
     const fits = actualHeight <= bounds.height;
@@ -112,7 +113,9 @@ export class SelectedProductComponent extends Component {
     let xPosition = this.bounds.x;
     let yPosition = this.bounds.y + this.verticalSpacing;
 
-    this.image(this.productImage, xPosition, yPosition, 50);
+    if (this.productImage) {
+      this.image(this.productImage, xPosition, yPosition, 50);
+    }
 
     xPosition += imageOffset;
     const itemTitleDimen = this.getTextDimensions(
