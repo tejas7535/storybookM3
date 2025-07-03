@@ -11,7 +11,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 
-import { Observable, tap } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 import { CellClickedEvent } from 'ag-grid-enterprise';
@@ -22,7 +22,6 @@ import { OverviewService } from '../../../../feature/overview/overview.service';
 import { getDefaultColDef } from '../../../../shared/ag-grid/grid-defaults';
 import { ActionsMenuCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
 import { GlobalSelectionStateService } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
-import { CustomerSalesPlanningLayout } from '../../overview.component';
 import {
   AbstractBackendTableComponent,
   BackendTableComponent,
@@ -32,7 +31,14 @@ import {
   RequestParams,
   RequestType,
   TableCreator,
-} from './../../../../shared/components/table';
+} from '../../../../shared/components/table';
+import { isProblemDetail } from '../../../../shared/utils/errors';
+import {
+  messageFromSAP,
+  SapErrorMessageHeader,
+} from '../../../../shared/utils/sap-localisation';
+import { CustomerSalesPlanningLayout } from '../../overview.component';
+import { SnackbarService } from './../../../../shared/utils/service/snackbar.service';
 import { getColumnDefs } from './column-definitions';
 import { CustomerSalesPlanningData } from './model';
 
@@ -48,6 +54,7 @@ export class CustomerSalesPlanningGridComponent
   implements OnInit
 {
   protected readonly overviewService: OverviewService = inject(OverviewService);
+  protected readonly snackbarService: SnackbarService = inject(SnackbarService);
   private readonly router: Router = inject(Router);
   private readonly globalSelectionStateService = inject(
     GlobalSelectionStateService
@@ -137,6 +144,29 @@ export class CustomerSalesPlanningGridComponent
               .includes(this.gridApi?.getSelectedRows()?.[0]?.customerNumber) &&
             this.resetSelection()
         ),
+        catchError((error) => {
+          let messageToDisplay = error.message as string;
+
+          if (isProblemDetail(error?.details)) {
+            const values = error.details.values;
+
+            if (values?.[SapErrorMessageHeader.MessageId]) {
+              messageToDisplay = messageFromSAP(
+                values[SapErrorMessageHeader.FallbackMessage],
+                values[SapErrorMessageHeader.MessageNumber],
+                values[SapErrorMessageHeader.MessageId],
+                values[SapErrorMessageHeader.MessageV1],
+                values[SapErrorMessageHeader.MessageV2],
+                values[SapErrorMessageHeader.MessageV3],
+                values[SapErrorMessageHeader.MessageV4]
+              );
+            }
+
+            this.snackbarService.warning(messageToDisplay);
+          }
+
+          return throwError(() => error);
+        }),
         takeUntilDestroyed(this.destroyRef)
       );
 

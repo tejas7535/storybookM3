@@ -35,20 +35,32 @@ describe('SnackbarComponent', () => {
     it('should return "error" for toast-error type', () => {
       mockToastPackage.toastType = 'toast-error';
       expect(component['type']).toBe('error');
+
+      mockToastPackage.toastType = 'error';
+      expect(component['type']).toBe('error');
     });
 
     it('should return "info" for toast-info type', () => {
       mockToastPackage.toastType = 'toast-info';
+      expect(component['type']).toBe('info');
+
+      mockToastPackage.toastType = 'info';
       expect(component['type']).toBe('info');
     });
 
     it('should return "warning" for toast-warning type', () => {
       mockToastPackage.toastType = 'toast-warning';
       expect(component['type']).toBe('warning');
+
+      mockToastPackage.toastType = 'warning';
+      expect(component['type']).toBe('warning');
     });
 
     it('should return "success" as default for other toast types', () => {
       mockToastPackage.toastType = 'toast-success';
+      expect(component['type']).toBe('success');
+
+      mockToastPackage.toastType = 'success';
       expect(component['type']).toBe('success');
 
       mockToastPackage.toastType = 'unknown-type';

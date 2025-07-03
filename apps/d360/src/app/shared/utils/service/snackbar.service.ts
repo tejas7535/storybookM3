@@ -16,7 +16,17 @@ export class SnackbarService {
     override?: Partial<IndividualConfig>,
     type?: AlertType
   ): ActiveToast<SnackbarComponent> {
-    return this.toastr.show(message, title, override, type);
+    const overrides =
+      type === 'error'
+        ? { timeOut: 0, extendedTimeOut: 0, ...override }
+        : override;
+
+    return this.toastr.show(
+      message,
+      title,
+      overrides,
+      this.ensureToastPrefix(type)
+    );
   }
 
   public success(
@@ -52,10 +62,10 @@ export class SnackbarService {
     title: string = '',
     override?: Partial<IndividualConfig>
   ): ActiveToast<SnackbarComponent> {
-    return this.toastr.warning(message, title, {
-      timeOut: 0,
-      extendedTimeOut: 0,
-      ...override,
-    });
+    return this.toastr.warning(message, title, override);
+  }
+
+  private ensureToastPrefix(type?: string): string {
+    return type && !type.startsWith('toast-') ? `toast-${type}` : type || '';
   }
 }

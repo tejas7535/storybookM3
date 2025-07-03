@@ -61,28 +61,19 @@ describe('OverviewService', () => {
               columnFilters: { columnKey: 'columnValue' },
             },
             {
-              params: {
-                cloneFrom: {
-                  cloneFrom: null,
-                  encoder: {},
-                  map: null,
-                  updates: null,
-                },
-                encoder: {},
-                map: null,
-                updates: [
-                  {
-                    op: 's',
+              params: expect.objectContaining({
+                updates: expect.arrayContaining([
+                  expect.objectContaining({
                     param: 'isCustomerNumberAssignedToMe',
                     value: true,
-                  },
-                  {
-                    op: 's',
+                  }),
+                  expect.objectContaining({
                     param: 'currency',
                     value: 'USD',
-                  },
-                ],
-              },
+                  }),
+                ]),
+              }),
+              context: expect.any(Object),
             }
           );
 

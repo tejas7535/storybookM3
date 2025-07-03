@@ -30,7 +30,7 @@ describe('SnackbarService', () => {
 
       service.show(message, title, override, type);
 
-      expect(spy).toHaveBeenCalledWith(message, title, override, type);
+      expect(spy).toHaveBeenCalledWith(message, title, override, 'toast-info');
     });
 
     it('should use empty string as default title', () => {
@@ -41,7 +41,57 @@ describe('SnackbarService', () => {
 
       service.show(message);
 
-      expect(spy).toHaveBeenCalledWith(message, '', undefined, undefined);
+      expect(spy).toHaveBeenCalledWith(message, '', undefined, '');
+    });
+
+    it('should set timeOut and extendedTimeOut to 0 for error type', () => {
+      const toastrService = service['toastr'];
+      const spy = jest.spyOn(toastrService, 'show').mockReturnValue({} as any);
+
+      const message = 'Error message';
+      const title = 'Error title';
+      const override = { progressBar: true };
+      const type = 'error' as any;
+
+      service.show(message, title, override, type);
+
+      expect(spy).toHaveBeenCalledWith(
+        message,
+        title,
+        { timeOut: 0, extendedTimeOut: 0, progressBar: true },
+        'toast-error'
+      );
+    });
+
+    it('should preserve user overrides for error type', () => {
+      const toastrService = service['toastr'];
+      const spy = jest.spyOn(toastrService, 'show').mockReturnValue({} as any);
+
+      const message = 'Error message';
+      const type = 'error' as any;
+      const override = { timeOut: 5000, extendedTimeOut: 3000 };
+
+      service.show(message, '', override, type);
+
+      expect(spy).toHaveBeenCalledWith(
+        message,
+        '',
+        { timeOut: 5000, extendedTimeOut: 3000 },
+        'toast-error'
+      );
+    });
+
+    it('should not modify timeOut for non-error types', () => {
+      const toastrService = service['toastr'];
+      const spy = jest.spyOn(toastrService, 'show').mockReturnValue({} as any);
+
+      const message = 'Warning message';
+      const type = 'warning' as any;
+      const override = { progressBar: true };
+
+      service.show(message, '', override, type);
+
+      expect(spy).toHaveBeenCalledWith(message, '', override, 'toast-warning');
     });
   });
 
@@ -148,8 +198,6 @@ describe('SnackbarService', () => {
       service.warning(message, title, override);
 
       expect(spy).toHaveBeenCalledWith(message, title, {
-        timeOut: 0,
-        extendedTimeOut: 0,
         ...override,
       });
     });
@@ -164,10 +212,24 @@ describe('SnackbarService', () => {
 
       service.warning(message);
 
-      expect(spy).toHaveBeenCalledWith(message, '', {
-        timeOut: 0,
-        extendedTimeOut: 0,
-      });
+      expect(spy).toHaveBeenCalledWith(message, '', undefined);
+    });
+  });
+
+  describe('ensureToastPrefix', () => {
+    it('should add toast- prefix if type does not start with toast-', () => {
+      const result = service['ensureToastPrefix']('error');
+      expect(result).toBe('toast-error');
+    });
+
+    it('should not add toast- prefix if type already starts with toast-', () => {
+      const result = service['ensureToastPrefix']('toast-warning');
+      expect(result).toBe('toast-warning');
+    });
+
+    it('should return empty string if type is undefined', () => {
+      const result = service['ensureToastPrefix'](undefined as any);
+      expect(result).toBe('');
     });
   });
 });

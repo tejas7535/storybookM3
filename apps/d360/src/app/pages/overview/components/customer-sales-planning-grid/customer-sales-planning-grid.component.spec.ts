@@ -1,11 +1,14 @@
-import { of, take } from 'rxjs';
+import { of, take, throwError } from 'rxjs';
 
 import { CellClickedEvent } from 'ag-grid-enterprise';
 
 import { AppRoutePath } from '../../../../app.routes.enum';
 import { RequestType } from '../../../../shared/components/table';
 import { Stub } from '../../../../shared/test/stub.class';
+import * as ErrorHelper from '../../../../shared/utils/errors';
 import { ActionsMenuCellRendererComponent } from './../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
+import { HttpError } from './../../../../shared/utils/http-client';
+import { SapErrorMessageHeader } from './../../../../shared/utils/sap-localisation';
 import * as Helper from './column-definitions';
 import { CustomerSalesPlanningGridComponent } from './customer-sales-planning-grid.component';
 
@@ -284,6 +287,133 @@ describe('CustomerSalesPlanningGridComponent', () => {
           expect(resetSelectionSpy).not.toHaveBeenCalled();
           done();
         });
+    });
+  });
+
+  describe('getData$ error handling', () => {
+    it('should display a snackbar warning when a problem detail error occurs', (done) => {
+      const mockParams = { startRow: 0, endRow: 10 } as any;
+      const problemDetailError: HttpError = {
+        details: {
+          values: {
+            [SapErrorMessageHeader.MessageNumber]: 123,
+            [SapErrorMessageHeader.MessageId]: '456',
+            [SapErrorMessageHeader.MessageV1]: 'Value1',
+            [SapErrorMessageHeader.MessageV2]: 'Value2',
+            [SapErrorMessageHeader.MessageV3]: 'Value3',
+            [SapErrorMessageHeader.MessageV4]: 'Value4',
+          },
+        },
+      } as any;
+      jest.spyOn(ErrorHelper, 'isProblemDetail').mockReturnValue(true);
+
+      const snackbarSpy = jest.spyOn(component['snackbarService'], 'warning');
+      jest
+        .spyOn(component['overviewService'], 'getRelevantPlanningKPIs')
+        .mockReturnValue(throwError(() => problemDetailError));
+
+      component['getData$'](mockParams, RequestType.Fetch).subscribe({
+        error: () => {
+          expect(snackbarSpy).toHaveBeenCalled();
+          // Should use the localized message from SAP
+          expect(snackbarSpy).not.toHaveBeenCalledWith(
+            'Original error message'
+          );
+          done();
+        },
+      });
+    });
+
+    it('should handle SAP error message formatting correctly', (done) => {
+      const mockParams = { startRow: 0, endRow: 10 } as any;
+
+      const sapError: HttpError = {
+        details: {
+          values: {
+            [SapErrorMessageHeader.MessageNumber]: 123,
+            [SapErrorMessageHeader.MessageId]: '456',
+            [SapErrorMessageHeader.MessageV1]: 'Value1',
+            [SapErrorMessageHeader.MessageV2]: 'Value2',
+            [SapErrorMessageHeader.MessageV3]: 'Value3',
+            [SapErrorMessageHeader.MessageV4]: 'Value4',
+          },
+        },
+      } as any;
+      jest.spyOn(ErrorHelper, 'isProblemDetail').mockReturnValue(true);
+
+      // Mock the messageFromSAP function indirectly by expecting the right parameters
+      const snackbarSpy = jest.spyOn(component['snackbarService'], 'warning');
+      jest
+        .spyOn(component['overviewService'], 'getRelevantPlanningKPIs')
+        .mockReturnValue(throwError(() => sapError));
+
+      component['getData$'](mockParams, RequestType.Fetch).subscribe({
+        error: () => {
+          expect(snackbarSpy).toHaveBeenCalled();
+          done();
+        },
+      });
+    });
+
+    it('should handle error case with message number 133 correctly', (done) => {
+      const mockParams = { startRow: 0, endRow: 10 } as any;
+
+      const error133: HttpError = {
+        details: {
+          values: {
+            [SapErrorMessageHeader.MessageNumber]: '133',
+            [SapErrorMessageHeader.MessageId]: 'SAP_MSG_ID',
+            [SapErrorMessageHeader.MessageV1]: 'Parameter1',
+            [SapErrorMessageHeader.MessageV2]: 'Parameter2',
+            [SapErrorMessageHeader.MessageV3]: 'Parameter3',
+            [SapErrorMessageHeader.MessageV4]: 'Parameter4',
+          },
+        },
+      } as any;
+
+      jest.spyOn(ErrorHelper, 'isProblemDetail').mockReturnValue(true);
+
+      jest.spyOn(ErrorHelper, 'isProblemDetail').mockReturnValue(true);
+
+      const snackbarSpy = jest.spyOn(component['snackbarService'], 'warning');
+      jest
+        .spyOn(component['overviewService'], 'getRelevantPlanningKPIs')
+        .mockReturnValue(throwError(() => error133));
+
+      // Test that the custom error message function in setConfig works with this error
+      const configSetSpy = jest.spyOn(component['config'], 'set');
+      component['setConfig']([]);
+      const customErrorMessageFn =
+        configSetSpy.mock.calls[0][0].table.customErrorMessageFn;
+
+      expect(customErrorMessageFn(error133)).toBe('hint.selectData');
+
+      component['getData$'](mockParams, RequestType.Fetch).subscribe({
+        error: () => {
+          expect(snackbarSpy).toHaveBeenCalled();
+          done();
+        },
+      });
+    });
+
+    it('should handle non-problem detail errors', (done) => {
+      const mockParams = { startRow: 0, endRow: 10 } as any;
+      const regularError = new Error('Regular error');
+
+      jest
+        .spyOn(component['overviewService'], 'getRelevantPlanningKPIs')
+        .mockReturnValue(throwError(() => regularError));
+
+      const snackbarSpy = jest.spyOn(component['snackbarService'], 'warning');
+
+      component['getData$'](mockParams, RequestType.Fetch).subscribe({
+        error: (err) => {
+          // Regular errors should not trigger the snackbar
+          expect(snackbarSpy).not.toHaveBeenCalled();
+          expect(err).toBe(regularError);
+          done();
+        },
+      });
     });
   });
 

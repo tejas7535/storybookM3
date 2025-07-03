@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { DestroyRef, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -8,6 +8,7 @@ import {
   BackendTableResponse,
   RequestParams,
 } from '../../shared/components/table';
+import { USE_DEFAULT_HTTP_ERROR_INTERCEPTOR } from '../../shared/interceptors/http-error.interceptor';
 import { CurrencyService } from '../info/currency.service';
 
 @Injectable({ providedIn: 'root' })
@@ -44,6 +45,10 @@ export class OverviewService {
             params: new HttpParams()
               .set('isCustomerNumberAssignedToMe', isAssignedToMe)
               .set('currency', currency),
+            context: new HttpContext().set(
+              USE_DEFAULT_HTTP_ERROR_INTERCEPTOR,
+              false
+            ),
           }
         )
       ),

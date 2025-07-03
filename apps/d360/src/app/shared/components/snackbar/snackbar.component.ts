@@ -25,14 +25,17 @@ import { Animations } from '../../utils/animations';
 export class SnackbarComponent extends Toast {
   protected get type(): AlertType {
     switch (this.toastPackage.toastType) {
+      case 'error':
       case 'toast-error': {
         return 'error';
       }
 
+      case 'info':
       case 'toast-info': {
         return 'info';
       }
 
+      case 'warning':
       case 'toast-warning': {
         return 'warning';
       }
