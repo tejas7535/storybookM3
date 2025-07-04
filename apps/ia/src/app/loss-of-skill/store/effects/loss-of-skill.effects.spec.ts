@@ -9,7 +9,10 @@ import { marbles } from 'rxjs-marbles/jest';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { RouterStateUrl, selectRouterState } from '../../../core/store';
-import { filterSelected } from '../../../core/store/actions';
+import {
+  filterSelected,
+  timePeriodSelected,
+} from '../../../core/store/actions';
 import {
   getCurrentDimensionValue,
   getCurrentFilters,
@@ -20,6 +23,7 @@ import {
   FilterDimension,
   LeavingType,
   SelectedFilter,
+  TimePeriod,
 } from '../../../shared/models';
 import { LossOfSkillService } from '../../loss-of-skill.service';
 import {
@@ -118,6 +122,47 @@ describe('LossOfSkill Effects', () => {
         m.expect(effects.filterChange$).toBeObservable(expected);
       })
     );
+
+    test(
+      'should return loadLossOfSkillData when filterSelected action is dispatched',
+      marbles((m) => {
+        action = filterSelected({
+          filter: new SelectedFilter('orgUnit', {
+            id: 'AVC',
+            value: 'AVC',
+          }),
+        });
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/${AppRoutePath.LostPerformancePath}`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: loadLossOfSkillData() });
+
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should return loadLossOfSkillData when timePeriodSelected action is dispatched',
+      marbles((m) => {
+        action = timePeriodSelected({
+          timePeriod: TimePeriod.YEAR,
+        });
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/${AppRoutePath.LostPerformancePath}`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: loadLossOfSkillData() });
+
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('loadLossOfSkillData$', () => {
@@ -168,23 +213,6 @@ describe('LossOfSkill Effects', () => {
         });
 
         m.expect(effects.loadLossOfSkillData$).toBeObservable(expected);
-      })
-    );
-
-    test(
-      'filterSelected - should do nothing when organization is not set',
-      marbles((m) => {
-        const filter = new SelectedFilter('nice', {
-          id: 'best',
-          value: 'best',
-        });
-        action = filterSelected({ filter });
-        store.overrideSelector(getCurrentFilters, {} as EmployeesRequest);
-
-        actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('--');
-
-        m.expect(effects.filterChange$).toBeObservable(expected);
       })
     );
   });
