@@ -28,7 +28,11 @@
         </div>
         <ng-template #customOptions let-option="option">
           @if (option.data?.available) {
-            <mat-option [innerHTML]="option.title" />
+            <div
+              class="flex flex-col md:flex-row py-1 justify-between min-w-full expert-highlight"
+            >
+              <span [innerHTML]="option.title"></span>
+            </div>
           } @else if (option?.isGrease) {
             <div
               class="flex flex-col md:flex-row py-1 justify-between min-w-full expert-highlight"
