@@ -56,7 +56,8 @@ export class PasteButtonComponent {
       window
         .open(
           'https://worksite.sharepoint.com/sites/Bearings-Industrial-Solutions-Sales-Management-Marketing/_layouts/15/stream.aspx?id=%2Fsites%2FBearings-Industrial-Solutions-Sales-Management-Marketing%2FShared+Documents%2FDocuments_GlobalPricing%2FGuided+Quoting%2FCase+Management+and+Operations%2FEnhanced+Paste+from+Clipboard+Function.mp4',
-          '_blank'
+          '_blank',
+          'noopener'
         )
         .focus();
     });

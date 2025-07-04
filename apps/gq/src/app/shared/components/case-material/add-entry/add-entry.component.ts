@@ -56,6 +56,7 @@ import { MaterialDescriptionAutoCompleteInputComponent } from '../../autocomplet
 import { MaterialNumberAutoCompleteInputComponent } from '../../autocomplete-input/material-number/material-number-autocomplete-input.component';
 import { InfoIconModule } from '../../info-icon/info-icon.module';
 import { TargetPriceSourceSelectComponent } from '../../target-price-source-select/target-price-source-select.component';
+
 @Component({
   selector: 'gq-add-entry',
   templateUrl: './add-entry.component.html',
@@ -342,7 +343,8 @@ export class AddEntryComponent implements OnInit, OnDestroy {
       window
         .open(
           'https://worksite-my.sharepoint.com/:v:/g/personal/schmjan_schaeffler_com/Efn1Vc3JU9lNtI-PZoyVM1UBgUmnnXN1AsCir5lnqvT_fQ?e=rUsbeU',
-          '_blank'
+          '_blank',
+          'noopener'
         )
         .focus();
     });

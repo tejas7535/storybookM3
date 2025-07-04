@@ -15,6 +15,7 @@ import {
   CALCULATOR_QUOTATION_DATA_MOCK,
   CALCULATOR_QUOTATION_DETAIL_DATA_MOCK,
   CALCULATOR_RFQ_4_PROCESS_DATA_MOCK,
+  CONFIRM_RFQ_RESPONSE_MOCK,
   RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK,
   RFQ_DETAIL_VIEW_DATA_MOCK,
   RFQ_PRODUCTION_PLANTS,
@@ -38,6 +39,9 @@ describe('Rfq4DetailViewStore', () => {
     saveRfq4CalculationData: jest
       .fn()
       .mockReturnValue(of(RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK)),
+    confirmRfq4CalculationData: jest
+      .fn()
+      .mockReturnValue(of(CONFIRM_RFQ_RESPONSE_MOCK)),
   };
   const aadUser: ActiveDirectoryUser = {
     firstName: 'firstName',
@@ -196,6 +200,15 @@ describe('Rfq4DetailViewStore', () => {
         RFQ_DETAIL_VIEW_DATA_MOCK.rfq4ProcessData.processProductionPlant
       );
     });
+    test('isCalculationDataInvalid', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      patchState(unprotected(store), {
+        rfq4RecalculationDataStatus: 'INVALID',
+      });
+
+      const isCalculationDataInvalid = store.isCalculationDataInvalid();
+      expect(isCalculationDataInvalid).toBeTruthy();
+    });
   });
 
   describe('methods', () => {
@@ -285,6 +298,33 @@ describe('Rfq4DetailViewStore', () => {
       );
 
       expect(rfq4DetailViewService.saveRfq4CalculationData).toHaveBeenCalled();
+      expect(store.rfq4DetailViewDataLoading()).toBeFalsy();
+      expect(store.rfq4DetailViewData().rfq4RecalculationData).toEqual(
+        RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK
+      );
+    });
+    test('setCalculationDataStatus', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      store.setCalculationDataStatus('VALID');
+
+      expect(store.rfq4RecalculationDataStatus()).toEqual('VALID');
+    });
+    test('triggerConfirmRecalculation', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      store.triggerConfirmRecalculation();
+
+      expect(store.confirmRecalculationTriggered()).toEqual(true);
+    });
+    test('confirmRfq4DetailViewCalculationData', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+
+      store.confirmRfq4DetailViewCalculationData(
+        RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK
+      );
+
+      expect(
+        rfq4DetailViewService.confirmRfq4CalculationData
+      ).toHaveBeenCalled();
       expect(store.rfq4DetailViewDataLoading()).toBeFalsy();
       expect(store.rfq4DetailViewData().rfq4RecalculationData).toEqual(
         RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK

@@ -16,9 +16,8 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { BaseInputComponent } from '../base-input.component';
 
 export enum DeliveryTimeUnit {
-  YEARS = 'YEARS',
   MONTHS = 'MONTHS',
-  DAYS = 'DAYS',
+  WEEKS = 'WEEKS',
 }
 @Component({
   selector: 'gq-delivery-time-input',
@@ -49,7 +48,7 @@ export class DeliveryTimeInputComponent
 
   deliveryTimeUnitOptions = [
     { value: DeliveryTimeUnit.MONTHS },
-    { value: DeliveryTimeUnit.DAYS },
+    { value: DeliveryTimeUnit.WEEKS },
   ];
 
   ngOnInit(): void {

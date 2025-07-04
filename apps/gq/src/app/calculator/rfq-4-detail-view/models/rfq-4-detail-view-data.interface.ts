@@ -78,3 +78,8 @@ export interface RfqDetailViewCalculationData {
   deliveryTime: number;
   deliveryTimeUnit: DeliveryTimeUnit;
 }
+
+export interface ConfirmRfqResponse {
+  rfq4RecalculationData: RfqDetailViewCalculationData;
+  calculatorRequestRecalculationStatus: RecalculateSqvStatus;
+}

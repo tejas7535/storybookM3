@@ -1,5 +1,6 @@
 /* eslint-disable max-lines */
 import { computed, effect, inject } from '@angular/core';
+import { FormControlStatus } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { pipe, switchMap, tap } from 'rxjs';
@@ -27,6 +28,7 @@ import {
   CalculatorQuotationData,
   CalculatorQuotationDetailData,
   CalculatorRfq4ProcessData,
+  ConfirmRfqResponse,
   ProductionPlantData,
   ProductionPlantForRfq,
   RfqDetailViewCalculationData,
@@ -43,6 +45,8 @@ interface Rfq4DetailViewState {
   processAssignedToAdUser: ActiveDirectoryUser;
   processAssignedToAdUserLoading: boolean;
   productionPlantData: ProductionPlantData | null;
+  rfq4RecalculationDataStatus: FormControlStatus;
+  confirmRecalculationTriggered: boolean;
 }
 
 const initalState: Rfq4DetailViewState = {
@@ -53,6 +57,8 @@ const initalState: Rfq4DetailViewState = {
   processAssignedToAdUser: undefined,
   processAssignedToAdUserLoading: false,
   productionPlantData: null,
+  rfq4RecalculationDataStatus: null,
+  confirmRecalculationTriggered: false,
 };
 
 export const Rfq4DetailViewStore = signalStore(
@@ -101,6 +107,9 @@ export const Rfq4DetailViewStore = signalStore(
         store.rfq4DetailViewData()?.rfq4RecalculationData
           ?.productionPlantNumber ??
         store.rfq4DetailViewData().rfq4ProcessData.processProductionPlant
+    ),
+    isCalculationDataInvalid: computed(
+      (): boolean => store.rfq4RecalculationDataStatus() === 'INVALID'
     ),
   })),
   withProps(() => ({
@@ -336,6 +345,102 @@ export const Rfq4DetailViewStore = signalStore(
           )
         );
 
+      const setCalculationDataStatus = rxMethod<FormControlStatus>(
+        pipe(
+          tap((status) =>
+            updateState(
+              store,
+              RFQ4_DETAIL_VIEW_ACTIONS.SET_CALCULATION_DATA_STATUS,
+              {
+                rfq4RecalculationDataStatus: status,
+              }
+            )
+          )
+        )
+      );
+
+      const triggerConfirmRecalculation = rxMethod<void>(
+        pipe(
+          tap(() =>
+            updateState(
+              store,
+              RFQ4_DETAIL_VIEW_ACTIONS.CONFIRM_RFQ4_DETAIL_VIEW_CALCULATION_DATA_TRIGGERED,
+              {
+                confirmRecalculationTriggered: true,
+              }
+            )
+          )
+        )
+      );
+
+      const confirmRfq4DetailViewCalculationData =
+        rxMethod<RfqDetailViewCalculationData>(
+          pipe(
+            tap((calculationData: RfqDetailViewCalculationData) =>
+              updateState(
+                store,
+                RFQ4_DETAIL_VIEW_ACTIONS.CONFIRM_RFQ4_DETAIL_VIEW_CALCULATION_DATA,
+                {
+                  rfq4DetailViewData: {
+                    ...store.rfq4DetailViewData(),
+                    rfq4RecalculationData: calculationData,
+                  },
+                  rfq4DetailViewDataLoading: true,
+                }
+              )
+            ),
+            switchMap((calculationData: RfqDetailViewCalculationData) =>
+              rfq4DetailViewService
+                .confirmRfq4CalculationData(
+                  store.getRfq4ProcessData()?.rfqId,
+                  calculationData
+                )
+                .pipe(
+                  tapResponse({
+                    next: (response: ConfirmRfqResponse) => {
+                      updateState(
+                        store,
+                        RFQ4_DETAIL_VIEW_ACTIONS.CONFIRM_RFQ4_DETAIL_VIEW_CALCULATION_DATA_SUCCESS,
+                        {
+                          rfq4DetailViewData: {
+                            ...store.rfq4DetailViewData(),
+                            rfq4ProcessData: {
+                              ...store.rfq4DetailViewData().rfq4ProcessData,
+                              calculatorRequestRecalculationStatus:
+                                response.calculatorRequestRecalculationStatus,
+                            },
+                            rfq4RecalculationData:
+                              response.rfq4RecalculationData,
+                          },
+                          rfq4DetailViewDataLoading: false,
+                          confirmRecalculationTriggered: false,
+                        }
+                      );
+                      const successMessage = translate(
+                        'calculator.rfq4DetailView.recalculation.snackBarMessages.confirmed'
+                      );
+                      snackBar.open(successMessage);
+                    },
+                    error: () => {
+                      updateState(
+                        store,
+                        RFQ4_DETAIL_VIEW_ACTIONS.CONFIRM_RFQ4_DETAIL_VIEW_CALCULATION_DATA_FAILURE,
+                        {
+                          rfq4DetailViewDataLoading: false,
+                          confirmRecalculationTriggered: false,
+                        }
+                      );
+                      const errorMessage = translate(
+                        'calculator.rfq4DetailView.recalculation.snackBarMessages.confirmError'
+                      );
+                      snackBar.open(errorMessage);
+                    },
+                  })
+                )
+            )
+          )
+        );
+
       const assignRfq = rxMethod<void>(
         pipe(
           tap(() =>
@@ -386,6 +491,9 @@ export const Rfq4DetailViewStore = signalStore(
         assignRfq,
         loadProductionPlants,
         saveRfq4DetailViewCalculationData,
+        triggerConfirmRecalculation,
+        confirmRfq4DetailViewCalculationData,
+        setCalculationDataStatus,
       };
     }
   ),

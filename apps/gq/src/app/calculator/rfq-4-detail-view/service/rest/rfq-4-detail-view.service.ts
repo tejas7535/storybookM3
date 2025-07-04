@@ -8,6 +8,7 @@ import { Rfq4PathsEnum } from '@gq/shared/services/rest/rfq4/models/rfq-4-paths.
 
 import {
   CalculatorRfq4ProcessData,
+  ConfirmRfqResponse,
   RfqDetailViewCalculationData,
   RfqDetailViewData,
 } from '../../models/rfq-4-detail-view-data.interface';
@@ -38,6 +39,16 @@ export class Rfq4DetailViewService {
   ): Observable<RfqDetailViewCalculationData> {
     return this.http.post<RfqDetailViewCalculationData>(
       `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${DetailViewPaths.PATH_CALCULATOR}/${rfqId}/${DetailViewPaths.PATH_RFQ4_RECALCULATE_DETAIL_VIEW_SAVE}`,
+      requestBody
+    );
+  }
+
+  confirmRfq4CalculationData(
+    rfqId: number,
+    requestBody: RfqDetailViewCalculationData
+  ): Observable<ConfirmRfqResponse> {
+    return this.http.post<ConfirmRfqResponse>(
+      `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${DetailViewPaths.PATH_CALCULATOR}/${rfqId}/${DetailViewPaths.PATH_RFQ4_RECALCULATE_DETAIL_VIEW_CONFIRM}`,
       requestBody
     );
   }

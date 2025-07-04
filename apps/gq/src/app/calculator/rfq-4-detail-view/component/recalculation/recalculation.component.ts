@@ -1,5 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, Signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  OnInit,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
   FormGroup,
@@ -66,6 +76,7 @@ import { ToolCostInputComponent } from './control/tool-cost/tool-cost-input.comp
 export class RecalculationComponent implements OnInit {
   private readonly validationHelper = inject(ValidationHelper);
   private readonly store = inject(Rfq4DetailViewStore);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly formBuilder = inject(FormBuilder);
   private readonly translocoLocaleService = inject(TranslocoLocaleService);
   private readonly rfq4RecalculationData: Signal<RfqDetailViewCalculationData> =
@@ -73,6 +84,11 @@ export class RecalculationComponent implements OnInit {
   private readonly priceUnit: Signal<number> = computed(
     () => this.store.getQuotationDetailData()?.priceUnit
   );
+  private readonly confirmRecalculationTriggered$ = toObservable(
+    this.store.confirmRecalculationTriggered
+  );
+  private readonly recalculationFormStatus: WritableSignal<string | null> =
+    signal(null);
 
   recalculationForm: FormGroup;
 
@@ -117,6 +133,24 @@ export class RecalculationComponent implements OnInit {
       deliveryTimeUnit: [DeliveryTimeUnit.MONTHS],
     });
 
+    this.recalculationForm.statusChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((status) => {
+        // To minimize number of action call
+        if (status !== this.recalculationFormStatus()) {
+          this.store.setCalculationDataStatus(status);
+          this.recalculationFormStatus.set(status);
+        }
+      });
+
+    this.confirmRecalculationTriggered$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((isTriggered) => {
+        if (isTriggered) {
+          this.confirm();
+        }
+      });
+
     // Prefill the price unit
     this.recalculationForm.get('priceUnit')?.setValue(this.priceUnit());
 
@@ -126,14 +160,14 @@ export class RecalculationComponent implements OnInit {
       // Production plant is skipped here because this value is set in production plant control component
       this.recalculationForm.patchValue({
         currency: rfqData.currency,
-        sqv: this.parseToInputValue(rfqData.sqv),
-        lotSize: this.parseToInputValue(rfqData.lotSize),
-        priceUnit: this.parseToInputValue(rfqData.priceUnit),
-        toolCost: this.parseToInputValue(rfqData.toolCosts),
+        sqv: this.parseDecimalToInputValue(rfqData.sqv),
+        lotSize: rfqData.lotSize,
+        priceUnit: rfqData.priceUnit ?? this.priceUnit(),
+        toolCost: this.parseDecimalToInputValue(rfqData.toolCosts),
         comment: rfqData.comment,
         calculatorDetails: rfqData.calculationDetails,
         deliveryTime: rfqData.deliveryTime,
-        deliveryTimeUnit: rfqData.deliveryTimeUnit,
+        deliveryTimeUnit: rfqData.deliveryTimeUnit ?? DeliveryTimeUnit.MONTHS,
       });
     }
   }
@@ -150,16 +184,27 @@ export class RecalculationComponent implements OnInit {
   }
 
   submit(): void {
+    const calculationData = this.prepareRfq4DetailViewCalculationData();
+    this.store.saveRfq4DetailViewCalculationData(calculationData);
+  }
+
+  private confirm(): void {
+    if (this.recalculationForm.invalid) {
+      return;
+    }
+    const calculationData = this.prepareRfq4DetailViewCalculationData();
+    this.store.confirmRfq4DetailViewCalculationData(calculationData);
+  }
+
+  private prepareRfq4DetailViewCalculationData() {
     const calculationData: RfqDetailViewCalculationData = {
       currency: this.recalculationForm.get('currency')?.value,
-      sqv: this.parseInputValue(this.recalculationForm.get('sqv')?.value),
-      lotSize: this.parseInputValue(
-        this.recalculationForm.get('lotSize')?.value
+      sqv: this.parseDecimalInputValue(
+        this.recalculationForm.get('sqv')?.value
       ),
-      priceUnit: this.parseInputValue(
-        this.recalculationForm.get('priceUnit')?.value
-      ),
-      toolCosts: this.parseInputValue(
+      lotSize: this.recalculationForm.get('lotSize')?.value,
+      priceUnit: this.recalculationForm.get('priceUnit')?.value,
+      toolCosts: this.parseDecimalInputValue(
         this.recalculationForm.get('toolCost')?.value
       ),
       productionPlantNumber: (
@@ -172,10 +217,10 @@ export class RecalculationComponent implements OnInit {
       deliveryTimeUnit: this.recalculationForm.get('deliveryTimeUnit')?.value,
     };
 
-    this.store.saveRfq4DetailViewCalculationData(calculationData);
+    return calculationData;
   }
 
-  private parseInputValue(value: string): number {
+  private parseDecimalInputValue(value: string): number {
     if (value) {
       return parseLocalizedInputValue(
         value,
@@ -186,7 +231,7 @@ export class RecalculationComponent implements OnInit {
     return null;
   }
 
-  private parseToInputValue(value: number): string {
+  private parseDecimalToInputValue(value: number): string {
     if (value) {
       return parseNumberValueToLocalizedInputValue(
         value,

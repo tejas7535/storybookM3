@@ -71,4 +71,18 @@ describe('Rfq4DetailViewService', () => {
       expect(req.request.body).toEqual(RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK);
     });
   });
+
+  describe('confirmRfq4CalculationData', () => {
+    test('should call post with correct url and request body', () => {
+      service
+        .confirmRfq4CalculationData(123, RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK)
+        .subscribe();
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${DetailViewPaths.PATH_CALCULATOR}/123/${DetailViewPaths.PATH_RFQ4_RECALCULATE_DETAIL_VIEW_CONFIRM}`
+      );
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual(RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK);
+    });
+  });
 });

@@ -64,9 +64,8 @@
           "label": "Delivery Time",
           "hint": "Delivery time after order receiving (AOR)",
           "select": {
-            "YEARS": "Years",
             "MONTHS": "Months",
-            "DAYS": "Days"
+            "WEEKS": "Weeks"
           }
         }
       },
@@ -82,7 +81,9 @@
       },
       "snackBarMessages": {
         "saved": "Recalculation input saved successfully",
-        "error": "An error occurred while saving the Recalculation input. Try again later"
+        "error": "An error occurred while saving the Recalculation input. Try again later",
+        "confirmed": "Recalculation confirmed successfully",
+        "confirmError": "An error occurred while confirming the Recalculation. Try again later"
       }
     },
     "snackBarMessages": {

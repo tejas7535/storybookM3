@@ -50,6 +50,12 @@ export class Rfq4DetailViewHeaderComponent {
     this.getTagType(this.recalculationStatus())
   );
 
+  isConfirmDisabled: Signal<boolean> = computed(
+    () =>
+      this.store.isCalculationDataInvalid() ||
+      this.recalculationStatus() !== RecalculateSqvStatus.IN_PROGRESS
+  );
+
   getTagType(status: RecalculateSqvStatus): TagType {
     switch (status) {
       case RecalculateSqvStatus.OPEN: {
@@ -68,5 +74,9 @@ export class Rfq4DetailViewHeaderComponent {
         return TagType.NEUTRAL;
       }
     }
+  }
+
+  onConfirm() {
+    this.store.triggerConfirmRecalculation();
   }
 }

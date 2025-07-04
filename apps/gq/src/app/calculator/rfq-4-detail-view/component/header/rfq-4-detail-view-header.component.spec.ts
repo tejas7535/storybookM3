@@ -32,6 +32,8 @@ describe('HeaderComponent', () => {
         useValue: {
           rfq4DetailViewData,
           getRecalculationStatus: recalculateStatus,
+          isCalculationDataInvalid: signal(false),
+          triggerConfirmRecalculation: jest.fn(),
         },
       },
     ],
@@ -103,6 +105,16 @@ describe('HeaderComponent', () => {
     test('should return default tag type', () => {
       const result = component.getTagType(null);
       expect(result).toEqual(TagType.NEUTRAL);
+    });
+  });
+
+  describe('onConfirm', () => {
+    test('confirmRecalculation should be called', () => {
+      const store = spectator.inject(Rfq4DetailViewStore);
+      const confirmSpy = jest.spyOn(store, 'triggerConfirmRecalculation');
+      component.onConfirm();
+
+      expect(confirmSpy).toHaveBeenCalled();
     });
   });
 });

@@ -64,9 +64,8 @@
           "label": "Lieferzeit",
           "hint": "Lieferzeit nach Auftrag eingang AE",
           "select": {
-            "YEARS": "Jahre",
             "MONTHS": "Monate",
-            "DAYS": "Tage"
+            "WEEKS": "Wochen"
           }
         }
       },
@@ -82,7 +81,9 @@
       },
       "snackBarMessages": {
         "saved": "Eingabe zur Wiederholkalkulation erfolgreich gespeichert",
-        "error": "Beim Speichern der Eingabe für die Wiederholkalkulation ist ein Fehler aufgetreten. Versuche es später erneut"
+        "error": "Beim Speichern der Eingabe für die Wiederholkalkulation ist ein Fehler aufgetreten. Versuche es später erneut",
+        "confirmed": "Wiederholkalkulation erfolgreich bestätigt",
+        "confirmError": "Beim Bestätigen der Wiederholkalkulation ist ein Fehler aufgetreten. Versuche es später erneut"
       }
     },
     "snackBarMessages": {

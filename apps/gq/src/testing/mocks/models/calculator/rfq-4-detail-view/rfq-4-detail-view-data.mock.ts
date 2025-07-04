@@ -6,6 +6,7 @@ import {
   CalculatorQuotationData,
   CalculatorQuotationDetailData,
   CalculatorRfq4ProcessData,
+  ConfirmRfqResponse,
   ProductionPlantForRfq,
   RfqDetailViewCalculationData,
   RfqDetailViewData,
@@ -70,6 +71,11 @@ export const RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK: RfqDetailViewCalculationData
     deliveryTime: 12,
     deliveryTimeUnit: DeliveryTimeUnit.MONTHS,
   };
+
+export const CONFIRM_RFQ_RESPONSE_MOCK: ConfirmRfqResponse = {
+  rfq4RecalculationData: RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK,
+  calculatorRequestRecalculationStatus: RecalculateSqvStatus.CONFIRMED,
+};
 
 export const RFQ_DETAIL_VIEW_DATA_MOCK: RfqDetailViewData = {
   customerData: CALCULATOR_CUSTOMER_DATA_MOCK,

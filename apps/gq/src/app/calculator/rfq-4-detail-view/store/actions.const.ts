@@ -28,4 +28,13 @@ export const RFQ4_DETAIL_VIEW_ACTIONS = {
     '[RFQ4 Detail View] Save RFQ4 Detail View Calculation Data Success',
   SAVE_RFQ4_DETAIL_VIEW_CALCULATION_DATA_FAILURE:
     '[RFQ4 Detail View] Save RFQ4 Detail View Calculation Data Failure',
+  CONFIRM_RFQ4_DETAIL_VIEW_CALCULATION_DATA_TRIGGERED:
+    '[RFQ4 Detail View] Confirm RFQ4 Detail View Calculation Data Triggered',
+  CONFIRM_RFQ4_DETAIL_VIEW_CALCULATION_DATA:
+    '[RFQ4 Detail View] Confirm RFQ4 Detail View Calculation Data',
+  CONFIRM_RFQ4_DETAIL_VIEW_CALCULATION_DATA_SUCCESS:
+    '[RFQ4 Detail View] Confirm RFQ4 Detail View Calculation Data Success',
+  CONFIRM_RFQ4_DETAIL_VIEW_CALCULATION_DATA_FAILURE:
+    '[RFQ4 Detail View] Confirm RFQ4 Detail View Calculation Data Failure',
+  SET_CALCULATION_DATA_STATUS: '[RFQ4 Detail View] Set Calculation Data Status',
 };

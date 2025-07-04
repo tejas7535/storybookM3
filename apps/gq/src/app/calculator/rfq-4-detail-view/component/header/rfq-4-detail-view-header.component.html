@@ -13,7 +13,12 @@
     </ng-container>
     <ng-container subheaderInlineContent>
       <schaeffler-share-button></schaeffler-share-button>
-      <button color="primary" [disabled]="true" mat-raised-button>
+      <button
+        color="primary"
+        [disabled]="isConfirmDisabled()"
+        mat-raised-button
+        (click)="onConfirm()"
+      >
         {{ t('confirmButton') }}
       </button>
     </ng-container>
