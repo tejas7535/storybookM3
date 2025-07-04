@@ -182,6 +182,22 @@ describe('AbstractMultiAutocompleteComponent', () => {
       component['onClear']();
       expect(closePanelSpy).toHaveBeenCalled();
     });
+
+    it('should call resetOptions', () => {
+      const resetOptionsSpy = jest.spyOn(component as any, 'resetOptions');
+      component['onClear']();
+      expect(resetOptionsSpy).toHaveBeenCalled();
+    });
+
+    it('should clear search field', () => {
+      (component as any)['input'] = { nativeElement: { value: 'abc' } };
+
+      expect(component['input'].nativeElement.value).toBe('abc');
+
+      component['onClear']();
+
+      expect(component['input'].nativeElement.value).toBeNull();
+    });
   });
 
   describe('onOptionSelected', () => {

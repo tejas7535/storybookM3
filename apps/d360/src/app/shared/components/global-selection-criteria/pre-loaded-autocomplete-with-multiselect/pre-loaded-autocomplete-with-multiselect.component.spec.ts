@@ -100,4 +100,33 @@ describe('PreLoadedAutocompleteWithMultiselectComponent', () => {
       );
     });
   });
+
+  describe('onClear', () => {
+    it('should call onClear method of preLoadedComponent when available', () => {
+      const onClearSpy = jest.fn();
+      (component as any)['preLoadedComponent'] = {
+        onClear: onClearSpy,
+      } as any;
+
+      component.onClear();
+
+      expect(onClearSpy).toHaveBeenCalled();
+    });
+
+    it('should not throw error when preLoadedComponent is undefined', () => {
+      (component as any)['preLoadedComponent'] = undefined as any;
+
+      expect(() => {
+        component.onClear();
+      }).not.toThrow();
+    });
+
+    it('should not throw error when preLoadedComponent.onClear is undefined', () => {
+      (component as any)['preLoadedComponent'] = {} as any;
+
+      expect(() => {
+        component.onClear();
+      }).not.toThrow();
+    });
+  });
 });

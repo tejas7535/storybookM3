@@ -5,6 +5,7 @@ import {
   inject,
   input,
   InputSignal,
+  ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -63,6 +64,16 @@ export class PreLoadedAutocompleteWithMultiselectComponent {
   public panelClass: InputSignal<string | string[]> = input<string | string[]>(
     ''
   );
+
+  /**
+   * The pre-loaded component instance.
+   *
+   * @private
+   * @type {MultiAutocompletePreLoadedComponent}
+   * @memberof PreLoadedAutocompleteWithMultiselectComponent
+   */
+  @ViewChild(MultiAutocompletePreLoadedComponent)
+  private readonly preLoadedComponent!: MultiAutocompletePreLoadedComponent;
 
   // Clipboard
   public entityName: InputSignal<string> = input.required<string>();
@@ -124,5 +135,14 @@ export class PreLoadedAutocompleteWithMultiselectComponent {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
+  }
+
+  /**
+   * On Clear Button Action, to delete the current values.
+   *
+   * @memberof PreLoadedAutocompleteWithMultiselectComponent
+   */
+  public onClear(): void {
+    this.preLoadedComponent?.onClear?.();
   }
 }

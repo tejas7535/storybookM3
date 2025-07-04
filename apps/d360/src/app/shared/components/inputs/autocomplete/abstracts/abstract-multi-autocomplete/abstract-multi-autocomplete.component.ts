@@ -371,14 +371,18 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
   /**
    * On Clear Button Action, to delete the current values and to emit the data.
    *
-   * @protected
    * @memberof AbstractMultiAutocompleteComponent
    */
-  protected onClear(): void {
+  public onClear(): void {
     this.control().patchValue([]);
     this.isInputFocused = false;
 
     this.trigger.closePanel();
+    this.resetOptions();
+
+    if (this.input?.nativeElement) {
+      this.input.nativeElement.value = null;
+    }
   }
 
   /**

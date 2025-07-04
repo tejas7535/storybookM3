@@ -5,9 +5,11 @@ import {
   inject,
   OnInit,
   output,
+  QueryList,
   Signal,
   signal,
   untracked,
+  ViewChildren,
   WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -76,6 +78,12 @@ export class GlobalSelectionCriteriaComponent implements OnInit {
    */
   protected readonly selectableOptionsService: SelectableOptionsService =
     inject(SelectableOptionsService);
+
+  @ViewChildren(MultiAutocompletePreLoadedComponent)
+  private readonly preLoadedComponents!: QueryList<MultiAutocompletePreLoadedComponent>;
+
+  @ViewChildren(PreLoadedAutocompleteWithMultiselectComponent)
+  private readonly preLoadedWithMultiselectComponents!: QueryList<PreLoadedAutocompleteWithMultiselectComponent>;
 
   /**
    * The SnackBarService instance.
@@ -242,6 +250,12 @@ export class GlobalSelectionCriteriaComponent implements OnInit {
 
     // reset the count
     this.count.set(0);
+
+    // reset the options in the pre-loaded components
+    this.preLoadedComponents?.forEach((component) => component?.onClear?.());
+    this.preLoadedWithMultiselectComponents?.forEach((component) =>
+      component?.onClear?.()
+    );
   }
 
   /**
