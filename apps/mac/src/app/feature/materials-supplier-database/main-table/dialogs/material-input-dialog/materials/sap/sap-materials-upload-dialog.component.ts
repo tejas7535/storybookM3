@@ -8,6 +8,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import {
+  MAT_MOMENT_DATE_FORMATS,
+  MatMomentDateModule,
+  provideMomentDateAdapter,
+} from '@angular/material-moment-adapter';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
@@ -17,11 +22,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
-import {
-  MAT_MOMENT_DATE_FORMATS,
-  MatMomentDateModule,
-  provideMomentDateAdapter,
-} from '@angular/material-moment-adapter';
 
 import { combineLatest, filter, Subject, take, takeUntil } from 'rxjs';
 
@@ -45,11 +45,11 @@ import { DialogFacade } from '@mac/feature/materials-supplier-database/store/fac
 
 import { BaseDialogComponent } from '../../base-dialog/base-dialog.component';
 import * as util from '../../util';
-import { ExcelValidatorService } from './sap-materials-upload-dialog-validation/excel-validation/excel-validator.service';
 import {
   COLUMN_HEADER_FIELDS,
   MANDATORY_COLUMNS,
 } from './sap-materials-upload-dialog-validation/excel-validation/excel-validator-config';
+import { ExcelValidatorService } from './sap-materials-upload-dialog-validation/excel-validation/excel-validator.service';
 import {
   sapMaterialsUploadDataOwnerValidator,
   sapMaterialsUploadFileValidator,
@@ -223,6 +223,7 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
         'materialsSupplierDatabase.mainTable.excelExport.author'
       ),
       fileName: 'matnr_upload_template.xlsx',
+      skipColumnGroupHeaders: true,
       sheetName: 'template',
       columnKeys: columns,
       appendContent: hintRow,
