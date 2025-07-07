@@ -8,7 +8,6 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 
-import { environment } from '../../../../environments/environment';
 import * as fromFilter from './filter/filter.reducer';
 
 export interface RouterStateUrl {
@@ -32,9 +31,7 @@ export const ROOT_REDUCERS = new InjectionToken<ActionReducerMap<AppState>>(
   }
 );
 
-export const metaReducers: MetaReducer<AppState>[] = environment.production
-  ? []
-  : [];
+export const metaReducers: MetaReducer<AppState>[] = [];
 
 export const selectRouterState =
   createFeatureSelector<fromRouter.RouterReducerState<RouterStateUrl>>(

@@ -96,6 +96,7 @@ export class FilterEffects {
         loadFilterBenchmarkDimensionData,
         loadUserSettingsDimensionData
       ),
+      map((action) => ({ ...action, searchFor: action.searchFor || '' })),
       concatLatestFrom(() => this.store.select(getSelectedTimeRange)),
       mergeMap(([action, timeRange]) =>
         this.filterService

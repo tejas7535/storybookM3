@@ -217,14 +217,22 @@ export const getCurrentDimensionValue = createSelector(
     const selectedFilters = filters.filter(
       (filter) => filter.name === selectedDimension
     );
-
     const selectedDimensionFilter = selectedFilters.find(
       (filter) => filter.name === selectedDimension
     );
 
-    return selectedDimension === FilterDimension.ORG_UNIT
-      ? selectedDimensionFilter?.idValue.value.replaceAll(/\s+\(.*?\)$/g, '')
-      : selectedDimensionFilter?.idValue.value;
+    if (
+      selectedDimension === FilterDimension.ORG_UNIT &&
+      selectedDimensionFilter?.idValue.value
+    ) {
+      const value = selectedDimensionFilter.idValue.value;
+      const lastOpenParenIndex = value.lastIndexOf(' (');
+      if (lastOpenParenIndex > 0 && value.endsWith(')')) {
+        return value.slice(0, Math.max(0, lastOpenParenIndex));
+      }
+    }
+
+    return selectedDimensionFilter?.idValue.value;
   }
 );
 
