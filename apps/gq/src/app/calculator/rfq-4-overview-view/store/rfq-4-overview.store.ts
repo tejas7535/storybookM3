@@ -101,7 +101,7 @@ export const Rfq4OverviewStore = signalStore(
     const loadCountFromInterval = rxMethod<void>(
       pipe(
         mergeMap(() =>
-          timer(30_000, 30_000).pipe(
+          timer(0, 30_000).pipe(
             tap(() => {
               updateState(store, ACTIONS.UPDATE_COUNT_LOADING, {
                 countLoading: true,
@@ -133,7 +133,7 @@ export const Rfq4OverviewStore = signalStore(
         tap(() =>
           updateState(store, ACTIONS.UPDATE_LOADING, { loading: true })
         ),
-        mergeMap((tab: CalculatorTab) =>
+        switchMap((tab: CalculatorTab) =>
           calculatorService.getRfqRequests(tab).pipe(
             tapResponse({
               next: (loadedItems) => {

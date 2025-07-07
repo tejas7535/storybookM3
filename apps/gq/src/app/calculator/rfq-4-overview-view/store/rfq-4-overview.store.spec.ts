@@ -225,7 +225,7 @@ describe('Rfq4OverviewStore', () => {
         });
       });
       describe('loadCountFromInterval', () => {
-        test('should call loadCount every 30 seconds', () => {
+        test('should call loadCount every 30 seconds, starting at zero', () => {
           jest.useFakeTimers();
 
           const signalStore = TestBed.inject(Rfq4OverviewStore);
@@ -233,7 +233,7 @@ describe('Rfq4OverviewStore', () => {
 
           jest.advanceTimersByTime(60_000);
           expect(calculatorService.loadRfqRequestsCount).toHaveBeenCalledTimes(
-            2
+            3
           );
           expect(signalStore.tabCounts()).toEqual(loadCountResult);
           jest.useRealTimers();
@@ -249,7 +249,7 @@ describe('Rfq4OverviewStore', () => {
           jest.advanceTimersByTime(30_000);
 
           expect(calculatorService.loadRfqRequestsCount).toHaveBeenCalledTimes(
-            1
+            2
           );
           expect(calculatorService.getRfqRequests).toHaveBeenCalledTimes(0);
           expect(signalStore.tabCounts()).toEqual(initialCount);
