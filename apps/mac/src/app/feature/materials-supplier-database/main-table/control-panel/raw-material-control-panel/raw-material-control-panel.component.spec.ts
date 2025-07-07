@@ -24,7 +24,6 @@ import {
   MATERIAL_STANDARD_MATERIAL_NAME,
   MaterialClass,
   NavigationLevel,
-  RELEASE_DATE,
 } from '@mac/feature/materials-supplier-database/constants';
 import {
   MsdAgGridReadyService,
@@ -234,9 +233,6 @@ describe('RawMaterialControlPanelComponent', () => {
 
   describe('getFormattedCellValue', () => {
     it.each([
-      [RELEASE_DATE, 'any', undefined, 'formated'],
-      [RELEASE_DATE, undefined, undefined, ''],
-
       [LAST_MODIFIED, 'any', undefined, 'formated'],
       [LAST_MODIFIED, 'any', true, 'formated'],
       [LAST_MODIFIED, 'any', false, 'any'],

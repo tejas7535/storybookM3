@@ -56,6 +56,7 @@ import { Co2UploadFileCellRendererComponent } from '../../../cell-renderers/co2-
 import { EditCellRendererComponent } from '../../../cell-renderers/edit-cell-renderer/edit-cell-renderer.component';
 import { LinkCellRendererComponent } from '../../../cell-renderers/link-cell-renderer/link-cell-renderer.component';
 import { ReleaseStatusCellRendererComponent } from '../../../cell-renderers/release-status-cell-renderer/release-status-cell-renderer.component';
+import { DATE_FILTER_PARAMS } from '../../date-filter-params';
 import { excludeColumn, lockColumns } from '../../helpers';
 
 export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
@@ -199,9 +200,7 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     valueGetter: RELEASE_DATE_VALUE_GETTER,
     headerTooltip: RELEASE_DATE,
     filter: 'agDateColumnFilter',
-    filterParams: {
-      maxNumConditions: 1,
-    },
+    filterParams: DATE_FILTER_PARAMS,
   },
   {
     field: MANUFACTURER_SUPPLIER_SELFCERTIFIED,
@@ -219,6 +218,7 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     headerTooltip: MATERIAL_STANDARD_STOFF_ID,
     tooltipValueGetter: (params) => (params.value ? 'wiamLink' : undefined),
     valueFormatter: MATERIALSTOFFID_LINK_FORMATTER,
+    useValueFormatterForExport: false,
     cellRenderer: LinkCellRendererComponent,
   },
   {

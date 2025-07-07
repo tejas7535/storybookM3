@@ -23,7 +23,6 @@ import { DataFacade } from '@mac/feature/materials-supplier-database/store/facad
 import {
   MANUFACTURER_SUPPLIER_SAPID,
   NavigationLevel,
-  RELEASE_DATE,
 } from '@mac/msd/constants';
 
 import { AbstractControlPanelComponent } from '../abstract-control-panel.component';
@@ -68,6 +67,10 @@ export class RawMaterialControlPanelComponent
     protected readonly dialogService: MsdDialogService
   ) {
     super(dataFacade, agGridReadyService);
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   public ngOnInit(): void {
@@ -151,10 +154,6 @@ export class RawMaterialControlPanelComponent
   }
 
   private getFormattedCellValue(params: ProcessCellForExportParams) {
-    const columnName = params.column.getColId();
-    if (columnName === RELEASE_DATE) {
-      return params.value ? params.formatValue(params.value) : '';
-    }
     if (params.column.getColDef().useValueFormatterForExport ?? true) {
       return params.formatValue(params.value);
     }

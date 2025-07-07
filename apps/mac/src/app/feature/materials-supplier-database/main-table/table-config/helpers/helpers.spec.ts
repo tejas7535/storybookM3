@@ -112,7 +112,7 @@ describe('helpers', () => {
 
       const result = CUSTOM_DATE_FORMATTER(mockParams);
 
-      expect(result).toEqual('20/09/2022');
+      expect(result).toEqual('2022-09-20');
     });
   });
 
@@ -210,7 +210,7 @@ describe('helpers', () => {
 
       const result = RELEASE_DATE_FORMATTER(mockParams);
 
-      expect(result).toEqual('04/23');
+      expect(result).toEqual('2023-04-29');
     });
   });
 
@@ -617,7 +617,7 @@ describe('helpers', () => {
         SAP_MATERIALS_DATE_FORMATTER({
           value,
         } as ValueFormatterParams)
-      ).toBe(new Date(value).toLocaleDateString('en-GB'));
+      ).toBe(moment(value).format('YYYY-MM-DD'));
     });
   });
 

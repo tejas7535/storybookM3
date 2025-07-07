@@ -11,6 +11,7 @@ import { CUSTOM_DATE_FORMATTER } from '@mac/msd/main-table/table-config/helpers'
 
 import { EditCellRendererComponent } from '../../../cell-renderers/edit-cell-renderer/edit-cell-renderer.component';
 import { RecentStatusCellRendererComponent } from '../../../cell-renderers/recent-status-cell-renderer/recent-status-cell-renderer.component';
+import { DATE_FILTER_PARAMS } from '../../date-filter-params';
 import { HISTORY_COLUMN_DEFINITION } from './global-column-definitions';
 
 export const BASE_MATERIAL_STANDARDS_COLUMN_DEFINITIONS: ColDef[] = [
@@ -51,6 +52,7 @@ export const BASE_MATERIAL_STANDARDS_COLUMN_DEFINITIONS: ColDef[] = [
     field: LAST_MODIFIED,
     headerName: LAST_MODIFIED,
     filter: 'agDateColumnFilter',
+    filterParams: DATE_FILTER_PARAMS,
     valueFormatter: CUSTOM_DATE_FORMATTER,
     sort: 'desc',
   },

@@ -11,5 +11,5 @@ export const RELEASE_DATE_FORMATTER = ({
     );
   }
 
-  return moment(value).format('MM/YY');
+  return moment(value).format('YYYY-MM-DD');
 };

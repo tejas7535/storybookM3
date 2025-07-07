@@ -9,6 +9,7 @@ import {
   ValueGetterFunc,
   ValueGetterParams,
 } from 'ag-grid-community';
+import moment from 'moment';
 
 import {
   DATA_DATE,
@@ -242,7 +243,7 @@ describe('column definitions', () => {
         const params = { value } as ValueFormatterParams;
         const fkt = lookup(def, DATA_DATE).valueFormatter as ValueFormatterFunc;
 
-        expect(fkt(params)).toBe(new Date(value).toLocaleDateString('en-GB'));
+        expect(fkt(params)).toBe(moment(value).format('YYYY-MM-DD'));
       });
     });
   });

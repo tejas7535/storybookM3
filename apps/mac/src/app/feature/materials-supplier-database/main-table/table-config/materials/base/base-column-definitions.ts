@@ -26,6 +26,7 @@ import {
 
 import { EditCellRendererComponent } from '../../../cell-renderers/edit-cell-renderer/edit-cell-renderer.component';
 import { RecentStatusCellRendererComponent } from '../../../cell-renderers/recent-status-cell-renderer/recent-status-cell-renderer.component';
+import { DATE_FILTER_PARAMS } from '../../date-filter-params';
 import { HISTORY_COLUMN_DEFINITION } from './global-column-definitions';
 
 export const BASE_COLUMN_DEFINITIONS: ColDef[] = [
@@ -145,7 +146,7 @@ export const BASE_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: LAST_MODIFIED,
     filter: 'agDateColumnFilter',
     valueFormatter: CUSTOM_DATE_FORMATTER,
-    filterParams: { comparator: DATE_COMPARATOR },
+    filterParams: { ...DATE_FILTER_PARAMS, comparator: DATE_COMPARATOR },
     useValueFormatterForExport: true,
     sort: 'desc',
   },

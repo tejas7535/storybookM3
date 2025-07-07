@@ -10,6 +10,7 @@ import {
   VERSION,
 } from '@mac/feature/materials-supplier-database/constants';
 
+import { DATE_FILTER_PARAMS } from '../../date-filter-params';
 import { FILTER_PARAMS } from '../../filter-params';
 import {
   CUSTOM_DATE_FORMATTER,
@@ -39,6 +40,7 @@ export const BASE_PRODUCT_CATEGORY_RULES_COLUMN_DEFINITION: ColDef[] = [
     field: LAST_MODIFIED,
     headerName: LAST_MODIFIED,
     filter: 'agDateColumnFilter',
+    filterParams: DATE_FILTER_PARAMS,
     valueFormatter: CUSTOM_DATE_FORMATTER,
     sort: 'desc',
   },
@@ -46,6 +48,7 @@ export const BASE_PRODUCT_CATEGORY_RULES_COLUMN_DEFINITION: ColDef[] = [
     field: VALID_UNTIL,
     headerName: VALID_UNTIL,
     filter: 'agDateColumnFilter',
+    filterParams: DATE_FILTER_PARAMS,
     valueFormatter: CUSTOM_DATE_FORMATTER,
   },
   {

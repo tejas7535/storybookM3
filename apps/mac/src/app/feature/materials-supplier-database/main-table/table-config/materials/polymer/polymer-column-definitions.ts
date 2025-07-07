@@ -13,6 +13,8 @@ import {
 } from '@mac/msd/main-table/table-config/helpers';
 import { BASE_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/base';
 
+import { DATE_FILTER_PARAMS } from '../../date-filter-params';
+
 export const POLYMER_COLUMN_DEFINITIONS: ColDef[] = [
   ...BASE_COLUMN_DEFINITIONS,
   {
@@ -39,5 +41,6 @@ export const POLYMER_COLUMN_DEFINITIONS: ColDef[] = [
     valueFormatter: RELEASE_DATE_FORMATTER,
     valueGetter: RELEASE_DATE_VALUE_GETTER,
     filter: 'agDateColumnFilter',
+    filterParams: DATE_FILTER_PARAMS,
   },
 ];
