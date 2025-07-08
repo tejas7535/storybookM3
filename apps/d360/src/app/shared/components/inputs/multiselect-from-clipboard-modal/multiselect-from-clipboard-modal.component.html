@@ -24,7 +24,7 @@
               [autocompleteLabel]="data.autocompleteLabel"
               [control]="unsavedValues"
               [form]="data.form"
-              [searchControl]="data.searchControl"
+              [searchControl]="searchControl"
               [getOptionLabelInTag]="data.getOptionLabelInTag"
               [getOptionLabel]="data.getOptionLabel"
               [optionsLoadingResult]="data.optionsLoadingResults!"
@@ -40,7 +40,7 @@
               [autocompleteLabel]="data.autocompleteLabel"
               [control]="unsavedValues"
               [form]="data.form"
-              [searchControl]="data.searchControl"
+              [searchControl]="searchControl"
               [getOptionLabelInTag]="data.getOptionLabelInTag"
               [getOptionLabel]="data.getOptionLabel"
               [optionsLoadingResult]="data.optionsLoadingResults!"
@@ -70,7 +70,7 @@
           <div class="error-list">
             {{
               t('multiselect.error.ignored_values', {
-                values: clipboardErrors().ignoredValues.join(', ')
+                values: clipboardErrors().ignoredValues.join(', '),
               })
             }}
           </div>

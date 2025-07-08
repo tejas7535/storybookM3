@@ -116,7 +116,6 @@ export class PreLoadedAutocompleteWithMultiselectComponent {
         data: {
           control: this.control(),
           form: this.form(),
-          searchControl: this.searchFormControl,
           autocompleteLabel: this.autocompleteLabel(),
           getOptionLabel: this.getOptionLabel(),
           getOptionLabelInTag: this.getOptionLabelInTag(),

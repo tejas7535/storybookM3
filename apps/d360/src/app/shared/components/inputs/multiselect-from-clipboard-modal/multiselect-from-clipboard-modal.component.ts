@@ -34,7 +34,6 @@ import { DisplayFunction } from '../display-functions.utils';
  */
 interface ClipboardDialogData {
   control: FormControl;
-  searchControl: FormControl;
   form: FormGroup;
   selectableValuesByKeys: (
     value: string[]
@@ -87,6 +86,14 @@ export class MultiselectFromClipboardModalComponent {
    * @memberof MultiselectFromClipboardModalComponent
    */
   public data: ClipboardDialogData = inject(MAT_DIALOG_DATA);
+
+  /**
+   * The search form control used for the autocomplete.
+   *
+   * @protected
+   * @memberof MultiselectFromClipboardModalComponent
+   */
+  protected searchControl = new FormControl('');
 
   /**
    * The current loading state.

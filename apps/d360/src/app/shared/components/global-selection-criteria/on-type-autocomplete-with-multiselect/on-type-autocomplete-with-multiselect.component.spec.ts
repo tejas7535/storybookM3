@@ -58,7 +58,6 @@ describe('OnTypeAutocompleteWithMultiselectComponent', () => {
           data: expect.objectContaining({
             control: component['control'](),
             form: component['form'](),
-            searchControl: component['searchFormControl'],
             autocompleteLabel: component['autocompleteLabel'](),
             getOptionLabel: component['getOptionLabel'](),
             getOptionLabelInTag: component['getOptionLabelInTag'](),

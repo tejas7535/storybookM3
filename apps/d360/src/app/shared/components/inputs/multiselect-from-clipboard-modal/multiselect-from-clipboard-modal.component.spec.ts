@@ -12,7 +12,6 @@ describe('MultiselectFromClipboardModalComponent', () => {
       providers: [
         Stub.getMatDialogDataProvider({
           control: new FormControl([]),
-          searchControl: new FormControl(),
           form: new FormGroup({}),
           selectableValuesByKeys: jest.fn(),
           entityName: 'test',
