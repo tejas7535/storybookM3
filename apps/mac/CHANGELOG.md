@@ -1,4 +1,17 @@
 # Release Notes of Material App Center
+## [1.32.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.32.1...mac-v1.32.2) (2025-07-08)
+
+
+### Features
+
+* **mac:** modify export configuration for raw materials (UFTABI-9020) ([#7391](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7391)) ([4fc5c6b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4fc5c6bd0373f97e564d7636ae47242c72de260d))
+
+
+### Bug Fixes
+
+* **mac:** fix steel supplier dialog with filled business partner id ([#7404](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7404)) ([ae4fec2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ae4fec25a32617e2292ca20a5a96da005dd8509c))
+* **mac:** remove group column header from upload template ([#7399](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7399)) ([12ccbff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/12ccbff85a6a52a842aee0fe32089b94cf1e60d9))
+
 ## [1.32.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.32.0...mac-v1.32.1) (2025-06-26)
 
 
