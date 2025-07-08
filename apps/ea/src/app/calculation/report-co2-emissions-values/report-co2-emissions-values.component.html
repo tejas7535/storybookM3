@@ -1,6 +1,6 @@
 <ng-container *transloco="let t; read: 'calculationResultReport.co2Emissions'">
   <div class="flex w-full flex-row">
-    @if (co2Emission || co2EmissionPercentage) {
+    @if (co2Emission() || co2EmissionPercentage()) {
       <div class="flex flex-col">
         <div
           class="flex flex-row items-center justify-center py-2 pr-2 sm:pr-4"
@@ -8,10 +8,14 @@
           <div
             class="text-body-large sm:text-title-large text-high-emphasis whitespace-nowrap"
           >
-            @if (showApprox) {
+            @if (showApprox()) {
               ≈
             }
-            {{ (co2Emission | meaningfulRound) || '-' }}
+            @if (noRounding()) {
+              {{ co2Emission() || '-' }}
+            } @else {
+              {{ (co2Emission() | meaningfulRound) || '-' }}
+            }
           </div>
           <div
             class="text-body-small sm:text-body-medium text-high-emphasis pl-1"
@@ -28,7 +32,7 @@
           class="flex flex-row items-center justify-center py-2 pl-2 sm:pl-4"
         >
           <div class="text-body-large sm:text-title-large text-high-emphasis">
-            {{ (co2EmissionPercentage | meaningfulRound) || '-' }}
+            {{ (co2EmissionPercentage() | meaningfulRound) || '-' }}
           </div>
           <div
             class="text-body-small sm:text-body-medium text-high-emphasis pl-1"
@@ -41,14 +45,14 @@
         </div>
       </div>
 
-      @if (operatingHours) {
+      @if (operatingHours()) {
         <mat-divider [vertical]="true"></mat-divider>
         <div class="flex flex-col">
           <div
             class="flex flex-row items-center justify-center py-2 pl-2 sm:pl-4"
           >
             <div class="text-body-large sm:text-title-large text-high-emphasis">
-              {{ operatingHours }}
+              {{ operatingHours() }}
             </div>
             <div
               class="text-body-small sm:text-body-medium text-high-emphasis pl-1"
@@ -61,13 +65,13 @@
           </div>
         </div>
       }
-    } @else if (downstreamError) {
+    } @else if (downstreamError()) {
       <div class="flex flex-row gap-2">
         <div>
           <mat-icon class="text-on-error-container">error_outline</mat-icon>
         </div>
         <div class="text-body-small text-on-error-container">
-          {{ downstreamError }}
+          {{ downstreamError() }}
         </div>
       </div>
     } @else {

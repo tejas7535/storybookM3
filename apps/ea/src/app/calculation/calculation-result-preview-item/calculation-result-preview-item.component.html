@@ -117,7 +117,11 @@
               >
                 @if (!value.calculationError && !value.calculationWarning) {
                   <div class="text-body-medium text-high-emphasis">
-                    {{ (value.value | meaningfulRound) || '-' }}
+                    @if (value.title === 'production') {
+                      {{ value.value || '-' }}
+                    } @else {
+                      {{ (value.value | meaningfulRound) || '-' }}
+                    }
                   </div>
 
                   @if (

@@ -400,7 +400,7 @@ export class PDFReportService {
                           'upstreamTitle',
                           languageCode
                         ),
-                        value: this.roundPipe.transform(emissions.co2_upstream),
+                        value: emissions.co2_upstream,
                         unit: 'kg',
                         short: 'CO₂e',
                         titleTooltip: CHARTS_COLORS[0],

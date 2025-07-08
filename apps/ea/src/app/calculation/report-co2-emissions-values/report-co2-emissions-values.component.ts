@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -20,20 +20,12 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
   ],
 })
 export class ReportCo2EmissionsValuesComponent {
-  @Input()
-  public co2Emission: number;
-
-  @Input()
-  public co2EmissionPercentage: number;
-
-  @Input()
-  public operatingHours?: number;
-
-  @Input()
-  public downstreamError?: string;
-
-  @Input()
-  public showApprox = false;
+  public co2Emission = input.required<number>();
+  public co2EmissionPercentage = input.required<number>();
+  public operatingHours = input<number | undefined>();
+  public downstreamError = input<string | undefined>();
+  public showApprox = input<boolean>(false);
+  public noRounding = input<boolean>(false);
 
   private readonly assetsPath = `${getAssetsPath()}/images/`;
 

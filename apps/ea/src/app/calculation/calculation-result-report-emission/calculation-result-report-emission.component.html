@@ -18,7 +18,7 @@
           [options]="co2EmissionOptions"
           [initOpts]="{
             width: 200,
-            height: 200
+            height: 200,
           }"
         ></div>
       }
@@ -80,6 +80,7 @@
         <ea-report-emissions-values
           [co2Emission]="co2Emission?.co2_upstream"
           [co2EmissionPercentage]="co2Emission?.co2_upstreamEmissionPercentage"
+          [noRounding]="true"
         ></ea-report-emissions-values>
 
         <div class="text-medium-emphasis pt-4">
