@@ -107,6 +107,23 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
     });
   });
 
+  describe('get columnDefinitions', () => {
+    it('should return an array of column definitions', () => {
+      const columns = component['columnDefinitions'];
+      expect(columns).toBeInstanceOf(Array);
+    });
+
+    it('should call getMultiAlertRuleModalColumns', () => {
+      const getMultiAlertRuleModalColumnsSpy = jest.spyOn(
+        component as any,
+        'getMultiAlertRuleModalColumns'
+      );
+      const columns = component['columnDefinitions'];
+      expect(columns).toBeInstanceOf(Array);
+      expect(getMultiAlertRuleModalColumnsSpy).toHaveBeenCalled();
+    });
+  });
+
   describe('parseErrorsFromResult', () => {
     it('should return an empty array if there are no errors', () => {
       const result: PostResult<AlertRuleSaveResponse> = {
@@ -627,6 +644,52 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
       expect(productionLineColumn).toBeDefined();
       expect(productionLineColumn?.editable).toBe(true);
       expect(productionLineColumn?.cellRenderer).toBeUndefined();
+    });
+
+    describe('for AlertRuleEditMultiModalComponent (modalMode = "save")', () => {
+      it('sets the validators for startDate correctly', () => {
+        const columns = component['getMultiAlertRuleModalColumns'](options);
+
+        const startDateColumn = columns.find(
+          (col) => col.field === 'startDate'
+        );
+        expect(startDateColumn).toBeDefined();
+        expect(startDateColumn?.validationFn).toBe(
+          ValidationHelper.validateDateFormatAndGreaterEqualThanToday
+        );
+      });
+
+      it('sets the validators for endDate correctly', () => {
+        const columns = component['getMultiAlertRuleModalColumns'](options);
+
+        const endDateColumn = columns.find((col) => col.field === 'endDate');
+        expect(endDateColumn).toBeDefined();
+        expect(endDateColumn?.validationFn).toBe(
+          ValidationHelper.validateDateFormatAndGreaterEqualThanToday
+        );
+      });
+    });
+
+    describe('for AlertRuleDeleteMultiModalComponent (modalMode = "delete")', () => {
+      it('sets the validators for startDate correctly', () => {
+        component['modalMode'] = 'delete';
+        const columns = component['getMultiAlertRuleModalColumns'](options);
+
+        const startDateColumn = columns.find(
+          (col) => col.field === 'startDate'
+        );
+        expect(startDateColumn).toBeDefined();
+        expect(startDateColumn?.validationFn).toBeUndefined();
+      });
+
+      it('sets the validators for endDate correctly', () => {
+        component['modalMode'] = 'delete';
+        const columns = component['getMultiAlertRuleModalColumns'](options);
+
+        const endDateColumn = columns.find((col) => col.field === 'endDate');
+        expect(endDateColumn).toBeDefined();
+        expect(endDateColumn?.validationFn).toBeUndefined();
+      });
     });
   });
 });

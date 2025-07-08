@@ -106,20 +106,22 @@ export abstract class AbstractAlertRuleMultiModalComponent
   protected maxRows: 500;
 
   /** @inheritdoc */
-  protected columnDefinitions = this.getMultiAlertRuleModalColumns({
-    alertType: this.optionsService.get('alertTypesForRuleEditor').options,
-    interval: this.optionsService.get('interval').options,
-    execDay: this.optionsService.get('execDay').options,
-    region: this.optionsService.get('region').options,
-    demandPlanner: this.optionsService.get('demandPlanners').options,
-    sectorManagement: this.optionsService.get('sectorMgmt').options,
-    salesOrg: this.optionsService.get('salesOrg').options,
-    salesArea: this.optionsService.get('salesArea').options,
-    productLine: this.optionsService.get('productLine').options,
-    gkam: this.optionsService.get('gkam').options,
-    materialClassification: this.optionsService.get('materialClassification')
-      .options,
-  });
+  protected get columnDefinitions(): ColumnForUploadTable<AlertRule>[] {
+    return this.getMultiAlertRuleModalColumns({
+      alertType: this.optionsService.get('alertTypesForRuleEditor').options,
+      interval: this.optionsService.get('interval').options,
+      execDay: this.optionsService.get('execDay').options,
+      region: this.optionsService.get('region').options,
+      demandPlanner: this.optionsService.get('demandPlanners').options,
+      sectorManagement: this.optionsService.get('sectorMgmt').options,
+      salesOrg: this.optionsService.get('salesOrg').options,
+      salesArea: this.optionsService.get('salesArea').options,
+      productLine: this.optionsService.get('productLine').options,
+      gkam: this.optionsService.get('gkam').options,
+      materialClassification: this.optionsService.get('materialClassification')
+        .options,
+    });
+  }
 
   /**
    * This apiCall is used during the apply function.
@@ -410,7 +412,9 @@ export abstract class AbstractAlertRuleMultiModalComponent
         headerName: translate('alert_rules.edit_modal.label.start'),
         editable: true,
         validationFn:
-          ValidationHelper.validateDateFormatAndGreaterEqualThanToday,
+          this.modalMode === 'save'
+            ? ValidationHelper.validateDateFormatAndGreaterEqualThanToday
+            : undefined,
         cellRenderer: DateOrOriginalCellRendererComponent,
       },
       getColDef({
@@ -428,7 +432,9 @@ export abstract class AbstractAlertRuleMultiModalComponent
         headerName: translate('alert_rules.edit_modal.label.end'),
         editable: true,
         validationFn:
-          ValidationHelper.validateDateFormatAndGreaterEqualThanToday,
+          this.modalMode === 'save'
+            ? ValidationHelper.validateDateFormatAndGreaterEqualThanToday
+            : undefined,
         cellRenderer: DateOrOriginalCellRendererComponent,
       },
       {
