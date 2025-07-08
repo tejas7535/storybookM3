@@ -1,0 +1,12 @@
+:host {
+  @apply absolute p-2.5 z-50;
+
+  display: block;
+  background: var(--mat-menu-container-color);
+  font-size: 12px;
+  box-sizing: border-box;
+  outline: 0;
+  border-radius: var(--mat-menu-container-shape);
+  box-shadow: var(--mat-menu-container-elevation-shadow,);
+  min-width: 140px;
+}

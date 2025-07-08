@@ -1124,6 +1124,13 @@
     },
     "error": "Nachricht mit Klasse {{messageClass}} und Nummer {{messageNumber}} konnte nicht gefunden werden."
   },
+  "selectionTooltip": {
+    "average": "Durchschnitt",
+    "count": "Anzahl",
+    "max": "Max",
+    "min": "Min",
+    "sum": "Summe"
+  },
   "tabbar": {
     "functions": {
       "label": "Funktionen"

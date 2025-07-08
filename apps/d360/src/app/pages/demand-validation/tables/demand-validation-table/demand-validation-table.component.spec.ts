@@ -56,6 +56,7 @@ describe('DemandValidationTableComponent', () => {
         Stub.getStoreProvider(),
         Stub.getDemandValidationServiceProvider(),
         Stub.getUserServiceProvider(),
+        Stub.getElementRefProvider(),
       ],
     });
 
@@ -2152,7 +2153,7 @@ describe('DemandValidationTableComponent', () => {
           data: {
             path: [SelectedKpisAndMetadata.ValidatedForecast],
           },
-        };
+        } as any;
 
         // The sync icon shouldn't show when synced
         const showSyncIconFn =
@@ -2496,6 +2497,71 @@ describe('DemandValidationTableComponent', () => {
           backgroundColor: demandValidationNotEditableColor,
         });
       });
+    });
+  });
+
+  describe('showTooltip', () => {
+    it('should call tooltip.open with correct parameters', () => {
+      // Create a mock event
+      const event = { type: 'cellSelectionChanged' } as any;
+
+      // Create mock DOM rectangles
+      const gridRect = { top: 0, left: 0, width: 100, height: 200 };
+      const headerRect = { top: 0, left: 0, width: 100, height: 50 };
+
+      // Mock the DOM elements and getBoundingClientRect calls
+      const gridElement = { getBoundingClientRect: () => gridRect };
+      const headerElement = { getBoundingClientRect: () => headerRect };
+
+      // Create a spy for the elementRef.nativeElement.querySelector
+      jest
+        .spyOn(component['elementRef'].nativeElement, 'querySelector')
+        .mockImplementation((...args: unknown[]) => {
+          const [selector] = args;
+          if (selector === '.grid-container .ag-root') {
+            return gridElement;
+          } else if (selector === '.grid-container .ag-header-viewport') {
+            return headerElement;
+          }
+
+          return null;
+        });
+
+      // Mock the tooltip component
+      component.tooltip = { open: jest.fn() } as any;
+
+      // Call the method
+      component['showTooltip'](event);
+
+      // Verify the tooltip.open was called with correct parameters
+      expect(component.tooltip.open).toHaveBeenCalledWith(
+        event,
+        gridRect,
+        headerRect
+      );
+    });
+
+    it('should handle missing DOM elements gracefully', () => {
+      // Create a mock event
+      const event = { type: 'cellSelectionChanged' } as any;
+
+      // Mock the tooltip component
+      component.tooltip = { open: jest.fn() } as any;
+
+      // Mock the DOM elements to return null
+      jest
+        .spyOn(component['elementRef'].nativeElement, 'querySelector')
+        .mockReturnValue(null);
+
+      // Call the method
+      component['showTooltip'](event);
+
+      // Verify the tooltip.open was called with the event and undefined rects
+      expect(component.tooltip.open).toHaveBeenCalledWith(
+        event,
+        undefined,
+        undefined
+      );
     });
   });
 });

@@ -1124,6 +1124,13 @@
     },
     "error": "找不到{{messageClass}}类和{{messageNumber}}号的信息。"
   },
+  "selectionTooltip": {
+    "average": "平均值",
+    "count": "數量",
+    "max": "最大值",
+    "min": "最小值",
+    "sum": "总和"
+  },
   "tabbar": {
     "functions": {
       "label": "功能"

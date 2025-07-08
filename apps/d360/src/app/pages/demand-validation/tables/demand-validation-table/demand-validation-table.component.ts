@@ -5,6 +5,7 @@ import {
   computed,
   DestroyRef,
   effect,
+  ElementRef,
   inject,
   input,
   OnInit,
@@ -12,6 +13,7 @@ import {
   OutputEmitterRef,
   Signal,
   signal,
+  ViewChild,
   WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
@@ -31,6 +33,7 @@ import { Store } from '@ngrx/store';
 import { AgGridModule } from 'ag-grid-angular';
 import {
   CellClassParams,
+  CellSelectionChangedEvent,
   CellStyle,
   ColDef,
   EditableCallbackParams,
@@ -107,6 +110,7 @@ import {
 } from './column-definitions';
 import { LegendsComponent } from './legends/legends.component';
 import { MoreInformationComponent } from './more-information/more-information.component';
+import { SelectionTooltipComponent } from './selection-tooltip/selection-tooltip.component';
 
 @Component({
   selector: 'd360-demand-validation-table',
@@ -122,6 +126,7 @@ import { MoreInformationComponent } from './more-information/more-information.co
     MatIcon,
     MatButtonModule,
     MoreInformationComponent,
+    SelectionTooltipComponent,
   ],
   templateUrl: './demand-validation-table.component.html',
   styleUrl: './demand-validation-table.component.scss',
@@ -135,10 +140,10 @@ export class DemandValidationTableComponent implements OnInit {
   private readonly demandValidationService: DemandValidationService = inject(
     DemandValidationService
   );
-  private readonly translocoLocaleService = inject(TranslocoLocaleService);
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly store: Store = inject(Store);
   private readonly userService: UserService = inject(UserService);
+  private readonly elementRef: ElementRef = inject(ElementRef);
 
   private columnDefinitions: CustomTreeDataAutoGroupColumnDef[] = [];
 
@@ -190,6 +195,8 @@ export class DemandValidationTableComponent implements OnInit {
 
   private gridApi: GridApi | undefined;
 
+  @ViewChild(SelectionTooltipComponent) tooltip!: SelectionTooltipComponent;
+
   protected gridOptions: GridOptions = {
     ...clientSideTableDefaultProps,
     suppressCsvExport: true,
@@ -229,6 +236,9 @@ export class DemandValidationTableComponent implements OnInit {
       isGroupOpenByDefault: false,
     }),
     treeData: true,
+
+    // Event to enforce horizontal-only selection
+    onCellSelectionChanged: this.showTooltip.bind(this),
   };
 
   protected defaultColDef: ColDef = {
@@ -415,7 +425,7 @@ export class DemandValidationTableComponent implements OnInit {
           }) ?? null;
 
         return {
-          ...getDefaultColDef(this.translocoLocaleService.getLocale()),
+          ...getDefaultColDef(this.localeService.getLocale()),
           editable: this.editable(data),
           key: data.fromDate,
           colId: data.fromDate,
@@ -840,5 +850,17 @@ export class DemandValidationTableComponent implements OnInit {
     }
 
     this.kpiDateExceptions.set(newKpiRangeExceptions);
+  }
+
+  private showTooltip(event: CellSelectionChangedEvent): void {
+    this.tooltip?.open(
+      event,
+      this.elementRef.nativeElement
+        .querySelector('.grid-container .ag-root')
+        ?.getBoundingClientRect(),
+      this.elementRef.nativeElement
+        .querySelector('.grid-container .ag-header-viewport')
+        ?.getBoundingClientRect()
+    );
   }
 }

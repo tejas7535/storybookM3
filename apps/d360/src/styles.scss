@@ -32,7 +32,7 @@
 /*
  * Import toastr styles
  */
-@import 'ngx-toastr/toastr';
+@forward 'ngx-toastr/toastr';
 
 @include ag.grid-styles(
   (

@@ -1124,6 +1124,13 @@
     },
     "error": "Message with class {{messageClass}} and number {{messageNumber}} could not be found."
   },
+  "selectionTooltip": {
+    "average": "Average",
+    "count": "Count",
+    "max": "Max",
+    "min": "Min",
+    "sum": "Sum"
+  },
   "tabbar": {
     "functions": {
       "label": "Functions"

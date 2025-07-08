@@ -1124,6 +1124,13 @@
     },
     "error": "Message de classe {{messageClass}} et de numéro {{messageNumber}} introuvable."
   },
+  "selectionTooltip": {
+    "average": "Moyenne",
+    "count": "Nombre",
+    "max": "Max",
+    "min": "Min",
+    "sum": "Somme"
+  },
   "tabbar": {
     "functions": {
       "label": "Fonctions"

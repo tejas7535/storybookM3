@@ -45,12 +45,14 @@
 
       <!-- table -->
       <ag-grid-angular
-        class="ag-theme-material grow"
+        class="ag-theme-material grow grid-container"
         [gridOptions]="gridOptions"
         [defaultColDef]="defaultColDef"
         [localeText]="agGridLocalizationService.lang()"
         [tooltipShowDelay]="0"
       />
+
+      <d360-selection-tooltip></d360-selection-tooltip>
 
       <!-- special table loader -->
       @if (loading() || showLoader()) {

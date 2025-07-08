@@ -1,0 +1,10 @@
+@if (visible()) {
+  <div *transloco="let t" class="tooltip">
+    <div class="grid grid-cols-2">
+      @for (item of statsToShow(); track $index) {
+        <div class="font-bold pr-2">{{ t(item.label) }}:</div>
+        <div class="text-right">{{ item.value }}</div>
+      }
+    </div>
+  </div>
+}

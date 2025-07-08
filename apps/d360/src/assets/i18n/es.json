@@ -1124,6 +1124,13 @@
     },
     "error": "No se ha podido encontrar el mensaje con la clase {{messageClass}} y el número {{messageNumber}}."
   },
+  "selectionTooltip": {
+    "average": "Media",
+    "count": "Recuento",
+    "max": "Máx",
+    "min": "Mín",
+    "sum": "Suma"
+  },
   "tabbar": {
     "functions": {
       "label": "Funciones"

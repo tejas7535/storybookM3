@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import {
   ClassProvider,
   effect,
+  ElementRef,
   ExistingProvider,
   FactoryProvider,
   InjectionToken,
@@ -734,6 +735,14 @@ export class Stub {
     return MockProvider(
       TranslocoLocaleService,
       { getLocale: jest.fn() },
+      'useValue'
+    );
+  }
+
+  public static getElementRefProvider(): ValueProvider {
+    return MockProvider(
+      ElementRef,
+      { nativeElement: document.createElement('div') },
       'useValue'
     );
   }
