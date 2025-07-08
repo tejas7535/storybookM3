@@ -11,7 +11,7 @@ export class DialogControlsService {
     '1\\.[0-9]{4}(, ?1\\.[0-9]{4})*';
   private readonly COPPER_MATERIAL_NUMBER_PATTERN =
     '2\\.[0-9]{4}(, ?2\\.[0-9]{4})*';
-  private readonly SUPPLIER_BUSINESS_PARTNER_ID_PATTERN = '^\\d{5,9}$';
+  private readonly SUPPLIER_BUSINESS_PARTNER_ID_PATTERN = '^\\d{5,10}$';
 
   private readonly STEEL_MATERIAL_NUMBER_VALIDATOR = Validators.pattern(
     this.STEEL_MATERIAL_NUMBER_PATTERN

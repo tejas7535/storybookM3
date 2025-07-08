@@ -2,6 +2,8 @@ import { Validators } from '@angular/forms';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
+import { StringOption } from '@schaeffler/inputs';
+
 import { DialogControlsService } from '.';
 
 describe('DialogControlsService', () => {
@@ -150,12 +152,31 @@ describe('DialogControlsService', () => {
   });
 
   describe('getSupplierBusinessPartnerIdControl', () => {
+    const op = (title: string) => ({ id: 1, title }) as StringOption;
     it('should create a Validator for Business Partner Ids', () => {
       const control = service.getSupplierBusinessPartnerIdControl();
 
       expect(control.value).toBeFalsy();
       expect(control.disabled).toBe(false);
       expect(control.hasValidator(Validators.required)).toBe(false);
+    });
+    it('should fail for invalid bpid', () => {
+      const control = service.getSupplierBusinessPartnerIdControl();
+      control.setValue([op('123')]);
+
+      expect(control.valid).toBeFalsy();
+    });
+    it('should fail for invalid bpid with multiple', () => {
+      const control = service.getSupplierBusinessPartnerIdControl();
+      control.setValue([op('123'), op('1234567890')]);
+
+      expect(control.valid).toBeFalsy();
+    });
+    it('should validate for valid bpid', () => {
+      const control = service.getSupplierBusinessPartnerIdControl();
+      control.setValue([op('123456789')]);
+
+      expect(control.valid).toBeTruthy();
     });
   });
 });
