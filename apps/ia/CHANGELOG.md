@@ -1,4 +1,20 @@
 # Release Notes of Insight Attrition
+## [1.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.4.3...ia-v1.5.0) (2025-07-08)
+
+
+### Features
+
+* **ia:** add reason text analysis (IA-1538) ([#7033](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7033)) ([107e2cf](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/107e2cf905f0ea0cc08751a92a53e31699615cb5))
+* **ia:** remove internal actions (IA-1584) ([#7350](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7350)) ([6e89e53](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6e89e539904dee08ac5c8592b3e6b8e938b916d6))
+* **ia:** split features on lost performance tab (IA-1589) ([#7370](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7370)) ([1827dce](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1827dcec683e585fa0580bc6b5a8d3e0221e70b4))
+
+
+### Bug Fixes
+
+* **ia:** add timePeriodSelected action to filterChange effect (IA-1590) ([#7388](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7388)) ([10c668b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/10c668bb6ee90003fe6e6c82b66f9aa22882a425))
+* **ia:** display n/a if no previous year data (IA-1430) ([#7353](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7353)) ([01fed2d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/01fed2d3dc24fcd6e6f70c6a70810304f57bcd81))
+* **ia:** improve regex for removing unwanted text ([#7393](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7393)) ([e90eee8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e90eee8e996e8c78a6e56f67df726cbe51377930))
+
 ## [1.4.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.4.2...ia-v1.4.3) (2025-05-09)
 
 
