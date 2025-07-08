@@ -28,7 +28,7 @@ export const setBearing = createAction(
 
 export const setCurrentStep = createAction(
   '[CalculationSelection] Set Current Step',
-  props<{ step: number }>()
+  props<{ step: number; isBackNavigation?: boolean }>()
 );
 
 export const fetchBearingSeats = createAction(

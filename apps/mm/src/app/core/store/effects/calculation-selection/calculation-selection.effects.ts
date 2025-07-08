@@ -2,7 +2,13 @@
 import { Injectable } from '@angular/core';
 
 import { from, of } from 'rxjs';
-import { concatMap, map, mergeMap, switchMap } from 'rxjs/operators';
+import {
+  concatMap,
+  distinctUntilChanged,
+  map,
+  mergeMap,
+  switchMap,
+} from 'rxjs/operators';
 
 import { LazyListLoaderService, RestService } from '@mm/core/services';
 import { environment } from '@mm/environments/environment';
@@ -40,6 +46,27 @@ export class CalculationSelectionEffects {
       })
     );
   });
+
+  public setCurrentStep$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(CalculationSelectionActions.setCurrentStep),
+        distinctUntilChanged(
+          (previous, current) => previous.step === current.step
+        ),
+        concatLatestFrom(() => [
+          this.calculationSelectionFacade.getCurrentStep$(),
+        ]),
+        map(([{ isBackNavigation }, currentStep]) => {
+          if (!isBackNavigation) {
+            console.warn('waaaaaa');
+            history.pushState({ step: currentStep }, '', window.location.href);
+          }
+        })
+      );
+    },
+    { dispatch: false }
+  );
 
   public fetchBearingData$ = createEffect(() => {
     return this.actions$.pipe(

@@ -90,8 +90,10 @@ export class CalculationSelectionFacade {
     );
   }
 
-  setCurrentStep(step: number): void {
-    this.store.dispatch(CalculationSelectionActions.setCurrentStep({ step }));
+  setCurrentStep(step: number, isBackNavigation?: boolean): void {
+    this.store.dispatch(
+      CalculationSelectionActions.setCurrentStep({ step, isBackNavigation })
+    );
   }
 
   fetchBearingSeats(): void {

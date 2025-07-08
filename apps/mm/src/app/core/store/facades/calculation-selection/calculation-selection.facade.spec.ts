@@ -233,10 +233,11 @@ describe('CalculationSelectionFacade', () => {
 
   it('should dispatch setCurrentStep action', () => {
     const step = 2;
+    const isBackNavigation = false;
     const dispatchSpy = jest.spyOn(store, 'dispatch');
-    facade.setCurrentStep(step);
+    facade.setCurrentStep(step, isBackNavigation);
     expect(dispatchSpy).toHaveBeenCalledWith(
-      CalculationSelectionActions.setCurrentStep({ step })
+      CalculationSelectionActions.setCurrentStep({ step, isBackNavigation })
     );
   });
 

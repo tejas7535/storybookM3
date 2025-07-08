@@ -6,7 +6,12 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Meta } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { NavigationEnd, provideRouter, Router } from '@angular/router';
+import {
+  NavigationEnd,
+  NavigationSkipped,
+  provideRouter,
+  Router,
+} from '@angular/router';
 
 import { of, Subject } from 'rxjs';
 
@@ -28,6 +33,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { AppComponent } from './app.component';
 import { SettingsComponent } from './core/components/settings/settings.component';
 import { OneTrustMobileService } from './core/services/tracking/one-trust-mobile.service';
+import { CalculationSelectionFacade } from './core/store/facades/calculation-selection/calculation-selection.facade';
 import { GlobalFacade } from './core/store/facades/global/global.facade';
 import { AppDelivery } from './shared/models';
 
@@ -66,6 +72,12 @@ describe('AppComponent', () => {
           isInitialized$: of(true),
           isStandalone$: of(false),
           initGlobal: jest.fn(),
+        },
+      },
+      {
+        provide: CalculationSelectionFacade,
+        useValue: {
+          setCurrentStep: jest.fn(),
         },
       },
       mockProvider(OneTrustMobileService),
@@ -168,6 +180,23 @@ describe('AppComponent', () => {
       component.ngOnInit();
 
       expect(router.initialNavigation).not.toHaveBeenCalled();
+    });
+
+    it('should replace the state and subscribe to navigation skipped', () => {
+      spectator.setInput('standalone', false);
+      spectator.detectChanges();
+
+      component.ngOnInit();
+
+      expect(history.state).toEqual({ step: 0 });
+
+      const event = new NavigationSkipped(1, '', '');
+
+      routerEventsMock.next(event);
+
+      expect(
+        component['calculationSelectionFacade'].setCurrentStep
+      ).toHaveBeenCalledWith(0, true);
     });
   });
 

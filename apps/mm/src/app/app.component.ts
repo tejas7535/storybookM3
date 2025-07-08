@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Meta, MetaDefinition } from '@angular/platform-browser';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, NavigationSkipped, Router } from '@angular/router';
 
 import {
   BehaviorSubject,
@@ -33,6 +33,7 @@ import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import packageJson from '../../package.json';
 import { MMSeparator } from './core/services';
 import { OneTrustMobileService } from './core/services/tracking/one-trust-mobile.service';
+import { CalculationSelectionFacade } from './core/store/facades/calculation-selection/calculation-selection.facade';
 import { GlobalFacade } from './core/store/facades/global/global.facade';
 import { AppDelivery } from './shared/models';
 
@@ -49,6 +50,9 @@ export class AppComponent implements OnInit, OnDestroy {
   private readonly translocoService = inject(TranslocoService);
   private readonly oneTrustMobileService = inject(OneTrustMobileService);
   private readonly globalFacade = inject(GlobalFacade);
+  private readonly calculationSelectionFacade = inject(
+    CalculationSelectionFacade
+  );
 
   public title = 'Mounting Manager';
   public appVersion = packageJson.version;
@@ -147,6 +151,19 @@ export class AppComponent implements OnInit, OnDestroy {
         this.language()
       );
     }
+
+    window.history.replaceState({ step: 0 }, '', window.location.href);
+    this.router.events
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((event) => event instanceof NavigationSkipped)
+      )
+      .subscribe(() => {
+        const { step } = history.state;
+        if (step !== undefined) {
+          this.calculationSelectionFacade.setCurrentStep(step, true);
+        }
+      });
 
     if (
       !this.router.getCurrentNavigation() &&

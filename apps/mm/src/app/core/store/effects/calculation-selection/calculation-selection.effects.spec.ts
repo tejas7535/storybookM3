@@ -10,6 +10,7 @@ import { ListValue } from '@mm/shared/models/list-value.model';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
 import { CalculationOptionsActions } from '../../actions';
 import { CalculationResultActions } from '../../actions/calculation-result';
@@ -42,6 +43,7 @@ describe('CalculationSelectionEffects', () => {
           getBearing$: jest.fn(),
           getBearingSeatId$: jest.fn(),
           getMeasurementMethod$: jest.fn(),
+          getCurrentStep$: jest.fn(() => of(1)),
         },
       },
       {
@@ -64,6 +66,8 @@ describe('CalculationSelectionEffects', () => {
     testScheduler = new TestScheduler((actual, expected) => {
       expect(actual).toEqual(expected);
     });
+    // eslint-disable-next-line unicorn/no-null
+    history.replaceState(null, '', window.location.href);
   });
 
   it('should dispatch searchBearingSuccess action when searchBearing$ is successful', () => {
@@ -319,4 +323,46 @@ describe('CalculationSelectionEffects', () => {
       ).toBe(expectedMarble, expectedValues);
     });
   });
+
+  it(
+    'should push the history state on setCurrentStep',
+    marbles((m) => {
+      const step = 2;
+      const isBackNavigation = false;
+
+      actions$ = m.cold('-a', {
+        a: CalculationSelectionActions.setCurrentStep({
+          step,
+          isBackNavigation,
+        }),
+      });
+
+      m.flush();
+
+      spectator.service.setCurrentStep$.subscribe(() => {
+        expect(history.state).toEqual({ step: 1 });
+      });
+    })
+  );
+
+  it(
+    'should not push the history state on setCurrentStep from back navigation',
+    marbles((m) => {
+      const step = 2;
+      const isBackNavigation = true;
+
+      actions$ = m.cold('-a', {
+        a: CalculationSelectionActions.setCurrentStep({
+          step,
+          isBackNavigation,
+        }),
+      });
+
+      m.flush();
+
+      spectator.service.setCurrentStep$.subscribe(() => {
+        expect(history.state).toBeNull();
+      });
+    })
+  );
 });
