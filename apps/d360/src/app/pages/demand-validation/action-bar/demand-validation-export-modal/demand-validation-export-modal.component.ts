@@ -350,7 +350,7 @@ export class DemandValidationExportModalComponent implements OnInit {
     let templates = this.templates().map((template) => ({ ...template }));
     templates = templates.filter((template) => template.id !== id);
     this.templates.set(templates);
-    this.handleActiveTemplate();
+    this.handleActiveTemplate(true);
   }
 
   protected onTemplateChange(id: string, title: string): void {
@@ -514,7 +514,7 @@ export class DemandValidationExportModalComponent implements OnInit {
         hasNewTemplate
       ) {
         if (hasNewTemplate) {
-          this.saveTemplates(selectedKpisAndMetadata);
+          this.applyAndSaveTemplates(selectedKpisAndMetadata);
         }
 
         // If the templates have not changed, directly start the export
@@ -537,7 +537,7 @@ export class DemandValidationExportModalComponent implements OnInit {
             tap((wasConfirmed: boolean) => {
               // If the user confirmed save settings and
               if (wasConfirmed) {
-                this.saveTemplates(selectedKpisAndMetadata);
+                this.applyAndSaveTemplates(selectedKpisAndMetadata);
               }
 
               // start the export
@@ -550,7 +550,7 @@ export class DemandValidationExportModalComponent implements OnInit {
     }
   }
 
-  private saveTemplates(selectedKpisAndMetadata: SelectedKpis): void {
+  private applyAndSaveTemplates(selectedKpisAndMetadata: SelectedKpis): void {
     this.userService.updateDemandValidationUserSettings(
       DemandValidationUserSettingsKey.Exports,
       this.templates().map((template) => ({
@@ -653,9 +653,22 @@ export class DemandValidationExportModalComponent implements OnInit {
       .subscribe();
   }
 
-  private handleActiveTemplate(): void {
+  private handleActiveTemplate(savingNeeded: boolean = false): void {
+    let saveTemplates = savingNeeded;
+
+    const quickSave = (templates: DemandValidationExport[]) => {
+      this.userService.updateDemandValidationUserSettings(
+        DemandValidationUserSettingsKey.Exports,
+        templates
+      );
+    };
+
     if (this.templates().length === 0) {
-      this.saveTemplates(null);
+      quickSave([]);
+
+      if (saveTemplates) {
+        saveTemplates = false;
+      }
 
       this.templates.set([
         {
@@ -676,11 +689,11 @@ export class DemandValidationExportModalComponent implements OnInit {
       // If no active template is found, set the first one as active
       activeTemplate = templates[0];
       activeTemplate.active = true;
+      saveTemplates = true;
+    }
 
-      this.userService.updateDemandValidationUserSettings(
-        DemandValidationUserSettingsKey.Exports,
-        templates
-      );
+    if (saveTemplates) {
+      quickSave(templates);
     }
 
     if (activeTemplate) {

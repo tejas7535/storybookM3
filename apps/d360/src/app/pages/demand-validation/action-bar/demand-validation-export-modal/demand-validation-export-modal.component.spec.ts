@@ -1171,7 +1171,7 @@ describe('DemandValidationExportModalComponent', () => {
     });
   });
 
-  describe('saveTemplates', () => {
+  describe('applyAndSaveTemplates', () => {
     it('should convert active columns to array when saving templates', () => {
       const userServiceSpy = jest.spyOn(
         component['userService'],
@@ -1197,7 +1197,9 @@ describe('DemandValidationExportModalComponent', () => {
         .get(SelectedKpisAndMetadata.Opportunities)
         .setValue(false);
 
-      (component as any).saveTemplates(component['formGroup'].getRawValue());
+      (component as any).applyAndSaveTemplates(
+        component['formGroup'].getRawValue()
+      );
 
       expect(userServiceSpy).toHaveBeenCalled();
       const savedTemplate = (userServiceSpy.mock.calls as any)[0][1][0];
@@ -1227,7 +1229,9 @@ describe('DemandValidationExportModalComponent', () => {
         },
       ]);
 
-      (component as any).saveTemplates(component['formGroup'].getRawValue());
+      (component as any).applyAndSaveTemplates(
+        component['formGroup'].getRawValue()
+      );
 
       const savedTemplate = (userServiceSpy.mock.calls as any)[0][1][0];
       expect(savedTemplate.id).not.toBe(component['newId']);
@@ -1239,7 +1243,8 @@ describe('DemandValidationExportModalComponent', () => {
         component['userService'],
         'updateDemandValidationUserSettings'
       );
-      const saveTemplatesMethod = (component as any).saveTemplates;
+      const applyAndSaveTemplatesMethod = (component as any)
+        .applyAndSaveTemplates;
       const mockSelectedKpis = {
         [SelectedKpisAndMetadata.Deliveries]: true,
         [SelectedKpisAndMetadata.FirmBusiness]: true,
@@ -1273,7 +1278,7 @@ describe('DemandValidationExportModalComponent', () => {
         },
       ]);
 
-      saveTemplatesMethod.call(component, mockSelectedKpis);
+      applyAndSaveTemplatesMethod.call(component, mockSelectedKpis);
 
       expect(userServiceSpy).toHaveBeenCalledWith(
         DemandValidationUserSettingsKey.Exports,
@@ -1314,12 +1319,13 @@ describe('DemandValidationExportModalComponent', () => {
         component['userService'],
         'updateDemandValidationUserSettings'
       );
-      const saveTemplatesMethod = (component as any).saveTemplates;
+      const applyAndSaveTemplatesMethod = (component as any)
+        .applyAndSaveTemplates;
       const mockSelectedKpis = null as any;
 
       (component as any).templates.set([]);
 
-      saveTemplatesMethod.call(component, mockSelectedKpis);
+      applyAndSaveTemplatesMethod.call(component, mockSelectedKpis);
 
       expect(userServiceSpy).toHaveBeenCalledWith(
         DemandValidationUserSettingsKey.Exports,
@@ -2266,12 +2272,15 @@ describe('DemandValidationExportModalComponent', () => {
       component['formGroup'].get('startDatePeriod1').setValue(null);
       component['formGroup'].updateValueAndValidity();
 
-      const saveTemplatesSpy = jest.spyOn(component as any, 'saveTemplates');
+      const applyAndSaveTemplatesSpy = jest.spyOn(
+        component as any,
+        'applyAndSaveTemplates'
+      );
       const startExportSpy = jest.spyOn(component as any, 'startExport');
 
       component['handleExcelExport']();
 
-      expect(saveTemplatesSpy).not.toHaveBeenCalled();
+      expect(applyAndSaveTemplatesSpy).not.toHaveBeenCalled();
       expect(startExportSpy).not.toHaveBeenCalled();
     });
   });
