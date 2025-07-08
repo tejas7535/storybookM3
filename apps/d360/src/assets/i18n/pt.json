@@ -1271,6 +1271,7 @@
         "materialInformation": "Informações sobre materiais",
         "supplyChain": "Cadeia de suprimentos"
       },
+      "sum": "Total",
       "templateChanged": "O modelo foi alterado, deseja substituir o modelo com as seleções atuais?",
       "title": "Exportar"
     },

@@ -1271,6 +1271,7 @@
         "materialInformation": "Información sobre materiales",
         "supplyChain": "Cadena de suministro"
       },
+      "sum": "Total",
       "templateChanged": "La plantilla fue cambiada, ¿desea sobrescribir la plantilla con las selecciones actuales?",
       "title": "Exportar"
     },

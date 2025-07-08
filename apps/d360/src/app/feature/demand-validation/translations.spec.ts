@@ -2,6 +2,7 @@ import {
   getDateFormatString,
   getMonthYearFormatString,
 } from '../../shared/utils/date-format';
+import { ValidationHelper } from '../../shared/utils/validation/validation-helper';
 import {
   SelectedKpisAndMetadata,
   SUPPLY_CONCEPT_SUPPORTED_STOCHASTIC_TYPES,
@@ -9,6 +10,12 @@ import {
 import { getTranslationsForExport } from './translations';
 
 describe('getTranslationsForExport', () => {
+  beforeEach(() => {
+    jest
+      .spyOn(ValidationHelper, 'getDecimalSeparatorForActiveLocale')
+      .mockReturnValue('PERIOD');
+  });
+
   it('should return translations for activeAndPredecessor as true', () => {
     const locale = 'en';
     const result = getTranslationsForExport(true, locale);
@@ -88,6 +95,13 @@ describe('getTranslationsForExport', () => {
     );
   });
 
+  it('should translate the decimalSeparator', () => {
+    const locale = 'en';
+    const result = getTranslationsForExport(true, locale);
+
+    expect(result).toHaveProperty('decimalSeparator', 'PERIOD');
+  });
+
   it('should include supply concept stochastic type translations', () => {
     const locale = 'en';
     const result = getTranslationsForExport(true, locale);
@@ -105,7 +119,7 @@ describe('getTranslationsForExport', () => {
     const result = getTranslationsForExport(true, locale);
 
     expect(result).toHaveProperty(
-      'headerCalenderWeek',
+      'headerCalendarWeek',
       'validation_of_demand.planningTable.calendarWeekTableHeaderKw'
     );
     expect(result).toHaveProperty(
@@ -119,6 +133,10 @@ describe('getTranslationsForExport', () => {
     expect(result).toHaveProperty(
       'productLineAndText',
       'validation_of_demand.more_information.product_line_and_text'
+    );
+    expect(result).toHaveProperty(
+      'sum',
+      'validation_of_demand.exportModal.sum'
     );
   });
 

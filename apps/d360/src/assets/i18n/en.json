@@ -1271,6 +1271,7 @@
         "materialInformation": "Material Information",
         "supplyChain": "Supply Chain"
       },
+      "sum": "Sum",
       "templateChanged": "The template was changed, do you want to override the template with the current selections?",
       "title": "Export"
     },

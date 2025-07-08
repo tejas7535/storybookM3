@@ -1271,6 +1271,7 @@
         "materialInformation": "Informations sur les matériaux",
         "supplyChain": "Chaîne d'approvisionnement"
       },
+      "sum": "Total",
       "templateChanged": "Le modèle a été modifié, voulez-vous remplacer le modèle par les sélections actuelles ?",
       "title": "Exportation des données"
     },

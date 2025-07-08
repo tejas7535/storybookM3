@@ -1271,6 +1271,7 @@
         "materialInformation": "Informationen zum Material",
         "supplyChain": "Lieferkette"
       },
+      "sum": "Summe",
       "templateChanged": "Die Vorlage wurde geändert, soll die Vorlage mit der aktuellen Auswahl ersetzt werden?",
       "title": "Export"
     },

@@ -1271,6 +1271,7 @@
         "materialInformation": "材料信息",
         "supplyChain": "供应链"
       },
+      "sum": "总计",
       "templateChanged": "模板已更改，是否用当前选择覆盖模板?",
       "title": "导出"
     },

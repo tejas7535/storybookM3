@@ -1271,6 +1271,7 @@
         "materialInformation": "Informazioni sui materiali",
         "supplyChain": "Catena di fornitura"
       },
+      "sum": "Totale",
       "templateChanged": "Il template è stato modificato, vuoi sovrascrivere il template con le selezioni correnti?",
       "title": "Export"
     },

@@ -4,6 +4,7 @@ import {
   getDateFormatString,
   getMonthYearFormatString,
 } from '../../shared/utils/date-format';
+import { ValidationHelper } from '../../shared/utils/validation/validation-helper';
 import {
   SelectedKpisAndMetadata,
   SUPPLY_CONCEPT_SUPPORTED_STOCHASTIC_TYPES,
@@ -152,7 +153,7 @@ export function getTranslationsForExport(
     confirmed: translate('planningType.title.CONFIRMED'),
     dateFormatMonth: getMonthYearFormatString(locale),
     dateFormatWeek: getDateFormatString(locale),
-    headerCalenderWeek: translateKey(
+    headerCalendarWeek: translateKey(
       'planningTable.calendarWeekTableHeaderKw',
       { calendar_week: '{}' }
     ),
@@ -165,5 +166,7 @@ export function getTranslationsForExport(
     requested: translate('planningType.title.REQUESTED'),
     supplyConcept: translateKey('supply_concept.title'),
     viewType: translateKey('exportModal.excelHeaderView'),
+    sum: translateKey('exportModal.sum'),
+    decimalSeparator: ValidationHelper.getDecimalSeparatorForActiveLocale(),
   };
 }
