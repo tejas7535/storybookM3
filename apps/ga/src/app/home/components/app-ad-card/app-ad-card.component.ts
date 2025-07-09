@@ -21,6 +21,8 @@ import { UTM_PARAMS_DEFAULT } from '@ga/shared/constants';
   ],
 })
 export class AppAdCardComponent {
+  private readonly translocoService = inject(TranslocoService);
+
   public readonly imageUrl = input<string>();
   public readonly appUrl = input<string>();
   public readonly translocoPrefix = input<string>();
@@ -37,8 +39,6 @@ export class AppAdCardComponent {
 
     return returnValue;
   });
-
-  private readonly translocoService = inject(TranslocoService);
 
   protected getTranslation(key: string) {
     return this.translocoService.translate(`${this.translocoPrefix()}.${key}`);

@@ -8,7 +8,7 @@ import { MockModule, MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { PartnerAfiliateCode, PartnerVersion } from '@ga/shared/models';
+import { PartnerAffiliateCode, PartnerVersion } from '@ga/shared/models';
 import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
 import { GREASE_CONCEPT1_SUITABILITY } from '@ga/testing/mocks/models/grease-concept1-suitability.mock';
 
@@ -100,7 +100,7 @@ describe('GreaseReportShopButtonsComponent', () => {
       });
 
       it('should provide link with partner affiliate code', () => {
-        const code = PartnerAfiliateCode[PartnerVersion.Schmeckthal];
+        const code = PartnerAffiliateCode[PartnerVersion.Schmeckthal];
 
         expect(component.getConcept1ShopUrl()).toBe(
           `calculationResult.shopBaseUrl/p/ARCALUB-C1-60-FOOD2?utm_source=grease-app&${code}`
@@ -161,7 +161,7 @@ describe('GreaseReportShopButtonsComponent', () => {
       });
 
       it('should provide link with partner affiliate code', () => {
-        const code = PartnerAfiliateCode[PartnerVersion.Schmeckthal];
+        const code = PartnerAffiliateCode[PartnerVersion.Schmeckthal];
 
         expect(component.getShopUrl()).toBe(
           `calculationResult.shopBaseUrl/p/Arcanol-MULTI2-1kg?utm_source=grease-app&${code}`

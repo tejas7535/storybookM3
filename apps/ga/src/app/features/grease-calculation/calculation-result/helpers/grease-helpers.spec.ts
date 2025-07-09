@@ -10,6 +10,7 @@ import { greaseResultConcept1Mock } from '@ga/testing/mocks/models/grease-result
 import {
   CONCEPT1,
   CONCEPT1_SIZES,
+  GreaseReportSubordinate,
   GreaseReportSubordinateDataItem,
   SubordinateDataItemField,
   SUITABILITY,
@@ -677,5 +678,19 @@ describe('Grease helpers', () => {
       );
       expect(helpers.isGreaseUnSuited('abc' as SUITABILITY_LABEL)).toBe(false);
     });
+  });
+
+  it('extractKappa value should get the kappa from a grease result', () => {
+    const MOCK_SUBORDINATE = {
+      greaseResult: {
+        dataSource: [
+          {
+            title: 'viscosityRatio',
+            values: '4,5',
+          },
+        ],
+      },
+    } as GreaseReportSubordinate;
+    expect(helpers.extractKappaValue(MOCK_SUBORDINATE)).toEqual(4.5);
   });
 });

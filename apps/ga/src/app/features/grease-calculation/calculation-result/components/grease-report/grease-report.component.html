@@ -1,65 +1,10 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<mat-accordion [multi]="true" *transloco="let t; read: 'calculationResult'">
-  @if (greaseInput) {
-    <mat-expansion-panel>
-      <mat-expansion-panel-header (click)="logTogglingInputSection()">
-        {{ t('reportSectionInput') }}
-      </mat-expansion-panel-header>
-      <ga-grease-report-input
-        [greaseReportInput]="greaseInput"
-      ></ga-grease-report-input>
-    </mat-expansion-panel>
-  }
-  @for (subordinate of subordinates; track subordinate) {
-    @if (!isInputSection(subordinate)) {
-      <mat-expansion-panel
-        [expanded]="subordinate.defaultOpen"
-        [disabled]="isGreaseResultSection(subordinate.titleID)"
-      >
-        <mat-expansion-panel-header
-          [ngClass]="{
-            '!cursor-default !text-high-emphasis': isGreaseResultSection(
-              subordinate.titleID
-            ),
-          }"
-          (click)="
-            !subordinate.defaultOpen &&
-              !!subordinate.clickHandler &&
-              subordinate.clickHandler()
-          "
-        >
-          <mat-panel-title class="w-full">
-            @if (isGreaseResultSection(subordinate.titleID)) {
-              @if (hasRecommendation$$ | ngrxPush) {
-                <span class="truncate">
-                  {{ t('resultsWithRecommendation') }}
-                </span>
-              } @else {
-                <span class="truncate">
-                  {{
-                    t(
-                      preferredGreaseResult?.id
-                        ? 'resultsWithPreferred'
-                        : 'resultsDefault',
-                      {
-                        amount: limitResults ? resultsLimit : getResultAmount(),
-                        complete: getResultAmount(),
-                      }
-                    )
-                  }}
-                </span>
-              }
-            } @else {
-              <span>{{ subordinate.title }}</span>
-            }
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div
-          class="pb-4"
-          [ngClass]="
-            isGreaseResultSection(subordinate.titleID) ? 'px-0' : 'px-4'
-          "
-        >
+
+<ng-container *transloco="let t; read: 'calculationResult'">
+  <mat-accordion [multi]="true">
+    @for (subordinate of subordinates; let index = $index; track subordinate) {
+      @if (isGreaseResultSection(subordinate.titleID)) {
+        <div class="pb-4">
           @if (
             isGreaseResultSection(subordinate.titleID) && hasMiscibileGreases()
           ) {
@@ -108,22 +53,29 @@
               </div>
             </div>
           }
-          <div>
+
+          <div
+            [ngClass]="{
+              'grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 grid-flow-row':
+                !isNoticesSection(subordinate),
+            }"
+          >
             <ng-template
               [ngTemplateOutlet]="subordinateTemplate"
               [ngTemplateOutletContext]="{
                 subordinate: subordinate,
                 displayTitle: false,
+                index: index,
               }"
             >
             </ng-template>
           </div>
-
           @if (
             isGreaseResultSection(subordinate.titleID) &&
             getResultAmount() > resultsLimit
           ) {
-            <div class="flex flex-row justify-center">
+            <!-- Section for the result cards only -->
+            <div class="flex flex-row justify-center pt-6">
               <button
                 class="w-full self-center !py-2 md:!w-auto"
                 mat-button
@@ -160,19 +112,114 @@
             }
           }
         </div>
-      </mat-expansion-panel>
+      } @else if (isInputSection(subordinate) && greaseInput) {
+        <!-- Section for the input section -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header
+            (click)="logTogglingInputSection()"
+            (keydown)="logTogglingInputSection()"
+          >
+            {{ t('reportSectionInput') }}
+          </mat-expansion-panel-header>
+          <ga-grease-report-input
+            [greaseReportInput]="greaseInput"
+          ></ga-grease-report-input>
+        </mat-expansion-panel>
+      } @else {
+        <ng-template
+          [ngTemplateOutlet]="expandPanelTemplate"
+          [ngTemplateOutletContext]="{
+            subordinate: subordinate,
+            index: index,
+          }"
+        />
+      }
     }
-  }
-</mat-accordion>
+  </mat-accordion>
+</ng-container>
 
 <!-- custom content -->
 <ng-content></ng-content>
+
+<!-- Result section in mat-expand-panel  -->
+<ng-template
+  #expandPanelTemplate
+  let-subordinate="subordinate"
+  let-index="index"
+>
+  <mat-expansion-panel
+    [expanded]="subordinate.defaultOpen"
+    [disabled]="isGreaseResultSection(subordinate.titleID)"
+  >
+    <mat-expansion-panel-header
+      [ngClass]="{
+        '!cursor-default !text-high-emphasis': isGreaseResultSection(
+          subordinate.titleID
+        ),
+      }"
+      (click)="
+        !subordinate.defaultOpen &&
+          !!subordinate.clickHandler &&
+          subordinate.clickHandler()
+      "
+      (keydown)="
+        !subordinate.defaultOpen &&
+          !!subordinate.clickHandler &&
+          subordinate.clickHandler()
+      "
+    >
+      <mat-panel-title class="w-full">
+        <span>{{ subordinate.title }}</span>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="pb-4">
+      @if (hasMessages$ | ngrxPush) {
+        @for (entry of resultMessages$ | ngrxPush; let i = $index; track i) {
+          <div
+            class="mx-3 flex items-center text-on-warning-container min-w-0 flex-row gap-4 justify-between rounded border border-warning bg-warning-container p-3 lg:m-0 lg:mb-3"
+          >
+            <div class="text-body-small font-normal text-on-warning-container">
+              {{ entry.text }}
+            </div>
+            <div>
+              @for (link of entry.links; let k = $index; track k) {
+                <a [href]="link.url" mat-flat-button>
+                  <mat-icon>open_in_new</mat-icon>
+                  {{ link.text }}
+                </a>
+              }
+            </div>
+          </div>
+        }
+      }
+
+      <div
+        [ngClass]="{
+          'grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 grid-flow-row':
+            !isNoticesSection(subordinate),
+        }"
+      >
+        <ng-template
+          [ngTemplateOutlet]="subordinateTemplate"
+          [ngTemplateOutletContext]="{
+            subordinate: subordinate,
+            displayTitle: false,
+            index: index,
+          }"
+        >
+        </ng-template>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</ng-template>
 
 <!-- subordinate display -->
 <ng-template
   #subordinateTemplate
   let-subordinate="subordinate"
   let-displayTitle="displayTitle"
+  let-index="index"
 >
   <!-- check for existence of subordinate and make it typed -->
   @if (typedSubordinate(subordinate); as subordinate) {
@@ -200,12 +247,19 @@
     @if (
       subordinate.identifier === 'greaseResult' && subordinate.greaseResult
     ) {
-      <div class="grease-result__grid-item mb-6 inline-flex w-full lg:w-1/3">
-        <ga-grease-report-result
+      <div class="col-span-1">
+        <ga-grease-report-result-card
           [greaseResult]="subordinate.greaseResult"
           [preferredGreaseResult]="preferredGreaseResult"
           [automaticLubrication]="automaticLubrication"
-        ></ga-grease-report-result>
+          [selectionModeEnabled]="greasePDFSelection.selectionMode()"
+          [greaseSelected]="
+            greasePDFSelection
+              .selectedSet()
+              .has(subordinate.greaseResult.mainTitle)
+          "
+          (toggleSelection)="handleGreaseToggle($event)"
+        ></ga-grease-report-result-card>
       </div>
     }
     <!-- recursive nested subordinates -->
@@ -215,6 +269,7 @@
           subordinate.subordinates,
           subordinate.titleID
         );
+        let index2 = $index;
         track nestedSubordinate
       ) {
         <ng-container
@@ -222,6 +277,7 @@
           [ngTemplateOutletContext]="{
             subordinate: nestedSubordinate,
             displayTitle: true,
+            index: index2,
           }"
         >
         </ng-container>

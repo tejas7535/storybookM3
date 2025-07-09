@@ -348,6 +348,11 @@
       "unsuitableHint": "Cài đặt bộ lọc CONCEPT xác định được lớn hơn rất nhiều so với giá trị tối đa có thể thiết lập. Không khuyến nghị sử dụng hộp bôi trơn CONCEPT với số lượng bôi trơn lại này.",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
+    "initialLubrication": "Bôi trơn ban đầu",
+    "performance": "Hiệu suất",
+    "relubrication": "Bôi trơn lại",
+    "greaseSelection": "Lựa chọn mỡ bôi trơn",
+    "includesConcept1": "Bao gồm CONCEPT1",
     "previouslySelected": "Tính toán được thực hiện cho {{ type }} ví dụ: \"{{ grease }}\". Chúng tôi không chịu trách nhiệm cho chất lượng mỡ",
     "compatibilityCheck": "Phải kiểm tra tính tương thích",
     "initialGreaseQuantity": "Số lượng mỡ ban đầu *",
@@ -396,11 +401,19 @@
     "pdfDownload": "Tải xuống bản PDF",
     "calculatedWith": "Tính toán với {{versions}}",
     "recommendedChip": "Được đề xuất",
+    "miscibleChip": "có thể thay thế",
     "resultsWithRecommendation": "Kết quả được sắp xếp theo đề xuất và khoảng thời gian bôi trơn lại",
     "noRecommendation": "Các thông số được cung cấp là không bình thường cho ứng dụng đã cho. Xin vui lòng liên hệ với chúng tôi.",
     "contact": "Liên hệ Schaeffler",
     "axisOrientation": {
       "disclaimer": "Khi tính toán tuổi thọ của dầu mỡ và khoảng thời gian bôi trơn lại, người ta giả định rằng trục ở vị trí ngang.\nVui lòng cân nhắc thông tin trong TPI 176 'Bôi trơn Vòng bi Lăn'\nvề thiết kế của môi trường vòng bi trong trường hợp trục ở vị trí thẳng đứng,\nvì thất thoát chất bôi trơn có thể xảy ra thường xuyên hơn.\n\nDo thất thoát chất bôi trơn tăng lên, cần thiết phải thực hiện bôi trơn lại ở khoảng thời gian ngắn hơn\nvà bù đắp kịp thời cho sự mất mát chất bôi trơn.\nVì điều này thường khó đạt được bằng tay,\nnên sử dụng bộ cấp phát chất bôi trơn tự động được khuyến nghị. Lượng chất bôi trơn trên đơn vị thời gian tăng nhẹ.\nNếu bạn có câu hỏi liên quan đến ứng dụng cụ thể của mình, vui lòng liên hệ Hỗ trợ Kỹ thuật."
+    },
+    "addToCart": "Thêm vào giỏ hàng",
+    "selectionButton": {
+      "downloadSelectedPrompt": "Tải xuống {{number}} kết quả",
+      "enableSelectionMode": "Chọn kết quả",
+      "cancel": "Hủy bỏ",
+      "inclusionCheckboxLabel": "Bao gồm {{ grease }} trong tệp PDF"
     }
   },
   "settings": {

@@ -1,0 +1,58 @@
+<div class="flex flex-col">
+  @for (labelValue of labelValues(); let isOdd = $odd; track labelValue) {
+    @if (labelValue.custom) {
+      @switch (labelValue.custom.selector) {
+        @case (concept1) {
+          @if (
+            labelValue.custom.data.label === notSuited ||
+            labelValue.custom.data.label === unsuited
+          ) {
+            <div class="pt-2">
+              <ga-grease-report-concept1
+                [settings]="labelValue.custom.data"
+                (showDetails)="showConcept1Details.set(!showConcept1Details())"
+              ></ga-grease-report-concept1>
+            </div>
+          } @else {
+            <ga-grease-report-concept1-detail
+              [greaseResult]="greaseResult()"
+              [settings]="labelValue.custom.data"
+              [partnerVersion]="partnerVersion()"
+              [hideCloseButton]="true"
+            >
+            </ga-grease-report-concept1-detail>
+          }
+        }
+      }
+    } @else {
+      <div
+        class="flex flex-row text-body-1 !text-[12px] -mx-2"
+        [ngClass]="{
+          'bg-surface-container-low': isOdd,
+        }"
+      >
+        <div class="w-1/2 pl-2 py-2.5">
+          <span>
+            {{ labelValue.label }}
+          </span>
+          @if (labelValue.labelHint) {
+            <span class="!text-[16px] align-top pl-1">
+              <mat-icon
+                class="text-success"
+                [matTooltip]="labelValue.labelHint"
+                [inline]="true"
+                >info_outline</mat-icon
+              >
+            </span>
+          }
+        </div>
+        <div class="w-1/2 pl-6 pr-2 py-2.5 content-center">
+          <div
+            class="w-full"
+            [innerHTML]="labelValue.value ?? labelValue.values"
+          ></div>
+        </div>
+      </div>
+    }
+  }
+</div>

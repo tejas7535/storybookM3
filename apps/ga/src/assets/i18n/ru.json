@@ -348,6 +348,11 @@
       "unsuitableHint": "The determined CONCEPT cartridge setting is significantly larger than the maximum value that can be set. The use of a CONCEPT lubricator is not recommended with these relubrication quantities.",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }} мл)"
     },
+    "initialLubrication": "Первоначальная смазка",
+    "performance": "Производительность",
+    "relubrication": "Повторная смазка",
+    "greaseSelection": "Выбор смазки",
+    "includesConcept1": "Включает CONCEPT1",
     "previouslySelected": "Расчет был выполнен для {{ type }}, например &quot;{{ grease }}&quot;. Мы не несем ответственности за качество смазки",
     "compatibilityCheck": "Необходимо проверить совместимость",
     "initialGreaseQuantity": "Начальное количество смазки *",
@@ -396,11 +401,19 @@
     "pdfDownload": "Скачать PDF",
     "calculatedWith": "Рассчитано с {{versions}}",
     "recommendedChip": "Рекомендуется",
+    "miscibleChip": "взаимозаменяемый",
     "resultsWithRecommendation": "Результаты отсортированы по рекомендации и интервалу повторного смазывания",
     "noRecommendation": "Указанные параметры необычны для данного применения. Пожалуйста, свяжитесь с нами.",
     "contact": "Контакт Schaeffler",
     "axisOrientation": {
       "disclaimer": "При расчете срока службы смазки и интервалов повторного смазывания предполагается, что вал находится в горизонтальном положении.\nВ случае вертикального положения вала учитывайте информацию, изложенную в TPI 176 'Смазка подшипников качения',\nкасающуюся конструкции окружения подшипника, поскольку потеря смазочного материала может чаще происходить.\n\nИз-за увеличения потери смазочного материала необходимо проводить повторное смазывание с более короткими интервалами\nи своевременно компенсировать потерю смазки. Так как часто это сложно сделать вручную,\nрекомендуется использование автоматического дозатора смазочного материала. Количество смазки на единицу времени незначительно увеличивается.\nЕсли у вас есть вопросы, касающиеся вашего конкретного приложения, пожалуйста, свяжитесь с технической поддержкой."
+    },
+    "addToCart": "Добавить в корзину",
+    "selectionButton": {
+      "downloadSelectedPrompt": "Скачать {{number}} результатов",
+      "enableSelectionMode": "Выбор результатов",
+      "cancel": "Отмена",
+      "inclusionCheckboxLabel": "Включить {{ grease }} в файл PDF"
     }
   },
   "settings": {

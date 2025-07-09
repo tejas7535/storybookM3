@@ -67,6 +67,8 @@ export const shopSearchPathBase = 'search/searchpage?text=';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GreaseReportResultComponent implements OnInit, OnDestroy {
+  private readonly htmlElement!: HTMLElement;
+
   @Input() public greaseResult!: GreaseResult;
   @Input() public valuesLimit = 4;
   @Input() public preferredGreaseResult: PreferredGreaseResult;
@@ -81,7 +83,6 @@ export class GreaseReportResultComponent implements OnInit, OnDestroy {
 
   public showAllValues = false;
   public showConcept1Details = false;
-  private readonly htmlElement!: HTMLElement;
   private observer!: ResizeObserver;
 
   public constructor(

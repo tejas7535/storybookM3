@@ -7,3 +7,4 @@ export * from './pdf/grease-pdf-input.model';
 export * from './pdf/grease-pdf-message.model';
 export * from './pdf/grease-pdf-report.model';
 export * from './pdf/grease-pdf-result.model';
+export * from './result-section.model';

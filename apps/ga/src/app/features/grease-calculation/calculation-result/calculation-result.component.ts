@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { debounceTime, firstValueFrom, Subscription } from 'rxjs';
@@ -26,14 +26,14 @@ import {
   getReportUrls,
   getVersions,
 } from '@ga/core/store/selectors/calculation-result/calculation-result.selector';
-import { Environment } from '@ga/environments/environment.model';
-import { ENV } from '@ga/environments/environments.provider';
+import { environment } from '@ga/environments/environment';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
 import { TRACKING_PDF_DOWNLOAD } from '@ga/shared/constants';
 import { ReportUrls } from '@ga/shared/models';
 
 import { ApplicationScenario } from '../calculation-parameters/constants/application-scenarios.model';
 import { GreaseReportComponent } from './components/grease-report';
+import { GreasePDFSelectionService } from './services/grease-pdf-select.service';
 import { GreaseReportPdfGeneratorService } from './services/pdf/grease-report-pdf-generator.service';
 
 @Component({
@@ -44,7 +44,7 @@ import { GreaseReportPdfGeneratorService } from './services/pdf/grease-report-pd
 export class CalculationResultComponent implements OnInit, OnDestroy {
   @ViewChild('greaseReport') greaseReport: GreaseReportComponent;
 
-  public isProduction;
+  public showCompactToggle = environment.showCompactResultToggle;
   public reportUrls: ReportUrls;
   public reportSelector = '.content';
   public showCompactView = true;
@@ -63,6 +63,9 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
   private reportUrlsSubscription!: Subscription;
   private languageChangeSubscription!: Subscription;
 
+  protected selectedCount = this.pdfSelectionService.selectedCount;
+  protected isSelectionModeEnabled = this.pdfSelectionService.selectionMode;
+
   constructor(
     private readonly store: Store,
     private readonly router: Router,
@@ -71,14 +74,13 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
     private readonly calculationParametersFacade: CalculationParametersFacade,
     private readonly greaseReportGeneratorService: GreaseReportPdfGeneratorService,
     private readonly appInsightsService: ApplicationInsightsService,
-    @Inject(ENV) private readonly env: Environment
-  ) {
-    this.isProduction = this.env.production;
-  }
+    private readonly pdfSelectionService: GreasePDFSelectionService
+  ) {}
 
   public ngOnInit(): void {
     this.store.dispatch(fetchBearinxVersions());
     this.store.dispatch(getCalculation());
+    this.pdfSelectionService.setSelectionMode(false);
 
     this.reportUrlsSubscription = this.store
       .select(getReportUrls)
@@ -115,7 +117,7 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  public async generateReport(selectedBearing: string) {
+  public async generateReport(selectedBearing: string, filterResults = false) {
     const title = this.translocoService.translate(
       'calculationResult.title.main'
     );
@@ -160,12 +162,21 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
           }
         );
       }
+      if (filterResults && sub.titleID === 'STRING_OUTP_RESULTS') {
+        const modified = { ...sub };
+        modified.subordinates = modified.subordinates.filter((subordinate) =>
+          this.pdfSelectionService.isSelected(
+            subordinate.greaseResult?.mainTitle
+          )
+        );
+
+        return modified;
+      }
 
       return sub;
     });
 
     const versions = await firstValueFrom(this.bearinxVersions$);
-
     this.greaseReportGeneratorService.generateReport({
       reportTitle,
       sectionSubTitle: hint,
@@ -177,6 +188,10 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
     this.appInsightsService.logEvent(TRACKING_PDF_DOWNLOAD, {
       selectedBearing,
     });
+  }
+
+  public toggleGreaseSelection() {
+    this.pdfSelectionService.toggleSelectionMode();
   }
 
   private resetReportUrls(): void {

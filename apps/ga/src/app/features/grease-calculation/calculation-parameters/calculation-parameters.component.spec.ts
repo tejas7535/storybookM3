@@ -3,10 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import {
-  MatSlideToggleChange,
-  MatSlideToggleModule,
-} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -39,7 +36,6 @@ import {
 } from '@ga/shared/models';
 import { AxisOrientation } from '@ga/shared/models/calculation-parameters/axis-orientation.model';
 import {
-  AUTOMATIC_LUBRICATON_MOCK,
   BEARING_SELECTION_STATE_MOCK,
   CALCULATION_PARAMETERS_STATE_MOCK,
   PREFERRED_GREASE_MOCK,
@@ -341,19 +337,6 @@ describe('CalculationParametersComponent', () => {
       });
 
       expect(patchValueSpy).toHaveBeenCalledWith(false);
-    });
-  });
-
-  describe('toggleAutomaticLubrication', () => {
-    it('should dispatch the setAutocomplet', () => {
-      component.toggleAutomaticLubrication({
-        checked: AUTOMATIC_LUBRICATON_MOCK,
-      } as MatSlideToggleChange);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        CalculationParametersActions.setAutomaticLubrication({
-          automaticLubrication: AUTOMATIC_LUBRICATON_MOCK,
-        })
-      );
     });
   });
 

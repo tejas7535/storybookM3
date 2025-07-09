@@ -349,6 +349,11 @@
       "unsuitableHint": "決定されたCONCEPTカートリッジの設定値は、設定可能な最大値よりも大幅に大きくなっています。この再潤滑量では、CONCEPTルブリケーターの使用は推奨されません。",
       "concept1ShopTitle": "コンセプト1（{{ title }} {{ size }}ml）"
     },
+    "initialLubrication": "初期潤滑",
+    "performance": "性能",
+    "relubrication": "再潤滑",
+    "greaseSelection": "グリース選択",
+    "includesConcept1": "CONCEPT1を含む",
     "previouslySelected": "{{ grease }}などの{{ type }}に対して計算されました。潤滑剤の品質については責任を負いません。",
     "compatibilityCheck": "互換性を確認する必要があります",
     "initialGreaseQuantity": "初期グリース量 *",
@@ -397,11 +402,19 @@
     "pdfDownload": "pdfダウンロード",
     "calculatedWith": "計算方式：{{versions}}",
     "recommendedChip": "推奨",
+    "miscibleChip": "交換可能",
     "resultsWithRecommendation": "結果は、推奨と再給油間隔によってソートされます",
     "noRecommendation": "提供されたパラメーターは、指定されたアプリケーションでは異常です。お問い合わせください。",
     "contact": "シェフラーの連絡先",
     "axisOrientation": {
       "disclaimer": "グリースの寿命と再潤滑の間隔を計算する際、シャフトが水平位置にあると仮定しています。\nシャフトが垂直位置にある場合は、TPI 176『転がり軸受の潤滑』に示された\n軸受環境の設計に関する情報を考慮してください。潤滑剤の損失がより頻繁に発生する可能性があります。\n\n潤滑剤の損失が増加するため、より短い間隔で再潤滑を行い、\n潤滑剤の損失を迅速に補う必要があります。手動でこれを達成するのは難しいことが多いため、\n自動潤滑剤ディスペンサーの使用をお勧めします。時間単位あたりの潤滑剤の量がわずかに増加します。\n特定のアプリケーションについて質問がある場合は、技術サポートにお問い合わせください。"
+    },
+    "addToCart": "カートに追加",
+    "selectionButton": {
+      "downloadSelectedPrompt": "{{number}}件の結果をダウンロード",
+      "enableSelectionMode": "結果を選択",
+      "cancel": "キャンセル",
+      "inclusionCheckboxLabel": "PDFファイルに{{ grease }}を含める"
     }
   },
   "settings": {

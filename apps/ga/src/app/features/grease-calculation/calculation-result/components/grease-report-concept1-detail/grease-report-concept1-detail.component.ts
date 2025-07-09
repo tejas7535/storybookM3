@@ -49,6 +49,7 @@ export class GreaseReportConcept1DetailComponent implements OnInit {
   @Input() public greaseResult: GreaseResult;
   @Input() public settings: GreaseConcep1Suitablity;
   @Input() partnerVersion?: `${PartnerVersion}`;
+  @Input() public hideCloseButton = false;
 
   @Output() readonly hideDetails: EventEmitter<void> = new EventEmitter();
 

@@ -27,6 +27,7 @@ import {
   getResultMessages,
   hasResultMessage,
 } from '@ga/core/store/selectors/calculation-result/calculation-result.selector';
+import { environment } from '@ga/environments/environment';
 import { AppStoreButtonsComponent } from '@ga/shared/components/app-store-buttons/app-store-buttons.component';
 import { GreaseDisclaimerComponent } from '@ga/shared/components/grease-disclaimer/grease-disclaimer.component';
 import { SelectedCompetitorGreaseComponent } from '@ga/shared/components/selected-competitor-grease/selected-competitor-grease.component';
@@ -45,8 +46,9 @@ import {
   GreaseReportService,
   GreaseResultDataSourceService,
 } from '../../services';
+import { GreasePDFSelectionService } from '../../services/grease-pdf-select.service';
 import { GreaseReportInputComponent } from '../grease-report-input';
-import { GreaseReportResultComponent } from '../grease-report-result';
+import { GreaseReportResultCardComponent } from '../grease-report-result-card/grease-report-result-card.component';
 
 @Component({
   selector: 'ga-grease-report',
@@ -60,12 +62,12 @@ import { GreaseReportResultComponent } from '../grease-report-result';
     MatButtonModule,
     SharedTranslocoModule,
     GreaseReportInputComponent,
-    GreaseReportResultComponent,
     PushPipe,
     MatButtonModule,
     MatIconModule,
     AppStoreButtonsComponent,
     ApplicationInsightsModule,
+    GreaseReportResultCardComponent,
     GreaseDisclaimerComponent,
     SelectedCompetitorGreaseComponent,
   ],
@@ -82,6 +84,8 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
   @Input() public preferredGreaseResult?: PreferredGreaseResult;
   @Input() public automaticLubrication = false;
   @Input() public versions?: string;
+
+  public isProdMode = environment.production;
 
   public resultsLimit = 3;
   public limitResults = true;
@@ -113,7 +117,8 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
     private readonly store: Store,
     private readonly appAnalyticsService: AppAnalyticsService,
     private readonly settingsFacade: SettingsFacade,
-    private readonly calculationParametersFacade: CalculationParametersFacade
+    private readonly calculationParametersFacade: CalculationParametersFacade,
+    protected readonly greasePDFSelection: GreasePDFSelectionService
   ) {}
 
   public ngOnInit(): void {
@@ -195,6 +200,10 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
     );
   }
 
+  public handleGreaseToggle(greaseName: string) {
+    this.greasePDFSelection.toggleSelected(greaseName);
+  }
+
   private fetchGreaseReport(): void {
     this.greaseReportService
       .getGreaseReport(this.greaseReportUrl)
@@ -214,6 +223,11 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
       this.automaticLubrication
     );
 
+    // Pull the input section to the end
+    this.subordinates = [
+      ...this.subordinates.slice(1),
+      ...this.subordinates.slice(0, 1),
+    ];
     this.greaseInput = this.subordinates.find(
       (subordinate) =>
         subordinate.titleID === GreaseReportSubordinateTitle.STRING_OUTP_INPUT
@@ -239,5 +253,9 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
         duration: Number.POSITIVE_INFINITY,
       }
     );
+  }
+
+  protected isNoticesSection(subordinate: GreaseReportSubordinate) {
+    return subordinate.identifier === 'block' && !subordinate.titleID;
   }
 }

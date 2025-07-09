@@ -301,7 +301,8 @@
         "Horizontal": "Horizontal",
         "Vertical": "Vertical"
       }
-    }
+    },
+    "c1included": "CONCEPT1 settings will be calculated automatically"
   },
   "calculationResult": {
     "title": {
@@ -311,6 +312,7 @@
     },
     "calculatedWith": "Calculated with {{ versions }}",
     "recommendedChip": "Recommended",
+    "miscibleChip": "Interchangable",
     "showCompactView": "Show compact view",
     "reportSectionInput": "Input",
     "shopLinkText": "Available products",
@@ -321,7 +323,7 @@
     "hideValues": "Hide additional values",
     "limitResults": "Show first {{ results }} Results",
     "remainingResults": "{{ results }} other Results",
-    "resultsDefault": "Results sorted by relubrication interval ({{ amount }}/{{ complete }} greases)",
+    "resultsDefault": "Results sorted by kappa value and relubrication interval ({{ amount }}/{{ complete }} greases)",
     "resultsWithRecommendation": "Results are sorted by recommendation and relubrication interval",
     "resultsWithPreferred": "Results for selected and alternative greases sorted by relubrication interval",
     "guideValues": "* guide values",
@@ -351,6 +353,11 @@
       "unsuitableHint": "The determined CONCEPT cartridge setting is significantly larger than the maximum value that can be set. The use of a CONCEPT lubricator is not recommended with these relubrication quantities.",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
+    "initialLubrication": "Initial lubrication",
+    "performance": "Performance",
+    "relubrication": "Relubrication",
+    "greaseSelection": "Grease selection",
+    "includesConcept1": "Includes CONCEPT1",
     "previouslySelected": "The calculation was done for {{ type }} e.g. \"{{ grease }}\". We are not responsible for the grease quality",
     "compatibilityCheck": "Compatibility must be checked",
     "initialGreaseQuantity": "Initial grease quantity *",
@@ -401,6 +408,13 @@
     "contact": "Schaeffler Contact",
     "axisOrientation": {
       "disclaimer": "When calculating the service life of the grease and the re-lubrication intervals, it is assumed that the shaft is in a horizontal position. Please consider the information in TPI 176 'Lubrication of Rolling Bearings' regarding the design of the bearing environment in the case of a vertical shaft position, as lubricant loss can occur more frequently.\n\n Due to the increased lubricant loss, it is necessary to carry out re-lubrication at shorter intervals and to compensate for the lubricant loss promptly. Since this is often difficult to achieve manually, the use of an automatic lubricant dispenser is recommended. The amount of lubricant per unit of time is slightly increased.\n If you have questions regarding your specific application, please contact Technical Support."
+    },
+    "addToCart": "Add to cart",
+    "selectionButton": {
+      "downloadSelectedPrompt": "Download {{number}} results",
+      "enableSelectionMode": "Select Results",
+      "cancel": "Cancel",
+      "inclusionCheckboxLabel": "Include {{ grease }} in PDF file"
     }
   },
   "settings": {

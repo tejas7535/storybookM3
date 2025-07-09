@@ -5,7 +5,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { MEDIASBEARING } from '@ga/features/grease-calculation/calculation-result/constants';
-import { PartnerAfiliateCode, PartnerVersion } from '@ga/shared/models';
+import { PartnerAffiliateCode, PartnerVersion } from '@ga/shared/models';
 
 import { MediasButtonComponent } from './medias-button.component';
 
@@ -39,7 +39,7 @@ describe('MediasButtonComponent', () => {
     describe('when partner version affiliate code available', () => {
       it('should include code in the url', () => {
         const partnerVersion = PartnerVersion.Schmeckthal;
-        const affiliateCode = PartnerAfiliateCode[partnerVersion];
+        const affiliateCode = PartnerAffiliateCode[partnerVersion];
 
         component.bearing = 'mockbearing';
         component.partnerVersion = partnerVersion;

@@ -16,7 +16,7 @@ import { translate } from '@jsverse/transloco';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { PartnerAfiliateCode, PartnerVersion } from '@ga/shared/models';
+import { PartnerAffiliateCode, PartnerVersion } from '@ga/shared/models';
 import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
 
 import { MEDIASGREASE } from '../../constants';
@@ -126,7 +126,7 @@ export class GreaseReportShopButtonsComponent implements OnInit {
   }
 
   private getPatnerVersionAffiliateCode(): string {
-    const code: string = PartnerAfiliateCode[this.partnerVersion];
+    const code: string = PartnerAffiliateCode[this.partnerVersion];
 
     return code ? `&${code}` : '';
   }

@@ -348,6 +348,11 @@
       "unsuitableHint": "The determined CONCEPT cartridge setting is significantly larger than the maximum value that can be set. The use of a CONCEPT lubricator is not recommended with these relubrication quantities.",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
+    "initialLubrication": "Lubrificazione iniziale",
+    "performance": "Prestazioni",
+    "relubrication": "Rilubrificazione",
+    "greaseSelection": "Selezione del grasso",
+    "includesConcept1": "Include CONCEPT1",
     "previouslySelected": "Il calcolo &egrave; stato eseguito per {{ type }}, ad es. &quot;{{ grease }}&quot;. Non siamo responsabili della qualità del grasso",
     "compatibilityCheck": "&Egrave; necessario verificare la compatibilità",
     "initialGreaseQuantity": "Quantità iniziale di grasso *",
@@ -396,11 +401,19 @@
     "pdfDownload": "Scarica PDF",
     "calculatedWith": "Calcolato con {{versions}}",
     "recommendedChip": "Consigliato",
+    "miscibleChip": "Intercambiabile",
     "resultsWithRecommendation": "I risultati sono ordinati per raccomandazione e intervallo di rilubrificazione",
     "noRecommendation": "I parametri forniti sono insoliti per l'applicazione data. Si prega di contattarci.",
     "contact": "Contatto Schaeffler",
     "axisOrientation": {
       "disclaimer": "Quando si calcola la durata del grasso e gli intervalli di rilubrificazione, si presume che l'albero sia in posizione orizzontale.\nIn caso di posizione verticale dell'albero, si prega di considerare le informazioni fornite nel TPI 176 'Lubrificazione dei cuscinetti volventi'\nriguardanti la progettazione dell'ambiente del cuscinetto, poiché la perdita di lubrificante può verificarsi più frequentemente.\n\nA causa dell'aumento della perdita di lubrificante, è necessario eseguire la rilubrificazione a intervalli più brevi\ne compensare tempestivamente la perdita di lubrificante. Poiché spesso è difficile ottenere ciò manualmente,\nsi raccomanda l'uso di un dosatore automatico di lubrificante. La quantità di lubrificante per unità di tempo è leggermente aumentata.\nSe avete domande relative alla vostra applicazione specifica, si prega di contattare il supporto tecnico."
+    },
+    "addToCart": "Aggiungi al carrello",
+    "selectionButton": {
+      "downloadSelectedPrompt": "Scarica {{number}} risultati",
+      "enableSelectionMode": "Seleziona risultati",
+      "cancel": "Annulla",
+      "inclusionCheckboxLabel": "Includi {{ grease }} nel file PDF"
     }
   },
   "settings": {

@@ -4,6 +4,13 @@ export default {
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {},
   coverageDirectory: '../../coverage/apps/ga',
+  coverageThreshold: {
+    global: {
+      branches: 50,
+      functions: 70,
+      lines: 75,
+    },
+  },
   transform: {
     '^.+.(ts|mjs|js|html)$': [
       'jest-preset-angular',

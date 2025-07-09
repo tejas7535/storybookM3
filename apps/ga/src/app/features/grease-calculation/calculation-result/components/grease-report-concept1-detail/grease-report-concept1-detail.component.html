@@ -18,24 +18,28 @@
       >
         info_outline
       </mat-icon>
-      <button class="ml-auto" mat-icon-button (click)="onHideDetails()">
-        <mat-icon>close</mat-icon>
-      </button>
+      @if (!hideCloseButton) {
+        <button class="ml-auto" mat-icon-button (click)="onHideDetails()">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
     </div>
-    <div class="h-[252px] w-[252px] origin-top-left scale-[70%] transform-gpu">
+    <div
+      class="h-[252px] w-[252px] origin-top-left scale-[70%] transform-gpu mt-1"
+    >
       <schaeffler-rotary-control
         [controlValue]="getDurationMonths()"
         [controlItems]="availableMonths"
         [offsetAngle]="45"
       ></schaeffler-rotary-control>
     </div>
-    <p class="flex items-center gap-1 py-2 text-body-medium">
+    <p class="flex items-center gap-1 py-2 text-on-surface text-body-medium">
       {{ t('concept1Size', { size: concept1Selection }) }}
     </p>
-    <p class="text-body-medium text-low-emphasis">
+    <p class="text-body-medium text-on-surface">
       {{ t('emptyDuration', { duration: getDurationMonths() }) }}
     </p>
-    <p class="text-body-medium text-low-emphasis">
+    <p class="text-body-medium text-on-surface">
       {{ t('arrowSetting', { setting: getDurationMonths() }) }}
     </p>
     <mat-radio-group class="py-3" [(ngModel)]="concept1Selection">
@@ -63,12 +67,13 @@
     </mat-radio-group>
     <div class="w-full">
       <a
-        mat-stroked-button
+        mat-button
         color="primary"
         class="w-full"
         [attr.href]="getConcept1InfoUrl()"
         target="_blank"
       >
+        <mat-icon>open_in_new</mat-icon>
         {{ t('detailsConcept1') }}
       </a>
     </div>

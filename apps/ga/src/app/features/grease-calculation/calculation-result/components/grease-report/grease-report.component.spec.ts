@@ -296,4 +296,19 @@ describe('GreaseReportComponent', () => {
       expect(appStoreButtons).toBeFalsy();
     });
   });
+
+  it('isNoticesSection', () => {
+    expect(
+      component['isNoticesSection']({
+        titleID: 'STRING_OUTP_RESULTS',
+        identifier: 'block',
+        subordinates: [],
+      })
+    ).toEqual(false);
+    expect(
+      component['isNoticesSection']({
+        identifier: 'block',
+      })
+    ).toEqual(true);
+  });
 });

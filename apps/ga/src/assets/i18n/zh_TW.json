@@ -348,6 +348,11 @@
       "unsuitableHint": "The determined CONCEPT cartridge setting is significantly larger than the maximum value that can be set. The use of a CONCEPT lubricator is not recommended with these relubrication quantities.",
       "concept1ShopTitle": "CONCEPT1（{{ title }} {{ size }} 毫升）"
     },
+    "initialLubrication": "初始潤滑",
+    "performance": "性能",
+    "relubrication": "重潤滑",
+    "greaseSelection": "潤滑脂選擇",
+    "includesConcept1": "包含 CONCEPT1",
     "previouslySelected": "已對 {{ type }} 執行計算，例如「{{ grease }}」。對於潤滑脂品質，我們概不負責",
     "compatibilityCheck": "必須檢查相容性",
     "initialGreaseQuantity": "初始潤滑油劑量 *",
@@ -396,11 +401,19 @@
     "pdfDownload": "PDF 下載",
     "calculatedWith": "使用 {{versions}} 計算",
     "recommendedChip": "推薦",
+    "miscibleChip": "可互換的",
     "resultsWithRecommendation": "結果按推薦和再潤滑間隔排序",
     "noRecommendation": "對於給定應用程序，所提供的參數不正常。請與我們聯繫。",
     "contact": "舍弗勒聯繫方式",
     "axisOrientation": {
       "disclaimer": "在計算潤滑脂的使用壽命及再次潤滑的間隔時，假定軸處於水平位置。\n如軸處於垂直位置，請參考 TPI 176 '滾動軸承的潤滑' 中關於\n軸承環境設計的信息，因為潤滑劑損失可能更頻繁地發生。\n\n由於潤滑劑損失增加，需要在更短的間隔內進行再次潤滑\n並及時補償潤滑劑的損失。由於手動實現這點經常很困難，\n建議使用自動潤滑劑分配器。單位時間內的潤滑劑量略有增加。\n如果您對特定應用有疑問，請聯絡技術支持。"
+    },
+    "addToCart": "加入購物車",
+    "selectionButton": {
+      "downloadSelectedPrompt": "下載 {{number}} 個結果",
+      "enableSelectionMode": "選擇結果",
+      "cancel": "取消",
+      "inclusionCheckboxLabel": "將 {{ grease }} 包含在 PDF 文件中"
     }
   },
   "settings": {

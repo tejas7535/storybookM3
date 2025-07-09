@@ -8,7 +8,6 @@
       (backButtonClicked)="navigateBack()"
     >
       <ng-container subheaderTitleContent>
-        <span class="hidden sm:block">{{ t('title.main') }}&nbsp;</span>
         <span class="truncate">{{ selectedBearing }}</span>
         <mat-icon
           class="text-h5 text-link ml-2 !h-[24px] !w-[24px] cursor-help sm:ml-4 sm:!h-[28px] sm:!w-[28px] sm:!text-[28px]"
@@ -20,27 +19,60 @@
         </mat-icon>
         @if (!(appIsEmbedded$ | ngrxPush)) {
           <ga-medias-button
-            class="md:ml-2 ml-auto mr-0 md:mr-auto"
+            class="md:ml-2"
             [bearing]="selectedBearing"
             [partnerVersion]="partnerVersion$ | ngrxPush"
           ></ga-medias-button>
         }
       </ng-container>
       <ng-container subheaderInlineContent>
-        <button
-          class="ml-auto w-full sm:w-auto"
-          mat-flat-button
-          aria-label="generate report"
-          (click)="generateReport(selectedBearing)"
+        <div
+          class="w-full sm:w-fit sm:ml-auto sm:mr-auto gap-2 sm:gap-4 flex flex-col sm:flex-row"
         >
-          {{ t('pdfDownload') }}
-          <mat-icon class="align-middle">download</mat-icon>
-        </button>
+          <!-- Toggle Selection Button -->
+          <button
+            class="sm:w-fit"
+            (click)="toggleGreaseSelection()"
+            mat-stroked-button
+          >
+            @if (isSelectionModeEnabled()) {
+              {{ t('selectionButton.cancel') }}
+            } @else {
+              {{ t('selectionButton.enableSelectionMode') }}
+            }
+          </button>
+
+          <!-- Download Button -->
+          @if (!isSelectionModeEnabled()) {
+            <button
+              mat-flat-button
+              class="tonal-button sm:flex-1 sm:w-fit"
+              (click)="generateReport(selectedBearing, false)"
+            >
+              {{ t('pdfDownload') }}
+              <mat-icon class="align-middle">download</mat-icon>
+            </button>
+          } @else {
+            <button
+              mat-flat-button
+              class="tonal-button sm:flex-1 sm:w-fit"
+              (click)="generateReport(selectedBearing, true)"
+              [disabled]="selectedCount() === 0"
+            >
+              {{
+                t('selectionButton.downloadSelectedPrompt', {
+                  number: selectedCount(),
+                })
+              }}
+              <mat-icon class="align-middle">download</mat-icon>
+            </button>
+          }
+        </div>
       </ng-container>
     </schaeffler-subheader>
     @if (reportUrls) {
       <div>
-        @if (!isProduction) {
+        @if (showCompactToggle) {
           <div class="mb-4 flex w-full justify-end">
             <mat-slide-toggle
               color="primary"

@@ -15,7 +15,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MEDIASBEARING } from '@ga/features/grease-calculation/calculation-result/constants';
 import { mediasBearings } from '@ga/shared/constants';
-import { PartnerAfiliateCode, PartnerVersion } from '@ga/shared/models';
+import { PartnerAffiliateCode, PartnerVersion } from '@ga/shared/models';
 
 @Component({
   selector: 'ga-medias-button',
@@ -59,7 +59,7 @@ export class MediasButtonComponent implements OnInit {
   }
 
   private getPatnerVersionAffiliateCode(): string {
-    const code: string = PartnerAfiliateCode[this.partnerVersion];
+    const code: string = PartnerAffiliateCode[this.partnerVersion];
 
     return code ? `&${code}` : '';
   }

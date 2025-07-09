@@ -348,6 +348,11 @@
       "unsuitableHint": "The determined CONCEPT cartridge setting is significantly larger than the maximum value that can be set. The use of a CONCEPT lubricator is not recommended with these relubrication quantities.",
       "concept1ShopTitle": "CONCEPT1 ({{title}} {{size}}&nbsp;ml)"
     },
+    "initialLubrication": "Lubrificação inicial",
+    "performance": "Desempenho",
+    "relubrication": "Relubrificação",
+    "greaseSelection": "Seleção de graxa",
+    "includesConcept1": "Inclui CONCEPT1",
     "previouslySelected": "O cálculo foi efetuado para {{type}}, por exemplo, &quot;{{grease}}&quot;. Não nos responsabilizamos pela qualidade da massa lubrificante",
     "compatibilityCheck": "A respetiva compatibilidade deve ser verificada",
     "initialGreaseQuantity": "Quantidade inicial de massa lubrificante*",
@@ -396,11 +401,19 @@
     "pdfDownload": "Download de PDF",
     "calculatedWith": "Calculado com {{versions}}",
     "recommendedChip": "Recomendado",
+    "miscibleChip": "Intercambiável",
     "resultsWithRecommendation": "Os resultados são classificados por recomendação e intervalo de relubrificação",
     "noRecommendation": "Os parâmetros fornecidos são incomuns para a aplicação dada. Por favor, entre em contato.",
     "contact": "Contato Schaeffler",
     "axisOrientation": {
       "disclaimer": "Ao calcular a vida útil da graxa e os intervalos de relubrificação, assume-se que o eixo está em posição horizontal.\nNo caso de posição vertical do eixo, considere as informações indicadas no TPI 176 'Lubrificação de Rolamentos'\nsobre o design do ambiente do rolamento, pois a perda de lubrificante pode ocorrer com mais frequência.\n\nDevido ao aumento da perda de lubrificante, é necessário realizar a relubrificação em intervalos mais curtos\ne compensar prontamente a perda de lubrificante. Como muitas vezes é difícil conseguir isso manualmente,\nrecomenda-se o uso de um dispensador automático de lubrificante. A quantidade de lubrificante por unidade de tempo é ligeiramente aumentada.\nSe tiver dúvidas relacionadas à sua aplicação específica, entre em contato com o Suporte Técnico."
+    },
+    "addToCart": "Adicionar ao carrinho",
+    "selectionButton": {
+      "downloadSelectedPrompt": "Baixar {{number}} resultados",
+      "enableSelectionMode": "Selecionar Resultados",
+      "cancel": "Cancelar",
+      "inclusionCheckboxLabel": "Incluir {{ grease }} no arquivo PDF"
     }
   },
   "settings": {

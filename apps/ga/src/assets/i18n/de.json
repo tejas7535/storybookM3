@@ -301,7 +301,8 @@
         "Horizontal": "Horizontal",
         "Vertical": "Vertikal"
       }
-    }
+    },
+    "c1included": "CONCEPT1 Einstellung wird automatisch berechnet"
   },
   "calculationResult": {
     "title": {
@@ -311,6 +312,7 @@
     },
     "calculatedWith": "Berechnet mit {{versions}}",
     "recommendedChip": "Empfohlen",
+    "miscibleChip": "Austauschbar",
     "showCompactView": "Anzeige mit kompakter Darstellung",
     "reportSectionInput": "Eingaben",
     "shopLinkText": "Verfügbare Produkte",
@@ -351,6 +353,11 @@
       "unsuitableHint": "Die ermittelte CONCEPT1 Kartuscheneinstellung ist deutlich größer als der maximal einstellbare Wert. Der Einsatz eines CONCEPT1 Schmierstoffgebers wird bei diesen Nachschmiermengen nicht empfohlen.",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
+    "initialLubrication": "Erstschmierung",
+    "performance": "Leistung",
+    "relubrication": "Nachschmierung",
+    "greaseSelection": "Fett-Auswahl",
+    "includesConcept1": "Beinhaltet CONCEPT1",
     "previouslySelected": "Die Berechnung wurde für ein {{ type }} wie z.B \"{{ grease }}\" ausgeführt. Wir sind nicht verantwortlich für die Schmierungsqualität",
     "compatibilityCheck": "Verträglichkeit muss gecheckt werden",
     "initialGreaseQuantity": "Erstbefettungsmenge *",
@@ -400,6 +407,13 @@
     "contact": "Schaeffler Kontakt",
     "axisOrientation": {
       "disclaimer": "Bei der Berechnung der Fettgebrauchsdauer und der Nachschmierintervalle wird von einer horizontalen Wellenlage ausgegangen. Bitte berücksichtigen Sie im Fall einer vertikalen Wellenlage die Angaben in der TPI 176 „Schmierung von Wälzlagern“ zur Gestaltung der Lagerumgebung, da Schmierstoffverlust verstärkt auftreten kann.\n\n Auf Grund des erhöhten Schmierstoffverlusts ist es notwendig, die Nachschmierung in kürzeren Intervallen vorzunehmen und den Schmierstoffverlust zeitnah auszugleichen. Da dies manuell häufig nur schwer realisiert werden kann, wird die Verwendung eines automatischen Schmierstoffgebers empfohlen. Die Schmierstoffmenge je Zeit wird leicht erhöht.\n Im Fall von Fragen zu Ihrem konkreten Anwendungsfall kontaktieren Sie bitte den Technischen Support. "
+    },
+    "addToCart": "In den Warenkorb",
+    "selectionButton": {
+      "downloadSelectedPrompt": "Herunterladen {{number}} Ergebnisse",
+      "enableSelectionMode": "Ergebnisse auswählen",
+      "cancel": "Abbrechen",
+      "inclusionCheckboxLabel": "{{ grease }} in PDF-Datei einbeziehen"
     }
   },
   "settings": {

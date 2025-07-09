@@ -13,7 +13,7 @@ import { AppRoutePath } from '@ga/app-route-path.enum';
 import { SettingsFacade } from '@ga/core/store/facades';
 import { ENV, getEnv } from '@ga/environments/environments.provider';
 import { TRACKING_NAME_HOMECARD } from '@ga/shared/constants';
-import { PartnerAfiliateCode, PartnerVersion } from '@ga/shared/models';
+import { PartnerAffiliateCode, PartnerVersion } from '@ga/shared/models';
 
 import { HomepageCard } from '../models';
 import { HomeCardsService } from './home-cards.service';
@@ -182,7 +182,8 @@ describe('HomeCardsService', () => {
 
       describe('when performing any action with an external link', () => {
         it('should open a link with affiliate code', waitForAsync(() => {
-          const affiliateCode = PartnerAfiliateCode[PartnerVersion.Schmeckthal];
+          const affiliateCode =
+            PartnerAffiliateCode[PartnerVersion.Schmeckthal];
           result[1].cardAction();
 
           expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(

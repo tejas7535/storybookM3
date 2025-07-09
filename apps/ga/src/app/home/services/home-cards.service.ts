@@ -16,7 +16,7 @@ import {
   TRACKING_NAME_HOMECARD,
   UTM_PARAMS_DEFAULT,
 } from '@ga/shared/constants';
-import { PartnerAfiliateCode, PartnerVersion } from '@ga/shared/models';
+import { PartnerAffiliateCode, PartnerVersion } from '@ga/shared/models';
 
 import { HomepageCard } from '../models';
 import { HomeCardsTrackingIds } from './home-cards-tracking-ids.enum';
@@ -251,7 +251,7 @@ export class HomeCardsService {
   private getPatnerVersionAffiliateCode(
     partnerVersion: `${PartnerVersion}`
   ): string {
-    const code: string = PartnerAfiliateCode[partnerVersion];
+    const code: string = PartnerAffiliateCode[partnerVersion];
 
     return code ? `&${code}` : '';
   }

@@ -1,0 +1,118 @@
+<div
+  class="flex flex-col w-full border border-border rounded-xl bg-surface-variant py-4"
+  [class.cursor-pointer]="selectionModeEnabled()"
+  *transloco="let t; read: 'calculationResult'"
+>
+  @if (selectionModeEnabled()) {
+    <div class="flex w-full px-4">
+      <mat-checkbox
+        class="ml-auto mr-0"
+        [checked]="greaseSelected()"
+        (change)="emitEvent()"
+        [aria-label]="
+          t('selectionButton.inclusionCheckboxLabel', {
+            grease: greaseResult().mainTitle,
+          })
+        "
+      />
+    </div>
+  }
+  <div class="flex flex-row">
+    <div class="flex flex-col min-w-[50%] py-2 px-4 md:py-4 w-1/2">
+      <div class="mb-4 w-full min-h-[24px]">
+        @if (greaseResult().isMiscible) {
+          <schaeffler-tag
+            [value]="t('miscibleChip')"
+            type="category2"
+            [withBorder]="true"
+            [withDot]="false"
+          />
+        }
+
+        @if (greaseResult().isRecommended) {
+          <ga-badge
+            [text]="t('recommendedChip')"
+            [badgeClass]="
+              greaseResult().isRecommended
+                ? 'bg-success-container border-success text-on-success-container border'
+                : 'bg-category-2-container border-category-2 text-on-category-2-container border'
+            "
+          ></ga-badge>
+        }
+      </div>
+
+      <div class="text-title-medium">{{ greaseResult().mainTitle }}</div>
+      <div class="flex flex-1 text-label-small pb-6 min-h-[56px]">
+        {{ greaseResult().subTitle }}
+      </div>
+      <!-- Final add to cart button will end up here -->
+    </div>
+    <div class="flex flex-col justify-center px-4 w-2/5 ml-auto mr-0">
+      @if (isAcanolGrease()) {
+        <img
+          class="aspect-square h-auto w-auto md:w-full object-cover"
+          [src]="greaseImageResolver.getImageUrl(greaseResult().mainTitle)"
+          crossorigin="anonymous"
+        />
+      }
+    </div>
+  </div>
+  <div class="grid grid-flow-row grid-cols-2 gap-4 px-4 mt-1 md:mt-4">
+    @if (isAcanolGrease()) {
+      <a
+        mat-flat-button
+        class="w-full col-span-2"
+        [href]="shopUrl()"
+        target="_blank"
+      >
+        <mat-icon>water_drop_outline</mat-icon>
+        <span>{{ greaseResult().mainTitle }}</span>
+        <!--<span>{{ t('addToCart') }}</span>-->
+      </a>
+    }
+
+    @let resultSections = greaseResult() | resultSection;
+    <ga-grease-report-result-card-section
+      [section]="resultSections.initialLubrication"
+      [ngClass]="{
+        'col-span-auto':
+          !performanceSection.opened() && !initialLubricationSection.opened(),
+        'col-span-2':
+          performanceSection.opened() || initialLubricationSection.opened(),
+      }"
+      #initialLubricationSection
+    ></ga-grease-report-result-card-section>
+    <ga-grease-report-result-card-section
+      [section]="resultSections.performance"
+      [ngClass]="{
+        'col-span-auto':
+          !performanceSection.opened() && !initialLubricationSection.opened(),
+        'col-span-2':
+          performanceSection.opened() || initialLubricationSection.opened(),
+      }"
+      #performanceSection
+    ></ga-grease-report-result-card-section>
+    <ga-grease-report-result-card-section
+      [section]="resultSections.relubrication"
+      [greaseResult]="greaseResult()"
+      [partnerVersion]="partnerVersion()"
+      [ngClass]="{
+        'col-span-auto':
+          !greaseSelectionSection.opened() && !relubricationSection.opened(),
+        'col-span-2':
+          greaseSelectionSection.opened() || relubricationSection.opened(),
+      }"
+      #relubricationSection
+    ></ga-grease-report-result-card-section>
+    <ga-grease-report-result-card-section
+      [section]="resultSections.greaseSelection"
+      [ngClass]="{
+        'col-span-auto':
+          !relubricationSection.opened() && !greaseSelectionSection.opened(),
+        'col-span-2':
+          relubricationSection.opened() || greaseSelectionSection.opened(),
+      }"
+      #greaseSelectionSection
+    ></ga-grease-report-result-card-section>
+  </div>
+</div>

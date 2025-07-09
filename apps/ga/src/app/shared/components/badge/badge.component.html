@@ -1,0 +1,16 @@
+<div
+  class="text-label-small px-3 rounded-xl py-1 w-fit"
+  [ngClass]="badgeClass()"
+>
+  <span>
+    {{ text() }}
+    @if (secondaryText()) {
+      {{ ' | ' }}
+    }
+  </span>
+  @if (secondaryText()) {
+    <span class="opacity-60">
+      {{ secondaryText() }}
+    </span>
+  }
+</div>

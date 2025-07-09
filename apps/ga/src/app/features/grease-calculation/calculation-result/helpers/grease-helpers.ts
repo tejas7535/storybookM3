@@ -10,6 +10,7 @@ import {
 } from '../constants';
 import {
   CONCEPT1_SIZES,
+  GreaseReportSubordinate,
   GreaseReportSubordinateDataItem,
   GreaseResultData,
   GreaseResultDataItem,
@@ -288,3 +289,19 @@ export const isGreaseSuited = (label: SUITABILITY_LABEL): boolean =>
 
 export const isGreaseUnSuited = (label: SUITABILITY_LABEL): boolean =>
   label === SUITABILITY_LABEL.UNSUITED;
+
+export const extractKappaValue = (
+  subordinate: GreaseReportSubordinate
+): number => {
+  if (!subordinate.greaseResult) {
+    return -1;
+  }
+  const item = subordinate.greaseResult.dataSource
+    .filter(Boolean)
+    .find((field) => field.title === 'viscosityRatio');
+  if (!item) {
+    return 0;
+  }
+
+  return Number.parseFloat(item.values.replace(',', '.'));
+};

@@ -32,6 +32,7 @@ import { Store } from '@ngrx/store';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { MaintenanceModule } from '@schaeffler/empty-states';
+import { InfoBannerComponent } from '@schaeffler/feedback-banner';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -122,10 +123,13 @@ import { CalculationParametersService } from './services';
     MatRadioModule,
     MatDividerModule,
     GreaseSelectionAdvertComponent,
+    InfoBannerComponent,
   ],
   providers: [CalculationParametersService],
 })
 export class CalculationParametersComponent implements OnInit, OnDestroy {
+  private readonly destroy$ = new Subject<void>();
+
   public axisOrientationEnabled = environment.axisOrientationEnabled;
 
   public movement = Movement;
@@ -252,8 +256,6 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   );
 
   public DEBOUNCE_TIME_DEFAULT = 500;
-
-  private readonly destroy$ = new Subject<void>();
 
   public constructor(
     private readonly store: Store,
@@ -406,14 +408,6 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
 
   public toggleLoadsType(toggleChange: MatSlideToggleChange): void {
     this.exact.patchValue(toggleChange.checked);
-  }
-
-  public toggleAutomaticLubrication({
-    checked: automaticLubrication,
-  }: MatSlideToggleChange): void {
-    this.calculationParametersFacade.setAutomaticLubrication(
-      automaticLubrication
-    );
   }
 
   public completeStep(): void {

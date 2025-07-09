@@ -14,7 +14,7 @@ import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/a
 import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
 
 import { greaseResultExceptions, WARNINGSOPENED } from '../constants';
-import { itemValue } from '../helpers/grease-helpers';
+import { extractKappaValue, itemValue } from '../helpers/grease-helpers';
 import {
   GreaseReport,
   GreaseReportConcept1Subordinate,
@@ -269,6 +269,9 @@ export class GreaseReportService {
         );
       }
 
+      // Do sorting by kappa value here
+      this.sortKappaValues(formattedSubordinates);
+
       // move preferred grease to the top
       const preferredIndex = formattedSubordinates.findIndex(
         (item) => item?.greaseResult?.isPreferred
@@ -360,6 +363,20 @@ export class GreaseReportService {
       InteractionEventType.ErrorsAndWarnings
     );
     this.applicationInsightsService.logEvent(WARNINGSOPENED);
+  }
+
+  private sortKappaValues(
+    subordinate: GreaseReportSubordinate[]
+  ): GreaseReportSubordinate[] {
+    const snapKappa = (kappa: number) => (kappa >= 1 && kappa <= 4 ? 1 : 0);
+    subordinate.sort((a, b) => {
+      const aKappa = snapKappa(extractKappaValue(a));
+      const bKappa = snapKappa(extractKappaValue(b));
+
+      return bKappa - aKappa;
+    });
+
+    return subordinate;
   }
 
   private findSubordinateByTitleId(

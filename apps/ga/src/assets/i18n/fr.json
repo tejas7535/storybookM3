@@ -348,6 +348,11 @@
       "unsuitableHint": "Le réglage de la cartouche CONCEPT déterminé est significativement supérieur à la valeur maximale qui peut être réglée. L'utilisation d'un lubrificateur CONCEPT n'est pas recommandée avec ces quantités de relubrification.",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }} ml)"
     },
+    "initialLubrication": "Lubrification initiale",
+    "performance": "Performance",
+    "relubrication": "Relubrification",
+    "greaseSelection": "Sélection de graisse",
+    "includesConcept1": "Inclut CONCEPT1",
     "previouslySelected": "Le calcul a été effectué pour {{ type }}, par exemple « {{ Grease }} ». Nous ne sommes pas responsables de la qualité de la graisse",
     "compatibilityCheck": "Il convient de vérifier la compatibilité",
     "initialGreaseQuantity": "Quantité initiale de graisse *",
@@ -396,11 +401,19 @@
     "pdfDownload": "télécharger le PDF",
     "calculatedWith": "Calculé avec {{versions}}",
     "recommendedChip": "Recommandé",
+    "miscibleChip": "Interchangeable",
     "resultsWithRecommendation": "Les résultats sont triés par recommandation et intervalle de re-lubrification",
     "noRecommendation": "Les paramètres fournis sont inhabituels pour l'application donnée. Veuillez nous contacter.",
     "contact": "Contact Schaeffler",
     "axisOrientation": {
       "disclaimer": "Lors du calcul de la durée de vie de la graisse et des intervalles de relubrification, il est supposé que l'arbre est en position horizontale.\nEn cas de position verticale de l'arbre, veuillez considérer les informations indiquées dans le TPI 176 'Lubrification des roulements'\nconcernant la conception de l'environnement du roulement, car la perte de lubrifiant peut se produire plus fréquemment.\n\nEn raison de l'augmentation de la perte de lubrifiant, il est nécessaire d'effectuer la relubrification à des intervalles plus courts\net de compenser rapidement la perte de lubrifiant. Comme il est souvent difficile de réaliser cela manuellement,\nl'utilisation d'un distributeur automatique de lubrifiant est recommandée. La quantité de lubrifiant par unité de temps est légèrement augmentée.\nSi vous avez des questions concernant votre application spécifique, veuillez contacter le support technique."
+    },
+    "addToCart": "Ajouter au panier",
+    "selectionButton": {
+      "downloadSelectedPrompt": "Télécharger {{number}} résultats",
+      "enableSelectionMode": "Sélectionner les résultats",
+      "cancel": "Annuler",
+      "inclusionCheckboxLabel": "Inclure {{ grease }} dans le fichier PDF"
     }
   },
   "settings": {

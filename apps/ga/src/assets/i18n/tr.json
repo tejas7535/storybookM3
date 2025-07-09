@@ -348,6 +348,11 @@
       "unsuitableHint": "The determined CONCEPT cartridge setting is significantly larger than the maximum value that can be set. The use of a CONCEPT lubricator is not recommended with these relubrication quantities.",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }} ml)"
     },
+    "initialLubrication": "İlk Yağlama",
+    "performance": "Performans",
+    "relubrication": "Tekrar Yağlama",
+    "greaseSelection": "Gres Seçimi",
+    "includesConcept1": "CONCEPT1 Dahil",
     "previouslySelected": "Hesaplama, {{ type }} için yapılmıştır, ör. &quot;{{ grease }}&quot;. Gres kalitesinden sorumlu değiliz",
     "compatibilityCheck": "Uyumluluk kontrol edilmelidir",
     "initialGreaseQuantity": "İlk gres miktarı *",
@@ -396,11 +401,19 @@
     "pdfDownload": "PDF İndir",
     "calculatedWith": "Hesaplandı {{versions}}",
     "recommendedChip": "Önerilen",
+    "miscibleChip": "değiştirilebilir",
     "resultsWithRecommendation": "Sonuçlar, tavsiye ve yeniden yağlama aralığına göre sıralanır",
     "noRecommendation": "Sağlanan parametreler, verilen uygulama için alışılmadık bir şekilde. Lütfen bizimle iletişime geçin.",
     "contact": "Schaeffler İletişim",
     "axisOrientation": {
       "disclaimer": "Gres ömrünü ve yeniden yağlama aralıklarını hesaplarken, milin yatay konumda olduğu varsayılır.\nDikey mil konumunda bulunan yatak çevresinin tasarımına ilişkin\nTPI 176 'Yuvarlanma Yataklarının Yağlanması'nda belirtilen bilgileri göz önünde bulundurun\nçünkü daha sık yağ kaybı meydana gelebilir.\n\nArtan yağ kaybı nedeniyle, daha kısa aralıklarla yeniden yağlama yapılması\nve yağ kaybının hızla telafi edilmesi gereklidir. Bunu elle gerçekleştirmek genellikle zor olduğundan,\nautomatik bir yağ dispanseri kullanılması önerilir. Zaman birimi başına yağ miktarı hafifçe artırılmıştır.\nÖzel uygulamanızla ilgili sorularınız varsa, lütfen Teknik Destek ile iletişime geçin."
+    },
+    "addToCart": "Sepete Ekle",
+    "selectionButton": {
+      "downloadSelectedPrompt": "{{number}} sonuçları indir",
+      "enableSelectionMode": "Sonuçları Seç",
+      "cancel": "İptal",
+      "inclusionCheckboxLabel": "PDF dosyasına {{ grease }} dahil et"
     }
   },
   "settings": {

@@ -348,6 +348,11 @@
       "unsuitableHint": "Pengaturan CONCEPT cartridge yang ditentukan jauh lebih besar dari nilai maksimum yang dapat diatur. Penggunaan pelumas CONCEPT tidak disarankan dengan jumlah pelumasan ulang yang semacam itu.",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
+    "initialLubrication": "Pelumasan awal",
+    "performance": "Kinerja",
+    "relubrication": "Pelumasan ulang",
+    "greaseSelection": "Pemilihan grease",
+    "includesConcept1": "Termasuk CONCEPT1",
     "previouslySelected": "Perhitungan dilakukan untuk {{ type }}, misalnya \"{{grease}}\". Kami tidak bertanggung jawab atas kualitas grease",
     "compatibilityCheck": "Kompatibilitas harus diperiksa",
     "initialGreaseQuantity": "Jumlah grease awal *",
@@ -396,11 +401,19 @@
     "pdfDownload": "unduhan PDF",
     "calculatedWith": "Dihitung dengan {{versions}}",
     "recommendedChip": "Direkomendasikan",
+    "miscibleChip": "Dapat dipertukarkan",
     "resultsWithRecommendation": "Hasil diurutkan berdasarkan rekomendasi dan interval pelumasan ulang",
     "noRecommendation": "Parameter yang diberikan tidak biasa untuk aplikasi yang diberikan. Silakan hubungi kami.",
     "contact": "Kontak Schaeffler",
     "axisOrientation": {
       "disclaimer": "Saat menghitung masa pakai pelumas dan interval pelumasan ulang, diasumsikan bahwa poros berada dalam posisi horizontal.\nMohon pertimbangkan informasi dalam TPI 176 'Pelumasan Bantalan Gelinding' terkait dengan desain\ntata lingkungan bantalan dalam kasus poros vertikal, karena kehilangan pelumas dapat terjadi lebih sering.\n\nKarena peningkatan kehilangan pelumas, perlu dilakukan pelumasan ulang pada interval yang lebih pendek\ndan dengan segera mengganti pelumas yang hilang. Karena ini sering sulit dilakukan secara manual,\ndirekomendasikan penggunaan dispenser pelumas otomatis. Jumlah pelumas per unit waktu sedikit ditingkatkan.\nJika Anda memiliki pertanyaan mengenai aplikasi spesifik Anda, silakan hubungi Dukungan Teknis."
+    },
+    "addToCart": "Tambahkan ke keranjang",
+    "selectionButton": {
+      "downloadSelectedPrompt": "Unduh {{number}} hasil",
+      "enableSelectionMode": "Pilih Hasil",
+      "cancel": "Batalkan",
+      "inclusionCheckboxLabel": "Sertakan {{ grease }} dalam file PDF"
     }
   },
   "settings": {

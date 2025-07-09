@@ -1,0 +1,48 @@
+<div
+  class="flex flex-col gap-2 h-full border border-border px-2 py-2 rounded-xl"
+  *transloco="let t; read: 'calculationResult'"
+>
+  @if (!opened()) {
+    <ga-badge
+      [text]="section().badgeText"
+      [secondaryText]="section().badgeSecondaryText"
+      [badgeClass]="section().badgeClass"
+    ></ga-badge>
+    <div class="flex flex-1 text-label-small min-h-[48px]">
+      {{ t(section().mainValue) }}
+    </div>
+    @if (section().concept1) {
+      <ga-badge
+        [text]="t('includesConcept1')"
+        [badgeClass]="
+          'bg-info-container text-on-info-container text-[8px] leading-4 font-bold tracking-[0.4px] h-4 !px-1 !py-0 text'
+        "
+      ></ga-badge>
+    }
+  } @else {
+    <div class="flex flex-col">
+      <ga-grease-report-result-card-section-label-values
+        [labelValues]="section().labelValues"
+        [partnerVersion]="partnerVersion()"
+        [greaseResult]="greaseResult()"
+      ></ga-grease-report-result-card-section-label-values>
+    </div>
+  }
+  <div
+    class="flex flex-row justify-between items-center text-label-small text-on-surface-variant"
+    [ngClass]="{
+      'cursor-pointer hover:underline': section().extendable,
+    }"
+    (click)="handleExpansion()"
+    (keydown)="handleExpansion()"
+  >
+    <span>{{ t(section().title) }}</span>
+    @if (section().extendable) {
+      <span class="text-[16px]">
+        <mat-icon [inline]="true">{{
+          opened() ? 'expand_less' : 'expand_more'
+        }}</mat-icon>
+      </span>
+    }
+  </div>
+</div>

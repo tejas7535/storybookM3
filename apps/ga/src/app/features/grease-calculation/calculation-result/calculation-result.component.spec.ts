@@ -1,3 +1,5 @@
+import { signal } from '@angular/core';
+import { waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -35,6 +37,7 @@ import { GreaseCalculationPath } from '../grease-calculation-path.enum';
 import { CalculationResultComponent } from './calculation-result.component';
 import { GreaseReportComponent } from './components/grease-report';
 import { GreaseReportPdfGeneratorService } from './services';
+import { GreasePDFSelectionService } from './services/grease-pdf-select.service';
 
 describe('CalculationResultComponent', () => {
   let component: CalculationResultComponent;
@@ -82,6 +85,11 @@ describe('CalculationResultComponent', () => {
           selectedGreaseApplication$: of(ApplicationScenario.All),
         },
       },
+      mockProvider(GreasePDFSelectionService, {
+        selectionMode: jest.fn(() => false),
+        selectedSet: signal(new Set()),
+        isSelected: jest.fn(() => true),
+      }),
     ],
   });
 
@@ -158,11 +166,10 @@ describe('CalculationResultComponent', () => {
         component['greaseReportGeneratorService'],
         'generateReport'
       );
-
-      component.generateReport('bearing 123');
     });
 
-    it('should generate pdf report', () => {
+    it('should generate pdf report with all contents', waitForAsync(async () => {
+      await component.generateReport('bearing 123');
       expect(spy).toHaveBeenCalledWith({
         data: [{ indentifier: 'text' }],
         legalNote: 'some legal note',
@@ -170,6 +177,6 @@ describe('CalculationResultComponent', () => {
         sectionSubTitle: 'de.calculationResult.title.247hint',
         automaticLubrication: true,
       });
-    });
+    }));
   });
 });

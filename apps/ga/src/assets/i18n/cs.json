@@ -349,6 +349,11 @@
       "unsuitableHint": "The determined CONCEPT cartridge setting is significantly larger than the maximum value that can be set. The use of a CONCEPT lubricator is not recommended with these relubrication quantities.",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
+    "initialLubrication": "Počáteční mazání",
+    "performance": "Výkon",
+    "relubrication": "Přemazání",
+    "greaseSelection": "Výběr maziva",
+    "includesConcept1": "Zahrnuje CONCEPT1",
     "previouslySelected": "Výpočet byl proveden pro {{ type }} např. &bdquo;{{ grease }}&ldquo;. Za kvalitu maziva neneseme odpovědnost",
     "compatibilityCheck": "Je třeba zkontrolovat kompatibilitu",
     "initialGreaseQuantity": "Počáteční množství maziva *",
@@ -396,11 +401,19 @@
     "pdfDownload": "Stáhnout PDF",
     "calculatedWith": "Vypočítáno s {{versions}}",
     "recommendedChip": "Doporučeno",
+    "miscibleChip": "Zaměnitelný",
     "resultsWithRecommendation": "Výsledky jsou řazeny podle doporučení a intervalu přemazání",
     "noRecommendation": "Poskytnuté parametry jsou neobvyklé pro danou aplikaci. Prosím, kontaktujte nás.",
     "contact": "Kontakt Schaeffler",
     "axisOrientation": {
       "disclaimer": "Při výpočtu životnosti maziva a intervalů pro domazávání se předpokládá, že hřídel je ve vodorovné poloze. V případě, že hřídel je ve svislé poloze, zvažte informace uvedené v TPI 176 'Mazání valivých ložisek' ohledně konstrukce prostředí ložiska, protože může dojít častěji ke ztrátě maziva.\n\n V důsledku zvýšené ztráty maziva je nutné provádět domazávání v kratších intervalech a rychle kompenzovat ztrátu maziva. Protože toho je často obtížné dosáhnout ručně, doporučuje se použití automatického dávkovače maziva. Množství maziva za jednotku času je mírně zvýšeno.\n Pokud máte otázky týkající se vaší konkrétní aplikace, obraťte se prosím na technickou podporu."
+    },
+    "addToCart": "Přidat do košíku",
+    "selectionButton": {
+      "downloadSelectedPrompt": "Stáhnout {{number}} výsledků",
+      "enableSelectionMode": "Vybrat výsledky",
+      "cancel": "Zrušit",
+      "inclusionCheckboxLabel": "Zahrnout {{ grease }} do souboru PDF"
     }
   },
   "settings": {

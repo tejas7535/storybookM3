@@ -348,6 +348,11 @@
       "unsuitableHint": "The determined CONCEPT cartridge setting is significantly larger than the maximum value that can be set. The use of a CONCEPT lubricator is not recommended with these relubrication quantities.",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
+    "initialLubrication": "Początkowe smarowanie",
+    "performance": "Wydajność",
+    "relubrication": "Ponowne smarowanie",
+    "greaseSelection": "Wybór smaru",
+    "includesConcept1": "Zawiera CONCEPT1",
     "previouslySelected": "Obliczenia przeprowadzono dla smaru typu {{ type }} np. &bdquo;{{ grease }}&rdquo;. Nie odpowiadamy za jakość smaru",
     "compatibilityCheck": "Kompatybilność musi zostać zweryfikowana",
     "initialGreaseQuantity": "Początkowa ilość smaru*",
@@ -396,11 +401,19 @@
     "pdfDownload": "Pobierz PDF",
     "calculatedWith": "Obliczone z {{versions}}",
     "recommendedChip": "Zalecane",
+    "miscibleChip": "Wymienny",
     "resultsWithRecommendation": "Wyniki są sortowane według zalecenia i interwału przelubrykowania",
     "noRecommendation": "Podane parametry są nietypowe dla danego zastosowania. Proszę się z nami skontaktować.",
     "contact": "Kontakt Schaeffler",
     "axisOrientation": {
       "disclaimer": "Podczas obliczania żywotności smaru i przerw między smarowaniami zakłada się, że wał jest w pozycji poziomej.\nW przypadku pozycji pionowej wału należy uwzględnić informacje zawarte w TPI 176 'Smarowanie łożysk tocznych'\ndotyczące projektowania środowiska łożysk, ponieważ utrata środka smarnego może występować częściej.\n\nZe względu na zwiększoną utratę środka smarnego konieczne jest częstsze smarowanie\ni szybkie uzupełnianie strat środka smarnego. Ponieważ często trudno to osiągnąć ręcznie,\nzaleca się zastosowanie automatycznego dozownika środka smarnego. Ilość środka smarnego na jednostkę czasu jest nieco zwiększona.\nJeśli mają Państwo pytania dotyczące konkretnego zastosowania, prosimy o kontakt z pomocą techniczną."
+    },
+    "addToCart": "Dodaj do koszyka",
+    "selectionButton": {
+      "downloadSelectedPrompt": "Pobierz {{number}} wyników",
+      "enableSelectionMode": "Wybierz wyniki",
+      "cancel": "Anuluj",
+      "inclusionCheckboxLabel": "Uwzględnij {{ grease }} w pliku PDF"
     }
   },
   "settings": {
