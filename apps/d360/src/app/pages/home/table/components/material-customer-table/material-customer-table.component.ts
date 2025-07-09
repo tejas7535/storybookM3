@@ -70,7 +70,12 @@ export class MaterialCustomerTableComponent
   public constructor() {
     super();
 
-    effect(() => this.selectionFilter() && this.reload$().next(true));
+    effect(
+      () =>
+        // Hint: `selectionFilter => has Data` and `selectionFilter === null has no data (reset)`
+        (this.selectionFilter() || this.selectionFilter() === null) &&
+        this.reload$().next(true)
+    );
   }
 
   public override ngOnInit() {

@@ -332,4 +332,31 @@ describe('MaterialCustomerTableComponent', () => {
       );
     });
   });
+
+  describe('reload$ effect', () => {
+    it('should trigger reload$ when selectionFilter changes', () => {
+      const reloadSpy = jest.spyOn(component['reload$'](), 'next');
+      Stub.setInput('selectionFilter', { test: 'updatedFilter' });
+      Stub.detectChanges();
+
+      expect(reloadSpy).toHaveBeenCalledWith(true);
+    });
+
+    it('should trigger reload$ when selectionFilter is null after reset', () => {
+      const reloadSpy = jest.spyOn(component['reload$'](), 'next');
+      Stub.setInput('selectionFilter', null);
+      Stub.detectChanges();
+
+      expect(reloadSpy).toHaveBeenCalledWith(true);
+    });
+  });
+
+  describe('selectionFilter input', () => {
+    it('should update selectionFilter correctly', () => {
+      const newFilter = { test: 'newFilter' };
+      Stub.setInput('selectionFilter', newFilter);
+
+      expect((component as any).selectionFilter()).toEqual(newFilter);
+    });
+  });
 });

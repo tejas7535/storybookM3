@@ -535,12 +535,6 @@ export abstract class AbstractTableComponent implements OnInit {
     effect(() => {
       if (this.config()?.table && this.gridApi) {
         this.setGridOptions();
-
-        // We do only init the table here for the backend table.
-        // The frontend table will init in the onGridReady method.
-        if (this.type === TableType.Backend) {
-          this.init();
-        }
       }
     });
   }
@@ -621,6 +615,10 @@ export abstract class AbstractTableComponent implements OnInit {
     tabs: TableSetting<string>[],
     id: number
   ): TableSetting<string>[] {
+    if (tabs.length === 0) {
+      return [];
+    }
+
     const returnTabs = tabs.map((tab) => {
       tab.active = tab.id === id;
 
@@ -1087,7 +1085,7 @@ export abstract class AbstractTableComponent implements OnInit {
       this.gridApi?.setGridOption('treeData', true);
     }
 
-    if (this.hasTabView) {
+    if (this.hasTabView && !this.initialized) {
       // set options for layout tabs
       if (
         !!this.config()?.table?.tableId &&
@@ -1228,9 +1226,9 @@ export abstract class AbstractTableComponent implements OnInit {
     // set the GridOptions
     this.setGridOptions();
 
-    // set the datasource
     if (this.type === TableType.Backend) {
-      this.gridApi?.setGridOption('serverSideDatasource', this.getDataSource());
+      // set the Backend datasource
+      this.init();
     }
 
     // set loader, if needed

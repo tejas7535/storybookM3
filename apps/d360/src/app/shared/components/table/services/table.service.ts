@@ -22,8 +22,14 @@ import { translate } from '@jsverse/transloco';
 import { ColDef, ColumnState, GridApi } from 'ag-grid-enterprise';
 
 import { formatFilterModelForBackend } from '../../../ag-grid/grid-filter-model';
+import { isEqual } from '../../../utils/validation/data-validation';
 import { IconType } from '../enums';
 import { ColumnSetting, NamedColumnDefs, TableSetting } from '../interfaces';
+
+interface DataToSave<COLUMN_KEYS extends string> {
+  settings: TableSetting<COLUMN_KEYS>[];
+  skip: boolean;
+}
 
 /**
  * Service for managing table settings, including column configurations,
@@ -51,11 +57,11 @@ export class TableService<COLUMN_KEYS extends string> {
    * The ReplaySubject that holds the data to be saved.
    *
    * @private
-   * @type {ReplaySubject<TableSetting<COLUMN_KEYS>[]>}
+   * @type {ReplaySubject<DataToSave<COLUMN_KEYS>>}
    * @memberof TableService
    */
-  private readonly dataToSave$: ReplaySubject<TableSetting<COLUMN_KEYS>[]> =
-    new ReplaySubject<TableSetting<COLUMN_KEYS>[]>(1);
+  private readonly dataToSave$: ReplaySubject<DataToSave<COLUMN_KEYS>> =
+    new ReplaySubject(1);
 
   /**
    * The BehaviorSubject that holds the current table settings.
@@ -211,18 +217,20 @@ export class TableService<COLUMN_KEYS extends string> {
     this.dataToSave$
       .pipe(
         debounceTime(100),
-        switchMap((tableSettings) =>
-          this.http
-            .post<TableSetting<COLUMN_KEYS>[] | null>(
-              `${this.URL}${this.tableId}`,
-              tableSettings.filter(
-                (settings) => ![TableService.addId].includes(settings.id)
-              )
-            )
-            // This catchError operator is used to make sure that the save logic still works
-            // even if the backend API returns an error.
-            // otherwise, the observable would complete and the subscription would be unsubscribed.
-            .pipe(catchError(() => EMPTY))
+        switchMap((data) =>
+          data?.skip
+            ? EMPTY
+            : this.http
+                .post<TableSetting<COLUMN_KEYS>[] | null>(
+                  `${this.URL}${this.tableId}`,
+                  data?.settings?.filter(
+                    (settings) => ![TableService.addId].includes(settings?.id)
+                  ) || []
+                )
+                // This catchError operator is used to make sure that the save logic still works
+                // even if the backend API returns an error.
+                // otherwise, the observable would complete and the subscription would be unsubscribed.
+                .pipe(catchError(() => EMPTY))
         ),
         takeUntilDestroyed(this.destroyRef)
       )
@@ -248,17 +256,19 @@ export class TableService<COLUMN_KEYS extends string> {
             colId: col.colId as COLUMN_KEYS,
             visible: !col.hide,
             sort: col.sort,
-            filter: filterModel?.[col.colId],
+            filter: filterModel?.[col.colId] ?? null,
           })
         )
       ),
       this.tableSettings$,
+      this.dataToSave$,
     ]).pipe(
       take(1),
       tap(
-        ([columnState, tableSettings]: [
+        ([columnState, tableSettings, currentData]: [
           ColumnSetting<COLUMN_KEYS>[],
           TableSetting<COLUMN_KEYS>[],
+          DataToSave<COLUMN_KEYS>,
         ]) => {
           (
             tableSettings.find((settings) => settings.id === index) ??
@@ -270,14 +280,61 @@ export class TableService<COLUMN_KEYS extends string> {
             )
           ).columns = [...columnState];
 
-          const newData = [...(tableSettings ?? [])];
+          const newData = [...this.mapToTableSettings(tableSettings ?? [])];
 
-          this.dataToSave$.next(newData);
-          this.tableSettings$.next(newData);
+          if (
+            !isEqual(
+              this.getClonedAndCleanVersion(currentData?.settings ?? []),
+              this.getClonedAndCleanVersion(newData ?? [])
+            )
+          ) {
+            this.dataToSave$.next({
+              settings: newData.map((setting) => ({
+                ...setting,
+                columns: [...setting.columns].map((column) => ({
+                  ...column,
+                })),
+              })),
+              skip: false,
+            });
+            this.tableSettings$.next(newData);
+          }
         }
       ),
       takeUntilDestroyed(this.destroyRef)
     );
+  }
+
+  /**
+   * Deep clones and cleans the table settings data.
+   *
+   * @private
+   * @param {TableSetting<COLUMN_KEYS>[]} tableSettings
+   * @return {TableSetting<COLUMN_KEYS>[]}
+   * @memberof TableService
+   */
+  private getClonedAndCleanVersion(
+    tableSettings: TableSetting<COLUMN_KEYS>[]
+  ): TableSetting<COLUMN_KEYS>[] {
+    if (!tableSettings || !Array.isArray(tableSettings)) {
+      return [];
+    }
+
+    // eslint-disable-next-line unicorn/no-useless-spread
+    return [
+      ...this.mapToTableSettings(tableSettings ?? []).map((setting) => ({
+        ...setting,
+        columns: Array.isArray(setting.columns)
+          ? [...setting.columns].map((column) => ({
+              ...column,
+              filter: column?.filter?.startsWith?.('ag') ? null : column.filter,
+              filterModel: column?.filterModel?.startsWith?.('ag')
+                ? null
+                : column.filterModel,
+            }))
+          : [],
+      })),
+    ];
   }
 
   /**
@@ -291,6 +348,10 @@ export class TableService<COLUMN_KEYS extends string> {
   private mapToTableSettings(
     tableSettings: TableSetting<COLUMN_KEYS>[]
   ): TableSetting<COLUMN_KEYS>[] {
+    if (!tableSettings || !Array.isArray(tableSettings)) {
+      return [];
+    }
+
     return (
       tableSettings
         // we sort out non existing ids
@@ -306,13 +367,15 @@ export class TableService<COLUMN_KEYS extends string> {
             name: icon.name || '',
             disabled: icon.disabled || false,
           })) ?? [{ name: IconType.Edit }, { name: IconType.Delete }],
-          columns: settings.columns.map((column) => ({
-            colId: column.colId,
-            visible: column.visible || false,
-            sort: column.sort || null,
-            filterModel: column.filterModel || null,
-            filter: column.filter || null,
-          })),
+          columns: Array.isArray(settings.columns)
+            ? settings.columns.map((column) => ({
+                colId: column.colId,
+                visible: column.visible || false,
+                sort: column.sort || null,
+                filterModel: column.filterModel || null,
+                filter: column.filter || null,
+              }))
+            : [],
         }))
     );
   }
@@ -329,6 +392,7 @@ export class TableService<COLUMN_KEYS extends string> {
     return this.http
       .get<TableSetting<COLUMN_KEYS>[] | null>(`${this.URL}${this.tableId}`)
       .pipe(
+        take(1),
         catchError(() => of([])),
         map(this.mapToTableSettings.bind(this)),
         map((settings) => {
@@ -380,41 +444,42 @@ export class TableService<COLUMN_KEYS extends string> {
           ];
         }),
         tap((tableSettings: TableSetting<COLUMN_KEYS>[]) => {
-          this.tableSettings$.next(
-            (tableSettings || [])
-              .sort(
-                (
-                  a: TableSetting<COLUMN_KEYS>,
-                  b: TableSetting<COLUMN_KEYS>
-                ) => {
-                  // Sort defaultSetting = true items first
-                  if (a.defaultSetting && !b.defaultSetting) {
-                    return -1;
-                  }
-                  if (!a.defaultSetting && b.defaultSetting) {
-                    return 1;
-                  }
-
-                  // If both have the same defaultSetting value, sort by id
-                  return a.id - b.id;
+          const sortedTableSettings = (tableSettings || [])
+            .sort(
+              (a: TableSetting<COLUMN_KEYS>, b: TableSetting<COLUMN_KEYS>) => {
+                // Sort defaultSetting = true items first
+                if (a.defaultSetting && !b.defaultSetting) {
+                  return -1;
                 }
-              )
-              .map((settings: TableSetting<COLUMN_KEYS>) => ({
-                ...settings,
-                columns: this.applyColumnSettings(
-                  (this.columnDefinitions.find(
-                    (columnDefinition) =>
-                      columnDefinition.layoutId === settings.layoutId
-                  )?.columnDefs ??
-                    this.columnDefinitions?.[0]?.columnDefs ??
-                    []) as (ColumnSetting<COLUMN_KEYS> & ColDef)[],
+                if (!a.defaultSetting && b.defaultSetting) {
+                  return 1;
+                }
 
-                  settings.columns && settings.columns.length > 0
-                    ? settings.columns
-                    : []
-                ),
-              }))
-          );
+                // If both have the same defaultSetting value, sort by id
+                return a.id - b.id;
+              }
+            )
+            .map((settings: TableSetting<COLUMN_KEYS>) => ({
+              ...settings,
+              columns: this.applyColumnSettings(
+                (this.columnDefinitions.find(
+                  (columnDefinition) =>
+                    columnDefinition.layoutId === settings.layoutId
+                )?.columnDefs ??
+                  this.columnDefinitions?.[0]?.columnDefs ??
+                  []) as (ColumnSetting<COLUMN_KEYS> & ColDef)[],
+
+                settings.columns && settings.columns.length > 0
+                  ? settings.columns
+                  : []
+              ),
+            }));
+
+          this.tableSettings$.next([...sortedTableSettings]);
+          this.dataToSave$.next({
+            settings: this.getClonedAndCleanVersion([...sortedTableSettings]),
+            skip: true,
+          });
         }),
         takeUntilDestroyed(this.destroyRef)
       );
@@ -475,14 +540,20 @@ export class TableService<COLUMN_KEYS extends string> {
     columnDefinitions: (ColumnSetting<COLUMN_KEYS> & ColDef)[],
     columnSettings: ColumnSetting<COLUMN_KEYS>[]
   ): (ColumnSetting<COLUMN_KEYS> & ColDef)[] {
+    if (!columnDefinitions || columnDefinitions.length === 0) {
+      return [];
+    }
+
+    const safeColumnSettings = columnSettings || [];
+
     const sortMap = Object.fromEntries(
       columnDefinitions.map((column, index) => [
         column.colId,
-        { ...column, order: index + (columnSettings?.length ?? 0) },
+        { ...column, order: index + (safeColumnSettings?.length ?? 0) },
       ])
     );
 
-    columnSettings
+    safeColumnSettings
       ?.filter((column) => sortMap[column.colId])
       ?.forEach((column, i) => {
         const colId: string = column.colId as string;

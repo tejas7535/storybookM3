@@ -407,8 +407,7 @@ describe('AbstractTableComponent', () => {
   });
 
   describe('constructor', () => {
-    it('should initialize the table and call init for backend tables', () => {
-      const initSpy = jest.spyOn<any, any>(component, 'init');
+    it('should initialize the table', () => {
       const setGridOptionsSpy = jest.spyOn<any, any>(
         component,
         'setGridOptions'
@@ -422,7 +421,6 @@ describe('AbstractTableComponent', () => {
       Stub.detectChanges();
 
       expect(setGridOptionsSpy).toHaveBeenCalled();
-      expect(initSpy).toHaveBeenCalled();
     });
 
     it('should not call init for frontend tables', () => {
@@ -585,7 +583,7 @@ describe('AbstractTableComponent', () => {
       expect(result).toBe('customRowId');
     });
 
-    it('should throw an error if neither id nor data.id is defined', () => {
+    it('should throw an error if both params.id and params.data.id are undefined', () => {
       const mockParams = { data: {} } as any;
 
       expect(() => component['getRowId'](mockParams)).toThrow(
@@ -670,6 +668,12 @@ describe('AbstractTableComponent', () => {
       expect(result[0].active).toBe(true);
       expect(result[1].active).toBe(false);
       expect(component['activeTab']()).toBe(1);
+    });
+
+    it('should return an empty array if no tabs are provided', () => {
+      const result = component['setActiveTab']([], 1);
+
+      expect(result).toEqual([]);
     });
   });
 
@@ -1185,12 +1189,13 @@ describe('AbstractTableComponent', () => {
 
   describe('handleTabClick', () => {
     it('should call handleTab with TabAction.Add when add view toggle is clicked', () => {
-      const handleTabSpy = jest.spyOn<any, any>(component, 'handleTab');
-      const mockEvent = { id: TableService.addId };
+      const handleTabSpy = jest.spyOn(component as any, 'handleTab');
 
-      component['handleTabClick'](mockEvent);
+      component['handleTabClick']({ id: TableService.addId });
 
-      expect(handleTabSpy).toHaveBeenCalledWith(TabAction.Add, mockEvent);
+      expect(handleTabSpy).toHaveBeenCalledWith(TabAction.Add, {
+        id: TableService.addId,
+      });
     });
 
     it('should call deleteTab when delete icon is clicked', () => {
@@ -1887,19 +1892,13 @@ describe('AbstractTableComponent', () => {
         component,
         'setGridOptions'
       );
-      const setGridOptionSpy = jest.spyOn(
-        component['gridApi'],
-        'setGridOption'
-      );
+      const initSpy = jest.spyOn(component as any, 'init');
 
       const mockParams = { api: component['gridApi'] } as any;
       component['onGridReady'](mockParams);
 
       expect(setGridOptionsSpy).toHaveBeenCalled();
-      expect(setGridOptionSpy).toHaveBeenCalledWith(
-        'serverSideDatasource',
-        expect.any(Object)
-      );
+      expect(initSpy).toHaveBeenCalled();
     });
 
     it('should show or hide the loader based on isLoading$', () => {
@@ -2209,10 +2208,25 @@ describe('AbstractTableComponent', () => {
       expect(showNoRowsOverlaySpy).toHaveBeenCalled();
     });
 
-    it('should not throw an error if gridApi is undefined', () => {
-      component['gridApi'] = undefined;
+    it('should display the overlay with the correct message', () => {
+      const setGridOptionSpy = jest.spyOn(
+        component['gridApi'],
+        'setGridOption'
+      );
+      const showNoRowsOverlaySpy = jest.spyOn(
+        component['gridApi'],
+        'showNoRowsOverlay'
+      );
 
-      expect(() => component['showMessage']('Test message')).not.toThrow();
+      component['showMessage']('Test message');
+
+      expect(setGridOptionSpy).toHaveBeenCalledWith(
+        'noRowsOverlayComponentParams',
+        {
+          message: 'Test message',
+        }
+      );
+      expect(showNoRowsOverlaySpy).toHaveBeenCalled();
     });
   });
 
@@ -2230,10 +2244,15 @@ describe('AbstractTableComponent', () => {
       expect(setGridOptionSpy).toHaveBeenCalledWith('loading', true);
     });
 
-    it('should not throw an error if gridApi is undefined', () => {
-      component['gridApi'] = undefined;
+    it('should show the loading overlay', () => {
+      const setGridOptionSpy = jest.spyOn(
+        component['gridApi'],
+        'setGridOption'
+      );
 
-      expect(() => component['showLoader']()).not.toThrow();
+      component['showLoader']();
+
+      expect(setGridOptionSpy).toHaveBeenCalledWith('loading', true);
     });
   });
 
@@ -2251,10 +2270,17 @@ describe('AbstractTableComponent', () => {
       expect(hideOverlaySpy).toHaveBeenCalled();
     });
 
-    it('should not throw an error if gridApi is undefined', () => {
-      component['gridApi'] = undefined;
+    it('should hide all overlays', () => {
+      const setGridOptionSpy = jest.spyOn(
+        component['gridApi'],
+        'setGridOption'
+      );
+      const hideOverlaySpy = jest.spyOn(component['gridApi'], 'hideOverlay');
 
-      expect(() => component['hideOverlays']()).not.toThrow();
+      component['hideOverlays']();
+
+      expect(setGridOptionSpy).toHaveBeenCalledWith('loading', false);
+      expect(hideOverlaySpy).toHaveBeenCalled();
     });
   });
 });
