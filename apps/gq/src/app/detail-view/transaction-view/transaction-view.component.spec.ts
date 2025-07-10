@@ -6,7 +6,7 @@ import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade'
 import { RolesFacade } from '@gq/core/store/facades';
 import { RecommendationType } from '@gq/core/store/transactions/models/recommendation-type.enum';
 import { TransactionsFacade } from '@gq/core/store/transactions/transactions.facade';
-import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
+import { CurrencyService } from '@gq/shared/services/rest/currency/currency.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -21,6 +21,7 @@ import { COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../testing/mocks';
 import { QUOTATION_MOCK } from '../../../testing/mocks/models/quotation';
 import { QUOTATION_DETAIL_MOCK } from '../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { TransactionViewComponent } from './transaction-view.component';
+
 window.ResizeObserver = resize_observer_polyfill;
 
 describe('TransactionViewComponent', () => {
@@ -41,7 +42,7 @@ describe('TransactionViewComponent', () => {
     imports: [provideTranslocoTestingModule({ en: {} }), PushPipe],
     providers: [
       provideMockStore({}),
-      MockProvider(QuotationService, {
+      MockProvider(CurrencyService, {
         getExchangeRateForCurrency: jest
           .fn()
           .mockReturnValue(of(EXCHANGE_RATE_MOCK)),

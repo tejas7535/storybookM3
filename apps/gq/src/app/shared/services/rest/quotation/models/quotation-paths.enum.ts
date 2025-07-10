@@ -5,7 +5,6 @@ export enum QuotationPaths {
   PATH_QUOTATIONS_COUNT = 'count',
   PATH_QUOTATIONS_STATUS = 'quotations/status',
   PATH_REFRESH_SAP_PRICING = 'reload-from-sap',
-  PATH_CURRENCIES = 'currencies',
   PATH_SAP_QUOTATION = 'quotation/create-sap-quotation',
   PATH_SAP_SYNC_STATUS = 'sap-sync-status',
   PATH_ATTACHMENTS = 'attachments',

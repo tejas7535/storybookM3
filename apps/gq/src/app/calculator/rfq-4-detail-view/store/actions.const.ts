@@ -37,4 +37,10 @@ export const RFQ4_DETAIL_VIEW_ACTIONS = {
   CONFIRM_RFQ4_DETAIL_VIEW_CALCULATION_DATA_FAILURE:
     '[RFQ4 Detail View] Confirm RFQ4 Detail View Calculation Data Failure',
   SET_CALCULATION_DATA_STATUS: '[RFQ4 Detail View] Set Calculation Data Status',
+  GET_EXCHANGE_RATE_FOR_SELECTED_CURRENCY:
+    '[RFQ4 Detail View] Get Exchange Rate For Selected Currency',
+  GET_EXCHANGE_RATE_FOR_SELECTED_CURRENCY_SUCCESS:
+    '[RFQ4 Detail View] Get Exchange Rate For Selected Currency Success',
+  GET_EXCHANGE_RATE_FOR_SELECTED_CURRENCY_FAILURE:
+    '[RFQ4 Detail View] Get Exchange Rate For Selected Currency Failure',
 };

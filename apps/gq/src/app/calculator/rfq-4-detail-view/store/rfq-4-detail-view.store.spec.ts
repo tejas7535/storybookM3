@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 
 import { ProductionPlantService } from '@gq/calculator/rfq-4-detail-view/service/rest/production-plant.service';
 import { ActiveDirectoryUser } from '@gq/shared/models';
+import { CurrencyService } from '@gq/shared/services/rest/currency/currency.service';
 import { MicrosoftGraphMapperService } from '@gq/shared/services/rest/microsoft-graph-mapper/microsoft-graph-mapper.service';
 import { translate } from '@jsverse/transloco';
 import { patchState } from '@ngrx/signals';
@@ -60,6 +61,13 @@ describe('Rfq4DetailViewStore', () => {
       })
     ),
   };
+  const currencyService = {
+    getExchangeRateForCurrency: jest.fn().mockReturnValue(
+      of({
+        EUR: 1.2,
+      })
+    ),
+  };
 
   const routerRfqId = '5012';
   beforeEach(() => {
@@ -84,6 +92,10 @@ describe('Rfq4DetailViewStore', () => {
         {
           provide: ProductionPlantService,
           useValue: productionPlantService,
+        },
+        {
+          provide: CurrencyService,
+          useValue: currencyService,
         },
         {
           provide: MatSnackBar,
@@ -329,6 +341,20 @@ describe('Rfq4DetailViewStore', () => {
       expect(store.rfq4DetailViewData().rfq4RecalculationData).toEqual(
         RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK
       );
+    });
+    test('getExchangeRateForSelectedCurrency - currency service is not called', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+
+      store.getExchangeRateForSelectedCurrency('USD');
+      expect(currencyService.getExchangeRateForCurrency).not.toHaveBeenCalled();
+    });
+    test('getExchangeRateForSelectedCurrency', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+
+      store.getExchangeRateForSelectedCurrency('EUR');
+      expect(currencyService.getExchangeRateForCurrency).toHaveBeenCalled();
+      expect(store.exchangeRateForSelectedCurrency).not.toBeNull();
+      expect(store.exchangeRateForSelectedCurrencyLoading()).toBeFalsy();
     });
   });
 

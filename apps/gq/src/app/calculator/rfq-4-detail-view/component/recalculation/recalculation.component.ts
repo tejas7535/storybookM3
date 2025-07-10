@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
   computed,
   DestroyRef,
@@ -73,7 +74,7 @@ import { ToolCostInputComponent } from './control/tool-cost/tool-cost-input.comp
     `,
   ],
 })
-export class RecalculationComponent implements OnInit {
+export class RecalculationComponent implements OnInit, AfterViewInit {
   private readonly validationHelper = inject(ValidationHelper);
   private readonly store = inject(Rfq4DetailViewStore);
   private readonly destroyRef = inject(DestroyRef);
@@ -153,7 +154,9 @@ export class RecalculationComponent implements OnInit {
 
     // Prefill the price unit
     this.recalculationForm.get('priceUnit')?.setValue(this.priceUnit());
+  }
 
+  ngAfterViewInit() {
     // Set up previously saved recalculation data if available
     const rfqData = this.rfq4RecalculationData();
     if (rfqData) {

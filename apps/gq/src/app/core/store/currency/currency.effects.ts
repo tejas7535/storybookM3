@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { catchError, map, mergeMap, of } from 'rxjs';
 
-import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
+import { CurrencyService } from '@gq/shared/services/rest/currency/currency.service';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 
@@ -11,14 +11,13 @@ import { CurrencyActions } from './currency.actions';
 @Injectable()
 export class CurrencyEffects implements OnInitEffects {
   private readonly actions$: Actions = inject(Actions);
-  private readonly quotationService: QuotationService =
-    inject(QuotationService);
+  private readonly currencyService: CurrencyService = inject(CurrencyService);
 
   loadCurrencies$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CurrencyActions.loadAvailableCurrencies),
       mergeMap(() =>
-        this.quotationService.getCurrencies().pipe(
+        this.currencyService.getCurrencies().pipe(
           map((currencies: { currency: string }[]) => {
             const currencyNames = currencies.map(
               (currency: { currency: string }) => currency.currency

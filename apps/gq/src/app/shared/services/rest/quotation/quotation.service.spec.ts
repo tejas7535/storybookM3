@@ -331,32 +331,6 @@ describe('QuotationService', () => {
     });
   });
 
-  describe('getCurrencies', () => {
-    test('should call', () => {
-      service.getCurrencies().subscribe((res) => expect(res).toEqual([]));
-
-      const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${QuotationPaths.PATH_CURRENCIES}`
-      );
-      expect(req.request.method).toBe(HttpMethod.GET);
-    });
-  });
-
-  describe('getExchangeRateForCurrency', () => {
-    test('should call', () => {
-      const fromCurrency = 'USD';
-      const toCurrency = 'EUR';
-      service
-        .getExchangeRateForCurrency(fromCurrency, toCurrency)
-        .subscribe((res) => expect(res).toBeTruthy());
-
-      const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${QuotationPaths.PATH_CURRENCIES}/${fromCurrency}/exchangeRates/${toCurrency}`
-      );
-      expect(req.request.method).toBe(HttpMethod.GET);
-    });
-  });
-
   describe('createSapQuotation', () => {
     it('should call', () => {
       const mockBody: { gqId: number; gqPositionIds: string[] } = {

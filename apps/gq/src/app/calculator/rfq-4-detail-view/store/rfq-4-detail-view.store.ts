@@ -3,12 +3,13 @@ import { computed, effect, inject } from '@angular/core';
 import { FormControlStatus } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { pipe, switchMap, tap } from 'rxjs';
+import { of, pipe, switchMap, tap } from 'rxjs';
 
 import { updateState, withDevtools } from '@angular-architects/ngrx-toolkit';
 import { ProductionPlantService } from '@gq/calculator/rfq-4-detail-view/service/rest/production-plant.service';
 import { getRouteQueryParams } from '@gq/core/store/selectors/router/router.selector';
 import { ActiveDirectoryUser } from '@gq/shared/models';
+import { CurrencyService } from '@gq/shared/services/rest/currency/currency.service';
 import { MicrosoftGraphMapperService } from '@gq/shared/services/rest/microsoft-graph-mapper/microsoft-graph-mapper.service';
 import { translate } from '@jsverse/transloco';
 import { tapResponse } from '@ngrx/operators';
@@ -47,6 +48,8 @@ interface Rfq4DetailViewState {
   productionPlantData: ProductionPlantData | null;
   rfq4RecalculationDataStatus: FormControlStatus;
   confirmRecalculationTriggered: boolean;
+  exchangeRateForSelectedCurrency: number;
+  exchangeRateForSelectedCurrencyLoading: boolean;
 }
 
 const initalState: Rfq4DetailViewState = {
@@ -59,6 +62,8 @@ const initalState: Rfq4DetailViewState = {
   productionPlantData: null,
   rfq4RecalculationDataStatus: null,
   confirmRecalculationTriggered: false,
+  exchangeRateForSelectedCurrency: null,
+  exchangeRateForSelectedCurrencyLoading: false,
 };
 
 export const Rfq4DetailViewStore = signalStore(
@@ -116,6 +121,7 @@ export const Rfq4DetailViewStore = signalStore(
     rfq4DetailViewService: inject(Rfq4DetailViewService),
     msGraphMapperService: inject(MicrosoftGraphMapperService),
     productionPlantService: inject(ProductionPlantService),
+    currencyService: inject(CurrencyService),
     snackBar: inject(MatSnackBar),
   })),
   withMethods(
@@ -123,6 +129,7 @@ export const Rfq4DetailViewStore = signalStore(
       rfq4DetailViewService,
       msGraphMapperService,
       productionPlantService,
+      currencyService,
       snackBar,
       ...store
     }) => {
@@ -484,6 +491,65 @@ export const Rfq4DetailViewStore = signalStore(
         )
       );
 
+      const getExchangeRateForSelectedCurrency = rxMethod<string>(
+        pipe(
+          tap(() =>
+            updateState(
+              store,
+              RFQ4_DETAIL_VIEW_ACTIONS.GET_EXCHANGE_RATE_FOR_SELECTED_CURRENCY,
+              {
+                exchangeRateForSelectedCurrencyLoading: true,
+              }
+            )
+          ),
+          switchMap((selectedCurrency) => {
+            const quotationCurrency = store.getQuotationData().currency;
+
+            if (selectedCurrency === quotationCurrency) {
+              // Currency is the same, set exchangeRateForSelectedCurrency to 1
+              updateState(
+                store,
+                RFQ4_DETAIL_VIEW_ACTIONS.GET_EXCHANGE_RATE_FOR_SELECTED_CURRENCY_SUCCESS,
+                {
+                  exchangeRateForSelectedCurrency: 1,
+                  exchangeRateForSelectedCurrencyLoading: false,
+                }
+              );
+
+              return of(null); // Return an observable that completes immediately
+            } else {
+              // Currency is different, fetch the exchange rate
+              return currencyService
+                .getExchangeRateForCurrency(selectedCurrency, quotationCurrency)
+                .pipe(
+                  tapResponse({
+                    next: (response) => {
+                      updateState(
+                        store,
+                        RFQ4_DETAIL_VIEW_ACTIONS.GET_EXCHANGE_RATE_FOR_SELECTED_CURRENCY_SUCCESS,
+                        {
+                          exchangeRateForSelectedCurrency:
+                            response?.exchangeRates[quotationCurrency],
+                          exchangeRateForSelectedCurrencyLoading: false,
+                        }
+                      );
+                    },
+                    error: () => {
+                      updateState(
+                        store,
+                        RFQ4_DETAIL_VIEW_ACTIONS.GET_EXCHANGE_RATE_FOR_SELECTED_CURRENCY_FAILURE,
+                        {
+                          exchangeRateForSelectedCurrencyLoading: false,
+                        }
+                      );
+                    },
+                  })
+                );
+            }
+          })
+        )
+      );
+
       return {
         loadRfq4DetailViewData,
         loadProcessAssignedToAdUser,
@@ -494,6 +560,7 @@ export const Rfq4DetailViewStore = signalStore(
         triggerConfirmRecalculation,
         confirmRfq4DetailViewCalculationData,
         setCalculationDataStatus,
+        getExchangeRateForSelectedCurrency,
       };
     }
   ),

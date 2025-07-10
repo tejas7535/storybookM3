@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, inject, Signal } from '@angular/core';
+import { Component, forwardRef, inject, OnInit, Signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -38,11 +39,25 @@ import { BaseInputComponent } from '../base-input.component';
   ],
   templateUrl: './currency-input.component.html',
 })
-export class CurrencyInputComponent extends BaseInputComponent {
+export class CurrencyInputComponent
+  extends BaseInputComponent
+  implements OnInit
+{
   private readonly currencyFacade: CurrencyFacade = inject(CurrencyFacade);
   private readonly store = inject(Rfq4DetailViewStore);
 
   availableCurrencies$: Observable<string[]> =
     this.currencyFacade.availableCurrencies$;
   quotationData: Signal<CalculatorQuotationData> = this.store.getQuotationData;
+
+  ngOnInit() {
+    super.ngOnInit();
+    this.formControl.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
+        if (value) {
+          this.store.getExchangeRateForSelectedCurrency(value);
+        }
+      });
+  }
 }

@@ -44,6 +44,7 @@ describe('CurrencyInputComponent', () => {
         provide: Rfq4DetailViewStore,
         useValue: {
           getQuotationData: signal(CALCULATOR_QUOTATION_DATA_MOCK),
+          getExchangeRateForSelectedCurrency: signal(null),
         },
       },
     ],
@@ -60,5 +61,26 @@ describe('CurrencyInputComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('getExchangeRateForSelectedCurrency', () => {
+    let store: any;
+    let spy: jest.SpyInstance;
+
+    beforeEach(() => {
+      store = spectator.inject(Rfq4DetailViewStore);
+      spy = jest.spyOn(store, 'getExchangeRateForSelectedCurrency');
+      component.formControl.setValue(null); // Set initial value to null
+    });
+
+    test('store method should not be called', () => {
+      component.formControl.setValue(null);
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    test('store method should be called', () => {
+      component.formControl.setValue('EUR');
+      expect(spy).toHaveBeenCalledWith('EUR');
+    });
   });
 });

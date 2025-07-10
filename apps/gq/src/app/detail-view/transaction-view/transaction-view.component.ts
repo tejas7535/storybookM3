@@ -15,7 +15,7 @@ import {
   QuotationDetail,
 } from '@gq/shared/models/quotation-detail';
 import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
-import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
+import { CurrencyService } from '@gq/shared/services/rest/currency/currency.service';
 import { TranslocoService } from '@jsverse/transloco';
 import { FilterChangedEvent, IRowNode } from 'ag-grid-enterprise';
 
@@ -37,7 +37,7 @@ export class TransactionViewComponent {
     inject(ActiveCaseFacade);
   private readonly transactionsFacade: TransactionsFacade =
     inject(TransactionsFacade);
-  private readonly quotationService = inject(QuotationService);
+  private readonly currencyService: CurrencyService = inject(CurrencyService);
 
   private readonly rolesFacade: RolesFacade = inject(RolesFacade);
 
@@ -72,7 +72,7 @@ export class TransactionViewComponent {
     switchMap((currency) =>
       currency === 'EUR'
         ? of(1)
-        : this.quotationService
+        : this.currencyService
             .getExchangeRateForCurrency('EUR', currency)
             .pipe(map((res) => res.exchangeRates[currency]))
     )

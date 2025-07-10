@@ -29,4 +29,6 @@ import { BaseInputComponent } from '../base-input.component';
     },
   ],
 })
-export class LotSizeInputComponent extends BaseInputComponent {}
+export class LotSizeInputComponent extends BaseInputComponent {
+  inputLimit = 13;
+}

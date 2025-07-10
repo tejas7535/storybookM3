@@ -1,6 +1,6 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
+import { CurrencyService } from '@gq/shared/services/rest/currency/currency.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -17,12 +17,12 @@ describe('CurrencyEffects', () => {
   let effects: CurrencyEffects;
   let spectator: SpectatorService<CurrencyEffects>;
 
-  let quotationService: QuotationService;
+  let currencyService: CurrencyService;
 
   const createService = createServiceFactory({
     service: CurrencyEffects,
     providers: [
-      MockProvider(QuotationService),
+      MockProvider(CurrencyService),
       provideMockActions(() => actions$),
       provideHttpClientTesting(),
       provideMockStore({ initialState: { currency: initialState } }),
@@ -33,14 +33,14 @@ describe('CurrencyEffects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(CurrencyEffects);
-    quotationService = spectator.inject(QuotationService);
+    currencyService = spectator.inject(CurrencyService);
   });
 
   describe('loadCurrencies$', () => {
     test(
       'should dispatch success Action',
       marbles((m) => {
-        quotationService.getCurrencies = jest.fn(() => response);
+        currencyService.getCurrencies = jest.fn(() => response);
         const currencies = [{ currency: 'USD' }, { currency: 'EUR' }];
 
         actions$ = m.hot('-a', {
@@ -56,7 +56,7 @@ describe('CurrencyEffects', () => {
 
         m.expect(effects.loadCurrencies$).toBeObservable(expected);
         m.flush();
-        expect(quotationService.getCurrencies).toHaveBeenCalledTimes(1);
+        expect(currencyService.getCurrencies).toHaveBeenCalledTimes(1);
       })
     );
 
@@ -65,7 +65,7 @@ describe('CurrencyEffects', () => {
       marbles((m) => {
         const error = new Error('did not work');
         const response = m.cold('-#|', undefined, error);
-        quotationService.getCurrencies = jest.fn(() => response);
+        currencyService.getCurrencies = jest.fn(() => response);
 
         actions$ = m.hot('-a', {
           a: CurrencyActions.loadAvailableCurrencies(),
@@ -79,7 +79,7 @@ describe('CurrencyEffects', () => {
 
         m.expect(effects.loadCurrencies$).toBeObservable(expected);
         m.flush();
-        expect(quotationService.getCurrencies).toHaveBeenCalledTimes(1);
+        expect(currencyService.getCurrencies).toHaveBeenCalledTimes(1);
       })
     );
   });

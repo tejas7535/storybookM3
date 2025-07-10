@@ -9,7 +9,9 @@ import { of } from 'rxjs';
 
 import { Rfq4DetailViewStore } from '@gq/calculator/rfq-4-detail-view/store/rfq-4-detail-view.store';
 import { CurrencyFacade } from '@gq/core/store/currency/currency.facade';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -30,6 +32,7 @@ describe('SqvInputComponent', () => {
     component: SqvInputComponent,
     imports: [provideTranslocoTestingModule({ en: {} }), ReactiveFormsModule],
     providers: [
+      MockProvider(TranslocoLocaleService),
       {
         provide: FormGroupDirective,
         useValue: formGroupDirective,
@@ -44,6 +47,7 @@ describe('SqvInputComponent', () => {
         provide: Rfq4DetailViewStore,
         useValue: {
           getRfq4ProcessData: signal(CALCULATOR_RFQ_4_PROCESS_DATA_MOCK),
+          exchangeRateForSelectedCurrency: signal('EUR'),
         },
       },
     ],

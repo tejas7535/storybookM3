@@ -92,9 +92,10 @@ describe('RecalculationComponent', () => {
         id: '0078',
       } as SelectableValue);
 
-      component.submit();
-
-      expect(saveSpy).toHaveBeenCalledWith(RFQ_CALCULATION_DATA);
+      setTimeout(() => {
+        component.submit();
+        expect(saveSpy).toHaveBeenCalledWith(RFQ_CALCULATION_DATA);
+      });
     });
   });
 

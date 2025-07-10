@@ -29,7 +29,7 @@
       </div>
       <div>
         <span class="text-subtitle-1 text-medium-emphasis p-4">{{
-          rfqProcessData().sqv
+          calculatedSqv()
             | translocoDecimal
               : { minimumFractionDigits: 2, maximumFractionDigits: 2 }
             | undefinedToDash

@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, input, OnInit } from '@angular/core';
 import {
   ControlValueAccessor,
   FormControl,
@@ -14,6 +14,7 @@ import { validateNumericInputKeyPress } from '@gq/shared/utils/misc.utils';
 export abstract class BaseInputComponent
   implements OnInit, ControlValueAccessor
 {
+  protected readonly destroyRef = inject(DestroyRef);
   formControlName = input<string>();
   rootFormGroup = inject(FormGroupDirective);
 

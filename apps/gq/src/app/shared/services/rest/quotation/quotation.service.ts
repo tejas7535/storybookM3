@@ -165,18 +165,6 @@ export class QuotationService {
     );
   }
 
-  getCurrencies(): Observable<{ currency: string }[]> {
-    return this.#http.get<{ currency: string }[]>(
-      `${ApiVersion.V1}/${QuotationPaths.PATH_CURRENCIES}`
-    );
-  }
-
-  getExchangeRateForCurrency(fromCurrency: string, toCurrency: string) {
-    return this.#http.get<{ exchangeRates: { [key: string]: number } }>(
-      `${ApiVersion.V1}/${QuotationPaths.PATH_CURRENCIES}/${fromCurrency}/exchangeRates/${toCurrency}`
-    );
-  }
-
   createSapQuotation(
     gqId: number,
     gqPositionIds: string[]
