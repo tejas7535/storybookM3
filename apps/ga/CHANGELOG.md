@@ -1,4 +1,16 @@
 # Release Notes of Grease App
+## [2.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.16.0...ga-v2.0.0) (2025-07-10)
+
+
+### Features
+
+* **ga:** Grease App result rework ([#7359](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7359)) ([51c4e74](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/51c4e74e841e2b4838682c8fb2f8d5a3fe1fac1a))
+
+
+### Bug Fixes
+
+* **ga:** visual issues ([#7390](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7390)) ([831da32](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/831da3291a95ec0f27d75e7162f6e91656958711))
+
 ## [1.16.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.15.0...ga-v1.16.0) (2025-06-17)
 
 
