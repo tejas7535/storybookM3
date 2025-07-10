@@ -64,6 +64,12 @@ export class GreaseReportResultCardComponent {
     return this.shopService.getShopUrl(greaseName, partner as PartnerVersion);
   });
 
+  protected bundleSize = computed(() => {
+    return this.greaseResult().mainTitle !== 'Arcanol LOAD1000'
+      ? '1KG'
+      : '180KG';
+  });
+
   protected isAcanolGrease = computed(
     () => !this.greaseResult().mainTitle.includes('Non-Schaeffler')
   );
