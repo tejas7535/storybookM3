@@ -205,4 +205,17 @@ describe('rfq4ProcessFeature.reducer', () => {
       ).toEqual(Rfq4Status.IN_PROGRESS);
     });
   });
+
+  describe('extraSelectors', () => {
+    test('getValidMaintainers should return maintainers with firstName and lastName', () => {
+      const result = rfq4ProcessFeature.getValidMaintainers.projector([
+        { userId: 'any', firstName: null, lastName: null },
+        { userId: 'valid', firstName: 'John', lastName: 'Doe' },
+      ]);
+
+      expect(result).toEqual([
+        { userId: 'valid', firstName: 'John', lastName: 'Doe' },
+      ]);
+    });
+  });
 });

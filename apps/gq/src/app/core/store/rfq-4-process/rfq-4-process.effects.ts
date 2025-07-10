@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 
+import { ActiveDirectoryUser } from '@gq/shared/models';
 import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
 import { MicrosoftGraphMapperService } from '@gq/shared/services/rest/microsoft-graph-mapper/microsoft-graph-mapper.service';
 import { Rfq4Service } from '@gq/shared/services/rest/rfq4/rfq-4.service';
@@ -14,6 +15,8 @@ import { Store } from '@ngrx/store';
 import {
   getMailBodyString,
   getMailSubjectString,
+  getSeperatedNamesOfMaintainers,
+  mailFallback,
 } from './consts/maintainer-mail.consts';
 import { Rfq4ProcessActions } from './rfq-4-process.actions';
 import { rfq4ProcessFeature } from './rfq-4-process.reducer';
@@ -132,18 +135,14 @@ export class Rfq4ProcessEffects {
     () => {
       return this.actions.pipe(
         ofType(Rfq4ProcessActions.sendEmailRequestToMaintainCalculators),
-
         concatLatestFrom(() =>
-          this.store.select(rfq4ProcessFeature.selectSapMaintainers)
+          this.store.select(rfq4ProcessFeature.getValidMaintainers)
         ),
         tap(([action, maintainers]) => {
-          const emailAddresses = maintainers
-            .map((maintainer) => maintainer.mail)
-            .join(',');
+          const emailAddresses = getAddresses(maintainers);
           const subject = getMailSubjectString(action.quotationDetail);
           const body = getMailBodyString(
-            `${maintainers[0].firstName} ${maintainers[0].lastName}`,
-            `${maintainers[1].firstName} ${maintainers[1].lastName}`,
+            getUsers(maintainers),
             action.quotationDetail
           );
 
@@ -156,3 +155,16 @@ export class Rfq4ProcessEffects {
     { dispatch: false }
   );
 }
+const getAddresses = (maintainers: ActiveDirectoryUser[]): string => {
+  return maintainers.length === 0
+    ? mailFallback
+    : maintainers.map((maintainer) => maintainer.mail).join(',');
+};
+
+const getUsers = (maintainers: ActiveDirectoryUser[]): string => {
+  const maintainerFormatted = maintainers.map(
+    (m) => `${m.firstName} ${m.lastName}`
+  );
+
+  return getSeperatedNamesOfMaintainers(maintainerFormatted, 'and');
+};

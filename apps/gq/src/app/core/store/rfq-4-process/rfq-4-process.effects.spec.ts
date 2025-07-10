@@ -275,7 +275,7 @@ describe('Rfq4Effects', () => {
     test(
       'should selectSapMaintainers and set location.href to mailTo',
       marbles((m) => {
-        store.overrideSelector(rfq4ProcessFeature.selectSapMaintainers, [
+        store.overrideSelector(rfq4ProcessFeature.getValidMaintainers, [
           {
             firstName: 'first',
             lastName: 'last',
@@ -303,10 +303,46 @@ describe('Rfq4Effects', () => {
         });
 
         effects.sendRequestToMaintainCalculators$.subscribe(() => {
-          expect(subjectSpy).toHaveBeenCalled();
-          expect(bodySpy).toHaveBeenCalled();
+          expect(subjectSpy).toHaveBeenCalledWith(action.quotationDetail);
+          expect(bodySpy).toHaveBeenCalledWith(
+            'first last and first2 last2',
+            action.quotationDetail
+          );
           expect(window.open).toHaveBeenCalledWith(
             'mailto:mail1@mail.com,mail2@mail.com?subject=subject&body=body',
+            '_blank'
+          );
+        });
+      })
+    );
+
+    test(
+      'should send mail to fallback',
+      marbles((m) => {
+        store.overrideSelector(rfq4ProcessFeature.getValidMaintainers, []);
+        const subjectSpy = jest
+          .spyOn(mailConsts, 'getMailSubjectString')
+          .mockReturnValue('subject');
+        const bodySpy = jest
+          .spyOn(mailConsts, 'getMailBodyString')
+          .mockReturnValue('body');
+
+        Object.defineProperty(window, 'open', { value: jest.fn() });
+        action = Rfq4ProcessActions.sendEmailRequestToMaintainCalculators({
+          quotationDetail: {} as QuotationDetail,
+        });
+        actions$ = m.hot('-a', {
+          a: action,
+        });
+
+        effects.sendRequestToMaintainCalculators$.subscribe(() => {
+          expect(subjectSpy).toHaveBeenCalledWith(action.quotationDetail);
+          expect(bodySpy).toHaveBeenCalledWith(
+            mailConsts.mailFallback,
+            action.quotationDetail
+          );
+          expect(window.open).toHaveBeenCalledWith(
+            `mailto:${mailConsts.mailFallback}?subject=subject&body=body`,
             '_blank'
           );
         });

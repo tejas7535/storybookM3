@@ -3,6 +3,7 @@ import {
   ActionCreator,
   createFeature,
   createReducer,
+  createSelector,
   on,
   ReducerTypes,
 } from '@ngrx/store';
@@ -159,6 +160,17 @@ export const rfq4ProcessFeature = createFeature({
       })
     )
   ),
+  extraSelectors: ({ selectSapMaintainers }) => {
+    const getValidMaintainers = createSelector(
+      selectSapMaintainers,
+      (maintainers: ActiveDirectoryUser[]) =>
+        maintainers.filter(
+          (maintainer) => maintainer.firstName && maintainer.lastName
+        )
+    );
+
+    return { getValidMaintainers };
+  },
 });
 
 export const SendRecalculateSqvRequestSuccessReducer: ReducerTypes<

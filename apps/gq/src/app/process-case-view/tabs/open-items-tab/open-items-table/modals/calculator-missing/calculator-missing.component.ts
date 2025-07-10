@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, InputSignal, output } from '@angular/core';
 
+import { getSeperatedNamesOfMaintainers } from '@gq/core/store/rfq-4-process/consts/maintainer-mail.consts';
 import { Rfq4ProcessFacade } from '@gq/core/store/rfq-4-process/rfq-4-process.facade';
 import { ActiveDirectoryUser } from '@gq/shared/models';
 import { LetDirective } from '@ngrx/component';
@@ -36,6 +37,19 @@ export class CalculatorMissingComponent {
 
   getMaintainer(user: ActiveDirectoryUser): string {
     return `${user?.firstName} ${user?.lastName} (${user?.userId?.toUpperCase()})`;
+  }
+  getMaintainers(
+    maintainers: ActiveDirectoryUser[],
+    lastItemSeperator: string
+  ): string {
+    const maintainersFormatted = maintainers.map((user) =>
+      this.getMaintainer(user)
+    );
+
+    return getSeperatedNamesOfMaintainers(
+      maintainersFormatted,
+      lastItemSeperator
+    );
   }
 
   sendEmail(): void {

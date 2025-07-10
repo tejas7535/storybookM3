@@ -64,6 +64,25 @@ describe('CalculatorMissingComponent', () => {
     });
   });
 
+  describe('getMaintainers', () => {
+    test('should return formatted maintainers string with "and" separator', () => {
+      const user1 = {
+        firstName: 'John',
+        lastName: 'Doe',
+        userId: 'jdoe',
+      } as ActiveDirectoryUser;
+      const user2 = {
+        firstName: 'Peter',
+        lastName: 'Lustig',
+        userId: 'Plus',
+      };
+
+      const res = component.getMaintainers([user1, user2], 'and');
+
+      expect(res).toEqual('John Doe (JDOE) and Peter Lustig (PLUS)');
+    });
+  });
+
   describe('sendEmail', () => {
     test('should call sendEmailRequestToMaintainCalculators with correct parameters', () => {
       component['rfq4ProcessesFacade'].sendEmailRequestToMaintainCalculators =

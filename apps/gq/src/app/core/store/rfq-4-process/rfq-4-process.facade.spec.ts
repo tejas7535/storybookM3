@@ -106,7 +106,7 @@ describe('rfq4ProcessFacade', () => {
             { userId: 'maintainer2' } as ActiveDirectoryUser,
           ],
         });
-        mockStore.overrideSelector(rfq4ProcessFeature.selectSapMaintainers, [
+        mockStore.overrideSelector(rfq4ProcessFeature.getValidMaintainers, [
           { userId: 'maintainer1' } as ActiveDirectoryUser,
           { userId: 'maintainer2' } as ActiveDirectoryUser,
         ]);

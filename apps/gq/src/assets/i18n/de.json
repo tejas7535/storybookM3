@@ -195,7 +195,8 @@
         },
         "calculatorMissing": {
           "title": "Kein Kalkulator gefunden für Position {posId}",
-          "text": "Benachrichtige {personA} und {personB}, den zuständigen Kalkulator in SAP hinzuzufügen.",
+          "text": "Benachrichtige {maintainers}, den zuständigen Kalkulator in SAP hinzuzufügen.",
+          "textLastItemSeperator": "und",
           "cancelButton": "Abbrechen",
           "sendMailButton": "E-Mail senden"
         },

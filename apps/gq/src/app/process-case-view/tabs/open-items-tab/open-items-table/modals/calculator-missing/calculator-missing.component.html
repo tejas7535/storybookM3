@@ -11,8 +11,7 @@
   >
     {{
       t('text', {
-        personA: getMaintainer(maintainers[0]),
-        personB: getMaintainer(maintainers[1] ?? maintainers[0]),
+        maintainers: getMaintainers(maintainers, t('textLastItemSeperator')),
       })
     }}
   </span>

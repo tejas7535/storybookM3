@@ -195,7 +195,8 @@
         },
         "calculatorMissing": {
           "title": "Calculator Missing for Item {posId}",
-          "text": "Notify {personA} and {personB} to add the responsible calculator in SAP.",
+          "text": "Notify {maintainers} to add the responsible calculator in SAP.",
+          "textLastItemSeperator": "and",
           "cancelButton": "Cancel",
           "sendMailButton": "Send E-Mail"
         },

@@ -37,7 +37,7 @@ export class Rfq4ProcessFacade {
     rfq4ProcessFeature.selectSapMaintainersLoading
   );
   maintainers$: Observable<ActiveDirectoryUser[]> = this.store.select(
-    rfq4ProcessFeature.selectSapMaintainers
+    rfq4ProcessFeature.getValidMaintainers
   );
 
   // ########################################################

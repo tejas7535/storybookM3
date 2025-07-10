@@ -3,6 +3,8 @@ import { QuotationDetail } from '@gq/shared/models';
 import {
   getMailBodyString,
   getMailSubjectString,
+  getSeperatedNamesOfMaintainers,
+  mailFallback,
 } from './maintainer-mail.consts';
 
 describe('maintainerMail Constants', () => {
@@ -23,8 +25,7 @@ describe('maintainerMail Constants', () => {
 
   describe('getMailBodyString', () => {
     test('should format the input to string', () => {
-      const personA = 'John Doe';
-      const personB = 'Jane Smith';
+      const persons = 'John Doe and Jane Smith';
       const quotationDetail = {
         material: {
           materialDescription: 'Test Material',
@@ -36,7 +37,7 @@ describe('maintainerMail Constants', () => {
           city: 'Test City',
         },
       } as unknown as QuotationDetail;
-      const result = getMailBodyString(personA, personB, quotationDetail);
+      const result = getMailBodyString(persons, quotationDetail);
       expect(result).toBe(`Dear John Doe and Jane Smith,
 the routing to responsible calculation department failed. Please maintain the related SAP-table with the correct calculator(-pool) and inform Sales-User afterwards to start the workflow again.
 
@@ -48,6 +49,26 @@ Product Hierarchy: PH123
 Thank you very much
 
 Guided Quoting`);
+    });
+  });
+
+  describe('getSeperatedNamesOfMaintainers', () => {
+    it('should return fallback when maintainerNames is an empty array', () => {
+      const result = getSeperatedNamesOfMaintainers([], 'and');
+      expect(result).toBe(mailFallback);
+    });
+
+    it('should return the single name when maintainerNames contains one name', () => {
+      const result = getSeperatedNamesOfMaintainers(['Alice'], 'and');
+      expect(result).toBe('Alice');
+    });
+
+    it('should return names separated by commas and the lastItemSeperator when maintainerNames contains multiple names', () => {
+      const result = getSeperatedNamesOfMaintainers(
+        ['Alice', 'Bob', 'Charlie'],
+        'and'
+      );
+      expect(result).toBe('Alice, Bob and Charlie');
     });
   });
 });
