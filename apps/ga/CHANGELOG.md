@@ -1,4 +1,11 @@
 # Release Notes of Grease App
+## [2.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v2.0.0...ga-v2.0.1) (2025-07-10)
+
+
+### Bug Fixes
+
+* **ga:** add bundle size to new report page ([#7407](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7407)) ([4a2474f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a2474fa9f9a19ae0e7a722561ed90f0d6e0e83d))
+
 ## [2.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.16.0...ga-v2.0.0) (2025-07-10)
 
 
