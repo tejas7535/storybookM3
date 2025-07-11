@@ -1,10 +1,10 @@
 <span
   *transloco="let t; read: 'shared.calculations.pcmRow'"
-  class="rounded-full bg-background-dark px-3 py-1 text-caption uppercase"
+  class="rounded-full bg-background-dark px-3 py-1 text-label-large"
   [ngClass]="{
     'py-[2px]': size === 'small',
     'px-4 py-[6px]': size === 'large',
-    'cursor-help': !tooltipDisabled
+    'cursor-help': !tooltipDisabled,
   }"
   matTooltip="{{ t('hint') }}"
   matTooltipPosition="right"

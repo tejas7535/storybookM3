@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { EMAIL_DEFAULT } from '@cdba/shared/constants/emails';
 
 import { BetaFeatureDialogComponent } from '../beta-feature-dialog/beta-feature-dialog.component';
+import { BetaFeatureDialogData } from '../model/beta-feature-dialog.model';
 
 @Component({
   selector: 'cdba-beta-feature-badge',
@@ -12,11 +13,11 @@ import { BetaFeatureDialogComponent } from '../beta-feature-dialog/beta-feature-
 })
 export class BetaFeatureBadgeComponent {
   @Input() emailAddress: string = EMAIL_DEFAULT;
-  @Input() public contentType: 'specific' | 'general' = 'specific';
+  @Input() contentType: 'specific' | 'general' = 'specific';
 
-  public constructor(private readonly dialog: MatDialog) {}
+  private readonly dialog = inject(MatDialog);
 
-  public onBadgeClick(event: { target: any }): void {
+  onBadgeClick(event: { target: any }): void {
     const target = event.target;
 
     if (target) {
@@ -25,13 +26,12 @@ export class BetaFeatureBadgeComponent {
 
     this.dialog.open(BetaFeatureDialogComponent, {
       hasBackdrop: true,
-      disableClose: true,
       maxWidth: 400,
       autoFocus: false,
       data: {
         emailAddress: this.emailAddress,
         contentType: this.contentType,
-      },
+      } as BetaFeatureDialogData,
     });
   }
 }

@@ -1,5 +1,5 @@
 <mat-card appearance="outlined" class="h-full w-full p-4">
-  <h6 class="mb-4 text-medium-emphasis">
+  <h6 class="mb-4 text-on-surface-variant">
     {{ materialDesignation$ | ngrxPush }}
   </h6>
 
@@ -15,7 +15,7 @@
           (closed)="removeExpandedItem(0)"
         >
           <mat-expansion-panel-header>
-            <mat-panel-title class="text-body-1">
+            <mat-panel-title class="text-body-large">
               {{ t('dimensions.title') }}
             </mat-panel-title>
           </mat-expansion-panel-header>
@@ -32,7 +32,7 @@
           (closed)="removeExpandedItem(1)"
         >
           <mat-expansion-panel-header>
-            <mat-panel-title class="text-body-1">
+            <mat-panel-title class="text-body-large">
               {{ t('additionalInformation.title') }}
             </mat-panel-title>
           </mat-expansion-panel-header>

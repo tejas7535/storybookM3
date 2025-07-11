@@ -1,7 +1,7 @@
 <ng-container *transloco="let t; read: 'detail.detailTab.pcmCalculations'">
   @if (priceDetails?.pcmCalculations && priceDetails?.pcmCalculations.length) {
     <div
-      class="grid max-h-[175px] grid-cols-4 gap-0 overflow-hidden overflow-y-auto text-caption text-high-emphasis"
+      class="grid max-h-[175px] grid-cols-4 gap-0 overflow-hidden overflow-y-auto text-body-small text-on-surface"
     >
       @for (header of headers; track header; let i = $index) {
         <div
@@ -56,7 +56,7 @@
       }
     </div>
   } @else {
-    <div class="p-4 pt-0 text-caption text-high-emphasis">
+    <div class="p-4 pt-0 text-body-small text-on-surface">
       {{ t('noCalculations') }}
     </div>
   }

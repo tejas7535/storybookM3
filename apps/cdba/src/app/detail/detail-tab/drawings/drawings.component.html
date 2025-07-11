@@ -3,11 +3,11 @@
   *transloco="let t; read: 'drawings'"
 >
   @if (materialDesignation$ | ngrxPush) {
-    <h6 class="mb-4 text-medium-emphasis">
+    <h6 class="mb-4 text-on-surface-variant">
       {{
         t('title', {
           material:
-            materialDesignation$ | ngrxPush | scrambleMaterialDesignation: 0
+            materialDesignation$ | ngrxPush | scrambleMaterialDesignation: 0,
         })
       }}
     </h6>
@@ -39,10 +39,10 @@
           class="mb-4 max-w-[90%]"
         />
         <div *transloco="let t; read: 'drawings'">
-          <h4 class="mb-4 text-high-emphasis">
+          <h4 class="mb-4 text-on-surface">
             {{ t('noDrawingsTitle') }}
           </h4>
-          <div class="text-subtitle-1 text-medium-emphasis">
+          <div class="text-title-medium text-on-surface-variant">
             {{ t('noDrawingsText') }}
           </div>
         </div>

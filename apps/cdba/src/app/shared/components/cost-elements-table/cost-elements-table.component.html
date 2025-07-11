@@ -1,10 +1,10 @@
 @if (costElementsData) {
-  <div class="p-4 text-caption">
+  <div class="p-4 text-body-small">
     <span class="mr-3 inline-block">{{
       selectedBomItem?.materialDesignation || materialDesignation
         | scrambleMaterialDesignation
     }}</span>
-    <span class="text-medium-emphasis">{{
+    <span class="text-on-surface-variant">{{
       selectedCalculation?.calculationDate | translocoDate
     }}</span>
   </div>
@@ -39,8 +39,8 @@
     class="flex flex-col items-center p-8 text-center"
     *transloco="let t; read: 'shared.bom.additionalInformation'"
   >
-    <mat-icon class="mb-4 text-subtitle-1">info</mat-icon>
-    <div class="max-w-[400px] text-subtitle-1">
+    <mat-icon class="mb-4 text-title-medium">info</mat-icon>
+    <div class="max-w-[400px] text-title-medium">
       {{ t('selectionHintCalculation') }}
     </div>
   </div>

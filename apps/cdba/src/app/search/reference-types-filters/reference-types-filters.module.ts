@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -33,7 +32,6 @@ import { ReferenceTypesFiltersComponent } from './reference-types-filters.compon
     NoResultsFoundPipe,
   ],
   imports: [
-    CommonModule,
     PushPipe,
     MatCardModule,
     SharedTranslocoModule,

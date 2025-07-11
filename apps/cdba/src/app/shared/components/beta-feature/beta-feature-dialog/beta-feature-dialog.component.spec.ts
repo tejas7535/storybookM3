@@ -1,7 +1,13 @@
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -13,8 +19,25 @@ describe('BetaFeatureDialogComponent', () => {
 
   const createComponent = createComponentFactory({
     component: BetaFeatureDialogComponent,
-    imports: [MatIconModule, provideTranslocoTestingModule({ en: {} })],
-    providers: [{ provide: MAT_DIALOG_DATA, useValue: {} }],
+    imports: [
+      MatDialogModule,
+      MockModule(MatIconModule),
+      MockModule(MatButtonModule),
+
+      provideTranslocoTestingModule({ en: {} }),
+    ],
+    providers: [
+      {
+        provide: MAT_DIALOG_DATA,
+        useValue: {},
+      },
+      {
+        provide: MatDialogRef,
+        useValue: {
+          close: jest.fn(),
+        },
+      },
+    ],
   });
 
   beforeEach(() => {
@@ -24,5 +47,15 @@ describe('BetaFeatureDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('onClose', () => {
+    it('should close dialog when onClose is called', () => {
+      const closeSpy = jest
+        .spyOn(component['dialogRef'], 'close')
+        .mockImplementation();
+      component.onClose();
+      expect(closeSpy).toHaveBeenCalled();
+    });
   });
 });

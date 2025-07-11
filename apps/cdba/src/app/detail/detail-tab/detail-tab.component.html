@@ -7,7 +7,7 @@
       <div
         class="mb-4 overflow-hidden rounded border border-border bg-surface-legacy p-4"
       >
-        <h6 class="mb-4 text-medium-emphasis">
+        <h6 class="mb-4 text-on-surface-variant">
           {{ t('salesAndDescription.title') }}
         </h6>
         <cdba-sales-and-description
@@ -17,7 +17,9 @@
       <div
         class="overflow-hidden rounded border border-border bg-surface-legacy p-4"
       >
-        <h6 class="mb-4 text-medium-emphasis">{{ t('production.title') }}</h6>
+        <h6 class="mb-4 text-on-surface-variant">
+          {{ t('production.title') }}
+        </h6>
         <cdba-production
           [productionDetails]="productionDetails$ | ngrxPush"
         ></cdba-production>
@@ -27,7 +29,7 @@
       <div
         class="mb-4 overflow-hidden rounded border border-border bg-surface-legacy"
       >
-        <h6 class="p-4 text-medium-emphasis">
+        <h6 class="p-4 text-on-surface-variant">
           {{ t('pcmCalculations.title') }}
         </h6>
         <cdba-pcm-calculations
@@ -37,13 +39,13 @@
       <div
         class="mb-4 overflow-hidden rounded border border-border bg-surface-legacy p-4"
       >
-        <h6 class="mb-4 text-medium-emphasis">{{ t('pricing.title') }}</h6>
+        <h6 class="mb-4 text-on-surface-variant">{{ t('pricing.title') }}</h6>
         <cdba-pricing [priceDetails]="priceDetails$ | ngrxPush"></cdba-pricing>
       </div>
       <div
         class="overflow-hidden rounded border border-border bg-surface-legacy p-4"
       >
-        <h6 class="mb-4 text-medium-emphasis">
+        <h6 class="mb-4 text-on-surface-variant">
           {{ t('dimensionAndWeight.title') }}
         </h6>
         <cdba-dimension-and-weight
@@ -55,7 +57,9 @@
       <div
         class="mb-4 overflow-hidden rounded border border-border bg-surface-legacy p-4"
       >
-        <h6 class="mb-4 text-medium-emphasis">{{ t('quantities.title') }}</h6>
+        <h6 class="mb-4 text-on-surface-variant">
+          {{ t('quantities.title') }}
+        </h6>
         <cdba-quantities
           [quantitiesDetails]="quantitiesDetails$ | ngrxPush"
         ></cdba-quantities>
@@ -63,7 +67,7 @@
       <div
         class="overflow-hidden rounded border border-border bg-surface-legacy p-4"
       >
-        <h6 class="mb-4 text-medium-emphasis">{{ t('customer.title') }}</h6>
+        <h6 class="mb-4 text-on-surface-variant">{{ t('customer.title') }}</h6>
         <cdba-customer
           [customerDetails]="customerDetails$ | ngrxPush"
         ></cdba-customer>

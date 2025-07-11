@@ -29,7 +29,7 @@
         @if (filter?.name !== FILTER_NAME_LIMIT) {
           <div>
             <div class="label-form-field">
-              <div class="text-caption">
+              <div class="text-body-small">
                 Min. {{ t('names.' + filter?.name) }}
               </div>
               <mat-form-field class="form-field">
@@ -53,7 +53,6 @@
               <mat-slider
                 #minSlider
                 discrete
-                color="primary"
                 class="flex-1"
                 [min]="minSectionMin"
                 [max]="minSectionMax"
@@ -68,7 +67,7 @@
                       {
                         source: minSliderThumb,
                         parent: minSlider,
-                        value: minSliderThumb.value
+                        value: minSliderThumb.value,
                       }.value
                     )
                   "
@@ -83,7 +82,9 @@
           </div>
         }
         <div class="label-form-field">
-          <div class="text-caption">Max. {{ t('names.' + filter?.name) }}</div>
+          <div class="text-body-small">
+            Max. {{ t('names.' + filter?.name) }}
+          </div>
           <mat-form-field class="h-[42px] !w-full !text-right">
             <input
               #maxInput
@@ -105,7 +106,6 @@
           <mat-slider
             #maxSlider
             discrete
-            color="primary"
             class="flex-1"
             [min]="maxSectionMin"
             [max]="maxSectionMax"
@@ -120,7 +120,7 @@
                   {
                     source: maxSliderThumb,
                     parent: maxSlider,
-                    value: maxSliderThumb.value
+                    value: maxSliderThumb.value,
                   }.value
                 )
               "
@@ -143,7 +143,7 @@
               <mat-card>
                 <mat-card-content class="warning-card">
                   <mat-icon>warning</mat-icon>
-                  <h1 class="warning-card-content text-medium-emphasis">
+                  <h1 class="warning-card-content text-on-surface-variant">
                     {{ t('warning', { stableThreshold: STABLE_THRESHOLD }) }}
                   </h1>
                 </mat-card-content>

@@ -3,7 +3,7 @@
     *transloco="let t; read: 'shared.statusBar'"
     [matTooltip]="
       t(nodeIds?.length < minCount ? 'hints.minCount' : 'hints.maxCount', {
-        count: nodeIds?.length < minCount ? minCount : maxCount
+        count: nodeIds?.length < minCount ? minCount : maxCount,
       })
     "
     [matTooltipPosition]="'above'"
@@ -14,8 +14,7 @@
   >
     <button
       mat-flat-button
-      color="primary"
-      class="!mr-4"
+      class="!mr-4 text-label-large"
       [disabled]="nodeIds?.length < minCount || nodeIds?.length > maxCount"
       [routerLink]="'/' + appRoutePath.PortfolioAnalysisPath"
     >

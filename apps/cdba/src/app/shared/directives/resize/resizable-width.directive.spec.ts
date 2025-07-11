@@ -49,11 +49,17 @@ describe('ResizableWidthDirective', () => {
       expect(setStyleSpy).toHaveBeenNthCalledWith(
         1,
         directive['resizableElement'],
+        'width',
+        'fit-content'
+      );
+      expect(setStyleSpy).toHaveBeenNthCalledWith(
+        2,
+        directive['resizableElement'],
         'min-width',
         directive.resizableMinWidth
       );
       expect(setStyleSpy).toHaveBeenNthCalledWith(
-        2,
+        3,
         directive['resizableElement'],
         'max-width',
         directive.resizableMaxWidth

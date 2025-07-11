@@ -1,9 +1,11 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Inject, inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { TranslocoService } from '@jsverse/transloco';
 
 import { EMAIL_DEFAULT } from '@cdba/shared/constants/emails';
+
+import { BetaFeatureDialogData } from '../model/beta-feature-dialog.model';
 
 @Component({
   selector: 'cdba-beta-feature-dialog',
@@ -11,15 +13,14 @@ import { EMAIL_DEFAULT } from '@cdba/shared/constants/emails';
   standalone: false,
 })
 export class BetaFeatureDialogComponent {
-  public emailTemplate: string;
+  emailTemplate: string;
+
+  private readonly dialogRef = inject(MatDialogRef<BetaFeatureDialogComponent>);
 
   constructor(
     private readonly translocoService: TranslocoService,
     @Inject(MAT_DIALOG_DATA)
-    public modalData: {
-      emailAddress: string;
-      contentType: 'specific' | 'general';
-    }
+    public modalData: BetaFeatureDialogData
   ) {
     this.emailTemplate = `mailto:${
       this.modalData.emailAddress || EMAIL_DEFAULT
@@ -28,5 +29,9 @@ export class BetaFeatureDialogComponent {
     )}&body=${this.translocoService.translate(
       'shared.betaFeature.feedback.email.body'
     )}`;
+  }
+
+  onClose(): void {
+    this.dialogRef.close();
   }
 }

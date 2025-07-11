@@ -24,7 +24,7 @@
     <div
       [matTooltip]="
         t('searchButtonTooltip', {
-          tooManyResultsThreshold: tooManyResultsThreshold$ | ngrxPush
+          tooManyResultsThreshold: tooManyResultsThreshold$ | ngrxPush,
         })
       "
       [matTooltipDisabled]="(selectedIdValueFilters$ | ngrxPush).length > 0"
@@ -32,7 +32,7 @@
     >
       <button
         mat-flat-button
-        color="primary"
+        class="text-label-large"
         [disabled]="(selectedIdValueFilters$ | ngrxPush).length === 0"
         (click)="search()"
       >
@@ -42,6 +42,7 @@
     </div>
     <button
       mat-stroked-button
+      class="text-label-large"
       [disabled]="(selectedFilters$ | ngrxPush).length === 0"
       (click)="resetFilters()"
     >

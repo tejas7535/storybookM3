@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,7 +12,6 @@ import { TabsHeaderComponent } from './tabs-header.component';
 @NgModule({
   declarations: [TabsHeaderComponent],
   imports: [
-    CommonModule,
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,

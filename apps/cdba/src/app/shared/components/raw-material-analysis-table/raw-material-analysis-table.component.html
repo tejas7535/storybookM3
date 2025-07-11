@@ -1,10 +1,10 @@
 @if (rawMaterialAnalysisData) {
-  <div class="p-4 text-caption">
+  <div class="p-4 text-body-small">
     <span class="mr-3 inline-block">{{
       selectedBomItem?.materialDesignation || materialDesignation
         | scrambleMaterialDesignation
     }}</span>
-    <span class="text-medium-emphasis">{{
+    <span class="text-on-surface-variant">{{
       selectedCalculation?.calculationDate | translocoDate
     }}</span>
   </div>
@@ -43,15 +43,15 @@
     <mat-icon class="flex-none text-on-info-container">
       warning_amber
     </mat-icon>
-    <span class="my-3 flex-auto text-caption"> {{ t('infoHint') }}</span>
+    <span class="my-3 flex-auto text-body-small"> {{ t('infoHint') }}</span>
   </div>
 } @else {
   <div
     class="flex flex-col items-center p-8 text-center"
     *transloco="let t; read: 'shared.bom.additionalInformation'"
   >
-    <mat-icon class="mb-4 text-subtitle-1">info</mat-icon>
-    <div class="max-w-[400px] text-subtitle-1">
+    <mat-icon class="mb-4 text-title-medium">info</mat-icon>
+    <div class="max-w-[400px] text-title-medium">
       {{ t('selectionHintCalculation') }}
     </div>
   </div>

@@ -7,23 +7,23 @@
     (click)="onClose()"
   >
     <span>{{ t('title') }}</span>
-    <mat-icon class="text-medium-emphasis">close</mat-icon>
+    <mat-icon class="text-on-surface-variant">close</mat-icon>
   </div>
   <mat-tab-group mat-stretch-tabs class="flex-1">
-    <mat-tab label="{{ t('chart') | uppercase }}">
+    <mat-tab label="{{ t('chart') }}">
       <ng-content select="[chart]"></ng-content>
     </mat-tab>
-    <mat-tab label="{{ t('calculations') | uppercase }}">
+    <mat-tab label="{{ t('calculations') }}">
       <div class="h-full">
         <ng-content select="[calculations]"></ng-content>
       </div>
     </mat-tab>
-    <mat-tab label="{{ t('costElements.tabName') | uppercase }}">
+    <mat-tab label="{{ t('costElements.tabName') }}">
       <div class="h-full">
         <ng-content select="[costElements]"> </ng-content>
       </div>
     </mat-tab>
-    <mat-tab label="{{ t('rawMaterialAnalysis.tabName') | uppercase }}">
+    <mat-tab label="{{ t('rawMaterialAnalysis.tabName') }}">
       <div class="h-full">
         <ng-content select="[rawMaterialAnalysis]"> </ng-content>
       </div>

@@ -224,7 +224,7 @@
     },
     "calculations": {
       "pcmRow": {
-        "label": "Pcm",
+        "label": "PCM",
         "hint": "PCM materials are calculations only without relevant production information"
       },
       "table": {
@@ -280,8 +280,7 @@
           "specific": "This feature is currently in Beta. Beta testing is an opportunity for real users to use a product or feature in a production environment to uncover any bugs or issues before a general release. Beta testing is the final round of testing before release to a wide audience.\n\nIf you have found any issues and/or would like to request additional functionality please reach out using the button below."
         },
         "action": {
-          "primary": "Send feedback",
-          "secondary": "Close"
+          "primary": "Send feedback"
         }
       },
       "feedback": {

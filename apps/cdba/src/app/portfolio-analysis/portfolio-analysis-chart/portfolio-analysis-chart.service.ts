@@ -34,7 +34,7 @@ export class PortfolioAnalysisChartService {
       tooltip: {
         trigger: 'axis',
         formatter: (params: any) => `
-          <span class="flex text-body-2">${
+          <span class="flex text-body-medium">${
             params[0].value.materialDesignation
           }</span>
           ${params
@@ -43,7 +43,7 @@ export class PortfolioAnalysisChartService {
               const component = param.dimensionNames[param.componentIndex + 1];
 
               return data[component]
-                ? `<span class="flex justify-between pt-1 text-body-2">` +
+                ? `<span class="flex justify-between pt-1 text-body-medium">` +
                     `<span>${param.marker}${param.seriesName}: </span>` +
                     `<span class="font-medium ml-4">${this.formatValue(
                       data[component],

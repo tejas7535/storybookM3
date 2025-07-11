@@ -1,17 +1,17 @@
 <div
   #componentWrapper
-  class="truncate px-6 py-3 text-body-1"
+  class="truncate px-6 py-3 text-body-large"
   [ngClass]="{
-    'border-b border-border': borderBottom
+    'border-b border-border': borderBottom,
   }"
   [matTooltip]="value"
   [matTooltipPosition]="'above'"
   [matTooltipDisabled]="hideTooltip$ | ngrxPush"
 >
-  <span class="mr-4 inline-block text-medium-emphasis">{{ label }}:</span>
+  <span class="mr-4 inline-block text-on-surface-variant">{{ label }}:</span>
   <span
     data-cy="value"
-    class="text-high-emphasis"
+    class="text-on-surface"
     [ngClass]="{ 'cursor-help': !(hideTooltip$ | ngrxPush) }"
     [innerHTML]="value"
   ></span>

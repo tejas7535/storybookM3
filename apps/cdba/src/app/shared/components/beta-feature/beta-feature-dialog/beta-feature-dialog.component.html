@@ -1,21 +1,24 @@
-<ng-container *transloco="let t; read: 'shared.betaFeature.dialog'">
-  <h2 mat-dialog-title>
-    {{ t('title.main') }}
-    <mat-icon mat-dialog-close class="float-right cursor-pointer">
-      close
-    </mat-icon>
-  </h2>
-  <div
-    mat-dialog-content
-    class="whitespace-pre-line"
-    [innerHTML]="t('content.' + (modalData.contentType || 'specific'))"
-  ></div>
-  <div mat-dialog-actions>
-    <a [href]="emailTemplate" mat-flat-button color="primary">
-      {{ t('action.primary') }}
-    </a>
-    <button mat-stroked-button mat-dialog-close color="primary">
-      {{ t('action.secondary') }}
+<div *transloco="let t; read: 'shared.betaFeature.dialog'">
+  <div mat-dialog-title class="dialog-title">
+    <p>
+      {{ t('title.main') }}
+    </p>
+    <button mat-icon-button mat-dialog-close disableRipple (click)="onClose()">
+      <mat-icon> close </mat-icon>
     </button>
   </div>
-</ng-container>
+
+  <mat-dialog-content>
+    <div class="flex flex-col justify-center gap-4 p-2 whitespace-pre-line">
+      <p class="text-justify">
+        {{ t('content.' + (modalData.contentType || 'specific')) }}
+      </p>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <a [href]="emailTemplate" mat-flat-button>
+      {{ t('action.primary') }}
+    </a>
+  </mat-dialog-actions>
+</div>

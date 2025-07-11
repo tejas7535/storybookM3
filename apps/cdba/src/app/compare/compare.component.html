@@ -4,7 +4,10 @@
     [breadcrumbs]="breadcrumbs$ | ngrxPush"
     [truncateBreadcrumbsAfter]="4"
   >
-    <schaeffler-share-button subheaderInlineContent></schaeffler-share-button>
+    <schaeffler-share-button
+      class="text-label-large uppercase"
+      subheaderInlineContent
+    ></schaeffler-share-button>
   </schaeffler-subheader>
   <cdba-tabs-header class="grow" [tabs]="tabs"></cdba-tabs-header>
 </div>

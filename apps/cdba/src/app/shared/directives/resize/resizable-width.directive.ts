@@ -45,6 +45,7 @@ export class ResizableWidthDirective implements OnInit {
         this.resizableElement
       );
 
+      this.renderer.setStyle(this.resizableElement, 'width', 'fit-content');
       this.renderer.setStyle(
         this.resizableElement,
         'min-width',

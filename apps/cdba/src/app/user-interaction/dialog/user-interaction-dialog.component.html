@@ -40,7 +40,7 @@
               dateTime:
                 (status?.started
                 | localizedOffsetDatetime
-                | undefinedAttributeFallback)
+                | undefinedAttributeFallback),
             })
           }}
         </p>
@@ -50,7 +50,7 @@
               dateTime:
                 (status?.stopped
                 | localizedOffsetDatetime
-                | undefinedAttributeFallback)
+                | undefinedAttributeFallback),
             })
           }}
         </p>
@@ -63,7 +63,7 @@
                 dateTime:
                   (status?.downloadUrlExpiry
                   | localizedOffsetDatetime
-                  | undefinedAttributeFallback)
+                  | undefinedAttributeFallback),
               })
             }}
           </p>
@@ -79,8 +79,7 @@
     >
       <button
         mat-flat-button
-        color="primary"
-        class="!mr-4"
+        class="!mr-4 text-label-large"
         [disabled]="isDownloadBtnDisabled()"
         (click)="onDownload()"
       >

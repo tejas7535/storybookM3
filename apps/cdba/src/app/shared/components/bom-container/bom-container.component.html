@@ -90,7 +90,7 @@
     <div *transloco="let t; read: 'shared.bom'" class="flex h-full flex-col">
       <div class="flex justify-between bg-surface-legacy">
         <div>
-          <h6 class="mb-2 text-medium-emphasis">
+          <h6 class="mb-2 text-on-surface-variant">
             {{
               materialDesignation$
                 | ngrxPush
@@ -98,16 +98,16 @@
             }}
           </h6>
           <div *ngrxLet="selectedCalculation$; let calculation">
-            <div class="mr-4 inline-block text-body-2">
-              <span class="mr-2 inline-block text-medium-emphasis"
+            <div class="mr-4 inline-block text-body-medium">
+              <span class="mr-2 inline-block text-on-surface-variant"
                 >{{ t('costType') }}:</span
               >
               <span class="inline-block min-w-[38px]">{{
                 calculation?.costType
               }}</span>
             </div>
-            <div class="inline-block text-body-2">
-              <span class="mr-2 inline-block text-medium-emphasis"
+            <div class="inline-block text-body-medium">
+              <span class="mr-2 inline-block text-on-surface-variant"
                 >{{ t('calculationDate') }}:</span
               >
               <span>{{ calculation?.calculationDate | translocoDate }}</span>
@@ -118,8 +118,7 @@
           <button
             mat-stroked-button
             (click)="additionalInformation.open()"
-            class="!mr-4"
-            color="primary"
+            class="!mr-4 text-label-large"
           >
             {{ t('additionalInformation.title') }}
           </button>

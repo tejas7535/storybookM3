@@ -24,7 +24,7 @@
 * see https://material.angular.io
 */
 
-@use 'libs/shared/ui/styles/src/lib/scss/material-theme' as m2;
+@use 'libs/shared/ui/styles/src/lib/scss/m3-theme' as m3;
 
 /*
 * ag grid components
@@ -33,9 +33,9 @@
 @include ag.grid-styles(
   (
     theme: material,
-    material-primary-color: m2.$primary,
-    material-accent-color: m2.$info,
-    checkbox-checked-color: m2.$primary,
+    material-primary-color: m3.$primary,
+    material-accent-color: m3.$primary,
+    checkbox-checked-color: m3.$primary,
   )
 );
 
@@ -64,6 +64,28 @@ button {
 .mat-ripple-element.mat-mdc-slider-active-ripple,
 .mat-ripple-element.mat-mdc-slider-hover-ripple {
   display: none !important;
+}
+
+.mat-mdc-tab-labels,
+.mat-mdc-tab-link,
+.mdc-button {
+  text-transform: uppercase !important;
+}
+
+mat-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background: #ededed;
+}
+
+.mat-mdc-tab.mdc-tab--active .mdc-tab__text-label,
+.mat-mdc-tab-link.mdc-tab--active .mdc-tab__text-label {
+  color: var(--primary-color-hex, var(--mat-sys-on-surface)) !important;
+}
+
+// Style for Mat Dialog title
+.dialog-title {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
 }
 
 // custom overrides for ag grid
@@ -103,7 +125,7 @@ button {
 
   .ag-side-button-button {
     &:hover {
-      color: m2.$primary !important;
+      color: m3.$primary !important;
     }
   }
 

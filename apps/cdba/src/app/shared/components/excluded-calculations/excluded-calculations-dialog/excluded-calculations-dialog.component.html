@@ -7,7 +7,7 @@
       close
     </mat-icon>
   </h6>
-  <div mat-dialog-content class="text-body-1">
+  <div mat-dialog-content class="text-body-large">
     <div class="mb-4">
       {{ t('content.intro', { count: excludedCalculations.count }) }}
     </div>
@@ -20,7 +20,7 @@
           t('content.costRoles', {
             costRoleType: formatMissingCostRoles(
               excludedCalculations.missingCostRoles
-            )
+            ),
           })
         }}
       </div>
@@ -32,7 +32,7 @@
       <div
         [innerHTML]="
           t('content.regionalRoles', {
-            plants: excludedCalculations.excludedPlants.join(', ')
+            plants: excludedCalculations.excludedPlants.join(', '),
           })
         "
         class="mb-4"
@@ -46,10 +46,10 @@
     ></div>
   </div>
   <div mat-dialog-actions>
-    <a [href]="urlSams" mat-flat-button color="primary" class="!mr-2">
+    <a [href]="urlSams" mat-flat-button class="!mr-2">
       {{ t('action.primary') }}
     </a>
-    <button mat-dialog-close mat-stroked-button color="primary">
+    <button mat-dialog-close mat-stroked-button>
       {{ t('action.secondary') }}
     </button>
   </div>
