@@ -21,11 +21,13 @@ import {
   CALCULATOR_QUOTATION_DETAIL_DATA_MOCK,
   RFQ_CALCULATION_DATA,
 } from '../../../../../testing/mocks/models/calculator/rfq-4-detail-view/rfq-4-detail-view-data.mock';
+import { RecalculateSqvStatus } from '../../models/recalculate-sqv-status.enum';
 import { RecalculationComponent } from './recalculation.component';
 
 describe('RecalculationComponent', () => {
   let component: RecalculationComponent;
   let spectator: Spectator<RecalculationComponent>;
+  const rfq4recalculationStatus = signal(RecalculateSqvStatus.OPEN);
 
   const createComponent = createComponentFactory({
     component: RecalculationComponent,
@@ -52,6 +54,7 @@ describe('RecalculationComponent', () => {
           confirmRfq4DetailViewCalculationData: signal(RFQ_CALCULATION_DATA),
           getRfq4DetailViewCalculationData: signal(RFQ_CALCULATION_DATA),
           getQuotationDetailData: signal(CALCULATOR_QUOTATION_DETAIL_DATA_MOCK),
+          getRecalculationStatus: rfq4recalculationStatus,
           setCalculationDataStatus: signal('INVALID'),
           confirmRecalculationTriggered: signal(true),
         },
@@ -68,6 +71,23 @@ describe('RecalculationComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('onInit', () => {
+    test('should set the from to disabled when status changes from open to confirm', () => {
+      rfq4recalculationStatus.set(RecalculateSqvStatus.OPEN);
+      component.ngOnInit();
+      rfq4recalculationStatus.set(RecalculateSqvStatus.CONFIRMED);
+      spectator.detectChanges();
+      expect(component.recalculationForm.disabled).toBeTruthy();
+    });
+
+    test('should set the from to enabled when status changes from confirm to open', () => {
+      rfq4recalculationStatus.set(RecalculateSqvStatus.CONFIRMED);
+      component.ngOnInit();
+      rfq4recalculationStatus.set(RecalculateSqvStatus.OPEN);
+      spectator.detectChanges();
+      expect(component.recalculationForm.disabled).toBeFalsy();
+    });
+  });
   describe('isFormInvalid', () => {
     test('should return true when at least one form is touched and invalid', () => {
       const controls = component.recalculationForm.controls;

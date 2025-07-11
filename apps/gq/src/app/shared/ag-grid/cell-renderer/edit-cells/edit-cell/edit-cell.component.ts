@@ -13,7 +13,7 @@ import { EditingModalService } from '@gq/shared/components/modal/editing-modal/e
 import { PRICE_VALIDITY_MARGIN_THRESHOLD } from '@gq/shared/constants';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
-import { isRfq4ProcessOngoingForQuotationDetail } from '@gq/shared/utils/rfq-4-utils';
+import { isRfq4ProcessInProgressOrCompletedForQuotationDetail } from '@gq/shared/utils/rfq-4-utils';
 import { PushPipe } from '@ngrx/component';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 
@@ -197,7 +197,7 @@ export class EditCellComponent implements ICellRendererAngularComp {
     if (params.field === ColumnFields.ORDER_QUANTITY) {
       this.isCellEditingAllowed =
         this.isCellEditingAllowed &&
-        !isRfq4ProcessOngoingForQuotationDetail(params.data);
+        !isRfq4ProcessInProgressOrCompletedForQuotationDetail(params.data);
     }
   }
 }

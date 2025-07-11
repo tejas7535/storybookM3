@@ -4,7 +4,7 @@ import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { EditingModalService } from '@gq/shared/components/modal/editing-modal/editing-modal.service';
 import { QuotationStatus } from '@gq/shared/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
-import { isRfq4ProcessOngoingForQuotationDetail } from '@gq/shared/utils/rfq-4-utils';
+import { isRfq4ProcessInProgressOrCompletedForQuotationDetail } from '@gq/shared/utils/rfq-4-utils';
 
 @Component({
   selector: 'gq-quantity-display',
@@ -20,7 +20,7 @@ export class QuantityDisplayComponent {
   readonly quotationStatus = QuotationStatus;
 
   isRfq4ProcessOngoing = computed(() =>
-    isRfq4ProcessOngoingForQuotationDetail(this.quotationDetail())
+    isRfq4ProcessInProgressOrCompletedForQuotationDetail(this.quotationDetail())
   );
 
   openEditing(): void {

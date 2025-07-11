@@ -73,7 +73,7 @@
 
       <button
         type="submit"
-        [disabled]="isFormInvalid()"
+        [disabled]="isFormInvalid() || isRecalculationConfirmed()"
         mat-stroked-button
         color="primary"
         (click)="submit()"

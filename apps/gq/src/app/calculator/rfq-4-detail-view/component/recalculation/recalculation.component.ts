@@ -4,7 +4,9 @@ import {
   Component,
   computed,
   DestroyRef,
+  effect,
   inject,
+  Injector,
   OnInit,
   Signal,
   signal,
@@ -32,6 +34,7 @@ import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { RecalculateSqvStatus } from '../../models/recalculate-sqv-status.enum';
 import { CalculatorDetailsInputComponent } from './control/calculator-details/calculator-details-input.component';
 import { CommentInputComponent } from './control/comment/comment-input.component';
 import { CurrencyInputComponent } from './control/currency/currency-input.component';
@@ -80,16 +83,25 @@ export class RecalculationComponent implements OnInit, AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly formBuilder = inject(FormBuilder);
   private readonly translocoLocaleService = inject(TranslocoLocaleService);
+
+  private readonly injector = inject(Injector);
   private readonly rfq4RecalculationData: Signal<RfqDetailViewCalculationData> =
     this.store.getRfq4DetailViewCalculationData;
   private readonly priceUnit: Signal<number> = computed(
     () => this.store.getQuotationDetailData()?.priceUnit
   );
+  private readonly recalculationStatus: Signal<RecalculateSqvStatus> =
+    this.store.getRecalculationStatus;
+
   private readonly confirmRecalculationTriggered$ = toObservable(
     this.store.confirmRecalculationTriggered
   );
   private readonly recalculationFormStatus: WritableSignal<string | null> =
     signal(null);
+
+  readonly isRecalculationConfirmed = computed(
+    () => this.recalculationStatus() === RecalculateSqvStatus.CONFIRMED
+  );
 
   recalculationForm: FormGroup;
 
@@ -173,6 +185,17 @@ export class RecalculationComponent implements OnInit, AfterViewInit {
         deliveryTimeUnit: rfqData.deliveryTimeUnit ?? DeliveryTimeUnit.MONTHS,
       });
     }
+
+    effect(
+      () => {
+        if (this.isRecalculationConfirmed()) {
+          this.recalculationForm.disable();
+        } else {
+          this.recalculationForm.enable();
+        }
+      },
+      { injector: this.injector }
+    );
   }
 
   isFormInvalid(): boolean {
