@@ -1,7 +1,6 @@
 {
   "cdba": "/cdba/cdba-fe-deployment/master/",
   "gq": "/guidedquoting/gq-fe-deployment/master",
-  "gq-priv": "/guidedquoting/gq-fe-deployment/PR-53",
   "ia": "/insight-attrition/ia-fe-deployment/master",
   "mac": "/CDAI2/material_app_center/MAC-Frontend-Deployment/master",
   "mm": "/CDAI2/bearinx-frontend/mounting-manager/frontend-deployment/master",

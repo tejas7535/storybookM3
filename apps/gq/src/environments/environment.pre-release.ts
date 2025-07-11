@@ -8,10 +8,10 @@ export const environment: Environment = {
   clientId: 'e9fb595d-79b2-47c1-b421-9fbbcd24d58a',
   tenantId: '67416604-6509-4014-9859-45e709f53d3f',
   appScope: 'api://e7a6c97c-19b8-4b2b-b9f8-c832025a78b4/gqapi',
-  envName: 'https://guided-quoting-q-1.dev.dp.schaeffler (pre-release)',
+  envName: 'https://guided-quoting.de-q-1.aks.schaeffler.com (pre-release)',
   applicationInsights: {
     applicationInsightsConfig: {
-      instrumentationKey: '7194543e-f354-4570-aa04-808d2a78b1a3',
+      instrumentationKey: '87038c0e-898e-40bc-9536-9adfea25edee',
       disableCookiesUsage: false,
       autoTrackPageVisitTime: true,
     },
