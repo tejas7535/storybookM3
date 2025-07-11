@@ -15,7 +15,8 @@
       "dimension": "Dimensionen",
       "assignedTo": "Zugewiesen an",
       "assignToMe": "Mir zuweisen",
-      "message": "Nachricht"
+      "message": "Nachricht",
+      "link": "Produktstrukturplan"
     },
     "headerInformation": {
       "title": "Kopf Informationen",

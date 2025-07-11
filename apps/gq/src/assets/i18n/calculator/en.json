@@ -15,7 +15,8 @@
       "dimension": "Dimension",
       "assignedTo": "Assigned To",
       "assignToMe": "Assign it to me",
-      "message": "Comment"
+      "message": "Comment",
+      "link": "Bill of Material"
     },
     "headerInformation": {
       "title": "Header Information",

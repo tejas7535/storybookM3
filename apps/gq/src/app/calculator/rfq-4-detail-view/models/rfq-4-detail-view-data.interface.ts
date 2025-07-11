@@ -37,6 +37,7 @@ export interface CalculatorMaterialData {
   materialDescription: string;
   productHierarchy: string;
   dimensions: string;
+  productStructureUrl: string;
 }
 
 export interface CalculatorRfq4ProcessData {

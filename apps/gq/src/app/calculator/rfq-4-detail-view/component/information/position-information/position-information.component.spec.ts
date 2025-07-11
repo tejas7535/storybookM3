@@ -21,6 +21,7 @@ describe('PositionInformationComponent', () => {
   let component: PositionInformationComponent;
   let spectator: Spectator<PositionInformationComponent>;
   const rfq4ProcessData = signal(CALCULATOR_RFQ_4_PROCESS_DATA_MOCK);
+  const productStructureLink = 'https://example.com/product-structure';
 
   const createComponent = createComponentFactory({
     component: PositionInformationComponent,
@@ -32,6 +33,7 @@ describe('PositionInformationComponent', () => {
           getQuotationDetailData: signal(null),
           getRfq4ProcessData: rfq4ProcessData,
           assignRfq: jest.fn(),
+          productStructureUrl: signal(productStructureLink),
         },
       },
       mockProvider(RolesFacade, {
@@ -54,6 +56,23 @@ describe('PositionInformationComponent', () => {
       component.assignRfq();
 
       expect(component['store'].assignRfq).toHaveBeenCalled();
+    });
+  });
+
+  describe('openLink', () => {
+    beforeEach(() => {
+      jest.spyOn(window, 'open').mockImplementation();
+      component.productStructureUrl = signal(productStructureLink); // Assign the signal directly
+    });
+
+    test('should call openLink method', () => {
+      component.openLink();
+
+      expect(window.open).toHaveBeenCalledWith(
+        productStructureLink,
+        '_blank',
+        'noopener'
+      );
     });
   });
 

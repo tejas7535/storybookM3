@@ -35,6 +35,7 @@ export const CALCULATOR_MATERIAL_DATA_MOCK: CalculatorMaterialData = {
   materialDescription: 'Test Material',
   productHierarchy: 'Test Product Hierarchy',
   dimensions: 'Test Dimensions',
+  productStructureUrl: 'productStructureUrl',
 };
 
 export const CALCULATOR_QUOTATION_DETAIL_DATA_MOCK: CalculatorQuotationDetailData =

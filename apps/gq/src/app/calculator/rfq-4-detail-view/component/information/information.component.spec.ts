@@ -2,6 +2,7 @@ import { signal } from '@angular/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockComponents } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -23,8 +24,7 @@ describe('InformationComponent', () => {
   const createComponent = createComponentFactory({
     component: InformationComponent,
     imports: [
-      PositionInformationComponent,
-      HeaderInformationComponent,
+      MockComponents(PositionInformationComponent, HeaderInformationComponent),
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

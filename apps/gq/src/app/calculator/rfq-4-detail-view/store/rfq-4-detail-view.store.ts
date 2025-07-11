@@ -98,6 +98,11 @@ export const Rfq4DetailViewStore = signalStore(
     getAssignedUserId: computed(
       (): string => store.rfq4DetailViewData()?.rfq4ProcessData.assignedUserId
     ),
+    getProductStructureUrl: computed(
+      (): string =>
+        store.rfq4DetailViewData()?.quotationDetailData.materialData
+          .productStructureUrl
+    ),
     getRecalculationStatus: computed(
       (): RecalculateSqvStatus =>
         store.rfq4DetailViewData()?.rfq4ProcessData

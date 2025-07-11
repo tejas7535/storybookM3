@@ -221,6 +221,24 @@ describe('Rfq4DetailViewStore', () => {
       const isCalculationDataInvalid = store.isCalculationDataInvalid();
       expect(isCalculationDataInvalid).toBeTruthy();
     });
+    test('getProductStructureUrl', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      patchState(unprotected(store), {
+        rfq4DetailViewData: {
+          ...RFQ_DETAIL_VIEW_DATA_MOCK,
+          quotationDetailData: {
+            ...RFQ_DETAIL_VIEW_DATA_MOCK.quotationDetailData,
+            materialData: {
+              ...RFQ_DETAIL_VIEW_DATA_MOCK.quotationDetailData.materialData,
+              productStructureUrl: 'url',
+            },
+          },
+        },
+      });
+
+      const productStructureUrl = store.getProductStructureUrl();
+      expect(productStructureUrl).toEqual('url');
+    });
   });
 
   describe('methods', () => {

@@ -65,6 +65,16 @@
           rfq4ProcessData().recalculationMessage | nullableString
         }}</span>
       </gq-label-text>
+      <div class="mt-3">
+        @if (productStructureUrl()) {
+          <span
+            class="text-primary text-body-2 text-medium-emphasis cursor-pointer hover:underline"
+            (click)="openLink()"
+          >
+            {{ t('link') }}
+          </span>
+        }
+      </div>
     </gq-kpi-status-card>
   }
 </ng-container>

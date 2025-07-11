@@ -37,7 +37,7 @@ export class PositionInformationComponent {
     this.store.getQuotationDetailData;
   rfq4ProcessData: Signal<CalculatorRfq4ProcessData> =
     this.store.getRfq4ProcessData;
-
+  productStructureUrl: Signal<string> = this.store.getProductStructureUrl;
   processAssignedToAdUser: Signal<ActiveDirectoryUser> =
     this.store.processAssignedToAdUser;
   showAssignButton: Signal<boolean> = computed(() => {
@@ -53,5 +53,9 @@ export class PositionInformationComponent {
 
   assignRfq(): void {
     this.store.assignRfq();
+  }
+
+  openLink() {
+    window.open(this.productStructureUrl(), '_blank', 'noopener');
   }
 }
