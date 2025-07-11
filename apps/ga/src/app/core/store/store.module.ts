@@ -8,10 +8,13 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { environment } from '@ga/environments/environment';
 
-import { BearingSelectionEffects } from './effects/bearing-selection/bearing-selection.effects';
+import {
+  AppRatingEffects,
+  BearingSelectionEffects,
+  SettingsEffects,
+  StorageMessagesEffects,
+} from './effects';
 import * as CalculationParametersEffects from './effects/calculation-parameters/calculation-parameters.effects';
-import { SettingsEffects } from './effects/settings/settings.effects';
-import { StorageMessagesEffects } from './effects/storage-messages/storage-messages.effects';
 import { CustomSerializer, metaReducers, reducers } from './reducers';
 
 @NgModule({
@@ -39,6 +42,7 @@ import { CustomSerializer, metaReducers, reducers } from './reducers';
       SettingsEffects,
       StorageMessagesEffects,
       CalculationParametersEffects,
+      AppRatingEffects,
     ]),
   ],
   exports: [],
