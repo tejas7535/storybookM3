@@ -1,4 +1,27 @@
 # Release Notes of Guided Quoting
+## [6.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v6.3.0...gq-v6.4.0) (2025-07-16)
+
+
+### Features
+
+* **gq:** add assign rfq functionality for calculator user (GQUOTE-6039) ([#7313](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7313)) ([aff9853](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/aff98537b284ecfc093b565048f913ccaac9069c))
+* **gq:** adjust materialClassificationSop naming to BE changes ([#7364](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7364)) ([1fefcd0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1fefcd0c24710edb66569ae806f49ce4f5185469))
+* **gq:** autoselect default customer material number if avl (GQUOTE-5994) ([#7297](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7297)) ([a8583e8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a8583e86e562ab9aad722413c5563e4c77a4f2c4))
+* **gq:** calculate sqv based on selected currency exchange ratio (GQUOTE-6306) ([#7396](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7396)) ([976bc70](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/976bc70ad6c47624e44a77b6972786a2c5102f56))
+* **gq:** implement confirm rfq4 functionality (GQUOTE-6142) ([#7374](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7374)) ([f02188b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f02188beaab3795df7243b43f7f19065291d92c8))
+* **gq:** implement link to product structure (GQUOTE-6307) ([#7406](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7406)) ([f9f5dde](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f9f5dde8cd403ac2a05f785f434b11178fbaffa2))
+* **gq:** implement save functionality for calculator inputs (GQUOTE-6134) ([#7345](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7345)) ([f37ae3f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f37ae3f6f373d4f8b6108daf11b76e9d3475c8a6))
+* **gq:** improve user settings handling (GQUOTE-6239) ([#7357](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7357)) ([e36251d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e36251d0f5eb23edc76e76f4378ab0a7ef406590))
+* **gq:** load calc count initially and handle table config (GQUOTE-5769) ([#7395](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7395)) ([2d38109](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2d3810940c350138cbd245e8fcf3348f9c672a84))
+* **gq:** offboard public cluster build and deployment (GQUOTE-5273) ([#7408](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7408)) ([6f654b1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6f654b1d27e1e4166974a54a02f2cd1e460dcf25))
+
+
+### Bug Fixes
+
+* **gq:** do not show modal title when calculators are loading (GQUOTE-6271) ([#7377](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7377)) ([fc65fc1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fc65fc1bc784588bb136d2c019eb7604c81849c2))
+* **gq:** handle non existing maintainers in rfq process (GQUOTE-6272) ([#7400](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7400)) ([875cd5d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/875cd5dabfd90ec34e52c940ff9ebedfd84458ff))
+* **gq:** recalculation request sent message (GQUOTE-6268) ([#7376](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7376)) ([476a7c2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/476a7c26bc6fc4a640854f9a93208ec9be509751))
+
 ## [6.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v6.2.0...gq-v6.3.0) (2025-06-25)
 
 
