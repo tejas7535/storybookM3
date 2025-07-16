@@ -11,7 +11,7 @@ import { MockModule } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppComponent } from './app.component';
-import { AddToCartService } from './core/services/add-to-cart.service';
+import { LSACartService } from './core/services/add-to-cart.service';
 import { PriceAvailabilityService } from './core/services/price-availability.service';
 import { RestService } from './core/services/rest.service';
 import { StaticStorageService } from './core/services/static-storage';
@@ -51,7 +51,7 @@ describe('AppComponent', () => {
         },
       },
       {
-        provide: AddToCartService,
+        provide: LSACartService,
         useValue: {
           addToCartEvent$: of({}),
           setUserTier: jest.fn(),
@@ -108,9 +108,9 @@ describe('AppComponent', () => {
     it('should set userTier', () => {
       spectator.setInput('userTier', UserTier.Business);
 
-      expect(
-        spectator.inject(AddToCartService).setUserTier
-      ).toHaveBeenCalledWith(UserTier.Business);
+      expect(spectator.inject(LSACartService).setUserTier).toHaveBeenCalledWith(
+        UserTier.Business
+      );
     });
   });
 
@@ -144,15 +144,6 @@ describe('AppComponent', () => {
   describe('listenForPriceAndAvailabilityRequests', () => {
     it('should subscribe to priceAndAvailabilityRequest$ and emit availabilityRequest event', () => {
       const emitSpy = jest.spyOn(component.availabilityRequest, 'emit');
-      spectator.detectChanges();
-
-      expect(emitSpy).toHaveBeenCalled();
-    });
-  });
-
-  describe('listenForAddToCartEvent', () => {
-    it('should subscribe to addToCartEvent$ and emit addToCart event', () => {
-      const emitSpy = jest.spyOn(component.addToCart, 'emit');
       spectator.detectChanges();
 
       expect(emitSpy).toHaveBeenCalled();

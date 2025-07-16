@@ -2,15 +2,27 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 import { AccessoryTableFormGroup } from '@lsa/recommendation/result/accessory-table/accessory-table.model';
 import { UserTier } from '@lsa/shared/constants/user-tier.enum';
-import { Accessory, CartItem } from '@lsa/shared/models';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { Accessory } from '@lsa/shared/models';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
 
-import { AddToCartService } from './add-to-cart.service';
+import {
+  AddToCartService,
+  CartItem,
+} from '@schaeffler/engineering-apps-behaviors/medias';
+
+import { LSACartService } from './add-to-cart.service';
 
 describe('AddToCartService', () => {
-  let spectator: SpectatorService<AddToCartService>;
-  let service: AddToCartService;
-  const createService = createServiceFactory(AddToCartService);
+  let spectator: SpectatorService<LSACartService>;
+  let service: LSACartService;
+  const createService = createServiceFactory({
+    service: LSACartService,
+    providers: [mockProvider(AddToCartService)],
+  });
 
   const accessories: Accessory[] = [
     {
@@ -48,7 +60,7 @@ describe('AddToCartService', () => {
       service.setUserTier(UserTier.Plus);
     });
 
-    it('should update accessories quantities and emit cart items', (done) => {
+    it('should update accessories quantities and emit cart items', () => {
       const formGroup: AccessoryTableFormGroup = new FormGroup({
         group1: new FormGroup({
           '123': new FormControl(5),
@@ -61,12 +73,10 @@ describe('AddToCartService', () => {
         { productCode: '002', quantity: 10 },
       ];
 
-      service.addToCartEvent$.subscribe((event) => {
-        expect(event.cart).toEqual(expectedCartItems);
-        done();
-      });
-
       service.addToCartEvent(accessories, formGroup);
+      expect(service['cartService'].addToCart).toHaveBeenCalledWith(
+        expectedCartItems
+      );
     });
 
     it('should return shouldShowPrices false', () => {
@@ -79,7 +89,7 @@ describe('AddToCartService', () => {
       service.setUserTier(UserTier.Business);
     });
 
-    it('should update accessories quantities and emit cart items with pack codes', (done) => {
+    it('should update accessories quantities and emit cart items with pack codes', () => {
       const formGroup: AccessoryTableFormGroup = new FormGroup({
         group1: new FormGroup({
           '123': new FormControl(5),
@@ -91,13 +101,10 @@ describe('AddToCartService', () => {
         { productCode: '001', packCode: '23', quantity: 5 },
         { productCode: '002', packCode: '56', quantity: 10 },
       ];
-
-      service.addToCartEvent$.subscribe((event) => {
-        expect(event.cart).toEqual(expectedCartItems);
-        done();
-      });
-
       service.addToCartEvent(accessories, formGroup);
+      expect(service['cartService'].addToCart).toHaveBeenCalledWith(
+        expectedCartItems
+      );
     });
 
     it('should return shouldShowPrices true', () => {

@@ -13,14 +13,18 @@ import { Subject, takeUntil } from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 
-import { AddToCartService } from './core/services/add-to-cart.service';
+import {
+  AddToCartEvent,
+  AddToCartService,
+} from '@schaeffler/engineering-apps-behaviors/medias';
+
+import { LSACartService } from './core/services/add-to-cart.service';
 import { isLanguageAvailable } from './core/services/language-helpers';
 import { PriceAvailabilityService } from './core/services/price-availability.service';
 import { RestService } from './core/services/rest.service';
 import { StaticStorageService } from './core/services/static-storage';
 import { FALLBACK_LANGUAGE } from './shared/constants/language';
 import { UserTier } from './shared/constants/user-tier.enum';
-import { AddToCartEventPayload } from './shared/models';
 import { AvailabilityRequestEvent } from './shared/models/price-availibility.model';
 
 @Component({
@@ -32,7 +36,7 @@ import { AvailabilityRequestEvent } from './shared/models/price-availibility.mod
 export class AppComponent implements OnInit, OnDestroy {
   @Output() availabilityRequest = new EventEmitter<AvailabilityRequestEvent>();
 
-  @Output() addToCart = new EventEmitter<AddToCartEventPayload>();
+  @Output() addToCart = new EventEmitter<AddToCartEvent>();
 
   private _language: string | undefined;
   private readonly destroyed$ = new Subject<void>();
@@ -41,8 +45,9 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly translocoService: TranslocoService,
     private readonly restService: RestService,
     private readonly priceAvailabilityService: PriceAvailabilityService,
-    private readonly addToCartService: AddToCartService,
+    private readonly lsaCartService: LSACartService,
     private readonly staticStorageService: StaticStorageService,
+    private readonly mediasCartService: AddToCartService,
     @Inject(LOCAL_STORAGE) private readonly localStorage: Storage
   ) {}
 
@@ -53,12 +58,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   @Input() set userTier(value: UserTier) {
-    this.addToCartService.setUserTier(value);
+    this.lsaCartService.setUserTier(value);
   }
 
   ngOnInit(): void {
     this.listenForPriceAndAvailabilityRequests();
-    this.listenForAddToCartEvents();
+    this.mediasCartService.cartEvents$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((event) => this.addToCart.emit(event));
     this.fetchGreases();
 
     this.staticStorageService.displayMaintenanceMessages();
@@ -90,14 +97,6 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe((event: AvailabilityRequestEvent) => {
         this.availabilityRequest.emit(event);
-      });
-  }
-
-  private listenForAddToCartEvents(): void {
-    this.addToCartService.addToCartEvent$
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe((event: AddToCartEventPayload) => {
-        this.addToCart.emit(event);
       });
   }
 }

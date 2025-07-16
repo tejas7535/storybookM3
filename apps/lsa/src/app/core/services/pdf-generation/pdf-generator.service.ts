@@ -49,7 +49,7 @@ import {
   Table,
 } from '@schaeffler/pdf-generator';
 
-import { AddToCartService } from '../add-to-cart.service';
+import { LSACartService } from '../add-to-cart.service';
 import { LsaFormService } from '../lsa-form.service';
 import { PriceAvailabilityService } from '../price-availability.service';
 import { RestService } from '../rest.service';
@@ -420,7 +420,7 @@ export class PDFGeneratorService {
     private readonly formService: LsaFormService,
     private readonly resultInputsService: ResultInputsService,
     private readonly priceService: PriceAvailabilityService,
-    private readonly addToCartService: AddToCartService,
+    private readonly addToCartService: LSACartService,
     private readonly localeService: TranslocoLocaleService
   ) {
     this.pdfFile.subscribe((doc) => {

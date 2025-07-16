@@ -21,7 +21,7 @@ import {
   ImageResolverService,
 } from '@schaeffler/pdf-generator';
 
-import { AddToCartService } from '../add-to-cart.service';
+import { LSACartService } from '../add-to-cart.service';
 import { LsaFormService } from '../lsa-form.service';
 import { PriceAvailabilityService } from '../price-availability.service';
 import { RestService } from '../rest.service';
@@ -108,7 +108,7 @@ describe('PDFGeneratorService', () => {
       mockProvider(ResultInputsService, {
         getPipeLengthTranslation: jest.fn((a) => of(a)),
       }),
-      mockProvider(AddToCartService, {
+      mockProvider(LSACartService, {
         getUserTier: jest.fn(() => UserTier.Business),
         shouldShowPrices: jest.fn(() => true),
       }),

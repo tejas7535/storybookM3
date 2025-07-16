@@ -1,23 +1,22 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { Subject } from 'rxjs';
-
 import { AccessoryTableFormGroup } from '@lsa/recommendation/result/accessory-table/accessory-table.model';
 import { UserTier } from '@lsa/shared/constants/user-tier.enum';
-import { Accessory, AddToCartEventPayload, CartItem } from '@lsa/shared/models';
+import { Accessory } from '@lsa/shared/models';
+
+import {
+  AddToCartService,
+  CartItem,
+} from '@schaeffler/engineering-apps-behaviors/medias';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AddToCartService {
-  private readonly addToCartEventSubject$ =
-    new Subject<AddToCartEventPayload>();
-
+export class LSACartService {
   private userTier: UserTier = UserTier.Anonymous;
 
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  public addToCartEvent$ = this.addToCartEventSubject$.asObservable();
+  constructor(private readonly cartService: AddToCartService) {}
 
   public setUserTier(userTier: UserTier): void {
     this.userTier = userTier;
@@ -40,8 +39,8 @@ export class AddToCartService {
       formGroup
     );
 
-    const cartItems = this.createCartItmems(updatedAccessories);
-    this.addToCartEventSubject$.next({ cart: cartItems });
+    const cartItems = this.createCartItems(updatedAccessories);
+    this.cartService.addToCart(cartItems);
   }
 
   private updateAccessoriesQuantity(
@@ -67,7 +66,7 @@ export class AddToCartService {
     return accessories;
   }
 
-  private createCartItmems(accessories: Accessory[]): CartItem[] {
+  private createCartItems(accessories: Accessory[]): CartItem[] {
     return accessories.map((acc) => ({
       productCode: acc.pim_code,
       packCode: this.getPackCode(acc.fifteen_digit),
@@ -80,10 +79,6 @@ export class AddToCartService {
       return undefined;
     }
 
-    return this.getLastTwoDigits(fifteen_digit);
-  }
-
-  private getLastTwoDigits(input: string): string {
-    return input.slice(-2);
+    return fifteen_digit.slice(-2);
   }
 }

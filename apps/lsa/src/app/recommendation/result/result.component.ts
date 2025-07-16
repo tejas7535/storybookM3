@@ -12,7 +12,7 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { AddToCartService } from '@lsa/core/services/add-to-cart.service';
+import { LSACartService } from '@lsa/core/services/add-to-cart.service';
 import {
   AddToCartEvent,
   GoogleAnalyticsService,
@@ -79,7 +79,7 @@ export class ResultComponent implements OnChanges, OnInit {
   public pdfGenerating$$ = this.pdfService.loading$$;
 
   constructor(
-    private readonly addToCartService: AddToCartService,
+    private readonly addToCartService: LSACartService,
     private readonly formService: LsaFormService,
     private readonly googleAnalyticsService: GoogleAnalyticsService,
     private readonly pdfService: PDFGeneratorService

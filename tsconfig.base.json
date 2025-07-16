@@ -104,6 +104,9 @@
         "libs/shared/utils/transloco/testing/src/index.ts"
       ],
       "@schaeffler/view-toggle": ["libs/shared/ui/view-toggle/src/index.ts"],
+      "@schaeffler/engineering-apps-behaviors/medias": [
+        "libs/shared/utils/engineering-apps-behaviors/src/lib/medias/index.ts"
+      ],
       "jszip": ["node_modules/jszip/dist/jszip.min.js"]
     },
     "resolveJsonModule": true,

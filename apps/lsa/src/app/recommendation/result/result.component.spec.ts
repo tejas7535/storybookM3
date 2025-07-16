@@ -1,6 +1,6 @@
 import { SimpleChanges } from '@angular/core';
 
-import { AddToCartService } from '@lsa/core/services/add-to-cart.service';
+import { LSACartService } from '@lsa/core/services/add-to-cart.service';
 import { GoogleAnalyticsService } from '@lsa/core/services/google-analytics';
 import { PDFGeneratorService } from '@lsa/core/services/pdf-generation/pdf-generator.service';
 import { Lubricator, RecommendationResponse } from '@lsa/shared/models';
@@ -37,7 +37,7 @@ describe('ResultComponent', () => {
     ],
     providers: [
       {
-        provide: AddToCartService,
+        provide: LSACartService,
         useValue: {
           addToCartEvent: jest.fn(),
           getUserTier: jest.fn(),
@@ -190,7 +190,7 @@ describe('ResultComponent', () => {
         spectator.detectChanges();
       });
       it('should call addToCartEvent', () => {
-        const addToCartService = spectator.inject(AddToCartService);
+        const addToCartService = spectator.inject(LSACartService);
         const accessoryTableComponent = spectator.query(
           AccessoryTableComponent
         );

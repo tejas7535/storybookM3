@@ -1,4 +1,3 @@
-export * from './add-to-cart.model';
 export * from './grease.model';
 export * from './page.model';
 export * from './recommendation-form.model';
