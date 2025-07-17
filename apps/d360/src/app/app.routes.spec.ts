@@ -5,7 +5,7 @@ import { LegalRoute } from '@schaeffler/legal-pages';
 
 import { appRoutes, getAllRoutes } from './app.routes';
 import { AppRoutePath } from './app.routes.enum';
-import { Region } from './feature/global-selection/model';
+import { allRegions } from './feature/global-selection/model';
 import { ProductType } from './shared/components/tab-bar-navigation/tab-bar-navigation.component';
 import { CanDeactivateGuard } from './shared/utils/auth/can-deactivate-guard.service';
 import { RegionGuard } from './shared/utils/auth/region-guard.service';
@@ -33,7 +33,7 @@ describe('appRoutes', () => {
         visible: true,
         data: {
           allowedRoles: salesPlanningAllowedRoles,
-          allowedRegions: [Region.Europe],
+          allowedRegions: allRegions,
           titles: ['header.title', 'tabbarMenu.sales-planning.label'],
           hasSalesValidationSelection: true,
         },
@@ -71,7 +71,7 @@ describe('appRoutes', () => {
         canActivate: [MsalGuard, RegionGuard],
         visible: true,
         data: {
-          allowedRegions: [Region.Europe],
+          allowedRegions: allRegions,
           titles: ['header.title', 'tabbarMenu.overview.label'],
         },
         loadComponent: expect.any(Function),

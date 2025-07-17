@@ -384,18 +384,29 @@ describe('UserService', () => {
       });
     });
 
-    it('should return the default start page based on region if not configured', () => {
+    it('should return the default start page for all regions if not configured', () => {
       service.userSettings.set({
         systemMessage: null,
         startPage: null,
         demandValidation: null,
         overviewPage: null,
       });
-      service.region.set(Region.Europe);
+      const testRegions = [
+        Region.Europe,
+        Region.Americas,
+        Region.AsiaPacific,
+        Region.GreaterChina,
+      ];
 
-      service.getStartPage().subscribe((page) => {
-        expect(page).toBe(AppRoutePath.OverviewPage);
-      });
+      for (const region of testRegions) {
+        service.region.set(region);
+
+        service
+          .getStartPage()
+          .subscribe((startPage) =>
+            expect(startPage).toBe(AppRoutePath.OverviewPage)
+          );
+      }
     });
   });
 

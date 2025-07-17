@@ -26,7 +26,7 @@ import { translate } from '@jsverse/transloco';
 import { CustomRoute } from '../../app.routes';
 import { AppRoutePath, AppRouteValue } from '../../app.routes.enum';
 import { SelectedKpisAndMetadata } from '../../feature/demand-validation/model';
-import { Region } from '../../feature/global-selection/model';
+import { allRegions, Region } from '../../feature/global-selection/model';
 import { FilterValues } from '../../pages/demand-validation/tables/demand-validation-table/column-definitions';
 import {
   DemandValidationExport,
@@ -222,10 +222,9 @@ export class UserService {
           ? of(settings.startPage as AppRouteValue)
           : this.loadRegion().pipe(
               map((region) => {
-                const fallBackPage =
-                  region === Region.Europe
-                    ? AppRoutePath.OverviewPage
-                    : AppRoutePath.CustomerMaterialDetailsPage;
+                const fallBackPage = allRegions.includes(region)
+                  ? AppRoutePath.OverviewPage
+                  : AppRoutePath.CustomerMaterialDetailsPage;
 
                 this.userSettings.update((currentSettings) => ({
                   ...currentSettings,

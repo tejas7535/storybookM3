@@ -33,3 +33,5 @@ export enum Region {
   AsiaPacific = 'AP',
   Americas = 'AM',
 }
+
+export const allRegions = Object.values(Region);

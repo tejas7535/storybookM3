@@ -4,7 +4,7 @@ import { MsalGuard } from '@azure/msal-angular';
 
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { AppRoutePath, AppRouteValue } from './app.routes.enum';
-import { Region } from './feature/global-selection/model';
+import { allRegions, Region } from './feature/global-selection/model';
 import { ProductType } from './shared/components/tab-bar-navigation/tab-bar-navigation.component';
 import { CanDeactivateGuard } from './shared/utils/auth/can-deactivate-guard.service';
 import { RegionGuard } from './shared/utils/auth/region-guard.service';
@@ -56,7 +56,7 @@ export const appRoutes: RouteConfig = {
         visible: true,
         data: {
           allowedRoles: salesPlanningAllowedRoles,
-          allowedRegions: [Region.Europe],
+          allowedRegions: allRegions,
           titles: ['header.title', 'tabbarMenu.sales-planning.label'],
           hasSalesValidationSelection: true,
         },
@@ -163,7 +163,7 @@ export const appRoutes: RouteConfig = {
         canActivate: [MsalGuard, RegionGuard],
         visible: true,
         data: {
-          allowedRegions: [Region.Europe],
+          allowedRegions: allRegions,
           titles: ['header.title', 'tabbarMenu.overview.label'],
         },
         loadComponent: /* istanbul ignore next */ () =>
