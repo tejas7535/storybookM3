@@ -20,7 +20,10 @@ import {
   SAP_SYNC_STATUS,
   TagType,
 } from '@gq/shared/models';
-import { QuotationPricingOverview } from '@gq/shared/models/quotation';
+import {
+  QuotationPricingOverview,
+  SapCallInProgress,
+} from '@gq/shared/models/quotation';
 import { QuotationDetailCosts } from '@gq/shared/models/quotation-detail/cost';
 import { MaterialComparableCost } from '@gq/shared/models/quotation-detail/material-comparable-cost.model';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
@@ -130,6 +133,14 @@ export class ActiveCaseFacade {
 
   quotationCalculationInProgress$: Observable<boolean> = this.quotation$.pipe(
     map((quotation) => quotation.calculationInProgress)
+  );
+
+  quotationDetailDeletionInProgress$ = this.quotation$.pipe(
+    map(
+      (quotation) =>
+        quotation.sapCallInProgress ===
+        SapCallInProgress.DELETE_QUOTATION_DETAILS_IN_PROGRESS
+    )
   );
 
   simulatedField$: Observable<ColumnFields> =

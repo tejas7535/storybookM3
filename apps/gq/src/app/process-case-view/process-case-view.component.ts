@@ -36,6 +36,8 @@ export class ProcessCaseViewComponent implements OnDestroy {
   );
 
   showCalcInProgress$ = this.activeCaseFacade.quotationCalculationInProgress$;
+  quotationDetailDeletionInProgress$ =
+    this.activeCaseFacade.quotationDetailDeletionInProgress$;
   quotation$: Observable<Quotation> = this.activeCaseFacade.quotation$;
   sapStatus$: Observable<SAP_SYNC_STATUS> =
     this.activeCaseFacade.quotationSapSyncStatus$;

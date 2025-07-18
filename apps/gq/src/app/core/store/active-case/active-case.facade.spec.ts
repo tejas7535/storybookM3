@@ -13,6 +13,7 @@ import {
   SAP_SYNC_STATUS,
   TagType,
 } from '@gq/shared/models';
+import { SapCallInProgress } from '@gq/shared/models/quotation';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
@@ -169,6 +170,43 @@ describe('ActiveCaseFacade', () => {
 
         m.expect(facade.quotationCalculationInProgress$).toBeObservable(
           m.cold('a', { a: true })
+        );
+      })
+    );
+  });
+
+  describe('quotationDetailDeletionInProgress$', () => {
+    test(
+      'should return true',
+      marbles((m) => {
+        const quotation = {
+          sapCallInProgress:
+            SapCallInProgress.DELETE_QUOTATION_DETAILS_IN_PROGRESS,
+        } as Quotation;
+        mockStore.overrideSelector(
+          activeCaseFeature.selectQuotation,
+          quotation
+        );
+
+        m.expect(facade.quotationDetailDeletionInProgress$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+
+    test(
+      'should return false',
+      marbles((m) => {
+        const quotation = {
+          sapCallInProgress: SapCallInProgress.CREATE_QUOTATION_IN_PROGRESS,
+        } as Quotation;
+        mockStore.overrideSelector(
+          activeCaseFeature.selectQuotation,
+          quotation
+        );
+
+        m.expect(facade.quotationDetailDeletionInProgress$).toBeObservable(
+          m.cold('a', { a: false })
         );
       })
     );
