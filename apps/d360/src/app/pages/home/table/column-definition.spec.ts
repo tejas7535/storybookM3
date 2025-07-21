@@ -5,27 +5,9 @@ import { Stub } from '../../../shared/test/stub.class';
 import {
   columnDefinitions,
   translateAbcxClassificationValue,
-  translateForecastMaintainedValue,
 } from './column-definition';
 
 describe('HomeTableColumnDefinitions', () => {
-  describe('translateForecastMaintainedValue', () => {
-    it('should return the translation key for true value', () => {
-      const result = translateForecastMaintainedValue(true);
-      expect(result).toBe('field.forecastMaintained.value.true');
-    });
-
-    it('should return the translation key for false value', () => {
-      const result = translateForecastMaintainedValue(false);
-      expect(result).toBe('field.forecastMaintained.value.false');
-    });
-
-    it('should return the translation key for undefined value', () => {
-      const result = translateForecastMaintainedValue();
-      expect(result).toBe('field.forecastMaintained.value.false');
-    });
-  });
-
   describe('translateAbcxClassificationValue', () => {
     it('should return the translation key for a valid AbcxClassification value', () => {
       const result = translateAbcxClassificationValue('A');
@@ -115,17 +97,17 @@ describe('HomeTableColumnDefinitions', () => {
       expect(stochasticTypeColumn?.filter).toBe('mockFilter');
     });
 
-    it('should include correct valueFormatter for pfStatusAutoSwitch column', () => {
+    it('should include correct valueFormatter for portfolioStatusAutoSwitch column', () => {
       const columns = columnDefinitions(
         agGridLocalizationService,
         selectableOptionsService
       );
-      const pfStatusAutoSwitchColumn = columns.find(
-        (col) => col.colId === 'pfStatusAutoSwitch'
+      const portfolioStatusAutoSwitch = columns.find(
+        (col) => col.colId === 'portfolioStatusAutoSwitch'
       );
 
-      expect(pfStatusAutoSwitchColumn).toBeDefined();
-      expect(pfStatusAutoSwitchColumn?.valueFormatter).toBe(
+      expect(portfolioStatusAutoSwitch).toBeDefined();
+      expect(portfolioStatusAutoSwitch?.valueFormatter).toBe(
         agGridLocalizationService.dateFormatter
       );
     });
@@ -270,8 +252,8 @@ describe('HomeTableColumnDefinitions', () => {
       );
 
       const dateColumns = [
-        'pfStatusAutoSwitch',
-        'repDate',
+        'portfolioStatusAutoSwitch',
+        'replacementDate',
         'forecastValidatedFrom',
         'forecastValidatedTo',
         'forecastValidatedAt',

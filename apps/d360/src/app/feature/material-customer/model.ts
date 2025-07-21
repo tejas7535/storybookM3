@@ -28,20 +28,18 @@ export interface MaterialCustomerEntry {
   customerMaterialNumberCount?: number;
   materialClassification?: MaterialClassification;
   demandCharacteristic?: DemandCharacteristic;
-  currentRLTSchaeffler?: string;
-  currentRLTCustomer?: string;
+  currentRLTSchaeffler?: number;
+  currentRLTCustomer?: number;
   portfolioStatus?: string;
   stochasticType?: string;
   successorSchaefflerMaterial?: string;
   successorSchaefflerMaterialDescription?: string;
   successorSchaefflerMaterialPackagingSize?: number;
-  successorMaterialClassificationSchaeffler?: string;
   successorMaterialCustomer?: string;
   successorCustomerMaterialDescription?: string;
   successorCustomerMaterialPackagingSize?: number;
-  successorMaterialClassificationCustomer?: string;
-  pfStatusAutoSwitch?: string;
-  repDate?: string;
+  portfolioStatusAutoSwitch?: string;
+  replacementDate?: string;
   accountOwner?: string;
   accountOwnerID?: string;
   internalSales?: string;
@@ -59,7 +57,7 @@ export interface MaterialCustomerEntry {
   productLine?: string;
 
   forecastMaintained?: boolean;
-  forecastValidated?: string;
+  forecastValidated?: number;
   forecastValidatedFrom?: string;
   forecastValidatedTo?: string;
   forecastValidatedAt?: string;
@@ -67,6 +65,19 @@ export interface MaterialCustomerEntry {
   abcxClassification?: string;
   gpsd?: string;
   gpsdName?: string;
+  division?: string;
+  portfolioStatusDate?: string;
+  statusValidFromDate?: string;
+  alertType?: string;
+  fixHor?: string;
+  safetyStock?: number;
+  portfolioStatusValidFrom?: string;
+  safetyStockCustomer?: number;
+  productCluster?: string;
+  materialNumberS4?: string;
+  frozenZone?: string;
+  fixhorDays?: number;
+  materialClassificationCore?: string;
 }
 
 export interface CriteriaFields {

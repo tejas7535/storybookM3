@@ -22,12 +22,6 @@ export function translateAbcxClassificationValue(value?: string) {
   );
 }
 
-export function translateForecastMaintainedValue(value?: boolean) {
-  return value
-    ? translate(`field.forecastMaintained.value.true`)
-    : translate(`field.forecastMaintained.value.false`);
-}
-
 export function columnDefinitions(
   agGridLocalizationService: AgGridLocalizationService,
   selectableOptionsService: SelectableOptionsService
@@ -171,14 +165,14 @@ export function columnDefinitions(
       filter: 'agNumberColumnFilter',
     },
     {
-      colId: 'pfStatusAutoSwitch',
+      colId: 'portfolioStatusAutoSwitch',
       visible: true,
       alwaysVisible: true,
       valueFormatter: agGridLocalizationService.dateFormatter,
       filter: 'agDateColumnFilter',
     },
     {
-      colId: 'repDate',
+      colId: 'replacementDate',
       visible: true,
       alwaysVisible: true,
       valueFormatter: agGridLocalizationService.dateFormatter,
@@ -209,12 +203,16 @@ export function columnDefinitions(
       visible: true,
       alwaysVisible: false,
       valueGetter: (params: any) =>
-        translateForecastMaintainedValue(params.data.forecastMaintained),
+        params.data.forecastMaintained
+          ? translate(`field.forecastMaintained.value.true`)
+          : translate(`field.forecastMaintained.value.false`),
       filter: 'agSetColumnFilter',
       filterParams: {
         values: [true, false] as const,
         valueFormatter: (params: any) =>
-          translateForecastMaintainedValue(params.value),
+          params.value
+            ? translate(`field.forecastMaintained.value.true`)
+            : translate(`field.forecastMaintained.value.false`),
       },
     },
     {
@@ -276,6 +274,7 @@ export function columnDefinitions(
     },
     { colId: 'gpsd', visible: true, alwaysVisible: false },
     { colId: 'gpsdName', visible: true, alwaysVisible: false },
+    { colId: 'division', visible: true, alwaysVisible: false },
   ] as const;
 }
 
