@@ -671,6 +671,7 @@
       "customerMaterialNumber_plural": "客户物料号",
       "customerName": "客户名称",
       "customerNumber": "客户号",
+      "deliveryCount12Months": "订单数量 (12M)",
       "deliveryPlant": "交货工厂",
       "deliveryQuantity18Months": "交货 (STK, 18M)",
       "demandCharacteristic": "需求特征",

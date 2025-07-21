@@ -102,6 +102,7 @@ export interface CMPEntry {
   stochasticType?: string;
   productLine?: string;
   productLineText?: string;
+  deliveryQuantity12Months?: number;
   deliveryQuantity18Months?: number;
   orderQuantity?: number;
   successorMaterial?: string;

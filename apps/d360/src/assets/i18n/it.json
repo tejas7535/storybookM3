@@ -671,6 +671,7 @@
       "customerMaterialNumber_plural": "Codice Materiale Cliente",
       "customerName": "Nome Cliente",
       "customerNumber": "Codice Cliente",
+      "deliveryCount12Months": "Numero di ordini (12M)",
       "deliveryPlant": "Stabilimento di consegna",
       "deliveryQuantity18Months": "Consegna (STK, 18M)",
       "demandCharacteristic": "caratteristiche dei fabbisogni",
