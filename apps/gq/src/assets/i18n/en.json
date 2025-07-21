@@ -246,7 +246,7 @@
       "transactionView": "GQ Pricing Details",
       "position": "Item",
       "sapView": "SAP Price",
-      "rfq4Overview": "Process View",
+      "rfq4Overview": "Process Overview",
       "rfq4DetailView": "RFQ4-{{rfqId}}"
     },
     "caseMaterial": {
