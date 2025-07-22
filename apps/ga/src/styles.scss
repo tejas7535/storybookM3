@@ -25,161 +25,169 @@
 * see https://tailwindcss.com/docs
 */
 @tailwind base;
-@tailwind components;
+grease-app {
+  @tailwind components;
+}
 @tailwind utilities;
 
 $logoUrl: '/assets/images/schaeffler-logo.png' !default;
 
 @layer base {
   :root {
-    --primary: 0, 137, 61;
-    --primary-variant: 229, 244, 233;
-    --mat-toolbar-mobile-height: 60px;
+    grease-app {
+      --primary: 0, 137, 61;
+      --primary-variant: 229, 244, 233;
+      --mat-toolbar-mobile-height: 60px;
+    }
   }
 
   :root.partner-version {
-    .schaeffler-header-logo {
-      background: unset !important;
-      @apply w-0 #{!important};
+    grease-app {
+      .schaeffler-header-logo {
+        background: unset !important;
+        @apply w-0 #{!important};
+      }
+      .schaeffler-footer-logo {
+        background: center/100% no-repeat url(#{$logoUrl}) !important;
+      }
     }
-    .schaeffler-footer-logo {
-      background: center/100% no-repeat url(#{$logoUrl}) !important;
+  }
+}
+
+grease-app {
+  .mat-button-base.mat-button .mat-button-focus-overlay {
+    @apply hidden;
+  }
+
+  /*
+    weird border issue Angular material with Tailwind https://github.com/tailwindlabs/tailwindcss/discussions/9993
+    in preflight style of tailwinds sets border-style to solid, other way to fix it, would be to adjust
+    preflight, which can case other issues for tailwind
+  */
+  .mdc-notched-outline__notch {
+    border-right: none !important;
+  }
+
+  button {
+    outline: none !important;
+  }
+
+  mat-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    @apply bg-transparent;
+  }
+
+  #legal-pages h5 {
+    font-size: inherit;
+  }
+
+  #legal-pages {
+    @apply prose max-w-2xl prose-p:text-high-emphasis prose-h5:font-semibold;
+  }
+
+  .scan-dialog {
+    height: calc(100svh - 56px);
+    @apply md:h-auto;
+    margin-top: env(safe-area-inset-top);
+  }
+
+  .responsive-backdrop {
+    @apply md:bg-[rgba(0,0,0,0.32)];
+  }
+  // This class should usually be part of the styles included from the material CDK library
+  // But causes issues when the application is running embedded in an iFrame.
+  //
+  // Source: https://github.com/angular/components/blob/38946e6680be75816e7dab043ab954df016df0ed/src/cdk/a11y/_index.scss#L3-L36
+  .cdk-visually-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
+    outline: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    left: 0;
+    [dir='rtl'] & {
+      left: auto;
+      right: 0;
     }
   }
-}
+  // Styles for the grease recommendation popup
 
-.mat-button-base.mat-button .mat-button-focus-overlay {
-  @apply hidden;
-}
-
-/*
-  weird border issue Angular material with Tailwind https://github.com/tailwindlabs/tailwindcss/discussions/9993
-  in preflight style of tailwinds sets border-style to solid, other way to fix it, would be to adjust
-  preflight, which can case other issues for tailwind
-*/
-.mdc-notched-outline__notch {
-  border-right: none !important;
-}
-
-button {
-  outline: none !important;
-}
-
-mat-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  @apply bg-transparent;
-}
-
-#legal-pages h5 {
-  font-size: inherit;
-}
-
-#legal-pages {
-  @apply prose max-w-2xl prose-p:text-high-emphasis prose-h5:font-semibold;
-}
-
-.scan-dialog {
-  height: calc(100svh - 56px);
-  @apply md:h-auto;
-  margin-top: env(safe-area-inset-top);
-}
-
-.responsive-backdrop {
-  @apply md:bg-[rgba(0,0,0,0.32)];
-}
-// This class should usually be part of the styles included from the material CDK library
-// But causes issues when the application is running embedded in an iFrame.
-//
-// Source: https://github.com/angular/components/blob/38946e6680be75816e7dab043ab954df016df0ed/src/cdk/a11y/_index.scss#L3-L36
-.cdk-visually-hidden {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
-  white-space: nowrap;
-  outline: 0;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  left: 0;
-  [dir='rtl'] & {
-    left: auto;
-    right: 0;
+  // Blur overlay for marketing popup
+  .blur-backdrop {
+    background: rgba(200, 255, 255, 0.15);
+    @apply backdrop-blur-sm;
   }
-}
-// Styles for the grease recommendation popup
-
-// Blur overlay for marketing popup
-.blur-backdrop {
-  background: rgba(200, 255, 255, 0.15);
-  @apply backdrop-blur-sm;
-}
-// Custom dialog size for grease recommendation
-#grease-recommendation-dialog {
-  max-height: calc(100svh - 150px);
-}
-
-.cdk-overlay-container {
-  z-index: 99999;
-}
-
-span.mdc-list-item__primary-text:has(> .expert-highlight) {
-  @apply min-w-full;
-}
-
-//radio button overrides
-//taken from ea codebase
-.mat-mdc-radio-button.mat-primary {
-  --mat-radio-checked-ripple-color: none;
-}
-
-.mat-mdc-radio-button {
-  @apply text-title-small;
-
-  .mdc-radio {
-    transform: scale(0.7);
-    @apply pr-1 #{!important};
+  // Custom dialog size for grease recommendation
+  #grease-recommendation-dialog {
+    max-height: calc(100svh - 150px);
   }
 
-  .mdc-form-field {
-    height: 24px;
-    @apply pr-2;
+  .cdk-overlay-container {
+    z-index: 99999;
   }
 
-  // green background
-  &.mat-mdc-radio-checked {
+  span.mdc-list-item__primary-text:has(> .expert-highlight) {
+    @apply min-w-full;
+  }
+
+  //radio button overrides
+  //taken from ea codebase
+  .mat-mdc-radio-button.mat-primary {
+    --mat-radio-checked-ripple-color: none;
+  }
+
+  .mat-mdc-radio-button {
+    @apply text-title-small;
+
+    .mdc-radio {
+      transform: scale(0.7);
+      @apply pr-1 #{!important};
+    }
+
     .mdc-form-field {
-      @apply rounded-full;
-      @apply bg-primary bg-opacity-20;
+      height: 24px;
+      @apply pr-2;
     }
 
-    .mdc-label {
-      @apply text-primary #{!important};
-      padding-left: 0px;
+    // green background
+    &.mat-mdc-radio-checked {
+      .mdc-form-field {
+        @apply rounded-full;
+        @apply bg-primary bg-opacity-20;
+      }
+
+      .mdc-label {
+        @apply text-primary #{!important};
+        padding-left: 0px;
+      }
+    }
+
+    &:not(.mat-mdc-radio-checked) {
+      @apply text-medium-emphasis;
     }
   }
 
-  &:not(.mat-mdc-radio-checked) {
-    @apply text-medium-emphasis;
+  // devices with top notch iOS and newer Android devices
+  .mat-drawer-inner-container {
+    padding-top: env(safe-area-inset-top);
   }
-}
 
-// devices with top notch iOS and newer Android devices
-.mat-drawer-inner-container {
-  padding-top: env(safe-area-inset-top);
-}
+  .schaeffler-header-logo {
+    margin-right: env(safe-area-inset-right);
+  }
 
-.schaeffler-header-logo {
-  margin-right: env(safe-area-inset-right);
-}
+  body.barcode-scanner-active {
+    visibility: hidden;
+  }
 
-body.barcode-scanner-active {
-  visibility: hidden;
-}
-
-// Show only the barcode scanner modal
-.barcode-scanner-modal {
-  visibility: visible;
+  // Show only the barcode scanner modal
+  .barcode-scanner-modal {
+    visibility: visible;
+  }
 }

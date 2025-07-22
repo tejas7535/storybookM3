@@ -12,7 +12,9 @@
         (click)="onAppStoreClick('appStore')"
       >
         <img
-          src="/assets/images/icons/store-badges/apple-appstore-badge.svg"
+          src="{{
+            assetsPath
+          }}/images/icons/store-badges/apple-appstore-badge.svg"
           class="w-40 md:w-auto md:h-8"
           alt="Download on Apple App Store badge"
         />
@@ -26,7 +28,7 @@
         target="_blank"
       >
         <img
-          src="/assets/images/icons/store-badges/google-play-badge.png"
+          src="{{ assetsPath }}/images/icons/store-badges/google-play-badge.png"
           class="w-40 md:w-auto md:h-8"
           alt="Download on Google Play Store badge"
           (click)="onAppStoreClick('play')"

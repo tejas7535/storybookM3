@@ -1,5 +1,12 @@
-import { CommonModule } from '@angular/common';
-import { InjectionToken, NgModule } from '@angular/core';
+import { CommonModule, LocationStrategy } from '@angular/common';
+import {
+  ApplicationRef,
+  DoBootstrap,
+  InjectionToken,
+  Injector,
+  NgModule,
+} from '@angular/core';
+import { createCustomElement } from '@angular/elements';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Observable } from 'rxjs/internal/Observable';
@@ -9,6 +16,7 @@ import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import { BannerModule } from '@schaeffler/banner';
+import { StaticLocationStrategy } from '@schaeffler/engineering-apps-behaviors/utils';
 import {
   CUSTOM_DATA_PRIVACY,
   CUSTOM_IMPRINT_DATA,
@@ -27,6 +35,8 @@ import { detectPartnerVersion } from './core/helpers/settings-helpers';
 import { UserSettingsModule } from './shared/components/user-settings';
 import { responsiblePerson } from './shared/constants';
 import { PartnerVersion } from './shared/models';
+
+const APP_ROOT = 'grease-app';
 
 const schmeckthalPrefixValue =
   detectPartnerVersion() === PartnerVersion.Schmeckthal
@@ -132,7 +142,23 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
       provide: ENV,
       useFactory: getEnv,
     },
+    {
+      provide: LocationStrategy,
+      useClass: StaticLocationStrategy,
+    },
   ],
-  bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule implements DoBootstrap {
+  constructor(readonly injector: Injector) {
+    // check if app is already initialized. It should prevent from intialization called multiple times
+    if (!customElements.get(APP_ROOT)) {
+      const webComponent = createCustomElement(AppComponent, { injector });
+      customElements.define(APP_ROOT, webComponent);
+    }
+  }
+
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
+  ngDoBootstrap(_appRef: ApplicationRef) {
+    // this function is required by Angular but not actually necessary since we create a web component here
+  }
+}

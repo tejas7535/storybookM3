@@ -1,5 +1,12 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Meta, Title } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
@@ -24,18 +31,47 @@ import {
 import packageJson from '../../package.json';
 import { getAppFooterLinks } from './core/helpers/app-config-helpers';
 import { OneTrustMobileService } from './core/services/tracking/one-trust-mobile.service';
+import { setAppDelivery } from './core/store/actions/settings/settings.actions';
 import { ScanDialogComponent } from './features/dmc-scanner/scan-dialog.component';
 import { TRACKING_NAME_LANGUAGE } from './shared/constants';
-import { PartnerVersion } from './shared/models';
+import { AppDelivery, PartnerVersion } from './shared/models';
 import { AppAnalyticsService } from './shared/services/app-analytics-service/app-analytics-service';
 import { MobileFirebaseAnalyticsService } from './shared/services/mobile-firebase-analytics/mobile-firebase-analytics.service';
 
 @Component({
-  selector: 'ga-root',
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'grease-app',
   templateUrl: './app.component.html',
   standalone: false,
 })
 export class AppComponent implements OnInit, OnDestroy {
+  private readonly router = inject(Router);
+  private readonly translocoService = inject(TranslocoService);
+  private readonly metaService = inject(Meta);
+  private readonly titleService = inject(Title);
+  private readonly applicationInsightsService = inject(
+    ApplicationInsightsService
+  );
+  private readonly settingsFacade = inject(SettingsFacade);
+  private readonly appAnalyticsService = inject(AppAnalyticsService);
+  private readonly store = inject(Store);
+  private readonly dialog = inject(MatDialog);
+  private readonly oneTrustMobileService = inject(OneTrustMobileService);
+  private readonly firebaseAnalyticsService = inject(
+    MobileFirebaseAnalyticsService
+  );
+  private readonly oneTrustService = inject(OneTrustService, {
+    optional: true,
+  });
+  private readonly document = inject(DOCUMENT);
+  private readonly calculationParametersFacade = inject(
+    CalculationParametersFacade
+  );
+
+  public standalone = input<boolean>(false);
+  public bearing = input<string | undefined>();
+  public language = input<string | undefined>();
+
   public appTitle = 'Grease App';
   public destroy$: Subject<void> = new Subject<void>();
   public isCookiePage = false;
@@ -46,22 +82,21 @@ export class AppComponent implements OnInit, OnDestroy {
   public partnerVersion$ = this.settingsFacade.partnerVersion$;
   public internalUser$ = this.settingsFacade.internalUser$;
 
-  constructor(
-    private readonly router: Router,
-    private readonly translocoService: TranslocoService,
-    private readonly metaService: Meta,
-    private readonly titleService: Title,
-    private readonly applicationInsightsService: ApplicationInsightsService,
-    private readonly settingsFacade: SettingsFacade,
-    private readonly appAnalyticsService: AppAnalyticsService,
-    private readonly store: Store,
-    private readonly dialog: MatDialog,
-    private readonly oneTrustMobileService: OneTrustMobileService,
-    private readonly firebaseAnalyticsService: MobileFirebaseAnalyticsService,
-    @Optional() private readonly oneTrustService: OneTrustService,
-    @Inject(DOCUMENT) private readonly document: Document,
-    private readonly calculationParametersFacade: CalculationParametersFacade
-  ) {}
+  public constructor() {
+    effect(() => {
+      if (!this.standalone()) {
+        this.translocoService.setActiveLang(
+          this.language() || this.currentLanguage
+        );
+        this.store.dispatch(
+          setAppDelivery({ appDelivery: AppDelivery.Embedded })
+        );
+        if (this.bearing()) {
+          this.store.dispatch(selectBearing({ bearing: this.bearing() }));
+        }
+      }
+    });
+  }
 
   public ngOnInit(): void {
     this.currentLanguage = this.translocoService.getActiveLang();
@@ -148,6 +183,13 @@ export class AppComponent implements OnInit, OnDestroy {
     this.store.dispatch(StorageMessagesActions.getStorageMessage());
 
     this.calculationParametersFacade.loadAppGreases();
+
+    if (
+      !this.router.getCurrentNavigation() &&
+      !this.router.lastSuccessfulNavigation
+    ) {
+      this.router.initialNavigation();
+    }
   }
 
   public ngOnDestroy(): void {

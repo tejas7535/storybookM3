@@ -18,3 +18,10 @@ make sure that configuration in app.js reflect your type of configuration, for m
 1. `nx build mm --configuration local --watch`
 2. `npx http-server --cors -c-1 --port 8000 dist/apps/mm`
 3. `npm run embed-app:webcomponent --port 4200`
+
+# Run ga
+make sure that configuration in app.js reflect your type of configuration, for ga: 3
+
+1. `nx build ga --configuration local --watch`
+2. `npx http-server --cors -c-1 --port 8000 dist/apps/ga`
+3. `npm run embed-app:webcomponent --port 4200`

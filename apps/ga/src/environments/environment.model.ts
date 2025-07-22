@@ -5,6 +5,7 @@ export interface Environment {
   bearinxApiBaseUrl: string;
   baseUrl: string;
   staticStorageUrl: string;
+  assetsPath: string;
   internalDetectionUrl: string;
   tenantId: string;
   groupId: string;

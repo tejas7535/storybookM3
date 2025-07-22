@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
@@ -26,14 +27,27 @@ import { CoreModule } from './core/core.module';
 import { detectAppDelivery } from './core/helpers/settings-helpers';
 import {
   CalculationParametersFacade,
+  selectBearing,
   SettingsFacade,
   StorageMessagesActions,
 } from './core/store';
+import { setAppDelivery } from './core/store/actions/settings/settings.actions';
 import { UserSettingsModule } from './shared/components/user-settings';
 import { AppDelivery, PartnerVersion } from './shared/models';
 import { AppAnalyticsService } from './shared/services/app-analytics-service/app-analytics-service';
 
 jest.mock('@ga/core/helpers/settings-helpers');
+
+@Injectable()
+class MockTranslocoService extends TranslocoService {
+  setActiveLang = jest.fn();
+  getActiveLang = jest.fn(() => 'de');
+  events$ = of({ type: 'langChange', lang: 'de' }) as any;
+}
+
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
+}));
 
 const mockedDetectAppDelivery = jest.mocked(detectAppDelivery, {
   shallow: true,
@@ -54,6 +68,9 @@ describe('AppComponent', () => {
     navigate: jest.fn(),
     events: eventSubject.asObservable(),
     url: 'testApp/url',
+    getCurrentNavigation: jest.fn(() => false),
+    lastSuccessfulNavigation: undefined as unknown,
+    initialNavigation: jest.fn(),
   };
 
   const createComponent = createComponentFactory({
@@ -102,12 +119,28 @@ describe('AppComponent', () => {
           loadAppGreases: jest.fn(),
         },
       },
+      {
+        provide: TranslocoService,
+        useClass: MockTranslocoService,
+      },
+      {
+        provide: Store,
+        useValue: {
+          dispatch: jest.fn(),
+        },
+      },
     ],
     declarations: [AppComponent],
   });
 
   beforeEach(() => {
-    spectator = createComponent();
+    spectator = createComponent({
+      props: {
+        standalone: false,
+        language: 'de',
+        bearing: '6226',
+      },
+    });
     component = spectator.debugElement.componentInstance;
     translocoService = spectator.inject(TranslocoService);
     applicationInsightsService = spectator.inject(ApplicationInsightsService);
@@ -237,6 +270,26 @@ describe('AppComponent', () => {
         eventSubject.next(new NavigationEnd(1, 'myTestUrl', 'redirectPath'));
 
         expect(trackingSpy).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('should do initial navigation', () => {
+      it('should call initialNavigation if no current navigation or last successful navigation', () => {
+        component.ngOnInit();
+
+        expect(routerMock.initialNavigation).toHaveBeenCalled();
+      });
+    });
+
+    describe('should setup with inputs', () => {
+      it('should set language, app delivery and bearing', () => {
+        expect(translocoService.setActiveLang).toHaveBeenCalledWith('de');
+        expect(store.dispatch).toHaveBeenCalledWith(
+          setAppDelivery({ appDelivery: AppDelivery.Embedded })
+        );
+        expect(store.dispatch).toHaveBeenCalledWith(
+          selectBearing({ bearing: '6226' })
+        );
       });
     });
   });

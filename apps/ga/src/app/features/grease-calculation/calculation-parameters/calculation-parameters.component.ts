@@ -278,7 +278,19 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
          * to the store from inside this component on form value changes. At that point we
          * have changed the initial state and will receive a new object reference.
          */
-        if (parametersState !== initialState) {
+        // Since the greases are already loaded the state would always differ from the initial state if taken into account
+        const parametersStateWithoutGreases: CalculationParametersState = {
+          ...parametersState,
+          schaefflerGreases: initialState.schaefflerGreases,
+          competitorsGreases: initialState.competitorsGreases,
+        };
+        if (
+          Object.keys(parametersStateWithoutGreases).some(
+            (key: string) =>
+              (initialState as { [key: string]: any })[key] !==
+              (parametersStateWithoutGreases as { [key: string]: any })[key]
+          )
+        ) {
           // Only update form values from API if they are defined
           const formValues = {
             ...parametersState,

@@ -31,6 +31,13 @@ createApp({
           height: 1300,
           width: 1400,
         },
+        'grease-app': {
+          wrapperAppTitle: 'Greaseapp - Embedded App',
+          tag: '<grease-app bearing="6226" language="en"></grease-app>',
+          src: 'http://localhost:8000/ga-webcomponent.js',
+          height: 1300,
+          width: 1400,
+        },
         // Add more configurations as needed
       },
     };
@@ -61,7 +68,7 @@ createApp({
     },
   },
   mounted() {
-    const configuration = 2;
+    const configuration = 3;
     this.selectedComponent = Object.keys(this.configurations)[configuration];
     this.updateConfigurations();
   },

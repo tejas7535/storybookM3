@@ -107,6 +107,9 @@
       "@schaeffler/engineering-apps-behaviors/medias": [
         "libs/shared/utils/engineering-apps-behaviors/src/lib/medias/index.ts"
       ],
+      "@schaeffler/engineering-apps-behaviors/utils": [
+        "libs/shared/utils/engineering-apps-behaviors/src/lib/utils/index.ts"
+      ],
       "jszip": ["node_modules/jszip/dist/jszip.min.js"]
     },
     "resolveJsonModule": true,

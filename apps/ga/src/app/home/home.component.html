@@ -1,7 +1,7 @@
 <div
   class="flex min-h-full flex-col justify-center bg-surface-legacy py-4 md:py-8"
 >
-  <div class="container mx-auto px-4 md:max-w-screen-md">
+  <div class="container mx-auto px-4 md:!max-w-screen-md">
     <div class="mb-6 md:mb-12">
       <ga-app-logo></ga-app-logo>
     </div>
@@ -11,7 +11,7 @@
       ></ga-quick-bearing-selection>
     </div>
   </div>
-  <div class="container mx-auto px-4 md:max-w-screen-md">
+  <div class="container mx-auto px-4 md:!max-w-screen-md">
     <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
       @if (!(partnerVersion$ | ngrxPush)) {
         <ga-app-ad-card

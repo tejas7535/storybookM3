@@ -18,6 +18,10 @@ import {
   COOKIE_GROUPS,
   CustomProps,
 } from '@schaeffler/application-insights';
+import {
+  EMAPlatform,
+  getAssetsPath,
+} from '@schaeffler/engineering-apps-behaviors/utils';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '@ga/environments/environment';
@@ -37,6 +41,11 @@ import { HttpGreaseInterceptor } from './interceptors/http-grease.interceptor';
 import { ConsentValues } from './services/tracking/one-trust.interface';
 import { OneTrustMobileService } from './services/tracking/one-trust-mobile.service';
 import { StoreModule } from './store/store.module';
+
+const platform: EMAPlatform | undefined = Capacitor.isNativePlatform()
+  ? (Capacitor.getPlatform() as EMAPlatform)
+  : undefined;
+const assetsPath = getAssetsPath(environment.assetsPath, platform);
 
 export function mobileOneTrustInitializer(
   oneTrustMobileService: OneTrustMobileService
@@ -151,7 +160,9 @@ if (detectPartnerVersion() === PartnerVersion.Schmeckthal) {
       fallbackLanguageId,
       LANGUAGE_STORAGE_KEY,
       true,
-      !environment.localDev
+      !environment.localDev,
+      undefined,
+      `${assetsPath}/i18n/`
     ),
     // Monitoring
     ...Tracking,
