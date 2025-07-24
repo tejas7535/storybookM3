@@ -20,6 +20,8 @@ describe('HeaderComponent', () => {
     RFQ_DETAIL_VIEW_DATA_MOCK.rfq4ProcessData
       .calculatorRequestRecalculationStatus
   );
+  const isLoggedUserAssignedToRfq = signal(false);
+  const isCalculationDataInvalid = signal(false);
 
   const createComponent = createComponentFactory({
     component: Rfq4DetailViewHeaderComponent,
@@ -32,8 +34,9 @@ describe('HeaderComponent', () => {
         useValue: {
           rfq4DetailViewData,
           getRecalculationStatus: recalculateStatus,
-          isCalculationDataInvalid: signal(false),
+          isCalculationDataInvalid,
           triggerConfirmRecalculation: jest.fn(),
+          isLoggedUserAssignedToRfq,
         },
       },
     ],
@@ -115,6 +118,46 @@ describe('HeaderComponent', () => {
       component.onConfirm();
 
       expect(confirmSpy).toHaveBeenCalled();
+    });
+  });
+  describe('isConfirmDisabled', () => {
+    test('should be false when all conditions are valid', () => {
+      isCalculationDataInvalid.set(false);
+      recalculateStatus.set(RecalculateSqvStatus.IN_PROGRESS);
+      isLoggedUserAssignedToRfq.set(true);
+      expect(component.isConfirmDisabled()).toBe(false);
+    });
+
+    test('should be true when calculation data is invalid', () => {
+      isCalculationDataInvalid.set(true);
+      recalculateStatus.set(RecalculateSqvStatus.IN_PROGRESS);
+      isLoggedUserAssignedToRfq.set(true);
+
+      expect(component.isConfirmDisabled()).toBe(true);
+    });
+
+    test('should be true when recalculation status is not IN_PROGRESS', () => {
+      isCalculationDataInvalid.set(false);
+      recalculateStatus.set(RecalculateSqvStatus.OPEN);
+      isLoggedUserAssignedToRfq.set(true);
+
+      expect(component.isConfirmDisabled()).toBe(true);
+    });
+
+    test('should be true when user is not assigned to RFQ', () => {
+      isCalculationDataInvalid.set(false);
+      recalculateStatus.set(RecalculateSqvStatus.IN_PROGRESS);
+      isLoggedUserAssignedToRfq.set(false);
+
+      expect(component.isConfirmDisabled()).toBe(true);
+    });
+
+    test('should be true when multiple conditions are invalid', () => {
+      isCalculationDataInvalid.set(true);
+      recalculateStatus.set(RecalculateSqvStatus.REOPEN);
+      isLoggedUserAssignedToRfq.set(false);
+
+      expect(component.isConfirmDisabled()).toBe(true);
     });
   });
 });

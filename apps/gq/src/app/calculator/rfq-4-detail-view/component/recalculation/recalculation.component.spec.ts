@@ -28,6 +28,7 @@ describe('RecalculationComponent', () => {
   let component: RecalculationComponent;
   let spectator: Spectator<RecalculationComponent>;
   const rfq4recalculationStatus = signal(RecalculateSqvStatus.OPEN);
+  const loggedUserAssignedToRfq = signal(true);
 
   const createComponent = createComponentFactory({
     component: RecalculationComponent,
@@ -57,6 +58,7 @@ describe('RecalculationComponent', () => {
           getRecalculationStatus: rfq4recalculationStatus,
           setCalculationDataStatus: signal('INVALID'),
           confirmRecalculationTriggered: signal(true),
+          isLoggedUserAssignedToRfq: loggedUserAssignedToRfq,
         },
       },
     ],
@@ -72,7 +74,7 @@ describe('RecalculationComponent', () => {
   });
 
   describe('onInit', () => {
-    test('should set the from to disabled when status changes from open to confirm', () => {
+    test('should set the form to disabled when status changes from open to confirm', () => {
       rfq4recalculationStatus.set(RecalculateSqvStatus.OPEN);
       component.ngOnInit();
       rfq4recalculationStatus.set(RecalculateSqvStatus.CONFIRMED);
@@ -80,7 +82,7 @@ describe('RecalculationComponent', () => {
       expect(component.recalculationForm.disabled).toBeTruthy();
     });
 
-    test('should set the from to enabled when status changes from confirm to open', () => {
+    test('should set the form to enabled when status changes from confirm to open', () => {
       rfq4recalculationStatus.set(RecalculateSqvStatus.CONFIRMED);
       component.ngOnInit();
       rfq4recalculationStatus.set(RecalculateSqvStatus.OPEN);
@@ -94,13 +96,14 @@ describe('RecalculationComponent', () => {
 
       // Simulate a control being touched and invalid
       controls['currency'].markAsTouched();
+      controls['currency'].setValue(null);
       controls['currency'].setErrors({ required: true });
 
-      expect(component.isFormInvalid()).toBeTruthy();
+      expect(component['isFormInvalid']()).toBeTruthy();
     });
 
     test('should return false when no control is touched', () => {
-      expect(component.isFormInvalid()).toBeFalsy();
+      expect(component['isFormInvalid']()).toBeFalsy();
     });
   });
 
@@ -156,6 +159,43 @@ describe('RecalculationComponent', () => {
       component['confirm']();
 
       expect(confirmSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('isSaveDisabled', () => {
+    test('should be false when all conditions are valid', () => {
+      component['isFormInvalid'] = jest.fn(() => false);
+      rfq4recalculationStatus.set(RecalculateSqvStatus.IN_PROGRESS);
+      loggedUserAssignedToRfq.set(true);
+      expect(component.isSaveDisabled()).toBe(false);
+    });
+
+    test('should be true when form is invalid', () => {
+      component['isFormInvalid'] = jest.fn(() => true);
+      rfq4recalculationStatus.set(RecalculateSqvStatus.IN_PROGRESS);
+      loggedUserAssignedToRfq.set(true);
+      expect(component.isSaveDisabled()).toBe(true);
+    });
+
+    test('should be true when status is confirmed', () => {
+      component['isFormInvalid'] = jest.fn(() => false);
+      rfq4recalculationStatus.set(RecalculateSqvStatus.CONFIRMED);
+      loggedUserAssignedToRfq.set(true);
+      expect(component.isSaveDisabled()).toBe(true);
+    });
+
+    test('should be true when user is not assigned to RFQ', () => {
+      component['isFormInvalid'] = jest.fn(() => false);
+      rfq4recalculationStatus.set(RecalculateSqvStatus.IN_PROGRESS);
+      loggedUserAssignedToRfq.set(false);
+      expect(component.isSaveDisabled()).toBe(true);
+    });
+
+    test('should be true when multiple conditions are invalid', () => {
+      component['isFormInvalid'] = jest.fn(() => true);
+      rfq4recalculationStatus.set(RecalculateSqvStatus.REOPEN);
+      loggedUserAssignedToRfq.set(false);
+      expect(component.isSaveDisabled()).toBe(true);
     });
   });
 });

@@ -53,7 +53,8 @@ export class Rfq4DetailViewHeaderComponent {
   isConfirmDisabled: Signal<boolean> = computed(
     () =>
       this.store.isCalculationDataInvalid() ||
-      this.recalculationStatus() !== RecalculateSqvStatus.IN_PROGRESS
+      this.recalculationStatus() !== RecalculateSqvStatus.IN_PROGRESS ||
+      !this.store.isLoggedUserAssignedToRfq()
   );
 
   getTagType(status: RecalculateSqvStatus): TagType {

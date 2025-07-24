@@ -43,4 +43,5 @@ export const RFQ4_DETAIL_VIEW_ACTIONS = {
     '[RFQ4 Detail View] Get Exchange Rate For Selected Currency Success',
   GET_EXCHANGE_RATE_FOR_SELECTED_CURRENCY_FAILURE:
     '[RFQ4 Detail View] Get Exchange Rate For Selected Currency Failure',
+  SET_LOGGED_USER: '[RFQ4 Detail View] Set Logged User',
 };

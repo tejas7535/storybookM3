@@ -103,6 +103,10 @@ export class RecalculationComponent implements OnInit, AfterViewInit {
     () => this.recalculationStatus() === RecalculateSqvStatus.CONFIRMED
   );
 
+  readonly isLoggedUserAssignedToRfq = computed(() =>
+    this.store.isLoggedUserAssignedToRfq()
+  );
+
   recalculationForm: FormGroup;
 
   ngOnInit(): void {
@@ -188,7 +192,10 @@ export class RecalculationComponent implements OnInit, AfterViewInit {
 
     effect(
       () => {
-        if (this.isRecalculationConfirmed()) {
+        if (
+          this.isRecalculationConfirmed() ||
+          !this.isLoggedUserAssignedToRfq()
+        ) {
           this.recalculationForm.disable();
         } else {
           this.recalculationForm.enable();
@@ -198,7 +205,20 @@ export class RecalculationComponent implements OnInit, AfterViewInit {
     );
   }
 
-  isFormInvalid(): boolean {
+  isSaveDisabled(): boolean {
+    return (
+      this.isFormInvalid() ||
+      this.isRecalculationConfirmed() ||
+      !this.isLoggedUserAssignedToRfq()
+    );
+  }
+
+  submit(): void {
+    const calculationData = this.prepareRfq4DetailViewCalculationData();
+    this.store.saveRfq4DetailViewCalculationData(calculationData);
+  }
+
+  private isFormInvalid(): boolean {
     // 1. If at least one field if filled - should be able to Submit
     // 2. Do not validate not touched fields!
     const controls = this.recalculationForm.controls;
@@ -207,11 +227,6 @@ export class RecalculationComponent implements OnInit, AfterViewInit {
       (controlName) =>
         controls[controlName].touched && controls[controlName].invalid
     );
-  }
-
-  submit(): void {
-    const calculationData = this.prepareRfq4DetailViewCalculationData();
-    this.store.saveRfq4DetailViewCalculationData(calculationData);
   }
 
   private confirm(): void {

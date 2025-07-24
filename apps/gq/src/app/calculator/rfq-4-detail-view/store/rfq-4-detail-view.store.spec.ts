@@ -239,6 +239,16 @@ describe('Rfq4DetailViewStore', () => {
       const productStructureUrl = store.getProductStructureUrl();
       expect(productStructureUrl).toEqual('url');
     });
+    test('isLoggedUserAssignedToRfq', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      patchState(unprotected(store), {
+        rfq4DetailViewData: RFQ_DETAIL_VIEW_DATA_MOCK,
+        loggedUserId: RFQ_DETAIL_VIEW_DATA_MOCK.rfq4ProcessData.assignedUserId,
+      });
+
+      const isAssigned = store.isLoggedUserAssignedToRfq();
+      expect(isAssigned).toBeTruthy();
+    });
   });
 
   describe('methods', () => {
@@ -373,6 +383,14 @@ describe('Rfq4DetailViewStore', () => {
       expect(currencyService.getExchangeRateForCurrency).toHaveBeenCalled();
       expect(store.exchangeRateForSelectedCurrency).not.toBeNull();
       expect(store.exchangeRateForSelectedCurrencyLoading()).toBeFalsy();
+    });
+    test('setLoggedUser', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      const userId = 'userId';
+
+      store.setLoggedUser(userId);
+
+      expect(store.loggedUserId()).toEqual(userId);
     });
   });
 

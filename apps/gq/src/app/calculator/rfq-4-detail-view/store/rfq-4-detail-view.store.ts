@@ -24,6 +24,8 @@ import {
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { Store } from '@ngrx/store';
 
+import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
+
 import { RecalculateSqvStatus } from '../models/recalculate-sqv-status.enum';
 import {
   CalculatorQuotationData,
@@ -50,6 +52,7 @@ interface Rfq4DetailViewState {
   confirmRecalculationTriggered: boolean;
   exchangeRateForSelectedCurrency: number;
   exchangeRateForSelectedCurrencyLoading: boolean;
+  loggedUserId: string;
 }
 
 const initalState: Rfq4DetailViewState = {
@@ -64,6 +67,7 @@ const initalState: Rfq4DetailViewState = {
   confirmRecalculationTriggered: false,
   exchangeRateForSelectedCurrency: null,
   exchangeRateForSelectedCurrencyLoading: false,
+  loggedUserId: null,
 };
 
 export const Rfq4DetailViewStore = signalStore(
@@ -120,6 +124,11 @@ export const Rfq4DetailViewStore = signalStore(
     ),
     isCalculationDataInvalid: computed(
       (): boolean => store.rfq4RecalculationDataStatus() === 'INVALID'
+    ),
+    isLoggedUserAssignedToRfq: computed(
+      (): boolean =>
+        store.rfq4DetailViewData()?.rfq4ProcessData.assignedUserId ===
+        store.loggedUserId()
     ),
   })),
   withProps(() => ({
@@ -555,6 +564,16 @@ export const Rfq4DetailViewStore = signalStore(
         )
       );
 
+      const setLoggedUser = rxMethod<string>(
+        pipe(
+          tap((userId: string) =>
+            updateState(store, RFQ4_DETAIL_VIEW_ACTIONS.SET_LOGGED_USER, {
+              loggedUserId: userId,
+            })
+          )
+        )
+      );
+
       return {
         loadRfq4DetailViewData,
         loadProcessAssignedToAdUser,
@@ -566,6 +585,7 @@ export const Rfq4DetailViewStore = signalStore(
         confirmRfq4DetailViewCalculationData,
         setCalculationDataStatus,
         getExchangeRateForSelectedCurrency,
+        setLoggedUser,
       };
     }
   ),
@@ -577,6 +597,17 @@ export const Rfq4DetailViewStore = signalStore(
           tap((queryParams) => {
             const rfqId = queryParams['rfqId'];
             store.loadRfq4DetailViewData(rfqId);
+          })
+        )
+        .subscribe();
+
+      globalStore
+        .select(getUserUniqueIdentifier)
+        .pipe(
+          tap((userId) => {
+            if (userId) {
+              store.setLoggedUser(userId);
+            }
           })
         )
         .subscribe();
