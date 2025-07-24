@@ -11,27 +11,31 @@ import {
 import { ActiveCaseState } from '../active-case/active-case.reducer';
 import { Rfq4ProcessActions } from './rfq-4-process.actions';
 
+export enum ProcessLoading {
+  NONE = 'None',
+  FIND_CALCULATORS = 'Find calculators',
+  SEND_RECALCULATE_SQV = 'Send recalculate sqv',
+  REOPEN_RECALCULATION = 'Reopen recalculation',
+  CANCEL_RECALCULATION = 'Cancel recalculation',
+}
+
 const RFQ_4_PROCESS_FEATURE_KEY = 'rfq4Processes';
 export interface Rfq4ProcessState {
   gqId: number;
   gqPositionId: string;
-  findCalculatorsLoading: boolean;
-  sendRecalculateSqvRequestLoading: boolean;
+  processLoading: ProcessLoading;
   foundCalculators: string[];
   sapMaintainersLoading: boolean;
   sapMaintainers: ActiveDirectoryUser[];
-  sendEmailRequestToMaintainCalculatorsLoading: boolean;
 }
 
 export const initialState: Rfq4ProcessState = {
   gqId: undefined,
   gqPositionId: undefined,
-  findCalculatorsLoading: false,
-  sendRecalculateSqvRequestLoading: false,
+  processLoading: ProcessLoading.NONE,
   foundCalculators: [],
   sapMaintainers: [],
   sapMaintainersLoading: false,
-  sendEmailRequestToMaintainCalculatorsLoading: false,
 };
 
 export const rfq4ProcessFeature = createFeature({
@@ -43,7 +47,7 @@ export const rfq4ProcessFeature = createFeature({
       (state, { gqPositionId }): Rfq4ProcessState => ({
         ...state,
         gqPositionId,
-        findCalculatorsLoading: true,
+        processLoading: ProcessLoading.FIND_CALCULATORS,
       })
     ),
     on(
@@ -52,7 +56,7 @@ export const rfq4ProcessFeature = createFeature({
         ...state,
         gqPositionId: undefined,
         foundCalculators,
-        findCalculatorsLoading: false,
+        processLoading: ProcessLoading.NONE,
       })
     ),
     on(
@@ -60,7 +64,7 @@ export const rfq4ProcessFeature = createFeature({
       (state): Rfq4ProcessState => ({
         ...state,
         gqPositionId: undefined,
-        findCalculatorsLoading: false,
+        processLoading: ProcessLoading.NONE,
         foundCalculators: [],
       })
     ),
@@ -77,7 +81,7 @@ export const rfq4ProcessFeature = createFeature({
       (state, { gqPositionId }): Rfq4ProcessState => ({
         ...state,
         gqPositionId,
-        sendRecalculateSqvRequestLoading: true,
+        processLoading: ProcessLoading.SEND_RECALCULATE_SQV,
       })
     ),
     on(
@@ -85,7 +89,7 @@ export const rfq4ProcessFeature = createFeature({
       (state): Rfq4ProcessState => ({
         ...state,
         gqPositionId: undefined,
-        sendRecalculateSqvRequestLoading: false,
+        processLoading: ProcessLoading.NONE,
       })
     ),
     on(
@@ -93,7 +97,7 @@ export const rfq4ProcessFeature = createFeature({
       (state): Rfq4ProcessState => ({
         ...state,
         gqPositionId: undefined,
-        sendRecalculateSqvRequestLoading: false,
+        processLoading: ProcessLoading.NONE,
       })
     ),
     on(
@@ -160,7 +164,7 @@ export const rfq4ProcessFeature = createFeature({
       })
     )
   ),
-  extraSelectors: ({ selectSapMaintainers }) => {
+  extraSelectors: ({ selectSapMaintainers, selectProcessLoading }) => {
     const getValidMaintainers = createSelector(
       selectSapMaintainers,
       (maintainers: ActiveDirectoryUser[]) =>
@@ -169,7 +173,12 @@ export const rfq4ProcessFeature = createFeature({
         )
     );
 
-    return { getValidMaintainers };
+    const isProcessLoading = createSelector(
+      selectProcessLoading,
+      (process: ProcessLoading) => process !== ProcessLoading.NONE
+    );
+
+    return { getValidMaintainers, isProcessLoading };
   },
 });
 

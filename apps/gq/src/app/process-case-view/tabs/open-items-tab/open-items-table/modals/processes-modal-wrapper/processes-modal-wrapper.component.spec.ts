@@ -39,8 +39,8 @@ describe('ProcessesModalFrameComponent', () => {
     ],
     providers: [
       mockProvider(Rfq4ProcessFacade, {
-        findCalculatorsLoading$: of(false),
-        sendRecalculateSqvLoading$: of(false),
+        processLoading$: of(false),
+        isProcessLoading$: of(false),
         calculators$: of([]),
         findCalculators: jest.fn(),
       }),

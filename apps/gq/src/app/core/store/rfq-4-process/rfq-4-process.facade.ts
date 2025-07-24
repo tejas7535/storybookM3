@@ -8,7 +8,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { Rfq4ProcessActions } from './rfq-4-process.actions';
-import { rfq4ProcessFeature } from './rfq-4-process.reducer';
+import { ProcessLoading, rfq4ProcessFeature } from './rfq-4-process.reducer';
 
 @Injectable({
   providedIn: 'root',
@@ -20,15 +20,16 @@ export class Rfq4ProcessFacade {
     FeatureToggleConfigService
   );
 
-  findCalculatorsLoading$: Observable<boolean> = this.store.select(
-    rfq4ProcessFeature.selectFindCalculatorsLoading
+  isProcessLoading$: Observable<boolean> = this.store.select(
+    rfq4ProcessFeature.isProcessLoading
+  );
+
+  processLoading$: Observable<ProcessLoading> = this.store.select(
+    rfq4ProcessFeature.selectProcessLoading
   );
 
   calculators$: Observable<string[]> = this.store.select(
     rfq4ProcessFeature.selectFoundCalculators
-  );
-  sendRecalculateSqvLoading$: Observable<boolean> = this.store.select(
-    rfq4ProcessFeature.selectSendRecalculateSqvRequestLoading
   );
   sendRecalculateSqvSuccess$: Observable<void> = this.actions$.pipe(
     ofType(Rfq4ProcessActions.sendRecalculateSqvRequestSuccess)

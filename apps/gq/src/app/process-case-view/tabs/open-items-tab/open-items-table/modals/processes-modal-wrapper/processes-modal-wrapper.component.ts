@@ -10,10 +10,9 @@ import { Rfq4ProcessModule } from '@gq/core/store/rfq-4-process/rfq-4-process.mo
 import { CalculatorMissingComponent } from '@gq/process-case-view/tabs/open-items-tab/open-items-table/modals/calculator-missing/calculator-missing.component';
 import { CellRendererModule } from '@gq/shared/ag-grid/cell-renderer/cell-renderer.module';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
-import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost/rfq-4-status.enum';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail/quotation-detail.model';
 import { translate } from '@jsverse/transloco';
-import { LetDirective, PushPipe } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
@@ -31,7 +30,6 @@ import { StartProcessComponent } from '../start-process/start-process.component'
     StartProcessComponent,
     CalculatorMissingComponent,
     PushPipe,
-    LetDirective,
     LoadingSpinnerModule,
     Rfq4ProcessModule,
     CellRendererModule,
@@ -50,11 +48,9 @@ export class ProcessesModalWrapperComponent implements OnInit {
   modalData: ProcessesModalDialogData = inject(MAT_DIALOG_DATA);
   title = '';
 
-  findCalculatorsLoading$: Observable<boolean> =
-    this.rfq4ProcessesFacade.findCalculatorsLoading$;
+  isProcessLoading$: Observable<boolean> =
+    this.rfq4ProcessesFacade.isProcessLoading$;
   calculators$: Observable<string[]> = this.rfq4ProcessesFacade.calculators$;
-  sendRecalculationRequestLoading$: Observable<boolean> =
-    this.rfq4ProcessesFacade.sendRecalculateSqvLoading$;
 
   closeDialog(): void {
     this.rfq4ProcessesFacade.clearCalculators();
@@ -64,8 +60,10 @@ export class ProcessesModalWrapperComponent implements OnInit {
   ngOnInit(): void {
     this.getTitle(this.modalData.quotationDetail);
 
+    let closeAction: Observable<void>;
     switch (this.modalData.process) {
       case ApprovalProcessAction.START: {
+        closeAction = this.rfq4ProcessesFacade.sendRecalculateSqvSuccess$;
         this.rfq4ProcessesFacade.findCalculators(
           this.modalData.quotationDetail.gqPositionId
         );
@@ -73,20 +71,32 @@ export class ProcessesModalWrapperComponent implements OnInit {
 
       // no default
     }
+    closeAction
+      ?.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.closeDialog());
   }
 
   private getTitle(quotationDetail: QuotationDetail): void {
-    if (this.modalData.process === ApprovalProcessAction.SHOW_HISTORY) {
-      this.title = translate(
-        'shared.openItemsTable.approvalProcesses.showHistory.title',
-        { posId: quotationDetail.quotationItemId, rfq4Id: 'anyIdIDoNotHaveIt' }
-      );
-
-      return;
-    }
-
-    switch (quotationDetail.detailCosts?.rfq4Status) {
-      case Rfq4Status.OPEN: {
+    switch (this.modalData.process) {
+      case ApprovalProcessAction.SHOW_HISTORY: {
+        this.title = translate(
+          'shared.openItemsTable.approvalProcesses.showHistory.title',
+          {
+            posId: quotationDetail.quotationItemId,
+            rfq4Id: 'anyIdIDoNotHaveIt',
+          }
+        );
+        break;
+      }
+      case ApprovalProcessAction.REOPEN: {
+        // Placeholder for reopen
+        break;
+      }
+      case ApprovalProcessAction.CANCEL: {
+        // Placeholder for Cancel
+        break;
+      }
+      case ApprovalProcessAction.START: {
         this.calculators$
           .pipe(
             takeUntilDestroyed(this.destroyRef),
@@ -105,7 +115,6 @@ export class ProcessesModalWrapperComponent implements OnInit {
           )
           .subscribe();
       }
-
       // no default
     }
   }

@@ -1,48 +1,47 @@
-<ng-container
-  *ngrxLet="
-    findCalculatorsLoading$ || sendRecalculationRequestLoading$;
-    let dataLoading
-  "
->
-  <div class="flex h-full flex-col gap-6">
-    @if (dataLoading) {
-      <schaeffler-loading-spinner
-        class="h-full m-6"
-        backgroundColor="rgba(255,255,255, 0.1)"
-        [relative]="true"
-      ></schaeffler-loading-spinner>
-    } @else {
-      <gq-dialog-header
-        [title]="title"
-        (closeDialog)="closeDialog()"
-      ></gq-dialog-header>
-      <!-- decide which component to show. Every Component has it's own Logic and handles it themselves-->
-      @switch (modalData.process) {
-        @case (processEnum.START) {
-          <!--depending if calculators could be found or not-->
-          @if ((calculators$ | ngrxPush)?.length > 0) {
-            <gq-start-process
-              [modalData]="modalData"
-              (cancelButtonClicked)="closeDialog()"
-            ></gq-start-process>
-          } @else {
-            <gq-calculator-missing
-              [modalData]="modalData"
-              (cancelButtonClicked)="closeDialog()"
-            >
-            </gq-calculator-missing>
-          }
-        }
-        @case (processEnum.SHOW_HISTORY) {
-          <gq-process-history
+<div class="flex h-full flex-col gap-6">
+  @if (isProcessLoading$ | ngrxPush) {
+    <schaeffler-loading-spinner
+      class="h-full m-6"
+      backgroundColor="rgba(255,255,255, 0.1)"
+      [relative]="true"
+    ></schaeffler-loading-spinner>
+  } @else {
+    <gq-dialog-header
+      [title]="title"
+      (closeDialog)="closeDialog()"
+    ></gq-dialog-header>
+    <!-- decide which component to show. Every Component has it's own Logic and handles it themselves-->
+    @switch (modalData.process) {
+      @case (processEnum.START) {
+        <!--depending if calculators could be found or not-->
+        @if ((calculators$ | ngrxPush)?.length > 0) {
+          <gq-start-process
             [modalData]="modalData"
             (cancelButtonClicked)="closeDialog()"
-          ></gq-process-history>
-        }
-        @default {
-          <p class="text-error">process not yet implemented</p>
+          ></gq-start-process>
+        } @else {
+          <gq-calculator-missing
+            [modalData]="modalData"
+            (cancelButtonClicked)="closeDialog()"
+          >
+          </gq-calculator-missing>
         }
       }
+      @case (processEnum.REOPEN) {
+        <!-- Placeholder for reopen-->
+      }
+      @case (processEnum.CANCEL) {
+        <!-- Placeholder for cancel-->
+      }
+      @case (processEnum.SHOW_HISTORY) {
+        <gq-process-history
+          [modalData]="modalData"
+          (cancelButtonClicked)="closeDialog()"
+        ></gq-process-history>
+      }
+      @default {
+        <p class="text-error">process not yet implemented</p>
+      }
     }
-  </div>
-</ng-container>
+  }
+</div>

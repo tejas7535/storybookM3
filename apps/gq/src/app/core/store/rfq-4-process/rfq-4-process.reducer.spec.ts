@@ -5,35 +5,37 @@ import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks/models/quotatio
 import { ACTIVE_CASE_STATE_MOCK } from '../../../../testing/mocks/state/active-case-state.mock';
 import { activeCaseFeature } from '../active-case/active-case.reducer';
 import { Rfq4ProcessActions } from './rfq-4-process.actions';
-import { rfq4ProcessFeature, Rfq4ProcessState } from './rfq-4-process.reducer';
+import {
+  ProcessLoading,
+  rfq4ProcessFeature,
+  Rfq4ProcessState,
+} from './rfq-4-process.reducer';
 
 describe('rfq4ProcessFeature.reducer', () => {
   const rfq4ProcessesMock: Rfq4ProcessState = {
     gqId: undefined,
     gqPositionId: undefined,
-    findCalculatorsLoading: false,
-    sendRecalculateSqvRequestLoading: false,
+    processLoading: ProcessLoading.NONE,
     foundCalculators: [],
     sapMaintainers: [],
     sapMaintainersLoading: false,
-    sendEmailRequestToMaintainCalculatorsLoading: false,
   };
 
   const gqPositionId = '1245';
   const foundCalculators = ['calculator1', 'calculator2'];
   describe('findCalculators', () => {
-    test('should set findCalculatorsLoading to true', () => {
+    test('should set processLoading to FIND_CALCULATORS', () => {
       const action = Rfq4ProcessActions.findCalculators({
         gqPositionId,
       });
       const state = rfq4ProcessFeature.reducer(rfq4ProcessesMock, action);
 
-      expect(state.findCalculatorsLoading).toEqual(true);
+      expect(state.processLoading).toEqual(ProcessLoading.FIND_CALCULATORS);
     });
     test('should set findCalculatorsLoading to false', () => {
       const fakeState: Rfq4ProcessState = {
         ...rfq4ProcessesMock,
-        findCalculatorsLoading: true,
+        processLoading: ProcessLoading.FIND_CALCULATORS,
       };
 
       const action = Rfq4ProcessActions.findCalculatorsSuccess({
@@ -42,16 +44,16 @@ describe('rfq4ProcessFeature.reducer', () => {
       });
       const state = rfq4ProcessFeature.reducer(fakeState, action);
 
-      expect(state.findCalculatorsLoading).toEqual(false);
+      expect(state.processLoading).toEqual(ProcessLoading.NONE);
     });
-    test('should set findCalculatorsLoading to false when error', () => {
+    test('should set process loading to none when error', () => {
       const action = Rfq4ProcessActions.findCalculatorsError({
         error: 'an Error',
         gqPositionId,
       });
       const state = rfq4ProcessFeature.reducer(rfq4ProcessesMock, action);
 
-      expect(state.findCalculatorsLoading).toEqual(false);
+      expect(state.processLoading).toEqual(ProcessLoading.NONE);
     });
 
     test('should clear the foundCalculators', () => {
@@ -65,19 +67,19 @@ describe('rfq4ProcessFeature.reducer', () => {
   });
 
   describe('sendRecalculateSqvRequest', () => {
-    test('should set sendRecalculateSqvRequestLoading to true', () => {
+    test('should set process loading to SEND_RECALCULATE_SQV', () => {
       const action = Rfq4ProcessActions.sendRecalculateSqvRequest({
         gqPositionId,
         message: 'message',
       });
       const state = rfq4ProcessFeature.reducer(rfq4ProcessesMock, action);
 
-      expect(state.sendRecalculateSqvRequestLoading).toEqual(true);
+      expect(state.processLoading).toEqual(ProcessLoading.SEND_RECALCULATE_SQV);
     });
     test('should set sendRecalculateSqvRequestLoading to false', () => {
       const fakeState: Rfq4ProcessState = {
         ...rfq4ProcessesMock,
-        sendRecalculateSqvRequestLoading: true,
+        processLoading: ProcessLoading.SEND_RECALCULATE_SQV,
       };
 
       const action = Rfq4ProcessActions.sendRecalculateSqvRequestSuccess({
@@ -86,7 +88,7 @@ describe('rfq4ProcessFeature.reducer', () => {
       });
       const state = rfq4ProcessFeature.reducer(fakeState, action);
 
-      expect(state.sendRecalculateSqvRequestLoading).toEqual(false);
+      expect(state.processLoading).toEqual(ProcessLoading.NONE);
     });
     test('should set sendRecalculateSqvRequestLoading to false when error', () => {
       const action = Rfq4ProcessActions.sendRecalculateSqvRequestError({
@@ -94,7 +96,7 @@ describe('rfq4ProcessFeature.reducer', () => {
       });
       const state = rfq4ProcessFeature.reducer(rfq4ProcessesMock, action);
 
-      expect(state.sendRecalculateSqvRequestLoading).toEqual(false);
+      expect(state.processLoading).toEqual(ProcessLoading.NONE);
     });
   });
 

@@ -34,14 +34,11 @@ describe('rfq4ProcessFacade', () => {
 
   describe('Observables', () => {
     test(
-      'should provide findCalculatorsLoading$',
+      'should provide isProcessLoading$',
       marbles((m) => {
         const expected = m.cold('a', { a: false });
-        mockStore.overrideSelector(
-          rfq4ProcessFeature.selectFindCalculatorsLoading,
-          false
-        );
-        m.expect(facade.findCalculatorsLoading$).toBeObservable(expected);
+        mockStore.overrideSelector(rfq4ProcessFeature.isProcessLoading, false);
+        m.expect(facade.isProcessLoading$).toBeObservable(expected);
       })
     );
 
@@ -57,17 +54,6 @@ describe('rfq4ProcessFacade', () => {
       })
     );
 
-    test(
-      'should provide sendRecalculateSqvLoading$',
-      marbles((m) => {
-        const expected = m.cold('a', { a: true });
-        mockStore.overrideSelector(
-          rfq4ProcessFeature.selectSendRecalculateSqvRequestLoading,
-          true
-        );
-        m.expect(facade.sendRecalculateSqvLoading$).toBeObservable(expected);
-      })
-    );
     test(
       'should dispatch sendRecalculateSqvRequestSuccess$',
       marbles((m) => {

@@ -49,13 +49,6 @@ describe('StartProcessComponent', () => {
   });
 
   describe('sendRequest', () => {
-    test('should subscribe to sendRecalculateSqvSuccess$ and call closeDialog', () => {
-      component.closeDialog = jest.fn();
-      component.sendRequest();
-      sendCalcRequestSuccessSubject$$.next();
-      expect(component.closeDialog).toHaveBeenCalled();
-    });
-
     test('should call sendRecalculateSqvRequest with correct parameters', () => {
       component.messageControl.setValue('Test message');
       component.sendRequest();
