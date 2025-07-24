@@ -216,7 +216,9 @@
         "tooltip": "Выбранная смазка будет иметь приоритет в отчете о расчете. Если выбранная смазка не подходит, будут показаны альтернативные варианты.",
         "schaefflerGreases": "Смазки Schaeffler",
         "nonSchaefflerMultiPurposeGreases": "Универсальная смазка (не Schaeffler)",
-        "nonSchaefflerHighTempGreases": "Высокотемпературная смазка (не Schaeffler)"
+        "nonSchaefflerHighTempGreases": "Высокотемпературная смазка (не Schaeffler)",
+        "greaseDisabledHintApplicationScenario": "Смазка не может быть указана при выборе приложения",
+        "greaseDisabledHintOscillating": "Доступно только для вращательного движения"
       },
       "concept1": {
         "label": "Расчет настройки картриджа (CONCEPT1)",
@@ -245,6 +247,8 @@
     "environmentalImpactOnGreaseDuration": "Рабочие условия",
     "low": "низк.",
     "application": "случай применения",
+    "applicationScenarioDisabledHintGrease": "Приложение не может быть указано при выборе смазки",
+    "applicationScenarioDisabledHintOscillating": "Доступно только для вращательного движения",
     "moderate": "умеренн.",
     "high": "выс.",
     "greaseSelection": "Выбор смазки",

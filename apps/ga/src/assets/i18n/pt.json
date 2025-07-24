@@ -216,7 +216,9 @@
         "tooltip": "A massa lubrificante selecionada terá prioridade no relatório de cálculo. Se a massa lubrificante selecionada não for adequada, serão apresentadas alternativas.",
         "schaefflerGreases": "Massas lubrificantes da Schaeffler",
         "nonSchaefflerMultiPurposeGreases": "Massa lubrificante multifuncional não Schaeffler",
-        "nonSchaefflerHighTempGreases": "Massa lubrificante para temperaturas elevadas não Schaeffler"
+        "nonSchaefflerHighTempGreases": "Massa lubrificante para temperaturas elevadas não Schaeffler",
+        "greaseDisabledHintApplicationScenario": "A graxa não pode ser especificada enquanto um aplicativo é selecionado",
+        "greaseDisabledHintOscillating": "Disponível apenas para movimento rotativo"
       },
       "concept1": {
         "label": "Calcular a definição do cartucho (CONCEPT1)",
@@ -245,6 +247,8 @@
     "environmentalImpactOnGreaseDuration": "Condições de funcionamento",
     "low": "baixa",
     "application": "caso de uso",
+    "applicationScenarioDisabledHintGrease": "A aplicação não pode ser especificada enquanto uma graxa é selecionada",
+    "applicationScenarioDisabledHintOscillating": "Disponível apenas para movimento rotativo",
     "moderate": "moderada",
     "high": "elevada",
     "greaseSelection": "Seleção da massa lubrificante",

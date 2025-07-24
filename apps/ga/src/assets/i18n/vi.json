@@ -216,7 +216,9 @@
         "tooltip": "Mỡ đã chọn sẽ được ưu tiên trong báo cáo tính toán. Nếu mỡ đã chọn không phù hợp, sản phẩm thay thế sẽ hiển thị.",
         "schaefflerGreases": "Mỡ của Schaeffler",
         "nonSchaefflerMultiPurposeGreases": "Mỡ đa mục đích không phải của Schaeffler",
-        "nonSchaefflerHighTempGreases": "Mỡ nhiệt độ cao không phải của Schaeffler"
+        "nonSchaefflerHighTempGreases": "Mỡ nhiệt độ cao không phải của Schaeffler",
+        "greaseDisabledHintApplicationScenario": "Mỡ không thể được chỉ định trong khi một ứng dụng đang được chọn",
+        "greaseDisabledHintOscillating": "Chỉ khả dụng cho chuyển động quay"
       },
       "concept1": {
         "label": "Tính cài đặt ổ (CONCEPT1)",
@@ -244,6 +246,8 @@
     "environmentTemperature": "Nhiệt độ xung quanh",
     "environmentalImpactOnGreaseDuration": "Điều kiện vận hành",
     "application": "trường hợp sử dụng",
+    "applicationScenarioDisabledHintGrease": "Ứng dụng không thể được chỉ định trong khi mỡ đang được chọn",
+    "applicationScenarioDisabledHintOscillating": "Chỉ khả dụng cho chuyển động quay",
     "low": "thấp",
     "moderate": "vừa",
     "high": "cao",

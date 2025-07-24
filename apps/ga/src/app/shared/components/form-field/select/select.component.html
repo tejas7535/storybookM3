@@ -7,6 +7,7 @@
     appearance="outline"
     class="flex grow flex-row pb-3 hover:outline-none"
     [subscriptSizing]="subscriptSizing"
+    [hintLabel]="hint"
   >
     @if (label) {
       <mat-label>{{ label }}</mat-label>
@@ -20,9 +21,6 @@
             {{ option.text }}
           }
         </mat-option>
-      }
-      @if (hint) {
-        <mat-hint>{{ hint }}</mat-hint>
       }
     </mat-select>
     @if (control.hasError('required')) {

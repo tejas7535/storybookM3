@@ -39,7 +39,7 @@ describe('PreferredGreaseSelectionComponent', () => {
           setSelectedGrease: jest.fn(),
           preferredGrease: () => ({ selectedGrease: undefined as any }),
           allGreases: () => mockGreaseCategories,
-          isPreselectionDisabled: () => false,
+          preselectionDisabledHint: (): string | undefined => undefined,
         },
       },
     ],

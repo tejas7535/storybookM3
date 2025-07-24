@@ -226,7 +226,9 @@
         "tooltip": "在计算报告中，所选油脂将被优先考虑。\n如果所选的油脂不合适，将显示替代方案。",
         "schaefflerGreases": "Schaeffler 润滑脂",
         "nonSchaefflerMultiPurposeGreases": "非Schaeffler多用途润滑脂",
-        "nonSchaefflerHighTempGreases": "非Schaeffler高温润滑脂"
+        "nonSchaefflerHighTempGreases": "非Schaeffler高温润滑脂",
+        "greaseDisabledHintApplicationScenario": "应用程序被选中时无法指定润滑脂",
+        "greaseDisabledHintOscillating": "仅适用于旋转运动"
       },
       "concept1": {
         "label": "计算气体释放设置 (CONCEPT1)",
@@ -244,7 +246,6 @@
     "kindOfMotion": "运动类型",
     "rotating": "旋转",
     "oscillating": "摆动",
-    "application": "应用案例",
     "relativeRotationalSpeed": "转速",
     "onePerMinute": "rpm",
     "shiftFrequency": "漂移频率",
@@ -255,6 +256,9 @@
     "environmentTemperature": "环境温度",
     "environmentalImpactOnGreaseDuration": "工作状况",
     "low": "低",
+    "application": "应用案例",
+    "applicationScenarioDisabledHintGrease": "润滑脂被选中时无法指定应用程序",
+    "applicationScenarioDisabledHintOscillating": "仅适用于旋转运动",
     "moderate": "中等",
     "high": "高",
     "greaseSelection": "润滑脂选择",

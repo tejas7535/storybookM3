@@ -216,7 +216,9 @@
         "tooltip": "선택한 그리스는 계산 보고서에서 우선 순위가 부여됩니다. 선택한 그리스가 적합하지 않으면 대체 그리스가 표시됩니다.",
         "schaefflerGreases": "Schaeffler 그리스",
         "nonSchaefflerMultiPurposeGreases": "비 Schaeffler 다목적 그리스",
-        "nonSchaefflerHighTempGreases": "비 Schaeffler 고온 그리스"
+        "nonSchaefflerHighTempGreases": "비 Schaeffler 고온 그리스",
+        "greaseDisabledHintApplicationScenario": "신청서가 선택된 상태에서는 그리스를 지정할 수 없습니다",
+        "greaseDisabledHintOscillating": "회전 움직임에만 가능"
       },
       "concept1": {
         "label": "카트리지 설정 계산(CONCEPT1)",
@@ -245,6 +247,8 @@
     "environmentalImpactOnGreaseDuration": "작동 조건",
     "low": "낮음",
     "application": "용도",
+    "applicationScenarioDisabledHintGrease": "그리스가 선택된 상태에서는 신청서를 지정할 수 없습니다",
+    "applicationScenarioDisabledHintOscillating": "회전 움직임에만 가능",
     "moderate": "중간",
     "high": "높음",
     "greaseSelection": "그리스 선택",

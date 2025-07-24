@@ -1,5 +1,4 @@
 import { ApplicationScenario } from '@ga/features/grease-calculation/calculation-parameters/constants/application-scenarios.model';
-import { defaultPreferredGreaseOption } from '@ga/shared/constants';
 import {
   AxisOrientation,
   EnvironmentImpact,
@@ -266,9 +265,9 @@ describe('Calculation Parameters Selectors', () => {
     });
   });
 
-  describe('isApplicationScenarioDisabled', () => {
-    it('should return true when movement type is oscillating', () => {
-      const stateWithOscillating = {
+  describe('applicationScenarioDisabledHint', () => {
+    it('should provide the correct hint for oscillating motion', () => {
+      const stateWithOscillatingMotion = {
         calculationParameters: {
           ...testState.calculationParameters,
           movements: {
@@ -278,30 +277,27 @@ describe('Calculation Parameters Selectors', () => {
         },
       };
       expect(
-        selectors.isApplicationScenarioDisabled(stateWithOscillating)
-      ).toBe(true);
+        selectors.applicationScenarioDisabledHint(stateWithOscillatingMotion)
+      ).toBe('parameters.applicationScenarioDisabledHintOscillating');
     });
 
-    it('should return true when a preferred grease is selected other than default', () => {
+    it('should provide the correct hint for selected grease', () => {
       const stateWithSelectedGrease = {
         calculationParameters: {
           ...testState.calculationParameters,
           preferredGrease: {
             ...testState.calculationParameters.preferredGrease,
-            selectedGrease: {
-              id: 'custom-id',
-              text: 'Custom Grease',
-            },
+            selectedGrease: { id: 'some-id', text: 'Some Grease' },
           },
         },
       };
       expect(
-        selectors.isApplicationScenarioDisabled(stateWithSelectedGrease)
-      ).toBe(true);
+        selectors.applicationScenarioDisabledHint(stateWithSelectedGrease)
+      ).toBe('parameters.applicationScenarioDisabledHintGrease');
     });
 
-    it('should return false when movement type is not oscillating and no preferred grease is selected', () => {
-      const stateWithDefaultGrease = {
+    it('should return undefined', () => {
+      const stateWithoutHints = {
         calculationParameters: {
           ...testState.calculationParameters,
           movements: {
@@ -310,13 +306,68 @@ describe('Calculation Parameters Selectors', () => {
           },
           preferredGrease: {
             ...testState.calculationParameters.preferredGrease,
-            selectedGrease: defaultPreferredGreaseOption,
+            selectedGrease: undefined as unknown,
           },
         },
       };
       expect(
-        selectors.isApplicationScenarioDisabled(stateWithDefaultGrease)
-      ).toBe(false);
+        selectors.applicationScenarioDisabledHint(stateWithoutHints)
+      ).toBeUndefined();
+    });
+  });
+
+  describe('preselectionDisabledHint', () => {
+    it('should provide the correct hint for oscillating motion', () => {
+      const stateWithOscillatingMotion = {
+        calculationParameters: {
+          ...testState.calculationParameters,
+          movements: {
+            ...testState.calculationParameters.movements,
+            type: Movement.oscillating,
+          },
+        },
+      };
+      expect(
+        selectors.preselectionDisabledHint(stateWithOscillatingMotion)
+      ).toBe(
+        'parameters.productPreselection.grease.greaseDisabledHintOscillating'
+      );
+    });
+
+    it('should provide the correct hint for application scenario', () => {
+      const stateWithApplicationScenario = {
+        calculationParameters: {
+          ...testState.calculationParameters,
+          environment: {
+            ...testState.calculationParameters.environment,
+            applicationScenario: ApplicationScenario.BallScrewDrive,
+          },
+        },
+      };
+      expect(
+        selectors.preselectionDisabledHint(stateWithApplicationScenario)
+      ).toBe(
+        'parameters.productPreselection.grease.greaseDisabledHintApplicationScenario'
+      );
+    });
+
+    it('should return undefined', () => {
+      const stateWithoutHints = {
+        calculationParameters: {
+          ...testState.calculationParameters,
+          movements: {
+            ...testState.calculationParameters.movements,
+            type: Movement.rotating,
+          },
+          environment: {
+            ...testState.calculationParameters.environment,
+            applicationScenario: undefined as unknown,
+          },
+        },
+      };
+      expect(
+        selectors.preselectionDisabledHint(stateWithoutHints)
+      ).toBeUndefined();
     });
   });
 

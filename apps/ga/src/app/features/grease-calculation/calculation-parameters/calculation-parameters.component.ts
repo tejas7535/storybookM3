@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 /* eslint max-lines: [1] */
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, effect, Injector, OnDestroy, OnInit } from '@angular/core';
 import {
   FormControl,
   ReactiveFormsModule,
@@ -58,7 +58,6 @@ import {
   getParameterUpdating,
   getPreferredGreaseSelection,
   getSelectedMovementType,
-  isApplicationScenarioDisabled,
   radialLoadPossible,
 } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
 import { environment } from '@ga/environments/environment';
@@ -251,9 +250,8 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public appIsEmbedded$ = this.settingsFacade.appIsEmbedded$;
   public partnerVersion$ = this.settingsFacade.partnerVersion$;
 
-  public applicationScenarioDisabled$ = this.store.select(
-    isApplicationScenarioDisabled
-  );
+  public applicationScenarioDisabledHint =
+    this.calculationParametersFacade.applicationScenarioDisabledHint;
 
   public DEBOUNCE_TIME_DEFAULT = 500;
 
@@ -265,7 +263,8 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
     private readonly translocoService: TranslocoService,
     private readonly appAnalyticsService: AppAnalyticsService,
     private readonly appInsightsService: ApplicationInsightsService,
-    private readonly calculationParametersFacade: CalculationParametersFacade
+    private readonly calculationParametersFacade: CalculationParametersFacade,
+    private readonly injector: Injector
   ) {}
 
   public ngOnInit(): void {
@@ -374,13 +373,19 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
         this.operatingTemperature.updateValueAndValidity({ emitEvent: false });
       });
 
-    this.applicationScenarioDisabled$.subscribe((disabled) => {
-      if (disabled) {
-        this.environmentForm.get('applicationScenario').disable();
-      } else {
-        this.environmentForm.get('applicationScenario').enable();
-      }
-    });
+    effect(
+      () => {
+        const applicationControl = this.environmentForm.get(
+          'applicationScenario'
+        );
+        if (this.applicationScenarioDisabledHint()) {
+          applicationControl.disable();
+        } else {
+          applicationControl.enable();
+        }
+      },
+      { injector: this.injector }
+    );
   }
 
   public ngOnDestroy(): void {

@@ -216,7 +216,9 @@
         "tooltip": "จาระบีที่เลือกจะถูกจัดให้มีความสำคัญในรายงานผลการคำนวณ หากจาระบีที่เลือกไม่เข้ากัน ระบบจะแสดงทางเลือกอื่นๆ",
         "schaefflerGreases": "จาระบีของแชฟฟ์เลอร์",
         "nonSchaefflerMultiPurposeGreases": "จาระบีอเนกประสงค์ที่ไม่ใช่ของแชฟฟ์เลอร์",
-        "nonSchaefflerHighTempGreases": "จาระบีอุณหภูมิสูงที่ไม่ใช่ของแชฟฟ์เลอร์"
+        "nonSchaefflerHighTempGreases": "จาระบีอุณหภูมิสูงที่ไม่ใช่ของแชฟฟ์เลอร์",
+        "greaseDisabledHintApplicationScenario": "ไม่สามารถระบุจาระบีในขณะที่มีการเลือกแอปพลิเคชัน",
+        "greaseDisabledHintOscillating": "มีให้สำหรับการเคลื่อนไหวแบบหมุนเท่านั้น"
       },
       "concept1": {
         "label": "คำนวณการตั้งค่าหลอดจาระบี (CONCEPT1)",
@@ -245,6 +247,8 @@
     "environmentalImpactOnGreaseDuration": "สภาวะในการทำงาน",
     "low": "ต่ำ",
     "application": "กรณีการใช้งาน",
+    "applicationScenarioDisabledHintGrease": "ไม่สามารถระบุแอปพลิเคชันในขณะที่มีการเลือกจาระบี",
+    "applicationScenarioDisabledHintOscillating": "มีให้สำหรับการเคลื่อนไหวแบบหมุนเท่านั้น",
     "moderate": "ปานกลาง",
     "high": "สูง",
     "greaseSelection": "การเลือกจาระบี",

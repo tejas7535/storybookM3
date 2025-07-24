@@ -216,7 +216,9 @@
         "tooltip": "Hesaplama raporunda seçilen grese öncelik verilir. Seçilen gres uygun değilse alternatifler görüntülenir.",
         "schaefflerGreases": "Schaeffler Gresler",
         "nonSchaefflerMultiPurposeGreases": "Schaeffler Ürünü Olmayan Çok Amaçlı Gres",
-        "nonSchaefflerHighTempGreases": "Schaeffler Ürünü Olmayan Yüksek Sıcaklık Gresi"
+        "nonSchaefflerHighTempGreases": "Schaeffler Ürünü Olmayan Yüksek Sıcaklık Gresi",
+        "greaseDisabledHintApplicationScenario": "Uygulama seçiliyken gres belirlenemez",
+        "greaseDisabledHintOscillating": "Yalnızca döner hareket için kullanılabilir"
       },
       "concept1": {
         "label": "Kartuş ayarını hesapla (CONCEPT1)",
@@ -245,6 +247,8 @@
     "environmentalImpactOnGreaseDuration": "Çalışma koşulları",
     "low": "düşük",
     "application": "uygulama durumu",
+    "applicationScenarioDisabledHintGrease": "Gres seçiliyken uygulama belirlenemez",
+    "applicationScenarioDisabledHintOscillating": "Yalnızca döner hareket için kullanılabilir",
     "moderate": "orta",
     "high": "yüksek",
     "greaseSelection": "Gres seçimi",

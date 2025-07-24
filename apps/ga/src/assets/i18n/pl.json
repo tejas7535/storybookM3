@@ -216,7 +216,9 @@
         "tooltip": "Wybrany smar będzie traktowany priorytetowo w raporcie z obliczeń. Jeśli wybrany smar nie jest odpowiedni, zostaną wyświetlone zamienniki.",
         "schaefflerGreases": "Smary Schaeffler",
         "nonSchaefflerMultiPurposeGreases": "Smar uniwersalny nie Schaeffler",
-        "nonSchaefflerHighTempGreases": "Smar wysokotemperaturowy nie Schaeffler"
+        "nonSchaefflerHighTempGreases": "Smar wysokotemperaturowy nie Schaeffler",
+        "greaseDisabledHintApplicationScenario": "Nie można określić smaru, gdy aplikacja jest wybrana",
+        "greaseDisabledHintOscillating": "Dostępne tylko dla ruchu obrotowego"
       },
       "concept1": {
         "label": "Oblicz ustawienie kasety (CONCEPT1)",
@@ -245,6 +247,8 @@
     "environmentalImpactOnGreaseDuration": "Warunki pracy",
     "low": "niska",
     "application": "przypadek użycia",
+    "applicationScenarioDisabledHintGrease": "Nie można określić aplikacji, gdy smar jest wybrany",
+    "applicationScenarioDisabledHintOscillating": "Dostępne tylko dla ruchu obrotowego",
     "moderate": "umiarkowana",
     "high": "wysoka",
     "greaseSelection": "Wybór smaru",

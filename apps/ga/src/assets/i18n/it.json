@@ -216,7 +216,9 @@
         "tooltip": "Il grasso selezionato sarà prioritario nel rapporto di calcolo. Se il grasso selezionato non &egrave; adatto, verranno visualizzate alternative.",
         "schaefflerGreases": "Grassi Schaeffler",
         "nonSchaefflerMultiPurposeGreases": "Grasso multiuso non Schaeffler",
-        "nonSchaefflerHighTempGreases": "Grasso per alte temperature non Schaeffler"
+        "nonSchaefflerHighTempGreases": "Grasso per alte temperature non Schaeffler",
+        "greaseDisabledHintApplicationScenario": "Il grasso non può essere specificato mentre è selezionata un'applicazione",
+        "greaseDisabledHintOscillating": "Disponibile solo per il movimento rotatorio"
       },
       "concept1": {
         "label": "Calcola impostazione cartuccia (CONCEPT1)",
@@ -245,6 +247,8 @@
     "environmentalImpactOnGreaseDuration": "Condizioni di esercizio",
     "low": "basso",
     "application": "caso d'uso",
+    "applicationScenarioDisabledHintGrease": "L'applicazione non può essere specificata mentre è selezionato un grasso",
+    "applicationScenarioDisabledHintOscillating": "Disponibile solo per il movimento rotatorio",
     "moderate": "moderato",
     "high": "alto",
     "greaseSelection": "Selezione del grasso",

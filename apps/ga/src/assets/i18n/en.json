@@ -216,7 +216,9 @@
         "tooltip": "The selected grease will be given priority in the calculation report.\nIf the selected grease is not suitable, alternatives will be displayed.",
         "schaefflerGreases": "Schaeffler Greases",
         "nonSchaefflerMultiPurposeGreases": "Non-Schaeffler Multi-Purpose Grease",
-        "nonSchaefflerHighTempGreases": "Non-Schaeffler High-Temperature Grease"
+        "nonSchaefflerHighTempGreases": "Non-Schaeffler High-Temperature Grease",
+        "greaseDisabledHintApplicationScenario": "Grease cannot be specified while an application is selected",
+        "greaseDisabledHintOscillating": "Only available for rotating movement"
       },
       "concept1": {
         "label": "Calculate cartridge setting (CONCEPT1)",
@@ -244,6 +246,8 @@
     "environmentTemperature": "Ambient temperature",
     "environmentalImpactOnGreaseDuration": "Operating conditions",
     "application": "Application",
+    "applicationScenarioDisabledHintGrease": "Application cannot be specified while a grease is selected",
+    "applicationScenarioDisabledHintOscillating": "Only available for rotating movement",
     "low": "low",
     "moderate": "moderate",
     "high": "high",

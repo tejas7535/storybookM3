@@ -10,12 +10,13 @@ import { Movement, PreferredGreaseOption } from '@ga/shared/models';
 
 import { CalculationParametersActions } from '../../actions';
 import {
+  applicationScenarioDisabledHint,
   getAllGreases,
   getGreaseApplication,
   getMotionType,
   getPreferredGrease,
-  isPreselectionDisabled,
   isVerticalAxisOrientation,
+  preselectionDisabledHint,
 } from '../../selectors/calculation-parameters/calculation-parameters.selector';
 import { CalculationParametersFacade } from './calculation-parameters.facade';
 
@@ -182,13 +183,26 @@ describe('CalculationParametersFacade', () => {
       expect(localSpectator.service.allGreases()).toEqual(mockValue);
     });
 
-    it('should provide isPreselectionDisabled as a signal', () => {
-      const mockValue = true;
-      store.overrideSelector(isPreselectionDisabled, mockValue);
+    it('should provide applicationScenarioDisabledHint as a signal', () => {
+      const mockValue = 'Application scenario is disabled';
+      store.overrideSelector(applicationScenarioDisabledHint, mockValue);
       store.refreshState();
       localSpectator = createService();
 
-      expect(localSpectator.service.isPreselectionDisabled()).toBe(mockValue);
+      expect(localSpectator.service.applicationScenarioDisabledHint()).toEqual(
+        mockValue
+      );
+    });
+
+    it('should provide preselectionDisabledHint as a signal', () => {
+      const mockValue = 'Preselection is disabled';
+      store.overrideSelector(preselectionDisabledHint, mockValue);
+      store.refreshState();
+      localSpectator = createService();
+
+      expect(localSpectator.service.preselectionDisabledHint()).toEqual(
+        mockValue
+      );
     });
   });
 });

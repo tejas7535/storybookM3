@@ -216,7 +216,9 @@
         "tooltip": "Das ausgewählte Fett wird im Berechnungsbericht vorrangig berücksichtigt.\nWenn das ausgewählte Fett nicht geeignet ist, werden Alternativen angezeigt.",
         "schaefflerGreases": "Schaeffler Fette",
         "nonSchaefflerMultiPurposeGreases": "Nicht-Schaeffler Mehrzweck Fette",
-        "nonSchaefflerHighTempGreases": "Nicht-Schaeffler Hochtemperatur Fette"
+        "nonSchaefflerHighTempGreases": "Nicht-Schaeffler Hochtemperatur Fette",
+        "greaseDisabledHintApplicationScenario": "Fett kann nicht spezifiziert werden, während ein Anwendungsfall ausgewählt ist",
+        "greaseDisabledHintOscillating": "Nur verfügbar für rotierende Bewegungen"
       },
       "concept1": {
         "label": "Kartuscheneinstellung berechnen (CONCEPT1)",
@@ -244,6 +246,8 @@
     "environmentTemperature": "Umgebungstemperatur",
     "environmentalImpactOnGreaseDuration": "Umgebungseinfluss",
     "application": "Anwendungsfall",
+    "applicationScenarioDisabledHintGrease": "Anwendungsfall kann nicht spezifiziert werden, während ein Fett ausgewählt ist",
+    "applicationScenarioDisabledHintOscillating": "Nur verfügbar für rotierende Bewegungen",
     "low": "gering",
     "moderate": "mittel",
     "high": "stark",

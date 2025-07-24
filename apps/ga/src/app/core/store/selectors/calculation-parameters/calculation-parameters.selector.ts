@@ -247,23 +247,45 @@ export const getGreaseApplication = createSelector(
   (state) => state.environment.applicationScenario
 );
 
-export const isPreselectionDisabled = createSelector(
+export const applicationScenarioDisabledHint = createSelector(
   getCalculationParametersState,
-  (state) =>
-    state.movements.type === Movement.oscillating ||
-    !!(
-      state.environment.applicationScenario &&
-      state.environment.applicationScenario !== ApplicationScenario.All
-    )
+  (state): string | undefined => {
+    if (state.movements.type === Movement.oscillating) {
+      return translate('parameters.applicationScenarioDisabledHintOscillating');
+    }
+
+    if (
+      state.preferredGrease.selectedGrease !== undefined &&
+      state.preferredGrease.selectedGrease.text !==
+        defaultPreferredGreaseOption.text
+    ) {
+      return translate('parameters.applicationScenarioDisabledHintGrease');
+    }
+
+    return undefined;
+  }
 );
 
-export const isApplicationScenarioDisabled = createSelector(
+export const preselectionDisabledHint = createSelector(
   getCalculationParametersState,
-  (state) =>
-    state.movements.type === Movement.oscillating ||
-    (state.preferredGrease.selectedGrease !== undefined &&
-      state.preferredGrease.selectedGrease.text !==
-        defaultPreferredGreaseOption.text)
+  (state): string | undefined => {
+    if (state.movements.type === Movement.oscillating) {
+      return translate(
+        'parameters.productPreselection.grease.greaseDisabledHintOscillating'
+      );
+    }
+
+    if (
+      state.environment.applicationScenario &&
+      state.environment.applicationScenario !== ApplicationScenario.All
+    ) {
+      return translate(
+        'parameters.productPreselection.grease.greaseDisabledHintApplicationScenario'
+      );
+    }
+
+    return undefined;
+  }
 );
 
 export const getMotionType = createSelector(

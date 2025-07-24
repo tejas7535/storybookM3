@@ -217,7 +217,9 @@
         "tooltip": "Vybrané mazivo bude ve zprávě s&nbsp;výpočtem upřednostněno. Pokud vybrané mazivo není vhodné, zobrazí se alternativy.",
         "schaefflerGreases": "Maziva Schaeffler",
         "nonSchaefflerMultiPurposeGreases": "Víceúčelové mazivo jiné než Schaeffler",
-        "nonSchaefflerHighTempGreases": "Vysokoteplotní mazivo jiné než Schaeffler"
+        "nonSchaefflerHighTempGreases": "Vysokoteplotní mazivo jiné než Schaeffler",
+        "greaseDisabledHintApplicationScenario": "Tuk nelze specifikovat, když je vybrána aplikace",
+        "greaseDisabledHintOscillating": "K dispozici pouze pro rotační pohyb"
       },
       "concept1": {
         "label": "Vypočítat nastavení kartuše (CONCEPT1)",
@@ -246,6 +248,8 @@
     "environmentalImpactOnGreaseDuration": "Provozní podmínky",
     "low": "nízká",
     "application": "případ použití",
+    "applicationScenarioDisabledHintGrease": "Aplikaci nelze specifikovat, když je vybráno mazivo",
+    "applicationScenarioDisabledHintOscillating": "K dispozici pouze pro rotační pohyb",
     "moderate": "střední",
     "high": "vysoká",
     "greaseSelection": "Výběr maziva",

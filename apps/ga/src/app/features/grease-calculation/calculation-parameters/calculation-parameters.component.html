@@ -219,6 +219,7 @@
                   [options]="sortedApplicationScenarios$ | ngrxPush"
                   subscriptSizing="dynamic"
                   [translateText]="false"
+                  [hint]="applicationScenarioDisabledHint()"
                 />
               </div>
             </div>
@@ -235,7 +236,7 @@
             <div class="p-4 pb-0">
               <ga-grease-selection-advert></ga-grease-selection-advert>
               <ga-preferred-grease-selection />
-              <div class="flex items-center justify-between gap-2 pb-4">
+              <div class="flex items-center justify-between gap-2 pb-4 pt-2">
                 <schaeffler-info-banner
                   class="w-full"
                   [infoText]="t('c1included')"

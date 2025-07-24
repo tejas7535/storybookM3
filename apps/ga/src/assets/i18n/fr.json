@@ -216,7 +216,9 @@
         "tooltip": "La graisse sélectionnée sera prioritaire dans le rapport de calcul. Si la graisse sélectionnée n’est pas adaptée, des alternatives s’affichent.",
         "schaefflerGreases": "Graisses Schaeffler",
         "nonSchaefflerMultiPurposeGreases": "Graisse multi-usage qui n’est pas de la marque Schaeffler",
-        "nonSchaefflerHighTempGreases": "Graisse haute température qui n’est pas de la marque Schaeffler"
+        "nonSchaefflerHighTempGreases": "Graisse haute température qui n’est pas de la marque Schaeffler",
+        "greaseDisabledHintApplicationScenario": "La graisse ne peut pas être spécifiée alors qu'une application est sélectionnée",
+        "greaseDisabledHintOscillating": "Disponible uniquement pour le mouvement rotatif"
       },
       "concept1": {
         "label": "Calcul du réglage de la cartouche (CONCEPT1)",
@@ -245,6 +247,8 @@
     "environmentalImpactOnGreaseDuration": "Conditions de fonctionnement",
     "low": "faible",
     "application": "cas d'application",
+    "applicationScenarioDisabledHintGrease": "L'application ne peut pas être spécifiée alors qu'une graisse est sélectionnée",
+    "applicationScenarioDisabledHintOscillating": "Disponible uniquement pour le mouvement rotatif",
     "moderate": "modérée",
     "high": "élevé",
     "greaseSelection": "Sélection de la graisse",

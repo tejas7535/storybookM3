@@ -216,7 +216,9 @@
         "tooltip": "Grease yang dipilih akan diprioritaskan dalam laporan perhitungan. Jika grease yang dipilih tidak cocok, alternatif akan ditampilkan.",
         "schaefflerGreases": "Grease Schaeffler",
         "nonSchaefflerMultiPurposeGreases": "Grease Multi-Fungsi Non-Schaeffler",
-        "nonSchaefflerHighTempGreases": "Grease Tahan Suhu Tinggi Non-Schaeffler"
+        "nonSchaefflerHighTempGreases": "Grease Tahan Suhu Tinggi Non-Schaeffler",
+        "greaseDisabledHintApplicationScenario": "Gemuk tidak dapat ditentukan saat aplikasi dipilih",
+        "greaseDisabledHintOscillating": "Hanya tersedia untuk gerakan berputar"
       },
       "concept1": {
         "label": "Hitung pengaturan kartrid (CONCEPT1)",
@@ -245,6 +247,8 @@
     "environmentalImpactOnGreaseDuration": "Kondisi operasi",
     "low": "rendah",
     "application": "kasus penggunaan",
+    "applicationScenarioDisabledHintGrease": "Aplikasi tidak dapat ditentukan saat gemuk dipilih",
+    "applicationScenarioDisabledHintOscillating": "Hanya tersedia untuk gerakan berputar",
     "moderate": "sedang",
     "high": "tinggi",
     "greaseSelection": "Pilihan Pelumas",

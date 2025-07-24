@@ -47,7 +47,8 @@ export class PreferredGreaseSelectionComponent {
 
   public preferredGrease = this.parametersFacade.preferredGrease;
   public allGreases = this.parametersFacade.allGreases;
-  public isDisabled = this.parametersFacade.isPreselectionDisabled;
+  public preselectionDisabledHint =
+    this.parametersFacade.preselectionDisabledHint;
 
   public searchTerm = signal('');
 

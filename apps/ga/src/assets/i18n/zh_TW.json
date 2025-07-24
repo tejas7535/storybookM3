@@ -216,7 +216,9 @@
         "tooltip": "選擇的潤滑油將在計算報告中優先顯示。如果選擇的潤滑油不適用，將顯示替代潤滑油。",
         "schaefflerGreases": "Schaeffler 潤滑油",
         "nonSchaefflerMultiPurposeGreases": "非 Schaeffler 多用途潤滑油",
-        "nonSchaefflerHighTempGreases": "非 Schaeffler 高溫潤滑油"
+        "nonSchaefflerHighTempGreases": "非 Schaeffler 高溫潤滑油",
+        "greaseDisabledHintApplicationScenario": "應用程式被選取時無法指定潤滑油",
+        "greaseDisabledHintOscillating": "僅適用於旋轉運動"
       },
       "concept1": {
         "label": "計算筒匣設定（CONCEPT1）",
@@ -245,6 +247,8 @@
     "environmentalImpactOnGreaseDuration": "運作條件",
     "low": "低",
     "application": "應用案例",
+    "applicationScenarioDisabledHintGrease": "潤滑油被選取時無法指定應用程式",
+    "applicationScenarioDisabledHintOscillating": "僅適用於旋轉運動",
     "moderate": "中",
     "high": "高",
     "greaseSelection": "潤滑油選擇",

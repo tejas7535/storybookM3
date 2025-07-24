@@ -1,6 +1,10 @@
 <div *transloco="let t" class="flex flex-col gap-4">
   <div class="flex items-baseline gap-2">
-    <mat-form-field appearance="outline" class="grow">
+    <mat-form-field
+      appearance="outline"
+      class="grow"
+      [hintLabel]="preselectionDisabledHint()"
+    >
       <mat-label>{{
         t('shared.label.defaultSelect', {
           label: t('parameters.productPreselection.grease.label'),
@@ -9,7 +13,7 @@
       <mat-select
         [value]="preferredGrease()?.selectedGrease"
         [compareWith]="compareOptions"
-        [disabled]="isDisabled()"
+        [disabled]="preselectionDisabledHint()"
         (selectionChange)="onPreferredGreaseSelectionChange($event.value)"
         (opened)="onSelectOpened()"
         (closed)="onSelectClosed()"

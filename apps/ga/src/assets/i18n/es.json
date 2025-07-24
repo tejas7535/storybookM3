@@ -216,7 +216,9 @@
         "tooltip": "La grasa seleccionada tendrá prioridad en el informe de cálculo.\nSi la grasa seleccionada no es adecuada, se mostrarán alternativas.",
         "schaefflerGreases": "Grasas Schaeffler",
         "nonSchaefflerMultiPurposeGreases": "Grasa multiusos no-Schaeffler",
-        "nonSchaefflerHighTempGreases": "Grasa de alta temperatura que no es de Schaeffler"
+        "nonSchaefflerHighTempGreases": "Grasa de alta temperatura que no es de Schaeffler",
+        "greaseDisabledHintApplicationScenario": "La grasa no se puede especificar mientras se selecciona una aplicación",
+        "greaseDisabledHintOscillating": "Disponible solo para movimientos de rotación"
       },
       "concept1": {
         "label": "Calcular el ajuste de liberación de gas (CONCEPT1)",
@@ -245,6 +247,8 @@
     "environmentalImpactOnGreaseDuration": "Condiciones de funcionamiento",
     "low": "baja",
     "application": "caso de aplicación",
+    "applicationScenarioDisabledHintGrease": "La aplicación no se puede especificar mientras se selecciona una grasa",
+    "applicationScenarioDisabledHintOscillating": "Disponible solo para movimientos de rotación",
     "moderate": "moderada",
     "high": "alta",
     "greaseSelection": "Selección de grasa",

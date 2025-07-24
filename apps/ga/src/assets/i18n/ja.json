@@ -216,7 +216,9 @@
         "tooltip": "選択されたグリースが計算レポートで優先されます。\nそれが適切でなかった場合、代替グリースが表示されます。",
         "schaefflerGreases": "シェフラーグリース",
         "nonSchaefflerMultiPurposeGreases": "社外汎用グリース",
-        "nonSchaefflerHighTempGreases": "社外耐熱グリース"
+        "nonSchaefflerHighTempGreases": "社外耐熱グリース",
+        "greaseDisabledHintApplicationScenario": "アプリケーションが選択されている場合、グリースは指定できません",
+        "greaseDisabledHintOscillating": "回転運動の場合のみ利用可能"
       },
       "concept1": {
         "label": "カートリッジ設定の計算（コンセプト1）",
@@ -245,6 +247,8 @@
     "environmentalImpactOnGreaseDuration": "運転条件",
     "low": "低",
     "application": "使用事例",
+    "applicationScenarioDisabledHintGrease": "グリースが選択されている場合、アプリケーションは指定できません",
+    "applicationScenarioDisabledHintOscillating": "回転運動の場合のみ利用可能",
     "moderate": "中",
     "high": "高",
     "greaseSelection": "グリース選択",

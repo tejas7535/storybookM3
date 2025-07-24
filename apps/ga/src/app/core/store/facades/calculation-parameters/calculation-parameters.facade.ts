@@ -10,6 +10,7 @@ import { Grease } from '@ga/shared/services/greases/greases.service';
 
 import { CalculationParametersActions } from '../../actions';
 import {
+  applicationScenarioDisabledHint,
   getAllGreases,
   getCompetitorsGreases,
   getGreaseApplication,
@@ -18,8 +19,8 @@ import {
   getPreferredGrease,
   getSchaefflerGreases,
   getSelectedCompetitorGreaseFromPreferred,
-  isPreselectionDisabled,
   isVerticalAxisOrientation,
+  preselectionDisabledHint,
 } from '../../selectors/calculation-parameters/calculation-parameters.selector';
 
 @Injectable({
@@ -58,8 +59,11 @@ export class CalculationParametersFacade {
 
   public readonly allGreases = toSignal(this.store.select(getAllGreases));
 
-  public readonly isPreselectionDisabled = toSignal(
-    this.store.select(isPreselectionDisabled)
+  public readonly applicationScenarioDisabledHint = toSignal(
+    this.store.select(applicationScenarioDisabledHint)
+  );
+  public readonly preselectionDisabledHint = toSignal(
+    this.store.select(preselectionDisabledHint)
   );
 
   public setAutomaticLubrication(automaticLubrication: boolean): void {
