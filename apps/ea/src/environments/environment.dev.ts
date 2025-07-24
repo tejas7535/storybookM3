@@ -5,7 +5,7 @@ export const environment: Environment = {
   localDev: false,
   devToolsEnabled: true,
   catalogApiBaseUrl: 'https://bearinx-d.schaeffler.com/catalogue/api',
-  co2UpstreamApiBaseUrl: 'https://co2-api-d.dev.dp.schaeffler/api/v2/',
+  co2UpstreamApiBaseUrl: 'https://co2-api-q.dev.dp.schaeffler/api/v2/',
   staticStorageUrl: 'https://frontend1apps.z1.web.core.windows.net',
   oldUIFallbackUrl: 'https://bearinx-d.schaeffler.com/catalogue/app/loadcases/',
   tenantId: 'c6bd4298-997b-4600-a90a-1adb997581b7',
