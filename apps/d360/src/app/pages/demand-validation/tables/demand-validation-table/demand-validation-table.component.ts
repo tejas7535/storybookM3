@@ -236,7 +236,9 @@ export class DemandValidationTableComponent implements OnInit {
       isGroupOpenByDefault: false,
     }),
     treeData: true,
-
+    cellSelection: {
+      suppressMultiRanges: true,
+    },
     // Event to enforce horizontal-only selection
     onCellSelectionChanged: this.showTooltip.bind(this),
   };

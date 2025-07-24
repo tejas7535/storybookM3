@@ -62,9 +62,11 @@ export class SelectionTooltipComponent {
   @HostBinding('style.left') protected get left(): string {
     return `${this.position().x}px`;
   }
+
   @HostBinding('style.top') protected get top(): string {
     return `${this.position().y}px`;
   }
+
   @HostBinding('style.display') protected get display(): string {
     return this.visible() ? 'block' : 'none';
   }
@@ -74,7 +76,10 @@ export class SelectionTooltipComponent {
       { label: 'selectionTooltip.sum', value: this.format(this.stats().sum) },
       {
         label: 'selectionTooltip.average',
-        value: this.format(this.stats().average),
+        value: this.format(
+          this.stats().average,
+          this.stats().average <= 100 ? 1 : 0
+        ),
       },
       {
         label: 'selectionTooltip.count',
@@ -173,12 +178,12 @@ export class SelectionTooltipComponent {
     }
   }
 
-  protected format(value: number): string {
+  protected format(value: number, maximumFractionDigits = 0): string {
     return this.localeService.localizeNumber(
       value,
       'decimal',
       this.localeService.getLocale(),
-      { minimumFractionDigits: 0, maximumFractionDigits: 0 }
+      { minimumFractionDigits: 0, maximumFractionDigits }
     );
   }
 

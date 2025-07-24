@@ -289,8 +289,43 @@ describe('SelectionTooltipComponent', () => {
 
       // Set some stats
       component.stats.set({
+        sum: 1000,
+        average: 250,
+        count: 40,
+        min: 100,
+        max: 400,
+      });
+
+      // Get the computed statsToShow
+      const result = (component as any).statsToShow();
+
+      // Verify the result contains formatted values
+      expect(result).toEqual([
+        { label: 'selectionTooltip.sum', value: 'formatted-1000' },
+        { label: 'selectionTooltip.average', value: 'formatted-250' },
+        { label: 'selectionTooltip.count', value: 'formatted-40' },
+        { label: 'selectionTooltip.min', value: 'formatted-100' },
+        { label: 'selectionTooltip.max', value: 'formatted-400' },
+      ]);
+
+      // Verify format was called with the correct values
+      expect(formatSpy).toHaveBeenCalledWith(1000);
+      expect(formatSpy).toHaveBeenCalledWith(250, 0);
+      expect(formatSpy).toHaveBeenCalledWith(40);
+      expect(formatSpy).toHaveBeenCalledWith(100);
+      expect(formatSpy).toHaveBeenCalledWith(400);
+    });
+
+    it('should show one decimal when avg stats is <= 100', () => {
+      // Mock the format method
+      const formatSpy = jest
+        .spyOn(component as any, 'format')
+        .mockImplementation((value) => `formatted-${value}`);
+
+      // Set some stats
+      component.stats.set({
         sum: 100,
-        average: 25,
+        average: 25.55,
         count: 4,
         min: 10,
         max: 40,
@@ -302,7 +337,7 @@ describe('SelectionTooltipComponent', () => {
       // Verify the result contains formatted values
       expect(result).toEqual([
         { label: 'selectionTooltip.sum', value: 'formatted-100' },
-        { label: 'selectionTooltip.average', value: 'formatted-25' },
+        { label: 'selectionTooltip.average', value: 'formatted-25.55' },
         { label: 'selectionTooltip.count', value: 'formatted-4' },
         { label: 'selectionTooltip.min', value: 'formatted-10' },
         { label: 'selectionTooltip.max', value: 'formatted-40' },
@@ -310,7 +345,7 @@ describe('SelectionTooltipComponent', () => {
 
       // Verify format was called with the correct values
       expect(formatSpy).toHaveBeenCalledWith(100);
-      expect(formatSpy).toHaveBeenCalledWith(25);
+      expect(formatSpy).toHaveBeenCalledWith(25.55, 1);
       expect(formatSpy).toHaveBeenCalledWith(4);
       expect(formatSpy).toHaveBeenCalledWith(10);
       expect(formatSpy).toHaveBeenCalledWith(40);

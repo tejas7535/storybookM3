@@ -107,8 +107,19 @@ describe('DemandValidationTableComponent', () => {
       gridOptions = component['gridOptions'];
     });
 
-    it('should have clientSideTableDefaultProps', () => {
-      expect(gridOptions).toMatchObject(clientSideTableDefaultProps);
+    it('should match clientSideTableDefaultProps without default cellSelection', () => {
+      const {
+        cellSelection: _cellSelection,
+        ...remainingClientSideTableDefaultProps
+      } = clientSideTableDefaultProps;
+
+      expect(gridOptions).toMatchObject(remainingClientSideTableDefaultProps);
+    });
+
+    it('should have suppress multi range cell selection', () => {
+      expect(gridOptions.cellSelection).toMatchObject({
+        suppressMultiRanges: true,
+      });
     });
 
     it('should suppress CSV export', () => {
