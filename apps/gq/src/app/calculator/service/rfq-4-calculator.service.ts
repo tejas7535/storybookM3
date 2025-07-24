@@ -5,8 +5,8 @@ import { map, Observable } from 'rxjs';
 
 import { ApiVersion } from '@gq/shared/models/api-version.enum';
 import { Rfq4PathsEnum } from '@gq/shared/services/rest/rfq4/models/rfq-4-paths.enum';
-import { Rfq4Service } from '@gq/shared/services/rest/rfq4/rfq-4.service';
 
+import { RecalculateSqvStatus } from '../rfq-4-detail-view/models/recalculate-sqv-status.enum';
 import { CalculatorTab } from '../rfq-4-overview-view/models/calculator-tab.enum';
 import { Rfq4OverviewTabCounts } from '../rfq-4-overview-view/store/rfq-4-overview.store';
 import { GetRfqRequestsCountResponse } from './models/get-rfq-requests-count-response.interface';
@@ -20,12 +20,23 @@ import { Rfq4CalculatorPaths } from './rfq-4-calculator-paths.enum';
 })
 export class Rfq4CalculatorService {
   readonly #http = inject(HttpClient);
-  readonly calService = inject(Rfq4Service);
+  private readonly rfqStatusByTabMap: Map<CalculatorTab, RecalculateSqvStatus> =
+    new Map<CalculatorTab, RecalculateSqvStatus>([
+      [CalculatorTab.OPEN, RecalculateSqvStatus.OPEN],
+      [CalculatorTab.IN_PROGRESS, RecalculateSqvStatus.IN_PROGRESS],
+      [CalculatorTab.DONE, RecalculateSqvStatus.CONFIRMED],
+    ]);
+
+  getRfqStatusByTab(tab: CalculatorTab) {
+    return this.rfqStatusByTabMap.get(tab);
+  }
 
   getRfqRequests(tab: CalculatorTab): Observable<RfqRequest[]> {
+    const status = this.getRfqStatusByTab(tab);
+
     return this.#http
       .get<GetRfqRequestsResponse>(
-        `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${Rfq4CalculatorPaths.RFQ_4_CALCULATOR_OVERVIEW}/${tab}`
+        `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${Rfq4CalculatorPaths.RFQ_4_CALCULATOR_OVERVIEW}/${status}`
       )
       .pipe(map(({ results }) => results));
   }

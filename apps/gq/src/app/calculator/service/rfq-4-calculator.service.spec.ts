@@ -13,6 +13,7 @@ import {
   SpectatorService,
 } from '@ngneat/spectator/jest';
 
+import { RecalculateSqvStatus } from '../rfq-4-detail-view/models/recalculate-sqv-status.enum';
 import { CalculatorTab } from '../rfq-4-overview-view/models/calculator-tab.enum';
 import { RfqRequest } from './models/get-rfq-requests-response.interface';
 import { Rfq4CalculatorService } from './rfq-4-calculator.service';
@@ -52,19 +53,19 @@ describe('Rfq4CalculatorService', () => {
         results: [
           {
             gqPositionId: '1',
-            status: CalculatorTab.OPEN,
+            status: CalculatorTab.DONE,
           } as unknown as RfqRequest,
-          { gqPositionId: '2', status: CalculatorTab.OPEN },
+          { gqPositionId: '2', status: CalculatorTab.DONE },
         ],
       };
 
-      service.getRfqRequests(CalculatorTab.OPEN).subscribe((requests) => {
+      service.getRfqRequests(CalculatorTab.DONE).subscribe((requests) => {
         expect(requests.length).toBe(2);
         expect(requests[0].gqPositionId).toBe('1');
       });
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${Rfq4CalculatorPaths.RFQ_4_CALCULATOR_OVERVIEW}/${CalculatorTab.OPEN}`
+        `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${Rfq4CalculatorPaths.RFQ_4_CALCULATOR_OVERVIEW}/${RecalculateSqvStatus.CONFIRMED}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
