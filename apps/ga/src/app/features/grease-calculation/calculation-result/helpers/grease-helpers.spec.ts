@@ -35,6 +35,8 @@ describe('Grease helpers', () => {
           label: 'calculationResult.concept1',
           labelHint: GreaseReportConcept1HintMock,
           value: undefined,
+          metadata: undefined,
+          specialTemplate: undefined,
           custom: {
             selector: CONCEPT1,
             data: GREASE_CONCEPT1_SUITABILITY,
@@ -66,6 +68,8 @@ describe('Grease helpers', () => {
           label: 'calculationResult.concept1',
           labelHint: undefined,
           value: undefined,
+          metadata: undefined,
+          specialTemplate: undefined,
           custom: {
             selector: 'CONCEPT1',
             data,
@@ -103,6 +107,8 @@ describe('Grease helpers', () => {
             selector: 'CONCEPT1',
             data,
           },
+          metadata: undefined,
+          specialTemplate: undefined,
         },
       ];
 
@@ -119,6 +125,8 @@ describe('Grease helpers', () => {
           label: '',
           labelHint: undefined,
           value: undefined,
+          metadata: undefined,
+          specialTemplate: undefined,
         },
       ];
 
@@ -692,5 +700,24 @@ describe('Grease helpers', () => {
       },
     } as GreaseReportSubordinate;
     expect(helpers.extractKappaValue(MOCK_SUBORDINATE)).toEqual(4.5);
+  });
+
+  describe('getKappaBadgeColorClass', () => {
+    it.each([
+      ['0,0', 'bg-error-container text-error'],
+      ['-1', 'bg-error-container text-error'],
+      ['0.9', 'bg-error-container text-error'],
+      ['4,1', 'bg-error-container text-error'],
+      ['4,0', 'bg-success-container text-success'],
+      ['1.5', 'bg-success-container text-success'],
+      ['1,5', 'bg-success-container text-success'],
+      ['3,9', 'bg-success-container text-success'],
+    ])(
+      'should return the right formatting class for %s the kappa badge',
+      (input, expected) => {
+        const result = helpers.getKappaBadgeColorClass(input);
+        expect(result).toEqual(expected);
+      }
+    );
   });
 });

@@ -47,10 +47,19 @@
           }
         </div>
         <div class="w-1/2 pl-6 pr-2 py-2.5 content-center">
-          <div
-            class="w-full"
-            [innerHTML]="labelValue.value ?? labelValue.values"
-          ></div>
+          @if (labelValue.specialTemplate === 'viscocity') {
+            <div class="w-full">
+              <ga-badge
+                [text]="labelValue.value"
+                [badgeClass]="labelValue.metadata?.badgeClass"
+              />
+            </div>
+          } @else {
+            <div
+              class="w-full"
+              [innerHTML]="labelValue.value ?? labelValue.values"
+            ></div>
+          }
         </div>
       </div>
     }

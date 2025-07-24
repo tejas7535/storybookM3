@@ -5,6 +5,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { LabelValue } from '@schaeffler/label-value';
 
+import { BadgeComponent } from '@ga/shared/components/badge/badge.component';
 import { PartnerVersion } from '@ga/shared/models';
 
 import { CONCEPT1, GreaseResult, SUITABILITY_LABEL } from '../../../models';
@@ -22,6 +23,7 @@ import { GreaseReportConcept1DetailComponent } from '../../grease-report-concept
     MatTooltipModule,
     GreaseReportConcept1Component,
     GreaseReportConcept1DetailComponent,
+    BadgeComponent,
   ],
 })
 export class GreaseReportResultCardSectionLabelValuesComponent {

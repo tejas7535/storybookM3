@@ -6,7 +6,10 @@ import {
   performanceKeys,
   relubricationKeys,
 } from '../constants';
-import { adaptLabelValuesFromGreaseResultData } from '../helpers/grease-helpers';
+import {
+  adaptLabelValuesFromGreaseResultData,
+  getKappaBadgeColorClass,
+} from '../helpers/grease-helpers';
 import { GreaseResult, ResultSection, ResultSectionData } from '../models';
 
 @Pipe({
@@ -47,7 +50,7 @@ export class ResultSectionPipe implements PipeTransform {
         ...initialResultSections.performance,
         badgeText: performanceBadge.badgeText,
         badgeSecondaryText: performanceBadge.badgeSecondaryText,
-        badgeClass: this.getKappaBadgeColorClass(performanceBadge.badgeText),
+        badgeClass: getKappaBadgeColorClass(performanceBadge.badgeText),
         labelValues: adaptLabelValuesFromGreaseResultData(
           result.dataSource.filter(
             (item) => !!item && performanceKeys.includes(item.title)
@@ -89,18 +92,6 @@ export class ResultSectionPipe implements PipeTransform {
       badgeText: parts.at(0),
       badgeSecondaryText: parts.at(1),
     };
-  }
-
-  private getKappaBadgeColorClass(kappa: string): string {
-    try {
-      const kappaValue = Number.parseFloat(kappa.replace(',', '.'));
-
-      return kappaValue > 4 || kappaValue < 1
-        ? 'bg-error-container text-error'
-        : 'bg-success-container text-success';
-    } catch {
-      return '';
-    }
   }
 
   private getRelubricationSection(result: GreaseResult) {

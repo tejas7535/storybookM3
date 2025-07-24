@@ -35,8 +35,18 @@ export const adaptLabelValuesFromGreaseResultData = (
             : ''
         ),
         labelHint: getLabelHintForResult(greaseResultData),
+        metadata:
+          greaseResultData?.title === 'viscosityRatio'
+            ? {
+                badgeClass: getKappaBadgeColorClass(greaseResultData.values),
+              }
+            : undefined,
         value: greaseResultData?.values,
         ...(greaseResultData?.custom && { custom: greaseResultData.custom }),
+        specialTemplate:
+          greaseResultData?.title === 'viscosityRatio'
+            ? 'viscocity'
+            : undefined,
       }))
     : [];
 
@@ -63,6 +73,18 @@ const getLabelHintForRegularInput = (
   dataItem?.tooltip
     ? translate(`calculationResult.${dataItem.tooltip}`)
     : undefined;
+
+export const getKappaBadgeColorClass = (kappa: string): string => {
+  try {
+    const kappaValue = Number.parseFloat(kappa.replace(',', '.'));
+
+    return kappaValue > 4 || kappaValue < 1
+      ? 'bg-error-container text-error'
+      : 'bg-success-container text-success';
+  } catch {
+    return '';
+  }
+};
 
 /**
  * Get value from table item

@@ -33,4 +33,7 @@ export interface LabelValue {
     selector: string;
     data?: any;
   };
+
+  specialTemplate?: string;
+  metadata?: Record<string, string>;
 }

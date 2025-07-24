@@ -46,23 +46,4 @@ describe('ResultSectionPipe', () => {
       expect(result).toEqual(expected);
     });
   });
-
-  describe('getKappaBadgeColorClass', () => {
-    it.each([
-      ['0,0', 'bg-error-container text-error'],
-      ['-1', 'bg-error-container text-error'],
-      ['0.9', 'bg-error-container text-error'],
-      ['4,1', 'bg-error-container text-error'],
-      ['4,0', 'bg-success-container text-success'],
-      ['1.5', 'bg-success-container text-success'],
-      ['1,5', 'bg-success-container text-success'],
-      ['3,9', 'bg-success-container text-success'],
-    ])(
-      'should return the right formatting class for %s the kappa badge',
-      (input, expected) => {
-        const result = pipe['getKappaBadgeColorClass'](input);
-        expect(result).toEqual(expected);
-      }
-    );
-  });
 });
