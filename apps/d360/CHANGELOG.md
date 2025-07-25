@@ -1,4 +1,39 @@
 # Release Notes of Demand360
+## [3.0.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/d360-v3.0.1...d360-v3.0.2) (2025-07-25)
+
+
+### Features
+
+* **d360:** add 12 months delivery count in cmp (D360-484) ([#7414](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7414)) ([0e0bd15](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0e0bd15ce8f5ab9df85e83a7028548abd364463a))
+* **d360:** add missing fields to MaterialCustomer entities and fix portfolioStatusAutoSwitch mapping (D360-481) ([#7383](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7383)) ([6bcd73e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6bcd73eab9d3c98fc937c0e05eeffe54eda18075))
+* **d360:** add translation of values for portfolioStatus and for… ([#7424](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7424)) ([f6de1bb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f6de1bbf524381b8ef4d2a32492640b991d6a654))
+* **d360:** added missing tests in pages folder (D360-428) ([#7333](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7333)) ([8b80009](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8b80009f9ef689294c527bf4d206c5bd73a15485))
+* **d360:** added missing tests in shared folder (D360-430) ([#7284](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7284)) ([336b8ac](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/336b8accef853ae9e1821f84406beafb5fdec537))
+* **d360:** comments in sales planning (D360-443) ([#7358](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7358)) ([3b0e6b9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3b0e6b925453bfec2f08bca81d09dc4cf3ff9baa))
+* **d360:** disable multi range VoD cell selection (D360-479) ([#7415](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7415)) ([5bee966](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5bee9668d48ca2344df4a8858ba7a78a4379c5ee))
+* **d360:** expand all regions support (D360-501) ([#7412](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7412)) ([375fe74](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/375fe746e6627991093790818eb0e97197c80f9d))
+* **d360:** hide frozen zone toggle in export (D360-467) ([#7373](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7373)) ([bad0d7a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bad0d7a7c61be0674879e8ef1560eb2952998caa))
+* **d360:** new snackbar based on toastr (D360-466) ([#7365](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7365)) ([f769f77](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f769f773ef966987b9274fcacc58e7aea8afe75a))
+* **d360:** notification banner (D360-458) ([#7351](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7351)) ([1110f91](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1110f91adc097b7237a7eb4797cfc022ce6fa94b))
+* **d360:** Style Excel Export (D360-187) ([#7371](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7371)) ([7fb9c79](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7fb9c7926b8738a785f65bf18b0467880341b07a))
+* **d360:** sum demand tooltip (D360-479) ([#7389](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7389)) ([dded5aa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/dded5aa71809395ba54695fd5a6dd42ade3c5eb1))
+* **d360:** vod new export overlay (D360-454) ([#7344](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7344)) ([7499db8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7499db8bf17a3d9306ee4e309238659af613864d))
+
+
+### Bug Fixes
+
+* **d360:** bugfixes for new snackbar (D360-466) ([#7382](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7382)) ([5cb312b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5cb312b8bf8ea5e8c74c8f20322adfc41fd962a4))
+* **d360:** clipboard component to make only one backend call (D360-487) ([#7397](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7397)) ([40e723d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/40e723da1a08057bb0bbd64e92a8154937ea46d7))
+* **d360:** cmp + overview page table fixes (D360-462, D360-463) ([#7340](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7340)) ([230dd75](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/230dd750ac07aacb72a99f6d9f0585d4f1529c13))
+* **d360:** export templates are not overriding the others (D360-188) ([#7387](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7387)) ([5feced8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5feced8c7aa52e12ea8165c1c1c4b6436aa0dca2))
+* **d360:** fix deletion of inactive templates not being saved (D360-491) ([#7403](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7403)) ([c8f8dfd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c8f8dfdfea5b5170fe3881be375b8ccbd30a55cc))
+* **d360:** fix translations for dpopdl (D360-477) ([#7363](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7363)) ([effc866](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/effc866ba6d9f454324826953c531a755c8caecd))
+* **d360:** fixes endless loop for loading table data (D360-490) ([#7381](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7381)) ([bdb7ea3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bdb7ea3277fd5f4aad422508f37a12ef65471c2b))
+* **d360:** fixes for sonar qube findings ([#7372](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7372)) ([2e23a5e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2e23a5eb11501d95fe6d60728325e6ebb2dda655))
+* **d360:** new notification banner url (D360-458) ([#7367](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7367)) ([84bea9e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/84bea9e8db13b3da927dcfd5698e3983ea028ba7))
+* **d360:** reset options correctly after reset (D360-485) ([#7392](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7392)) ([2483f55](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2483f55e85f112506966b2d2ee00c526db7f3a89))
+* **d360:** startdate and enddate validation only for creating (D360-493) ([#7394](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7394)) ([53f375b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/53f375ba24f601849aa7e99c7ab35556f6aadbec))
+
 ## [3.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/d360-v3.0.1...d360-v3.1.0) (2025-07-25)
 
 
