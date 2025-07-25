@@ -192,5 +192,107 @@ describe('Error Utils', () => {
 
       expect(message).toBe('Error Detail');
     });
+
+    it('should use custom error messages when provided and error code matches', () => {
+      const problemDetail = {
+        title: 'Export Failed',
+        detail: 'Maximum count exceeded',
+        code: 'material_customer.export.maxCountExceeded',
+        values: { max_count: 5000 },
+      };
+
+      const customErrorMessages = {
+        'material_customer.export.maxCountExceeded': (detail: any) =>
+          `Maximum export count of ${detail.values?.max_count} exceeded`,
+      };
+
+      const error = new HttpError(400, problemDetail);
+      const message = getErrorMessage(error, customErrorMessages);
+
+      expect(message).toBe('Maximum export count of 5000 exceeded');
+    });
+
+    it('should use custom error messages for export failed errors', () => {
+      const problemDetail = {
+        title: 'Export Failed',
+        detail: 'Export operation failed',
+        code: 'material_customer.export.failed',
+        values: { reason: 'Invalid data format' },
+      };
+
+      const customErrorMessages = {
+        'material_customer.export.failed': (detail: any) =>
+          `Export failed: ${detail.values?.reason}`,
+      };
+
+      const error = new HttpError(400, problemDetail);
+      const message = getErrorMessage(error, customErrorMessages);
+
+      expect(message).toBe('Export failed: Invalid data format');
+    });
+
+    it('should fall back to default error message when custom message function is not found', () => {
+      const problemDetail = {
+        title: 'Unknown Error',
+        detail: 'Something went wrong',
+        code: 'unknown.error.code',
+        values: null as any,
+      };
+
+      const customErrorMessages = {
+        'material_customer.export.maxCountExceeded': (detail: any) =>
+          `Maximum count exceeded: ${detail.values?.max_count}`,
+      };
+
+      const error = new HttpError(400, problemDetail);
+      const message = getErrorMessage(error, customErrorMessages);
+
+      expect(message).toBe('Unknown Error: Something went wrong');
+    });
+
+    it('should work when custom error messages object is empty', () => {
+      const problemDetail = {
+        title: 'Error Title',
+        detail: 'Error Detail',
+        code: 'some.error.code',
+        values: null as any,
+      };
+
+      const customErrorMessages = {};
+
+      const error = new HttpError(400, problemDetail);
+      const message = getErrorMessage(error, customErrorMessages);
+
+      expect(message).toBe('Error Title: Error Detail');
+    });
+
+    it('should handle custom error messages with complex values', () => {
+      const problemDetail = {
+        title: 'Export Error',
+        detail: 'Complex error occurred',
+        code: 'complex.error',
+        values: {
+          max_count: 1000,
+          current_count: 1500,
+          user_id: 'user123',
+          timestamp: '2023-01-01T12:00:00Z',
+        },
+      };
+
+      const customErrorMessages = {
+        'complex.error': (detail: any) => {
+          const { max_count, current_count, user_id } = detail.values || {};
+
+          return `User ${user_id} attempted to export ${current_count} items, but maximum is ${max_count}`;
+        },
+      };
+
+      const error = new HttpError(400, problemDetail);
+      const message = getErrorMessage(error, customErrorMessages);
+
+      expect(message).toBe(
+        'User user123 attempted to export 1500 items, but maximum is 1000'
+      );
+    });
   });
 });

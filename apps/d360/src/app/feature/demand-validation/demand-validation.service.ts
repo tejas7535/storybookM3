@@ -28,7 +28,10 @@ import {
   PostResult,
   ResultMessage,
 } from '../../shared/utils/error-handling';
-import { getErrorMessage } from '../../shared/utils/errors';
+import {
+  CustomErrorMessages,
+  getErrorMessage,
+} from '../../shared/utils/errors';
 import { strictlyParseLocalFloat } from '../../shared/utils/number';
 import { SnackbarService } from '../../shared/utils/service/snackbar.service';
 import { StreamSaverService } from '../../shared/utils/service/stream-saver.service';
@@ -84,6 +87,17 @@ export class DemandValidationService {
     GlobalSelectionStateService
   );
   private readonly appInsights = inject(ApplicationInsightsService);
+
+  private readonly customErrorMessages: CustomErrorMessages = {
+    'material_customer.export.maxCountExceeded': (detail) =>
+      translate('material_customer.export.maxCountExceeded', {
+        max_count: detail.values?.max_count,
+      }),
+    'material_customer.export.failed': (detail) =>
+      translate('material_customer.export.failed', {
+        reason: detail.values?.reason,
+      }),
+  };
 
   public deleteValidatedDemandBatch(
     data: DeleteKpiDataRequest,
@@ -486,7 +500,9 @@ export class DemandValidationService {
           return of(null);
         }),
         catchError((error) => {
-          this.snackbarService.error(getErrorMessage(error));
+          this.snackbarService.error(
+            getErrorMessage(error, this.customErrorMessages)
+          );
 
           this.appInsights.logEvent(
             '[Validated Sales Planning] Export Data Failure'

@@ -34,7 +34,11 @@ export class ExportMaterialCustomerService {
   private readonly customErrorMessages: CustomErrorMessages = {
     'material_customer.export.maxCountExceeded': (detail) =>
       translate('material_customer.export.maxCountExceeded', {
-        max_count: detail.values?.max_export_count,
+        max_count: detail.values?.max_count,
+      }),
+    'material_customer.export.failed': (detail) =>
+      translate('material_customer.export.failed', {
+        reason: detail.values?.reason,
       }),
   };
 

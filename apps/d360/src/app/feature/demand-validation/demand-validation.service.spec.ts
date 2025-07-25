@@ -6,6 +6,7 @@ import { MessageType } from '../../shared/models/message-type.enum';
 import { Stub } from '../../shared/test/stub.class';
 import { DateRange, DateRangePeriod } from '../../shared/utils/date-range';
 import * as SAP from '../../shared/utils/error-handling';
+import { HttpError } from '../../shared/utils/http-client';
 import { ValidationHelper } from '../../shared/utils/validation/validation-helper';
 import { DemandValidationService } from './demand-validation.service';
 import { DemandValidationFilter } from './demand-validation-filters';
@@ -788,6 +789,82 @@ describe('DemandValidationService', () => {
   });
 
   describe('triggerExport', () => {
+    it('should handle errors with custom error messages for max count exceeded', (done) => {
+      const selectedKpis: SelectedKpis = {
+        activeAndPredecessor: true,
+      } as any;
+      const filledRange: { range1: DateRange; range2?: DateRange } = {
+        range1: {
+          from: new Date('2023-01-01'),
+          to: new Date('2023-01-31'),
+          period: DateRangePeriod.Monthly,
+        },
+      };
+      const demandValidationFilters: DemandValidationFilter = {} as any;
+      const problemDetail = {
+        title: 'Export Failed',
+        detail: 'Export exceeded maximum count',
+        code: 'material_customer.export.maxCountExceeded',
+        values: { max_count: 5000 },
+      };
+      const mockError = new HttpError(400, problemDetail);
+
+      jest
+        .spyOn(service['http'], 'post')
+        .mockReturnValue(throwError(() => mockError));
+      jest.spyOn(service['snackbarService'], 'error');
+
+      service
+        .triggerExport(selectedKpis, filledRange, demandValidationFilters)
+        .pipe(take(1))
+        .subscribe((value) => {
+          expect(value).toBeNull();
+          expect(service['snackbarService'].error).toHaveBeenCalledWith(
+            'material_customer.export.maxCountExceeded'
+          );
+
+          done();
+        });
+    });
+
+    it('should handle errors with custom error messages for export failed', (done) => {
+      const selectedKpis: SelectedKpis = {
+        activeAndPredecessor: true,
+      } as any;
+      const filledRange: { range1: DateRange; range2?: DateRange } = {
+        range1: {
+          from: new Date('2023-01-01'),
+          to: new Date('2023-01-31'),
+          period: DateRangePeriod.Monthly,
+        },
+      };
+      const demandValidationFilters: DemandValidationFilter = {} as any;
+      const problemDetail = {
+        title: 'Export Failed',
+        detail: 'Export operation failed',
+        code: 'material_customer.export.failed',
+        values: { reason: 'Invalid data format' },
+      };
+      const mockError = new HttpError(400, problemDetail);
+
+      jest
+        .spyOn(service['http'], 'post')
+        .mockReturnValue(throwError(() => mockError));
+      jest.spyOn(service['snackbarService'], 'error');
+
+      service
+        .triggerExport(selectedKpis, filledRange, demandValidationFilters)
+        .pipe(take(1))
+        .subscribe((value) => {
+          expect(value).toBeNull();
+          expect(service['snackbarService'].error).toHaveBeenCalledWith(
+            'material_customer.export.failed'
+          );
+
+          done();
+        });
+    });
+
     it('should handle errors and show a snackbar with the error messages', (done) => {
       const selectedKpis: SelectedKpis = {
         activeAndPredecessor: true,

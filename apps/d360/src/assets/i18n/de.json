@@ -1261,7 +1261,7 @@
       "downloadStarted": "Export: Download gestartet",
       "excelHeaderView": "Sicht",
       "inProgress": "Export wird erstellt. Dies kann einige Minuten dauern.",
-      "newTemplate": "Neues Vorlage",
+      "newTemplate": "Neue Vorlage",
       "selectedCustomer": "{{number}} Kunde(n) ausgewählt",
       "selectedCustomerHeadline": "Ausgewählte Kunden:",
       "steps": {

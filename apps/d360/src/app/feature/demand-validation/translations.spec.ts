@@ -196,4 +196,82 @@ describe('getTranslationsForExport', () => {
       expect(result).toHaveProperty(kpi, `material_customer.column.${kpi}`);
     });
   });
+
+  it('should include portfolio status translations', () => {
+    const locale = 'en';
+    const result = getTranslationsForExport(true, locale);
+
+    // Test that portfolio status translations are included
+    expect(result).toHaveProperty('portfolioStatus_PI');
+    expect(result).toHaveProperty('portfolioStatus_PO');
+    expect(result).toHaveProperty('portfolioStatus_SP');
+    expect(result).toHaveProperty('portfolioStatus_SE');
+    expect(result).toHaveProperty('portfolioStatus_SI');
+    expect(result).toHaveProperty('portfolioStatus_SB');
+    expect(result).toHaveProperty('portfolioStatus_IA');
+    expect(result).toHaveProperty('portfolioStatus_AC');
+
+    // Verify the translation keys are correct
+    expect(result.portfolioStatus_PI).toBe(
+      'material_customer.portfolio_status.PI'
+    );
+    expect(result.portfolioStatus_AC).toBe(
+      'material_customer.portfolio_status.AC'
+    );
+  });
+
+  it('should include forecast maintained boolean translations', () => {
+    const locale = 'en';
+    const result = getTranslationsForExport(true, locale);
+
+    // Test that forecast maintained translations are included
+    expect(result).toHaveProperty('forecastMaintained_true');
+    expect(result).toHaveProperty('forecastMaintained_false');
+
+    // Verify the translation keys are correct
+    expect(result.forecastMaintained_true).toBe(
+      'field.forecastMaintained.value.true'
+    );
+    expect(result.forecastMaintained_false).toBe(
+      'field.forecastMaintained.value.false'
+    );
+  });
+
+  it('should include all portfolio status values in translations', () => {
+    const locale = 'en';
+    const result = getTranslationsForExport(true, locale);
+
+    const expectedPortfolioStatuses = [
+      'PI',
+      'PO',
+      'SP',
+      'SE',
+      'SI',
+      'SB',
+      'IA',
+      'AC',
+    ];
+
+    expectedPortfolioStatuses.forEach((status) => {
+      const key = `portfolioStatus_${status}`;
+      expect(result).toHaveProperty(key);
+      expect(result[key]).toBe(`material_customer.portfolio_status.${status}`);
+    });
+  });
+
+  it('should work correctly with different locales for new translations', () => {
+    const locales = ['en', 'de', 'fr', 'es'];
+
+    locales.forEach((locale) => {
+      const result = getTranslationsForExport(true, locale);
+
+      // Portfolio status translations should be present regardless of locale
+      expect(result).toHaveProperty('portfolioStatus_PI');
+      expect(result).toHaveProperty('portfolioStatus_AC');
+
+      // Forecast maintained translations should be present regardless of locale
+      expect(result).toHaveProperty('forecastMaintained_true');
+      expect(result).toHaveProperty('forecastMaintained_false');
+    });
+  });
 });

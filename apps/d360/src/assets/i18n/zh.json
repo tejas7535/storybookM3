@@ -677,7 +677,7 @@
       "demandPlanner": "需求规划者",
       "demandPlanValue": "发票销售 (下一个 12M)",
       "division": "Division",
-      "forecastMaintained": "预测得到验证？",
+      "forecastMaintained": "预测得到验证",
       "forecastValidated": "确认的客户预测 (件, 12月)",
       "forecastValidatedAt": "验证于",
       "forecastValidatedBy": "验证由",

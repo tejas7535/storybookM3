@@ -5,6 +5,7 @@ import {
   getMonthYearFormatString,
 } from '../../shared/utils/date-format';
 import { ValidationHelper } from '../../shared/utils/validation/validation-helper';
+import { portfolioStatusValues } from '../customer-material-portfolio/cmp-modal-types';
 import {
   SelectedKpisAndMetadata,
   SUPPLY_CONCEPT_SUPPORTED_STOCHASTIC_TYPES,
@@ -25,6 +26,13 @@ export function getTranslationsForExport(
       `material_customer.column.${key === 'currentRLTSchaeffler' ? 'currentRLTSchaefflerWithTransitTime' : key}`,
       options
     );
+
+  const portfolioStatusTranslations = Object.fromEntries(
+    portfolioStatusValues.map((status) => [
+      `portfolioStatus_${status}`,
+      translate(`material_customer.portfolio_status.${status}`),
+    ])
+  );
 
   // eslint-disable-next-line unicorn/no-array-reduce
   const conceptTranslations = SUPPLY_CONCEPT_SUPPORTED_STOCHASTIC_TYPES.reduce(
@@ -149,6 +157,7 @@ export function getTranslationsForExport(
     ...conceptTranslations,
     ...kpiTranslations,
     ...additionalPropsTranslations,
+    ...portfolioStatusTranslations,
     'supplyConcept.ELSE': translateKey('supply_concept.ELSE'),
     confirmed: translate('planningType.title.CONFIRMED'),
     dateFormatMonth: getMonthYearFormatString(locale),
@@ -167,6 +176,12 @@ export function getTranslationsForExport(
     supplyConcept: translateKey('supply_concept.title'),
     viewType: translateKey('exportModal.excelHeaderView'),
     sum: translateKey('exportModal.sum'),
+    ...Object.fromEntries(
+      ['true', 'false'].map((value) => [
+        `forecastMaintained_${value}`,
+        translate(`field.forecastMaintained.value.${value}`),
+      ])
+    ),
     decimalSeparator: ValidationHelper.getDecimalSeparatorForActiveLocale(),
   };
 }

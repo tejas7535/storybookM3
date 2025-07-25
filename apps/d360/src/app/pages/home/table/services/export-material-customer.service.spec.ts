@@ -2,7 +2,11 @@ import { HttpContext, HttpResponse } from '@angular/common/http';
 
 import { of, take, throwError } from 'rxjs';
 
+import { translate } from '@jsverse/transloco';
+
 import { Stub } from './../../../../shared/test/stub.class';
+import { getErrorMessage } from './../../../../shared/utils/errors';
+import { HttpError } from './../../../../shared/utils/http-client';
 import { ExportMaterialCustomerService } from './export-material-customer.service';
 
 describe('ExportMaterialCustomerService', () => {
@@ -139,21 +143,89 @@ describe('ExportMaterialCustomerService', () => {
         });
     });
 
-    it('should handle error response', (done) => {
-      const errorResponse = {
-        error: {
-          code: 'material_customer.export.maxCountExceeded',
-          detail: { values: { max_export_count: 1000 } },
-        },
+    it('should handle errors with custom error messages for max count exceeded', (done) => {
+      const problemDetail = {
+        title: 'Export Failed',
+        detail: 'Maximum count exceeded',
+        code: 'material_customer.export.maxCountExceeded',
+        values: { max_count: 5000 },
       };
+      const mockError = new HttpError(400, problemDetail);
 
-      httpClientSpy.mockReturnValue(throwError(() => errorResponse));
+      httpClientSpy.mockReturnValue(throwError(() => mockError));
 
       service
         .triggerExport(mockGridApi, mockGlobalSelectionFilters)
         .pipe(take(1))
         .subscribe(() => {
-          expect(errorSpy).toHaveBeenCalledTimes(1);
+          expect(errorSpy).toHaveBeenCalledWith(
+            expect.stringContaining('material_customer.export.failed')
+          );
+          expect(appInsightsSpy).toHaveBeenCalledWith(
+            '[Home] Export Field List Data Failure'
+          );
+          done();
+        });
+    });
+
+    it('should call custom error handler for maxCountExceeded', () => {
+      const problemDetail = {
+        title: 'Export Failed',
+        detail: 'Maximum count exceeded',
+        code: 'material_customer.export.maxCountExceeded',
+        values: { max_count: 5000 },
+      };
+      const mockError = new HttpError(400, problemDetail);
+
+      const customErrorMessages = {
+        'material_customer.export.maxCountExceeded': (detail: any) =>
+          translate('material_customer.export.maxCountExceeded', {
+            max_count: detail.values?.max_count,
+          }),
+      };
+
+      const result = getErrorMessage(mockError, customErrorMessages);
+
+      expect(result).toBe('material_customer.export.maxCountExceeded');
+    });
+
+    it('should handle errors with custom error messages for export failed', (done) => {
+      const problemDetail = {
+        title: 'Export Failed',
+        detail: 'Export operation failed',
+        code: 'material_customer.export.failed',
+        values: { reason: 'Server timeout' },
+      };
+      const mockError = new HttpError(400, problemDetail);
+
+      httpClientSpy.mockReturnValue(throwError(() => mockError));
+
+      service
+        .triggerExport(mockGridApi, mockGlobalSelectionFilters)
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(errorSpy).toHaveBeenCalledWith(
+            expect.stringContaining('material_customer.export.failed')
+          );
+          expect(appInsightsSpy).toHaveBeenCalledWith(
+            '[Home] Export Field List Data Failure'
+          );
+          done();
+        });
+    });
+
+    it('should handle generic errors without custom error messages', (done) => {
+      const mockError = new Error('Generic HTTP error');
+
+      httpClientSpy.mockReturnValue(throwError(() => mockError));
+
+      service
+        .triggerExport(mockGridApi, mockGlobalSelectionFilters)
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(errorSpy).toHaveBeenCalledWith(
+            expect.stringContaining('material_customer.export.failed')
+          );
           expect(appInsightsSpy).toHaveBeenCalledWith(
             '[Home] Export Field List Data Failure'
           );

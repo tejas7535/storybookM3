@@ -677,7 +677,7 @@
       "demandPlanner": "Planificador del volumen de negocios",
       "demandPlanValue": "Inv. Sales (next 12M)",
       "division": "Division",
-      "forecastMaintained": "¿Previsión validada?",
+      "forecastMaintained": "Previsión validada?",
       "forecastValidated": "Previsión validada del volumen de negocios (cantidad, 12M)",
       "forecastValidatedAt": "Validada el",
       "forecastValidatedBy": "Validada por",
