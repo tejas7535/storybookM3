@@ -2,6 +2,9 @@
 
 **Note:** old/deprecated changelog can be found [here](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/-/blob/184ca646a740a82b55eee4f43c56c076a0ca82e2/CHANGELOG.md)
 
+## 7/25/2025
+* d360: [3.1.0](./apps/d360/CHANGELOG.md)
+
 ## 7/16/2025
 * gq: [6.4.0](./apps/gq/CHANGELOG.md)
 
