@@ -1,4 +1,18 @@
 # Release Notes of Lubricator selection assistant
+## [0.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/lsa-v0.2.0...lsa-v0.2.1) (2025-07-30)
+
+
+### Features
+
+* **engineering-apps-behaviors:** shared library implementation - medias behaviors ([da8d2db](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/da8d2db9b4fc880ac4e566ac9c84181ab2ee6f06))
+
+
+### Bug Fixes
+
+* **lsa:** address CORS issue when enhancing images in a specific order ([#7348](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7348)) ([e3e45d7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e3e45d7cbd09fc120e1f315ad23da894f030d2bc))
+* **lsa:** fix typo ([#7426](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7426)) ([f7254da](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f7254dae1dfb2aacce7ecceb652662e8289ab046))
+* **lsa:** handling of PDF with image loading error - UFTABI-8962 ([5ffe7e8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5ffe7e8bcb2d7908bec6184ed29e4ea0a02e782b))
+
 ## [0.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/lsa-v0.1.1...lsa-v0.2.0) (2025-06-02)
 
 
