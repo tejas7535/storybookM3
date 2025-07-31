@@ -327,3 +327,72 @@ export const extractKappaValue = (
 
   return Number.parseFloat(item.values.replace(',', '.'));
 };
+
+type NumberFormattings = 'decimal_point' | 'decimal_comma';
+export const parseInternationalFloat = (
+  str: string,
+  numberFormatting: NumberFormattings
+): number =>
+  numberFormatting === 'decimal_point'
+    ? Number.parseFloat(str.replaceAll(',', ''))
+    : Number.parseFloat(str.replaceAll('.', '').replaceAll(',', '.'));
+
+export const getRelubricationAmount = (
+  subordinate: GreaseReportSubordinate,
+  numberFormatting: NumberFormattings
+): number => {
+  const value = subordinate.greaseResult.dataSource.find(
+    (gr) => gr.title === 'relubricationQuantityPer1000OperatingHours'
+  ).values;
+  const regex = new RegExp(/((\d*[,.]?)*([,.])?\d+)\s*cm³/);
+  const match = regex.exec(value)[1];
+
+  const parsedRelubricationAmount = parseInternationalFloat(
+    match,
+    numberFormatting
+  );
+
+  return parsedRelubricationAmount;
+};
+
+/**
+ * This function contains a lot of domain logic, based on stakeholder input.
+ *
+ * The engineering suitability for kappa is in the range of 1 - 4 where 1 is the bare minimum that has to
+ * be reached to be technically viable.
+ *
+ * The optimum in terms of engineering is within the range of 2 - 4. However, within that range practical
+ * application limitations also apply. Because of this, the relubrication quantity is taken into account as well
+ *
+ * A higher score means better suitability, the score is calculated as follows
+ *
+ * For 1 >= kappa <= 4: score = 1 + (1 / relub. qty + |2.5 - k|)
+ * For 0 >= kappa < 1: score = k
+ * For kappa > 4: score = 4 - kappa
+ **/
+export const scoreGreaseEntry = (
+  subordinate: GreaseReportSubordinate,
+  locale: NumberFormattings
+): { score: number; subordinate: GreaseReportSubordinate } => {
+  let score = 0;
+  const kappa = extractKappaValue(subordinate);
+  const relubrication = getRelubricationAmount(subordinate, locale);
+
+  if (!kappa) {
+    return { score: score - 999, subordinate };
+  }
+
+  if (kappa >= 1 && kappa <= 4) {
+    score += 1 + 1 / (relubrication + Math.abs(2.5 - kappa));
+  }
+
+  if (kappa < 1) {
+    score += kappa;
+  }
+
+  if (kappa > 4) {
+    score += 4 - kappa;
+  }
+
+  return { subordinate, score };
+};

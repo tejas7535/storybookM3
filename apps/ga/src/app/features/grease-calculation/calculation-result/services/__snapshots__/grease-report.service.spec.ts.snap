@@ -2117,3 +2117,92 @@ Array [
   },
 ]
 `;
+
+exports[`GreaseReportService sortKappa should prioritize entries with the best kappa values 1`] = `
+Array [
+  Object {
+    "greaseResult": Object {
+      "dataSource": Array [
+        Object {
+          "title": "viscosityRatio",
+          "values": "2.5",
+        },
+        Object {
+          "title": "relubricationQuantityPer1000OperatingHours",
+          "values": "8,0 cm³",
+        },
+      ],
+    },
+  },
+  Object {
+    "greaseResult": Object {
+      "dataSource": Array [
+        Object {
+          "title": "viscosityRatio",
+          "values": "2.5",
+        },
+        Object {
+          "title": "relubricationQuantityPer1000OperatingHours",
+          "values": "10,0 cm³",
+        },
+      ],
+    },
+  },
+  Object {
+    "greaseResult": Object {
+      "dataSource": Array [
+        Object {
+          "title": "viscosityRatio",
+          "values": "3.5",
+        },
+        Object {
+          "title": "relubricationQuantityPer1000OperatingHours",
+          "values": "10,0 cm³",
+        },
+      ],
+    },
+  },
+  Object {
+    "greaseResult": Object {
+      "dataSource": Array [
+        Object {
+          "title": "viscosityRatio",
+          "values": "1.0",
+        },
+        Object {
+          "title": "relubricationQuantityPer1000OperatingHours",
+          "values": "10,0 cm³",
+        },
+      ],
+    },
+  },
+  Object {
+    "greaseResult": Object {
+      "dataSource": Array [
+        Object {
+          "title": "viscosityRatio",
+          "values": "0.5",
+        },
+        Object {
+          "title": "relubricationQuantityPer1000OperatingHours",
+          "values": "10,0 cm³",
+        },
+      ],
+    },
+  },
+  Object {
+    "greaseResult": Object {
+      "dataSource": Array [
+        Object {
+          "title": "viscosityRatio",
+          "values": "4.5",
+        },
+        Object {
+          "title": "relubricationQuantityPer1000OperatingHours",
+          "values": "10,0 cm³",
+        },
+      ],
+    },
+  },
+]
+`;

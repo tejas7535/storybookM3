@@ -720,4 +720,105 @@ describe('Grease helpers', () => {
       }
     );
   });
+
+  describe('parseInternationalFloat', () => {
+    it.each([
+      [['1,000,000', 'decimal_point'], 1_000_000],
+      [['1,500,000.5', 'decimal_point'], 1_500_000.5],
+      [['1,000.5,', 'decimal_point'], 1000.5],
+      [['1.000.000,5', 'decimal_comma'], 1_000_000.5],
+      [['1.000,5', 'decimal_comma'], 1000.5],
+      [['1,5', 'decimal_comma'], 1.5],
+      [['1', 'decimal_comma'], 1],
+    ])(
+      'should return the correct floating point representation for %s',
+      (input, expected) => {
+        const result = helpers.parseInternationalFloat(
+          input[0],
+          input[1] as any
+        );
+        expect(result).toEqual(expected);
+      }
+    );
+  });
+
+  describe('getRelubricationAmount', () => {
+    const mockRelubricationSubordinateFactory = (
+      value: string
+    ): GreaseReportSubordinate =>
+      ({
+        greaseResult: {
+          dataSource: [
+            {
+              title: 'relubricationQuantityPer1000OperatingHours',
+              values: value,
+            },
+          ],
+        },
+      }) as GreaseReportSubordinate;
+
+    it.each([
+      [
+        '<span>39.9 g/1000 hours</span><br><span class="text-low-emphasis">44.4 cm³/1000 hours</span>',
+        44.4,
+      ],
+      [
+        '<span>39.9 g/1000 hours</span><br><span class="text-low-emphasis">4,444.4 cm³/1000 hours</span>',
+        4444.4,
+      ],
+      [
+        '<span>39.9 g/1000 hours</span><br><span class="text-low-emphasis">10 cm³/1000 hours</span>',
+        10,
+      ],
+      [
+        '<span>39.9 g/1000 hours</span><br><span class="text-low-emphasis">0.4 cm³/1000 hours</span>',
+        0.4,
+      ],
+    ])(
+      'should return the correct cm3 value for %s with decicmal point',
+      (input, expected) => {
+        const result = helpers.getRelubricationAmount(
+          mockRelubricationSubordinateFactory(input),
+          'decimal_point'
+        );
+        expect(result).toEqual(expected);
+      }
+    );
+
+    it.each([
+      [
+        '<span>39,9 g/1000 hours</span><br><span class="text-low-emphasis">55,4 cm³/1000 hours</span>',
+        55.4,
+      ],
+      [
+        '<span>39,9 g/1000 hours</span><br><span class="text-low-emphasis">55 cm³/1000 hours</span>',
+        55,
+      ],
+      [
+        '<span>39,9 g/1000 hours</span><br><span class="text-low-emphasis">5 cm³/1000 hours</span>',
+        5,
+      ],
+      [
+        '<span>39,9 g/1000 hours</span><br><span class="text-low-emphasis">5.000,4 cm³/1000 hours</span>',
+        5000.4,
+      ],
+      [
+        '<span>39,9 g/1000 hours</span><br><span class="text-low-emphasis">5.000.000,4 cm³/1000 hours</span>',
+        5_000_000.4,
+      ],
+      [
+        '<span>39,9 g/1000 hours</span><br><span class="text-low-emphasis">0,4 cm³/1000 hours</span>',
+        0.4,
+      ],
+    ])(
+      'should return the correct cm3 value for %s with decicmal comma',
+      (input, expected) => {
+        const result = helpers.getRelubricationAmount(
+          mockRelubricationSubordinateFactory(input),
+          'decimal_comma'
+        );
+        expect(result).toEqual(expected);
+      }
+    );
+  });
 });

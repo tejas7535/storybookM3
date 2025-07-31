@@ -34,6 +34,7 @@ import {
 
 import { CalculationParametersService } from '../../calculation-parameters/services';
 import { WARNINGSOPENED } from '../constants';
+import { GreaseReportSubordinate } from '../models';
 import { GreaseMiscibilityService } from './grease-miscibility/grease-miscibility.service';
 import { GreaseRecommendationService } from './grease-recommendation.service';
 import { GreaseReportService } from './grease-report.service';
@@ -119,12 +120,18 @@ describe('GreaseReportService', () => {
       mockProvider(AppAnalyticsService, {
         logInteractionEvent: jest.fn(),
       }),
+      mockProvider(TranslocoLocaleService, {
+        getLocale: jest.fn(() => 'de-DE'),
+      }),
     ],
   });
 
   beforeEach(() => {
     spectator = createService();
     service = spectator.service;
+    (service['translocoService'].getLocale as jest.Mock).mockReturnValue(
+      'de-DE'
+    );
   });
 
   it('should create the service', () => {
@@ -148,6 +155,7 @@ describe('GreaseReportService', () => {
     });
 
     it('should format result when data provided', (done) => {
+      service['sortKappaValues'] = jest.fn((input) => input);
       service
         .formatGreaseReport(GREASE_COMPLETE_RESULT_MOCK.subordinates)
         .then((result) => {
@@ -162,6 +170,7 @@ describe('GreaseReportService', () => {
       });
 
       it('should format result when data provided', (done) => {
+        service['sortKappaValues'] = jest.fn((input) => input);
         service
           .formatGreaseReport(GREASE_COMPLETE_RESULT_MOCK.subordinates)
           .then((result) => {
@@ -200,5 +209,78 @@ describe('GreaseReportService', () => {
       );
       expect(aiTrackingSpy).toHaveBeenCalled();
     });
+  });
+
+  it('sortKappa should prioritize entries with the best kappa values', () => {
+    const MOCK_SUBORDINATES: GreaseReportSubordinate[] = [
+      {
+        greaseResult: {
+          dataSource: [
+            { title: 'viscosityRatio', values: '2.5' },
+            {
+              title: 'relubricationQuantityPer1000OperatingHours',
+              values: '10,0 cm³',
+            },
+          ],
+        },
+      } as GreaseReportSubordinate,
+      {
+        greaseResult: {
+          dataSource: [
+            { title: 'viscosityRatio', values: '1.0' },
+            {
+              title: 'relubricationQuantityPer1000OperatingHours',
+              values: '10,0 cm³',
+            },
+          ],
+        },
+      } as GreaseReportSubordinate,
+      {
+        greaseResult: {
+          dataSource: [
+            { title: 'viscosityRatio', values: '4.5' },
+            {
+              title: 'relubricationQuantityPer1000OperatingHours',
+              values: '10,0 cm³',
+            },
+          ],
+        },
+      } as GreaseReportSubordinate,
+      {
+        greaseResult: {
+          dataSource: [
+            { title: 'viscosityRatio', values: '2.5' },
+            {
+              title: 'relubricationQuantityPer1000OperatingHours',
+              values: '8,0 cm³',
+            },
+          ],
+        },
+      } as GreaseReportSubordinate,
+      {
+        greaseResult: {
+          dataSource: [
+            { title: 'viscosityRatio', values: '0.5' },
+            {
+              title: 'relubricationQuantityPer1000OperatingHours',
+              values: '10,0 cm³',
+            },
+          ],
+        },
+      } as GreaseReportSubordinate,
+      {
+        greaseResult: {
+          dataSource: [
+            { title: 'viscosityRatio', values: '3.5' },
+            {
+              title: 'relubricationQuantityPer1000OperatingHours',
+              values: '10,0 cm³',
+            },
+          ],
+        },
+      } as GreaseReportSubordinate,
+    ];
+    const result = service['sortKappaValues'](MOCK_SUBORDINATES);
+    expect(result).toMatchSnapshot();
   });
 });

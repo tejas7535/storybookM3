@@ -1,3 +1,4 @@
+/* eslint max-lines: 1 */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -5,16 +6,18 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { delay, lastValueFrom, map, retryWhen, take } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { CalculationParametersFacade } from '@ga/core/store';
+import { environment } from '@ga/environments/environment';
 import { marketGreases } from '@ga/shared/constants';
 import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
 import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
 
 import { greaseResultExceptions, WARNINGSOPENED } from '../constants';
-import { extractKappaValue, itemValue } from '../helpers/grease-helpers';
+import { itemValue, scoreGreaseEntry } from '../helpers/grease-helpers';
 import {
   GreaseReport,
   GreaseReportConcept1Subordinate,
@@ -44,7 +47,8 @@ export class GreaseReportService {
     private readonly recommendationService: GreaseRecommendationService,
     private readonly appAnalyticsService: AppAnalyticsService,
     private readonly calculationParametersFacade: CalculationParametersFacade,
-    private readonly greaseMiscibilityService: GreaseMiscibilityService
+    private readonly greaseMiscibilityService: GreaseMiscibilityService,
+    private readonly translocoService: TranslocoLocaleService
   ) {}
 
   public async getGreaseReport(greaseReportUrl: string) {
@@ -268,9 +272,8 @@ export class GreaseReportService {
             suitabilityOrder.indexOf(next.dataSource[0].custom.data.label)
         );
       }
-
       // Do sorting by kappa value here
-      this.sortKappaValues(formattedSubordinates);
+      formattedSubordinates = this.sortKappaValues(formattedSubordinates);
 
       // move preferred grease to the top
       const preferredIndex = formattedSubordinates.findIndex(
@@ -368,15 +371,26 @@ export class GreaseReportService {
   private sortKappaValues(
     subordinate: GreaseReportSubordinate[]
   ): GreaseReportSubordinate[] {
-    const snapKappa = (kappa: number) => (kappa >= 1 && kappa <= 4 ? 1 : 0);
-    subordinate.sort((a, b) => {
-      const aKappa = snapKappa(extractKappaValue(a));
-      const bKappa = snapKappa(extractKappaValue(b));
+    const formatting =
+      this.translocoService.getLocale() === 'en-US'
+        ? 'decimal_point'
+        : 'decimal_comma';
 
-      return bKappa - aKappa;
-    });
+    const sorted = subordinate
+      .map((entry) => scoreGreaseEntry(entry, formatting))
+      .sort((a, b) => b.score - a.score);
 
-    return subordinate;
+    if (!environment.production) {
+      /* eslint-disable no-console */
+      console.table(
+        sorted.flatMap((i) => ({
+          name: i.subordinate?.greaseResult?.mainTitle,
+          score: i.score,
+        }))
+      );
+    }
+
+    return sorted.map((sortingSubordinate) => sortingSubordinate.subordinate);
   }
 
   private findSubordinateByTitleId(
