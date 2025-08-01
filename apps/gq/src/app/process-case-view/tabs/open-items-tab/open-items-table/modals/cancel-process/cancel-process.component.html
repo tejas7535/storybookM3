@@ -1,0 +1,55 @@
+<div
+  *transloco="let t; read: 'shared.openItemsTable.approvalProcesses.cancel'"
+  class="flex w-full h-full flex-col gap-4"
+>
+  <span class="text-high-emphasis text-body-1">
+    {{ t('label') }}
+  </span>
+  <ng-container [formGroup]="cancelFormGroup">
+    <mat-radio-group
+      matInput
+      aria-labelledby="example-radio-group-label"
+      class="flex flex-col"
+      formControlName="reasonForCancellation"
+    >
+      <mat-radio-button color="primary" value="CUSTOMER">
+        <span class="pl-2 text-medium-emphasis">
+          {{ t('cancelledByCustomer') }}
+        </span>
+      </mat-radio-button>
+      <mat-radio-button color="primary" value="SCHAEFFLER">
+        <span class="pl-2 text-medium-emphasis">
+          {{ t('cancelledBySchaeffler') }}
+        </span>
+      </mat-radio-button>
+    </mat-radio-group>
+
+    <mat-form-field appearance="outline" class="pt-4">
+      <mat-label>{{ t('commentLabel') }}</mat-label>
+      <textarea
+        type="text"
+        appearance="fill"
+        cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        formControlName="comment"
+        cdkAutosizeMinRows="1"
+        cdkAutosizeMaxRows="4"
+        matInput
+        data-cy="rfq4-approval-cancel-process_comment-input"
+        [maxlength]="MAX_COMMENT_LENGTH"
+      ></textarea>
+      <mat-hint align="start">{{ t('commentHint') }}</mat-hint>
+      <mat-hint align="end">{{
+        (cancelFormGroup.get('comment').value?.length.toString() || '0') +
+          ' / ' +
+          MAX_COMMENT_LENGTH.toString()
+      }}</mat-hint>
+    </mat-form-field>
+  </ng-container>
+  <gq-modal-footer
+    [submitText]="t('cancelProcessButton')"
+    (submitAction)="cancelProcess()"
+    [cancelText]="t('cancelDialogButton')"
+    (cancelAction)="closeDialog()"
+  ></gq-modal-footer>
+</div>

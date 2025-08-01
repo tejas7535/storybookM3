@@ -99,6 +99,22 @@ describe('rfq4ProcessFacade', () => {
         m.expect(facade.maintainers$).toBeObservable(expected);
       })
     );
+    test(
+      'cancelProcessSuccess$',
+      marbles((m) => {
+        const action = Rfq4ProcessActions.sendCancelProcessSuccess({
+          gqPositionId: '1245',
+          rfq4Status: Rfq4Status.CANCELLED,
+        });
+        const expected = m.cold('b', {
+          b: action,
+        });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(facade.cancelProcessSuccess$).toBeObservable(expected as any);
+      })
+    );
   });
 
   describe('methods', () => {
@@ -153,6 +169,26 @@ describe('rfq4ProcessFacade', () => {
         );
         const spy = jest.spyOn(mockStore, 'dispatch');
         facade.sendEmailRequestToMaintainCalculators(quotationDetail);
+        expect(spy).toHaveBeenCalledWith(action);
+      });
+    });
+
+    describe('sendCancelProcessRequest', () => {
+      test('should dispatch sendCancelProcess', () => {
+        const gqPositionId = '123456';
+        const reasonForCancellation = 'CUSTOMER';
+        const comment = 'Test comment';
+        const action = Rfq4ProcessActions.sendCancelProcess({
+          gqPositionId,
+          reasonForCancellation,
+          comment,
+        });
+        const spy = jest.spyOn(mockStore, 'dispatch');
+        facade.sendCancelProcessRequest(
+          gqPositionId,
+          reasonForCancellation,
+          comment
+        );
         expect(spy).toHaveBeenCalledWith(action);
       });
     });

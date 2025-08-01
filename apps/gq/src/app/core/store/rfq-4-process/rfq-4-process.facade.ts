@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { CancellationReason } from '@gq/process-case-view/tabs/open-items-tab/open-items-table/modals/cancel-process/cancel-process.component';
 import { ActiveDirectoryUser, QuotationDetail } from '@gq/shared/models';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { Actions, ofType } from '@ngrx/effects';
@@ -40,6 +41,9 @@ export class Rfq4ProcessFacade {
   maintainers$: Observable<ActiveDirectoryUser[]> = this.store.select(
     rfq4ProcessFeature.getValidMaintainers
   );
+  cancelProcessSuccess$: Observable<void> = this.actions$.pipe(
+    ofType(Rfq4ProcessActions.sendCancelProcessSuccess)
+  );
 
   // ########################################################
   // ###################  methods  ##########################
@@ -73,6 +77,20 @@ export class Rfq4ProcessFacade {
     this.store.dispatch(
       Rfq4ProcessActions.sendEmailRequestToMaintainCalculators({
         quotationDetail,
+      })
+    );
+  }
+
+  sendCancelProcessRequest(
+    gqPositionId: string,
+    reasonForCancellation: CancellationReason,
+    comment: string
+  ) {
+    this.store.dispatch(
+      Rfq4ProcessActions.sendCancelProcess({
+        gqPositionId,
+        reasonForCancellation,
+        comment,
       })
     );
   }

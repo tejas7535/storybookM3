@@ -40,6 +40,11 @@ export class PositionInformationComponent {
   productStructureUrl: Signal<string> = this.store.getProductStructureUrl;
   processAssignedToAdUser: Signal<ActiveDirectoryUser> =
     this.store.processAssignedToAdUser;
+  isRfqCancelled: Signal<boolean> = computed(
+    () =>
+      this.rfq4ProcessData().calculatorRequestRecalculationStatus ===
+      RecalculateSqvStatus.CANCELLED
+  );
   showAssignButton: Signal<boolean> = computed(() => {
     if (this.userId() === this.rfq4ProcessData().assignedUserId) {
       return false;
@@ -47,7 +52,7 @@ export class PositionInformationComponent {
 
     return (
       this.rfq4ProcessData().calculatorRequestRecalculationStatus !==
-      RecalculateSqvStatus.CONFIRMED
+        RecalculateSqvStatus.CONFIRMED && !this.isRfqCancelled()
     );
   });
 

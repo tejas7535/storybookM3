@@ -5,6 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { ApiVersion } from '@gq/shared/models';
+import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { Rfq4PathsEnum } from './models/rfq-4-paths.enum';
@@ -90,6 +91,31 @@ describe('Rfq4Service', () => {
 
       const req = httpMock.expectOne(
         `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${gqPositionId}/${Rfq4PathsEnum.RFQ4_PATH_RECALCULATE_SQV}`
+      );
+      expect(req.request.method).toBe('POST');
+      req.flush(expectedResponse);
+    });
+
+    test('cancelProcess', () => {
+      const gqPositionId = '123456';
+      const reasonForCancellation = 'CUSTOMER';
+      const comment = 'Test comment';
+      const expectedResponse = {
+        processVariables: {
+          rfq4Status: Rfq4Status.CANCELLED,
+        },
+      };
+
+      service
+        .cancelProcess(gqPositionId, reasonForCancellation, comment)
+        .subscribe((response) => {
+          expect(response).toEqual(
+            expectedResponse.processVariables.rfq4Status
+          );
+        });
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${gqPositionId}/${Rfq4PathsEnum.RFQ4_PATH_CANCEL_PROCESS}`
       );
       expect(req.request.method).toBe('POST');
       req.flush(expectedResponse);

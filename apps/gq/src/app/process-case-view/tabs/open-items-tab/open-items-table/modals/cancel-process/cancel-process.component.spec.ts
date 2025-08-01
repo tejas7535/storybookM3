@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { Rfq4ProcessFacade } from '@gq/core/store/rfq-4-process/rfq-4-process.facade';
+import { QuotationDetail } from '@gq/shared/models';
 import {
   createComponentFactory,
   mockProvider,
@@ -9,19 +10,21 @@ import {
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { ProcessesModalDialogData } from '../models/processes-modal-dialog-data.interface';
-import { StartProcessComponent } from './start-process.component';
+import {
+  CancellationReason,
+  CancelProcessComponent,
+} from './cancel-process.component';
 
-describe('StartProcessComponent', () => {
-  let component: StartProcessComponent;
-  let spectator: Spectator<StartProcessComponent>;
+describe('CancelProcessComponent', () => {
+  let component: CancelProcessComponent;
+  let spectator: Spectator<CancelProcessComponent>;
 
   const createComponent = createComponentFactory({
-    component: StartProcessComponent,
+    component: CancelProcessComponent,
     imports: [provideTranslocoTestingModule({ en: {} })],
     providers: [
       mockProvider(Rfq4ProcessFacade, {
-        sendRecalculateSqvRequest: jest.fn(),
+        sendCancelProcessRequest: jest.fn(),
       }),
     ],
     detectChanges: false,
@@ -31,11 +34,9 @@ describe('StartProcessComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
 
-    spectator.setInput('modalData', {
-      quotationDetail: {
-        gqPositionId: '123',
-      },
-    } as ProcessesModalDialogData);
+    spectator.setInput('quotationDetail', {
+      gqPositionId: '123',
+    } as QuotationDetail);
     component = spectator.debugElement.componentInstance;
   });
 
@@ -44,12 +45,17 @@ describe('StartProcessComponent', () => {
   });
 
   describe('sendRequest', () => {
-    test('should call sendRecalculateSqvRequest with correct parameters', () => {
-      component.messageControl.setValue('Test message');
-      component.sendRequest();
+    test('should call cancel process request', () => {
+      const reasonForCancellation: CancellationReason = 'CUSTOMER';
+      const comment = 'Test comment';
+      component.cancelFormGroup
+        .get('reasonForCancellation')
+        .setValue(reasonForCancellation);
+      component.cancelFormGroup.get('comment').setValue(comment);
+      component.cancelProcess();
       expect(
-        component['rfq4ProcessesFacade'].sendRecalculateSqvRequest
-      ).toHaveBeenCalledWith('123', 'Test message');
+        component['rfq4ProcessesFacade'].sendCancelProcessRequest
+      ).toHaveBeenCalledWith('123', reasonForCancellation, comment);
     });
   });
 

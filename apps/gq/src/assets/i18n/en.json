@@ -191,7 +191,14 @@
           "cancelButton": "Cancel"
         },
         "cancel": {
-          "title": ""
+          "title": "Cancel Recalculation Request for Item {posId} | RFQ: {rfq4Id}",
+          "label": "Reason for cancellation of the recalculation:",
+          "cancelledByCustomer": "Cancelled by Customer",
+          "cancelledBySchaeffler": "Cancelled by Schaeffler",
+          "commentLabel": "Comment",
+          "commentHint": "Enter more Details to the Reason for Cancellation",
+          "cancelProcessButton": "Cancel Process",
+          "cancelDialogButton": "Cancel"
         },
         "calculatorMissing": {
           "title": "Calculator Missing for Item {posId}",

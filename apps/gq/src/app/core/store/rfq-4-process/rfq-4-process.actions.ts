@@ -1,3 +1,4 @@
+import { CancellationReason } from '@gq/process-case-view/tabs/open-items-tab/open-items-table/modals/cancel-process/cancel-process.component';
 import { ActiveDirectoryUser, QuotationDetail } from '@gq/shared/models';
 import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
@@ -43,5 +44,15 @@ export const Rfq4ProcessActions = createActionGroup({
     'send email request to maintain calculators': props<{
       quotationDetail: QuotationDetail;
     }>(),
+    'send cancel process': props<{
+      gqPositionId: string;
+      reasonForCancellation: CancellationReason;
+      comment: string;
+    }>(),
+    'send cancel process success': props<{
+      gqPositionId: string;
+      rfq4Status: Rfq4Status;
+    }>(),
+    'send cancel process error': props<{ error: string }>(),
   },
 });

@@ -3,4 +3,5 @@ export enum RecalculateSqvStatus {
   REOPEN = 'REOPEN',
   IN_PROGRESS = 'IN_PROGRESS',
   CONFIRMED = 'CONFIRMED',
+  CANCELLED = 'CANCELLED',
 }

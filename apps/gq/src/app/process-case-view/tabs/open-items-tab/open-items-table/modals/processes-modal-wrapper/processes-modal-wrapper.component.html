@@ -31,7 +31,10 @@
         <!-- Placeholder for reopen-->
       }
       @case (processEnum.CANCEL) {
-        <!-- Placeholder for cancel-->
+        <gq-cancel-process
+          [quotationDetail]="modalData?.quotationDetail"
+          (cancelButtonClicked)="closeDialog()"
+        ></gq-cancel-process>
       }
       @case (processEnum.SHOW_HISTORY) {
         <gq-process-history

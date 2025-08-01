@@ -250,6 +250,17 @@ export const Rfq4DetailViewStore = signalStore(
                       rfq4DetailViewDataLoading: false,
                     }
                   );
+                  if (
+                    rfq4Data.rfq4ProcessData
+                      .calculatorRequestRecalculationStatus ===
+                    RecalculateSqvStatus.CANCELLED
+                  ) {
+                    const message = translate(
+                      'calculator.rfq4DetailView.recalculation.snackBarMessages.cancelled',
+                      { rfqId: rfq4Data.rfq4ProcessData.rfqId }
+                    );
+                    snackBar.open(message);
+                  }
                 },
                 error: () =>
                   updateState(

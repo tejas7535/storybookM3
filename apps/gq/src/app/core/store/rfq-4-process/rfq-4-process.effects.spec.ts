@@ -349,4 +349,59 @@ describe('Rfq4Effects', () => {
       })
     );
   });
+  describe('sendCancelProcessRequest$', () => {
+    test(
+      'should call cancel process and return success action',
+      marbles((m) => {
+        const gqPositionId = '123456';
+        const reasonForCancellation = 'CUSTOMER';
+        const comment = 'Test comment';
+        action = Rfq4ProcessActions.sendCancelProcess({
+          gqPositionId,
+          reasonForCancellation,
+          comment,
+        });
+        const expectedAction = Rfq4ProcessActions.sendCancelProcessSuccess({
+          gqPositionId,
+          rfq4Status: Rfq4Status.CANCELLED,
+        });
+        rfq4Service.cancelProcess = jest
+          .fn()
+          .mockReturnValue(of(Rfq4Status.CANCELLED));
+
+        actions$ = of(action);
+
+        m.expect(effects.sendCancelProcessRequest$).toBeObservable(
+          m.cold('(a|)', {
+            a: expectedAction,
+          })
+        );
+      })
+    );
+
+    test(
+      'should call cancel process and return error action',
+      marbles((m) => {
+        const gqPositionId = '123456';
+        const reasonForCancellation = 'CUSTOMER';
+        const comment = 'Test comment';
+        action = Rfq4ProcessActions.sendCancelProcess({
+          gqPositionId,
+          reasonForCancellation,
+          comment,
+        });
+        rfq4Service.cancelProcess = jest.fn(() => response);
+        const result = Rfq4ProcessActions.sendCancelProcessError({
+          error: errorMessage,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.sendCancelProcessRequest$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
 });

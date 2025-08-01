@@ -48,6 +48,8 @@
             <span class="pr-2">
               {{ processAssignedToAdUser() | userDisplay: true }}</span
             >
+          } @else if (isRfqCancelled()) {
+            <span>-</span>
           }
           @if (showAssignButton()) {
             <span

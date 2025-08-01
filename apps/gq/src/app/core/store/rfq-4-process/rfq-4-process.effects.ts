@@ -154,6 +154,31 @@ export class Rfq4ProcessEffects {
     },
     { dispatch: false }
   );
+
+  sendCancelProcessRequest$ = createEffect(() => {
+    return this.actions.pipe(
+      ofType(Rfq4ProcessActions.sendCancelProcess),
+      switchMap((action) => {
+        return this.rfq4Service
+          .cancelProcess(
+            action.gqPositionId,
+            action.reasonForCancellation,
+            action.comment
+          )
+          .pipe(
+            map((rfq4Status: Rfq4Status) =>
+              Rfq4ProcessActions.sendCancelProcessSuccess({
+                gqPositionId: action.gqPositionId,
+                rfq4Status,
+              })
+            ),
+            catchError((error) =>
+              of(Rfq4ProcessActions.sendCancelProcessError({ error }))
+            )
+          );
+      })
+    );
+  });
 }
 const getAddresses = (maintainers: ActiveDirectoryUser[]): string => {
   return maintainers.length === 0

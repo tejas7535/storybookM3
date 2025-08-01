@@ -105,6 +105,10 @@ describe('HeaderComponent', () => {
       const result = component.getTagType(RecalculateSqvStatus.CONFIRMED);
       expect(result).toEqual(TagType.SUCCESS);
     });
+    test('should return tag type error', () => {
+      const result = component.getTagType(RecalculateSqvStatus.CANCELLED);
+      expect(result).toEqual(TagType.ERROR);
+    });
     test('should return default tag type', () => {
       const result = component.getTagType(null);
       expect(result).toEqual(TagType.NEUTRAL);

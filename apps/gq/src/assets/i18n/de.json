@@ -191,7 +191,14 @@
           "cancelButton": "Abbrechen"
         },
         "cancel": {
-          "title": ""
+          "title": "Kalkulation für Position {posId} absagen | RFQ: {rfq4Id}",
+          "label": "Grund für die Absage der Wiederholkalkulation:",
+          "cancelledByCustomer": "Absage von Kunden",
+          "cancelledBySchaeffler": "Absage von Schaeffler",
+          "commentLabel": "Kommentar",
+          "commentHint": "Trage weitere Details zum Grund der Absage ein",
+          "cancelProcessButton": "Prozess absagen",
+          "cancelDialogButton": "Abbrechen"
         },
         "calculatorMissing": {
           "title": "Kein Kalkulator gefunden für Position {posId}",

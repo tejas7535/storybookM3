@@ -30,6 +30,7 @@
             'text-info': recalculationStatus() === 'IN_PROGRESS',
             'text-warning': recalculationStatus() === 'REOPEN',
             'text-success': recalculationStatus() === 'CONFIRMED',
+            'text-error': recalculationStatus() === 'CANCELLED',
           }"
           >{{
             t('recalculateSqvStatus', {

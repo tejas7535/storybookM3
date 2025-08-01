@@ -71,6 +71,9 @@ export class Rfq4DetailViewHeaderComponent {
       case RecalculateSqvStatus.CONFIRMED: {
         return TagType.SUCCESS;
       }
+      case RecalculateSqvStatus.CANCELLED: {
+        return TagType.ERROR;
+      }
       default: {
         return TagType.NEUTRAL;
       }

@@ -15,7 +15,7 @@ import { QuotationDetailsSimulationKpiData } from '@gq/shared/services/rest/calc
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
 import { GREATER_CHINA_SALES_ORGS } from '../approval/model/greater-china-sales-orgs';
-import { SendRecalculateSqvRequestSuccessReducer } from '../rfq-4-process/rfq-4-process.reducer';
+import { RfqProcessRequestSuccessReducer } from '../rfq-4-process/rfq-4-process.reducer';
 import { UploadRfqAttachmentsSuccessReducer } from '../rfq-sqv-check-attachments/rfq-sqv-check-attachments.reducer';
 import { ActiveCaseActions } from './active-case.action';
 import { sortQuotationDetails } from './active-case.utils';
@@ -596,7 +596,7 @@ export const activeCaseFeature = createFeature({
 
     ...QuotationMetadataReducers,
     ...QuotationKpiSimulationReducers,
-    SendRecalculateSqvRequestSuccessReducer,
+    RfqProcessRequestSuccessReducer,
     UploadRfqAttachmentsSuccessReducer
   ),
   extraSelectors: ({

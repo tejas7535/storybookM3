@@ -2,7 +2,7 @@
   "rfq4DetailView": {
     "header": {
       "title": "Recalculation ID: 4-{rfqId}",
-      "recalculateSqvStatus": "{status, select, OPEN{Offen}IN_PROGRESS{In Bearbeitung}REOPEN{Wiedereröffnet}CONFIRMED{Bestätigt} other{}}",
+      "recalculateSqvStatus": "{status, select, OPEN{Offen}IN_PROGRESS{In Bearbeitung}REOPEN{Wiedereröffnet}CONFIRMED{Bestätigt}CANCELLED{Abgesagt} other{}}",
       "confirmButton": "Bestätigen"
     },
     "positionInformation": {
@@ -84,7 +84,8 @@
         "saved": "Eingabe zur Wiederholkalkulation erfolgreich gespeichert",
         "error": "Beim Speichern der Eingabe für die Wiederholkalkulation ist ein Fehler aufgetreten. Versuche es später erneut",
         "confirmed": "Wiederholkalkulation erfolgreich bestätigt",
-        "confirmError": "Beim Bestätigen der Wiederholkalkulation ist ein Fehler aufgetreten. Versuche es später erneut"
+        "confirmError": "Beim Bestätigen der Wiederholkalkulation ist ein Fehler aufgetreten. Versuche es später erneut",
+        "cancelled": "RFQ {rfqId} wurde storniert"
       }
     },
     "snackBarMessages": {

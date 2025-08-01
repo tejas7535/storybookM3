@@ -162,6 +162,30 @@ export const rfq4ProcessFeature = createFeature({
         ...state,
         sapMaintainers: [],
       })
+    ),
+    on(
+      Rfq4ProcessActions.sendCancelProcess,
+      (state, { gqPositionId }): Rfq4ProcessState => ({
+        ...state,
+        gqPositionId,
+        processLoading: ProcessLoading.CANCEL_RECALCULATION,
+      })
+    ),
+    on(
+      Rfq4ProcessActions.sendCancelProcessSuccess,
+      (state): Rfq4ProcessState => ({
+        ...state,
+        gqPositionId: undefined,
+        processLoading: ProcessLoading.NONE,
+      })
+    ),
+    on(
+      Rfq4ProcessActions.sendCancelProcessError,
+      (state): Rfq4ProcessState => ({
+        ...state,
+        gqPositionId: undefined,
+        processLoading: ProcessLoading.NONE,
+      })
     )
   ),
   extraSelectors: ({ selectSapMaintainers, selectProcessLoading }) => {
@@ -182,11 +206,12 @@ export const rfq4ProcessFeature = createFeature({
   },
 });
 
-export const SendRecalculateSqvRequestSuccessReducer: ReducerTypes<
+export const RfqProcessRequestSuccessReducer: ReducerTypes<
   ActiveCaseState,
   ActionCreator[]
 > = on(
   Rfq4ProcessActions.sendRecalculateSqvRequestSuccess,
+  Rfq4ProcessActions.sendCancelProcessSuccess,
   (state: ActiveCaseState, { gqPositionId, rfq4Status }): ActiveCaseState => ({
     ...state,
     quotation: {

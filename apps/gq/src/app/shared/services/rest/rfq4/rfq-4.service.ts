@@ -66,4 +66,24 @@ export class Rfq4Service {
         )
       );
   }
+  cancelProcess(
+    gqPositionId: string,
+    reasonForCancellation: string,
+    comment: string
+  ): Observable<Rfq4Status> {
+    return this.http
+      .post<RecalculateSqvResponse>(
+        `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${gqPositionId}/${Rfq4PathsEnum.RFQ4_PATH_CANCEL_PROCESS}`,
+        {
+          reasonForCancellation,
+          comment,
+        }
+      )
+      .pipe(
+        map(
+          (response: RecalculateSqvResponse) =>
+            response.processVariables.rfq4Status
+        )
+      );
+  }
 }

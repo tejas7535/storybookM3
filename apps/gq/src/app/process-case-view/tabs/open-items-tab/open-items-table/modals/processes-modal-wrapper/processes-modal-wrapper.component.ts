@@ -8,6 +8,7 @@ import { map, Observable } from 'rxjs';
 import { Rfq4ProcessFacade } from '@gq/core/store/rfq-4-process/rfq-4-process.facade';
 import { Rfq4ProcessModule } from '@gq/core/store/rfq-4-process/rfq-4-process.module';
 import { CalculatorMissingComponent } from '@gq/process-case-view/tabs/open-items-tab/open-items-table/modals/calculator-missing/calculator-missing.component';
+import { CancelProcessComponent } from '@gq/process-case-view/tabs/open-items-tab/open-items-table/modals/cancel-process/cancel-process.component';
 import { CellRendererModule } from '@gq/shared/ag-grid/cell-renderer/cell-renderer.module';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail/quotation-detail.model';
@@ -28,6 +29,7 @@ import { StartProcessComponent } from '../start-process/start-process.component'
     CommonModule,
     DialogHeaderModule,
     StartProcessComponent,
+    CancelProcessComponent,
     CalculatorMissingComponent,
     PushPipe,
     LoadingSpinnerModule,
@@ -67,8 +69,12 @@ export class ProcessesModalWrapperComponent implements OnInit {
         this.rfq4ProcessesFacade.findCalculators(
           this.modalData.quotationDetail.gqPositionId
         );
+        break;
       }
-
+      case ApprovalProcessAction.CANCEL: {
+        closeAction = this.rfq4ProcessesFacade.cancelProcessSuccess$;
+        break;
+      }
       // no default
     }
     closeAction
@@ -93,7 +99,13 @@ export class ProcessesModalWrapperComponent implements OnInit {
         break;
       }
       case ApprovalProcessAction.CANCEL: {
-        // Placeholder for Cancel
+        this.title = translate(
+          'shared.openItemsTable.approvalProcesses.cancel.title',
+          {
+            posId: quotationDetail.quotationItemId,
+            rfq4Id: 'anyIdIDoNotHaveIt',
+          }
+        );
         break;
       }
       case ApprovalProcessAction.START: {

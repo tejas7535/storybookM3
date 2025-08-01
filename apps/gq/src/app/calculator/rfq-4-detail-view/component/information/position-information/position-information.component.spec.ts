@@ -90,6 +90,15 @@ describe('PositionInformationComponent', () => {
       expect(component.showAssignButton()).toBe(false);
     });
 
+    test('should return false if status is cancelled', () => {
+      rfq4ProcessData.set({
+        ...CALCULATOR_RFQ_4_PROCESS_DATA_MOCK,
+        calculatorRequestRecalculationStatus: RecalculateSqvStatus.CANCELLED,
+      });
+
+      expect(component.showAssignButton()).toBe(false);
+    });
+
     test('should return false on same id', () => {
       rfq4ProcessData.set({
         ...CALCULATOR_RFQ_4_PROCESS_DATA_MOCK,

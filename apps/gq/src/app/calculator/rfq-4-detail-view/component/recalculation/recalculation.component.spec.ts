@@ -74,18 +74,18 @@ describe('RecalculationComponent', () => {
   });
 
   describe('onInit', () => {
-    test('should set the form to disabled when status changes from open to confirm', () => {
-      rfq4recalculationStatus.set(RecalculateSqvStatus.OPEN);
+    test('should set the form to disabled when status changes from in progress to confirm', () => {
+      rfq4recalculationStatus.set(RecalculateSqvStatus.IN_PROGRESS);
       component.ngOnInit();
       rfq4recalculationStatus.set(RecalculateSqvStatus.CONFIRMED);
       spectator.detectChanges();
       expect(component.recalculationForm.disabled).toBeTruthy();
     });
 
-    test('should set the form to enabled when status changes from confirm to open', () => {
+    test('should set the form to enabled when status changes from confirm to in progress', () => {
       rfq4recalculationStatus.set(RecalculateSqvStatus.CONFIRMED);
       component.ngOnInit();
-      rfq4recalculationStatus.set(RecalculateSqvStatus.OPEN);
+      rfq4recalculationStatus.set(RecalculateSqvStatus.IN_PROGRESS);
       spectator.detectChanges();
       expect(component.recalculationForm.disabled).toBeFalsy();
     });

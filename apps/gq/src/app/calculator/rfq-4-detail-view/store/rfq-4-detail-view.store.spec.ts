@@ -263,6 +263,25 @@ describe('Rfq4DetailViewStore', () => {
       expect(store.rfq4DetailViewDataLoading()).toBeFalsy();
       expect(store.rfq4DetailViewData()).toEqual(RFQ_DETAIL_VIEW_DATA_MOCK);
     });
+    test('loadRfq4DetailViewData should open snackbar when status is cancelled', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      const rfqId = '123';
+
+      rfq4DetailViewService.getRfq4DetailViewData = jest.fn().mockReturnValue(
+        of({
+          ...RFQ_DETAIL_VIEW_DATA_MOCK,
+          rfq4ProcessData: {
+            ...RFQ_DETAIL_VIEW_DATA_MOCK.rfq4ProcessData,
+            calculatorRequestRecalculationStatus:
+              RecalculateSqvStatus.CANCELLED,
+          },
+        })
+      );
+
+      store.loadRfq4DetailViewData(rfqId);
+      expect(store.snackBar.open).toHaveBeenCalled();
+    });
+
     test('loadAdUser for processStartedByUser', () => {
       const store = TestBed.inject(Rfq4DetailViewStore);
       const userId = 'userId';

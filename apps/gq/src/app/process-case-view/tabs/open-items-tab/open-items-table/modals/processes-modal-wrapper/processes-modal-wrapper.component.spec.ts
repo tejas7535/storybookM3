@@ -161,5 +161,24 @@ describe('ProcessesModalFrameComponent', () => {
         );
       });
     });
+    describe('CANCEL process', () => {
+      test('should return title for CANCEL process', () => {
+        const quotationDetail: QuotationDetail = {
+          detailCosts: {
+            rfq4Status: Rfq4Status.IN_PROGRESS,
+          },
+          quotationItemId: '12345',
+        } as unknown as QuotationDetail;
+
+        component.modalData.process = ApprovalProcessAction.CANCEL;
+        component['getTitle'](quotationDetail);
+
+        expect(component.title).toBe(
+          translate('shared.openItemsTable.approvalProcesses.cancel.title', {
+            posId: '12345',
+          })
+        );
+      });
+    });
   });
 });

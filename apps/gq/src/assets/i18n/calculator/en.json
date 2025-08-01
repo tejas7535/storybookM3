@@ -2,7 +2,7 @@
   "rfq4DetailView": {
     "header": {
       "title": "Recalculation ID: 4-{rfqId}",
-      "recalculateSqvStatus": "{status, select, OPEN{Open}IN_PROGRESS{In Progress}REOPEN{Reopen}CONFIRMED{Confirmed} other{}}",
+      "recalculateSqvStatus": "{status, select, OPEN{Open}IN_PROGRESS{In Progress}REOPEN{Reopen}CONFIRMED{Confirmed}CANCELLED{Cancelled} other{}}",
       "confirmButton": "Confirm"
     },
     "positionInformation": {
@@ -84,7 +84,8 @@
         "saved": "Recalculation input saved successfully",
         "error": "An error occurred while saving the Recalculation input. Try again later",
         "confirmed": "Recalculation confirmed successfully",
-        "confirmError": "An error occurred while confirming the Recalculation. Try again later"
+        "confirmError": "An error occurred while confirming the Recalculation. Try again later",
+        "cancelled": "RFQ {rfqId} has been cancelled"
       }
     },
     "snackBarMessages": {

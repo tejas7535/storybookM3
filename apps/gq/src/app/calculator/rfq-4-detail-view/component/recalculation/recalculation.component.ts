@@ -99,8 +99,8 @@ export class RecalculationComponent implements OnInit, AfterViewInit {
   private readonly recalculationFormStatus: WritableSignal<string | null> =
     signal(null);
 
-  readonly isRecalculationConfirmed = computed(
-    () => this.recalculationStatus() === RecalculateSqvStatus.CONFIRMED
+  readonly isNotInProgress = computed(
+    () => this.recalculationStatus() !== RecalculateSqvStatus.IN_PROGRESS
   );
 
   readonly isLoggedUserAssignedToRfq = computed(() =>
@@ -170,6 +170,17 @@ export class RecalculationComponent implements OnInit, AfterViewInit {
 
     // Prefill the price unit
     this.recalculationForm.get('priceUnit')?.setValue(this.priceUnit());
+
+    effect(
+      () => {
+        if (this.isNotInProgress() || !this.isLoggedUserAssignedToRfq()) {
+          this.recalculationForm.disable();
+        } else {
+          this.recalculationForm.enable();
+        }
+      },
+      { injector: this.injector }
+    );
   }
 
   ngAfterViewInit() {
@@ -189,26 +200,12 @@ export class RecalculationComponent implements OnInit, AfterViewInit {
         deliveryTimeUnit: rfqData.deliveryTimeUnit ?? DeliveryTimeUnit.MONTHS,
       });
     }
-
-    effect(
-      () => {
-        if (
-          this.isRecalculationConfirmed() ||
-          !this.isLoggedUserAssignedToRfq()
-        ) {
-          this.recalculationForm.disable();
-        } else {
-          this.recalculationForm.enable();
-        }
-      },
-      { injector: this.injector }
-    );
   }
 
   isSaveDisabled(): boolean {
     return (
       this.isFormInvalid() ||
-      this.isRecalculationConfirmed() ||
+      this.isNotInProgress() ||
       !this.isLoggedUserAssignedToRfq()
     );
   }

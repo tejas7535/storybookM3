@@ -208,6 +208,48 @@ describe('rfq4ProcessFeature.reducer', () => {
     });
   });
 
+  describe('sendCancelProcess', () => {
+    test('should set processLoading to CANCEL_RECALCULATION', () => {
+      const action = Rfq4ProcessActions.sendCancelProcess({
+        gqPositionId,
+        reasonForCancellation: 'CUSTOMER',
+        comment: 'Comment',
+      });
+      const state = rfq4ProcessFeature.reducer(rfq4ProcessesMock, action);
+
+      expect(state.processLoading).toEqual(ProcessLoading.CANCEL_RECALCULATION);
+    });
+    test('should set processLoading to NONE on cancel process success', () => {
+      const fakeState = {
+        ...rfq4ProcessesMock,
+        gqPositionId: '123456',
+        processLoading: ProcessLoading.CANCEL_RECALCULATION,
+      };
+
+      const action = Rfq4ProcessActions.sendCancelProcessSuccess({
+        gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+        rfq4Status: Rfq4Status.CANCELLED,
+      });
+      const state = rfq4ProcessFeature.reducer(fakeState, action);
+      expect(state.processLoading).toEqual(ProcessLoading.NONE);
+      expect(state.gqPositionId).toBeUndefined();
+    });
+    test('should set processLoading to NONE on cancel process error', () => {
+      const fakeState = {
+        ...rfq4ProcessesMock,
+        gqPositionId: '123456',
+        processLoading: ProcessLoading.CANCEL_RECALCULATION,
+      };
+
+      const action = Rfq4ProcessActions.sendCancelProcessError({
+        error: 'Error',
+      });
+      const state = rfq4ProcessFeature.reducer(fakeState, action);
+      expect(state.processLoading).toEqual(ProcessLoading.NONE);
+      expect(state.gqPositionId).toBeUndefined();
+    });
+  });
+
   describe('extraSelectors', () => {
     test('getValidMaintainers should return maintainers with firstName and lastName', () => {
       const result = rfq4ProcessFeature.getValidMaintainers.projector([
