@@ -10,6 +10,7 @@ export const SETTINGS_STATE_MOCK: SettingsState = {
     appDelivery: APP_DELIVERY_MOCK,
     partnerVersion: PARTNER_VERSION_MOCK,
     internalUser: INTERNAL_USER_MOCK,
+    appLanguage: 'DE',
   },
   stepper: {
     currentStep: 0,

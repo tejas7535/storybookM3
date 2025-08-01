@@ -31,7 +31,10 @@ import {
 import packageJson from '../../package.json';
 import { getAppFooterLinks } from './core/helpers/app-config-helpers';
 import { OneTrustMobileService } from './core/services/tracking/one-trust-mobile.service';
-import { setAppDelivery } from './core/store/actions/settings/settings.actions';
+import {
+  setAppDelivery,
+  setAppLanguage,
+} from './core/store/actions/settings/settings.actions';
 import { ScanDialogComponent } from './features/dmc-scanner/scan-dialog.component';
 import { TRACKING_NAME_LANGUAGE } from './shared/constants';
 import { AppDelivery, PartnerVersion } from './shared/models';
@@ -144,6 +147,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.assignMetaTags();
         this.assignFooterLinks();
         this.oneTrustService?.translateBanner(language, true);
+        this.store.dispatch(setAppLanguage({ language }));
         if (language !== this.currentLanguage) {
           this.currentLanguage = language;
           this.trackLanguage(language);

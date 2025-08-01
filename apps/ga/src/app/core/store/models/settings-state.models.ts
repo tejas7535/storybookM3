@@ -6,6 +6,7 @@ export interface SettingsState {
     partnerVersion?: `${PartnerVersion}`;
     internalUser?: boolean;
     mediasAuthenticated?: boolean;
+    appLanguage: string;
   };
   stepper: {
     currentStep: number;

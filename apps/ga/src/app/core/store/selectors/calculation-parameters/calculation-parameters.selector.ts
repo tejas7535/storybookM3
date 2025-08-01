@@ -20,9 +20,11 @@ import {
 } from '@ga/shared/models';
 import { Grease } from '@ga/shared/services/greases/greases.service';
 
-import { getCalculationParametersState } from '../../reducers';
+import {
+  getCalculationParametersState,
+  getSettingsState,
+} from '../../reducers';
 import { getModelId, getSelectedBearing } from '..';
-
 interface LoadDirection {
   [key: string]: boolean;
 }
@@ -172,6 +174,7 @@ export const getPreferredGreaseOptions = createSelector(
 export const getAllGreases = createSelector(
   getPreferredGreaseOptions,
   getCompetitorsGreases,
+  getSettingsState,
   (preferredGreaseOptions, competitorsGreases): GreaseCategoryWithEntries[] => {
     // Group competitor greases by company
     const competitorsGreasesByCompany: Record<string, Grease[]> = {};

@@ -32,3 +32,8 @@ export const setMediasAuthenticated = createAction(
   '[Settings] Set Medias User authenticated',
   props<{ isAuthenticated: boolean }>()
 );
+
+export const setAppLanguage = createAction(
+  '[Settings] Set app language',
+  props<{ language: string }>()
+);

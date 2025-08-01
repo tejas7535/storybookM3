@@ -2,6 +2,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 import {
   setAppDelivery,
+  setAppLanguage,
   setCurrentStep,
   setInternalUser,
   setMediasAuthenticated,
@@ -12,6 +13,7 @@ import { SettingsState } from '@ga/core/store/models';
 export const initialState: SettingsState = {
   environment: {
     appDelivery: 'standalone',
+    appLanguage: 'de',
   },
   stepper: {
     currentStep: 0,
@@ -67,6 +69,16 @@ export const settingsReducer = createReducer(
       environment: {
         ...state.environment,
         mediasAuthenticated: isAuthenticated,
+      },
+    })
+  ),
+  on(
+    setAppLanguage,
+    (state, { language }): SettingsState => ({
+      ...state,
+      environment: {
+        ...state.environment,
+        appLanguage: language,
       },
     })
   )
