@@ -130,6 +130,16 @@
         "shiftAngle": "Úhel mezi body otáčení pro kmitavé pohyby"
       }
     },
+    "force": {
+      "title": "Síla",
+      "forceX": "Síla ve směru x (Fx)",
+      "forceY": "Síla ve směru y (Fy)"
+    },
+    "moment": {
+      "title": "Moment",
+      "momentX": "Moment kolem osy x (Mx)",
+      "momentY": "Moment kolem osy y (My)"
+    },
     "lubrication": {
       "title": "Podmínky mazání",
       "notAvailable": "Tento typ mazání není pro vybrané ložisko k dispozici.",
@@ -280,6 +290,8 @@
     "frictionalPowerloss": "Třecí ztráty výkonu (přibližně)",
     "frictionalPowerlossSubtitle": "Třecí ztráty výkonu",
     "frictionalPowerlossUnavailable": "Pro vybrané ložisko není tento výpočet k dispozici.",
+    "slewingBearingFrictionTitle": "Třecí moment",
+    "slewingBearingFrictionSubtitle": "Třecí moment",
     "production": "Při výrobě",
     "productionTooltip": "Jedná se o součet všech ekvivalentů CO₂ vypuštěných při výrobě valivého ložiska, včetně potřebných zdrojů a energie.",
     "usage": "Během používání",
@@ -426,11 +438,14 @@
     },
     "frictionalPowerloss": {
       "title": "Třecí ztráty výkonu",
+      "titleSlewingBearing": "Třecí moment",
       "totalFrictionalTorque": "Třecí moment",
       "totalFrictionalPowerLoss": "Ztráta výkonu třením",
       "speedDependentFrictionalTorque": "Třecí moment závislý na rychlosti",
       "loadDependentFrictionalTorque": "Třecí moment závislý na zatížení",
       "thermallySafeOperatingSpeed": "Tepelně bezpečná provozní rychlost",
+      "frictionMoment": "Třecí moment",
+      "maximumFrictionalTorque": "Maximální třecí moment",
       "stcReference": {
         "text": "Pro přesnější výpočet",
         "urlText": "kontaktujte naše výpočetní experty",
@@ -448,10 +463,12 @@
     "ratingLife": {
       "title": "Životnost",
       "lh10": "Celková životnost v hodinách (jmenovitá)",
+      "lh10_i": "Jmenovitá životnost pro zatěžovací případ v hodinách",
       "lh_nm_unavailable": "Pro zobrazení této hodnoty přidejte do výpočtu „Parametry mazání“",
       "lh_nm": "Upravená životnost v hodinách",
       "p": "Ekvivalentní dynamické zatížení",
       "n": "Ekvivalentní rychlost",
+      "s0": "Statická bezpečnost, oběžná dráha",
       "s0_min": "Statická bezpečnost",
       "p0_max": "Maximální ekvivalentní statické zatížení",
       "p0": "Ekvivalentní statické zatížení na případ zatížení",
@@ -487,6 +504,7 @@
       "ratingLife": "Životnost",
       "lubrication": "Parametr mazání",
       "frictionalPowerloss": "Třecí ztráty výkonu",
+      "slewingBearingFriction": "Třecí moment",
       "co2": "Emise CO₂e",
       "co2ForProduction": "Emise CO₂e při výrobě",
       "overrollingFrequency": "Frekvence převalování"

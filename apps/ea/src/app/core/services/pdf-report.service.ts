@@ -13,6 +13,7 @@ import {
   OverrollingFrequencyIcon,
   RatingLifeIcon,
 } from '@ea/shared/constants/pdf-icons';
+import { SLEWING_BEARING_TYPE } from '@ea/shared/constants/products';
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 import { TranslocoService } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -78,6 +79,10 @@ export class PDFReportService {
     languageCode: string,
     emissionChartImage?: string
   ) {
+    const bearingClass = await firstValueFrom(
+      this.selectionFacade.bearingProductClass$
+    );
+
     const calculationMethods = await firstValueFrom(
       this.resultFacade.getSelectedCalculations$.pipe(
         map((selection) =>
@@ -85,6 +90,7 @@ export class PDFReportService {
         )
       )
     );
+
     const designation = await firstValueFrom(
       this.selectionFacade.bearingDesignation$
     );
@@ -230,10 +236,15 @@ export class PDFReportService {
           this.localizeNumberFormats(data.ratingLife);
           break;
 
-        case 'frictionalPowerloss':
+        case 'frictionalPowerloss': {
+          const titleKey =
+            bearingClass === SLEWING_BEARING_TYPE
+              ? 'titleSlewingBearing'
+              : 'title';
+
           data.frictionalPowerloss = {
             header: this.translocoService.translate(
-              'calculationResultReport.frictionalPowerloss.title'
+              `calculationResultReport.frictionalPowerloss.${titleKey}`
             ),
             icon: FrictionIcon,
             data: await firstValueFrom(
@@ -258,6 +269,7 @@ export class PDFReportService {
           );
           this.localizeNumberFormats(data.frictionalPowerloss);
           break;
+        }
         case 'emission':
           data.emissions = {
             header: this.translocoService.translate(
@@ -443,13 +455,23 @@ export class PDFReportService {
       }
     }
 
-    data.calculationMethods = calculationMethods.map((key) =>
-      this.translocoService.translate(
-        `calculationSelection.calculationTypes.${
-          key === 'emission' ? 'co2' : key
-        }`
-      )
-    );
+    data.calculationMethods = calculationMethods.map((key) => {
+      let methodKey;
+      if (key === 'frictionalPowerloss') {
+        methodKey =
+          bearingClass === SLEWING_BEARING_TYPE
+            ? 'slewingBearingFriction'
+            : 'frictionalPowerLoss';
+      } else if (key === 'emission') {
+        methodKey = 'co2';
+      } else {
+        methodKey = key;
+      }
+
+      return this.translocoService.translate(
+        `calculationSelection.calculationTypes.${methodKey}`
+      );
+    });
 
     return data;
   }

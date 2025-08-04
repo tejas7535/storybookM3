@@ -130,6 +130,16 @@
         "shiftAngle": "Angle entre les points de rotation pour les mouvements oscillants"
       }
     },
+    "force": {
+      "title": "Force",
+      "forceX": "Force selon l’axe x (Fx)",
+      "forceY": "Force selon l’axe y (Fy)"
+    },
+    "moment": {
+      "title": "Moment",
+      "momentX": "Moment autour de l’axe x (Mx)",
+      "momentY": "Moment autour de l’axe y (My)"
+    },
     "lubrication": {
       "title": "Conditions de lubrification",
       "notAvailable": "Ce type de lubrification n’est pas disponible pour le roulement sélectionné.",
@@ -280,6 +290,8 @@
     "frictionalPowerloss": "Perte de puissance liée au frottement (approx.)",
     "frictionalPowerlossSubtitle": "Perte de puissance liée au frottement",
     "frictionalPowerlossUnavailable": "Ce calcul n’est pas disponible pour le roulement sélectionné.",
+    "slewingBearingFrictionTitle": "Couple de friction",
+    "slewingBearingFrictionSubtitle": "Couple de friction",
     "production": "Pour la production",
     "productionTooltip": "Il s’agit de la somme de l’ensemble des équivalents CO₂ émis lors de la production du roulement à galets. Cela inclut les ressources et l’énergie requises.",
     "usage": "Lors de l'utilisation",
@@ -426,11 +438,14 @@
     },
     "frictionalPowerloss": {
       "title": "Perte de puissance liée au frottement",
+      "titleSlewingBearing": "Couple de frottement",
       "totalFrictionalTorque": "Couple de frottement",
       "totalFrictionalPowerLoss": "Perte de puissance par frottement",
       "speedDependentFrictionalTorque": "Couple de frottement dépendant de la vitesse",
       "loadDependentFrictionalTorque": "Couple de frottement dépendant de la charge",
       "thermallySafeOperatingSpeed": "Vitesse de fonctionnement à haute sécurité thermique",
+      "frictionMoment": "Moment de frottement",
+      "maximumFrictionalTorque": "Couple de friction maximal",
       "stcReference": {
         "text": "Pour un calcul plus précis",
         "urlText": "contactez nos experts en calcul",
@@ -448,10 +463,12 @@
     "ratingLife": {
       "title": "Endurance",
       "lh10": "Endurance totale, en heures (valeur nominale)",
+      "lh10_i": "Durée de vie nominale pour le cas de charge, en heures",
       "lh_nm_unavailable": "Veuillez ajouter la mention ”Paramètres de lubrification“ à votre calcul pour afficher cette valeur",
       "lh_nm": "Endurance modifiée, en heures",
       "p": "Charge dynamique équivalente",
       "n": "Vitesse équivalente",
+      "s0": "Sécurité statique, chemin de roulement",
       "s0_min": "Sécurité statique",
       "p0_max": "Charge statique équivalente maximale",
       "p0": "Charge statique équivalente par cas de charge",
@@ -487,6 +504,7 @@
       "ratingLife": "Endurance",
       "lubrication": "Paramètre de lubrification",
       "frictionalPowerloss": "Perte de puissance liée au frottement",
+      "slewingBearingFriction": "Couple de frottement",
       "co2": "Emissions de CO₂e",
       "co2ForProduction": "Emissions de CO₂e pour la production",
       "overrollingFrequency": "Fréquences de dépassement"

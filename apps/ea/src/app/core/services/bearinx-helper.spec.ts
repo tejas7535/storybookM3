@@ -6,14 +6,18 @@ import {
   extractNotesFromResult,
   extractSubordinatesFromPath,
   extractTableFromSubordinate,
+  extractValues,
   extractWarningsFromResult,
   formatMessageSubordinates,
   matchItem,
 } from './bearinx-helper';
 import {
+  LoadcaseValueType,
   STRING_ERROR_BLOCK,
   STRING_NOTE_BLOCK,
   STRING_WARNING_BLOCK,
+  TABLE,
+  VARIABLE_BLOCK,
 } from './bearinx-result.constant';
 import {
   BearinxOnlineResult,
@@ -309,6 +313,271 @@ describe('Bearinx Helper', () => {
         it('should format it', () => {
           expect(formatMessageSubordinates(notes)).toMatchSnapshot();
         });
+      });
+    });
+  });
+
+  describe('extractValues', () => {
+    describe('when extracting from VARIABLE_BLOCK', () => {
+      it('should extract values without parsing for non-numeric loadcase types', () => {
+        const subordinate: BearinxOnlineResultSubordinate = {
+          identifier: VARIABLE_BLOCK,
+          subordinates: [
+            {
+              abbreviation: 'testAbbr',
+              value: '123.45',
+              unit: 'mm',
+              identifier: 'variableLine',
+              subordinates: [],
+            },
+          ],
+        };
+
+        const result: any = {};
+        const values = { testKey: 'testAbbr' };
+
+        // Use a mock loadcase type that's not in the numeric types
+        const mockLoadcaseType = 'mockNonNumericType' as LoadcaseValueType;
+        extractValues(result, subordinate, values, mockLoadcaseType);
+
+        expect(result[mockLoadcaseType]).toHaveLength(1);
+        expect(result[mockLoadcaseType][0].testKey).toEqual({
+          value: '123.45', // Should remain as string
+          unit: 'mm',
+          short: 'testAbbr',
+          title: 'testKey',
+          loadcaseName: '',
+        });
+      });
+
+      it('should extract values with parsing for numeric loadcase types', () => {
+        const subordinate: BearinxOnlineResultSubordinate = {
+          identifier: VARIABLE_BLOCK,
+          subordinates: [
+            {
+              abbreviation: 'numericAbbr',
+              value: '45.67',
+              unit: 'N',
+              identifier: 'variableLine',
+              subordinates: [],
+            },
+            {
+              abbreviation: 'nonNumericAbbr',
+              value: '> 1000000',
+              unit: 'h',
+              identifier: 'variableLine',
+              subordinates: [],
+            },
+          ],
+        };
+
+        const result: any = {};
+        const values = {
+          numericValue: 'numericAbbr',
+          nonNumericValue: 'nonNumericAbbr',
+        };
+
+        extractValues(
+          result,
+          subordinate,
+          values,
+          LoadcaseValueType.FACTORS_AND_EQUIVALENT_LOADS
+        );
+
+        expect(
+          result[LoadcaseValueType.FACTORS_AND_EQUIVALENT_LOADS]
+        ).toHaveLength(1);
+        const extractedData =
+          result[LoadcaseValueType.FACTORS_AND_EQUIVALENT_LOADS][0];
+
+        expect(extractedData.numericValue.value).toBe(45.67); // Should be parsed as number
+        expect(extractedData.nonNumericValue.value).toBe('> 1000000'); // Should remain as string
+      });
+
+      it('should handle missing subordinates gracefully', () => {
+        const subordinate: BearinxOnlineResultSubordinate = {
+          identifier: VARIABLE_BLOCK,
+          subordinates: [],
+        };
+
+        const result: any = {};
+        const values = { missingKey: 'missingAbbr' };
+
+        extractValues(result, subordinate, values, LoadcaseValueType.FRICTION);
+
+        expect(result[LoadcaseValueType.FRICTION]).toHaveLength(1);
+        expect(result[LoadcaseValueType.FRICTION][0]).toEqual({});
+      });
+    });
+
+    describe('when extracting from TABLE', () => {
+      it('should extract table values with correct parsing', () => {
+        const subordinate: BearinxOnlineResultSubordinate = {
+          identifier: TABLE,
+          data: {
+            fields: [],
+            unitFields: [],
+            items: [
+              [
+                { field: 'testField1', unit: 'mm', value: '123.45' },
+                { field: 'testField2', unit: 'N', value: 'invalid' },
+                { field: 'resultValues.loadcase', value: 'Load case 1' },
+              ],
+              [
+                { field: 'testField1', unit: 'mm', value: '67.89' },
+                { field: 'testField2', unit: 'N', value: '999.99' },
+                { field: 'resultValues.loadcase', value: 'Load case 2' },
+              ],
+            ],
+          },
+        };
+
+        const result: any = {};
+        const values = {
+          field1: 'testField1',
+          field2: 'testField2',
+        };
+
+        extractValues(
+          result,
+          subordinate,
+          values,
+          LoadcaseValueType.LUBRICATION
+        );
+
+        expect(result[LoadcaseValueType.LUBRICATION]).toHaveLength(2);
+
+        // First row
+        expect(result[LoadcaseValueType.LUBRICATION][0].field1).toEqual({
+          value: 123.45, // Parsed as number
+          unit: 'mm',
+          short: 'testField1',
+          loadcaseName: 'Load case 1',
+          title: 'field1',
+        });
+
+        expect(result[LoadcaseValueType.LUBRICATION][0].field2).toEqual({
+          value: 'invalid', // Remains as string (invalid number)
+          unit: 'N',
+          short: 'testField2',
+          loadcaseName: 'Load case 1',
+          title: 'field2',
+        });
+
+        // Second row
+        expect(result[LoadcaseValueType.LUBRICATION][1].field1.value).toBe(
+          67.89
+        );
+        expect(result[LoadcaseValueType.LUBRICATION][1].field2.value).toBe(
+          999.99
+        );
+      });
+
+      it('should filter out missing fields in table rows', () => {
+        const subordinate: BearinxOnlineResultSubordinate = {
+          identifier: TABLE,
+          data: {
+            fields: [],
+            unitFields: [],
+            items: [
+              [
+                { field: 'existingField', unit: 'mm', value: '123' },
+                { field: 'resultValues.loadcase', value: 'Load case 1' },
+              ],
+            ],
+          },
+        };
+
+        const result: any = {};
+        const values = {
+          existing: 'existingField',
+          missing: 'missingField',
+        };
+
+        extractValues(result, subordinate, values, LoadcaseValueType.FRICTION);
+
+        expect(result[LoadcaseValueType.FRICTION]).toHaveLength(1);
+        expect(result[LoadcaseValueType.FRICTION][0]).toHaveProperty(
+          'existing'
+        );
+        expect(result[LoadcaseValueType.FRICTION][0]).not.toHaveProperty(
+          'missing'
+        );
+      });
+
+      it('should handle empty table data', () => {
+        const subordinate: BearinxOnlineResultSubordinate = {
+          identifier: TABLE,
+          data: {
+            fields: [],
+            unitFields: [],
+            items: [],
+          },
+        };
+
+        const result: any = {};
+        const values = { field1: 'testField' };
+
+        extractValues(result, subordinate, values, LoadcaseValueType.FRICTION);
+
+        expect(result[LoadcaseValueType.FRICTION]).toHaveLength(0);
+      });
+    });
+
+    describe('edge cases', () => {
+      it('should handle unknown subordinate identifier gracefully', () => {
+        const subordinate: BearinxOnlineResultSubordinate = {
+          identifier: 'unknown' as any,
+          subordinates: [],
+        };
+
+        const _result: any = {};
+        const values = { testKey: 'testAbbr' };
+
+        extractValues(_result, subordinate, values, LoadcaseValueType.FRICTION);
+
+        expect(_result[LoadcaseValueType.FRICTION]).toBeUndefined();
+      });
+
+      it('should handle all numeric loadcase types correctly', () => {
+        const subordinate: BearinxOnlineResultSubordinate = {
+          identifier: VARIABLE_BLOCK,
+          subordinates: [
+            {
+              abbreviation: 'test',
+              value: '42.5',
+              unit: 'unit',
+              identifier: 'variableLine',
+              subordinates: [],
+            },
+          ],
+        };
+
+        const values = { test: 'test' };
+
+        // Test all numeric types
+        const numericTypes = [
+          LoadcaseValueType.FACTORS_AND_EQUIVALENT_LOADS,
+          LoadcaseValueType.LUBRICATION,
+          LoadcaseValueType.FRICTION,
+        ];
+
+        numericTypes.forEach((type) => {
+          const testResult: any = {};
+          extractValues(testResult, subordinate, values, type);
+          expect(testResult[type][0].test.value).toBe(42.5);
+        });
+
+        // Test non-numeric type with mock
+        const nonNumericResult: any = {};
+        const mockNonNumericType = 'mockNonNumericType' as LoadcaseValueType;
+        extractValues(
+          nonNumericResult,
+          subordinate,
+          values,
+          mockNonNumericType
+        );
+        expect(nonNumericResult[mockNonNumericType][0].test.value).toBe('42.5');
       });
     });
   });

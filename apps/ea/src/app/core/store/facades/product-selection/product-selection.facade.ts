@@ -12,10 +12,13 @@ import { Action, Store } from '@ngrx/store';
 
 import { ProductSelectionTemplate } from '../../models/product-selection-state.model';
 import {
+  getAvailableForce,
   getAvailableLoads,
   getAvailableLubricationMethods,
+  getAvailableMoment,
   getBearingDesignation,
   getBearingId,
+  getBearingProductClass,
   getBearingSelectionLoading,
   getBearingSelectionResultList,
   getTemplateItem,
@@ -39,8 +42,14 @@ export class ProductSelectionFacade {
     getBearingSelectionLoading
   );
 
+  public readonly bearingProductClass$ = this.store.select(
+    getBearingProductClass
+  );
+
   public bearingId$ = this.store.select(getBearingId);
   public availableLoads$ = this.store.select(getAvailableLoads);
+  public availableForce$ = this.store.select(getAvailableForce);
+  public availableMoment$ = this.store.select(getAvailableMoment);
   public availableLubricationMethods$ = this.store.select(
     getAvailableLubricationMethods
   );

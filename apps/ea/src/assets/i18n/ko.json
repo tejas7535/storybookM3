@@ -130,6 +130,16 @@
         "shiftAngle": "진동 모션의 전환점 사이의 각도"
       }
     },
+    "force": {
+      "title": "힘",
+      "forceX": "x 방향의 힘 (Fx)",
+      "forceY": "y 방향의 힘 (Fy)"
+    },
+    "moment": {
+      "title": "모멘트",
+      "momentX": "x축에 대한 모멘트 (Mx)",
+      "momentY": "y축에 대한 모멘트 (My)"
+    },
     "lubrication": {
       "title": "윤활 조건",
       "notAvailable": "선택한 베어링에는 이 유형의 윤활을 사용할 수 없습니다.",
@@ -280,6 +290,8 @@
     "frictionalPowerloss": "마찰 전력 손실(대략)",
     "frictionalPowerlossSubtitle": "마찰 전력 손실",
     "frictionalPowerlossUnavailable": "선택한 베어링의 경우 이 계산을 사용할 수 없습니다.",
+    "slewingBearingFrictionTitle": "마찰 토크",
+    "slewingBearingFrictionSubtitle": "마찰 토크",
     "production": "생산용",
     "productionTooltip": "이는 필요한 자원과 에너지를 포함하여 롤링 베어링 생산을 위해 배출되는 모든 CO₂ 당량의 합계입니다.",
     "usage": "사용 중",
@@ -426,11 +438,14 @@
     },
     "frictionalPowerloss": {
       "title": "마찰 전력 손실",
+      "titleSlewingBearing": "마찰 토크",
       "totalFrictionalTorque": "마찰 토크",
       "totalFrictionalPowerLoss": "마찰 전력 손실",
       "speedDependentFrictionalTorque": "속도에 따른 마찰 토크",
       "loadDependentFrictionalTorque": "하중에 따른 마찰 토크",
       "thermallySafeOperatingSpeed": "열 안전 작동 속도",
+      "frictionMoment": "마찰 모멘트",
+      "maximumFrictionalTorque": "최대 마찰 토크",
       "stcReference": {
         "text": "정확한 계산을 위해",
         "urlText": "저희 계산 전문가에게 문의하세요",
@@ -448,10 +463,12 @@
     "ratingLife": {
       "title": "정격 수명",
       "lh10": "총 정격 수명(시간)(공칭)",
+      "lh10_i": "하중 조건에 대한 명목 정격 수명(시간)",
       "lh_nm_unavailable": "이 값을 표시하려면 계산에 &quot;윤활 매개 변수&quot;를 추가하십시오",
       "lh_nm": "수정된 정격 수명(시간)",
       "p": "등가 동적 하중",
       "n": "등가 속도",
+      "s0": "정적 안전율, 레이스웨이",
       "s0_min": "정적 안전",
       "p0_max": "최대 등가 정적 하중",
       "p0": "하중 케이스당 등가 정적 하중",
@@ -487,6 +504,7 @@
       "ratingLife": "정격 수명",
       "lubrication": "윤활 매개 변수",
       "frictionalPowerloss": "마찰 전력 손실",
+      "slewingBearingFriction": "마찰 토크",
       "co2": "CO₂e 배출량",
       "co2ForProduction": "생산을 위한 CO₂e 배출량",
       "overrollingFrequency": "오버롤링 주파수"

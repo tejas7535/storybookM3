@@ -130,6 +130,16 @@
         "shiftAngle": "擺動轉折點之間的角度"
       }
     },
+    "force": {
+      "title": "力",
+      "forceX": "x方向的力 (Fx)",
+      "forceY": "y方向的力 (Fy)"
+    },
+    "moment": {
+      "title": "力矩",
+      "momentX": "繞x軸的力矩 (Mx)",
+      "momentY": "繞y軸的力矩 (My)"
+    },
     "lubrication": {
       "title": "潤滑條件",
       "notAvailable": "此類型的潤滑不適用於您所選的軸承。",
@@ -280,6 +290,8 @@
     "frictionalPowerloss": "摩擦力損失",
     "frictionalPowerlossSubtitle": "摩擦力損失",
     "frictionalPowerlossUnavailable": "針對所選軸承，此計算無法使用。",
+    "slewingBearingFrictionTitle": "摩擦力矩",
+    "slewingBearingFrictionSubtitle": "摩擦力矩",
     "production": "針對生產",
     "productionTooltip": "這是生產滾動軸承時所排放的二氧化碳當量總和，包括必要的資源和能源。",
     "usage": "使用期間",
@@ -426,11 +438,14 @@
     },
     "frictionalPowerloss": {
       "title": "摩擦力損失",
+      "titleSlewingBearing": "摩擦力矩",
       "totalFrictionalTorque": "摩擦力矩",
       "totalFrictionalPowerLoss": "摩擦功率損失",
       "speedDependentFrictionalTorque": "速度相依的摩擦力矩",
       "loadDependentFrictionalTorque": "載荷相依的摩擦力矩",
       "thermallySafeOperatingSpeed": "熱安全運作速度",
+      "frictionMoment": "摩擦力矩",
+      "maximumFrictionalTorque": "最大摩擦力矩",
       "stcReference": {
         "text": "為了更精確的計算",
         "urlText": "聯繫我們的計算專家",
@@ -448,10 +463,12 @@
     "ratingLife": {
       "title": "額定壽命",
       "lh10": "以小時為單位的總額定壽命（公稱）",
+      "lh10_i": "該載荷情況下的額定壽命（名義值，單位：小時）",
       "lh_nm_unavailable": "請在您的計算中新增「潤滑參數」以顯示此值",
       "lh_nm": "經修改的額定壽命（以小時為單位）",
       "p": "等效動載荷",
       "n": "等效速度",
+      "s0": "靜態安全係數，滾道",
       "s0_min": "靜態安全",
       "p0_max": "最大等效靜載荷",
       "p0": "每載荷狀況的等效靜載荷",
@@ -487,6 +504,7 @@
       "ratingLife": "額定壽命",
       "lubrication": "潤滑參數",
       "frictionalPowerloss": "摩擦力損失",
+      "slewingBearingFriction": "摩擦力矩",
       "co2": "CO₂e排放量",
       "co2ForProduction": "生產時所排放的二氧化碳當量",
       "overrollingFrequency": "過滾頻率"

@@ -1,5 +1,6 @@
 /* eslint-disable max-lines */
 import { BEARING_BEHAVIOUR_ABBREVIATIONS_KEY_MAPPING } from '@ea/core/services/bearinx-result.constant';
+import { SLEWING_BEARING_TYPE } from '@ea/shared/constants/products';
 import { createSelector } from '@ngrx/store';
 
 import {
@@ -14,6 +15,7 @@ import {
   LoadcaseResultCombinedItem,
 } from '../../models/calculation-result-report.model';
 import { getCalculationTypesConfig } from '../calculation-parameters/calculation-types.selector';
+import { getBearingProductClass } from '../product-selection/product-selection.selector';
 import {
   getCalculationResult as catalogCalculationResult,
   isCalculationResultAvailable as isCatalogCalculationResultAvailable,
@@ -162,6 +164,87 @@ export const getFrictionalalPowerlossReport = createSelector(
   }
 );
 
+export const getSlewingBearingFrictionReport = createSelector(
+  catalogCalculationResult,
+  (calculationResult) => {
+    const loadcaseFriction = calculationResult?.loadcaseFriction;
+    const maximumFrictionalTorque = calculationResult?.maximumFrictionalTorque;
+
+    const result: LoadcaseResultCombinedItem[] = [];
+
+    // Add maximum frictional torque as the first item if available
+    if (maximumFrictionalTorque) {
+      result.push({
+        title: 'maximumFrictionalTorque',
+        unit: maximumFrictionalTorque.unit || '',
+        short: 'Mr_max',
+        loadcaseValues: [
+          {
+            loadcaseName: 'Maximum',
+            value: maximumFrictionalTorque.value,
+          },
+        ],
+      });
+    }
+
+    // Process loadcase friction data
+    if (loadcaseFriction && loadcaseFriction.length > 0) {
+      loadcaseFriction.forEach((loadcase, loadcaseIndex) => {
+        Object.entries(loadcase).forEach(([key, frictionData]) => {
+          let item = result.find((r) => r.title === key);
+          if (!item) {
+            item = {
+              title: key,
+              unit: frictionData.unit || '',
+              short: frictionData.short || key,
+              loadcaseValues: [],
+            };
+            result.push(item);
+          }
+          item.loadcaseValues.push({
+            loadcaseName:
+              frictionData.loadcaseName || `Loadcase ${loadcaseIndex + 1}`,
+            value: frictionData.value,
+          });
+        });
+      });
+    }
+
+    const resultItems = result
+      .filter(
+        (item) =>
+          item.loadcaseValues !== undefined && item.loadcaseValues.length > 0
+      )
+      .sort((a, b) => {
+        // Put maximum frictional torque first
+        if (a.short === 'Mr_max') {
+          return -1;
+        }
+        if (b.short === 'Mr_max') {
+          return 1;
+        }
+
+        // Then sort by FrictionKeys order
+        return FrictionKeys.indexOf(a.short) - FrictionKeys.indexOf(b.short);
+      });
+
+    if (resultItems.length === 0) {
+      return [];
+    }
+
+    return resultItems;
+  }
+);
+
+export const getCombinedFrictionReport = createSelector(
+  getFrictionalalPowerlossReport,
+  getSlewingBearingFrictionReport,
+  (downstreamFriction, slewingBearingFriction) =>
+    // For slewing bearings, use the slewing bearing friction data
+    // For other bearings, use the downstream friction data
+    slewingBearingFriction || downstreamFriction
+);
+
 export const getLubricationReport = createSelector(
   catalogCalculationResult,
   (calculationResult) => {
@@ -194,7 +277,8 @@ export const getLubricationReport = createSelector(
 
 export const getRatingLifeResultReport = createSelector(
   catalogCalculationResult,
-  (calculationResult) => {
+  getBearingProductClass,
+  (calculationResult, bearingProductClass) => {
     const result: LoadcaseResultCombinedItem[] = Object.entries(
       calculationResult?.bearingBehaviour || {}
     )
@@ -230,13 +314,38 @@ export const getRatingLifeResultReport = createSelector(
       );
     }
 
-    return result.filter(
+    // Custom sorting order for slewing bearings
+    const slewingBearingSortOrder = ['Lh10', 'Lh10_i', 'S0_min', 'S0'];
+
+    const filteredResult = result.filter(
       (item) =>
         item.value !== undefined ||
         item.loadcaseValues?.length > 0 ||
         ((item.value === undefined || item.loadcaseValues?.length < 1) &&
           item.warning)
     );
+
+    if (bearingProductClass === SLEWING_BEARING_TYPE) {
+      return filteredResult.sort((a, b) => {
+        const aIndex = slewingBearingSortOrder.indexOf(a.short);
+        const bIndex = slewingBearingSortOrder.indexOf(b.short);
+
+        if (aIndex !== -1 && bIndex !== -1) {
+          return aIndex - bIndex;
+        }
+
+        if (aIndex !== -1) {
+          return -1;
+        }
+        if (bIndex !== -1) {
+          return 1;
+        }
+
+        return 0;
+      });
+    }
+
+    return filteredResult;
   }
 );
 
@@ -472,7 +581,10 @@ export const getReportNotes = createSelector(
 
 export const isFrictionResultAvailable = createSelector(
   isDownstreamResultAvailable,
-  (isAvailable): boolean => isAvailable // special case, we show this item always so we can display a hint
+  getCombinedFrictionReport,
+  (isDownstreamAvailable, combinedFriction): boolean =>
+    isDownstreamAvailable ||
+    (combinedFriction !== null && combinedFriction?.length > 0)
 );
 
 export const isLubricationResultAvailable = createSelector(

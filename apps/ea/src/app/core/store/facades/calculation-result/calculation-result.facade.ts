@@ -77,7 +77,7 @@ export class CalculationResultFacade {
   );
 
   public readonly calculationReportFrictionalPowerloss$ = this.store.select(
-    CalculationResultReportSelector.getFrictionalalPowerlossReport
+    CalculationResultReportSelector.getCombinedFrictionReport
   );
 
   public readonly isFrictionResultAvailable$ = this.store.select(

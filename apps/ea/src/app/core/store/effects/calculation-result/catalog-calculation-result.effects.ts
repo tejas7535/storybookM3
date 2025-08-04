@@ -72,6 +72,7 @@ export class CatalogCalculationResultEffects {
         this.calculationParametersFacade.operationConditions$,
         this.calculationParametersFacade.getCalculationTypes$,
         this.calculationParametersFacade.getLoadcaseCount$,
+        this.productSelectionFacade.bearingProductClass$,
       ]),
       switchMap(
         ([
@@ -80,9 +81,10 @@ export class CatalogCalculationResultEffects {
           operatingConditions,
           originalCalculationTypes,
           loadcaseCount,
+          bearingClass,
         ]) =>
           this.catalogService
-            .getCalculationResult(bearingId, operatingConditions)
+            .getCalculationResult(bearingId, operatingConditions, bearingClass)
             .pipe(
               takeUntil(
                 // cancel request if action is called again

@@ -130,6 +130,16 @@
         "shiftAngle": "Góc giữa các điểm xoay cho chuyển động dao động"
       }
     },
+    "force": {
+      "title": "Lực",
+      "forceX": "Lực theo hướng x (Fx)",
+      "forceY": "Lực theo hướng y (Fy)"
+    },
+    "moment": {
+      "title": "Mô men",
+      "momentX": "Mô men quanh trục x (Mx)",
+      "momentY": "Mô men quanh trục y (My)"
+    },
     "lubrication": {
       "title": "Điều kiện bôi trơn",
       "notAvailable": "Loại bôi trơn này không có sẵn cho vòng bi bạn đã chọn.",
@@ -280,6 +290,8 @@
     "frictionalPowerloss": "Tổn thất công suất do ma sát (khoảng)",
     "frictionalPowerlossSubtitle": "Tổn thất công suất do ma sát",
     "frictionalPowerlossUnavailable": "Đối với vòng bi đã chọn, phép tính này không khả dụng.",
+    "slewingBearingFrictionTitle": "Mô-men ma sát",
+    "slewingBearingFrictionSubtitle": "Mô-men ma sát",
     "production": "Dành cho sản xuất",
     "productionTooltip": "Đây là tổng lượng CO₂ tương đương thải ra trong quá trình sản xuất vòng bi, bao gồm cả các tài nguyên và năng lượng cần thiết.",
     "usage": "Trong quá trình sử dụng",
@@ -426,11 +438,14 @@
     },
     "frictionalPowerloss": {
       "title": "Tổn thất công suất do ma sát",
+      "titleSlewingBearing": "Mô-men xoắn do ma sát",
       "totalFrictionalTorque": "Mô-men xoắn do ma sát",
       "totalFrictionalPowerLoss": "Tổn thất công suất do ma sát",
       "speedDependentFrictionalTorque": "Mô-men xoắn ma sát phụ thuộc vào tốc độ",
       "loadDependentFrictionalTorque": "Mô-men xoắn ma sát phụ thuộc vào tải",
       "thermallySafeOperatingSpeed": "Tốc độ vận hành an toàn về nhiệt",
+      "frictionMoment": "Mô-men ma sát",
+      "maximumFrictionalTorque": "Mô-men ma sát tối đa",
       "stcReference": {
         "text": "Để tính toán chính xác hơn",
         "urlText": "liên hệ với các chuyên gia tính toán của chúng tôi",
@@ -448,10 +463,12 @@
     "ratingLife": {
       "title": "Tuổi thọ định mức",
       "lh10": "Tổng tuổi thọ định mức tính bằng giờ (danh nghĩa)",
+      "lh10_i": "Tuổi thọ danh định cho trường hợp tải (tính bằng giờ)",
       "lh_nm_unavailable": "Vui lòng thêm “Thông số bôi trơn” vào phép tính của bạn để hiển thị giá trị này",
       "lh_nm": "Tuổi thọ định mức sửa đổi tính bằng giờ",
       "p": "Tải động tương đương",
       "n": "Tốc độ tương đương",
+      "s0": "Độ an toàn tĩnh, rãnh lăn",
       "s0_min": "An toàn tĩnh",
       "p0_max": "Tải tĩnh tương đương tối đa",
       "p0": "Tải tĩnh tương đương cho mỗi trường hợp tải",
@@ -487,6 +504,7 @@
       "ratingLife": "Tuổi thọ định mức",
       "lubrication": "Thông số bôi trơn",
       "frictionalPowerloss": "Tổn thất công suất do ma sát",
+      "slewingBearingFriction": "Mô-men xoắn do ma sát",
       "co2": "Lượng phát thải CO₂e",
       "co2ForProduction": "Lượng khí thải CO₂e cho sản xuất",
       "overrollingFrequency": "Tần suất lăn quá mức"

@@ -130,6 +130,16 @@
         "shiftAngle": "往復運動のための転換点間の角度"
       }
     },
+    "force": {
+      "title": "力",
+      "forceX": "x方向の力 (Fx)",
+      "forceY": "y方向の力 (Fy)"
+    },
+    "moment": {
+      "title": "モーメント",
+      "momentX": "x軸まわりのモーメント (Mx)",
+      "momentY": "y軸まわりのモーメント (My)"
+    },
     "lubrication": {
       "title": "潤滑条件",
       "notAvailable": "この潤滑の種類は、選択したベアリングには使用できません。",
@@ -280,6 +290,8 @@
     "frictionalPowerloss": "摩擦力損失 （概算）",
     "frictionalPowerlossSubtitle": "摩擦力損失",
     "frictionalPowerlossUnavailable": "選択したベアリングにこの計算は使用できません。",
+    "slewingBearingFrictionTitle": "摩擦トルク",
+    "slewingBearingFrictionSubtitle": "摩擦トルク",
     "production": "製造関連",
     "productionTooltip": "これは、転がり軸受の製造に必要な資源とエネルギーを含む、排出されるすべてのガスの CO₂ 換算値です。",
     "usage": "使用中",
@@ -426,11 +438,14 @@
     },
     "frictionalPowerloss": {
       "title": "摩擦力損失",
+      "titleSlewingBearing": "摩擦トルク",
       "totalFrictionalTorque": "摩擦トルク",
       "totalFrictionalPowerLoss": "摩擦による電力損失",
       "speedDependentFrictionalTorque": "速度依存摩擦トルク",
       "loadDependentFrictionalTorque": "負荷依存摩擦トルク",
       "thermallySafeOperatingSpeed": "熱的に安全な動作速度",
+      "frictionMoment": "摩擦モーメント",
+      "maximumFrictionalTorque": "最大摩擦トルク",
       "stcReference": {
         "text": "より正確な計算のために",
         "urlText": "計算の専門家にお問い合わせください",
@@ -448,10 +463,12 @@
     "ratingLife": {
       "title": "定格寿命",
       "lh10": "公称合計定格寿命（時間）",
+      "lh10_i": "荷重条件に対する定格寿命（名目値、時間）",
       "lh_nm_unavailable": "この値を表示するには、計算に「潤滑パラメータ」を追加してください",
       "lh_nm": "変更された定格寿命（時間）",
       "p": "動等価荷重",
       "n": "等速度",
+      "s0": "静的安全率、転走路",
       "s0_min": "静安全性",
       "p0_max": "最大静等価荷重",
       "p0": "荷重条件ごとの静等価荷重",
@@ -487,6 +504,7 @@
       "ratingLife": "定格寿命",
       "lubrication": "潤滑パラメータ",
       "frictionalPowerloss": "摩擦力損失",
+      "slewingBearingFriction": "摩擦トルク",
       "co2": "CO₂e排出量",
       "co2ForProduction": "製造における CO₂e 排出量",
       "overrollingFrequency": "オーバーロール周波数"

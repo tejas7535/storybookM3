@@ -118,6 +118,18 @@ export interface CatalogServiceLoadCaseData {
   IDSLC_OPERATING_ANGLE: NumberString; // for LB_OSCILLATING
 }
 
+export interface SlewingBearingLoadcaseData {
+  IDCO_DESIGNATION: string;
+  IDSLC_TIME_PORTION: NumberString; // 0 - 100 (%)
+  IDLD_FX: NumberString;
+  IDLD_FY: NumberString;
+  IDLD_MX: NumberString;
+  IDLD_MY: NumberString;
+  IDSLC_N_OSC_LIMITED: NumberString;
+  IDSLC_OPERATING_ANGLE: NumberString;
+  IDSLC_N_LIMITED: NumberString;
+}
+
 export interface CatalogServiceCalculationResult {
   data: CatalogServiceCalculationResultData;
   state: boolean;

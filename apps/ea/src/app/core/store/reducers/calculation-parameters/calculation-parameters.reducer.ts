@@ -32,6 +32,14 @@ export const initialState: CalculationParametersState = {
         operatingTemperature: 70,
         operatingTime: undefined,
         loadCaseName: '',
+        force: {
+          fx: 0,
+          fy: 0,
+        },
+        moment: {
+          mx: 0,
+          my: 0,
+        },
       },
     ],
 

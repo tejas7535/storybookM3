@@ -28,7 +28,7 @@
         'md:col-span-2': (item.loadcaseValues?.length || 0) > 4,
         'lg:border-r-0': (item.loadcaseValues?.length || 0) > 4 || isLast,
         'border-b-0': isLast || (length >= 2 && index === length - 2 && isOdd),
-        'col-span-full border-r-0 md:col-span-1': (isLast && isOdd) || isFirst
+        'col-span-full border-r-0 md:col-span-1': (isLast && isOdd) || isFirst,
       }"
     >
       @if (item.short) {
@@ -52,7 +52,7 @@
         [ngClass]="{
           'lg:grid-cols-4': item.loadcaseValues?.length < 5,
           'lg:grid-cols-5': item.loadcaseValues?.length === 5,
-          'lg:grid-cols-6': item.loadcaseValues?.length > 5
+          'lg:grid-cols-6': item.loadcaseValues?.length > 5,
         }"
       >
         @if ((item.loadcaseValues?.length || 0) === 0) {
@@ -63,8 +63,8 @@
                 [ngClass]="{
                   'text-title-large sm:text-display-small leading-9':
                     isFirst && firstItemLarge,
-                  'text-body-large sm:text-title-large':
-                    !isFirst || !firstItemLarge
+                  'text-body-large sm:text-title-medium':
+                    !isFirst || !firstItemLarge,
                 }"
               >
                 {{ (item.value | meaningfulRound) || '-' }}
@@ -112,7 +112,7 @@
                   !isFirstValue &&
                   !((valueIndex + 1) % 7 === 0),
                 'lg:border-r-0': (valueIndex + 1) % 6 === 0,
-                'lg:pl-0': (valueIndex + 1) % 7 === 0
+                'lg:pl-0': (valueIndex + 1) % 7 === 0,
               }"
             >
               @if (valuesLength > 1) {
@@ -127,8 +127,8 @@
                     [ngClass]="{
                       'text-title-large sm:text-display-small leading-9':
                         isFirst && firstItemLarge,
-                      'text-body-large sm:text-title-large':
-                        !isFirst || !firstItemLarge
+                      'text-body-large sm:text-title-medium':
+                        !isFirst || !firstItemLarge,
                     }"
                   >
                     {{ (loadcaseValue.value | meaningfulRound) || '-' }}

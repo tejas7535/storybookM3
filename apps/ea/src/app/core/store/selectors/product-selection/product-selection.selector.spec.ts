@@ -1,3 +1,4 @@
+import { CATALOG_BEARING_TYPE } from '@ea/shared/constants/products';
 import { PRODUCT_SELECTION_STATE_MOCK, TEMPLATE_ITEM } from '@ea/testing/mocks';
 
 import {
@@ -33,7 +34,7 @@ describe('Product Selection Selector', () => {
           ...mockState,
           productSelection: {
             ...PRODUCT_SELECTION_STATE_MOCK,
-            bearingProductClass: 'IDO_CATALOGUE_BEARING',
+            bearingProductClass: CATALOG_BEARING_TYPE,
           },
         })
       ).toEqual(true);

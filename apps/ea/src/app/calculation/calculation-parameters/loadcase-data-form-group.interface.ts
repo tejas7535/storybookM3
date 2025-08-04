@@ -7,6 +7,16 @@ interface LoadCaseLoadModel {
   radialLoad: FormControl<LoadCaseData['load']['radialLoad']>;
 }
 
+interface LoadCaseForceModel {
+  fx: FormControl<number>;
+  fy: FormControl<number>;
+}
+
+interface LoadCaseMomentModel {
+  mx: FormControl<number>;
+  my: FormControl<number>;
+}
+
 interface LoadCaseRotationModel {
   typeOfMotion: FormControl<LoadCaseData['rotation']['typeOfMotion']>;
   rotationalSpeed: FormControl<LoadCaseData['rotation']['rotationalSpeed']>;
@@ -15,9 +25,11 @@ interface LoadCaseRotationModel {
 }
 
 export interface LoadCaseDataFormGroupModel {
-  load: FormGroup<LoadCaseLoadModel>;
+  load?: FormGroup<LoadCaseLoadModel>;
+  force?: FormGroup<LoadCaseForceModel>;
+  moment?: FormGroup<LoadCaseMomentModel>;
   rotation: FormGroup<LoadCaseRotationModel>;
-  operatingTemperature: FormControl<LoadCaseData['operatingTemperature']>;
+  operatingTemperature?: FormControl<LoadCaseData['operatingTemperature']>;
   operatingTime: FormControl<LoadCaseData['operatingTime']>;
   loadCaseName: FormControl<LoadCaseData['loadCaseName']>;
 }

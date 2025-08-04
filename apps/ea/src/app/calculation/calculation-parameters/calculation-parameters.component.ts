@@ -1,23 +1,28 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable max-lines */
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  computed,
   Input,
+  input,
+  OnChanges,
   OnDestroy,
   OnInit,
   QueryList,
+  SimpleChanges,
   TemplateRef,
   ViewChildren,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   FormArray,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   ValidationErrors,
-  Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -57,6 +62,7 @@ import {
   SelectOption,
 } from '@ea/core/services/calculation-parameters';
 import { CalculationParametersFormHelperService } from '@ea/core/services/calculation-parameters-form-helper.service';
+import { CatalogServiceProductClass } from '@ea/core/services/catalog.service.interface';
 import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
 import {
   CalculationParametersFacade,
@@ -71,7 +77,6 @@ import { setSelectedLoadcase } from '@ea/core/store/actions/calculation-paramete
 import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection/product-selection.facade';
 import {
   CalculationParameterGroup,
-  CalculationParametersEnergySource,
   CalculationParametersOperationConditions,
   LoadCaseData,
 } from '@ea/core/store/models';
@@ -79,8 +84,7 @@ import { environment } from '@ea/environments/environment';
 import { AppStoreButtonsComponent } from '@ea/shared/app-store-buttons/app-store-buttons.component';
 import { Greases } from '@ea/shared/constants/greases';
 import { ISOVgClasses } from '@ea/shared/constants/iso-vg-classes';
-import { extractNestedErrors } from '@ea/shared/helper/form.helper';
-import { FormSelectValidatorSwitcher } from '@ea/shared/helper/form-select-validation-switcher';
+import { SLEWING_BEARING_TYPE } from '@ea/shared/constants/products';
 import { InfoBannerComponent } from '@ea/shared/info-banner/info-banner.component';
 import { InfoButtonComponent } from '@ea/shared/info-button/info-button.component';
 import { InputGroupComponent } from '@ea/shared/input-group/input-group.component';
@@ -99,25 +103,14 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { BasicFrequenciesComponent } from '../basic-frequencies/basic-frequencies.component';
 import { CalculationParametersFormDevDebugComponent } from '../calculation-parameters-form-dev-debug/calculation-parameters-form-dev-debug.component';
 import { CalculationTypesSelectionComponent } from '../calculation-types-selection/calculation-types-selection.component';
+import { CalculationParametersFormFactory } from './calculation-parameters-form.factory';
 import { getContaminationOptions } from './contamination.options';
 import {
   getElectricityRegionOptions,
   getFossilOriginOptions,
 } from './energy-source.options';
 import { getEnvironmentalInfluenceOptions } from './environmental-influence.options';
-import {
-  anyLoadGroupValidator,
-  externalHeatFlowValidators,
-  increaseInOilTempValidators,
-  loadCasesOperatingTimeValidators,
-  loadValidators,
-  relativeValidatorFactory,
-  rotationalSpeedValidators,
-  rotationValidator,
-  shiftAngleValidators,
-  shiftFrequencyValidators,
-  viscosityGroupValidators,
-} from './form-validators';
+import { relativeValidatorFactory } from './form-validators';
 import { LoadCaseDataFormGroupModel } from './loadcase-data-form-group.interface';
 import { ParameterTemplateDirective } from './parameter-template.directive';
 
@@ -158,13 +151,27 @@ import { ParameterTemplateDirective } from './parameter-template.directive';
   ],
 })
 export class CalculationParametersComponent
-  implements OnInit, OnDestroy, AfterViewInit
+  implements OnInit, OnDestroy, AfterViewInit, OnChanges
 {
   @ViewChildren(ParameterTemplateDirective)
   public templates!: QueryList<ParameterTemplateDirective>;
 
   @Input()
   public isStandalone: boolean;
+
+  public readonly bearingClass = input.required<CatalogServiceProductClass>();
+
+  public readonly isSlewingBearing = computed(
+    () => this.bearingClass() === SLEWING_BEARING_TYPE
+  );
+
+  public readonly shouldShowOperatingTemperature = computed(
+    () => !this.isSlewingBearing()
+  );
+
+  public readonly defaultOperatingTemperature = computed(() =>
+    this.isSlewingBearing() ? undefined : 70
+  );
 
   public DEBOUNCE_TIME_DEFAULT = 200;
   public readonly isProduction = environment.production;
@@ -198,179 +205,26 @@ export class CalculationParametersComponent
     this.calculationParametersFacade.hasCalculation$;
 
   public readonly loadAvailable$ = this.productSelectionFacade.availableLoads$;
+
   public readonly lubricationMethodsAvailable$ =
     this.productSelectionFacade.availableLubricationMethods$;
 
   public readonly isCo2DownstreamCalculationPossible$ =
     this.productSelectionFacade.isCo2DownstreamCalculationPossible$;
 
+  public forceAvailable = toSignal(this.productSelectionFacade.availableForce$);
+  public momentAvailable = toSignal(
+    this.productSelectionFacade.availableMoment$
+  );
+
   public presetChips$: Observable<CalculationChip[]> | undefined;
-  public operationConditionsForm = new FormGroup({
-    loadCaseData: new FormArray(
-      [this.createLoadCaseDataFormGroup('load case')],
-      loadCasesOperatingTimeValidators(
-        this.calculationParametersFormHelperService
-      )
-    ),
-    lubrication: new FormGroup({
-      lubricationSelection: new FormControl<
-        'grease' | 'oilBath' | 'oilMist' | 'recirculatingOil'
-      >(undefined, [FormSelectValidatorSwitcher()]),
-      grease: new FormGroup({
-        selection: new FormControl<'typeOfGrease' | 'isoVgClass' | 'viscosity'>(
-          'typeOfGrease',
-          [FormSelectValidatorSwitcher({ onlyFormGroups: true })]
-        ),
-        typeOfGrease: new FormGroup({
-          typeOfGrease: new FormControl<`LB_${string}`>(undefined, [
-            Validators.required,
-          ]),
-        }),
-        environmentalInfluence: new FormControl<
-          | 'LB_LOW_AMBIENT_INFLUENCE'
-          | 'LB_AVERAGE_AMBIENT_INFLUENCE'
-          | 'LB_HIGH_AMBIENT_INFLUENCE'
-        >(undefined, []),
-        isoVgClass: new FormGroup({
-          isoVgClass: new FormControl<number>(undefined, [Validators.required]),
-        }),
-        viscosity: new FormGroup(
-          {
-            ny40: new FormControl<number>(
-              undefined,
-              Validators.required,
-              this.productSelectionFacade.templateValidator('IDL_NY_40')
-            ),
-            ny100: new FormControl<number>(
-              undefined,
-              Validators.required,
-              this.productSelectionFacade.templateValidator('IDL_NY_100')
-            ),
-          },
-          viscosityGroupValidators()
-        ),
-      }),
-      oilBath: new FormGroup({
-        selection: new FormControl<'isoVgClass' | 'viscosity'>('isoVgClass', [
-          FormSelectValidatorSwitcher(),
-        ]),
-        isoVgClass: new FormGroup({
-          isoVgClass: new FormControl<number>(undefined, [Validators.required]),
-        }),
-        viscosity: new FormGroup(
-          {
-            ny40: new FormControl<number>(
-              undefined,
-              Validators.required,
-              this.productSelectionFacade.templateValidator('IDL_NY_40')
-            ),
-            ny100: new FormControl<number>(
-              undefined,
-              Validators.required,
-              this.productSelectionFacade.templateValidator('IDL_NY_100')
-            ),
-          },
-          viscosityGroupValidators()
-        ),
-      }),
-      oilMist: new FormGroup({
-        selection: new FormControl<'isoVgClass' | 'viscosity'>('isoVgClass', [
-          FormSelectValidatorSwitcher(),
-        ]),
-        isoVgClass: new FormGroup({
-          isoVgClass: new FormControl<number>(undefined, [Validators.required]),
-        }),
-        viscosity: new FormGroup(
-          {
-            ny40: new FormControl<number>(
-              undefined,
-              Validators.required,
-              this.productSelectionFacade.templateValidator('IDL_NY_40')
-            ),
-            ny100: new FormControl<number>(
-              undefined,
-              Validators.required,
-              this.productSelectionFacade.templateValidator('IDL_NY_100')
-            ),
-          },
-          viscosityGroupValidators()
-        ),
-      }),
-      recirculatingOil: new FormGroup({
-        selection: new FormControl<'isoVgClass' | 'viscosity'>('isoVgClass', [
-          FormSelectValidatorSwitcher({ onlyFormGroups: true }),
-        ]),
-        isoVgClass: new FormGroup({
-          isoVgClass: new FormControl<number>(undefined, [Validators.required]),
-        }),
-        viscosity: new FormGroup(
-          {
-            ny40: new FormControl<number>(
-              undefined,
-              Validators.required,
-              this.productSelectionFacade.templateValidator('IDL_NY_40')
-            ),
-            ny100: new FormControl<number>(
-              undefined,
-              Validators.required,
-              this.productSelectionFacade.templateValidator('IDL_NY_100')
-            ),
-          },
-          viscosityGroupValidators()
-        ),
-        oilFlow: new FormControl<number>(undefined, [
-          Validators.required,
-          Validators.max(100),
-        ]),
-        oilTemperatureDifference: new FormControl<number>(
-          undefined,
-          increaseInOilTempValidators
-        ),
-        externalHeatFlow: new FormControl<number>(
-          undefined,
-          externalHeatFlowValidators
-        ),
-      }),
-    }),
-    contamination: new FormControl<
-      CalculationParametersOperationConditions['contamination']
-    >(undefined, [Validators.required]),
-    ambientTemperature: new FormControl<number>(
-      undefined,
-      [Validators.required],
-      [this.productSelectionFacade.templateValidator('IDSLC_TEMPERATURE')]
-    ),
-    time: new FormControl<number>(undefined, [Validators.required]),
-    energySource: new FormGroup({
-      type: new FormControl<'fossil' | 'electric'>(undefined, [
-        FormSelectValidatorSwitcher(),
-      ]),
-      fossil: new FormGroup({
-        fossilOrigin: new FormControl<
-          CalculationParametersEnergySource['fossil']['fossilOrigin']
-        >(undefined, [Validators.required]),
-      }),
-      electric: new FormGroup({
-        electricityRegion: new FormControl<
-          CalculationParametersEnergySource['electric']['electricityRegion']
-        >(undefined, [Validators.required]),
-      }),
-    }),
-    conditionOfRotation: new FormControl<
-      CalculationParametersOperationConditions['conditionOfRotation']
-    >(undefined, [Validators.required]),
-  });
 
-  form = new FormGroup({
-    operationConditions: this.operationConditionsForm,
-  });
+  // Initialize form as undefined, will be created in ngOnChanges
+  public operationConditionsForm: FormGroup | undefined;
 
-  public formErrors$: Observable<ValidationErrors> =
-    this.operationConditionsForm.valueChanges.pipe(
-      startWith(this.operationConditionsForm.value),
-      debounceTime(this.DEBOUNCE_TIME_DEFAULT),
-      map(() => extractNestedErrors(this.operationConditionsForm))
-    );
+  form: FormGroup | undefined;
+
+  public formErrors$: Observable<ValidationErrors> | undefined;
 
   public readonly isoVgClasses = ISOVgClasses;
   public readonly greases = Greases;
@@ -391,6 +245,50 @@ export class CalculationParametersComponent
   private readonly templates$ = this.productSelectionFacade.templates$;
 
   private readonly destroy$ = new Subject<void>();
+
+  // Getter methods for properly typed form controls access in template
+  get lubricationFormGroup(): FormGroup | undefined {
+    return this.operationConditionsForm?.controls['lubrication'] as FormGroup;
+  }
+
+  get energySourceFormGroup(): FormGroup | undefined {
+    return this.operationConditionsForm?.controls['energySource'] as FormGroup;
+  }
+
+  get loadCaseDataFormArray(): FormArray | undefined {
+    return this.operationConditionsForm?.controls['loadCaseData'] as FormArray;
+  }
+
+  get ambientTemperatureControl(): FormControl | undefined {
+    return this.operationConditionsForm?.controls[
+      'ambientTemperature'
+    ] as FormControl;
+  }
+
+  get contaminationControl(): FormControl | undefined {
+    return this.operationConditionsForm?.controls[
+      'contamination'
+    ] as FormControl;
+  }
+
+  get timeControl(): FormControl | undefined {
+    return this.operationConditionsForm?.controls['time'] as FormControl;
+  }
+
+  get conditionOfRotationControl(): FormControl | undefined {
+    return this.operationConditionsForm?.controls[
+      'conditionOfRotation'
+    ] as FormControl;
+  }
+
+  asFormGroup(control: any): FormGroup {
+    return control as FormGroup;
+  }
+
+  asFormControl(control: any): FormControl {
+    return control as FormControl;
+  }
+
   private loadCaseCount = 1;
 
   constructor(
@@ -404,24 +302,52 @@ export class CalculationParametersComponent
     private readonly analyticsService: TrackingService,
     private readonly changeDetectionRef: ChangeDetectorRef,
     private readonly localStorageService: LocalStorageService,
-    private readonly chipsService: CalculationParametersChipsService
+    private readonly chipsService: CalculationParametersChipsService,
+    private readonly formFactory: CalculationParametersFormFactory
   ) {}
 
-  get operatingTemperature(): FormControl {
-    return this.operationConditionsForm.controls['loadCaseData'].controls[0]
-      .controls.operatingTemperature;
+  get operatingTemperature(): FormControl | undefined {
+    if (!this.operationConditionsForm) {
+      return undefined;
+    }
+
+    // For slewing bearings, operating temperature is not part of load cases
+    if (this.isSlewingBearing()) {
+      return undefined;
+    }
+
+    const loadCaseArray = this.operationConditionsForm.controls[
+      'loadCaseData'
+    ] as FormArray;
+
+    return loadCaseArray?.controls[0]?.get(
+      'operatingTemperature'
+    ) as FormControl;
   }
 
   get isSingleLoadCaseForm(): boolean {
-    return (
-      this.operationConditionsForm.controls['loadCaseData'].controls.length ===
-      1
-    );
+    if (!this.operationConditionsForm) {
+      return true;
+    }
+
+    const loadCaseArray = this.operationConditionsForm.controls[
+      'loadCaseData'
+    ] as FormArray;
+
+    return loadCaseArray?.controls.length === 1;
   }
 
   get totalOperatingTime(): number {
+    if (!this.operationConditionsForm) {
+      return 0;
+    }
+
+    const loadCaseArray = this.operationConditionsForm.controls[
+      'loadCaseData'
+    ] as FormArray;
+
     return this.calculationParametersFormHelperService.getTotalOperatingTimeForLoadcases(
-      this.operationConditionsForm.controls['loadCaseData'].controls
+      loadCaseArray?.controls as FormGroup<LoadCaseDataFormGroupModel>[]
     );
   }
 
@@ -432,18 +358,67 @@ export class CalculationParametersComponent
     );
   }
 
-  ngOnInit() {
-    const operatingTmpControl = this.operatingTemperature;
+  ngOnChanges(_changes: SimpleChanges) {
+    // Note: bearingClass is now a signal, so we don't need to check for changes
+    // The signal will automatically trigger updates when the input changes
+    if (this.bearingClass()) {
+      this.initializeForm();
+      // Re-setup template observables after form is created
+      if (this.templates) {
+        this.setupTemplateObservables();
+      }
+    }
+  }
 
+  ngOnInit() {
+    // If bearingClass is already available, initialize form
+    if (this.bearingClass()) {
+      this.initializeForm();
+    }
+
+    // Only setup form subscriptions if form exists
+    if (this.form && this.operationConditionsForm) {
+      this.setupFormSubscriptions();
+    }
+  }
+
+  private initializeForm() {
+    const formResult = this.formFactory.createForm(
+      this.bearingClass(),
+      this.DEBOUNCE_TIME_DEFAULT
+    );
+
+    this.operationConditionsForm = formResult.operationConditionsForm;
+    this.form = formResult.form;
+    this.formErrors$ = formResult.formErrors$;
+
+    this.setupFormValidation();
+    this.setupFormSubscriptions();
+  }
+
+  private setupFormValidation() {
+    if (!this.operationConditionsForm) {
+      return;
+    }
+
+    const operatingTmpControl = this.operatingTemperature;
     const ambientTempControl =
       this.operationConditionsForm.get('ambientTemperature');
 
-    ambientTempControl.addValidators(
-      relativeValidatorFactory('<', operatingTmpControl, 'tmpBoundViolation')
-    );
-    operatingTmpControl.addValidators(
-      relativeValidatorFactory('>', ambientTempControl, 'tmpBoundViolation')
-    );
+    if (ambientTempControl && operatingTmpControl) {
+      ambientTempControl.addValidators(
+        relativeValidatorFactory('<', operatingTmpControl, 'tmpBoundViolation')
+      );
+      operatingTmpControl.addValidators(
+        relativeValidatorFactory('>', ambientTempControl, 'tmpBoundViolation')
+      );
+    }
+  }
+
+  private setupFormSubscriptions() {
+    if (!this.form || !this.operationConditionsForm) {
+      return;
+    }
 
     // update form from store
     this.operationConditions$
@@ -469,10 +444,19 @@ export class CalculationParametersComponent
             for (const loadCaseData of operationConditions.loadCaseData.slice(
               1
             )) {
-              this.operationConditionsForm.controls['loadCaseData'].push(
-                this.createLoadCaseDataFormGroup(
+              const loadCaseArray = this.operationConditionsForm.controls[
+                'loadCaseData'
+              ] as FormArray;
+
+              const operatingTemp = this.isSlewingBearing()
+                ? undefined
+                : loadCaseData.operatingTemperature;
+
+              loadCaseArray.push(
+                this.formFactory.createLoadCaseDataFormGroup(
                   loadCaseData.loadCaseName,
-                  loadCaseData.operatingTemperature
+                  operatingTemp,
+                  this.bearingClass()
                 )
               );
             }
@@ -556,7 +540,18 @@ export class CalculationParametersComponent
       );
   }
 
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   ngAfterViewInit() {
+    // Wait for templates to be available
+    this.setupTemplateObservables();
+    this.setupStaticObservables();
+  }
+
+  private setupTemplateObservables() {
+    if (!this.templates) {
+      return;
+    }
+
     // at this point templateRefs are available so we can setup the observable
     this.parameterTemplates$ = combineLatest([
       this.calculationParametersFacade.getCalculationFieldsConfig$,
@@ -584,6 +579,8 @@ export class CalculationParametersComponent
           operatingTimeAndTemperature,
           'load',
           'rotatingCondition',
+          'force',
+          'moment',
         ]);
 
         const mandatory: TemplateRef<unknown>[] = fieldConfig.required
@@ -616,6 +613,13 @@ export class CalculationParametersComponent
         this.changeDetectionRef.detectChanges();
       });
 
+    // Setup preset chips only if form is available
+    if (this.operationConditionsForm) {
+      this.setupPresetChips();
+    }
+  }
+
+  private setupStaticObservables() {
     this.contaminationOptions$ = getContaminationOptions(this.translocoService);
     this.electricityRegionOptions$ = getElectricityRegionOptions(
       this.translocoService
@@ -625,6 +629,7 @@ export class CalculationParametersComponent
     this.environmentalInfluenceOptions$ = getEnvironmentalInfluenceOptions(
       this.translocoService
     );
+
     this.typeOfMotionsAvailable$ = this.productSelectionFacade
       .getTemplateItem('IDSLC_TYPE_OF_MOVEMENT')
       .pipe(
@@ -634,6 +639,12 @@ export class CalculationParametersComponent
           )
         )
       );
+  }
+
+  private setupPresetChips() {
+    if (!this.operationConditionsForm) {
+      return;
+    }
 
     this.presetChips$ = combineLatest([
       this.operationConditionsForm.valueChanges.pipe(
@@ -691,7 +702,8 @@ export class CalculationParametersComponent
                 'operationConditions.temperature.operatingTemperature.label'
               ),
               text:
-                changes.loadCaseData.length === 1
+                changes.loadCaseData.length === 1 &&
+                changes.loadCaseData[0].operatingTemperature !== undefined
                   ? `${changes.loadCaseData[0].operatingTemperature}°C`
                   : undefined,
               icon: 'device_thermostat',
@@ -718,15 +730,15 @@ export class CalculationParametersComponent
                   break;
 
                 case 'isoVgClass':
-                  text = value.isoVgClass
-                    ? `ISO VG ${value.isoVgClass}`
+                  text = (value as any)?.isoVgClass
+                    ? `ISO VG ${(value as any).isoVgClass}`
                     : undefined;
                   break;
 
                 case 'typeOfGrease':
                   text = Greases.find(
-                    (g) => g.value === value.typeOfGrease
-                  ).label;
+                    (g) => g.value === (value as any)?.typeOfGrease
+                  )?.label;
                   break;
               }
 
@@ -789,14 +801,24 @@ export class CalculationParametersComponent
     this.updateFirstLoadCaseName();
     this.loadCaseCount += 1;
     this.analyticsService.logLoadcaseEvent('Added', this.loadCaseCount);
-    const operatingTemperatureValue = 70;
+
+    // Only set operating temperature for non-slewing bearings
+    const operatingTemperatureValue = this.defaultOperatingTemperature();
+
     const loadCaseName =
       this.calculationParametersFormHelperService.getLocalizedLoadCaseName(
         this.loadCaseCount
       );
 
-    this.operationConditionsForm.controls['loadCaseData'].push(
-      this.createLoadCaseDataFormGroup(loadCaseName, operatingTemperatureValue)
+    const loadCaseArray = this.operationConditionsForm?.controls[
+      'loadCaseData'
+    ] as FormArray;
+    loadCaseArray?.push(
+      this.formFactory.createLoadCaseDataFormGroup(
+        loadCaseName,
+        operatingTemperatureValue,
+        this.bearingClass()
+      )
     );
   }
 
@@ -811,13 +833,19 @@ export class CalculationParametersComponent
   }
 
   private resetLoadcasesArray(): void {
-    while (this.operationConditionsForm.controls['loadCaseData'].length > 1) {
+    const loadCaseArray = this.operationConditionsForm?.controls[
+      'loadCaseData'
+    ] as FormArray;
+    while (loadCaseArray && loadCaseArray.length > 1) {
       this.removeLoadcase(1);
     }
   }
 
   private removeLoadcase(index: number): void {
-    this.operationConditionsForm.controls['loadCaseData'].removeAt(index);
+    const loadCaseArray = this.operationConditionsForm?.controls[
+      'loadCaseData'
+    ] as FormArray;
+    loadCaseArray?.removeAt(index);
     this.loadCaseCount -= 1;
     this.analyticsService.logLoadcaseEvent('Removed', this.loadCaseCount);
     if (this.isSingleLoadCaseForm) {
@@ -842,9 +870,11 @@ export class CalculationParametersComponent
   }
 
   private setFirstLoadcaseName(name: string): void {
-    this.operationConditionsForm.controls[
+    const loadCaseArray = this.operationConditionsForm?.controls[
       'loadCaseData'
-    ].controls[0].controls.loadCaseName.setValue(name);
+    ] as FormArray;
+    const firstLoadCase = loadCaseArray?.controls[0] as FormGroup;
+    firstLoadCase?.get('loadCaseName')?.setValue(name);
   }
 
   private resetCatalogCalculationResults(): void {
@@ -857,60 +887,5 @@ export class CalculationParametersComponent
     this.calculationResultFacade.dispatch(
       CO2DownstreamCalculationActions.resetDownstreamCalculation()
     );
-  }
-
-  private createLoadCaseDataFormGroup(
-    loadCaseName: string,
-    operatingTemperatureValue?: number
-  ): FormGroup<LoadCaseDataFormGroupModel> {
-    return new FormGroup<LoadCaseDataFormGroupModel>({
-      load: new FormGroup(
-        {
-          radialLoad: new FormControl<number>(
-            undefined,
-            loadValidators,
-            this.productSelectionFacade.templateValidator('IDSLC_RADIAL_LOAD')
-          ),
-          axialLoad: new FormControl<number>(
-            undefined,
-            loadValidators,
-            this.productSelectionFacade.templateValidator('IDSLC_AXIAL_LOAD')
-          ),
-        },
-        [anyLoadGroupValidator()]
-      ),
-      rotation: new FormGroup(
-        {
-          typeOfMotion: new FormControl<
-            LoadCaseData['rotation']['typeOfMotion']
-          >('LB_ROTATING', Validators.required),
-          rotationalSpeed: new FormControl<number>(
-            undefined,
-            rotationalSpeedValidators,
-            this.productSelectionFacade.templateValidator('IDLC_SPEED')
-          ),
-          shiftFrequency: new FormControl<number>(
-            undefined,
-            shiftFrequencyValidators,
-            this.productSelectionFacade.templateValidator(
-              'IDSLC_MOVEMENT_FREQUENCY'
-            )
-          ),
-          shiftAngle: new FormControl<number>(undefined, shiftAngleValidators),
-        },
-        [rotationValidator()]
-      ),
-      operatingTime: new FormControl<number>(undefined, Validators.max(100)),
-      operatingTemperature: new FormControl<number>(
-        operatingTemperatureValue,
-        [Validators.required],
-        [
-          this.productSelectionFacade.templateValidator(
-            'IDSLC_MEAN_BEARING_OPERATING_TEMPERATURE'
-          ),
-        ]
-      ),
-      loadCaseName: new FormControl<string>(loadCaseName),
-    });
   }
 }

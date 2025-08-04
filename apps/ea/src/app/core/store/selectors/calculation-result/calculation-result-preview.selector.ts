@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+import { SLEWING_BEARING_TYPE } from '@ea/shared/constants/products';
 import { createSelector } from '@ngrx/store';
 
 import {
@@ -12,7 +14,10 @@ import {
   getSelectedLoadcaseId,
 } from '../calculation-parameters/calculation-parameters.selector';
 import { getCalculationTypes } from '../calculation-parameters/calculation-types.selector';
-import { isCo2DownstreamCalculationPossible } from '../product-selection/product-selection.selector';
+import {
+  getBearingProductClass,
+  isCo2DownstreamCalculationPossible,
+} from '../product-selection/product-selection.selector';
 import {
   getOverrollingFrequencies,
   getSelectedCalculations,
@@ -151,6 +156,124 @@ export const downstreamFrictionalPowerlossValue = createSelector(
   }
 );
 
+export const slewingBearingFrictionalValue = createSelector(
+  catalogCalculationResult,
+  catalogCalculationIsLoading,
+  catalogCalculationError,
+  getSelectedLoadcaseId,
+  (result, isLoading, error, selectedLoadcase): ResultStateWithValue => {
+    const loadcaseFriction = result?.loadcaseFriction;
+
+    if (loadcaseFriction && loadcaseFriction.length > 0) {
+      const frictionLoadcaseData = loadcaseFriction[selectedLoadcase];
+
+      if (frictionLoadcaseData) {
+        // Get the first available friction metric (prioritize common ones)
+        const frictionKeys = Object.keys(frictionLoadcaseData);
+        const priorityKeys = [
+          'totalFrictionalTorque',
+          'frictionalTorque',
+          'MR',
+          'NR',
+        ];
+
+        // Try priority keys first
+        for (const priorityKey of priorityKeys) {
+          if (frictionKeys.includes(priorityKey)) {
+            const frictionValue = frictionLoadcaseData[priorityKey];
+
+            return {
+              isLoading,
+              calculationError: error || result?.calculationError?.error,
+              unit: frictionValue.unit || '',
+              value: frictionValue.value || undefined,
+              valueLoadcaseName: frictionValue.loadcaseName,
+            };
+          }
+        }
+
+        // If no priority key found, use the first available one
+        if (frictionKeys.length > 0) {
+          const firstKey = frictionKeys[0];
+          const frictionValue = frictionLoadcaseData[firstKey];
+
+          return {
+            isLoading,
+            calculationError: error || result?.calculationError?.error,
+            unit: frictionValue.unit || '',
+            value: frictionValue.value || undefined,
+            valueLoadcaseName: frictionValue.loadcaseName,
+          };
+        }
+      }
+    }
+
+    return {
+      isLoading,
+      calculationError: error || result?.calculationError?.error,
+      unit: '',
+      value: undefined,
+    };
+  }
+);
+
+export const getFrictionalPreviewData = createSelector(
+  slewingBearingFrictionalValue,
+  downstreamFrictionalPowerlossValue,
+  getBearingProductClass,
+  getCalculationTypes,
+  getSelectedLoadcase,
+  (
+    slewingFriction,
+    downstreamFriction,
+    bearingProductClass,
+    calculationTypes,
+    loadcase
+  ): CalculationResultPreviewItem | undefined => {
+    if (!calculationTypes.frictionalPowerloss.selected) {
+      return undefined;
+    }
+
+    const loadcaseName = loadcase?.loadCaseName;
+
+    return bearingProductClass === SLEWING_BEARING_TYPE
+      ? {
+          title: 'slewingBearingFrictionTitle',
+          icon: 'compress',
+          values: [
+            {
+              title: calculationTypes.frictionalPowerloss.disabled
+                ? undefined
+                : 'slewingBearingFrictionSubtitle',
+              calculationWarning: calculationTypes.frictionalPowerloss.disabled
+                ? 'frictionalPowerlossUnavailable'
+                : undefined,
+              ...slewingFriction,
+            },
+          ],
+        }
+      : {
+          title: 'frictionalPowerloss',
+          icon: 'compress',
+          titleTooltip: 'frictionTitleTooltip',
+          titleTooltipUrl: 'frictionTooltipUrl',
+          titleTooltipUrlText: 'frictionTooltipUrlText',
+          values: [
+            {
+              title: calculationTypes.frictionalPowerloss.disabled
+                ? undefined
+                : 'frictionalPowerlossSubtitle',
+              calculationWarning: calculationTypes.frictionalPowerloss.disabled
+                ? 'frictionalPowerlossUnavailable'
+                : undefined,
+              ...downstreamFriction,
+            },
+          ],
+          loadcaseName,
+        };
+  }
+);
+
 export const getCalculationResultPreviewData = createSelector(
   getCalculationTypes,
   catalogCalculation,
@@ -160,7 +283,7 @@ export const getCalculationResultPreviewData = createSelector(
   getSelectedLoadcase,
   getCalculationResult,
   co2DownstreamEmissionValue,
-  downstreamFrictionalPowerlossValue,
+  getFrictionalPreviewData,
   isCo2DownstreamCalculationPossible,
   (
     calculationTypes,
@@ -171,7 +294,7 @@ export const getCalculationResultPreviewData = createSelector(
     loadcase,
     result,
     co2DownstreamEmission,
-    frictionalPowerloss,
+    frictionalPreviewData,
     co2DownstreamCalculationPossible
   ): CalculationResultPreviewData => {
     const previewData: CalculationResultPreviewData = [];
@@ -217,27 +340,9 @@ export const getCalculationResultPreviewData = createSelector(
       });
     }
 
-    if (calculationTypes.frictionalPowerloss.selected) {
-      previewData.push({
-        title: 'frictionalPowerloss',
-        icon: 'compress',
-        titleTooltip: 'frictionTitleTooltip',
-        titleTooltipUrl: 'frictionTooltipUrl',
-        titleTooltipUrlText: 'frictionTooltipUrlText',
-        values: [
-          {
-            title: calculationTypes.frictionalPowerloss.disabled
-              ? undefined
-              : 'frictionalPowerlossSubtitle',
-            calculationWarning: calculationTypes.frictionalPowerloss.disabled
-              ? 'frictionalPowerlossUnavailable'
-              : undefined,
-
-            ...frictionalPowerloss,
-          },
-        ],
-        loadcaseName,
-      });
+    // Add friction preview data if available
+    if (frictionalPreviewData) {
+      previewData.push(frictionalPreviewData);
     }
 
     if (calculationTypes.lubrication.selected) {

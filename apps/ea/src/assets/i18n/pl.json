@@ -130,6 +130,16 @@
         "shiftAngle": "Kąt między punktami skrętu dla ruchów oscylacyjnych"
       }
     },
+    "force": {
+      "title": "Siła",
+      "forceX": "Siła w kierunku x (Fx)",
+      "forceY": "Siła w kierunku y (Fy)"
+    },
+    "moment": {
+      "title": "Moment",
+      "momentX": "Moment względem osi x (Mx)",
+      "momentY": "Moment względem osi y (My)"
+    },
     "lubrication": {
       "title": "Warunki smarowania",
       "notAvailable": "W wybranym łożysku ten typ smarowania jest niedostępny.",
@@ -280,6 +290,8 @@
     "frictionalPowerloss": "Utrata mocy wskutek tarcia (ok.)",
     "frictionalPowerlossSubtitle": "Utrata mocy wskutek tarcia",
     "frictionalPowerlossUnavailable": "To obliczenie nie jest dostępne z wybranym łożyskiem.",
+    "slewingBearingFrictionTitle": "Moment tarcia",
+    "slewingBearingFrictionSubtitle": "Moment tarcia",
     "production": "Do produkcji",
     "productionTooltip": "To jest suma wszystkich ekwiwalentów CO₂ wyemitowanych w trakcie produkcji łożyska tocznego, włącznie z zużytymi zasobami i energią.",
     "usage": "Podczas użytkowania",
@@ -426,11 +438,14 @@
     },
     "frictionalPowerloss": {
       "title": "Utrata mocy wskutek tarcia",
+      "titleSlewingBearing": "Moment obrotowy tarcia",
       "totalFrictionalTorque": "Moment obrotowy tarcia",
       "totalFrictionalPowerLoss": "Strata mocy w wyniku tarcia",
       "speedDependentFrictionalTorque": "Moment tarcia zależny od prędkości obrotowej",
       "loadDependentFrictionalTorque": "Moment tarcia zależny od obciążenia",
       "thermallySafeOperatingSpeed": "Robocza prędkość obrotowa dopuszczalna termicznie",
+      "frictionMoment": "Moment tarcia",
+      "maximumFrictionalTorque": "Maksymalny moment tarcia",
       "stcReference": {
         "text": "Dla dokładniejszego obliczenia",
         "urlText": "skontaktuj się z naszymi ekspertami ds. obliczeń",
@@ -448,10 +463,12 @@
     "ratingLife": {
       "title": "Trwałość znamionowa",
       "lh10": "Całkowita trwałość znamionowa w godzinach",
+      "lh10_i": "Nominalna trwałość dla przypadku obciążenia w godzinach",
       "lh_nm_unavailable": "Dodaj „Parametry smarowania” do obliczenia, aby wyświetlić tę wartość",
       "lh_nm": "Zmodyfikowana trwałość znamionowa w godzinach",
       "p": "Równoważne obciążenie dynamiczne",
       "n": "Równoważna prędkość",
+      "s0": "Bezpieczeństwo statyczne, bieżnia",
       "s0_min": "Statyczny współczynnik bezpieczeństwa",
       "p0_max": "Maksymalne równoważne obciążenie statyczne",
       "p0": "Równoważne obciążenie statyczne na przypadek obciążenia",
@@ -487,6 +504,7 @@
       "ratingLife": "Trwałość znamionowa",
       "lubrication": "Parametr smarowania",
       "frictionalPowerloss": "Utrata mocy wskutek tarcia",
+      "slewingBearingFriction": "Moment obrotowy tarcia",
       "co2": "Emisje CO₂e",
       "co2ForProduction": "Emisje CO₂e związane z produkcją",
       "overrollingFrequency": "Częstotliwość przetaczania"

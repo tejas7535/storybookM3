@@ -132,6 +132,16 @@
         "shiftAngle": "Winkel zwischen den Wendepunkten bei Oszillationsbewegungen"
       }
     },
+    "force": {
+      "title": "Kraft",
+      "forceX": "Kraft in x-Richtung (Fx)",
+      "forceY": "Kraft in y-Richtung (Fy)"
+    },
+    "moment": {
+      "title": "Moment",
+      "momentX": "Moment um die x-Achse (Mx)",
+      "momentY": "Moment um die y-Achse (My)"
+    },
     "lubrication": {
       "title": "Schmierungsbedingungen",
       "notAvailable": "Diese Art der Schmierung ist für das ausgewählte Lager nicht verfügbar.",
@@ -286,6 +296,8 @@
     "frictionValueTooltip": "Unsere neue Berechnung liefert schneller Nährungswerte",
     "frictionValueTooltipLinkText": "Mehr Informationen",
     "frictionTooltipUrl": "https://medias.schaeffler.de/de/stc",
+    "slewingBearingFrictionTitle": "Reibmoment",
+    "slewingBearingFrictionSubtitle": "Reibmoment",
     "production": "Für die Produktion",
     "productionTooltip": "Dies ist die Summe aller CO₂-Äquivalente, die für die Herstellung des Wälzlagers, einschließlich notwendiger Ressourcen und Energie, ausgestoßen wurden.",
     "usage": "Für den Betrieb",
@@ -426,11 +438,14 @@
     },
     "frictionalPowerloss": {
       "title": "Reibungsverluste (ca.)",
+      "titleSlewingBearing": "Reibmoment",
       "totalFrictionalTorque": "Reibmoment",
       "totalFrictionalPowerLoss": "Reibleistung",
       "speedDependentFrictionalTorque": "Drehzahlabhängiges Reibmoment",
       "loadDependentFrictionalTorque": "Lastabhängiges Reibmoment",
       "thermallySafeOperatingSpeed": "thermisch zulässige Drehzahl",
+      "frictionMoment": "Reibmoment",
+      "maximumFrictionalTorque": "Maximales Reibmoment",
       "calculationNotAvailable": {
         "line1": "Für das ausgewählte Lager ist diese Berechnung nicht verfügbar.",
         "line2": "Für weitere Informationen kontaktieren Sie bitte unseren",
@@ -454,10 +469,12 @@
     "ratingLife": {
       "title": "Lebensdauer",
       "lh10": "Gesamtlebensdauer in Stunden (nominell)",
+      "lh10_i": "Nominelle Lebensdauer für den Lastfall in Stunden",
       "lh_nm_unavailable": "Bitte fügen Sie „Schmierparameter“ zu Ihrer Berechnung hinzu, um diesen Wert anzuzeigen.",
       "lh_nm": "modifizierte Lebensdauer in Stunden",
       "p": "Äquivalente dynamische Belastung",
       "n": "Äquivalente Drehzahl",
+      "s0": "Statische Sicherheit, Laufbahn",
       "s0_min": "Statische Sicherheit",
       "p0_max": "Maximale äquivalente statische Belastung",
       "p0": "Äquivalente statische Belastung pro Lastfall",
@@ -493,6 +510,7 @@
       "ratingLife": "Lebensdauer",
       "lubrication": "Schmierparameter",
       "frictionalPowerloss": "Reibungsverluste",
+      "slewingBearingFriction": "Reibmoment",
       "co2": "CO₂e-Emissionen",
       "co2ForProduction": "CO₂e-Emissionen für die Produktion",
       "overrollingFrequency": "Überrollfrequenzen"

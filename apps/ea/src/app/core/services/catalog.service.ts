@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -5,6 +6,7 @@ import { forkJoin, map, Observable, switchMap, throwError } from 'rxjs';
 
 import { environment } from '@ea/environments/environment';
 import { NON_CO2_BEARINGS } from '@ea/shared/constants/non-co2-bearings';
+import { SLEWING_BEARING_TYPE } from '@ea/shared/constants/products';
 import { toNumberString } from '@ea/shared/helper';
 
 import {
@@ -23,7 +25,9 @@ import {
   CatalogServiceLoadCaseData,
   CatalogServiceOperatingConditions,
   CatalogServiceOperatingConditionsISOClass,
+  CatalogServiceProductClass,
   CatalogServiceTemplateResult,
+  SlewingBearingLoadcaseData,
 } from './catalog.service.interface';
 import { CatalogCalculationInputsConverterService } from './catalog-calculation-inputs-converter.service';
 import {
@@ -129,89 +133,22 @@ export class CatalogService {
 
   public getCalculationResult(
     bearingId: string,
-    operationConditions: CalculationParametersOperationConditions
+    operationConditions: CalculationParametersOperationConditions,
+    bearingClass: CatalogServiceProductClass | undefined
   ): Observable<CatalogCalculationResult> {
     if (!bearingId) {
       return throwError(() => new Error('bearingId must be provided'));
     }
 
-    const {
-      lubrication: lubricationConditions,
-      ambientTemperature,
-      contamination,
-      conditionOfRotation,
-      loadCaseData,
-    } = operationConditions;
+    const operatingConditions = this.isSlewingBearing(bearingClass)
+      ? {}
+      : this.getOperatingConditionsData(operationConditions);
 
-    const lubricationMethod = this.convertLubricationMethod(
-      lubricationConditions
-    );
+    const loadCaseData = operationConditions.loadCaseData;
 
-    const definitionOfViscosity = this.convertDefinitionOfViscosity(
-      lubricationConditions
-    );
-    const grease =
-      definitionOfViscosity === 'LB_ARCANOL_GREASE'
-        ? lubricationConditions.grease.typeOfGrease.typeOfGrease
-        : 'LB_PLEASE_SELECT';
-    const isoVgClass =
-      definitionOfViscosity === 'LB_ISO_VG_CLASS'
-        ? this.convertIsoVgClass(lubricationConditions)
-        : 'LB_PLEASE_SELECT';
-
-    const viscosity =
-      lubricationConditions[lubricationConditions.lubricationSelection]
-        .viscosity;
-    const ny40 =
-      definitionOfViscosity === 'LB_ENTER_VISCOSITIES'
-        ? toNumberString(viscosity?.ny40 || 0)
-        : '0';
-    const ny100 =
-      definitionOfViscosity === 'LB_ENTER_VISCOSITIES'
-        ? toNumberString(viscosity?.ny100 || 0)
-        : '0';
-
-    const environmentalInfluence =
-      definitionOfViscosity === 'LB_ARCANOL_GREASE'
-        ? lubricationConditions.grease.environmentalInfluence
-        : 'LB_AVERAGE_AMBIENT_INFLUENCE';
-
-    const isRecirculatingOil =
-      this.isLubricationOfrecirculatingOil(lubricationMethod);
-
-    const oilFlow = lubricationConditions.recirculatingOil.oilFlow || 0;
-    const oilTempRise = toNumberString(
-      lubricationConditions.recirculatingOil.oilTemperatureDifference || 0
-    );
-    const heatFlow = toNumberString(
-      lubricationConditions.recirculatingOil.externalHeatFlow || 0
-    );
-
-    const operatingConditions: CatalogServiceOperatingConditions = {
-      IDL_LUBRICATION_METHOD: lubricationMethod,
-      IDL_INFLUENCE_OF_AMBIENT: environmentalInfluence,
-      IDL_CLEANESS_VALUE: contamination,
-      IDSLC_TEMPERATURE: toNumberString(ambientTemperature),
-      IDL_DEFINITION_OF_VISCOSITY: definitionOfViscosity,
-      IDL_ISO_VG_CLASS: isoVgClass,
-      IDL_GREASE: grease,
-      IDL_NY_40: ny40,
-      IDL_NY_100: ny100,
-      IDL_CONDITION_OF_ROTATION:
-        conditionOfRotation === 'innerring'
-          ? 'LB_ROTATING_INNERRING'
-          : 'LB_ROTATING_OUTERRING',
-
-      IDL_OIL_FLOW: isRecirculatingOil ? toNumberString(oilFlow) : undefined,
-      IDL_OIL_TEMPERATURE_DIFFERENCE: isRecirculatingOil
-        ? oilTempRise
-        : undefined,
-
-      IDL_EXTERNAL_HEAT_FLOW: isRecirculatingOil ? heatFlow : undefined,
-    };
-
-    const loadcaseData: CatalogServiceLoadCaseData[] =
-      this.getLoadCasesData(loadCaseData);
+    const loadcaseData = this.isSlewingBearing(bearingClass)
+      ? this.getSlewingBearingLoadcaseData(loadCaseData)
+      : this.getCatalogBearingLoadCasesData(loadCaseData);
 
     let calculationError: string;
 
@@ -243,7 +180,8 @@ export class CatalogService {
           const res = convertCatalogCalculationResult(
             result,
             calculationError,
-            loadcaseData.length > 1
+            loadcaseData.length > 1,
+            this.isSlewingBearing(bearingClass)
           );
 
           if (inputs.length > 0) {
@@ -314,7 +252,93 @@ export class CatalogService {
     );
   }
 
-  private getLoadCasesData(
+  private isSlewingBearing(
+    bearingClass: CatalogServiceProductClass | undefined
+  ): boolean {
+    return bearingClass === SLEWING_BEARING_TYPE;
+  }
+
+  private getOperatingConditionsData(
+    operationConditions: CalculationParametersOperationConditions
+  ): CatalogServiceOperatingConditions | object {
+    const {
+      lubrication: lubricationConditions,
+      ambientTemperature,
+      contamination,
+      conditionOfRotation,
+    } = operationConditions;
+
+    const lubricationMethod = this.convertLubricationMethod(
+      lubricationConditions
+    );
+
+    const definitionOfViscosity = this.convertDefinitionOfViscosity(
+      lubricationConditions
+    );
+    const grease =
+      definitionOfViscosity === 'LB_ARCANOL_GREASE'
+        ? lubricationConditions.grease.typeOfGrease.typeOfGrease
+        : 'LB_PLEASE_SELECT';
+    const isoVgClass =
+      definitionOfViscosity === 'LB_ISO_VG_CLASS'
+        ? this.convertIsoVgClass(lubricationConditions)
+        : 'LB_PLEASE_SELECT';
+
+    const viscosity =
+      lubricationConditions[lubricationConditions.lubricationSelection]
+        .viscosity;
+    const ny40 =
+      definitionOfViscosity === 'LB_ENTER_VISCOSITIES'
+        ? toNumberString(viscosity?.ny40 || 0)
+        : '0';
+    const ny100 =
+      definitionOfViscosity === 'LB_ENTER_VISCOSITIES'
+        ? toNumberString(viscosity?.ny100 || 0)
+        : '0';
+
+    const environmentalInfluence =
+      definitionOfViscosity === 'LB_ARCANOL_GREASE'
+        ? lubricationConditions.grease.environmentalInfluence
+        : 'LB_AVERAGE_AMBIENT_INFLUENCE';
+
+    const isRecirculatingOil =
+      this.isLubricationOfrecirculatingOil(lubricationMethod);
+
+    const oilFlow = lubricationConditions.recirculatingOil.oilFlow || 0;
+    const oilTempRise = toNumberString(
+      lubricationConditions.recirculatingOil.oilTemperatureDifference || 0
+    );
+    const heatFlow = toNumberString(
+      lubricationConditions.recirculatingOil.externalHeatFlow || 0
+    );
+
+    const operatingConditions: CatalogServiceOperatingConditions = {
+      IDL_LUBRICATION_METHOD: lubricationMethod,
+      IDL_INFLUENCE_OF_AMBIENT: environmentalInfluence,
+      IDL_CLEANESS_VALUE: contamination,
+      IDSLC_TEMPERATURE: toNumberString(ambientTemperature),
+      IDL_DEFINITION_OF_VISCOSITY: definitionOfViscosity,
+      IDL_ISO_VG_CLASS: isoVgClass,
+      IDL_GREASE: grease,
+      IDL_NY_40: ny40,
+      IDL_NY_100: ny100,
+      IDL_CONDITION_OF_ROTATION:
+        conditionOfRotation === 'innerring'
+          ? 'LB_ROTATING_INNERRING'
+          : 'LB_ROTATING_OUTERRING',
+
+      IDL_OIL_FLOW: isRecirculatingOil ? toNumberString(oilFlow) : undefined,
+      IDL_OIL_TEMPERATURE_DIFFERENCE: isRecirculatingOil
+        ? oilTempRise
+        : undefined,
+
+      IDL_EXTERNAL_HEAT_FLOW: isRecirculatingOil ? heatFlow : undefined,
+    };
+
+    return operatingConditions;
+  }
+
+  private getCatalogBearingLoadCasesData(
     loadCaseData: LoadCaseData[]
   ): CatalogServiceLoadCaseData[] {
     return loadCaseData.map((loadCase) => ({
@@ -334,6 +358,28 @@ export class CatalogService {
         loadCase.rotation.shiftFrequency || 0
       ),
       IDSLC_OPERATING_ANGLE: toNumberString(loadCase.rotation.shiftAngle || 0),
+    }));
+  }
+
+  private getSlewingBearingLoadcaseData(
+    loadCaseData: LoadCaseData[]
+  ): SlewingBearingLoadcaseData[] {
+    return loadCaseData.map((loadCase) => ({
+      IDCO_DESIGNATION: loadCase.loadCaseName,
+      IDSLC_TIME_PORTION:
+        loadCaseData.length === 1
+          ? '100'
+          : toNumberString(loadCase.operatingTime || 0),
+      IDLD_FX: toNumberString(loadCase?.force?.fx || 0),
+      IDLD_FY: toNumberString(loadCase?.force?.fy || 0),
+      IDLD_MX: toNumberString(loadCase?.moment?.mx || 0),
+      IDLD_MY: toNumberString(loadCase?.moment?.my || 0),
+      IDSLC_N_OSC_LIMITED: toNumberString(
+        loadCase.rotation.shiftFrequency || 1
+      ),
+      IDSLC_OPERATING_ANGLE: toNumberString(loadCase.rotation.shiftAngle || 0),
+      IDSLC_N_LIMITED: toNumberString(loadCase.rotation.rotationalSpeed || 0),
+      IDSLC_TYPE_OF_MOVEMENT: 'LB_ROTATING',
     }));
   }
 

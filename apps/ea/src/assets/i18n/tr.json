@@ -130,6 +130,16 @@
         "shiftAngle": "Salınım hareketleri için dönüş noktaları arasındaki açı"
       }
     },
+    "force": {
+      "title": "Kuvvet",
+      "forceX": "x yönünde kuvvet (Fx)",
+      "forceY": "y yönünde kuvvet (Fy)"
+    },
+    "moment": {
+      "title": "Moment",
+      "momentX": "x ekseni etrafında moment (Mx)",
+      "momentY": "y ekseni etrafında moment (My)"
+    },
     "lubrication": {
       "title": "Yağlama koşulları",
       "notAvailable": "Bu tür yağlama, seçtiğiniz rulman için mevcut değildir.",
@@ -280,6 +290,8 @@
     "frictionalPowerloss": "Sürtünme gücü kaybı (tahmini)",
     "frictionalPowerlossSubtitle": "Sürtünme gücü kaybı",
     "frictionalPowerlossUnavailable": "Seçilen rulman için bu hesaplama kullanılamaz.",
+    "slewingBearingFrictionTitle": "Sürtünme momenti",
+    "slewingBearingFrictionSubtitle": "Sürtünme momenti",
     "production": "Üretim için",
     "productionTooltip": "Bu, gerekli kaynaklar ve enerji de dahil olmak üzere makaralı rulmanın üretimi için yayılan tüm CO₂ eş değerlerinin toplamıdır.",
     "usage": "Kullanım sırasında",
@@ -426,11 +438,14 @@
     },
     "frictionalPowerloss": {
       "title": "Sürtünme gücü kaybı",
+      "titleSlewingBearing": "Sürtünme momenti",
       "totalFrictionalTorque": "Sürtünme momenti",
       "totalFrictionalPowerLoss": "Sürtünme gücü kaybı",
       "speedDependentFrictionalTorque": "Hıza bağlı sürtünme torku",
       "loadDependentFrictionalTorque": "Yüke bağlı sürtünme torku",
       "thermallySafeOperatingSpeed": "Termal olarak güvenli çalışma hızı",
+      "frictionMoment": "Sürtünme momenti",
+      "maximumFrictionalTorque": "Maksimum sürtünme momenti",
       "stcReference": {
         "text": "Daha hassas bir hesaplama için",
         "urlText": "hesaplama uzmanlarımıza ulaşın",
@@ -448,10 +463,12 @@
     "ratingLife": {
       "title": "Nominal ömür",
       "lh10": "Saat cinsinden toplam nominal ömür (nominal)",
+      "lh10_i": "Yük durumu için nominal ömür (saat cinsinden)",
       "lh_nm_unavailable": "Bu değeri görüntülemek için lütfen hesaplamanıza &quot;Yağlama parametreleri&quot; ifadesini ekleyin",
       "lh_nm": "Saat cinsinden değiştirilmiş nominal ömür",
       "p": "Eş değer dinamik yük",
       "n": "Eş değer hız",
+      "s0": "Statik güvenlik, yuvarlanma yolu",
       "s0_min": "Statik güvenlik",
       "p0_max": "Maksimum eş değer statik yük",
       "p0": "Yük durumu başına eş değer statik yük",
@@ -487,6 +504,7 @@
       "ratingLife": "Nominal Ömür",
       "lubrication": "Yağlama parametresi",
       "frictionalPowerloss": "Sürtünme gücü kaybı",
+      "slewingBearingFriction": "Sürtünme momenti",
       "co2": "CO₂e emisyonları",
       "co2ForProduction": "Üretim için CO₂e emisyonları",
       "overrollingFrequency": "Aşırı yuvarlanma frekansları"

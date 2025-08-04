@@ -130,6 +130,16 @@
         "shiftAngle": "Ângulo entre os pontos de viragem para movimentos de oscilação"
       }
     },
+    "force": {
+      "title": "Força",
+      "forceX": "Força na direção x (Fx)",
+      "forceY": "Força na direção y (Fy)"
+    },
+    "moment": {
+      "title": "Momento",
+      "momentX": "Momento sobre o eixo x (Mx)",
+      "momentY": "Momento sobre o eixo y (My)"
+    },
     "lubrication": {
       "title": "Condições de lubrificação",
       "notAvailable": "Este tipo de lubrificação não se encontra disponível para o rolamento selecionado.",
@@ -280,6 +290,8 @@
     "frictionalPowerloss": "Perda de potência por fricção (aprox.)",
     "frictionalPowerlossSubtitle": "Perda de potência por fricção",
     "frictionalPowerlossUnavailable": "Este cálculo não se encontra disponível para o rolamento selecionado.",
+    "slewingBearingFrictionTitle": "Binário de fricção",
+    "slewingBearingFrictionSubtitle": "Binário de fricção",
     "production": "Para produção",
     "productionTooltip": "Trata-se da soma de todos os equivalentes de CO₂ emitidos para a produção do rolamento, incluindo os recursos e a energia necessários.",
     "usage": "Durante o uso",
@@ -426,11 +438,14 @@
     },
     "frictionalPowerloss": {
       "title": "Perda de potência por fricção",
+      "titleSlewingBearing": "Torque de fricção",
       "totalFrictionalTorque": "Torque de fricção",
       "totalFrictionalPowerLoss": "Perda de potência por fricção",
       "speedDependentFrictionalTorque": "Binário de fricção dependente da velocidade",
       "loadDependentFrictionalTorque": "Binário de fricção dependente da carga",
       "thermallySafeOperatingSpeed": "Velocidade de funcionamento termicamente segura",
+      "frictionMoment": "Momento de fricção",
+      "maximumFrictionalTorque": "Binário de fricção máximo",
       "stcReference": {
         "text": "Para um cálculo mais preciso",
         "urlText": "contate nossos especialistas em cálculo",
@@ -448,10 +463,12 @@
     "ratingLife": {
       "title": "Tempo de vida útil nominal",
       "lh10": "Tempo de vida útil nominal total em horas (nominal)",
+      "lh10_i": "Vida nominal para o caso de carga, em horas",
       "lh_nm_unavailable": "Adicione a opção &quot;Parâmetros de lubrificação&quot; ao seu cálculo para visualizar este valor",
       "lh_nm": "Tempo de vida útil nominal modificado em horas",
       "p": "Carga dinâmica equivalente",
       "n": "Velocidade equivalente",
+      "s0": "Segurança estática, pista de rolamento",
       "s0_min": "Segurança estática",
       "p0_max": "Carga estática equivalente máxima",
       "p0": "Carga estática equivalente por caso de carga",
@@ -487,6 +504,7 @@
       "ratingLife": "Tempo de vida útil nominal",
       "lubrication": "Parâmetro de lubrificação",
       "frictionalPowerloss": "Perda de potência por fricção",
+      "slewingBearingFriction": "Torque de fricção",
       "co2": "Emissões de CO₂e",
       "co2ForProduction": "Emissões de CO₂e para produção",
       "overrollingFrequency": "Frequências de rolamento excessivo"

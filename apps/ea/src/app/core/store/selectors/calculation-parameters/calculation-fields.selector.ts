@@ -1,7 +1,11 @@
+import { SLEWING_BEARING_TYPE } from '@ea/shared/constants/products';
 import { createSelector } from '@ngrx/store';
 
 import { CalculationParameterGroup, CalculationType } from '../../models';
-import { isCo2DownstreamCalculationPossible } from '../product-selection/product-selection.selector';
+import {
+  getBearingProductClass,
+  isCo2DownstreamCalculationPossible,
+} from '../product-selection/product-selection.selector';
 import { getCalculationTypes } from './calculation-types.selector';
 
 const mandatoryFieldMapping: Record<
@@ -46,12 +50,33 @@ const mandatoryFieldMapping: Record<
   },
 };
 
+const slewingBearingFieldMapping: Record<
+  CalculationType,
+  Partial<Record<CalculationParameterGroup, boolean>>
+> = {
+  ratingLife: {
+    rotatingCondition: true,
+    time: true,
+    force: true,
+    moment: true,
+  },
+  emission: {
+    rotatingCondition: true,
+  },
+  lubrication: {},
+  frictionalPowerloss: {},
+
+  overrollingFrequency: {},
+};
+
 export const getCalculationFieldsConfig = createSelector(
   getCalculationTypes,
   isCo2DownstreamCalculationPossible,
+  getBearingProductClass,
   (
     state,
-    co2DownstreamCalculationPossible
+    co2DownstreamCalculationPossible,
+    bearingProductClass
   ): {
     required: CalculationParameterGroup[];
     preset: CalculationParameterGroup[];
@@ -65,14 +90,26 @@ export const getCalculationFieldsConfig = createSelector(
       if (!value.selected || !value.visible) {
         continue;
       }
+      let fieldMapping: [string, boolean][] = [];
 
       const co2DownstreamFields = new Set(['energySource', 'time']);
 
-      const fieldMapping = Object.entries(
-        mandatoryFieldMapping[calculationType as CalculationType]
-      ).filter(([key, _value]) =>
-        co2DownstreamFields.has(key) ? co2DownstreamCalculationPossible : true
-      );
+      fieldMapping =
+        bearingProductClass === SLEWING_BEARING_TYPE
+          ? Object.entries(
+              slewingBearingFieldMapping[calculationType as CalculationType]
+            ).filter(([key, _value]) =>
+              co2DownstreamFields.has(key)
+                ? co2DownstreamCalculationPossible
+                : true
+            )
+          : Object.entries(
+              mandatoryFieldMapping[calculationType as CalculationType]
+            ).filter(([key, _value]) =>
+              co2DownstreamFields.has(key)
+                ? co2DownstreamCalculationPossible
+                : true
+            );
 
       result = { ...mapCalculationFields(result, fieldMapping) };
     }

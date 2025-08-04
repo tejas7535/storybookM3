@@ -17,6 +17,14 @@ export const CALCULATION_PARAMETERS_STATE_MOCK: CalculationParametersState = {
         operatingTemperature: 70,
         operatingTime: undefined,
         loadCaseName: 'Workload',
+        force: {
+          fx: 0,
+          fy: 0,
+        },
+        moment: {
+          mx: 0,
+          my: 0,
+        },
       },
     ],
     lubrication: {

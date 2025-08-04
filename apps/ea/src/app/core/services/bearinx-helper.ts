@@ -149,12 +149,127 @@ export const formatMessageSubordinates = (
   return result.filter((e) => String(e).trim());
 };
 
+const shouldParseNumbers = (loadcaseKey: LoadcaseValueType): boolean =>
+  loadcaseKey === LoadcaseValueType.FACTORS_AND_EQUIVALENT_LOADS ||
+  loadcaseKey === LoadcaseValueType.LUBRICATION ||
+  loadcaseKey === LoadcaseValueType.FRICTION;
+
+export const parseValueIfNeeded = (
+  value: string,
+  shouldParse: boolean
+): string | number => {
+  if (!shouldParse) {
+    return value;
+  }
+
+  const numericValue = Number.parseFloat(value);
+
+  return Number.isNaN(numericValue) ? value : numericValue;
+};
+
+export const createValueObject = (
+  extractedValue: BearinxOnlineResultSubordinate,
+  key: string,
+  shouldParse: boolean
+): {
+  unit?: string;
+  value: string | number;
+  short?: string;
+  title: string;
+  loadcaseName: string;
+} => {
+  const processedValue = parseValueIfNeeded(extractedValue.value, shouldParse);
+
+  return {
+    value: processedValue,
+    unit: extractedValue.unit,
+    short: extractedValue.abbreviation,
+    title: key,
+    loadcaseName: '',
+  };
+};
+
+const extractVariableBlockValues = <TResult extends Record<string, any>>(
+  subordinate: BearinxOnlineResultSubordinate,
+  values: Partial<Record<keyof TResult, string>>,
+  shouldParse: boolean
+): Record<string, unknown> => {
+  const extractedValues: Record<string, unknown> = {};
+
+  for (const [key, abbreviation] of Object.entries(values)) {
+    const extractedValue = extractSubordinatesFromPath(subordinate, [
+      { abbreviation },
+    ]);
+
+    if (extractedValue) {
+      extractedValues[key] = createValueObject(
+        extractedValue,
+        key,
+        shouldParse
+      );
+    }
+  }
+
+  return extractedValues;
+};
+
+const createTableRowEntry = (
+  key: string,
+  abbreviation: string,
+  tableRow: Record<
+    string,
+    { unit: string; value: string; short?: string; loadcaseName: string }
+  >,
+  shouldParse: boolean
+): [string, any] => {
+  const processedValue = parseValueIfNeeded(
+    tableRow[abbreviation].value,
+    shouldParse
+  );
+
+  return [
+    key,
+    {
+      value: processedValue,
+      unit: tableRow[abbreviation].unit,
+      short: tableRow[abbreviation].short,
+      loadcaseName: tableRow[abbreviation].loadcaseName,
+      title: key,
+    },
+  ];
+};
+
+const extractTableValues = <TResult extends Record<string, any>>(
+  subordinate: BearinxOnlineResultSubordinate,
+  values: Partial<Record<keyof TResult, string>>,
+  shouldParse: boolean
+): unknown[] => {
+  const results: unknown[] = [];
+  const tableData = extractTableFromSubordinate(subordinate);
+
+  if (!tableData) {
+    return results;
+  }
+
+  for (const tableRow of tableData) {
+    const rowEntries = Object.entries(values)
+      .filter(([_key, abbreviation]) => tableRow[abbreviation])
+      .map(([key, abbreviation]) =>
+        createTableRowEntry(key, abbreviation, tableRow, shouldParse)
+      );
+
+    results.push(Object.fromEntries(rowEntries));
+  }
+
+  return results;
+};
+
 export const extractValues = <
   TResult extends Record<
     string,
     {
       unit?: string;
-      value: string;
+      value: string | number;
       short?: string;
       title: string;
       loadcaseName: string;
@@ -166,54 +281,22 @@ export const extractValues = <
   values: Partial<Record<keyof TResult, string>>,
   loadcaseKey: LoadcaseValueType
 ): void => {
-  if (subordinate.identifier === VARIABLE_BLOCK) {
-    const extractedValues: {
-      [key: string]: {
-        unit: string;
-        value: number;
-        short?: string;
-        title: string;
-        loadcaseName: string;
-      };
-    } = {};
-    for (const [key, abbreviation] of Object.entries(values)) {
-      const extractedValue = extractSubordinatesFromPath(subordinate, [
-        {
-          abbreviation,
-        },
-      ]);
+  const shouldParse = shouldParseNumbers(loadcaseKey);
+  const resultAsRecord = result as Record<LoadcaseValueType, unknown[]>;
 
-      if (extractedValue) {
-        const value = {
-          value: Number.parseFloat(extractedValue.value),
-          unit: extractedValue.unit,
-          short: extractedValue.abbreviation,
-          title: key,
-          loadcaseName: '',
-        } as any;
-        extractedValues[key] = value;
-      }
-    }
-    result[loadcaseKey] = [extractedValues];
+  if (subordinate.identifier === VARIABLE_BLOCK) {
+    const extractedValues = extractVariableBlockValues(
+      subordinate,
+      values,
+      shouldParse
+    );
+    resultAsRecord[loadcaseKey] = [extractedValues];
   } else if (subordinate.identifier === TABLE) {
-    result[loadcaseKey] = [];
-    for (const tableRow of extractTableFromSubordinate(subordinate)) {
-      result[loadcaseKey].push(
-        Object.fromEntries(
-          Object.entries(values)
-            .filter(([_key, abbreviation]) => tableRow[abbreviation])
-            .map(([key, abbreviation]) => [
-              key,
-              {
-                value: Number.parseFloat(tableRow[abbreviation].value),
-                unit: tableRow[abbreviation].unit,
-                short: tableRow[abbreviation].short,
-                loadcaseName: tableRow[abbreviation].loadcaseName,
-                title: key,
-              },
-            ])
-        )
-      );
-    }
+    const extractedValues = extractTableValues(
+      subordinate,
+      values,
+      shouldParse
+    );
+    resultAsRecord[loadcaseKey] = extractedValues;
   }
 };

@@ -132,6 +132,16 @@
         "shiftAngle": "Angle between the turning points for oscillating motions"
       }
     },
+    "force": {
+      "title": "Force",
+      "forceX": "Force in x direction (Fx)",
+      "forceY": "Force in y direction (Fy)"
+    },
+    "moment": {
+      "title": "Moment",
+      "momentX": "Moment about x axis (Mx)",
+      "momentY": "Moment about y axis (My)"
+    },
     "lubrication": {
       "title": "Lubrication conditions",
       "notAvailable": "This type of lubrication is not available for your selected bearing.",
@@ -283,6 +293,8 @@
     "frictionalPowerloss": "Frictional power loss (approx.)",
     "frictionalPowerlossSubtitle": "Frictional power loss",
     "frictionalPowerlossUnavailable": "For the selected bearing this calculation is not available.",
+    "slewingBearingFrictionTitle": "Frictional torque",
+    "slewingBearingFrictionSubtitle": "Frictional torque",
     "production": "For Production",
     "productionTooltip": "This is the sum of all CO₂ equivalents emitted for the production of the rolling bearing, including necessary resources and energy.",
     "usage": "For Operation",
@@ -426,11 +438,14 @@
     },
     "frictionalPowerloss": {
       "title": "Frictional power loss (approx.)",
+      "titleSlewingBearing": "Frictional torque",
       "totalFrictionalTorque": "Frictional torque",
       "totalFrictionalPowerLoss": "Frictional power loss",
       "speedDependentFrictionalTorque": "Speed-dependent frictional torque",
       "loadDependentFrictionalTorque": "Load-dependent frictional torque",
       "thermallySafeOperatingSpeed": "Thermally safe operating speed",
+      "frictionMoment": "Frictional moment",
+      "maximumFrictionalTorque": "Maximum frictional torque",
       "calculationNotAvailable": {
         "line1": "For the selected bearing this calculation is not possible.",
         "line2": "For further information please contact our",
@@ -454,10 +469,12 @@
     "ratingLife": {
       "title": "Rating life",
       "lh10": "Total rating life in hours (nominal)",
+      "lh10_i": "Rating life for the load case in hours (nominal)",
       "lh_nm_unavailable": "Please add “Lubrication parameters” to your calculation to display this value",
       "lh_nm": "Modified rating life in hours",
       "p": "Equivalent dynamic load",
       "n": "Equivalent speed",
+      "s0": "Static safety, raceway",
       "s0_min": "Static safety",
       "p0_max": "Maximum equivalent static load",
       "p0": "Equivalent static load per loadcase",
@@ -493,6 +510,7 @@
       "ratingLife": "Rating Life",
       "lubrication": "Lubrication parameter",
       "frictionalPowerloss": "Frictional power loss",
+      "slewingBearingFriction": "Frictional torque",
       "co2": "CO₂e emissions",
       "co2ForProduction": "CO₂e emissions for production",
       "overrollingFrequency": "Overrolling frequencies"

@@ -23,6 +23,7 @@ import {
   LoadcaseValueType,
   LUBRICATION_ABBREVIATIONS_KEY_MAPPING,
   OVERROLLING_FREQUENCIES_ABBREVIATIONS,
+  SLEWING_BEARING_BEAHAVIOUR,
   STRING_OUTP_BEARING_BEHAVIOUR,
   STRING_OUTP_FRICTION_AND_THERMALLY_PERMISSABLE_SPEED,
   STRING_OUTP_LOAD_FACTORS_AND_EQUIVALENT_LOADS,
@@ -39,23 +40,29 @@ import {
   CatalogServiceTemplateResult,
   SubordinatePathElement,
 } from './catalog.service.interface';
+import {
+  extractSlewingBearingFactorsAndEquivalentLoads,
+  extractSlewingBearingFriction,
+  extractSlewingBearingMaximumFrictionalTorque,
+} from './slewing-bearing-helper';
 
 export const convertCatalogCalculationResult = (
   originalResult: BearinxOnlineResult,
   calcualtionError: string,
-  hasMultipleLoadCases: boolean
+  hasMultipleLoadCases: boolean,
+  isSlewing = false
 ): CatalogCalculationResult => {
   const result: CatalogCalculationResult = {};
 
   extractCalculationError(calcualtionError, result);
 
-  extractBearingBehaviour(originalResult, result);
+  extractBearingBehaviour(originalResult, result, isSlewing);
 
   extractOverrolling(originalResult, result, hasMultipleLoadCases);
 
   extractErrorsWarnings(originalResult, result);
 
-  extractFriction(originalResult, result, hasMultipleLoadCases);
+  extractFriction(originalResult, result, hasMultipleLoadCases, isSlewing);
 
   extractLubrication(originalResult, result, hasMultipleLoadCases);
 
@@ -97,13 +104,17 @@ function extractCalculationError(
 
 function extractBearingBehaviour(
   originalResult: BearinxOnlineResult,
-  result: CatalogCalculationResult
+  result: CatalogCalculationResult,
+  isSlewing: boolean
 ): void {
+  const bearingBeahiourTitleId = isSlewing
+    ? SLEWING_BEARING_BEAHAVIOUR
+    : STRING_OUTP_BEARING_BEHAVIOUR;
   const bearingBeahiourSubordinate = extractSubordinatesFromPath(
     originalResult,
     [
       { titleID: STRING_OUTP_RESULTS, identifier: BLOCK },
-      { titleID: STRING_OUTP_BEARING_BEHAVIOUR, identifier: VARIABLE_BLOCK },
+      { titleID: bearingBeahiourTitleId, identifier: VARIABLE_BLOCK },
     ]
   );
 
@@ -132,25 +143,29 @@ function extractBearingBehaviour(
     }
   }
 
-  const loadFactorsSubordinate = extractSubordinatesFromPath(originalResult, [
-    { titleID: STRING_OUTP_RESULTS, identifier: BLOCK },
-    { titleID: STRING_OUTP_RESULTS_OF_LOADCASES, identifier: BLOCK },
-    {
-      titleID: STRING_OUTP_LOAD_FACTORS_AND_EQUIVALENT_LOADS,
-      identifier: TABLE,
-    },
-  ]);
+  if (isSlewing) {
+    extractSlewingBearingFactorsAndEquivalentLoads(originalResult, result);
+  } else {
+    const loadFactorsSubordinate = extractSubordinatesFromPath(originalResult, [
+      { titleID: STRING_OUTP_RESULTS, identifier: BLOCK },
+      { titleID: STRING_OUTP_RESULTS_OF_LOADCASES, identifier: BLOCK },
+      {
+        titleID: STRING_OUTP_LOAD_FACTORS_AND_EQUIVALENT_LOADS,
+        identifier: TABLE,
+      },
+    ]);
 
-  if (!loadFactorsSubordinate) {
-    return;
+    if (!loadFactorsSubordinate) {
+      return;
+    }
+
+    extractValues(
+      result as Record<string, LoadcaseStringResultItem>,
+      loadFactorsSubordinate,
+      FACTORS_AND_EQUIVALENT_LOADS_KEY_MAPPING,
+      LoadcaseValueType.FACTORS_AND_EQUIVALENT_LOADS
+    );
   }
-
-  extractValues(
-    result as Record<string, LoadcaseStringResultItem>,
-    loadFactorsSubordinate,
-    FACTORS_AND_EQUIVALENT_LOADS_KEY_MAPPING,
-    LoadcaseValueType.FACTORS_AND_EQUIVALENT_LOADS
-  );
 }
 
 function extractOverrolling(
@@ -231,8 +246,16 @@ function extractErrorsWarnings(
 function extractFriction(
   originalResult: BearinxOnlineResult,
   result: CatalogCalculationResult,
-  hasMultipleLoadCases: boolean
+  hasMultipleLoadCases: boolean,
+  isSlewing: boolean
 ): void {
+  if (isSlewing) {
+    extractSlewingBearingFriction(originalResult, result);
+    extractSlewingBearingMaximumFrictionalTorque(originalResult, result);
+
+    return;
+  }
+
   const frictionResultSubordinate = extractSubordinatesFromPath(
     originalResult,
     getSubordinatePath(hasMultipleLoadCases, [

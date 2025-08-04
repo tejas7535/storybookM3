@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SlewingBearingHelper extractSlewingBearingFactorsAndEquivalentLoads should extract factors and equivalent loads from multiple load cases 1`] = `
+Object {
+  "loadcaseFactorsAndEquivalentLoads": Array [
+    Object {
+      "lh10_i": Object {
+        "loadcaseName": "Load case 1",
+        "short": "Lh10_i",
+        "title": "lh10_i",
+        "unit": "h",
+        "value": "> 10000000",
+      },
+      "s0": Object {
+        "loadcaseName": "Load case 1",
+        "short": "S0",
+        "title": "s0",
+        "unit": "",
+        "value": 7.81,
+      },
+    },
+    Object {
+      "lh10_i": Object {
+        "loadcaseName": "Load case 2",
+        "short": "Lh10_i",
+        "title": "lh10_i",
+        "unit": "h",
+        "value": "> 10000000",
+      },
+      "s0": Object {
+        "loadcaseName": "Load case 2",
+        "short": "S0",
+        "title": "s0",
+        "unit": "",
+        "value": 6.25,
+      },
+    },
+  ],
+}
+`;
+
+exports[`SlewingBearingHelper extractSlewingBearingFriction should extract friction data from multiple load cases 1`] = `
+Object {
+  "loadcaseFriction": Array [
+    Object {
+      "totalFrictionalTorque": Object {
+        "loadcaseName": "Load case 1",
+        "short": "MR",
+        "title": "totalFrictionalTorque",
+        "unit": "N m",
+        "value": "31",
+      },
+    },
+    Object {
+      "totalFrictionalTorque": Object {
+        "loadcaseName": "Load case 2",
+        "short": "MR",
+        "title": "totalFrictionalTorque",
+        "unit": "N m",
+        "value": "28",
+      },
+    },
+  ],
+}
+`;
+
+exports[`SlewingBearingHelper integration tests should extract all slewing bearing data together 1`] = `
+Object {
+  "loadcaseFactorsAndEquivalentLoads": Array [
+    Object {
+      "lh10_i": Object {
+        "loadcaseName": "Load case 1",
+        "short": "Lh10_i",
+        "title": "lh10_i",
+        "unit": "h",
+        "value": "> 10000000",
+      },
+      "s0": Object {
+        "loadcaseName": "Load case 1",
+        "short": "S0",
+        "title": "s0",
+        "unit": "",
+        "value": 7.81,
+      },
+    },
+    Object {
+      "lh10_i": Object {
+        "loadcaseName": "Load case 2",
+        "short": "Lh10_i",
+        "title": "lh10_i",
+        "unit": "h",
+        "value": "> 10000000",
+      },
+      "s0": Object {
+        "loadcaseName": "Load case 2",
+        "short": "S0",
+        "title": "s0",
+        "unit": "",
+        "value": 6.25,
+      },
+    },
+  ],
+  "loadcaseFriction": Array [
+    Object {
+      "totalFrictionalTorque": Object {
+        "loadcaseName": "Load case 1",
+        "short": "MR",
+        "title": "totalFrictionalTorque",
+        "unit": "N m",
+        "value": "31",
+      },
+    },
+    Object {
+      "totalFrictionalTorque": Object {
+        "loadcaseName": "Load case 2",
+        "short": "MR",
+        "title": "totalFrictionalTorque",
+        "unit": "N m",
+        "value": "28",
+      },
+    },
+  ],
+  "maximumFrictionalTorque": Object {
+    "unit": "N m",
+    "value": "31",
+  },
+}
+`;

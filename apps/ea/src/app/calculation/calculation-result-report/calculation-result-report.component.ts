@@ -1,6 +1,7 @@
 import { DialogModule, DialogRef } from '@angular/cdk/dialog';
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, computed, ViewChild } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -21,6 +22,7 @@ import { Co2DownstreamFacade } from '@ea/core/store/facades/calculation-result/c
 import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection/product-selection.facade';
 import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/models';
 import { AppStoreButtonsComponent } from '@ea/shared/app-store-buttons/app-store-buttons.component';
+import { SLEWING_BEARING_TYPE } from '@ea/shared/constants/products';
 import { InfoBannerComponent } from '@ea/shared/info-banner/info-banner.component';
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 import { QualtricsInfoBannerComponent } from '@ea/shared/qualtrics-info-banner/qualtrics-info-banner.component';
@@ -93,6 +95,12 @@ export class CalculationResultReportComponent {
 
   public bearingDesignation$ = this.productSelectionFacade.bearingDesignation$;
   public downstreamErrors$ = this.downstreamCalculationFacade.downstreamErrors$;
+  public bearingProductClass = toSignal(
+    this.productSelectionFacade.bearingProductClass$
+  );
+  public isSlewingBearing = computed(
+    () => this.bearingProductClass() === SLEWING_BEARING_TYPE
+  );
 
   public reportErrors$ = this.calculationResultFacade.getAllErrorsFiltered$;
   public bearinxVersions$ = this.calculationResultFacade.getBearinxVersions$;

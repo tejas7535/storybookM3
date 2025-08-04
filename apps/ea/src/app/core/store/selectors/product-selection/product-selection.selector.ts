@@ -114,6 +114,30 @@ export const getAvailableLoads = createSelector(
         }
 );
 
+export const getAvailableForce = createSelector(
+  getTemplateItem({ itemId: 'IDLD_FX' }),
+  getTemplateItem({ itemId: 'IDLD_FY' }),
+  (fx, fy) =>
+    !fx && !fy
+      ? undefined
+      : {
+          fx: !!fx?.visible,
+          fy: !!fy?.visible,
+        }
+);
+
+export const getAvailableMoment = createSelector(
+  getTemplateItem({ itemId: 'IDLD_MX' }),
+  getTemplateItem({ itemId: 'IDLD_MY' }),
+  (mx, my) =>
+    !mx && !my
+      ? undefined
+      : {
+          mx: !!mx?.visible,
+          my: !!my?.visible,
+        }
+);
+
 export const getAvailableLubricationMethods = createSelector(
   getTemplateItem({ itemId: 'IDL_LUBRICATION_METHOD' }),
   (template) => {

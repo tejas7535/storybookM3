@@ -5,6 +5,7 @@ import { of, throwError } from 'rxjs';
 
 import { CatalogService } from '@ea/core/services/catalog.service';
 import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
+import { CATALOG_BEARING_TYPE } from '@ea/shared/constants/products';
 import {
   APP_STATE_MOCK,
   CALCULATION_PARAMETERS_STATE_MOCK,
@@ -52,6 +53,7 @@ describe('Catalog Calculation Result Effects', () => {
         useValue: {
           bearingDesignation$: of('bearing-123'),
           bearingId$: of('bearing-123'),
+          bearingProductClass$: of(CATALOG_BEARING_TYPE),
         },
       },
       {

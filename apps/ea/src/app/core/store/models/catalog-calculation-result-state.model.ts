@@ -31,6 +31,9 @@ export interface CatalogCalculationResult {
 
   bearingBehaviour?: BearingBehaviour;
 
+  // Maximum frictional torque for slewing bearings (single value for friction display)
+  maximumFrictionalTorque?: ResultItem;
+
   // P0 and P_i values only for multiple loadcases
   loadcaseFactorsAndEquivalentLoads?: {
     [key: string]: LoadcaseNumberResultItem;

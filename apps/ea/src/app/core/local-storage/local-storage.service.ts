@@ -7,17 +7,16 @@ import {
   skip,
   Subject,
   takeUntil,
+  withLatestFrom,
 } from 'rxjs';
 
+import {
+  CATALOG_BEARING_TYPE,
+  SLEWING_BEARING_TYPE,
+} from '@ea/shared/constants/products';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 
-import {
-  CATALOG_COMBINED_KEY_VALUES,
-  CATALOG_LUBRICATION_METHOD_KEY_MAPPING,
-  CATALOG_LUBRICATION_METHOD_VALUE_MAPPING,
-  CATALOG_VALUES_DEFAULT_VALUE_SKIP,
-} from '../services/catalog.service.constant';
-import { CalculationParametersFacade } from '../store';
+import { CalculationParametersFacade, ProductSelectionFacade } from '../store';
 import {
   CalculationParametersActions,
   CalculationTypesActions,
@@ -26,9 +25,9 @@ import {
   CalculationParametersCalculationTypes,
   CalculationParametersOperationConditions,
   CalculationType,
-  LoadCaseData,
   ProductSelectionTemplate,
 } from '../store/models';
+import { applyTemplateToStoredOperationConditions } from './catalog-bearing.helpers';
 import { EAParametersLocalStorageItem } from './ea-parameters-local-storage-item.model';
 
 @Injectable({
@@ -49,7 +48,8 @@ export class LocalStorageService implements OnDestroy {
 
   constructor(
     @Inject(LOCAL_STORAGE) readonly localStorage: Storage,
-    private readonly calculationParametersFacade: CalculationParametersFacade
+    private readonly calculationParametersFacade: CalculationParametersFacade,
+    private readonly selectionFacade: ProductSelectionFacade
   ) {
     this.init();
   }
@@ -64,7 +64,7 @@ export class LocalStorageService implements OnDestroy {
     loadcaseTemplates: ProductSelectionTemplate[],
     operationConditionsTemplates: ProductSelectionTemplate[]
   ): void {
-    const { version, operationConditions, calculationTypes } =
+    const { version, operationConditions, calculationTypes, bearingKind } =
       this.getStoredSessionParameters();
 
     if (!version || version < this.VERSION) {
@@ -94,15 +94,27 @@ export class LocalStorageService implements OnDestroy {
     }
 
     if (operationConditions) {
-      this.calculationParametersFacade.dispatch(
-        CalculationParametersActions.operatingParameters({
-          operationConditions: this.applyTemplateToStoredOperationConditions(
+      let restoredConditions: Partial<CalculationParametersOperationConditions>;
+      // eslint-disable-next-line default-case
+      switch (bearingKind) {
+        case CATALOG_BEARING_TYPE:
+          restoredConditions = applyTemplateToStoredOperationConditions(
             operationConditions,
             loadcaseTemplates,
             operationConditionsTemplates
-          ),
-        })
-      );
+          );
+          break;
+        case SLEWING_BEARING_TYPE:
+          restoredConditions = operationConditions;
+      }
+
+      if (restoredConditions) {
+        this.calculationParametersFacade.dispatch(
+          CalculationParametersActions.operatingParameters({
+            operationConditions: restoredConditions,
+          })
+        );
+      }
     }
   }
 
@@ -140,126 +152,26 @@ export class LocalStorageService implements OnDestroy {
         filter(
           ([calculationTypes, operationConditions]) =>
             !!calculationTypes && !!operationConditions
-        )
+        ),
+        withLatestFrom(this.selectionFacade.bearingProductClass$)
       )
-      .subscribe(([calculationTypes, operationConditions]) => {
+      .subscribe(([[calculationTypes, operationConditions], type]) => {
         this.saveSessionParameters({
           version: this.VERSION,
+          bearingKind: type,
           validUntil: Date.now() / 1000 + this.TIME_TO_LIVE,
           operationConditions,
           calculationTypes: Object.fromEntries(
             Object.entries(calculationTypes).map(([key, value]) => [
               key,
               value.disabled || !value.visible
-                ? this.sessionParameters?.calculationTypes?.[
+                ? (this.sessionParameters?.calculationTypes?.[
                     key as CalculationType
-                  ] ?? value.selected
+                  ] ?? value.selected)
                 : value.selected,
             ])
           ) as Record<CalculationType, boolean>,
         });
-      });
-  }
-
-  private applyTemplateToStoredOperationConditions(
-    storedOperationConditions: Partial<CalculationParametersOperationConditions>,
-    loadcaseTemplates: ProductSelectionTemplate[],
-    operationConditionsTemplates: ProductSelectionTemplate[]
-  ): Partial<CalculationParametersOperationConditions> {
-    const templates = [...loadcaseTemplates, ...operationConditionsTemplates];
-
-    // flat operation conditions
-    const operationConditions: Partial<CalculationParametersOperationConditions> =
-      Object.fromEntries(
-        this.mapEntries(Object.entries(storedOperationConditions), templates)
-      );
-
-    // lubrication
-    operationConditions.lubrication = {
-      ...storedOperationConditions.lubrication,
-      ...Object.fromEntries(
-        this.mapEntries(
-          Object.entries(storedOperationConditions.lubrication),
-          templates
-        )
-      ),
-    };
-    // check selected lubrication
-    const selectedLubricationKey = CATALOG_LUBRICATION_METHOD_VALUE_MAPPING.get(
-      storedOperationConditions.lubrication.lubricationSelection
-    );
-
-    const lubricationMethodTemplate = templates.find(
-      (template) => template.id === 'IDL_LUBRICATION_METHOD'
-    );
-
-    operationConditions.lubrication.lubricationSelection = (
-      lubricationMethodTemplate.options.some(
-        (option) => option.value === selectedLubricationKey
-      )
-        ? storedOperationConditions.lubrication.lubricationSelection
-        : CATALOG_LUBRICATION_METHOD_KEY_MAPPING.get(
-            lubricationMethodTemplate.defaultValue
-          )
-    ) as 'grease' | 'oilBath' | 'oilMist' | 'recirculatingOil';
-
-    // load case data
-    operationConditions.loadCaseData =
-      storedOperationConditions.loadCaseData.map(
-        (storedLoadCaseData) =>
-          ({
-            ...Object.fromEntries(
-              this.mapEntries(Object.entries(storedLoadCaseData), templates)
-            ),
-            load: Object.fromEntries(
-              this.mapEntries(
-                Object.entries(storedLoadCaseData.load),
-                templates
-              )
-            ),
-            rotation: Object.fromEntries(
-              this.mapEntries(
-                Object.entries(storedLoadCaseData.rotation),
-                templates
-              )
-            ),
-          }) as LoadCaseData
-      );
-
-    return operationConditions;
-  }
-
-  private mapEntries(
-    entries: [key: string, value: any][],
-    templates: ProductSelectionTemplate[]
-  ) {
-    return entries
-      .filter(([key, _value]) =>
-        templates.some(
-          (template) => template.id === CATALOG_COMBINED_KEY_VALUES.get(key)
-        )
-      )
-      .map(([key, value]) => {
-        let defaultValue: string | number;
-        if (
-          !value &&
-          value !== null &&
-          !CATALOG_VALUES_DEFAULT_VALUE_SKIP.includes(key)
-        ) {
-          defaultValue = templates.find(
-            (template) => template.id === CATALOG_COMBINED_KEY_VALUES.get(key)
-          ).defaultValue;
-        }
-
-        if (Number.parseFloat(defaultValue as string) === 0) {
-          defaultValue = undefined;
-        }
-
-        if (!Number.isNaN(Number.parseFloat(defaultValue as string))) {
-          defaultValue = Number.parseFloat(defaultValue as string);
-        }
-
-        return [key, value ?? defaultValue];
       });
   }
 
@@ -269,10 +181,12 @@ export class LocalStorageService implements OnDestroy {
       storedParameters = JSON.parse(this.localStorage.getItem(this.KEY));
       if (
         !storedParameters ||
-        Date.now() / 1000 > storedParameters.validUntil
+        Date.now() / 1000 > storedParameters.validUntil ||
+        !storedParameters.bearingKind
       ) {
         return {
           version: undefined,
+          bearingKind: undefined,
           validUntil: undefined,
           operationConditions: undefined,
           calculationTypes: undefined,
@@ -281,6 +195,7 @@ export class LocalStorageService implements OnDestroy {
     } catch {
       return {
         version: undefined,
+        bearingKind: undefined,
         validUntil: undefined,
         operationConditions: undefined,
         calculationTypes: undefined,

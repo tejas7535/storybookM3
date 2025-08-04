@@ -30,7 +30,7 @@
         <div class="text-title-large text-high-emphasis mb-4">
           {{
             t('dialogTitle', {
-              bearingDesignation
+              bearingDesignation,
             })
           }}
         </div>
@@ -42,7 +42,7 @@
             errors: reportErrors$ | ngrxPush,
             warnings:
               calculationResultFacade.calculationReportWarnings$ | ngrxPush,
-            notes: calculationResultFacade.calculationReportNotes$ | ngrxPush
+            notes: calculationResultFacade.calculationReportNotes$ | ngrxPush,
           } as messages"
         >
           <schaeffler-result-report
@@ -157,7 +157,9 @@
                     id="frictionalPowerloss"
                     icon="compress"
                     iconClassName="!text-primary"
-                    [title]="t('title')"
+                    [title]="
+                      isSlewingBearing() ? t('titleSlewingBearing') : t('title')
+                    "
                     [hidden]="
                       calculationTypes?.frictionalPowerloss.selected === false
                     "
@@ -173,7 +175,7 @@
                         translocoRoot="calculationResultReport.frictionalPowerloss"
                         [contextKeys]="[
                           'totalFrictionalPowerLoss',
-                          'totalFrictionalTorque'
+                          'totalFrictionalTorque',
                         ]"
                         [disclaimerTemplate]="frictionDisclaimer"
                       >

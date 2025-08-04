@@ -6,8 +6,13 @@ import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 
 import { AppRoutePath } from '@ea/app-route-path.enum';
 import { CatalogService } from '@ea/core/services/catalog.service';
+import { CatalogServiceProductClass } from '@ea/core/services/catalog.service.interface';
 import { CO2UpstreamService } from '@ea/core/services/co2-upstream.service';
 import { DownstreamCalculationService } from '@ea/core/services/downstream-calculation.service';
+import {
+  CATALOG_BEARING_TYPE,
+  SLEWING_BEARING_TYPE,
+} from '@ea/shared/constants/products';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
 
@@ -19,6 +24,7 @@ import {
 } from '../../actions';
 import { CalculationParametersFacade } from '../../facades';
 import { ProductSelectionFacade } from '../../facades/product-selection/product-selection.facade';
+import { CalculationParametersCalculationTypes } from '../../models';
 
 @Injectable()
 export class ProductSelectionEffects {
@@ -42,18 +48,31 @@ export class ProductSelectionEffects {
   public fetchBearingCapabilities$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ProductSelectionActions.fetchBearingCapabilities),
-      concatLatestFrom(() => [this.productSelectionFacade.bearingDesignation$]),
-      switchMap(([_action, bearingDesignation]) => {
+      concatLatestFrom(() => [
+        this.productSelectionFacade.bearingDesignation$,
+        this.calculationParametersFacade.getCalculationTypes$,
+      ]),
+      switchMap(([_action, bearingDesignation, calculationTypes]) => {
         return this.catalogService
           .getBearingCapabilities(bearingDesignation)
           .pipe(
             switchMap((capabilities) => {
+              const types = this.getCalculationTypes(
+                capabilities.productInfo.bearinxClass,
+                calculationTypes
+              );
+
               return [
                 ProductSelectionActions.setBearingId({
                   bearingId: capabilities.productInfo.id,
                 }),
                 ProductSelectionActions.setBearingProductClass({
                   productClass: capabilities.productInfo.bearinxClass,
+                }),
+                CalculationTypesActions.setCalculationTypes({
+                  calculationTypes: {
+                    ...types,
+                  },
                 }),
                 ProductSelectionActions.fetchLoadcaseTemplate(),
                 CO2UpstreamCalculationResultActions.fetchResult(),
@@ -150,8 +169,25 @@ export class ProductSelectionEffects {
   public fetchOperatingConditionsTemplate$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ProductSelectionActions.fetchOperatingConditionsTemplate),
-      concatLatestFrom(() => [this.productSelectionFacade.bearingId$]),
-      switchMap(([_action, bearingId]) => {
+      concatLatestFrom(() => [
+        this.productSelectionFacade.bearingId$,
+        this.productSelectionFacade.bearingProductClass$,
+      ]),
+      switchMap(([_action, bearingId, bearingProductClass]) => {
+        if (
+          !this.isbearingSupportsOperatingConditionsTemplate(
+            bearingProductClass
+          )
+        ) {
+          // Unsupported type: return empty result immediately
+          return of(
+            ProductSelectionActions.setOperatingConditionsTemplate({
+              operatingConditionsTemplate: [],
+            })
+          );
+        }
+
+        // Supported type: proceed with API call
         return this.catalogService
           .getOperatingConditionsTemplate(bearingId)
           .pipe(
@@ -160,13 +196,13 @@ export class ProductSelectionEffects {
                 operatingConditionsTemplate: result,
               }),
             ]),
-            catchError((_error: HttpErrorResponse) =>
-              of(
+            catchError((_error: HttpErrorResponse) => {
+              return of(
                 ProductSelectionActions.setOperatingConditionsTemplate({
                   operatingConditionsTemplate: undefined,
                 })
-              )
-            )
+              );
+            })
           );
       })
     );
@@ -181,4 +217,38 @@ export class ProductSelectionEffects {
     private readonly co2Service: CO2UpstreamService,
     private readonly downstreamCalculationService: DownstreamCalculationService
   ) {}
+
+  private isbearingSupportsOperatingConditionsTemplate(
+    bearingProductClass: CatalogServiceProductClass
+  ): boolean {
+    return bearingProductClass === CATALOG_BEARING_TYPE;
+  }
+
+  private getCalculationTypes(
+    bearingProductClass: CatalogServiceProductClass,
+    types: CalculationParametersCalculationTypes
+  ): CalculationParametersCalculationTypes {
+    const visibleCalculationTypes =
+      bearingProductClass === CATALOG_BEARING_TYPE;
+
+    const isSlewingBearing = bearingProductClass === SLEWING_BEARING_TYPE;
+
+    const calculationTypes: CalculationParametersCalculationTypes = {
+      ...types,
+      overrollingFrequency: {
+        ...types.overrollingFrequency,
+        visible: visibleCalculationTypes,
+      },
+      lubrication: {
+        ...types.lubrication,
+        visible: visibleCalculationTypes,
+      },
+      frictionalPowerloss: {
+        ...types.frictionalPowerloss,
+        selected: isSlewingBearing,
+      },
+    };
+
+    return calculationTypes;
+  }
 }

@@ -130,6 +130,16 @@
         "shiftAngle": "Angolo tra i punti di svolta per movimenti di oscillazione"
       }
     },
+    "force": {
+      "title": "Forza",
+      "forceX": "Forza nella direzione x (Fx)",
+      "forceY": "Forza nella direzione y (Fy)"
+    },
+    "moment": {
+      "title": "Momento",
+      "momentX": "Momento rispetto all’asse x (Mx)",
+      "momentY": "Momento rispetto all’asse y (My)"
+    },
     "lubrication": {
       "title": "Condizioni di lubrificazione",
       "notAvailable": "Questo tipo di lubrificazione non è disponibile per il cuscinetto selezionato.",
@@ -280,6 +290,8 @@
     "frictionalPowerloss": "Perdita di potenza da attrito (circa)",
     "frictionalPowerlossSubtitle": "Perdita di potenza da attrito",
     "frictionalPowerlossUnavailable": "Per il cuscinetto selezionato questo calcolo non è disponibile.",
+    "slewingBearingFrictionTitle": "Coppia di attrito",
+    "slewingBearingFrictionSubtitle": "Coppia di attrito",
     "production": "Per produzione",
     "productionTooltip": "Questa è la somma di tutti i valori di CO₂ equivalenti emessa per la produzione del cuscinetto volvente, comprese le risorse e l&apos;energia necessarie.",
     "usage": "Durante l'uso",
@@ -426,11 +438,14 @@
     },
     "frictionalPowerloss": {
       "title": "Perdita di potenza da attrito",
+      "titleSlewingBearing": "Coppia di attrito",
       "totalFrictionalTorque": "Coppia di attrito",
       "totalFrictionalPowerLoss": "Perdita di potenza per attrito",
       "speedDependentFrictionalTorque": "Coppia di attrito dipendente dalla velocità",
       "loadDependentFrictionalTorque": "Coppia di attrito dipendente dal carico",
       "thermallySafeOperatingSpeed": "Velocità di funzionamento termicamente sicura",
+      "frictionMoment": "Momento d'attrito",
+      "maximumFrictionalTorque": "Coppia di attrito massima",
       "stcReference": {
         "text": "Per un calcolo più preciso",
         "urlText": "contatta i nostri esperti di calcolo",
@@ -448,10 +463,12 @@
     "ratingLife": {
       "title": "Durata nominale",
       "lh10": "Durata nominale totale in ore",
+      "lh10_i": "Durata nominale per il caso di carico in ore",
       "lh_nm_unavailable": "Aggiungere i &quot;parametri di lubrificazione&quot; al calcolo per visualizzare questo valore",
       "lh_nm": "Durata nominale modificata in ore",
       "p": "Carico dinamico equivalente",
       "n": "Velocità equivalente",
+      "s0": "Sicurezza statica, pista di rotolamento",
       "s0_min": "Sicurezza statica",
       "p0_max": "Carico statico equivalente massimo",
       "p0": "Carico statico equivalente per condizioni di carico",
@@ -487,6 +504,7 @@
       "ratingLife": "Durata nominale",
       "lubrication": "Parametro di lubrificazione",
       "frictionalPowerloss": "Perdita di potenza da attrito",
+      "slewingBearingFriction": "Coppia di attrito",
       "co2": "Emissioni di CO₂e",
       "co2ForProduction": "Emissioni di CO₂e per produzione",
       "overrollingFrequency": "Frequenze di overrolling"

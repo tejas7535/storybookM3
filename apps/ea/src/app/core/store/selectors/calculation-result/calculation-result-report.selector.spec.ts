@@ -1,4 +1,8 @@
 import {
+  CATALOG_BEARING_TYPE,
+  SLEWING_BEARING_TYPE,
+} from '@ea/shared/constants/products';
+import {
   APP_STATE_MOCK,
   CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK,
 } from '@ea/testing/mocks';
@@ -267,6 +271,112 @@ describe('Calculation Result Selector', () => {
             },
           })
         ).toMatchSnapshot();
+      });
+
+      it('should sort results for slewing bearings according to specified order', () => {
+        const slewingBearingState = {
+          ...mockState,
+          productSelection: {
+            ...mockState.productSelection,
+            bearingProductClass: SLEWING_BEARING_TYPE,
+          },
+          catalogCalculationResult: {
+            ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK,
+            result: {
+              ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK.result,
+              bearingBehaviour: {
+                // These keys map to short values via BEARING_BEHAVIOUR_ABBREVIATIONS_KEY_MAPPING
+                lh10: {
+                  value: '> 10000000',
+                  unit: 'h',
+                  title: 'lh10',
+                },
+                S0_min: {
+                  value: '> 100.0',
+                  title: 'S0_min',
+                },
+              },
+              loadcaseFactorsAndEquivalentLoads: [
+                {
+                  lh10_i: {
+                    value: '> 10000000',
+                    title: 'lh10_i',
+                    short: 'Lh10_i',
+                    unit: 'h',
+                    loadcaseName: 'Load case 1',
+                  },
+                  s0: {
+                    value: '> 100.0',
+                    title: 's0',
+                    short: 'S0',
+                    loadcaseName: 'Load case 1',
+                  },
+                },
+                {
+                  lh10_i: {
+                    value: '> 10000000',
+                    title: 'lh10_i',
+                    short: 'Lh10_i',
+                    unit: 'h',
+                    loadcaseName: 'Load case 2',
+                  },
+                  s0: {
+                    value: '> 100.0',
+                    title: 's0',
+                    short: 'S0',
+                    loadcaseName: 'Load case 2',
+                  },
+                },
+              ],
+            },
+          },
+        };
+
+        const result = getRatingLifeResultReport(slewingBearingState);
+
+        // The sort order should be: Lh10, Lh10_i, S0_min, S0
+        const expectedOrder = ['Lh10', 'Lh10_i', 'S0_min', 'S0'];
+
+        // Filter to only the items we care about for sorting test
+        const relevantItems = result.filter((item) =>
+          expectedOrder.includes(item.short)
+        );
+        const relevantShorts = relevantItems.map((item) => item.short);
+
+        // For slewing bearings, these should be sorted in the specified order
+        expect(relevantShorts).toEqual(expectedOrder);
+      });
+
+      it('should not sort results for non-slewing bearings', () => {
+        const catalogBearingState = {
+          ...mockState,
+          productSelection: {
+            ...mockState.productSelection,
+            bearingProductClass: CATALOG_BEARING_TYPE,
+          },
+          catalogCalculationResult: {
+            isLoading: false,
+            result: {
+              bearingBehaviour: {
+                s0: { value: '> 100.0', title: 's0' },
+                lh10: {
+                  value: '> 10000000',
+                  title: 'lh10',
+                  unit: 'h',
+                },
+                S0_min: { value: '> 100.0', title: 'S0_min' },
+              },
+            },
+          },
+        };
+
+        const result = getRatingLifeResultReport(catalogBearingState);
+
+        // For non-slewing bearings, no custom sorting should be applied
+        expect(result).toHaveLength(3);
+        const shortValues = result.map((item) => item.short);
+        // The short values are: 's0' (no mapping), 'Lh10' (mapped from lh10 key), 'S0_min' (mapped from S0_min key)
+        expect(shortValues).toEqual(['s0', 'Lh10', 'S0_min']);
       });
     });
 

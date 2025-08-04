@@ -1,3 +1,4 @@
+import { SLEWING_BEARING_TYPE } from '@ea/shared/constants/products';
 import { createSelector } from '@ngrx/store';
 
 import {
@@ -5,6 +6,7 @@ import {
   CalculationParametersCalculationTypes,
 } from '../../models';
 import { getCalculationParametersState } from '../../reducers';
+import { getBearingProductClass } from '../product-selection/product-selection.selector';
 
 export const getCalculationTypes = createSelector(
   getCalculationParametersState,
@@ -30,7 +32,8 @@ export const getCalculationTypesGlobalSelectionState = createSelector(
 
 export const getCalculationTypesConfig = createSelector(
   getCalculationTypes,
-  (state): CalculationParametersCalculationTypeConfig[] =>
+  getBearingProductClass,
+  (state, bearingProductClass): CalculationParametersCalculationTypeConfig[] =>
     [
       {
         name: 'emission' as const,
@@ -48,7 +51,10 @@ export const getCalculationTypesConfig = createSelector(
         name: 'frictionalPowerloss' as const,
         ...state.frictionalPowerloss,
         icon: 'compress',
-        label: 'calculationTypes.frictionalPowerloss',
+        label:
+          bearingProductClass === SLEWING_BEARING_TYPE
+            ? 'calculationTypes.slewingBearingFriction'
+            : 'calculationTypes.frictionalPowerloss',
       },
       {
         name: 'lubrication' as const,

@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatDividerModule } from '@angular/material/divider';
 
+import { CatalogServiceProductClass } from '@ea/core/services/catalog.service.interface';
 import {
   CalculationParametersFacade,
   CalculationResultFacade,
@@ -45,6 +47,10 @@ export class CalculationContainerComponent {
     this.calculationResultFacade.isCalculationResultReportAvailable$;
 
   public bearingDesignation$ = this.productSelectionFacade.bearingDesignation$;
+
+  public bearingClass: Signal<CatalogServiceProductClass> = toSignal(
+    this.productSelectionFacade.bearingProductClass$
+  );
 
   constructor(
     private readonly settingsFacade: SettingsFacade,

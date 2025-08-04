@@ -102,6 +102,14 @@ describe('DownstreamCalculationEffects', () => {
     operatingTemperature: 70,
     operatingTime: 40,
     loadCaseName: 'Loadcase 1',
+    force: {
+      fx: 0,
+      fy: 0,
+    },
+    moment: {
+      mx: 0,
+      my: 0,
+    },
   };
 
   const operatingConditionsSubject$ =

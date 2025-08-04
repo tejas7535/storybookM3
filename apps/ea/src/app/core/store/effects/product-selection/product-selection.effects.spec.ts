@@ -1,10 +1,15 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
 
 import { CatalogService } from '@ea/core/services/catalog.service';
 import { CO2UpstreamService } from '@ea/core/services/co2-upstream.service';
 import { DownstreamCalculationService } from '@ea/core/services/downstream-calculation.service';
+import {
+  CATALOG_BEARING_TYPE,
+  SLEWING_BEARING_TYPE,
+} from '@ea/shared/constants/products';
 import {
   APP_STATE_MOCK,
   CALCULATION_PARAMETERS_STATE_MOCK,
@@ -20,6 +25,7 @@ import {
   CO2UpstreamCalculationResultActions,
   ProductSelectionActions,
 } from '../../actions';
+import { CalculationParametersFacade } from '../../facades';
 import { ProductSelectionFacade } from '../../facades/product-selection/product-selection.facade';
 import { Co2ApiSearchResult, ProductCapabilitiesResult } from '../../models';
 import { ProductSelectionEffects } from './product-selection.effects';
@@ -71,13 +77,28 @@ describe('Product Selection Effects', () => {
         provide: ProductSelectionFacade,
         useValue: {
           bearingDesignation$: of('modelId-123'),
-          bearingId$: of(undefined),
+          bearingId$: of('abc'),
+          bearingProductClass$: of(CATALOG_BEARING_TYPE),
           isCo2DownstreamCalculationPossible$: of(true),
+        },
+      },
+      {
+        provide: CalculationParametersFacade,
+        useValue: {
+          getCalculationTypes$: of(
+            CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes
+          ),
         },
       },
       {
         provide: DownstreamCalculationService,
         useValue: downstreamCalculationServiceMock,
+      },
+      {
+        provide: Router,
+        useValue: {
+          navigate: jest.fn(),
+        },
       },
     ],
   });
@@ -228,7 +249,7 @@ describe('Product Selection Effects', () => {
             productInfo: {
               designation: '6226',
               id: 'abc',
-              bearinxClass: 'IDO_CATALOGUE_BEARING',
+              bearinxClass: CATALOG_BEARING_TYPE,
             },
             capabilityInfo: { frictionCalculation: false },
           } as ProductCapabilitiesResult;
@@ -239,14 +260,89 @@ describe('Product Selection Effects', () => {
       return marbles((m) => {
         action = ProductSelectionActions.fetchBearingCapabilities();
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-(bcdef)', {
+        const expected = m.cold('-(bcdefg)', {
           b: ProductSelectionActions.setBearingId({ bearingId: 'abc' }),
           c: ProductSelectionActions.setBearingProductClass({
-            productClass: 'IDO_CATALOGUE_BEARING',
+            productClass: CATALOG_BEARING_TYPE,
           }),
-          d: ProductSelectionActions.fetchLoadcaseTemplate(),
-          e: CO2UpstreamCalculationResultActions.fetchResult(),
-          f: ProductSelectionActions.fetchOperatingConditionsTemplate(),
+          d: CalculationTypesActions.setCalculationTypes({
+            calculationTypes: {
+              ...CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes,
+              overrollingFrequency: {
+                ...CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes
+                  .overrollingFrequency,
+                visible: true,
+              },
+              lubrication: {
+                ...CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes
+                  .lubrication,
+                visible: true,
+              },
+              frictionalPowerloss: {
+                ...CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes
+                  .frictionalPowerloss,
+                selected: false,
+              },
+            },
+          }),
+          e: ProductSelectionActions.fetchLoadcaseTemplate(),
+          f: CO2UpstreamCalculationResultActions.fetchResult(),
+          g: ProductSelectionActions.fetchOperatingConditionsTemplate(),
+        });
+
+        m.expect(effects.fetchBearingCapabilities$).toBeObservable(expected);
+        m.flush();
+        expect(serviceSpy).toHaveBeenCalled();
+      })();
+    });
+
+    it('should set frictionalPowerloss as selected for slewing bearing', () => {
+      const serviceSpy = jest
+        .spyOn(catalogServiceMock, 'getBearingCapabilities')
+        .mockImplementation(() => {
+          const capabilities = {
+            productInfo: {
+              designation: 'SLEWING-123',
+              id: 'xyz',
+              bearinxClass: SLEWING_BEARING_TYPE,
+            },
+            capabilityInfo: { frictionCalculation: true },
+          } as ProductCapabilitiesResult;
+
+          return of(capabilities);
+        });
+
+      return marbles((m) => {
+        action = ProductSelectionActions.fetchBearingCapabilities();
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-(bcdefg)', {
+          b: ProductSelectionActions.setBearingId({ bearingId: 'xyz' }),
+          c: ProductSelectionActions.setBearingProductClass({
+            productClass: SLEWING_BEARING_TYPE,
+          }),
+          d: CalculationTypesActions.setCalculationTypes({
+            calculationTypes: {
+              ...CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes,
+              overrollingFrequency: {
+                ...CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes
+                  .overrollingFrequency,
+                visible: false,
+              },
+              lubrication: {
+                ...CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes
+                  .lubrication,
+                visible: false,
+              },
+              frictionalPowerloss: {
+                ...CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes
+                  .frictionalPowerloss,
+                selected: true,
+              },
+            },
+          }),
+          e: ProductSelectionActions.fetchLoadcaseTemplate(),
+          f: CO2UpstreamCalculationResultActions.fetchResult(),
+          g: ProductSelectionActions.fetchOperatingConditionsTemplate(),
         });
 
         m.expect(effects.fetchBearingCapabilities$).toBeObservable(expected);

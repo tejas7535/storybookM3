@@ -9,4 +9,6 @@ export type CalculationParameterGroup =
   | 'rotatingCondition'
   | 'externalHeatflow'
   | 'conditionOfRotation'
-  | 'operatingTimeAndTemperature';
+  | 'operatingTimeAndTemperature'
+  | 'force' // slewing bearing types
+  | 'moment'; // slewing bearing types

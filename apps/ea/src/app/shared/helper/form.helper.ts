@@ -53,6 +53,11 @@ export const addValidators = (
   control: AbstractControl,
   validators: ValidatorFn[]
 ) => {
+  // Check if control exists before proceeding
+  if (!control) {
+    return;
+  }
+
   // find missing validators on control
   const missingValidators = validators.filter(
     (validator) => !control.hasValidator(validator)
@@ -76,6 +81,11 @@ export const removeValidators = (
   control: AbstractControl,
   validatorsToRemove: ValidatorFn[]
 ) => {
+  // Check if control exists before proceeding
+  if (!control) {
+    return;
+  }
+
   const existingValidatorsToRemove = validatorsToRemove.filter((validator) =>
     control.hasValidator(validator)
   );

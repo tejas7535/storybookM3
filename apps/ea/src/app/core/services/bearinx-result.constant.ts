@@ -7,6 +7,9 @@ export const LOADCASES_TITLE_TRANSLATION_KEY =
 export const LOADCASE_TYPE_OF_MOTION_TRANSLATION_KEY =
   'operationConditions.rotatingCondition.typeOfMotion';
 
+// calculation methods id
+export const IDM_LIFERATING_SLEWING_BEARING = 'IDM_LIFERATING_SLEWING_BEARING';
+
 /*
  Abbreviations
 */
@@ -21,9 +24,12 @@ export const TFG_MIN = 'tfG_min';
 export const TFG_MAX = 'tfG_max';
 export const TFR_MIN = 'tfR_min';
 export const TFR_MAX = 'tfR_max';
+export const MR_MAX = 'Mr_max';
 // Load Factors and equivalent loads
 export const P0 = 'P0';
 export const P_I = 'P_i';
+export const S0 = 'S0'; // SLEWING BEARING
+export const Lh10_i = 'Lh10_i'; // SLEWING BEARING
 // Overrolling Frequencies
 export const BPFO = 'BPFO';
 export const BPFI = 'BPFI';
@@ -34,6 +40,7 @@ export const FTF = 'FTF';
 export const M0 = 'M0';
 export const M1 = 'M1';
 export const MR = 'MR';
+export const MRm = 'Mr'; // SLEWING BEARING
 export const NR = 'NR';
 export const N_THETA = 'n_theta';
 // Lubrication
@@ -50,6 +57,7 @@ export const STRING_OUTP_RESULTS = 'STRING_OUTP_RESULTS';
 export const STRING_OUTP_RESULTS_OF_LOADCASES =
   'STRING_OUTP_RESULTS_OF_LOADCASES';
 export const STRING_OUTP_BEARING_BEHAVIOUR = 'STRING_OUTP_BEARING_BEHAVIOUR';
+export const SLEWING_BEARING_BEAHAVIOUR = 'STRING_OUTP_BEARING';
 export const STRING_OUTP_ROLLOVER_FREQUENCIES =
   'STRING_OUTP_ROLLOVER_FREQUENCIES';
 export const STRING_OUTP_INPUT = 'STRING_OUTP_INPUT';
@@ -103,6 +111,7 @@ export const BEARING_BEHAVIOUR_ABBREVIATIONS_KEY_MAPPING = new Map<
   ['tfG_max', 'upperGuideIntervalServiceLife'],
   ['tfR_min', 'lowerGuideIntervalRelubrication'],
   ['tfR_max', 'upperGuideIntervalRelubrication'],
+  ['Mr_max', 'maximumFrictionalTorque'],
 ]);
 
 export const OVERROLLING_FREQUENCIES_ABBREVIATIONS = [
@@ -137,6 +146,7 @@ export const FRICTION_ABBREVIATIONS_KEY_MAPPING: Partial<
   speedDependentFrictionalTorque: M0,
   loadDependentFrictionalTorque: M1,
   totalFrictionalTorque: MR,
+  frictionMoment: MRm,
   totalFrictionalPowerLoss: NR,
   thermallySafeOperatingSpeed: N_THETA,
 };
@@ -179,4 +189,23 @@ export const FACTORS_AND_EQUIVALENT_LOADS_KEY_MAPPING: Partial<
 > = {
   p0: P0,
   p_i: P_I,
+};
+
+export const SLEWING_BEARING_FACTORS_AND_EQUIVALENT_LOADS_KEY_MAPPING: Partial<
+  Record<
+    keyof Record<
+      string,
+      {
+        unit: string;
+        value: string;
+        short?: string;
+        title: string;
+        loadcaseName: string;
+      }
+    >,
+    string
+  >
+> = {
+  lh10_i: Lh10_i,
+  s0: S0,
 };

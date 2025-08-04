@@ -8,9 +8,13 @@ import { TranslocoModule } from '@jsverse/transloco';
 import {
   LOADCASE_DESIGNATION_FIELD_NAME_TRANSLATION_KEY,
   LOADCASE_NAME_FIELD_NAME_TRANSLATION_KEY,
+  LoadcaseValueType,
 } from './bearinx-result.constant';
 import { BearinxOnlineResult } from './bearinx-result.interface';
-import { convertCatalogCalculationResult } from './catalog-helper';
+import {
+  convertCatalogCalculationResult,
+  convertTemplateResult,
+} from './catalog-helper';
 
 jest.mock('@jsverse/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
@@ -75,6 +79,105 @@ describe('Catalog Helper', () => {
           warnings: [],
         },
       });
+    });
+
+    it('Should convert a valid slewing bearing result', () => {
+      const slewingBearingMock: Partial<BearinxOnlineResult> = {
+        subordinates: [
+          {
+            titleID: 'STRING_OUTP_RESULTS',
+            identifier: 'block',
+            subordinates: [
+              {
+                titleID: 'STRING_OUTP_BEARING',
+                identifier: 'variableBlock',
+                subordinates: [
+                  {
+                    abbreviation: 'Lh10',
+                    identifier: 'variableLine',
+                    subordinates: [],
+                    value: '64300',
+                    unit: 'h',
+                  },
+                  {
+                    abbreviation: 'Mr_max',
+                    identifier: 'variableLine',
+                    subordinates: [],
+                    value: '31',
+                    unit: 'N m',
+                  },
+                ],
+              },
+              {
+                identifier: 'variableBlock',
+                title: 'Load Case 1',
+                subordinates: [
+                  {
+                    abbreviation: 'n',
+                    identifier: 'variableLine',
+                    subordinates: [],
+                    value: '1',
+                    unit: '1/min',
+                  },
+                  {
+                    abbreviation: 'Mr',
+                    identifier: 'variableLine',
+                    subordinates: [],
+                    value: '15.5',
+                    unit: 'N m',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+
+      const result = convertCatalogCalculationResult(
+        slewingBearingMock as BearinxOnlineResult,
+        undefined,
+        false,
+        true // isSlewing = true
+      );
+
+      expect(result.bearingBehaviour).toBeDefined();
+      expect(result.maximumFrictionalTorque).toEqual({
+        value: '31',
+        unit: 'N m',
+      });
+      expect(
+        (result as any)[LoadcaseValueType.FACTORS_AND_EQUIVALENT_LOADS]
+      ).toBeDefined();
+      expect((result as any)[LoadcaseValueType.FRICTION]).toBeDefined();
+    });
+
+    it('Should handle missing bearing behaviour for slewing bearings', () => {
+      const result = convertCatalogCalculationResult(
+        { subordinates: [] } as BearinxOnlineResult,
+        undefined,
+        false,
+        true // isSlewing = true
+      );
+
+      expect(result.bearingBehaviour).toBeUndefined();
+    });
+
+    it('Should handle empty calculation error', () => {
+      const result = convertCatalogCalculationResult(
+        { subordinates: [] } as BearinxOnlineResult,
+        undefined, // No calculation error
+        false
+      );
+
+      expect(result.calculationError).toBeUndefined();
+      expect(result.bearingBehaviour).toBeUndefined();
+    });
+  });
+
+  describe('convertTemplateResult', () => {
+    it('Should handle convertTemplateResult function existence', () => {
+      // Basic test to ensure the function is exported and callable
+      expect(typeof convertTemplateResult).toBe('function');
     });
   });
 });

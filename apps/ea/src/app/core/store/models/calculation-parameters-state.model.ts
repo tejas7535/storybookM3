@@ -114,6 +114,14 @@ export interface LoadCaseData {
   operatingTemperature: number;
   operatingTime: number;
   loadCaseName: string;
+  force: {
+    fx: number;
+    fy: number;
+  };
+  moment: {
+    mx: number;
+    my: number;
+  };
 }
 
 export interface CalculationParametersCalculationTypeConfig {
