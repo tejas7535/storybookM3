@@ -1,6 +1,6 @@
 {
   "name": "ia",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "dependencies": {
     "d3-selection": "3.0.0"
   }

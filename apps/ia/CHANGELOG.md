@@ -1,4 +1,11 @@
 # Release Notes of Insight Attrition
+## [1.5.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.5.0...ia-v1.5.1) (2025-08-05)
+
+
+### Bug Fixes
+
+* **ia:** allow all dimensions on prod (IA-1596) ([#7440](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7440)) ([95932bc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/95932bc1a29b752d874f10255b7950adf811f6d6))
+
 ## [1.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.4.3...ia-v1.5.0) (2025-07-08)
 
 
