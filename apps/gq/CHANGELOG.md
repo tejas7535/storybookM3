@@ -1,4 +1,20 @@
 # Release Notes of Guided Quoting
+## [6.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v6.4.0...gq-v6.5.0) (2025-08-06)
+
+
+### Features
+
+* **gq:** disable edit when calculationStatus is Confirmed (GQUOTE-6775) ([#7366](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7366)) ([b7809f7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b7809f7d038abf7c6bbaf8c710497b7bcdf7cb53))
+* **gq:** disable save and confirm when logged user is not assigned  (GQUOTE-6353) ([#7416](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7416)) ([07d7c1e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/07d7c1e75f453eca0ec2cfa136d3ad0f3fa5379e))
+* **gq:** prepare foundation for rfq recalculation processes (GQUOTE-6423) ([#7428](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7428)) ([42fa69c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/42fa69cb64f778a9faa851bfe9fe24e0aafd80cc))
+* **gq:** use recalculation status for requesting rfq tabs (GQUOTE-5770) ([#7417](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7417)) ([da36212](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/da36212038804192140d707582c08bc467e17c05))
+
+
+### Bug Fixes
+
+* **gq:** adjust translation for Process Overview (GQUOTE-6283) ([#7413](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7413)) ([063fe37](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/063fe373ef72badf8a26127d180e54e37c1ab07d))
+* **gq:** handle async detail deletion (GQUOTE-6374) ([#7411](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7411)) ([a75d81c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a75d81cd6d0bb81eec79a4487da3dced73c2f37c))
+
 ## [6.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v6.3.0...gq-v6.4.0) (2025-07-16)
 
 
