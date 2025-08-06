@@ -75,19 +75,21 @@ export class StaticStorageService implements OnDestroy {
         currentDate >= this.getDate(message.validFrom) &&
         currentDate <= this.getDate(message.validTo)
       );
-    } catch (e) {
+    } catch (error) {
       console.warn(
-        `Error encountered while processing the validity dates. Choosing not to display any maintenance mssage: ${e}`
+        `Error encountered while processing the validity dates. Choosing not to display any maintenance mssage: ${error}`
       );
+
       return false;
     }
   }
 
   private getDate(dateString: string): Date {
     const date = new Date(dateString);
-    if (isNaN(date as any)) {
-      throw new Error(`Invalid Date received: ${date}`);
+    if (Number.isNaN(date.getUTCMilliseconds())) {
+      throw new TypeError(`Invalid Date received: ${date}`);
     }
+
     return date;
   }
 
