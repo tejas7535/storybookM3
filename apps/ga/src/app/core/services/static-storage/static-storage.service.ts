@@ -5,12 +5,12 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
-import moment from 'moment';
 
 import { openBanner } from '@schaeffler/banner';
 
 import { environment } from '@ga/environments/environment';
 import { MaintenanceMessage } from '@ga/shared/models/maintenance-message/maintenance-message';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -68,16 +68,27 @@ export class StaticStorageService implements OnDestroy {
   }
 
   private shouldDispatchMessage(message: MaintenanceMessage): boolean {
-    const currentDate = moment().utc();
+    const currentDate = new Date(Date.now());
 
-    return currentDate.isBetween(
-      this.getDate(message.validFrom),
-      this.getDate(message.validTo)
-    );
+    try {
+      return (
+        currentDate >= this.getDate(message.validFrom) &&
+        currentDate <= this.getDate(message.validTo)
+      );
+    } catch (e) {
+      console.warn(
+        `Error encountered while processing the validity dates. Choosing not to display any maintenance mssage: ${e}`
+      );
+      return false;
+    }
   }
 
-  private getDate(dateString: string): moment.Moment {
-    return moment(dateString, 'DD/MM/YYYY h:mm:ss').utc();
+  private getDate(dateString: string): Date {
+    const date = new Date(dateString);
+    if (isNaN(date as any)) {
+      throw new Error(`Invalid Date received: ${date}`);
+    }
+    return date;
   }
 
   private getLocalisedMessageValue(message: MaintenanceMessage): string {

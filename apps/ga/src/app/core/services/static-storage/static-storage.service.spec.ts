@@ -7,7 +7,6 @@ import { TranslocoService } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import moment from 'moment';
 
 import { openBanner } from '@schaeffler/banner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -82,9 +81,7 @@ describe('StaticStorageService', () => {
     beforeEach(() => {
       Date.now = jest
         .fn()
-        .mockReturnValue(
-          moment('27/09/2023 16:55:00', 'DD/MM/YYYY h:mm:ss').utc()
-        );
+        .mockReturnValue(new Date('August 6, 2025 13:15 UTC+2'));
 
       message = {
         type: 'info',
@@ -96,8 +93,8 @@ describe('StaticStorageService', () => {
           en: 'Work in progress...',
           de: 'Arbeit in Bearbeitung...',
         },
-        validFrom: '26/09/2023 16:55:00',
-        validTo: '28/09/2023 14:51:00',
+        validFrom: 'August 6, 2025 10:15 UTC+2',
+        validTo: 'August 6, 2025 15:15 UTC+2',
       };
     });
 
@@ -105,9 +102,7 @@ describe('StaticStorageService', () => {
       beforeEach(() => {
         Date.now = jest
           .fn()
-          .mockReturnValue(
-            moment('27/09/2023 16:55:00', 'DD/MM/YYYY h:mm:ss').utc()
-          );
+          .mockReturnValue(new Date('August 6, 2025 13:15 UTC+2'));
       });
 
       describe('when selected language is English', () => {
@@ -169,9 +164,7 @@ describe('StaticStorageService', () => {
       beforeEach(() => {
         Date.now = jest
           .fn()
-          .mockReturnValue(
-            moment('15/09/2023 16:55:00', 'DD/MM/YYYY h:mm:ss').utc()
-          );
+          .mockReturnValue(new Date('August 6, 2025 19:00 UTC+2'));
         translocoService.getActiveLang = jest.fn(() => 'en');
       });
 
@@ -180,6 +173,14 @@ describe('StaticStorageService', () => {
 
         expect(store.dispatch).not.toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('getDate', () => {
+    it('should error out when the date is invalid', () => {
+      expect(() =>
+        service['getDate']('this date is a mess and should raise an error')
+      ).toThrow();
     });
   });
 });
