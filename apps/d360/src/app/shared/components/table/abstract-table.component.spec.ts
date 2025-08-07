@@ -1999,29 +1999,26 @@ describe('AbstractTableComponent', () => {
   describe('saveGridSettings', () => {
     it('should call setTableSettings$ with the active tab if initialized and hasTabView is true', () => {
       component['initialized'] = true;
-
+      component['isRestoring'] = false;
       Stub.setInput('config', {
         hasTabView: true,
         maxAllowedTabs: 2,
       });
       Stub.detectChanges();
-
       const setTableSettingsSpy = jest
         .spyOn(component['tableService'], 'setTableSettings$')
         .mockReturnValue({ subscribe: jest.fn() } as any);
-
       const activeTabSpy = jest
         .spyOn(component as any, 'activeTab')
         .mockReturnValue(1);
-
       component['saveGridSettings']();
-
       expect(activeTabSpy).toHaveBeenCalled();
       expect(setTableSettingsSpy).toHaveBeenCalledWith(1);
     });
 
     it('should not call setTableSettings$ if not initialized', () => {
       component['initialized'] = false;
+      component['isRestoring'] = false;
       Stub.setInput('config', {
         hasTabView: true,
         maxAllowedTabs: 2,
@@ -2031,24 +2028,53 @@ describe('AbstractTableComponent', () => {
         component['tableService'],
         'setTableSettings$'
       );
-
       component['saveGridSettings']();
-
       expect(setTableSettingsSpy).not.toHaveBeenCalled();
     });
 
     it('should not call setTableSettings$ if hasTabView is false', () => {
       component['initialized'] = true;
+      component['isRestoring'] = false;
       Stub.setInput('config', { hasTabView: false });
       Stub.detectChanges();
       const setTableSettingsSpy = jest.spyOn(
         component['tableService'],
         'setTableSettings$'
       );
+      component['saveGridSettings']();
+      expect(setTableSettingsSpy).not.toHaveBeenCalled();
+    });
 
+    it('should not call setTableSettings$ if isRestoring is true', () => {
+      component['initialized'] = true;
+      component['isRestoring'] = true;
+      Stub.setInput('config', { hasTabView: true, maxAllowedTabs: 2 });
+      Stub.detectChanges();
+      const setTableSettingsSpy = jest.spyOn(
+        component['tableService'],
+        'setTableSettings$'
+      );
       component['saveGridSettings']();
 
       expect(setTableSettingsSpy).not.toHaveBeenCalled();
+    });
+
+    it('should not call backend or re-initialize if isInitializing is already true', () => {
+      component['initialized'] = false;
+      component['isRestoring'] = true;
+      component['isInitializing'] = true;
+
+      Stub.setInput('config', { hasTabView: true, maxAllowedTabs: 2 });
+      Stub.detectChanges();
+      const initSpy = jest.spyOn(component['tableService'], 'init');
+      const tableSettingsNextSpy = jest.spyOn(
+        component['tableService'].tableSettings$,
+        'next'
+      );
+      component['saveGridSettings']();
+
+      expect(initSpy).not.toHaveBeenCalled();
+      expect(tableSettingsNextSpy).not.toHaveBeenCalled();
     });
   });
 

@@ -509,6 +509,23 @@ export abstract class AbstractTableComponent implements OnInit {
   private initialized = false;
 
   /**
+   * Flag indicating whether the component is currently being initialized avoiding duplicate calls to the backend.
+   *
+   * @private
+   * @memberof AbstractTableComponent
+   */
+  private isInitializing = false;
+
+  /**
+   * Flag indicating whether the component is currently restoring from existing settings.
+   * During restoration, we don't want to trigger save operations.
+   *
+   * @private
+   * @memberof AbstractTableComponent
+   */
+  private isRestoring = false;
+
+  /**
    * The TableType enum used in the HTML template.
    *
    * @protected
@@ -640,7 +657,6 @@ export abstract class AbstractTableComponent implements OnInit {
       return tab;
     });
 
-    // If there is no active tab, set the first one as active
     if (returnTabs.filter((tab) => tab.active).length === 0) {
       return this.setActiveTab(returnTabs, returnTabs[0].id);
     }
@@ -778,35 +794,48 @@ export abstract class AbstractTableComponent implements OnInit {
       return;
     }
 
-    applyColumnSettings(
-      this.gridApi,
-      columns.length > 0
-        ? columns
-        : (
-            this.config()?.table?.initialColumnDefs?.find(
-              (colDef) => colDef.layoutId === layoutId
-            )?.columnDefs ?? []
-          )
-            // copy the column definitions to avoid mutating the original array
-            .map((columnDef) => ({ ...columnDef }))
-            .map(
-              (
-                colDef: ColDef & {
-                  visible?: boolean;
-                  alwaysVisible?: boolean;
-                  order?: number;
-                  filterModel?: any;
-                }
-              ) => ({
-                colId: colDef.colId,
-                visible: colDef.visible,
-                sort: colDef.sort || null,
-                filterModel: colDef.filterModel || undefined,
-                filter: colDef.filter || undefined,
-                alwaysVisible: colDef.alwaysVisible || undefined,
-              })
-            )
-    );
+    // If we have saved column settings, use them
+    if (columns.length > 0) {
+      applyColumnSettings(this.gridApi, columns);
+
+      return;
+    }
+
+    // Only fall back to default column definitions if this is a fresh initialization
+    // During reloads, preserve the current grid state
+    if (this.initialized && this.gridApi) {
+      // During reload, don't reset to defaults - preserve current column state
+
+      return;
+    }
+
+    // Only apply defaults during initial setup
+    const defaultColumns =
+      this.config()?.table?.initialColumnDefs?.find(
+        (colDef) => colDef.layoutId === layoutId
+      )?.columnDefs ?? [];
+
+    if (defaultColumns.length > 0) {
+      const columnSettings = defaultColumns.map(
+        (
+          colDef: ColDef & {
+            visible?: boolean;
+            alwaysVisible?: boolean;
+            order?: number;
+            filterModel?: any;
+          }
+        ) => ({
+          colId: colDef.colId,
+          visible: colDef.visible,
+          sort: colDef.sort || null,
+          filterModel: colDef.filterModel || undefined,
+          filter: colDef.filter || undefined,
+          alwaysVisible: colDef.alwaysVisible || undefined,
+        })
+      );
+
+      applyColumnSettings(this.gridApi, columnSettings);
+    }
   }
 
   /**
@@ -1039,7 +1068,76 @@ export abstract class AbstractTableComponent implements OnInit {
    * @memberof AbstractTableComponent
    */
   protected setGridOptions(): void {
-    // set default options
+    this.setDefaultGridOptions();
+    this.setServerSideAutoGroupOptions();
+    this.setCustomTreeDataOptions();
+
+    if (this.hasTabView && !this.initialized) {
+      this.initializeTabView();
+    } else if (this.hasTabView && this.initialized) {
+      this.restoreTabView();
+    }
+  }
+
+  private initializeTabView(): void {
+    if (this.isInitializing) {
+      return;
+    }
+
+    this.isInitializing = true;
+
+    if (!!this.config()?.table?.tableId && !!this.config()?.table?.columnDefs) {
+      this.tableService.init({
+        tableId: this.tableId,
+        columnDefinitions: this.columnDefs,
+        gridApi: this.gridApi,
+        maxAllowedTabs: this.maxAllowedTabs,
+      });
+    }
+
+    this.tableService.tableSettings$
+      .pipe(
+        filter((tableSettings) => !!tableSettings && tableSettings?.length > 0),
+        take(1),
+        tap((tableSettings: TableSetting<string>[]) => {
+          const activeTab = tableSettings.find((settings) => settings.active);
+          this.activeTab.set(activeTab?.id ?? 0);
+
+          if (tableSettings) {
+            this.tableService.tableSettings$.next(
+              this.setActiveTab(tableSettings, this.activeTab())
+            );
+          }
+        }),
+        finalize(() => (this.initialized = true)),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+  }
+
+  private restoreTabView(): void {
+    if (this.tableService['_gridApi'] !== this.gridApi) {
+      this.tableService['_gridApi'] = this.gridApi;
+    }
+
+    const currentSettings = this.tableService.tableSettings$.getValue();
+    if (currentSettings && currentSettings.length > 0) {
+      this.isRestoring = true;
+
+      const activeTab = currentSettings.find((settings) => settings.active);
+      if (activeTab) {
+        this.applyGridOptions(activeTab.defaultSetting);
+        this.applyColumnState(activeTab.columns ?? [], activeTab.layoutId);
+        this.applyFilters(activeTab.columns ?? []);
+      }
+
+      setTimeout(() => {
+        this.isRestoring = false;
+      }, 100);
+    }
+  }
+
+  private setDefaultGridOptions(): void {
     Object.keys(this.config()?.table ?? {}).forEach((key: any) => {
       if (this.columnDefs?.[0]?.columnDefs) {
         this.gridApi?.setGridOption(
@@ -1066,15 +1164,9 @@ export abstract class AbstractTableComponent implements OnInit {
         this.gridApi?.setGridOption(key, (this.config()?.table as any)?.[key]);
       }
     });
+  }
 
-    // set server side auto group options
-    if (this.serverSideAutoGroup) {
-      Object.keys({ ...this.serverSideAutoGroup }).forEach((key: any) =>
-        this.gridApi?.setGridOption(key, (this.serverSideAutoGroup as any)[key])
-      );
-    }
-
-    // set custom tree data options
+  private setCustomTreeDataOptions(): void {
     if (this.customTreeData) {
       Object.keys({ ...this.customTreeData }).forEach((key: any) =>
         this.gridApi?.setGridOption(key, (this.customTreeData as any)[key])
@@ -1084,41 +1176,13 @@ export abstract class AbstractTableComponent implements OnInit {
     if (this.serverSideAutoGroup || this.customTreeData) {
       this.gridApi?.setGridOption('treeData', true);
     }
+  }
 
-    if (this.hasTabView && !this.initialized) {
-      // set options for layout tabs
-      if (
-        !!this.config()?.table?.tableId &&
-        !!this.config()?.table?.columnDefs
-      ) {
-        this.tableService.init({
-          tableId: this.tableId,
-          columnDefinitions: this.columnDefs,
-          gridApi: this.gridApi,
-          maxAllowedTabs: this.maxAllowedTabs,
-        });
-      }
-
-      this.tableService.tableSettings$
-        .pipe(
-          filter(
-            (tableSettings) => !!tableSettings && tableSettings?.length > 0
-          ),
-          take(1),
-          tap((tableSettings: TableSetting<string>[]) => {
-            const activeTab = tableSettings.find((settings) => settings.active);
-            this.activeTab.set(activeTab?.id ?? 0);
-
-            if (tableSettings) {
-              this.tableService.tableSettings$.next(
-                this.setActiveTab(tableSettings, this.activeTab())
-              );
-            }
-          }),
-          finalize(() => (this.initialized = true)),
-          takeUntilDestroyed(this.destroyRef)
-        )
-        .subscribe();
+  private setServerSideAutoGroupOptions(): void {
+    if (this.serverSideAutoGroup) {
+      Object.keys({ ...this.serverSideAutoGroup }).forEach((key: any) =>
+        this.gridApi?.setGridOption(key, (this.serverSideAutoGroup as any)[key])
+      );
     }
   }
 
@@ -1165,7 +1229,9 @@ export abstract class AbstractTableComponent implements OnInit {
    * @memberof AbstractTableComponent
    */
   protected getDataSource(): IServerSideDatasource {
-    return { getRows: () => {} };
+    return {
+      getRows: () => {},
+    };
   }
 
   /**
@@ -1288,7 +1354,8 @@ export abstract class AbstractTableComponent implements OnInit {
    * @memberof AbstractTableComponent
    */
   protected saveGridSettings(): void {
-    if (this.initialized && this.hasTabView) {
+    // Don't save settings while restoring from existing data during reload
+    if (this.initialized && this.hasTabView && !this.isRestoring) {
       this.tableService.setTableSettings$(this.activeTab()).subscribe();
     }
   }
