@@ -15,8 +15,8 @@
     "active_alerts": "{count, plural, one {1 open task} other {{count} open tasks}}",
     "category": {
       "ACIADP": "Base combination Set inactive",
-      "CFPRAO": "Check validated forecast, substitution undone",
-      "CFSUAO": "Check validated forecast, substitution undone",
+      "CFPRAO": "Check validated forecast, substitution undone (predecessor)",
+      "CFSUAO": "Check validated forecast, substitution undone (successor)",
       "CHKDMP": "Demand Validation (M)",
       "column_header": "Task type",
       "DEVIFC": "Quantity-/Value deviation Validated FC",

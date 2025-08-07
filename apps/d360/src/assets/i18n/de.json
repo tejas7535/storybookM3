@@ -15,8 +15,8 @@
     "active_alerts": "{count, plural, one {1 offene Aufgabe} other {{count} offene Aufgaben}}",
     "category": {
       "ACIADP": "Basiskombination Inaktiv gesetzt",
-      "CFPRAO": "Prüfe Validated Forecast, Ersetzung rückgängig gemacht",
-      "CFSUAO": "Prüfe Validated Forecast, Ersetzung rückgängig gemacht",
+      "CFPRAO": "Prüfe Validated Forecast, Ersetzung rückgängig gemacht (Vorgänger)",
+      "CFSUAO": "Prüfe Validated Forecast, Ersetzung rückgängig gemacht (Nachfolger)",
       "CHKDMP": "Absatzvalidierung (M)",
       "column_header": "Aufgaben-Typ",
       "DEVIFC": "Mengen-/Wertabweichung Validated FC",

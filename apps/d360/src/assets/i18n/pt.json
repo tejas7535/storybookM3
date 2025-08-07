@@ -15,8 +15,8 @@
     "active_alerts": "{count, plural, one {1 tarefa aberta} other {{count} tarefas em aberto}}",
     "category": {
       "ACIADP": "Combinação básica Conjunto inativo",
-      "CFPRAO": "Verificar previsão validada, substituição anulada",
-      "CFSUAO": "Verificar previsão validada, substituição anulada",
+      "CFPRAO": "Verificar previsão validada, substituição anulada (antecessor)",
+      "CFSUAO": "Verificar previsão validada, substituição anulada (sucessor)",
       "CHKDMP": "Validação da demanda (M)",
       "column_header": "Tipo de tarefa",
       "DEVIFC": "Desvio de quantidade/valor Validated FC",

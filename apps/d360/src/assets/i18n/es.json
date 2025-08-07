@@ -15,8 +15,8 @@
     "active_alerts": "{count, plural, one {1 tarea abierta} other {{count} tareas pendientes}}",
     "category": {
       "ACIADP": "Combinación básica Set inactivo",
-      "CFPRAO": "Comprobar previsión validada, sustitución deshecha",
-      "CFSUAO": "Comprobar previsión validada, sustitución deshecha",
+      "CFPRAO": "Comprobar previsión validada, sustitución deshecha (predecesor)",
+      "CFSUAO": "Comprobar previsión validada, sustitución deshecha (sucesor)",
       "CHKDMP": "Validación de la demanda (M)",
       "column_header": "Tipo de tarea",
       "DEVIFC": "Desviación cantidad/valor Validated FC",

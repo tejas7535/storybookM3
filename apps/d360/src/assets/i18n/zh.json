@@ -15,8 +15,8 @@
     "active_alerts": "{count, plural, one {1 已开启的任务} other {{count} 已开启的任务}}",
     "category": {
       "ACIADP": "基本组合 不活动",
-      "CFPRAO": "检查验证预报, 取消更换",
-      "CFSUAO": "检查验证预报, 取消更换",
+      "CFPRAO": "检查验证预报, 取消更换（前任)",
+      "CFSUAO": "检查验证预报, 取消更换（继任者)",
       "CHKDMP": "客户材料详情 (M)",
       "column_header": "类别",
       "DEVIFC": "数量/价值偏离预设值",

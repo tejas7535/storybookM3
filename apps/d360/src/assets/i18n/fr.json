@@ -15,8 +15,8 @@
     "active_alerts": "{count, plural, one {1 tâche ouverte} other {{count} tâches ouvertes}}",
     "category": {
       "ACIADP": "Combinaison de base Inactif activé",
-      "CFPRAO": "Vérification des prévisions validées, substitution non effectuée",
-      "CFSUAO": "Vérification des prévisions validées, substitution non effectuée",
+      "CFPRAO": "Vérification des prévisions validées, substitution non effectuée (prédécesseur)",
+      "CFSUAO": "Vérification des prévisions validées, substitution non effectuée (successeur)",
       "CHKDMP": "Validation de la demande (M)",
       "column_header": "Type de tâche",
       "DEVIFC": "Écart de quantité/de valeur Validated FC",

@@ -15,8 +15,8 @@
     "active_alerts": "{count, plural, one {1 compito aperto} other {{count} attività aperte}}",
     "category": {
       "ACIADP": "Combinazione di base Set inattivo",
-      "CFPRAO": "Verifica della previsione convalidata, sostituzione annullata",
-      "CFSUAO": "Verifica della previsione convalidata, sostituzione annullata",
+      "CFPRAO": "Verifica della previsione convalidata, sostituzione annullata (predecessore)",
+      "CFSUAO": "Verifica della previsione convalidata, sostituzione annullata (successore)",
       "CHKDMP": "Convalida della domanda (M)",
       "column_header": "Tipo di compito",
       "DEVIFC": "Scostamento quantità/valore Validated FC",
