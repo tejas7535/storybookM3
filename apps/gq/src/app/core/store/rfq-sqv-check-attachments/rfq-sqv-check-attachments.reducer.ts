@@ -75,8 +75,8 @@ export const UploadRfqAttachmentsSuccessReducer: ReducerTypes<
         if (qd.gqPositionId === gqPositionId) {
           return {
             ...qd,
-            detailCosts: {
-              ...qd.detailCosts,
+            rfq4: {
+              ...qd.rfq4,
               sqvApprovalStatus: newApprovalStatus,
             },
           };

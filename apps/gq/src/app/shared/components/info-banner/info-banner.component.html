@@ -1,25 +1,22 @@
 <div
   class="mt-6 flex w-fit flex-row items-center rounded-md border-[1px] py-3 px-3"
-  [ngClass]="{
-    'border-info bg-info-container': !isWarning,
-    'border-warning bg-warning-container': isWarning
-  }"
+  [ngClass]="
+    (isWarning
+      ? 'border-warning bg-warning-container'
+      : 'border-info bg-info-container') + (isFullWidth ? ' w-full' : '')
+  "
 >
   <mat-icon
     class="mr-4 align-middle"
-    [ngClass]="{
-      '!text-icon-info': !isWarning,
-      '!text-icon-warning': isWarning
-    }"
+    [ngClass]="isWarning ? '!text-icon-warning' : '!text-icon-info'"
     [ngStyle]="{ overflow: 'unset' }"
     >warning_amber</mat-icon
   >
   <div
     class="text-caption"
-    [ngClass]="{
-      '!text-on-info-container': !isWarning,
-      '!text-on-warning-container': isWarning
-    }"
+    [ngClass]="
+      isWarning ? '!text-on-warning-container' : '!text-on-info-container'
+    "
   >
     {{ infoText }}
   </div>

@@ -1,3 +1,4 @@
+import { QuotationDetail } from '@gq/shared/models';
 import { ActiveDirectoryUser } from '@gq/shared/models/user.model';
 import {
   ActionCreator,
@@ -94,6 +95,30 @@ export const rfq4ProcessFeature = createFeature({
     ),
     on(
       Rfq4ProcessActions.sendRecalculateSqvRequestError,
+      (state): Rfq4ProcessState => ({
+        ...state,
+        gqPositionId: undefined,
+        processLoading: ProcessLoading.NONE,
+      })
+    ),
+    on(
+      Rfq4ProcessActions.sendReopenRecalculationRequest,
+      (state, { gqPositionId }): Rfq4ProcessState => ({
+        ...state,
+        gqPositionId,
+        processLoading: ProcessLoading.REOPEN_RECALCULATION,
+      })
+    ),
+    on(
+      Rfq4ProcessActions.sendReopenRecalculationRequestSuccess,
+      (state): Rfq4ProcessState => ({
+        ...state,
+        gqPositionId: undefined,
+        processLoading: ProcessLoading.NONE,
+      })
+    ),
+    on(
+      Rfq4ProcessActions.sendReopenRecalculationRequestError,
       (state): Rfq4ProcessState => ({
         ...state,
         gqPositionId: undefined,
@@ -212,21 +237,36 @@ export const RfqProcessRequestSuccessReducer: ReducerTypes<
 > = on(
   Rfq4ProcessActions.sendRecalculateSqvRequestSuccess,
   Rfq4ProcessActions.sendCancelProcessSuccess,
-  (state: ActiveCaseState, { gqPositionId, rfq4Status }): ActiveCaseState => ({
+  Rfq4ProcessActions.sendReopenRecalculationRequestSuccess,
+  (
+    state: ActiveCaseState,
+    { gqPositionId, rfqProcessResponse }
+  ): ActiveCaseState => ({
     ...state,
     quotation: {
       ...state.quotation,
-      quotationDetails: state.quotation.quotationDetails.map((qd) =>
-        qd.gqPositionId === gqPositionId
-          ? {
-              ...qd,
-              detailCosts: {
-                ...qd.detailCosts,
-                rfq4Status,
-              },
-            }
-          : qd
+      quotationDetails: updateQuotationDetails(
+        state.quotation.quotationDetails,
+        gqPositionId,
+        (qd) => ({
+          ...qd,
+          rfq4: {
+            ...qd.rfq4,
+            rfq4Status: rfqProcessResponse.processVariables.rfq4Status,
+            rfq4Id: rfqProcessResponse.processVariables.rfqId ?? qd.rfq4.rfq4Id,
+          },
+        })
       ),
     },
   })
 );
+
+function updateQuotationDetails(
+  quotationDetails: QuotationDetail[],
+  gqPositionId: string,
+  updateFn: (qd: QuotationDetail) => QuotationDetail
+): QuotationDetail[] {
+  return quotationDetails.map((qd) =>
+    qd.gqPositionId === gqPositionId ? updateFn(qd) : qd
+  );
+}

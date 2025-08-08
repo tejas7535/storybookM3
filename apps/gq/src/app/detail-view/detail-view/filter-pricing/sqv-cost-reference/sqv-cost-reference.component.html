@@ -1,4 +1,4 @@
-<ng-container *ngrxLet="detailCosts$ as detailCost">
+<ng-container *ngrxLet="sqvCheck$ as sqvCheck">
   <div
     class="flex w-full flex-col flex-wrap sm:flex-row"
     *transloco="let t; read: 'detailView.filterPricing.sqvCostReference'"
@@ -6,7 +6,7 @@
     <div class="min-w-[8rem] max-w-[25%] grow pt-2">
       <div class="text-body-2 text-medium-emphasis mb-1">{{ t('cost') }}:</div>
       <span *ngrxLet="currency$ as currency" class="font-bold">{{
-        detailCost?.sqvCheckResult | numberCurrency: currency
+        sqvCheck?.sqvCheckResult | numberCurrency: currency
       }}</span>
     </div>
     <div class="min-w-[8rem] pt-2">
@@ -15,7 +15,7 @@
       </div>
       <div>
         <span class="font-bold">{{
-          detailCost?.sqvCheckSource | sqvCheckSource
+          sqvCheck?.sqvCheckSource | sqvCheckSource
         }}</span>
       </div>
     </div>

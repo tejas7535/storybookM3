@@ -1,8 +1,10 @@
 import { AppRoutePath } from '@gq/app-route-path.enum';
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
 import { Quotation, QuotationDetail, SAP_SYNC_STATUS } from '@gq/shared/models';
+import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
 import { RecalculationReasons } from '@gq/shared/models/quotation-detail/cost/recalculation-reasons.enum';
 import { ProductType } from '@gq/shared/models/quotation-detail/material/';
+import { QuotationDetailRfq4 } from '@gq/shared/models/quotation-detail/rfq/quotation-detail-rfq4.interface';
 import { QuotationRfqData } from '@gq/shared/models/quotation-detail/rfq-data';
 
 import { CUSTOMER_MOCK } from '../../../../testing/mocks';
@@ -397,7 +399,7 @@ describe('Active Case Selectors', () => {
           quotation: {
             quotationDetails: [
               {
-                detailCosts: {
+                sqvCheck: {
                   sqvCheckStatus: RecalculationReasons.INVALID,
                 },
               } as QuotationDetail,
@@ -529,6 +531,33 @@ describe('Active Case Selectors', () => {
           { material: { materialDescription: 'test' } } as QuotationDetail,
         ])
       ).toEqual(false);
+    });
+  });
+
+  describe('getQuotationDetailRfq', () => {
+    test('should return rfqData for the given gqPositionId', () => {
+      const expectedDetail = {
+        ...QUOTATION_DETAIL_MOCK,
+        gqPositionId: '123',
+        rfq4: {
+          rfq4Id: 567,
+          rfq4Status: Rfq4Status.IN_PROGRESS,
+        } as QuotationDetailRfq4,
+      };
+
+      expect(
+        activeCaseSelectors.getQuotationDetailRfq('123').projector([
+          {
+            ...QUOTATION_DETAIL_MOCK,
+            gqPositionId: '564',
+            rfq4: {
+              rfq4Id: 12,
+              rfq4Status: Rfq4Status.CONFIRMED,
+            } as QuotationDetailRfq4,
+          },
+          expectedDetail,
+        ])
+      ).toEqual(expectedDetail.rfq4);
     });
   });
 });

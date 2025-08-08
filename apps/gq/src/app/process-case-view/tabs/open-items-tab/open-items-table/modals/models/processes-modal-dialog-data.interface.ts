@@ -1,9 +1,9 @@
 import { QuotationDetail } from '@gq/shared/models/quotation-detail/quotation-detail.model';
 
-import { ApprovalProcessAction } from './approval-process-action.enum';
+import { RecalculationProcessAction } from './recalculation-process-action.enum';
 
 export interface ProcessesModalDialogData {
-  process: ApprovalProcessAction;
+  process: RecalculationProcessAction;
   title: string;
   quotationDetail: QuotationDetail;
 }

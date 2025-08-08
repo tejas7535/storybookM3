@@ -10,6 +10,7 @@ import {
   SAP_SYNC_STATUS,
   SimulatedQuotation,
 } from '@gq/shared/models';
+import { QuotationDetailRfq4 } from '@gq/shared/models/quotation-detail/rfq/quotation-detail-rfq4.interface';
 import { isFNumber } from '@gq/shared/utils/f-pricing.utils';
 import { groupBy } from '@gq/shared/utils/misc.utils';
 import { createSelector } from '@ngrx/store';
@@ -174,3 +175,12 @@ export const getQuotationHasRfqMaterials = createSelector(
   (details: QuotationDetail[]): boolean =>
     details?.some((singleDetail) => !!singleDetail.rfqData?.rfqId) ?? false
 );
+
+export const getQuotationDetailRfq = (gqPositionId: string) =>
+  createSelector(
+    getQuotationDetails,
+    (details: QuotationDetail[]): QuotationDetailRfq4 | undefined =>
+      details?.find(
+        (detail: QuotationDetail) => detail.gqPositionId === gqPositionId
+      )?.rfq4
+  );

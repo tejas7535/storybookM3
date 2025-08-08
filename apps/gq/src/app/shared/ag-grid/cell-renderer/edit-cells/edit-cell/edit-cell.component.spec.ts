@@ -377,7 +377,7 @@ describe('EditCellComponent', () => {
       const params = {
         data: {
           ...QUOTATION_DETAIL_MOCK,
-          detailCosts: {
+          rfq4: {
             rfq4Status: Rfq4Status.IN_PROGRESS,
           },
         } as QuotationDetail,
@@ -396,7 +396,7 @@ describe('EditCellComponent', () => {
       const params = {
         data: {
           ...QUOTATION_DETAIL_MOCK,
-          detailCosts: {
+          rfq4: {
             rfq4Status: Rfq4Status.OPEN,
           },
         } as QuotationDetail,

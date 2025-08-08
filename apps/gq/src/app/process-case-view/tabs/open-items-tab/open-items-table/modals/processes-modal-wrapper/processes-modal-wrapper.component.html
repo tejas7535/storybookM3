@@ -11,24 +11,22 @@
       (closeDialog)="closeDialog()"
     ></gq-dialog-header>
     <!-- decide which component to show. Every Component has it's own Logic and handles it themselves-->
-    @switch (modalData.process) {
+    @switch (process.getValue()) {
       @case (processEnum.START) {
-        <!--depending if calculators could be found or not-->
-        @if ((calculators$ | ngrxPush)?.length > 0) {
-          <gq-start-process
-            [modalData]="modalData"
-            (cancelButtonClicked)="closeDialog()"
-          ></gq-start-process>
-        } @else {
-          <gq-calculator-missing
-            [modalData]="modalData"
-            (cancelButtonClicked)="closeDialog()"
-          >
-          </gq-calculator-missing>
-        }
+        <gq-start-process
+          [quotationDetail]="modalData?.quotationDetail"
+          [calculators]="calculators$ | ngrxPush"
+          [rfq4Status]="(quotationDetailRfq4$ | ngrxPush)?.rfq4Status"
+          (closeDialog)="closeDialog()"
+        >
+        </gq-start-process>
       }
       @case (processEnum.REOPEN) {
-        <!-- Placeholder for reopen-->
+        <gq-reopen-process
+          [quotationDetail]="modalData?.quotationDetail"
+          (closeDialog)="closeDialog()"
+        >
+        </gq-reopen-process>
       }
       @case (processEnum.CANCEL) {
         <gq-cancel-process
@@ -40,10 +38,8 @@
         <gq-process-history
           [modalData]="modalData"
           (cancelButtonClicked)="closeDialog()"
+          (changeModal)="setProcess($event)"
         ></gq-process-history>
-      }
-      @default {
-        <p class="text-error">process not yet implemented</p>
       }
     }
   }

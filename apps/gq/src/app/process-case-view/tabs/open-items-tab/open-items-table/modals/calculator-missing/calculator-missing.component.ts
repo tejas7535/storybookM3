@@ -3,14 +3,13 @@ import { Component, inject, input, InputSignal, output } from '@angular/core';
 
 import { getSeperatedNamesOfMaintainers } from '@gq/core/store/rfq-4-process/consts/maintainer-mail.consts';
 import { Rfq4ProcessFacade } from '@gq/core/store/rfq-4-process/rfq-4-process.facade';
-import { ActiveDirectoryUser } from '@gq/shared/models';
+import { ActiveDirectoryUser, QuotationDetail } from '@gq/shared/models';
 import { LetDirective } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { ModalFooterComponent } from '../modal-footer/modal-footer.component';
-import { ProcessesModalDialogData } from '../models/processes-modal-dialog-data.interface';
 
 @Component({
   selector: 'gq-calculator-missing',
@@ -25,8 +24,7 @@ import { ProcessesModalDialogData } from '../models/processes-modal-dialog-data.
 })
 export class CalculatorMissingComponent {
   private readonly rfq4ProcessesFacade = inject(Rfq4ProcessFacade);
-  modalData: InputSignal<ProcessesModalDialogData> =
-    input<ProcessesModalDialogData>(null);
+  quotationDetail: InputSignal<QuotationDetail> = input<QuotationDetail>(null);
   cancelButtonClicked = output();
 
   readonly maintainers$ = this.rfq4ProcessesFacade.maintainers$;
@@ -54,7 +52,7 @@ export class CalculatorMissingComponent {
 
   sendEmail(): void {
     this.rfq4ProcessesFacade.sendEmailRequestToMaintainCalculators(
-      this.modalData().quotationDetail
+      this.quotationDetail()
     );
 
     this.closeDialog();

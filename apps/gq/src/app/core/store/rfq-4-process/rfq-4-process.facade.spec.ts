@@ -3,13 +3,15 @@ import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { createSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import { QUOTATION_DETAIL_RFQ4 } from '../../../../testing/mocks/models/quotation-detail/rfq/quotation-detail-rfq4.mock';
+import * as fromSelectors from '../active-case/active-case.selectors';
 import { Rfq4ProcessActions } from './rfq-4-process.actions';
 import { Rfq4ProcessFacade } from './rfq-4-process.facade';
 import { rfq4ProcessFeature } from './rfq-4-process.reducer';
-
 describe('rfq4ProcessFacade', () => {
   let facade: Rfq4ProcessFacade;
   let spectator: SpectatorService<Rfq4ProcessFacade>;
@@ -59,7 +61,15 @@ describe('rfq4ProcessFacade', () => {
       marbles((m) => {
         const action = Rfq4ProcessActions.sendRecalculateSqvRequestSuccess({
           gqPositionId: '1245',
-          rfq4Status: Rfq4Status.IN_PROGRESS,
+          rfqProcessResponse: {
+            gqPositionId: 'asda',
+            processVariables: {
+              gqId: 123,
+              gqPositionId: '1245',
+              rfq4Status: Rfq4Status.IN_PROGRESS,
+              rfqId: 456,
+            },
+          },
         });
         const expected = m.cold('b', {
           b: action,
@@ -104,7 +114,15 @@ describe('rfq4ProcessFacade', () => {
       marbles((m) => {
         const action = Rfq4ProcessActions.sendCancelProcessSuccess({
           gqPositionId: '1245',
-          rfq4Status: Rfq4Status.CANCELLED,
+          rfqProcessResponse: {
+            gqPositionId: '1245',
+            processVariables: {
+              gqId: 123,
+              gqPositionId: '1245',
+              rfq4Status: Rfq4Status.CANCELLED,
+              rfqId: 456,
+            },
+          },
         });
         const expected = m.cold('b', {
           b: action,
@@ -118,6 +136,29 @@ describe('rfq4ProcessFacade', () => {
   });
 
   describe('methods', () => {
+    describe('getQuotationDetailRfq', () => {
+      test(
+        'should return quotation detail rfq',
+        marbles((m) => {
+          const rfq4 = QUOTATION_DETAIL_RFQ4;
+
+          jest.spyOn(fromSelectors, 'getQuotationDetailRfq').mockReturnValue(
+            createSelector(
+              (some) => some,
+              () => rfq4
+            )
+          );
+
+          const res$ = facade.getQuotationDetailRfq('gqPositionId');
+
+          m.expect(res$).toBeObservable(
+            m.cold('a', {
+              a: rfq4,
+            })
+          );
+        })
+      );
+    });
     describe('findCalculators', () => {
       test('should dispatch findCalculators', () => {
         const gqPositionId = '1234';

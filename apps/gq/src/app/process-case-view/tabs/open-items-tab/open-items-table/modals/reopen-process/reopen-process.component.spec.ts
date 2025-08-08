@@ -1,5 +1,3 @@
-import { of } from 'rxjs';
-
 import { Rfq4ProcessFacade } from '@gq/core/store/rfq-4-process/rfq-4-process.facade';
 import { QuotationDetail } from '@gq/shared/models';
 import {
@@ -10,31 +8,29 @@ import {
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { StartProcessComponent } from './start-process.component';
+import { ReopenProcessComponent } from './reopen-process.component';
 
-describe('StartProcessComponent', () => {
-  let component: StartProcessComponent;
-  let spectator: Spectator<StartProcessComponent>;
+describe('ReopenProcessComponent', () => {
+  let component: ReopenProcessComponent;
+  let spectator: Spectator<ReopenProcessComponent>;
 
   const createComponent = createComponentFactory({
-    component: StartProcessComponent,
+    component: ReopenProcessComponent,
     imports: [provideTranslocoTestingModule({ en: {} })],
     providers: [
       mockProvider(Rfq4ProcessFacade, {
-        sendRecalculateSqvRequest: jest.fn(),
-        maintainers$: of(['calc1', 'calc2']),
+        sendReopenRecalculationRequest: jest.fn(),
       }),
     ],
   });
 
   beforeEach(() => {
     spectator = createComponent();
+
     spectator.setInput('quotationDetail', {
       gqPositionId: '123',
       rfq4: { message: 'inital message' },
     } as QuotationDetail);
-    spectator.setInput('calculators', ['calc1', 'calc2']);
-
     component = spectator.debugElement.componentInstance;
   });
 
@@ -50,21 +46,12 @@ describe('StartProcessComponent', () => {
     });
   });
 
-  describe('messageChanged', () => {
-    test('should update message property', () => {
-      const newMessage = 'Updated message';
-      component.messageChanged(newMessage);
-      expect(component.message).toEqual(newMessage);
-    });
-  });
-
   describe('sendRequest', () => {
     test('should call sendReopenRecalculationRequest with correct parameters', () => {
-      component.message = 'inital message';
       component.sendRequest();
       expect(
-        component['rfq4ProcessesFacade'].sendRecalculateSqvRequest
-      ).toHaveBeenCalledWith('123', 'inital message');
+        component['rfq4ProcessesFacade'].sendReopenRecalculationRequest
+      ).toHaveBeenCalledWith('123');
     });
   });
 });

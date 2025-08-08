@@ -17,10 +17,13 @@ export class DragDialogDirective implements OnInit {
   private readonly renderer = inject(Renderer2);
 
   ngOnInit(): void {
-    const availablePanes = document.querySelectorAll('.cdk-overlay-pane');
-    const latestPane = availablePanes.item(availablePanes.length - 1);
+    const latestPane: ElementRef<HTMLElement> =
+      this.element.nativeElement.closest('.cdk-overlay-pane');
     const dragRef = this.dragDrop.createDrag(this.element);
-    dragRef.withRootElement(latestPane as HTMLElement);
+    if (!dragRef) {
+      return;
+    }
+    dragRef.withRootElement(latestPane);
     dragRef.withHandles([this.element]);
     this.renderer.setStyle(this.element.nativeElement, 'cursor', 'move');
   }

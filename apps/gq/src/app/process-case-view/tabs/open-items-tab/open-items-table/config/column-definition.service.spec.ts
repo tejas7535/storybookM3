@@ -32,7 +32,7 @@ describe('columnDefinitionService for openItems Table', () => {
       test('shall return text for not_available', () => {
         const valueGetterParams = {
           data: {
-            detailCosts: {
+            sqvCheck: {
               sqvCheckStatus: RecalculationReasons.NOT_AVAILABLE,
             },
           },
@@ -45,7 +45,7 @@ describe('columnDefinitionService for openItems Table', () => {
       test('shall return text for invalid', () => {
         const valueGetterParams = {
           data: {
-            detailCosts: {
+            sqvCheck: {
               sqvCheckStatus: RecalculationReasons.INVALID,
               sqvRecalculationValue: 3,
             },

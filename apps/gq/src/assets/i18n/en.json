@@ -180,18 +180,20 @@
         "reopenProcess": "Reopen Process"
       },
       "approvalProcesses": {
-        "start": {
-          "title": "Send Recalculation Request for Item {posId}",
+        "calculatorFound": {
           "forwardedToLabel": "Request will be forwarded to:",
           "productionPlantLabel": "Production Plant",
           "productLineLabel": "Product Line",
           "messageLabel": "Message",
-          "messageHint": "Message for Calculation",
+          "messageHint": "Message for Calculation"
+        },
+        "start": {
+          "title": "Send Recalculation Request for Item {posId}",
           "sendRequestButton": "Send Request",
           "cancelButton": "Cancel"
         },
         "cancel": {
-          "title": "Cancel Recalculation Request for Item {posId} | RFQ: {rfq4Id}",
+          "title": "Cancel Recalculation Request for Item {posId}{rfq4Id, select, null{} other{ | RFQ: 4-{rfq4Id}}}",
           "label": "Reason for cancellation of the recalculation:",
           "cancelledByCustomer": "Cancelled by Customer",
           "cancelledBySchaeffler": "Cancelled by Schaeffler",
@@ -199,6 +201,13 @@
           "commentHint": "Enter more Details to the Reason for Cancellation",
           "cancelProcessButton": "Cancel Process",
           "cancelDialogButton": "Cancel"
+        },
+        "reopen": {
+          "title": "Reopen Recalculation for Item {posId}{rfq4Id, select, null{} other{ | RFQ: 4-{rfq4Id}}}",
+          "reopenWarning": "Process can only be reopened once",
+          "confirmMessage": "Do you want to reopen the Recalculation?",
+          "sendRequestButton": "Reopen Process",
+          "cancelButton": "Cancel"
         },
         "calculatorMissing": {
           "title": "Calculator Missing for Item {posId}",
@@ -208,7 +217,7 @@
           "sendMailButton": "Send E-Mail"
         },
         "showHistory": {
-          "title": "Recalculation for Item {posId} | RFQ: {rfq4Id}",
+          "title": "Recalculation for Item {posId}{rfq4Id, select, null{} other{ | RFQ: 4-{rfq4Id}}}",
           "steps": {
             "firstStep": "Request Sent",
             "secondStep": "Calculation",

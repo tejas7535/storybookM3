@@ -6,7 +6,6 @@ import { Severity } from '@gq/shared/services/rest/material/models';
 
 import { AbcxClassification } from '../quotation/abcx-classification.enum';
 import { TargetPriceSource } from '../quotation/target-price-source.enum';
-import { QuotationDetailCosts } from './cost';
 import { LastCustomerPriceCondition } from './last-customer-price-condition.enum';
 import { LastOfferDetail } from './last-offer-detail.model';
 import { MaterialDetails } from './material/material-details.model';
@@ -15,6 +14,8 @@ import { MrpData } from './mrp-data.model';
 import { Plant } from './plant.model';
 import { PriceSource } from './price-source.enum';
 import { QuotationFPricingData } from './quotation-f-pricing-data.interface';
+import { QuotationDetailRfq4 } from './rfq/quotation-detail-rfq4.interface';
+import { QuotationDetailSqvCheck } from './rfq/quotation-detail-sqv-check.interface';
 import { QuotationRfqData } from './rfq-data/quotation-rfq-data.interface';
 import { SAP_ERROR_MESSAGE_CODE } from './sap-error-message-code.enum';
 import { SapPriceCondition } from './sap-price-condition.enum';
@@ -76,7 +77,8 @@ export class QuotationDetail {
   mrpData: MrpData;
   rfqData: QuotationRfqData;
   fPricing: QuotationFPricingData;
-  detailCosts: QuotationDetailCosts;
+  rfq4: QuotationDetailRfq4;
+  sqvCheck: QuotationDetailSqvCheck;
 
   priceDiff: number;
   priceDiffSap: number;

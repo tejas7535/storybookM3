@@ -22,7 +22,7 @@ import { MockDirective, MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { ApprovalProcessAction } from '../models/approval-process-action.enum';
+import { RecalculationProcessAction } from '../models/recalculation-process-action.enum';
 import { ProcessesModalWrapperComponent } from './processes-modal-wrapper.component';
 
 describe('ProcessesModalFrameComponent', () => {
@@ -53,10 +53,10 @@ describe('ProcessesModalFrameComponent', () => {
       {
         provide: MAT_DIALOG_DATA,
         useValue: {
-          process: ApprovalProcessAction.START,
+          process: RecalculationProcessAction.START,
           quotationDetail: {
             gqPositionId,
-            detailCosts: {
+            rfq4: {
               rfq4Status: Rfq4Status.OPEN,
             },
           } as QuotationDetail,
@@ -95,7 +95,7 @@ describe('ProcessesModalFrameComponent', () => {
 
   describe('ngOnInit', () => {
     test('should call findCalculators with gqPositionId', () => {
-      component.modalData.process = ApprovalProcessAction.START;
+      component.modalData.process = RecalculationProcessAction.START;
       component.ngOnInit();
       expect(
         component['rfq4ProcessesFacade'].findCalculators
@@ -107,14 +107,17 @@ describe('ProcessesModalFrameComponent', () => {
     describe('OPEN Status', () => {
       test('should return title when calculator found', () => {
         const quotationDetail: QuotationDetail = {
-          detailCosts: {
+          rfq4: {
             rfq4Status: Rfq4Status.OPEN,
           },
           quotationItemId: '12345',
         } as unknown as QuotationDetail;
 
         component.calculators$ = of(['Calculator1']);
-        component['getTitle'](quotationDetail);
+        component['getTitle'](
+          quotationDetail,
+          RecalculationProcessAction.START
+        );
 
         expect(component.title).toBe(
           translate('shared.openItemsTable.approvalProcesses.start.title', {
@@ -125,14 +128,17 @@ describe('ProcessesModalFrameComponent', () => {
 
       test('should return title when no calculator found', () => {
         const quotationDetail: QuotationDetail = {
-          detailCosts: {
+          rfq4: {
             rfq4Status: Rfq4Status.OPEN,
           },
           quotationItemId: '12345',
         } as unknown as QuotationDetail;
 
         component.calculators$ = of([]);
-        component['getTitle'](quotationDetail);
+        component['getTitle'](
+          quotationDetail,
+          RecalculationProcessAction.START
+        );
 
         expect(component.title).toBe(
           translate(
@@ -145,14 +151,17 @@ describe('ProcessesModalFrameComponent', () => {
     describe('SHOW_HISTORY Status', () => {
       test('should return title for SHOW_HISTORY', () => {
         const quotationDetail: QuotationDetail = {
-          detailCosts: {
+          rfq4: {
             rfq4Status: Rfq4Status.OPEN,
           },
           quotationItemId: '12345',
         } as unknown as QuotationDetail;
 
-        component.modalData.process = ApprovalProcessAction.SHOW_HISTORY;
-        component['getTitle'](quotationDetail);
+        component.modalData.process = RecalculationProcessAction.SHOW_HISTORY;
+        component['getTitle'](
+          quotationDetail,
+          RecalculationProcessAction.SHOW_HISTORY
+        );
 
         expect(component.title).toBe(
           translate('shared.openItemsTable.approvalProcesses.history.title', {
@@ -164,14 +173,18 @@ describe('ProcessesModalFrameComponent', () => {
     describe('CANCEL process', () => {
       test('should return title for CANCEL process', () => {
         const quotationDetail: QuotationDetail = {
-          detailCosts: {
+          rfq4: {
             rfq4Status: Rfq4Status.IN_PROGRESS,
+            rfqId: 124,
           },
           quotationItemId: '12345',
         } as unknown as QuotationDetail;
 
-        component.modalData.process = ApprovalProcessAction.CANCEL;
-        component['getTitle'](quotationDetail);
+        component.modalData.process = RecalculationProcessAction.CANCEL;
+        component['getTitle'](
+          quotationDetail,
+          RecalculationProcessAction.CANCEL
+        );
 
         expect(component.title).toBe(
           translate('shared.openItemsTable.approvalProcesses.cancel.title', {

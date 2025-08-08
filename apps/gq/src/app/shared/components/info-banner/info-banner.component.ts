@@ -10,4 +10,5 @@ import { MatIconModule } from '@angular/material/icon';
 export class InfoBannerComponent {
   @Input() infoText: string;
   @Input() isWarning: boolean;
+  @Input() isFullWidth: boolean;
 }

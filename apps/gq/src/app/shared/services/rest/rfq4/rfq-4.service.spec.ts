@@ -96,6 +96,24 @@ describe('Rfq4Service', () => {
       req.flush(expectedResponse);
     });
 
+    test('reopenRecalculation', () => {
+      const gqPositionId = '12345';
+      const expectedResponse = {
+        processVariables: {
+          rfq4Status: Rfq4Status.REOPEN,
+          recalculationMessage: 'message',
+        },
+      };
+
+      service.reopenRecalculation(gqPositionId).subscribe((response) => {
+        expect(response).toEqual(expectedResponse);
+      });
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${gqPositionId}/${Rfq4PathsEnum.RFQ4_PATH_REOPEN_RECALCULATION}`
+      );
+      expect(req.request.method).toBe('POST');
+    });
     test('cancelProcess', () => {
       const gqPositionId = '123456';
       const reasonForCancellation = 'CUSTOMER';

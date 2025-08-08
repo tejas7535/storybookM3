@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 import { ActiveDirectoryUser, QuotationDetail } from '@gq/shared/models';
 import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
 import { MicrosoftGraphMapperService } from '@gq/shared/services/rest/microsoft-graph-mapper/microsoft-graph-mapper.service';
+import { RfqProcessResponse } from '@gq/shared/services/rest/rfq4/models/rfq-process-response.interface';
 import { Rfq4Service } from '@gq/shared/services/rest/rfq4/rfq-4.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
@@ -231,14 +232,23 @@ describe('Rfq4Effects', () => {
           gqPositionId: '123456',
           message: 'test message',
         });
+        const rfqProcessResponse: RfqProcessResponse = {
+          gqPositionId: '123456',
+          processVariables: {
+            rfq4Status: Rfq4Status.IN_PROGRESS,
+            rfqId: 456,
+            gqId: 123,
+            gqPositionId: '123456',
+          },
+        };
         const expectedAction =
           Rfq4ProcessActions.sendRecalculateSqvRequestSuccess({
             gqPositionId: '123456',
-            rfq4Status: Rfq4Status.IN_PROGRESS,
+            rfqProcessResponse,
           });
         rfq4Service.recalculateSqv = jest
           .fn()
-          .mockReturnValue(of(Rfq4Status.IN_PROGRESS));
+          .mockReturnValue(of(rfqProcessResponse));
 
         actions$ = of(action);
 
@@ -267,6 +277,67 @@ describe('Rfq4Effects', () => {
         const expected = m.cold('--b', { b: result });
 
         m.expect(effects.sendRecalculateSqvRequest$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('sendReopenRecalculationRequest$', () => {
+    test(
+      'should call sendReopenRecalculationRequest and return success action',
+      marbles((m) => {
+        effects['snackBar'].open = jest.fn();
+
+        action = Rfq4ProcessActions.sendReopenRecalculationRequest({
+          gqPositionId: '123456',
+        });
+        const rfqProcessResponse: RfqProcessResponse = {
+          gqPositionId: '123456',
+          processVariables: {
+            rfq4Status: Rfq4Status.REOPEN,
+            rfqId: 456,
+            gqId: 123,
+            gqPositionId: '123456',
+          },
+        };
+        const expectedAction =
+          Rfq4ProcessActions.sendReopenRecalculationRequestSuccess({
+            rfqProcessResponse,
+            gqPositionId: '123456',
+          });
+        rfq4Service.reopenRecalculation = jest
+          .fn()
+          .mockReturnValue(of(rfqProcessResponse));
+
+        actions$ = of(action);
+
+        m.expect(effects.sendReopenRecalculationRequest$).toBeObservable(
+          m.cold('(a|)', {
+            a: expectedAction,
+          })
+        );
+        m.flush();
+      })
+    );
+
+    test(
+      'should call sendReopenRecalculationRequest and return error action',
+      marbles((m) => {
+        action = Rfq4ProcessActions.sendReopenRecalculationRequest({
+          gqPositionId: '123456',
+        });
+        rfq4Service.reopenRecalculation = jest.fn(() => response);
+        const result = Rfq4ProcessActions.sendReopenRecalculationRequestError({
+          error: errorMessage,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.sendReopenRecalculationRequest$).toBeObservable(
+          expected
+        );
         m.flush();
       })
     );
@@ -361,13 +432,22 @@ describe('Rfq4Effects', () => {
           reasonForCancellation,
           comment,
         });
+        const rfqProcessResponse: RfqProcessResponse = {
+          gqPositionId,
+          processVariables: {
+            rfq4Status: Rfq4Status.CANCELLED,
+            rfqId: 456,
+            gqId: 123,
+            gqPositionId,
+          },
+        };
         const expectedAction = Rfq4ProcessActions.sendCancelProcessSuccess({
           gqPositionId,
-          rfq4Status: Rfq4Status.CANCELLED,
+          rfqProcessResponse,
         });
         rfq4Service.cancelProcess = jest
           .fn()
-          .mockReturnValue(of(Rfq4Status.CANCELLED));
+          .mockReturnValue(of(rfqProcessResponse));
 
         actions$ = of(action);
 

@@ -943,11 +943,11 @@ describe('Active Case Feature', () => {
       });
     });
 
-    describe('getSelectedQuotationDetailCosts', () => {
+    describe('getSelectedQuotationDetailSqvCheck', () => {
       test('should return cost', () => {
         expect(
-          activeCaseFeature.getSelectedQuotationDetailCosts(fakeState)
-        ).toEqual(QUOTATION_DETAIL_MOCK.detailCosts);
+          activeCaseFeature.getSelectedQuotationDetailSqvCheck(fakeState)
+        ).toEqual(QUOTATION_DETAIL_MOCK.sqvCheck);
       });
     });
 
@@ -1093,15 +1093,15 @@ describe('Active Case Feature', () => {
               ...QUOTATION_MOCK,
               quotationDetails: [
                 {
-                  detailCosts: null,
+                  sqvCheck: null,
                 } as QuotationDetail,
                 {
-                  detailCosts: {
+                  sqvCheck: {
                     sqvCheckStatus: RecalculationReasons.INVALID,
                   },
                 } as QuotationDetail,
                 {
-                  detailCosts: {
+                  sqvCheck: {
                     sqvCheckStatus: RecalculationReasons.VALID,
                   },
                 } as QuotationDetail,
@@ -1122,15 +1122,15 @@ describe('Active Case Feature', () => {
               ...QUOTATION_MOCK,
               quotationDetails: [
                 {
-                  detailCosts: null,
+                  sqvCheck: null,
                 } as QuotationDetail,
                 {
-                  detailCosts: {
+                  sqvCheck: {
                     sqvCheckStatus: RecalculationReasons.INVALID,
                   },
                 } as QuotationDetail,
                 {
-                  detailCosts: {
+                  sqvCheck: {
                     sqvCheckStatus: RecalculationReasons.VALID,
                   },
                 } as QuotationDetail,

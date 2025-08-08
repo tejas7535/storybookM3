@@ -1,51 +1,49 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input, InputSignal, output } from '@angular/core';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { Component, inject, input, output } from '@angular/core';
 
 import { Rfq4ProcessFacade } from '@gq/core/store/rfq-4-process/rfq-4-process.facade';
+import { CalculatorFoundComponent } from '@gq/process-case-view/tabs/open-items-tab/open-items-table/modals/calculator-found/calculator-found.component';
+import { CalculatorMissingComponent } from '@gq/process-case-view/tabs/open-items-tab/open-items-table/modals/calculator-missing/calculator-missing.component';
+import { QuotationDetail } from '@gq/shared/models';
+import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
 
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { ModalFooterComponent } from '../modal-footer/modal-footer.component';
-import { ProcessesModalDialogData } from '../models/processes-modal-dialog-data.interface';
 
 @Component({
   selector: 'gq-start-process',
-  templateUrl: './start-process.component.html',
   imports: [
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    SharedTranslocoModule,
-    LoadingSpinnerModule,
     CommonModule,
+    CalculatorFoundComponent,
+    CalculatorMissingComponent,
     ModalFooterComponent,
+    SharedTranslocoModule,
   ],
+  templateUrl: './start-process.component.html',
 })
 export class StartProcessComponent {
   private readonly rfq4ProcessesFacade = inject(Rfq4ProcessFacade);
+  closeDialog = output();
 
-  modalData: InputSignal<ProcessesModalDialogData> =
-    input<ProcessesModalDialogData>(null);
-  cancelButtonClicked = output();
+  quotationDetail = input<QuotationDetail>(null);
+  calculators = input<string[]>([]);
+  rfq4Status = input<Rfq4Status>();
 
-  MESSAGE_MAX_LENGTH = 1000;
-  messageControl = new FormControl<string>(
-    null,
-    Validators.maxLength(this.MESSAGE_MAX_LENGTH)
-  );
+  message = '';
+
+  cancelButtonClicked(): void {
+    this.closeDialog.emit();
+  }
+
+  messageChanged(message: string): void {
+    this.message = message;
+  }
 
   sendRequest(): void {
     this.rfq4ProcessesFacade.sendRecalculateSqvRequest(
-      this.modalData().quotationDetail.gqPositionId,
-      this.messageControl.value
+      this.quotationDetail().gqPositionId,
+      this.message
     );
-  }
-
-  closeDialog(): void {
-    this.cancelButtonClicked.emit();
   }
 }

@@ -4,12 +4,11 @@ import { inject, Injectable } from '@angular/core';
 import { map, Observable, take } from 'rxjs';
 
 import { ApiVersion } from '@gq/shared/models';
-import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 
 import { FindCalculatorsResponse } from './models/find-calculators-response.interface';
-import { RecalculateSqvResponse } from './models/recalculate-sqv.response.interface';
 import { Rfq4PathsEnum } from './models/rfq-4-paths.enum';
+import { RfqProcessResponse } from './models/rfq-process-response.interface';
 import { SupportContactResponse } from './models/support-contacts-response.interface';
 
 @Injectable({
@@ -53,37 +52,30 @@ export class Rfq4Service {
   recalculateSqv(
     gqPositionId: string,
     message: string
-  ): Observable<Rfq4Status> {
-    return this.http
-      .post<RecalculateSqvResponse>(
-        `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${gqPositionId}/${Rfq4PathsEnum.RFQ4_PATH_RECALCULATE_SQV}`,
-        { message }
-      )
-      .pipe(
-        map(
-          (response: RecalculateSqvResponse) =>
-            response.processVariables.rfq4Status
-        )
-      );
+  ): Observable<RfqProcessResponse> {
+    return this.http.post<RfqProcessResponse>(
+      `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${gqPositionId}/${Rfq4PathsEnum.RFQ4_PATH_RECALCULATE_SQV}`,
+      { message }
+    );
+  }
+
+  reopenRecalculation(gqPositionId: string): Observable<RfqProcessResponse> {
+    return this.http.post<RfqProcessResponse>(
+      `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${gqPositionId}/${Rfq4PathsEnum.RFQ4_PATH_REOPEN_RECALCULATION}`,
+      {}
+    );
   }
   cancelProcess(
     gqPositionId: string,
     reasonForCancellation: string,
     comment: string
-  ): Observable<Rfq4Status> {
-    return this.http
-      .post<RecalculateSqvResponse>(
-        `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${gqPositionId}/${Rfq4PathsEnum.RFQ4_PATH_CANCEL_PROCESS}`,
-        {
-          reasonForCancellation,
-          comment,
-        }
-      )
-      .pipe(
-        map(
-          (response: RecalculateSqvResponse) =>
-            response.processVariables.rfq4Status
-        )
-      );
+  ): Observable<RfqProcessResponse> {
+    return this.http.post<RfqProcessResponse>(
+      `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${gqPositionId}/${Rfq4PathsEnum.RFQ4_PATH_CANCEL_PROCESS}`,
+      {
+        reasonForCancellation,
+        comment,
+      }
+    );
   }
 }

@@ -15,15 +15,27 @@
   ></gq-recalculation-data>
   <!--footer-->
   <div class="flex justify-between pt-4">
-    @if (rfq4Status() === rfq4StatusEnum.IN_PROGRESS) {
+    @if (
+      modalData().quotationDetail.rfq4.rfq4Status === rfq4StatusEnum.IN_PROGRESS
+    ) {
       <button mat-stroked-button class="!text-error">
         {{ t('cancelButton') }}
       </button>
     } @else if (
-      rfq4Status() === rfq4StatusEnum.CONFIRMED ||
-      rfq4Status() === rfq4StatusEnum.CANCELLED
+      modalData().quotationDetail.rfq4.rfq4Status ===
+        rfq4StatusEnum.CONFIRMED ||
+      modalData().quotationDetail.rfq4.rfq4Status === rfq4StatusEnum.CANCELLED
     ) {
-      <button mat-stroked-button class="!text-primary">
+      <button
+        mat-stroked-button
+        color="primary"
+        [disabled]="
+          !modalData().quotationDetail.rfq4.allowedToReopen ||
+          modalData().quotationDetail.rfq4?.sqvApprovalStatus ===
+            sqvApprovalStatusEnum.APPROVAL_NEEDED
+        "
+        (click)="triggerChangeProcess(recalculationProcessActionEnum.REOPEN)"
+      >
         {{ t('reopenButton') }}
       </button>
     }

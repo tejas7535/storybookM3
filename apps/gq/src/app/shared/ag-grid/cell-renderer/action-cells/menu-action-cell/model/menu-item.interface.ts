@@ -1,4 +1,4 @@
-import { ApprovalProcessAction } from '@gq/process-case-view/tabs/open-items-tab/open-items-table/modals/models/approval-process-action.enum';
+import { RecalculationProcessAction } from '@gq/process-case-view/tabs/open-items-tab/open-items-table/modals/models/recalculation-process-action.enum';
 import { QuotationDetail } from '@gq/shared/models';
 
 export interface MenuItem {
@@ -23,7 +23,7 @@ export function getMenuItem(
 }
 
 export interface MenuItemConfig {
-  process: ApprovalProcessAction;
+  process: RecalculationProcessAction;
   translationKey: string;
   disabled?: (quotationDetail: QuotationDetail) => boolean;
   cssClass?: string;

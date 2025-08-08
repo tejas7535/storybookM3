@@ -1,6 +1,6 @@
 import { CancellationReason } from '@gq/process-case-view/tabs/open-items-tab/open-items-table/modals/cancel-process/cancel-process.component';
 import { ActiveDirectoryUser, QuotationDetail } from '@gq/shared/models';
-import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
+import { RfqProcessResponse } from '@gq/shared/services/rest/rfq4/models/rfq-process-response.interface';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 export const Rfq4ProcessActions = createActionGroup({
@@ -20,7 +20,7 @@ export const Rfq4ProcessActions = createActionGroup({
     }>(),
     'send recalculate sqv request success': props<{
       gqPositionId: string;
-      rfq4Status: Rfq4Status;
+      rfqProcessResponse: RfqProcessResponse;
     }>(),
     'send recalculate sqv request error': props<{
       error: string;
@@ -44,6 +44,16 @@ export const Rfq4ProcessActions = createActionGroup({
     'send email request to maintain calculators': props<{
       quotationDetail: QuotationDetail;
     }>(),
+    'send reopen recalculation request': props<{
+      gqPositionId: string;
+    }>(),
+    'send reopen recalculation request success': props<{
+      rfqProcessResponse: RfqProcessResponse;
+      gqPositionId: string;
+    }>(),
+    'send reopen recalculation request error': props<{
+      error: string;
+    }>(),
     'send cancel process': props<{
       gqPositionId: string;
       reasonForCancellation: CancellationReason;
@@ -51,7 +61,7 @@ export const Rfq4ProcessActions = createActionGroup({
     }>(),
     'send cancel process success': props<{
       gqPositionId: string;
-      rfq4Status: Rfq4Status;
+      rfqProcessResponse: RfqProcessResponse;
     }>(),
     'send cancel process error': props<{ error: string }>(),
   },

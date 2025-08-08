@@ -26,7 +26,8 @@ import {
   SAP_PRICE_DETAIL_ZRTU_MOCK,
 } from '../sap-price-condition-detail.mock';
 import { STATUS_BAR_PROPERTIES_MOCK } from '../status-bar.mock';
-import { QUOTATION_DETAIL_COSTS_MOCK } from './cost/quotation-detail-costs.mock';
+import { QUOTATION_DETAIL_RFQ4 } from './rfq/quotation-detail-rfq4.mock';
+import { QUOTATION_DETAIL_SQV_CHECK_MOCK } from './rfq/quotation-detail-sqv-check.mock';
 import { QUOTATION_RFQ_DATA_MOCK } from './rfq-data/quotation-rfq-data-mock';
 
 export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
@@ -65,7 +66,8 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   mrpData: MRP_DATA_MOCK,
   rfqData: QUOTATION_RFQ_DATA_MOCK,
   fPricing: QUOTATION_F_PRICING_MOCK,
-  detailCosts: QUOTATION_DETAIL_COSTS_MOCK,
+  rfq4: QUOTATION_DETAIL_RFQ4,
+  sqvCheck: QUOTATION_DETAIL_SQV_CHECK_MOCK,
 
   priceDiff: 0.1765,
   priceDiffSap: 0,

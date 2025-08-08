@@ -11,8 +11,8 @@ import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost/rfq-4-status
 import { SqvApprovalStatus } from '@gq/shared/models/quotation-detail/cost/sqv-approval-status.enum';
 import { translate } from '@jsverse/transloco';
 
-import { ApprovalProcessAction } from './models/approval-process-action.enum';
 import { ProcessesModalDialogData } from './models/processes-modal-dialog-data.interface';
+import { RecalculationProcessAction } from './models/recalculation-process-action.enum';
 import { ProcessesModalWrapperComponent } from './processes-modal-wrapper/processes-modal-wrapper.component';
 
 @Injectable({
@@ -23,29 +23,31 @@ export class ModalConfigurationService {
 
   // Constants for reusable menu item configurations
   private readonly SHOW_HISTORY: MenuItemConfig = {
-    process: ApprovalProcessAction.SHOW_HISTORY,
+    process: RecalculationProcessAction.SHOW_HISTORY,
     translationKey: 'showHistory',
   };
 
   private readonly CANCEL_PROCESS: MenuItemConfig = {
-    process: ApprovalProcessAction.CANCEL,
+    process: RecalculationProcessAction.CANCEL,
     translationKey: 'cancelProcess',
     cssClass: '!text-error',
   };
 
   private readonly REOPEN_PROCESS: MenuItemConfig = {
-    process: ApprovalProcessAction.REOPEN,
+    process: RecalculationProcessAction.REOPEN,
     translationKey: 'reopenProcess',
+    disabled: this.isReopenDisabled.bind(this),
   };
 
   private readonly START_PROCESS: MenuItemConfig = {
-    process: ApprovalProcessAction.START,
+    process: RecalculationProcessAction.START,
     translationKey: 'startProcess',
     disabled: this.isStartProcessDisabled.bind(this),
   };
 
   private readonly statusMenuConfig = new Map<Rfq4Status, MenuItemConfig[]>([
     [Rfq4Status.OPEN, [this.START_PROCESS, this.CANCEL_PROCESS]],
+    [Rfq4Status.REOPEN, [this.START_PROCESS, this.CANCEL_PROCESS]],
     [Rfq4Status.IN_PROGRESS, [this.SHOW_HISTORY, this.CANCEL_PROCESS]],
     [Rfq4Status.CONFIRMED, [this.SHOW_HISTORY, this.REOPEN_PROCESS]],
     [Rfq4Status.CANCELLED, [this.SHOW_HISTORY, this.REOPEN_PROCESS]],
@@ -69,12 +71,13 @@ export class ModalConfigurationService {
   }
 
   private openProcessDialog(
-    process: ApprovalProcessAction,
+    process: RecalculationProcessAction,
     quotationDetail: QuotationDetail
   ): void {
     this.dialog.open(ProcessesModalWrapperComponent, {
       disableClose: true,
-      width: process === ApprovalProcessAction.SHOW_HISTORY ? '784px' : '684px',
+      width:
+        process === RecalculationProcessAction.SHOW_HISTORY ? '784px' : '684px',
       data: {
         process,
         quotationDetail,
@@ -84,8 +87,15 @@ export class ModalConfigurationService {
 
   private isStartProcessDisabled(quotationDetail: QuotationDetail): boolean {
     return (
-      quotationDetail.detailCosts &&
-      quotationDetail.detailCosts.sqvApprovalStatus ===
+      quotationDetail.rfq4?.sqvApprovalStatus ===
+      SqvApprovalStatus.APPROVAL_NEEDED
+    );
+  }
+
+  private isReopenDisabled(quotationDetail: QuotationDetail): boolean {
+    return (
+      !quotationDetail.rfq4?.allowedToReopen ||
+      quotationDetail.rfq4?.sqvApprovalStatus ===
         SqvApprovalStatus.APPROVAL_NEEDED
     );
   }

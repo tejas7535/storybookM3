@@ -8,7 +8,7 @@ import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { QUOTATION_DETAIL_COSTS_MOCK } from '../../../../../testing/mocks/models/quotation-detail/cost/quotation-detail-costs.mock';
+import { QUOTATION_DETAIL_SQV_CHECK_MOCK } from '../../../../../testing/mocks/models/quotation-detail/rfq/quotation-detail-sqv-check.mock';
 import { SqvCostReferenceComponent } from './sqv-cost-reference.component';
 
 describe('SqvCostReferenceComponent', () => {
@@ -26,7 +26,7 @@ describe('SqvCostReferenceComponent', () => {
       MockProvider(ActiveCaseFacade, {
         quotationCurrency$: of('EUR'),
         quotationSapId$: of('12345'),
-        selectedQuotationDetailCosts$: of(QUOTATION_DETAIL_COSTS_MOCK),
+        selectedQuotationDetailSqvCheck$: of(QUOTATION_DETAIL_SQV_CHECK_MOCK),
       }),
     ],
   });

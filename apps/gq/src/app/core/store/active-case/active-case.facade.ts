@@ -24,9 +24,9 @@ import {
   QuotationPricingOverview,
   SapCallInProgress,
 } from '@gq/shared/models/quotation';
-import { QuotationDetailCosts } from '@gq/shared/models/quotation-detail/cost';
 import { MaterialComparableCost } from '@gq/shared/models/quotation-detail/material-comparable-cost.model';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
+import { QuotationDetailSqvCheck } from '@gq/shared/models/quotation-detail/rfq/quotation-detail-sqv-check.interface';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
 import { getTagTypeByStatus } from '@gq/shared/utils/misc.utils';
 import { Actions, ofType } from '@ngrx/effects';
@@ -114,8 +114,8 @@ export class ActiveCaseFacade {
     activeCaseFeature.getSelectedQuotationDetail
   );
 
-  selectedQuotationDetailCosts$: Observable<QuotationDetailCosts> =
-    this.store.select(activeCaseFeature.getSelectedQuotationDetailCosts);
+  selectedQuotationDetailSqvCheck$: Observable<QuotationDetailSqvCheck> =
+    this.store.select(activeCaseFeature.getSelectedQuotationDetailSqvCheck);
 
   selectedQuotationDetailIds$: Observable<string[]> = this.store.select(
     activeCaseFeature.selectSelectedQuotationDetails

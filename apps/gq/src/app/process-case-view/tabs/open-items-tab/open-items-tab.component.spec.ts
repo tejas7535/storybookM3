@@ -8,7 +8,6 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { PushPipe } from '@ngrx/component';
 import { MockComponent } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
@@ -23,7 +22,7 @@ describe('OpenItemsTabComponent', () => {
 
   const createComponent = createComponentFactory({
     component: OpenItemsTabComponent,
-    imports: [provideTranslocoTestingModule({ en: {} }), PushPipe],
+    imports: [provideTranslocoTestingModule({ en: {} })],
     providers: [
       mockProvider(ActiveCaseFacade, {
         quotationLoading$: of(false),

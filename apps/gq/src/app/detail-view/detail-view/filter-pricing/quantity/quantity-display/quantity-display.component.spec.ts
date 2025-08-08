@@ -51,57 +51,37 @@ describe('QuantityDisplayComponent', () => {
     test('should return true when isRfq4ProcessActiveForQuotationDetail returns true', () => {
       const mockQuotationDetail = { id: 1 } as any;
       spectator.setInput('quotationDetail', mockQuotationDetail);
-      jest
-        .spyOn(
-          rfq4Utils,
-          'isRfq4ProcessInProgressOrCompletedForQuotationDetail'
-        )
-        .mockReturnValue(true);
+      jest.spyOn(rfq4Utils, 'isRfq4ProcessNotOpen').mockReturnValue(true);
 
       const result = component.isRfq4ProcessOngoing();
 
-      expect(
-        rfq4Utils.isRfq4ProcessInProgressOrCompletedForQuotationDetail
-      ).toHaveBeenCalledWith(mockQuotationDetail);
+      expect(rfq4Utils.isRfq4ProcessNotOpen).toHaveBeenCalledWith(
+        mockQuotationDetail
+      );
       expect(result).toBe(true);
     });
 
     test('should return false when isRfq4ProcessOngoingForQuotationDetail returns false', () => {
       const mockQuotationDetail = { id: 2 } as any;
       spectator.setInput('quotationDetail', mockQuotationDetail);
-      jest
-        .spyOn(
-          rfq4Utils,
-          'isRfq4ProcessInProgressOrCompletedForQuotationDetail'
-        )
-        .mockReturnValue(false);
+      jest.spyOn(rfq4Utils, 'isRfq4ProcessNotOpen').mockReturnValue(false);
 
       const result = component.isRfq4ProcessOngoing();
 
-      expect(
-        rfq4Utils.isRfq4ProcessInProgressOrCompletedForQuotationDetail
-      ).toHaveBeenCalledWith(mockQuotationDetail);
+      expect(rfq4Utils.isRfq4ProcessNotOpen).toHaveBeenCalledWith(
+        mockQuotationDetail
+      );
       expect(result).toBe(false);
     });
   });
   describe('openEditing', () => {
     test('should open dialog for editing', () => {
-      jest
-        .spyOn(
-          rfq4Utils,
-          'isRfq4ProcessInProgressOrCompletedForQuotationDetail'
-        )
-        .mockReturnValue(false);
+      jest.spyOn(rfq4Utils, 'isRfq4ProcessNotOpen').mockReturnValue(false);
       component.openEditing();
       expect(editingModalServiceSpy.openEditingModal).toHaveBeenCalledTimes(1);
     });
     test('should not open the dialog if isRfq4ProcessOngoing is true', () => {
-      jest
-        .spyOn(
-          rfq4Utils,
-          'isRfq4ProcessInProgressOrCompletedForQuotationDetail'
-        )
-        .mockReturnValue(true);
+      jest.spyOn(rfq4Utils, 'isRfq4ProcessNotOpen').mockReturnValue(true);
       component.openEditing();
       expect(editingModalServiceSpy.openEditingModal).not.toHaveBeenCalled();
     });

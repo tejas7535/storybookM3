@@ -9,8 +9,8 @@ import {
 } from '@gq/shared/models';
 import { QuotationPricingOverview } from '@gq/shared/models/quotation';
 import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
-import { QuotationDetailCosts } from '@gq/shared/models/quotation-detail/cost';
 import { RecalculationReasons } from '@gq/shared/models/quotation-detail/cost/recalculation-reasons.enum';
+import { QuotationDetailSqvCheck } from '@gq/shared/models/quotation-detail/rfq/quotation-detail-sqv-check.interface';
 import { QuotationDetailsSimulationKpiData } from '@gq/shared/services/rest/calculation/model/quotation-details-simulation-kpi-data.interface';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
@@ -617,9 +617,9 @@ export const activeCaseFeature = createFeature({
         )
     );
 
-    const getSelectedQuotationDetailCosts = createSelector(
+    const getSelectedQuotationDetailSqvCheck = createSelector(
       getSelectedQuotationDetail,
-      (detail: QuotationDetail): QuotationDetailCosts => detail?.detailCosts
+      (detail: QuotationDetail): QuotationDetailSqvCheck => detail?.sqvCheck
     );
 
     const getPriceUnitOfSelectedQuotationDetail = createSelector(
@@ -675,8 +675,8 @@ export const activeCaseFeature = createFeature({
       (quotation: Quotation): QuotationDetail[] =>
         quotation?.quotationDetails.filter(
           (detail: QuotationDetail) =>
-            detail.detailCosts?.sqvCheckStatus &&
-            detail.detailCosts.sqvCheckStatus !== RecalculationReasons.VALID
+            detail.sqvCheck?.sqvCheckStatus &&
+            detail.sqvCheck.sqvCheckStatus !== RecalculationReasons.VALID
         )
     );
 
@@ -687,7 +687,7 @@ export const activeCaseFeature = createFeature({
 
     return {
       getSelectedQuotationDetail,
-      getSelectedQuotationDetailCosts,
+      getSelectedQuotationDetailSqvCheck,
       getPriceUnitOfSelectedQuotationDetail,
       getDetailViewQueryParams,
       getQuotationSalesOrgIsGreaterChina,

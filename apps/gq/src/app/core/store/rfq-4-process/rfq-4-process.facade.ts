@@ -4,10 +4,12 @@ import { Observable } from 'rxjs';
 
 import { CancellationReason } from '@gq/process-case-view/tabs/open-items-tab/open-items-table/modals/cancel-process/cancel-process.component';
 import { ActiveDirectoryUser, QuotationDetail } from '@gq/shared/models';
+import { QuotationDetailRfq4 } from '@gq/shared/models/quotation-detail/rfq/quotation-detail-rfq4.interface';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
+import { getQuotationDetailRfq } from '../active-case/active-case.selectors';
 import { Rfq4ProcessActions } from './rfq-4-process.actions';
 import { ProcessLoading, rfq4ProcessFeature } from './rfq-4-process.reducer';
 
@@ -35,6 +37,9 @@ export class Rfq4ProcessFacade {
   sendRecalculateSqvSuccess$: Observable<void> = this.actions$.pipe(
     ofType(Rfq4ProcessActions.sendRecalculateSqvRequestSuccess)
   );
+  sendReopenRecalculationSuccess$: Observable<void> = this.actions$.pipe(
+    ofType(Rfq4ProcessActions.sendReopenRecalculationRequestSuccess)
+  );
   getMaintainersLoading$: Observable<boolean> = this.store.select(
     rfq4ProcessFeature.selectSapMaintainersLoading
   );
@@ -48,6 +53,10 @@ export class Rfq4ProcessFacade {
   // ########################################################
   // ###################  methods  ##########################
   // ########################################################
+
+  getQuotationDetailRfq(gqPositionId: string): Observable<QuotationDetailRfq4> {
+    return this.store.select(getQuotationDetailRfq(gqPositionId));
+  }
 
   findCalculators(gqPositionId: string): void {
     this.store.dispatch(Rfq4ProcessActions.findCalculators({ gqPositionId }));
@@ -77,6 +86,14 @@ export class Rfq4ProcessFacade {
     this.store.dispatch(
       Rfq4ProcessActions.sendEmailRequestToMaintainCalculators({
         quotationDetail,
+      })
+    );
+  }
+
+  sendReopenRecalculationRequest(gqPositionId: string): void {
+    this.store.dispatch(
+      Rfq4ProcessActions.sendReopenRecalculationRequest({
+        gqPositionId,
       })
     );
   }

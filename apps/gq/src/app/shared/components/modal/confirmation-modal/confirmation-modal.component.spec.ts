@@ -5,6 +5,7 @@ import { DragDialogDirective } from '@gq/shared/directives/drag-dialog/drag-dial
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockDirective } from 'ng-mocks';
 
+import { DialogHeaderComponent } from '../../header/dialog-header/dialog-header.component';
 import { InfoBannerComponent } from '../../info-banner/info-banner.component';
 import { ConfirmationModalComponent } from './confirmation-modal.component';
 
@@ -20,6 +21,7 @@ describe('ConfirmationModalComponent', () => {
     imports: [
       MatIconModule,
       InfoBannerComponent,
+      DialogHeaderComponent,
       MockDirective(DragDialogDirective),
     ],
     providers: [

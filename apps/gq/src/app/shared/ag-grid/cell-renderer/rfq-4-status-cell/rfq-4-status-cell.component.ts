@@ -36,6 +36,9 @@ export class Rfq4StatusCellComponent {
       case Rfq4Status.IN_PROGRESS: {
         return TagType.WARNING;
       }
+      case Rfq4Status.REOPEN: {
+        return TagType.INFO;
+      }
       default: {
         return TagType.NEUTRAL;
       }

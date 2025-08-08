@@ -20,11 +20,6 @@ describe('RecalculationProgressComponent', () => {
 
   beforeEach(() => {
     spectator = createComponent();
-    spectator.setInput('modalData', {
-      quotationDetail: {
-        gqPositionId: '123',
-      },
-    });
     component = spectator.debugElement.componentInstance;
   });
 

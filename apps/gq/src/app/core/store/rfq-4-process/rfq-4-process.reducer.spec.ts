@@ -84,7 +84,15 @@ describe('rfq4ProcessFeature.reducer', () => {
 
       const action = Rfq4ProcessActions.sendRecalculateSqvRequestSuccess({
         gqPositionId,
-        rfq4Status: Rfq4Status.IN_PROGRESS,
+        rfqProcessResponse: {
+          gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+          processVariables: {
+            rfq4Status: Rfq4Status.IN_PROGRESS,
+            rfqId: 456,
+            gqId: 123,
+            gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+          },
+        },
       });
       const state = rfq4ProcessFeature.reducer(fakeState, action);
 
@@ -100,6 +108,46 @@ describe('rfq4ProcessFeature.reducer', () => {
     });
   });
 
+  describe('sendReopenRecalculationRequest', () => {
+    test('should set process loading to SEND_REOPEN', () => {
+      const action = Rfq4ProcessActions.sendReopenRecalculationRequest({
+        gqPositionId,
+      });
+      const state = rfq4ProcessFeature.reducer(rfq4ProcessesMock, action);
+
+      expect(state.processLoading).toEqual(ProcessLoading.REOPEN_RECALCULATION);
+    });
+    test('should set processLoading to NONE', () => {
+      const fakeState: Rfq4ProcessState = {
+        ...rfq4ProcessesMock,
+        processLoading: ProcessLoading.REOPEN_RECALCULATION,
+      };
+
+      const action = Rfq4ProcessActions.sendReopenRecalculationRequestSuccess({
+        gqPositionId,
+        rfqProcessResponse: {
+          gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+          processVariables: {
+            rfq4Status: Rfq4Status.IN_PROGRESS,
+            rfqId: 456,
+            gqId: 123,
+            gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+          },
+        },
+      });
+      const state = rfq4ProcessFeature.reducer(fakeState, action);
+
+      expect(state.processLoading).toEqual(ProcessLoading.NONE);
+    });
+    test('should set processLoading to none when error', () => {
+      const action = Rfq4ProcessActions.sendRecalculateSqvRequestError({
+        error: 'an Error',
+      });
+      const state = rfq4ProcessFeature.reducer(rfq4ProcessesMock, action);
+
+      expect(state.processLoading).toEqual(ProcessLoading.NONE);
+    });
+  });
   describe('getSapMaintainerUserIds', () => {
     test('should set sapMaintainersLoading to true', () => {
       const action = Rfq4ProcessActions.getSapMaintainerUserIds();
@@ -198,16 +246,64 @@ describe('rfq4ProcessFeature.reducer', () => {
       };
       const action = Rfq4ProcessActions.sendRecalculateSqvRequestSuccess({
         gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-        rfq4Status: Rfq4Status.IN_PROGRESS,
+        rfqProcessResponse: {
+          gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+          processVariables: {
+            rfq4Status: Rfq4Status.IN_PROGRESS,
+            rfqId: 456,
+            gqId: 123,
+            gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+          },
+        },
       });
       const state = activeCaseFeature.reducer(fakeState.activeCase, action);
 
-      expect(
-        state.quotation.quotationDetails[0].detailCosts.rfq4Status
-      ).toEqual(Rfq4Status.IN_PROGRESS);
+      expect(state.quotation.quotationDetails[0].rfq4.rfq4Status).toEqual(
+        Rfq4Status.IN_PROGRESS
+      );
+      expect(state.quotation.quotationDetails[0].rfq4.rfq4Id).toEqual(456);
     });
   });
 
+  describe('ReopenRecalculationSucessReducer', () => {
+    test('should update the rfq4Status, after sending reopenrecalculationRequest', () => {
+      const fakeState = {
+        activeCase: {
+          ...ACTIVE_CASE_STATE_MOCK,
+          quotation: {
+            ...ACTIVE_CASE_STATE_MOCK.quotation,
+            quotationDetails: [
+              {
+                ...QUOTATION_DETAIL_MOCK,
+                rfq4: {
+                  rfq4Status: Rfq4Status.OPEN,
+                },
+              } as QuotationDetail,
+            ],
+          },
+        },
+      };
+      const action = Rfq4ProcessActions.sendReopenRecalculationRequestSuccess({
+        gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+        rfqProcessResponse: {
+          gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+
+          processVariables: {
+            rfq4Status: Rfq4Status.IN_PROGRESS,
+            rfqId: 456,
+            gqId: 123,
+            gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+          },
+        },
+      });
+      const state = activeCaseFeature.reducer(fakeState.activeCase, action);
+
+      expect(state.quotation.quotationDetails[0].rfq4.rfq4Status).toEqual(
+        Rfq4Status.IN_PROGRESS
+      );
+      expect(state.quotation.quotationDetails[0].rfq4.rfq4Id).toEqual(456);
+    });
+  });
   describe('sendCancelProcess', () => {
     test('should set processLoading to CANCEL_RECALCULATION', () => {
       const action = Rfq4ProcessActions.sendCancelProcess({
@@ -228,11 +324,20 @@ describe('rfq4ProcessFeature.reducer', () => {
 
       const action = Rfq4ProcessActions.sendCancelProcessSuccess({
         gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-        rfq4Status: Rfq4Status.CANCELLED,
+        rfqProcessResponse: {
+          gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+          processVariables: {
+            rfq4Status: Rfq4Status.CANCELLED,
+            rfqId: 456,
+            gqId: 123,
+            gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+          },
+        },
       });
       const state = rfq4ProcessFeature.reducer(fakeState, action);
       expect(state.processLoading).toEqual(ProcessLoading.NONE);
       expect(state.gqPositionId).toBeUndefined();
+      expect(state.foundCalculators).toEqual([]);
     });
     test('should set processLoading to NONE on cancel process error', () => {
       const fakeState = {

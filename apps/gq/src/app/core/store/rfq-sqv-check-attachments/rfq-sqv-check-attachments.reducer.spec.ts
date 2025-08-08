@@ -96,8 +96,8 @@ describe('RfqSqvCheckAttachmentsActions.uploadAttachmentsSuccess', () => {
           quotationDetails: [
             {
               ...QUOTATION_DETAIL_MOCK,
-              detailCosts: {
-                ...QUOTATION_DETAIL_MOCK.detailCosts,
+              rfq4: {
+                ...QUOTATION_DETAIL_MOCK.rfq4,
                 sqvApprovalStatus: SqvApprovalStatus.APPROVAL_NEEDED,
               },
             },
@@ -106,8 +106,8 @@ describe('RfqSqvCheckAttachmentsActions.uploadAttachmentsSuccess', () => {
       },
       action
     );
-    expect(
-      state.quotation.quotationDetails[0].detailCosts.sqvApprovalStatus
-    ).toEqual('APPROVED');
+    expect(state.quotation.quotationDetails[0].rfq4.sqvApprovalStatus).toEqual(
+      'APPROVED'
+    );
   });
 });

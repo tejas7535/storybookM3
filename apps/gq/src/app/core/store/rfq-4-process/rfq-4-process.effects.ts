@@ -4,8 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import { ActiveDirectoryUser } from '@gq/shared/models';
-import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
 import { MicrosoftGraphMapperService } from '@gq/shared/services/rest/microsoft-graph-mapper/microsoft-graph-mapper.service';
+import { RfqProcessResponse } from '@gq/shared/services/rest/rfq4/models/rfq-process-response.interface';
 import { Rfq4Service } from '@gq/shared/services/rest/rfq4/rfq-4.service';
 import { translate } from '@jsverse/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -117,10 +117,10 @@ export class Rfq4ProcessEffects {
                 translate('shared.snackBarMessages.sqvRecalculateRequestSend')
               )
             ),
-            map((rfq4Status: Rfq4Status) =>
+            map((rfqProcessResponse: RfqProcessResponse) =>
               Rfq4ProcessActions.sendRecalculateSqvRequestSuccess({
                 gqPositionId: action.gqPositionId,
-                rfq4Status,
+                rfqProcessResponse,
               })
             ),
             catchError((error) =>
@@ -155,6 +155,29 @@ export class Rfq4ProcessEffects {
     { dispatch: false }
   );
 
+  sendReopenRecalculationRequest$ = createEffect(() => {
+    return this.actions.pipe(
+      ofType(Rfq4ProcessActions.sendReopenRecalculationRequest),
+      switchMap((action) => {
+        return this.rfq4Service.reopenRecalculation(action.gqPositionId).pipe(
+          map((rfqProcessResponse: RfqProcessResponse) =>
+            Rfq4ProcessActions.sendReopenRecalculationRequestSuccess({
+              rfqProcessResponse,
+              gqPositionId: action.gqPositionId,
+            })
+          ),
+          catchError((error) =>
+            of(
+              Rfq4ProcessActions.sendReopenRecalculationRequestError({
+                error,
+              })
+            )
+          )
+        );
+      })
+    );
+  });
+
   sendCancelProcessRequest$ = createEffect(() => {
     return this.actions.pipe(
       ofType(Rfq4ProcessActions.sendCancelProcess),
@@ -166,10 +189,10 @@ export class Rfq4ProcessEffects {
             action.comment
           )
           .pipe(
-            map((rfq4Status: Rfq4Status) =>
+            map((rfqProcessResponse: RfqProcessResponse) =>
               Rfq4ProcessActions.sendCancelProcessSuccess({
                 gqPositionId: action.gqPositionId,
-                rfq4Status,
+                rfqProcessResponse,
               })
             ),
             catchError((error) =>

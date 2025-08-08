@@ -50,18 +50,40 @@ describe('Directive: DragDialog', () => {
   test('should create draggable element', () => {
     jest.spyOn(directive['dragDrop'], 'createDrag');
     jest.spyOn(directive['renderer'], 'setStyle');
-    const panes = [
-      document.createElement('div'),
-      document.createElement('div'),
-    ];
-    jest.spyOn(document, 'querySelectorAll').mockReturnValue({
-      length: 2,
-      item: jest.fn((index) => panes[index]),
-    } as any);
+
+    // Mock the dialog container element
+    const mockDialogContainer = document.createElement('div');
+    mockDialogContainer.classList.add('cdk-overlay-pane');
+
+    // Mock the closest method to return the dialog container
+    jest
+      .spyOn(spectator.element, 'closest')
+      .mockReturnValue(mockDialogContainer);
 
     directive.ngOnInit();
 
+    expect(spectator.element.closest).toHaveBeenCalledWith('.cdk-overlay-pane');
     expect(directive['dragDrop'].createDrag).toHaveBeenCalled();
     expect(directive['renderer'].setStyle).toHaveBeenCalled();
+  });
+
+  test('should handle case when dragRef is not created', () => {
+    jest.spyOn(directive['dragDrop'], 'createDrag').mockReturnValue(null);
+    jest.spyOn(directive['renderer'], 'setStyle');
+
+    // Mock the dialog container element
+    const mockDialogContainer = document.createElement('div');
+    mockDialogContainer.classList.add('cdk-overlay-pane');
+
+    // Mock the closest method to return the dialog container
+    jest
+      .spyOn(spectator.element, 'closest')
+      .mockReturnValue(mockDialogContainer);
+
+    directive.ngOnInit();
+
+    expect(spectator.element.closest).toHaveBeenCalledWith('.cdk-overlay-pane');
+    expect(directive['dragDrop'].createDrag).toHaveBeenCalled();
+    expect(directive['renderer'].setStyle).not.toHaveBeenCalled();
   });
 });

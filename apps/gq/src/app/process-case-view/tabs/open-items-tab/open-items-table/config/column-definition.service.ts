@@ -119,7 +119,7 @@ export class ColumnDefinitionService {
         ({
           menuDisabled: false,
           menuItems: this.modalService.getMenuItemsByStatus(
-            params.data.detailCosts.rfq4Status,
+            params.data.rfq4.rfq4Status,
             params.data
           ),
         }) as MenuItemCellRendererParams,
@@ -128,7 +128,7 @@ export class ColumnDefinitionService {
 
   // utilities
   getSqvStatusText(params: ValueGetterParams): string {
-    switch (params.data.detailCosts?.sqvCheckStatus) {
+    switch (params.data.sqvCheck?.sqvCheckStatus) {
       case RecalculationReasons.NOT_AVAILABLE: {
         return translate(
           `shared.openItemsTable.issueToResolve.${RecalculationReasons.NOT_AVAILABLE.toLocaleLowerCase()}`
@@ -139,7 +139,7 @@ export class ColumnDefinitionService {
         return translate(
           `shared.openItemsTable.issueToResolve.${RecalculationReasons.INVALID.toLocaleLowerCase()}`,
           {
-            months: params.data.detailCosts?.sqvRecalculationValue,
+            months: params.data.sqvCheck?.sqvRecalculationValue,
           }
         );
       }

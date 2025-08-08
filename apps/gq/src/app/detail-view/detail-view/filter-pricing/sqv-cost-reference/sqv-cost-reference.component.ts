@@ -4,7 +4,7 @@ import { Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
-import { QuotationDetailCosts } from '@gq/shared/models/quotation-detail/cost';
+import { QuotationDetailSqvCheck } from '@gq/shared/models/quotation-detail/rfq/quotation-detail-sqv-check.interface';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { SqvCheckSourcePipe } from '@gq/shared/pipes/sqv-check-source/sqv-check-source.pipe';
 import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
@@ -27,8 +27,8 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 export class SqvCostReferenceComponent {
   activeCaseFacade = inject(ActiveCaseFacade);
 
-  detailCosts$: Observable<QuotationDetailCosts> =
-    this.activeCaseFacade.selectedQuotationDetailCosts$;
+  sqvCheck$: Observable<QuotationDetailSqvCheck> =
+    this.activeCaseFacade.selectedQuotationDetailSqvCheck$;
 
   currency$: Observable<string> = this.activeCaseFacade.quotationCurrency$;
 }

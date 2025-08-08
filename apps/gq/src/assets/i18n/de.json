@@ -176,22 +176,24 @@
       "actionMenuItems": {
         "startProcess": "Prozess Starten",
         "cancelProcess": "Prozess Absagen",
-        "showHistory": "Prozess Historie Anzeigen",
-        "reopenProcess": "Prozess Wiederholen"
+        "showHistory": "Prozess Historie anzeigen",
+        "reopenProcess": "Prozess wieder öffnen"
       },
       "approvalProcesses": {
-        "start": {
-          "title": "Anfrage zur Wiederholkalkulation für Item {posId} senden",
+        "calculatorFound": {
           "forwardedToLabel": "Anfrage wird weitergeleitet an:",
           "productionPlantLabel": "Produktionswerk",
           "productLineLabel": "Produktlinie",
           "messageLabel": "Nachricht",
-          "messageHint": "Nachricht an Kalkulation",
+          "messageHint": "Nachricht an Kalkulation"
+        },
+        "start": {
+          "title": "Anfrage zur Wiederholkalkulation für Position {posId}",
           "sendRequestButton": "Anfrage senden",
           "cancelButton": "Abbrechen"
         },
         "cancel": {
-          "title": "Kalkulation für Position {posId} absagen | RFQ: {rfq4Id}",
+          "title": "Kalkulation für Position {posId} absagen{rfq4Id, select, null{} other{ | RFQ: 4-{rfq4Id}}}",
           "label": "Grund für die Absage der Wiederholkalkulation:",
           "cancelledByCustomer": "Absage von Kunden",
           "cancelledBySchaeffler": "Absage von Schaeffler",
@@ -199,6 +201,13 @@
           "commentHint": "Trage weitere Details zum Grund der Absage ein",
           "cancelProcessButton": "Prozess absagen",
           "cancelDialogButton": "Abbrechen"
+        },
+        "reopen": {
+          "title": "Kalkulation für Position {posId} wieder öffnen{rfq4Id, select, null{} other{ | RFQ: 4-{rfq4Id}}}",
+          "reopenWarning": "Prozess kann nur einmal wieder geöffnet werden",
+          "confirmMessage": "Soll die Neuberechnung wieder geöffnet werden?",
+          "sendRequestButton": "Prozess wieder öffnen",
+          "cancelButton": "Abbrechen"
         },
         "calculatorMissing": {
           "title": "Kein Kalkulator gefunden für Position {posId}",
@@ -208,7 +217,7 @@
           "sendMailButton": "E-Mail senden"
         },
         "showHistory": {
-          "title": "Wiederholkalkulation für Item {posId} | RFQ: {rfq4Id}",
+          "title": "Wiederholkalkulation für Item {posId}{rfq4Id, select, null{} other{ | RFQ: 4-{rfq4Id}}}",
           "steps": {
             "firstStep": "Anfrage gesendet",
             "secondStep": "Kalkulation",

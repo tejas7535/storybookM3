@@ -1,4 +1,4 @@
-export enum ApprovalProcessAction {
+export enum RecalculationProcessAction {
   START = 'start',
   CANCEL = 'cancel',
   REOPEN = 'reopen',
