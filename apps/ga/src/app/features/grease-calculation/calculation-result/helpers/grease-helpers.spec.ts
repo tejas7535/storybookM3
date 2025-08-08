@@ -1,16 +1,9 @@
 import { TranslocoModule } from '@jsverse/transloco';
 
-import { LabelValue } from '@schaeffler/label-value';
-
-import { GREASE_CONCEPT1_SUITABILITY } from '@ga/testing/mocks/models/grease-concept1-suitability.mock';
 import * as subordinateDataMock from '@ga/testing/mocks/models/grease-report-subordinate-data.mock';
-import { GreaseReportConcept1HintMock } from '@ga/testing/mocks/models/grease-report-subordinate-data.mock';
-import { greaseResultConcept1Mock } from '@ga/testing/mocks/models/grease-result.mock';
 
 import {
-  CONCEPT1,
   CONCEPT1_SIZES,
-  GreaseReportSubordinate,
   GreaseReportSubordinateDataItem,
   SubordinateDataItemField,
   SUITABILITY,
@@ -24,119 +17,6 @@ jest.mock('@jsverse/transloco', () => ({
 }));
 
 describe('Grease helpers', () => {
-  describe('adaptLabelValuesFromGreaseResultData', () => {
-    it('should convert custom data with tooltip into a set of label-value pairs', () => {
-      const validResultData = helpers.adaptLabelValuesFromGreaseResultData([
-        greaseResultConcept1Mock,
-      ]);
-
-      const labelValueFromValidResultData: LabelValue[] = [
-        {
-          label: 'calculationResult.concept1',
-          labelHint: GreaseReportConcept1HintMock,
-          value: undefined,
-          metadata: undefined,
-          specialTemplate: undefined,
-          custom: {
-            selector: CONCEPT1,
-            data: GREASE_CONCEPT1_SUITABILITY,
-          },
-        },
-      ];
-
-      expect(validResultData).toStrictEqual(labelValueFromValidResultData);
-    });
-
-    it('should convert custom data without tooltip into a set of label-value pairs', () => {
-      const data = {
-        ...GREASE_CONCEPT1_SUITABILITY,
-        hint: undefined,
-      } as any;
-
-      const validResultData = helpers.adaptLabelValuesFromGreaseResultData([
-        {
-          title: 'concept1',
-          custom: {
-            selector: CONCEPT1,
-            data,
-          },
-        },
-      ]);
-
-      const labelValueFromValidResultData: LabelValue[] = [
-        {
-          label: 'calculationResult.concept1',
-          labelHint: undefined,
-          value: undefined,
-          metadata: undefined,
-          specialTemplate: undefined,
-          custom: {
-            selector: 'CONCEPT1',
-            data,
-          },
-        },
-      ];
-
-      expect(validResultData).toStrictEqual(labelValueFromValidResultData);
-    });
-
-    it('should convert custom data without available values into a set of label-value pairs', () => {
-      const data = {
-        ...GREASE_CONCEPT1_SUITABILITY,
-        hint: 'some hint',
-        c1_60: undefined,
-        c1_125: undefined,
-      } as any;
-
-      const validResultData = helpers.adaptLabelValuesFromGreaseResultData([
-        {
-          title: 'concept1',
-          custom: {
-            selector: CONCEPT1,
-            data,
-          },
-        },
-      ]);
-
-      const labelValueFromValidResultData: LabelValue[] = [
-        {
-          label: 'calculationResult.concept1',
-          labelHint: undefined,
-          value: undefined,
-          custom: {
-            selector: 'CONCEPT1',
-            data,
-          },
-          metadata: undefined,
-          specialTemplate: undefined,
-        },
-      ];
-
-      expect(validResultData).toStrictEqual(labelValueFromValidResultData);
-    });
-
-    it('should handle invalid or incomplete data', () => {
-      const invalidResultData = helpers.adaptLabelValuesFromGreaseResultData();
-      const invalidResultDataItem =
-        helpers.adaptLabelValuesFromGreaseResultData([undefined]);
-
-      const labelValueFromInvalidResultData: LabelValue[] = [
-        {
-          label: '',
-          labelHint: undefined,
-          value: undefined,
-          metadata: undefined,
-          specialTemplate: undefined,
-        },
-      ];
-
-      expect(invalidResultData).toStrictEqual([]);
-      expect(invalidResultDataItem).toStrictEqual(
-        labelValueFromInvalidResultData
-      );
-    });
-  });
-
   describe('itemValue', () => {
     it('should return a string value', () => {
       const value = helpers.itemValue(
@@ -688,20 +568,6 @@ describe('Grease helpers', () => {
     });
   });
 
-  it('extractKappa value should get the kappa from a grease result', () => {
-    const MOCK_SUBORDINATE = {
-      greaseResult: {
-        dataSource: [
-          {
-            title: 'viscosityRatio',
-            values: '4,5',
-          },
-        ],
-      },
-    } as GreaseReportSubordinate;
-    expect(helpers.extractKappaValue(MOCK_SUBORDINATE)).toEqual(4.5);
-  });
-
   describe('getKappaBadgeColorClass', () => {
     it.each([
       ['0,0', 'bg-error-container text-error'],
@@ -716,107 +582,6 @@ describe('Grease helpers', () => {
       'should return the right formatting class for %s the kappa badge',
       (input, expected) => {
         const result = helpers.getKappaBadgeColorClass(input);
-        expect(result).toEqual(expected);
-      }
-    );
-  });
-
-  describe('parseInternationalFloat', () => {
-    it.each([
-      [['1,000,000', 'decimal_point'], 1_000_000],
-      [['1,500,000.5', 'decimal_point'], 1_500_000.5],
-      [['1,000.5,', 'decimal_point'], 1000.5],
-      [['1.000.000,5', 'decimal_comma'], 1_000_000.5],
-      [['1.000,5', 'decimal_comma'], 1000.5],
-      [['1,5', 'decimal_comma'], 1.5],
-      [['1', 'decimal_comma'], 1],
-    ])(
-      'should return the correct floating point representation for %s',
-      (input, expected) => {
-        const result = helpers.parseInternationalFloat(
-          input[0],
-          input[1] as any
-        );
-        expect(result).toEqual(expected);
-      }
-    );
-  });
-
-  describe('getRelubricationAmount', () => {
-    const mockRelubricationSubordinateFactory = (
-      value: string
-    ): GreaseReportSubordinate =>
-      ({
-        greaseResult: {
-          dataSource: [
-            {
-              title: 'relubricationQuantityPer1000OperatingHours',
-              values: value,
-            },
-          ],
-        },
-      }) as GreaseReportSubordinate;
-
-    it.each([
-      [
-        '<span>39.9 g/1000 hours</span><br><span class="text-low-emphasis">44.4 cm³/1000 hours</span>',
-        44.4,
-      ],
-      [
-        '<span>39.9 g/1000 hours</span><br><span class="text-low-emphasis">4,444.4 cm³/1000 hours</span>',
-        4444.4,
-      ],
-      [
-        '<span>39.9 g/1000 hours</span><br><span class="text-low-emphasis">10 cm³/1000 hours</span>',
-        10,
-      ],
-      [
-        '<span>39.9 g/1000 hours</span><br><span class="text-low-emphasis">0.4 cm³/1000 hours</span>',
-        0.4,
-      ],
-    ])(
-      'should return the correct cm3 value for %s with decicmal point',
-      (input, expected) => {
-        const result = helpers.getRelubricationAmount(
-          mockRelubricationSubordinateFactory(input),
-          'decimal_point'
-        );
-        expect(result).toEqual(expected);
-      }
-    );
-
-    it.each([
-      [
-        '<span>39,9 g/1000 hours</span><br><span class="text-low-emphasis">55,4 cm³/1000 hours</span>',
-        55.4,
-      ],
-      [
-        '<span>39,9 g/1000 hours</span><br><span class="text-low-emphasis">55 cm³/1000 hours</span>',
-        55,
-      ],
-      [
-        '<span>39,9 g/1000 hours</span><br><span class="text-low-emphasis">5 cm³/1000 hours</span>',
-        5,
-      ],
-      [
-        '<span>39,9 g/1000 hours</span><br><span class="text-low-emphasis">5.000,4 cm³/1000 hours</span>',
-        5000.4,
-      ],
-      [
-        '<span>39,9 g/1000 hours</span><br><span class="text-low-emphasis">5.000.000,4 cm³/1000 hours</span>',
-        5_000_000.4,
-      ],
-      [
-        '<span>39,9 g/1000 hours</span><br><span class="text-low-emphasis">0,4 cm³/1000 hours</span>',
-        0.4,
-      ],
-    ])(
-      'should return the correct cm3 value for %s with decicmal comma',
-      (input, expected) => {
-        const result = helpers.getRelubricationAmount(
-          mockRelubricationSubordinateFactory(input),
-          'decimal_comma'
-        );
         expect(result).toEqual(expected);
       }
     );

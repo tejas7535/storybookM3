@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { debounceTime, firstValueFrom, Subscription } from 'rxjs';
@@ -26,7 +26,6 @@ import {
   getReportUrls,
   getVersions,
 } from '@ga/core/store/selectors/calculation-result/calculation-result.selector';
-import { environment } from '@ga/environments/environment';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
 import { TRACKING_PDF_DOWNLOAD } from '@ga/shared/constants';
 import { ReportUrls } from '@ga/shared/models';
@@ -42,12 +41,24 @@ import { GreaseReportPdfGeneratorService } from './services/pdf/grease-report-pd
   standalone: false,
 })
 export class CalculationResultComponent implements OnInit, OnDestroy {
-  @ViewChild('greaseReport') greaseReport: GreaseReportComponent;
+  private readonly store = inject(Store);
+  private readonly router = inject(Router);
+  private readonly translocoService = inject(TranslocoService);
+  private readonly settingsFacade = inject(SettingsFacade);
+  private readonly calculationParametersFacade = inject(
+    CalculationParametersFacade
+  );
+  private readonly greaseReportGeneratorService = inject(
+    GreaseReportPdfGeneratorService
+  );
+  private readonly appInsightsService = inject(ApplicationInsightsService);
+  private readonly pdfSelectionService = inject(GreasePDFSelectionService);
 
-  public showCompactToggle = environment.showCompactResultToggle;
+  private readonly greaseReport =
+    viewChild<GreaseReportComponent>('greaseReport');
+
   public reportUrls: ReportUrls;
   public reportSelector = '.content';
-  public showCompactView = true;
   public selectedBearing$ = this.store.select(getSelectedBearing);
   public preferredGreaseSelection$ = this.store.select(
     getPreferredGreaseSelection
@@ -65,17 +76,6 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
 
   protected selectedCount = this.pdfSelectionService.selectedCount;
   protected isSelectionModeEnabled = this.pdfSelectionService.selectionMode;
-
-  constructor(
-    private readonly store: Store,
-    private readonly router: Router,
-    private readonly translocoService: TranslocoService,
-    private readonly settingsFacade: SettingsFacade,
-    private readonly calculationParametersFacade: CalculationParametersFacade,
-    private readonly greaseReportGeneratorService: GreaseReportPdfGeneratorService,
-    private readonly appInsightsService: ApplicationInsightsService,
-    private readonly pdfSelectionService: GreasePDFSelectionService
-  ) {}
 
   public ngOnInit(): void {
     this.store.dispatch(fetchBearinxVersions());
@@ -117,7 +117,7 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  public async generateReport(selectedBearing: string, filterResults = false) {
+  public async generateReport(selectedBearing: string) {
     const title = this.translocoService.translate(
       'calculationResult.title.main'
     );
@@ -138,51 +138,46 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
           `parameters.applications.${selectedApplication}`
         )
       : '';
-    const reportData = [...this.greaseReport.subordinates].map((sub) => {
-      if (sub.titleID === 'STRING_OUTP_INPUT') {
-        const modifiedSubordinate = { ...sub };
-        modifiedSubordinate.subordinates = modifiedSubordinate.subordinates.map(
-          (env) => {
-            if (
-              env.titleID === 'PROPERTY_PAGE_TITLE_TEMPERATURES' &&
-              !!selectedApplication &&
-              selectedApplication !== ApplicationScenario.All
-            ) {
-              const modifiedEnv = { ...env };
-              modifiedEnv.subordinates.push({
-                identifier: 'variableLine',
-                designation: applicationLabel,
-                value: translatedApplicationSelection,
-              });
 
-              return modifiedEnv;
-            }
+    const inputSubordinate = {
+      ...this.greaseReport().greaseResultReport().inputs,
+    };
+    inputSubordinate.subordinates = inputSubordinate.subordinates.map((env) => {
+      if (
+        env.titleID === 'PROPERTY_PAGE_TITLE_TEMPERATURES' &&
+        !!selectedApplication &&
+        selectedApplication !== ApplicationScenario.All
+      ) {
+        const modifiedEnv = { ...env };
+        modifiedEnv.subordinates.push({
+          identifier: 'variableLine',
+          designation: applicationLabel,
+          value: translatedApplicationSelection,
+        });
 
-            return env;
-          }
-        );
-      }
-      if (filterResults && sub.titleID === 'STRING_OUTP_RESULTS') {
-        const modified = { ...sub };
-        modified.subordinates = modified.subordinates.filter((subordinate) =>
-          this.pdfSelectionService.isSelected(
-            subordinate.greaseResult?.mainTitle
-          )
-        );
-
-        return modified;
+        return modifiedEnv;
       }
 
-      return sub;
+      return env;
     });
+
+    const selectedGreaseResults = this.greaseReport()
+      .greaseResultReport()
+      .greaseResult.filter((result) =>
+        this.pdfSelectionService.isSelected(result.mainTitle)
+      );
 
     const versions = await firstValueFrom(this.bearinxVersions$);
     this.greaseReportGeneratorService.generateReport({
       reportTitle,
       sectionSubTitle: hint,
-      data: reportData,
-      legalNote: this.greaseReport.legalNote,
-      automaticLubrication: this.greaseReport.automaticLubrication,
+      data: [
+        inputSubordinate,
+        this.greaseReport().greaseResultReport().errorWarningsAndNotes,
+      ],
+      results: selectedGreaseResults,
+      legalNote: this.greaseReport().legalNote(),
+      automaticLubrication: this.greaseReport().automaticLubrication(),
       versions,
     });
     this.appInsightsService.logEvent(TRACKING_PDF_DOWNLOAD, {

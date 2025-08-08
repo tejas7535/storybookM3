@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable max-lines */
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { combineLatest } from 'rxjs';
 import { take } from 'rxjs/internal/operators/take';
@@ -29,6 +29,7 @@ import {
   GreasePdfReportModel,
   GreasePdfResult,
   GreasePdfResultTable,
+  GreaseResult,
 } from '../../models';
 import { GreaseReportSubordinate } from '../../models/grease-report-subordinate.model';
 import { GreaseReportDataGeneratorService } from '../grease-report-data-generator.service';
@@ -40,6 +41,18 @@ import { getCellHook } from './partner-version-helpers';
 
 @Injectable()
 export class GreaseReportPdfGeneratorService {
+  private readonly dataGeneratorService = inject(
+    GreaseReportDataGeneratorService
+  );
+  private readonly translocoLocaleService = inject(TranslocoLocaleService);
+  private readonly greaseReportPdfFileSaveService = inject(
+    GreaseReportPdfFileSaveService
+  );
+  private readonly fontsLoaderService = inject(FontsLoaderService);
+  private readonly settingsFacade = inject(SettingsFacade);
+  private readonly imageLoaderService = inject(ImageLoaderService);
+  private readonly translocoService = inject(TranslocoService);
+
   private readonly mainGreenColor = '#EDF7F1'; // light green
   private readonly mainGreyColor = '#f2f2f2';
   private readonly secondaryTextColor = '#000000';
@@ -79,15 +92,7 @@ export class GreaseReportPdfGeneratorService {
     take(1)
   );
 
-  public constructor(
-    private readonly dataGeneratorService: GreaseReportDataGeneratorService,
-    private readonly translocoLocaleService: TranslocoLocaleService,
-    private readonly greaseReportPdfFileSaveService: GreaseReportPdfFileSaveService,
-    private readonly fontsLoaderService: FontsLoaderService,
-    private readonly settingsFacade: SettingsFacade,
-    private readonly imageLoaderService: ImageLoaderService,
-    private readonly translocoService: TranslocoService
-  ) {
+  public constructor() {
     this.schaefflerLogo$.subscribe();
     this.partnerStaticContent$.subscribe();
   }
@@ -110,7 +115,11 @@ export class GreaseReportPdfGeneratorService {
 
     this.generateInputSection(doc, report.data);
 
-    this.generateResultSection(doc, report);
+    this.generateResultSection(
+      doc,
+      report.results,
+      report.automaticLubrication
+    );
     this.generateErrorsAndWarningsSection(doc, report.data, report.versions);
 
     this.generateHeaderAndFooterSectionsOnEveryPage(doc, report, currentDate);
@@ -264,13 +273,14 @@ export class GreaseReportPdfGeneratorService {
 
   private generateResultSection(
     doc: jsPDF,
-    report: GreasePdfReportModel
+    results: GreaseResult[],
+    automaticLubrication: boolean
   ): void {
     this.addNewPage(doc);
     const data: GreasePdfResult =
       this.dataGeneratorService.prepareReportResultData(
-        report.data,
-        report.automaticLubrication
+        results,
+        automaticLubrication
       );
     this.printSectionTitle(data.sectionTitle, doc);
 

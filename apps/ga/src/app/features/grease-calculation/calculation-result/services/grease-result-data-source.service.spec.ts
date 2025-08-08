@@ -8,13 +8,7 @@ import {
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import {
-  GreaseReportConcept1HintMock,
-  GreaseReportConcept1ItemsMock,
-  GreaseReportConcept160ValueMock,
-  GreaseReportConcept1125ValueMock,
-  greaseResultDataMock,
-} from '@ga/testing/mocks';
+import { greaseResultItemMock } from '@ga/testing/mocks';
 import { GREASE_CONCEPT1_SUITABILITY } from '@ga/testing/mocks/models/grease-concept1-suitability.mock';
 import * as subordinateDataMock from '@ga/testing/mocks/models/grease-report-subordinate-data.mock';
 
@@ -130,7 +124,7 @@ describe('GreaseResultDataSourceService', () => {
             selector: CONCEPT1,
             data: {
               label: SUITABILITY_LABEL.UNSUITED,
-              hint: GreaseReportConcept1HintMock,
+              hint: subordinateDataMock.GreaseReportConcept1HintMock,
               c1_125: false,
               c1_60: false,
               hint_60: 'disabled size hint',
@@ -150,7 +144,7 @@ describe('GreaseResultDataSourceService', () => {
               data: {
                 items: [
                   [
-                    ...GreaseReportConcept1ItemsMock,
+                    ...subordinateDataMock.GreaseReportConcept1ItemsMock,
                     {
                       value: '1, 2',
                       unit: undefined,
@@ -171,9 +165,9 @@ describe('GreaseResultDataSourceService', () => {
             selector: CONCEPT1,
             data: {
               label: SUITABILITY_LABEL.SUITED,
-              hint: GreaseReportConcept1HintMock,
-              c1_125: GreaseReportConcept1125ValueMock,
-              c1_60: GreaseReportConcept160ValueMock,
+              hint: subordinateDataMock.GreaseReportConcept1HintMock,
+              c1_125: subordinateDataMock.GreaseReportConcept1125ValueMock,
+              c1_60: subordinateDataMock.GreaseReportConcept160ValueMock,
               hint_60: 'concept1settings.size60PossibleHint',
               hint_125: 'concept1settings.size125PossibleHint',
             },
@@ -308,8 +302,12 @@ describe('GreaseResultDataSourceService', () => {
 
         expect(item).toStrictEqual({
           title: 'maximumManualRelubricationPerInterval',
-          values:
-            '<span>25.6 g/365 days</span><br><span class="text-low-emphasis">25.6 /365 days</span>',
+          value: 25.6,
+          prefix: '',
+          unit: 'g/365 days',
+          secondaryValue: 25.6,
+          secondaryPrefix: '',
+          secondaryUnit: '/365 days',
         });
       });
     });
@@ -335,8 +333,12 @@ describe('GreaseResultDataSourceService', () => {
 
         expect(item).toStrictEqual({
           title: 'maximumManualRelubricationPerInterval',
-          values:
-            '<span>19.9 g/284 days</span><br><span class="text-low-emphasis">19.9 /284 days</span>',
+          value: 19.9,
+          prefix: '',
+          unit: 'g/284 days',
+          secondaryValue: 19.9,
+          secondaryPrefix: '',
+          secondaryUnit: '/284 days',
         });
       });
     });
@@ -378,8 +380,12 @@ describe('GreaseResultDataSourceService', () => {
 
         expect(item).toStrictEqual({
           title: 'maximumManualRelubricationPerInterval',
-          values:
-            '<span>0.6 g/7 days</span><br><span class="text-low-emphasis">0.6 /7 days</span>',
+          value: 0.6,
+          prefix: '',
+          unit: 'g/7 days',
+          secondaryValue: 0.6,
+          secondaryPrefix: '',
+          secondaryUnit: '/7 days',
         });
       });
     });
@@ -414,7 +420,9 @@ describe('GreaseResultDataSourceService', () => {
       expect(item).toStrictEqual({
         title: 'relubricationInterval',
         tooltip: 'relubricationIntervalTooltip',
-        values: '~ 867 days',
+        value: 867,
+        prefix: '~',
+        unit: 'days',
       });
     });
 
@@ -441,7 +449,7 @@ describe('GreaseResultDataSourceService', () => {
       ]);
 
       expect(item).toStrictEqual(
-        greaseResultDataMock(
+        greaseResultItemMock(
           subordinateDataMock.dataItemValueNumberMock,
           subordinateDataMock.dataItemUnitMock
         )[3]
@@ -476,7 +484,7 @@ describe('GreaseResultDataSourceService', () => {
       );
 
       expect(item).toStrictEqual(
-        greaseResultDataMock(
+        greaseResultItemMock(
           subordinateDataMock.dataItemValueNumberMock,
           subordinateDataMock.dataItemUnitMock
         )[4]
@@ -514,7 +522,7 @@ describe('GreaseResultDataSourceService', () => {
       );
 
       expect(item).toStrictEqual(
-        greaseResultDataMock(
+        greaseResultItemMock(
           subordinateDataMock.dataItemValueNumberMock,
           subordinateDataMock.dataItemUnitMock
         )[5]
@@ -566,7 +574,7 @@ describe('GreaseResultDataSourceService', () => {
       ]);
 
       expect(item).toStrictEqual(
-        greaseResultDataMock(
+        greaseResultItemMock(
           subordinateDataMock.dataItemValueNumberMock,
           subordinateDataMock.dataItemUnitMock
         )[6]
@@ -590,7 +598,7 @@ describe('GreaseResultDataSourceService', () => {
       ]);
 
       expect(item).toStrictEqual(
-        greaseResultDataMock(
+        greaseResultItemMock(
           subordinateDataMock.dataItemValueNumberMock,
           subordinateDataMock.dataItemUnitMock
         )[7]
@@ -614,7 +622,7 @@ describe('GreaseResultDataSourceService', () => {
       ]);
 
       expect(item).toStrictEqual(
-        greaseResultDataMock(
+        greaseResultItemMock(
           subordinateDataMock.dataItemValueNumberMock,
           subordinateDataMock.dataItemUnitMock
         )[8]
@@ -638,7 +646,7 @@ describe('GreaseResultDataSourceService', () => {
       ]);
 
       expect(item).toStrictEqual(
-        greaseResultDataMock(
+        greaseResultItemMock(
           subordinateDataMock.dataItemValueNumberMock,
           subordinateDataMock.dataItemUnitMock
         )[9]
@@ -662,7 +670,7 @@ describe('GreaseResultDataSourceService', () => {
       ]);
 
       expect(item).toStrictEqual(
-        greaseResultDataMock(
+        greaseResultItemMock(
           subordinateDataMock.dataItemValueStringMock,
           subordinateDataMock.dataItemUnitMock
         )[10]
@@ -673,11 +681,11 @@ describe('GreaseResultDataSourceService', () => {
       const item = service.additiveRequired([]);
 
       expect(item).toStrictEqual({
-        ...greaseResultDataMock(
+        ...greaseResultItemMock(
           subordinateDataMock.dataItemValueStringMock,
           subordinateDataMock.dataItemUnitMock
         )[10],
-        values: 'calculationResult.undefinedValue',
+        value: 'calculationResult.undefinedValue',
       });
     });
   });
@@ -692,7 +700,7 @@ describe('GreaseResultDataSourceService', () => {
       ]);
 
       expect(item).toStrictEqual(
-        greaseResultDataMock(
+        greaseResultItemMock(
           subordinateDataMock.dataItemValueNumberMock,
           subordinateDataMock.dataItemUnitMock
         )[11]
@@ -703,11 +711,11 @@ describe('GreaseResultDataSourceService', () => {
       const item = service.effectiveEpAdditivation([]);
 
       expect(item).toStrictEqual({
-        ...greaseResultDataMock(
+        ...greaseResultItemMock(
           subordinateDataMock.dataItemValueNumberMock,
           subordinateDataMock.dataItemUnitMock
         )[11],
-        values: 'calculationResult.undefinedValue',
+        value: 'calculationResult.undefinedValue',
       });
     });
   });
@@ -722,7 +730,7 @@ describe('GreaseResultDataSourceService', () => {
       ]);
 
       expect(item).toStrictEqual(
-        greaseResultDataMock(
+        greaseResultItemMock(
           subordinateDataMock.dataItemValueNumberMock,
           subordinateDataMock.dataItemUnitMock
         )[12]
@@ -747,7 +755,7 @@ describe('GreaseResultDataSourceService', () => {
       ]);
 
       expect(item).toStrictEqual(
-        greaseResultDataMock(
+        greaseResultItemMock(
           subordinateDataMock.dataItemValueStringMock,
           subordinateDataMock.dataItemUnitMock
         )[13]
@@ -758,11 +766,11 @@ describe('GreaseResultDataSourceService', () => {
       const item = service.lowFriction([]);
 
       expect(item).toStrictEqual({
-        ...greaseResultDataMock(
+        ...greaseResultItemMock(
           subordinateDataMock.dataItemValueStringMock,
           subordinateDataMock.dataItemUnitMock
         )[13],
-        values: 'n.a.',
+        value: 'n.a.',
       });
     });
   });
@@ -778,7 +786,7 @@ describe('GreaseResultDataSourceService', () => {
       ]);
 
       expect(item).toStrictEqual(
-        greaseResultDataMock(
+        greaseResultItemMock(
           subordinateDataMock.dataItemValueStringMock,
           subordinateDataMock.dataItemUnitMock
         )[14]
@@ -789,11 +797,11 @@ describe('GreaseResultDataSourceService', () => {
       const item = service.suitableForVibrations([]);
 
       expect(item).toStrictEqual({
-        ...greaseResultDataMock(
+        ...greaseResultItemMock(
           subordinateDataMock.dataItemValueStringMock,
           subordinateDataMock.dataItemUnitMock
         )[14],
-        values: 'n.a.',
+        value: 'n.a.',
       });
     });
   });
@@ -809,7 +817,7 @@ describe('GreaseResultDataSourceService', () => {
       ]);
 
       expect(item).toStrictEqual(
-        greaseResultDataMock(
+        greaseResultItemMock(
           subordinateDataMock.dataItemValueStringMock,
           subordinateDataMock.dataItemUnitMock
         )[15]
@@ -820,11 +828,11 @@ describe('GreaseResultDataSourceService', () => {
       const item = service.supportForSeals([]);
 
       expect(item).toStrictEqual({
-        ...greaseResultDataMock(
+        ...greaseResultItemMock(
           subordinateDataMock.dataItemValueStringMock,
           subordinateDataMock.dataItemUnitMock
         )[15],
-        values: 'n.a.',
+        value: 'n.a.',
       });
     });
   });
@@ -839,7 +847,7 @@ describe('GreaseResultDataSourceService', () => {
       ]);
 
       expect(item).toStrictEqual(
-        greaseResultDataMock(
+        greaseResultItemMock(
           subordinateDataMock.dataItemValueStringMock,
           subordinateDataMock.dataItemUnitMock
         )[16]
@@ -850,11 +858,11 @@ describe('GreaseResultDataSourceService', () => {
       const item = service.h1Registration([]);
 
       expect(item).toStrictEqual({
-        ...greaseResultDataMock(
+        ...greaseResultItemMock(
           subordinateDataMock.dataItemValueStringMock,
           subordinateDataMock.dataItemUnitMock
         )[16],
-        values: 'calculationResult.undefinedValue',
+        value: 'calculationResult.undefinedValue',
       });
     });
   });

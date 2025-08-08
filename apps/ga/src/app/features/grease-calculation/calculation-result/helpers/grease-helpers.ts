@@ -1,7 +1,6 @@
 import { translate } from '@jsverse/transloco';
 
 import { RotaryControlItem } from '@schaeffler/controls';
-import { LabelValue } from '@schaeffler/label-value';
 
 import {
   concept1Queries,
@@ -10,9 +9,8 @@ import {
 } from '../constants';
 import {
   CONCEPT1_SIZES,
-  GreaseReportSubordinate,
   GreaseReportSubordinateDataItem,
-  GreaseResultData,
+  GreaseResult,
   GreaseResultDataItem,
   GreaseSuitabilityLevels,
   SubordinateDataItemField,
@@ -20,37 +18,7 @@ import {
   SUITABILITY_LABEL,
 } from '../models';
 
-/**
- * Convert grease result data into a set of label-value pairs
- * Defaults to empty array
- */
-export const adaptLabelValuesFromGreaseResultData = (
-  greaseResults: GreaseResultData = []
-): LabelValue[] =>
-  greaseResults.length > 0
-    ? greaseResults.map((greaseResultData) => ({
-        label: translate(
-          greaseResultData?.title
-            ? `calculationResult.${greaseResultData.title}`
-            : ''
-        ),
-        labelHint: getLabelHintForResult(greaseResultData),
-        metadata:
-          greaseResultData?.title === 'viscosityRatio'
-            ? {
-                badgeClass: getKappaBadgeColorClass(greaseResultData.values),
-              }
-            : undefined,
-        value: greaseResultData?.values,
-        ...(greaseResultData?.custom && { custom: greaseResultData.custom }),
-        specialTemplate:
-          greaseResultData?.title === 'viscosityRatio'
-            ? 'viscocity'
-            : undefined,
-      }))
-    : [];
-
-const getLabelHintForResult = (
+export const getLabelHintForResult = (
   dataItem: GreaseResultDataItem
 ): string | undefined =>
   dataItem?.custom?.data
@@ -74,9 +42,9 @@ const getLabelHintForRegularInput = (
     ? translate(`calculationResult.${dataItem.tooltip}`)
     : undefined;
 
-export const getKappaBadgeColorClass = (kappa: string): string => {
+export const getKappaBadgeColorClass = (kappa: number | string): string => {
   try {
-    const kappaValue = Number.parseFloat(kappa.replace(',', '.'));
+    const kappaValue = Number.parseFloat(kappa.toString().replace(',', '.'));
 
     return kappaValue > 4 || kappaValue < 1
       ? 'bg-error-container text-error'
@@ -312,49 +280,6 @@ export const isGreaseSuited = (label: SUITABILITY_LABEL): boolean =>
 export const isGreaseUnSuited = (label: SUITABILITY_LABEL): boolean =>
   label === SUITABILITY_LABEL.UNSUITED;
 
-export const extractKappaValue = (
-  subordinate: GreaseReportSubordinate
-): number => {
-  if (!subordinate.greaseResult) {
-    return -1;
-  }
-  const item = subordinate.greaseResult.dataSource
-    .filter(Boolean)
-    .find((field) => field.title === 'viscosityRatio');
-  if (!item) {
-    return 0;
-  }
-
-  return Number.parseFloat(item.values.replace(',', '.'));
-};
-
-type NumberFormattings = 'decimal_point' | 'decimal_comma';
-export const parseInternationalFloat = (
-  str: string,
-  numberFormatting: NumberFormattings
-): number =>
-  numberFormatting === 'decimal_point'
-    ? Number.parseFloat(str.replaceAll(',', ''))
-    : Number.parseFloat(str.replaceAll('.', '').replaceAll(',', '.'));
-
-export const getRelubricationAmount = (
-  subordinate: GreaseReportSubordinate,
-  numberFormatting: NumberFormattings
-): number => {
-  const value = subordinate.greaseResult.dataSource.find(
-    (gr) => gr.title === 'relubricationQuantityPer1000OperatingHours'
-  ).values;
-  const regex = new RegExp(/((\d*[,.]?)*([,.])?\d+)\s*cm³/);
-  const match = regex.exec(value)[1];
-
-  const parsedRelubricationAmount = parseInternationalFloat(
-    match,
-    numberFormatting
-  );
-
-  return parsedRelubricationAmount;
-};
-
 /**
  * This function contains a lot of domain logic, based on stakeholder input.
  *
@@ -371,15 +296,15 @@ export const getRelubricationAmount = (
  * For kappa > 4: score = 4 - kappa
  **/
 export const scoreGreaseEntry = (
-  subordinate: GreaseReportSubordinate,
-  locale: NumberFormattings
-): { score: number; subordinate: GreaseReportSubordinate } => {
+  greaseResult: GreaseResult
+): { score: number; greaseResult: GreaseResult } => {
   let score = 0;
-  const kappa = extractKappaValue(subordinate);
-  const relubrication = getRelubricationAmount(subordinate, locale);
+  const kappa = greaseResult.performance.viscosityRatio?.value;
+  const relubrication =
+    greaseResult.relubrication.relubricationQuantityPer1000OperatingHours.value;
 
   if (!kappa) {
-    return { score: score - 999, subordinate };
+    return { score: score - 999, greaseResult };
   }
 
   if (kappa >= 1 && kappa <= 4) {
@@ -394,5 +319,5 @@ export const scoreGreaseEntry = (
     score += 4 - kappa;
   }
 
-  return { subordinate, score };
+  return { greaseResult, score };
 };

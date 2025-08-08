@@ -26,6 +26,7 @@ describe('GreasePDFSelectionService', () => {
     });
 
     it('should remove an already existing grease', () => {
+      service['_selectionMode'].set(true);
       const testGrease = 'ARCANOL MULTI2';
       service['_selectedSet'].set(new Set([testGrease]));
       expect(service['_selectedSet']().size).toEqual(1);

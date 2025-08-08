@@ -43,62 +43,33 @@
           </button>
 
           <!-- Download Button -->
-          @if (!isSelectionModeEnabled()) {
-            <button
-              mat-flat-button
-              class="tonal-button sm:flex-1 sm:w-fit"
-              (click)="generateReport(selectedBearing, false)"
-            >
-              {{ t('pdfDownload') }}
-              <mat-icon class="align-middle">download</mat-icon>
-            </button>
-          } @else {
-            <button
-              mat-flat-button
-              class="tonal-button sm:flex-1 sm:w-fit"
-              (click)="generateReport(selectedBearing, true)"
-              [disabled]="selectedCount() === 0"
-            >
-              {{
-                t('selectionButton.downloadSelectedPrompt', {
-                  number: selectedCount(),
-                })
-              }}
-              <mat-icon class="align-middle">download</mat-icon>
-            </button>
-          }
+          <button
+            mat-flat-button
+            class="tonal-button sm:flex-1 sm:w-fit"
+            (click)="generateReport(selectedBearing)"
+            [disabled]="isSelectionModeEnabled() && selectedCount() === 0"
+          >
+            {{
+              isSelectionModeEnabled()
+                ? t('selectionButton.downloadSelectedPrompt', {
+                    number: selectedCount(),
+                  })
+                : t('pdfDownload')
+            }}
+            <mat-icon class="align-middle">download</mat-icon>
+          </button>
         </div>
       </ng-container>
     </schaeffler-subheader>
     @if (reportUrls) {
       <div>
-        @if (showCompactToggle) {
-          <div class="mb-4 flex w-full justify-end">
-            <mat-slide-toggle
-              color="primary"
-              labelPosition="before"
-              [(ngModel)]="showCompactView"
-            >
-              {{ t('showCompactView') }}
-            </mat-slide-toggle>
-          </div>
-        }
-        @if (showCompactView) {
-          <ga-grease-report
-            #greaseReport
-            [greaseReportUrl]="reportUrls.jsonReportUrl"
-            [preferredGreaseResult]="preferredGreaseSelection$ | ngrxPush"
-            [automaticLubrication]="automaticLubrication$ | ngrxPush"
-            [versions]="bearinxVersions$ | ngrxPush"
-          ></ga-grease-report>
-        }
-        @if (!showCompactView) {
-          <schaeffler-html-report
-            [htmlReportUrl]="reportUrls.htmlReportUrl"
-            [reportSelector]="reportSelector"
-          >
-          </schaeffler-html-report>
-        }
+        <ga-grease-report
+          #greaseReport
+          [greaseReportUrl]="reportUrls.jsonReportUrl"
+          [preferredGreaseResult]="preferredGreaseSelection$ | ngrxPush"
+          [automaticLubrication]="automaticLubrication$ | ngrxPush"
+          [versions]="bearinxVersions$ | ngrxPush"
+        ></ga-grease-report>
 
         @if (!(partnerVersion$ | ngrxPush)) {
           <ga-qualtrics-info-banner

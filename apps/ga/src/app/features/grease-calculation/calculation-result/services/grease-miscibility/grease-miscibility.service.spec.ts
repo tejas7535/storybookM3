@@ -5,13 +5,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { CalculationParametersFacade } from '@ga/core/store';
 import { Grease } from '@ga/shared/services/greases/greases.service';
 
-import {
-  GreaseReportSubordinate,
-  GreaseReportSubordinateData,
-  GreaseReportSubordinateIdentifier,
-  GreaseReportSubordinateTitle,
-  GreaseResult,
-} from '../../models';
+import { GreaseReportSubordinate, GreaseResult } from '../../models';
 import { GreaseMiscibilityService } from './grease-miscibility.service';
 
 describe('GreaseMiscibilityService', () => {
@@ -53,22 +47,10 @@ describe('GreaseMiscibilityService', () => {
     ],
   });
 
-  const createGreaseSubordinate = (title: string): GreaseReportSubordinate => ({
-    identifier: 'greaseResult' as GreaseReportSubordinateIdentifier,
-    titleID: GreaseReportSubordinateTitle.STRING_OUTP_RESULTS,
-    greaseResult: {
+  const createGreaseSubordinate = (title: string): GreaseResult =>
+    ({
       mainTitle: title,
-      isSufficient: true,
-      dataSource: [],
-    } as GreaseResult,
-    data: {
-      items: [],
-      fields: [],
-      unitFields: [],
-    } as GreaseReportSubordinateData,
-    title: 'Test',
-    subordinates: [],
-  });
+    }) as GreaseResult;
 
   beforeEach(() => {
     spectator = spectatorFactory();
@@ -76,69 +58,45 @@ describe('GreaseMiscibilityService', () => {
   });
 
   it('should mark greases as miscible when their names match', () => {
-    const subordinates: GreaseReportSubordinate[] = [
+    const subordinates: GreaseResult[] = [
       createGreaseSubordinate('Non-matching Grease'),
       createGreaseSubordinate('Schaeffler Grease 1'),
       {
-        identifier: 'text' as GreaseReportSubordinateIdentifier,
-        titleID: GreaseReportSubordinateTitle.STRING_NOTE_BLOCK,
-        title: 'Other',
-        data: {
-          items: [],
-          fields: [],
-          unitFields: [],
-        } as GreaseReportSubordinateData,
-        subordinates: [],
-      },
+        mainTitle: 'Other',
+      } as GreaseResult,
     ];
 
     const result = service.markMixableGreases(subordinates);
 
     expect(
       result.find(
-        (item: GreaseReportSubordinate) =>
-          item.identifier === 'greaseResult' &&
-          item.greaseResult?.mainTitle === 'Schaeffler Grease 1'
-      )?.greaseResult?.isMiscible
+        (item: GreaseResult) => item.mainTitle === 'Schaeffler Grease 1'
+      )?.isMiscible
     ).toBe(true);
 
     expect(
       result.find(
-        (item: GreaseReportSubordinate) =>
-          item.identifier === 'greaseResult' &&
-          item.greaseResult?.mainTitle === 'Non-matching Grease'
-      )?.greaseResult?.isMiscible
+        (item: GreaseResult) => item.mainTitle === 'Non-matching Grease'
+      )?.isMiscible
     ).toBe(false);
   });
 
   it('should sort miscible greases first', () => {
-    const subordinates: GreaseReportSubordinate[] = [
+    const subordinates: GreaseResult[] = [
       createGreaseSubordinate('Non-matching Grease'),
       createGreaseSubordinate('Schaeffler Grease 1'),
       {
-        identifier: 'text' as GreaseReportSubordinateIdentifier,
-        titleID: GreaseReportSubordinateTitle.STRING_NOTE_BLOCK,
-        title: 'Other',
-        data: {
-          items: [],
-          fields: [],
-          unitFields: [],
-        } as GreaseReportSubordinateData,
-        subordinates: [],
-      },
+        mainTitle: 'Other',
+      } as GreaseResult,
     ];
 
     const result = service.markMixableGreases(subordinates);
 
-    expect(result[0].identifier).toBe('text');
+    expect(result[0].mainTitle).toBe('Schaeffler Grease 1');
+    expect(result[0].isMiscible).toBe(true);
 
-    expect(result[1].identifier).toBe('greaseResult');
-    expect(result[1].greaseResult?.mainTitle).toBe('Schaeffler Grease 1');
-    expect(result[1].greaseResult?.isMiscible).toBe(true);
-
-    expect(result[2].identifier).toBe('greaseResult');
-    expect(result[2].greaseResult?.mainTitle).toBe('Non-matching Grease');
-    expect(result[2].greaseResult?.isMiscible).toBe(false);
+    expect(result[1].mainTitle).toBe('Non-matching Grease');
+    expect(result[1].isMiscible).toBe(false);
   });
 
   it('should handle empty mixable greases array', () => {
@@ -146,19 +104,11 @@ describe('GreaseMiscibilityService', () => {
       mockCalculationParametersFacade.mixableSchaefflerGreases$;
     mockCalculationParametersFacade.mixableSchaefflerGreases$ = of([]);
 
-    const subordinates: GreaseReportSubordinate[] = [
+    const subordinates: GreaseResult[] = [
       createGreaseSubordinate('Any Grease'),
       {
-        identifier: 'text' as GreaseReportSubordinateIdentifier,
-        titleID: GreaseReportSubordinateTitle.STRING_NOTE_BLOCK,
-        title: 'Other',
-        data: {
-          items: [],
-          fields: [],
-          unitFields: [],
-        } as GreaseReportSubordinateData,
-        subordinates: [],
-      },
+        mainTitle: 'Other',
+      } as GreaseResult,
     ];
 
     const result = service.markMixableGreases(subordinates);
@@ -166,11 +116,8 @@ describe('GreaseMiscibilityService', () => {
     expect(result.length).toBe(subordinates.length);
 
     expect(
-      result.find(
-        (item: GreaseReportSubordinate) =>
-          item.identifier === 'greaseResult' &&
-          item.greaseResult?.mainTitle === 'Any Grease'
-      )?.greaseResult?.isMiscible
+      result.find((item: GreaseResult) => item.mainTitle === 'Any Grease')
+        ?.isMiscible
     ).toBe(false);
 
     mockCalculationParametersFacade.mixableSchaefflerGreases$ =
@@ -182,7 +129,7 @@ describe('GreaseMiscibilityService', () => {
       .spyOn(service as any, 'mixableSchaefflerGreases')
       .mockReturnValue(undefined);
 
-    const subordinates: GreaseReportSubordinate[] = [
+    const subordinates: GreaseResult[] = [
       createGreaseSubordinate('Any Grease'),
     ];
 
@@ -200,22 +147,22 @@ describe('GreaseMiscibilityService', () => {
 
     expect(result.length).toBe(1);
 
-    expect(result[0].greaseResult?.isMiscible).toBe(true);
+    expect(result[0].isMiscible).toBe(true);
   });
 
   it('should sort greases with same miscibility status correctly', () => {
-    const subordinates: GreaseReportSubordinate[] = [
+    const subordinates: GreaseResult[] = [
       createGreaseSubordinate('Schaeffler Grease 1'),
       createGreaseSubordinate('Schaeffler Grease 2'),
     ];
 
     const result = service.markMixableGreases(subordinates);
 
-    expect(result[0].greaseResult?.isMiscible).toBe(true);
-    expect(result[1].greaseResult?.isMiscible).toBe(true);
+    expect(result[0].isMiscible).toBe(true);
+    expect(result[1].isMiscible).toBe(true);
 
-    expect(result[0].greaseResult?.mainTitle).toBe('Schaeffler Grease 1');
-    expect(result[1].greaseResult?.mainTitle).toBe('Schaeffler Grease 2');
+    expect(result[0].mainTitle).toBe('Schaeffler Grease 1');
+    expect(result[1].mainTitle).toBe('Schaeffler Grease 2');
   });
 
   it('should handle greases with the ID match instead of name match', () => {
@@ -223,46 +170,46 @@ describe('GreaseMiscibilityService', () => {
 
     const result = service.markMixableGreases([subordinate]);
 
-    expect(result[0].greaseResult?.isMiscible).toBe(true);
+    expect(result[0].isMiscible).toBe(true);
   });
 
   it('should sort two non-miscible greases correctly', () => {
-    const subordinates: GreaseReportSubordinate[] = [
+    const subordinates: GreaseResult[] = [
       createGreaseSubordinate('Non-matching Grease 1'),
       createGreaseSubordinate('Non-matching Grease 2'),
     ];
 
     const result = service.markMixableGreases(subordinates);
 
-    expect(result[0].greaseResult?.isMiscible).toBe(false);
-    expect(result[1].greaseResult?.isMiscible).toBe(false);
+    expect(result[0].isMiscible).toBe(false);
+    expect(result[1].isMiscible).toBe(false);
 
-    expect(result[0].greaseResult?.mainTitle).toBe('Non-matching Grease 1');
-    expect(result[1].greaseResult?.mainTitle).toBe('Non-matching Grease 2');
+    expect(result[0].mainTitle).toBe('Non-matching Grease 1');
+    expect(result[1].mainTitle).toBe('Non-matching Grease 2');
   });
 
   it('should return 1 when comparing non-miscible to miscible grease (reverse order)', () => {
     const nonMiscibleGrease = createGreaseSubordinate('Non-Miscible');
     const miscibleGrease = createGreaseSubordinate('Miscible');
 
-    nonMiscibleGrease.greaseResult.isMiscible = false;
-    miscibleGrease.greaseResult.isMiscible = true;
+    nonMiscibleGrease.isMiscible = false;
+    miscibleGrease.isMiscible = true;
 
     const result = (service as any).sortSubordinatesByMiscibility([
       nonMiscibleGrease,
       miscibleGrease,
     ]);
 
-    expect(result[0].greaseResult?.mainTitle).toBe('Miscible');
-    expect(result[1].greaseResult?.mainTitle).toBe('Non-Miscible');
+    expect(result[0].mainTitle).toBe('Miscible');
+    expect(result[1].mainTitle).toBe('Non-Miscible');
   });
 
   it('should test the sort function directly by accessing it from the service', () => {
     const nonMiscibleGrease = createGreaseSubordinate('Non-Miscible');
     const miscibleGrease = createGreaseSubordinate('Miscible');
 
-    nonMiscibleGrease.greaseResult.isMiscible = false;
-    miscibleGrease.greaseResult.isMiscible = true;
+    nonMiscibleGrease.isMiscible = false;
+    miscibleGrease.isMiscible = true;
 
     const sort = (service as any).sortSubordinatesByMiscibility.bind(service);
 
@@ -274,17 +221,11 @@ describe('GreaseMiscibilityService', () => {
 
   it('should test the sort comparison function to ensure branch coverage', () => {
     const a = {
-      identifier: 'greaseResult',
-      greaseResult: {
-        isMiscible: false,
-      },
+      isMiscible: false,
     } as any;
 
     const b = {
-      identifier: 'greaseResult',
-      greaseResult: {
-        isMiscible: true,
-      },
+      isMiscible: true,
     } as any;
 
     let sortCallback: (

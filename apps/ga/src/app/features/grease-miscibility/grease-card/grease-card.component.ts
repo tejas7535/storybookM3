@@ -12,7 +12,7 @@ import { TagComponent } from '@schaeffler/tag';
 import { GreaseReportShopButtonsComponent } from '@ga/features/grease-calculation/calculation-result/components/grease-report-shop-buttons/grease-report-shop-buttons.component';
 import {
   GreaseConcep1Suitablity,
-  GreaseResultData,
+  GreaseResult,
   SUITABILITY_LABEL,
 } from '@ga/features/grease-calculation/calculation-result/models';
 
@@ -49,12 +49,14 @@ export class GreaseCardComponent {
     );
   });
 
-  greaseResult = computed(() => ({
-    mainTitle: this.title(),
-    subTitle: 'anything not used in view',
-    isSufficient: true,
-    dataSource: [] as GreaseResultData,
-  }));
+  greaseResult = computed(
+    () =>
+      ({
+        mainTitle: this.title(),
+        subTitle: 'anything not used in view',
+        isSufficient: true,
+      }) as GreaseResult
+  );
 
   settings: GreaseConcep1Suitablity = {
     label: SUITABILITY_LABEL.SUITED,

@@ -135,6 +135,7 @@ describe('GreaseReportPdfGeneratorService', () => {
         sectionSubTitle: 'All results refer to continuous 24/7 operation.',
         legalNote: 'legal note info',
         data: [],
+        results: [],
         automaticLubrication: true,
       });
     });

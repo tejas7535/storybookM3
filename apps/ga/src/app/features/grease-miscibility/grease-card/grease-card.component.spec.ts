@@ -73,7 +73,6 @@ describe('GreaseCardComponent', () => {
       mainTitle: 'Test Title',
       subTitle: 'anything not used in view',
       isSufficient: true,
-      dataSource: [],
     });
   });
 

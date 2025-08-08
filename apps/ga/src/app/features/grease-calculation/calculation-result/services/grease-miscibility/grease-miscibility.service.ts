@@ -4,7 +4,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { CalculationParametersFacade } from '@ga/core/store';
 import { Grease } from '@ga/shared/services/greases/greases.service';
 
-import { GreaseReportSubordinate, GreaseResult } from '../../models';
+import { GreaseResult } from '../../models';
 
 @Injectable({
   providedIn: 'root',
@@ -16,74 +16,45 @@ export class GreaseMiscibilityService {
     this.calculationParameters.mixableSchaefflerGreases$
   );
 
-  markMixableGreases(
-    greaseSubordinates: GreaseReportSubordinate[]
-  ): GreaseReportSubordinate[] {
+  markMixableGreases(greaseResults: GreaseResult[]): GreaseResult[] {
     const mixableGreases = this.mixableSchaefflerGreases() || [];
 
     if (mixableGreases.length === 0) {
-      return greaseSubordinates;
+      return greaseResults;
     }
 
-    const markedSubordinates = this.markGreasesAsMiscible(
-      greaseSubordinates,
+    const markedGreaseResults = this.markGreasesAsMiscible(
+      greaseResults,
       mixableGreases
     );
 
-    return this.sortSubordinatesByMiscibility(markedSubordinates);
+    return this.sortSubordinatesByMiscibility(markedGreaseResults);
   }
 
   private markGreasesAsMiscible(
-    subordinates: GreaseReportSubordinate[],
+    greaseResults: GreaseResult[],
     mixableGreases: Grease[]
-  ): GreaseReportSubordinate[] {
-    return subordinates.map((subordinate) => {
-      if (subordinate.identifier === 'greaseResult') {
-        const isMiscible = this.determineIfMiscible(
-          subordinate.greaseResult,
-          mixableGreases
-        );
+  ): GreaseResult[] {
+    return greaseResults.map((greaseResult) => {
+      const isMiscible = this.determineIfMiscible(greaseResult, mixableGreases);
 
-        return {
-          ...subordinate,
-          greaseResult: {
-            ...subordinate.greaseResult,
-            isMiscible,
-          },
-        };
-      }
-
-      return subordinate;
+      return {
+        ...greaseResult,
+        isMiscible,
+      };
     });
   }
 
   private sortSubordinatesByMiscibility(
-    subordinates: GreaseReportSubordinate[]
-  ): GreaseReportSubordinate[] {
-    const greaseResults: GreaseReportSubordinate[] = [];
-    const otherContent: GreaseReportSubordinate[] = [];
-
-    subordinates.forEach((item) => {
-      if (item.identifier === 'greaseResult') {
-        greaseResults.push(item);
-      } else {
-        otherContent.push(item);
-      }
-    });
-
-    const sortedGreases = [...greaseResults].sort((a, b) => {
-      if (a.greaseResult?.isMiscible === b.greaseResult?.isMiscible) {
+    greaseResults: GreaseResult[]
+  ): GreaseResult[] {
+    return greaseResults.sort((a, b) => {
+      if (a.isMiscible === b.isMiscible) {
         return 0;
       }
 
-      if (a.greaseResult?.isMiscible && !b.greaseResult?.isMiscible) {
-        return -1;
-      }
-
-      return 1;
+      return a.isMiscible ? -1 : 1;
     });
-
-    return [...otherContent, ...sortedGreases];
   }
 
   private determineIfMiscible(

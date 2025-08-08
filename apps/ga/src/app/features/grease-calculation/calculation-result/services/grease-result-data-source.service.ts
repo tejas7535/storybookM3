@@ -1,8 +1,7 @@
 /* eslint-disable max-lines */
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { translate } from '@jsverse/transloco';
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 import { CalculationParametersService } from '../../calculation-parameters/services';
 import * as helpers from '../helpers/grease-helpers';
@@ -13,6 +12,7 @@ import {
   GreaseReportSubordinateDataItem,
   GreaseReportSubordinateTitle,
   GreaseResultDataSourceItem,
+  GreaseResultItem,
   SubordinateDataItemField,
   SUITABILITY,
 } from '../models';
@@ -20,17 +20,12 @@ import { UndefinedValuePipe } from '../pipes/undefined-value.pipe';
 
 @Injectable()
 export class GreaseResultDataSourceService {
-  private readonly tinyNumberFormatOptions: Intl.NumberFormatOptions = {
-    maximumFractionDigits: 2,
-  };
+  private readonly undefinedValuePipe = inject(UndefinedValuePipe);
+  private readonly calculationParametersService = inject(
+    CalculationParametersService
+  );
 
   private readonly daysInYear = 365;
-
-  public constructor(
-    private readonly localeService: TranslocoLocaleService,
-    private readonly undefinedValuePipe: UndefinedValuePipe,
-    private readonly calculationParametersService: CalculationParametersService
-  ) {}
 
   public isSufficient(dataItems: GreaseReportSubordinateDataItem[]): boolean {
     const initialGreaseQuantityValue = helpers.itemValue(
@@ -104,30 +99,33 @@ export class GreaseResultDataSourceService {
   public initialGreaseQuantity(
     dataItems: GreaseReportSubordinateDataItem[],
     rho: number
-  ): GreaseResultDataSourceItem {
-    const initialGreaseQuantityValue = helpers.itemValue(
+  ): GreaseResultItem<number> | undefined {
+    const initialGreaseQuantityValueVolumeRaw = helpers.itemValue(
       dataItems,
       SubordinateDataItemField.QVIN
     );
 
-    const { roundedValue, prefix } = this.roundValue(
-      +initialGreaseQuantityValue
+    const initialGreaseQuantityValueVolume = this.roundValue(
+      +initialGreaseQuantityValueVolumeRaw
     );
 
-    return initialGreaseQuantityValue
+    const initialGreaseQuantityMass = this.calculateMass(
+      rho,
+      +initialGreaseQuantityValueVolumeRaw
+    );
+
+    return initialGreaseQuantityValueVolumeRaw
       ? {
           title: 'initialGreaseQuantity',
-          values: `${this.massTemplate(
-            rho,
-            +initialGreaseQuantityValue,
-            '',
-            true
-          )}<br>${helpers.secondaryValue(
-            `${prefix}${this.localeService.localizeNumber(
-              roundedValue,
-              'decimal'
-            )} ${helpers.itemUnit(dataItems, SubordinateDataItemField.QVIN)}`
-          )}`,
+          value: initialGreaseQuantityMass.value,
+          prefix: initialGreaseQuantityMass.prefix,
+          unit: initialGreaseQuantityMass.unit,
+          secondaryValue: initialGreaseQuantityValueVolume.roundedValue,
+          secondaryPrefix: initialGreaseQuantityValueVolume.prefix,
+          secondaryUnit: helpers.itemUnit(
+            dataItems,
+            SubordinateDataItemField.QVIN
+          ),
         }
       : undefined;
   }
@@ -135,30 +133,33 @@ export class GreaseResultDataSourceService {
   public relubricationQuantityPer1000OperatingHours(
     dataItems: GreaseReportSubordinateDataItem[],
     rho: number
-  ): GreaseResultDataSourceItem {
+  ): GreaseResultItem<number> | undefined {
     const numberOfHours = 1000;
-    const relubricationQuantityPerOperatingHours =
+    const relubricationQuantityPerOperatingHoursVolumeRaw =
       helpers.relubricationPerOperatingHours(numberOfHours, dataItems);
 
-    const { roundedValue, prefix } = this.roundValue(
-      relubricationQuantityPerOperatingHours
+    const relubricationQuantityPerOperatingHoursVolume = this.roundValue(
+      relubricationQuantityPerOperatingHoursVolumeRaw
     );
 
-    return relubricationQuantityPerOperatingHours
+    const relubricationQuantityPerOperatingHoursMass = this.calculateMass(
+      rho,
+      relubricationQuantityPerOperatingHoursVolumeRaw,
+      translate('calculationResult.hours', { hours: numberOfHours })
+    );
+
+    return relubricationQuantityPerOperatingHoursVolumeRaw
       ? {
           title: 'relubricationQuantityPer1000OperatingHours',
-          values: `${this.massTemplate(
-            rho,
-            relubricationQuantityPerOperatingHours,
-            translate('calculationResult.hours', { hours: numberOfHours })
-          )}<br>${helpers.secondaryValue(
-            `${prefix}${this.localeService.localizeNumber(
-              roundedValue,
-              'decimal'
-            )} ${helpers.relubricationQuantityUnit(dataItems)}/${translate(
-              'calculationResult.hours',
-              { hours: numberOfHours }
-            )}`
+          value: relubricationQuantityPerOperatingHoursMass.value,
+          prefix: relubricationQuantityPerOperatingHoursMass.prefix,
+          unit: relubricationQuantityPerOperatingHoursMass.unit,
+          secondaryValue:
+            relubricationQuantityPerOperatingHoursVolume.roundedValue,
+          secondaryPrefix: relubricationQuantityPerOperatingHoursVolume.prefix,
+          secondaryUnit: `${helpers.relubricationQuantityUnit(dataItems)}/${translate(
+            'calculationResult.hours',
+            { hours: numberOfHours }
           )}`,
         }
       : undefined;
@@ -166,16 +167,15 @@ export class GreaseResultDataSourceService {
 
   public greaseServiceLife(
     dataItems: GreaseReportSubordinateDataItem[]
-  ): GreaseResultDataSourceItem {
+  ): GreaseResultItem<number> | undefined {
     const greaseServiceLifeValue = helpers.greaseServiceLife(dataItems);
 
     return greaseServiceLifeValue
       ? {
           title: 'greaseServiceLife',
-          values: `~ ${this.localeService.localizeNumber(
-            greaseServiceLifeValue,
-            'decimal'
-          )} ${translate('calculationResult.days')}`,
+          value: greaseServiceLifeValue,
+          prefix: '~',
+          unit: translate('calculationResult.days'),
         }
       : undefined;
   }
@@ -183,7 +183,7 @@ export class GreaseResultDataSourceService {
   public maximumManualRelubricationInterval(
     items: GreaseReportSubordinateDataItem[],
     rho: number
-  ): GreaseResultDataSourceItem {
+  ): GreaseResultItem<number> | undefined {
     const interval = helpers.relubricationIntervalInDays(items);
 
     const days = interval > this.daysInYear ? this.daysInYear : interval;
@@ -215,7 +215,7 @@ export class GreaseResultDataSourceService {
   public maxManualRelubricationIntervalForVerticalAxis(
     items: GreaseReportSubordinateDataItem[],
     rho: number
-  ): GreaseResultDataSourceItem {
+  ): GreaseResultItem<number> | undefined {
     const MAX_DAYS = 7;
 
     const interval = helpers.relubricationIntervalInDaysFromMaxValue(items);
@@ -237,44 +237,27 @@ export class GreaseResultDataSourceService {
     return result;
   }
 
-  public relubricationInterval(dataItems: GreaseReportSubordinateDataItem[]) {
+  public relubricationInterval(
+    dataItems: GreaseReportSubordinateDataItem[]
+  ): GreaseResultItem<number> | undefined {
     const relubricationIntervalValue =
       helpers.relubricationIntervalInDays(dataItems);
 
     return relubricationIntervalValue
       ? {
           title: 'relubricationInterval',
-          values: `~ ${relubricationIntervalValue} ${translate('calculationResult.days')}`,
+          value: relubricationIntervalValue,
+          prefix: '~',
+          unit: translate('calculationResult.days'),
           tooltip: 'relubricationIntervalTooltip',
         }
       : undefined;
   }
 
-  public getMaximumLubricationPer7Days(
-    items: GreaseReportSubordinateDataItem[],
-    rho: number
-  ): GreaseResultDataSourceItem {
-    return this.getMaximumLubricationPerDays(7, items, rho);
-  }
-
-  public relubricationPer7Days(
-    items: GreaseReportSubordinateDataItem[],
-    rho: number
-  ): GreaseResultDataSourceItem {
-    return this.getAverageLubricationPerDays(7, items, rho);
-  }
-
-  public relubricationPer30Days(
-    items: GreaseReportSubordinateDataItem[],
-    rho: number
-  ): GreaseResultDataSourceItem {
-    return this.getAverageLubricationPerDays(30, items, rho);
-  }
-
   public relubricationPer365Days(
     items: GreaseReportSubordinateDataItem[],
     rho: number
-  ): GreaseResultDataSourceItem {
+  ): GreaseResultItem<number> {
     return this.getAverageLubricationPerDays(
       365,
       items,
@@ -283,47 +266,29 @@ export class GreaseResultDataSourceService {
     );
   }
 
-  public viscosityRatio(
-    dataItems: GreaseReportSubordinateDataItem[]
-  ): GreaseResultDataSourceItem {
-    const viscosityRatioValue = helpers.itemValue(
-      dataItems,
-      SubordinateDataItemField.KAPPA
-    );
-
-    return viscosityRatioValue
-      ? {
-          title: 'viscosityRatio',
-          values: `${this.localeService.localizeNumber(
-            viscosityRatioValue,
-            'decimal'
-          )}`,
-        }
-      : undefined;
+  public relubricationPer30Days(
+    items: GreaseReportSubordinateDataItem[],
+    rho: number
+  ): GreaseResultItem<number> {
+    return this.getAverageLubricationPerDays(30, items, rho);
   }
 
-  public baseOilViscosityAt40(
-    dataItems: GreaseReportSubordinateDataItem[]
-  ): GreaseResultDataSourceItem {
-    const baseOilViscosityAt40Value = helpers.itemValue(
-      dataItems,
-      SubordinateDataItemField.NY40
-    );
-
-    return baseOilViscosityAt40Value
-      ? {
-          title: 'baseOilViscosityAt40',
-          values: `${this.localeService.localizeNumber(
-            baseOilViscosityAt40Value,
-            'decimal'
-          )} ${helpers.itemUnit(dataItems, SubordinateDataItemField.NY40)}`,
-        }
-      : undefined;
+  public relubricationPer7Days(
+    items: GreaseReportSubordinateDataItem[],
+    rho: number
+  ): GreaseResultItem<number> {
+    return this.getAverageLubricationPerDays(7, items, rho);
+  }
+  public getMaximumLubricationPer7Days(
+    items: GreaseReportSubordinateDataItem[],
+    rho: number
+  ): GreaseResultItem<number> | undefined {
+    return this.getMaximumLubricationPerDays(7, items, rho);
   }
 
   public lowerTemperatureLimit(
     dataItems: GreaseReportSubordinateDataItem[]
-  ): GreaseResultDataSourceItem {
+  ): GreaseResultItem<number> | undefined {
     const lowerTemperatureLimitValue = helpers.itemValue(
       dataItems,
       SubordinateDataItemField.T_LIM_LOW
@@ -332,13 +297,8 @@ export class GreaseResultDataSourceService {
     return lowerTemperatureLimitValue
       ? {
           title: 'lowerTemperatureLimit',
-          values: `${this.localeService.localizeNumber(
-            lowerTemperatureLimitValue,
-            'decimal'
-          )} ${helpers.itemUnit(
-            dataItems,
-            SubordinateDataItemField.T_LIM_LOW
-          )}`,
+          value: +lowerTemperatureLimitValue,
+          unit: helpers.itemUnit(dataItems, SubordinateDataItemField.T_LIM_LOW),
           tooltip: 'lowerTemperatureLimitTooltip',
         }
       : undefined;
@@ -346,7 +306,7 @@ export class GreaseResultDataSourceService {
 
   public upperTemperatureLimit(
     dataItems: GreaseReportSubordinateDataItem[]
-  ): GreaseResultDataSourceItem {
+  ): GreaseResultItem<number> | undefined {
     const upperTemperatureLimitValue = helpers.itemValue(
       dataItems,
       SubordinateDataItemField.T_LIM_UP
@@ -355,21 +315,52 @@ export class GreaseResultDataSourceService {
     return upperTemperatureLimitValue
       ? {
           title: 'upperTemperatureLimit',
-          values: `${this.localeService.localizeNumber(
-            upperTemperatureLimitValue,
-            'decimal'
-          )} ${helpers.itemUnit(dataItems, SubordinateDataItemField.T_LIM_UP)}`,
+          value: +upperTemperatureLimitValue,
+          unit: helpers.itemUnit(dataItems, SubordinateDataItemField.T_LIM_UP),
           tooltip: 'upperTemperatureLimitTooltip',
+        }
+      : undefined;
+  }
+
+  public baseOilViscosityAt40(
+    dataItems: GreaseReportSubordinateDataItem[]
+  ): GreaseResultItem<number> | undefined {
+    const baseOilViscosityAt40Value = helpers.itemValue(
+      dataItems,
+      SubordinateDataItemField.NY40
+    );
+
+    return baseOilViscosityAt40Value
+      ? {
+          title: 'baseOilViscosityAt40',
+          value: +baseOilViscosityAt40Value,
+          unit: helpers.itemUnit(dataItems, SubordinateDataItemField.NY40),
+        }
+      : undefined;
+  }
+
+  public viscosityRatio(
+    dataItems: GreaseReportSubordinateDataItem[]
+  ): GreaseResultItem<number> | undefined {
+    const viscosityRatioValue = helpers.itemValue(
+      dataItems,
+      SubordinateDataItemField.KAPPA
+    );
+
+    return viscosityRatioValue
+      ? {
+          title: 'viscosityRatio',
+          value: +viscosityRatioValue,
         }
       : undefined;
   }
 
   public additiveRequired(
     items: GreaseReportSubordinateDataItem[]
-  ): GreaseResultDataSourceItem {
+  ): GreaseResultItem<string> {
     return {
       title: 'additiveRequired',
-      values: `${this.undefinedValuePipe.transform(
+      value: `${this.undefinedValuePipe.transform(
         helpers.itemValue(items, SubordinateDataItemField.ADD_REQ)
       )}`,
       tooltip: 'additiveRequiredTooltip',
@@ -378,60 +369,18 @@ export class GreaseResultDataSourceService {
 
   public effectiveEpAdditivation(
     dataItems: GreaseReportSubordinateDataItem[]
-  ): GreaseResultDataSourceItem {
+  ): GreaseResultItem<string> {
     return {
       title: 'effectiveEpAdditivation',
-      values: `${this.undefinedValuePipe.transform(
+      value: `${this.undefinedValuePipe.transform(
         helpers.itemValue(dataItems, SubordinateDataItemField.ADD_W)
       )}`,
     };
   }
 
-  public density(
-    dataItems: GreaseReportSubordinateDataItem[]
-  ): GreaseResultDataSourceItem {
-    const densityValue = helpers.itemValue(
-      dataItems,
-      SubordinateDataItemField.RHO
-    );
-
-    return densityValue
-      ? {
-          title: 'density',
-          values: `${this.localeService.localizeNumber(
-            densityValue,
-            'decimal'
-          )} ${helpers.itemUnit(dataItems, SubordinateDataItemField.RHO)}`,
-        }
-      : undefined;
-  }
-
-  public lowFriction(
-    dataItems: GreaseReportSubordinateDataItem[]
-  ): GreaseResultDataSourceItem {
-    const lowFrictionValue = helpers.itemValue(
-      dataItems,
-      SubordinateDataItemField.F_LOW
-    );
-
-    const lowFrictionSuitabilityLevel = helpers.mapSuitabilityLevel(
-      `${lowFrictionValue}`
-    );
-
-    return {
-      title: 'lowFriction',
-      values:
-        lowFrictionValue && lowFrictionSuitabilityLevel
-          ? `${lowFrictionValue} (${translate(
-              `calculationResult.suitabilityLevel${lowFrictionSuitabilityLevel}`
-            )})`
-          : translate('calculationResult.undefinedValue'),
-    };
-  }
-
   public suitableForVibrations(
     dataItems: GreaseReportSubordinateDataItem[]
-  ): GreaseResultDataSourceItem {
+  ): GreaseResultItem<string> {
     const suitableForVibrationsValue = helpers.itemValue(
       dataItems,
       SubordinateDataItemField.VIP
@@ -443,7 +392,7 @@ export class GreaseResultDataSourceService {
 
     return {
       title: 'suitableForVibrations',
-      values:
+      value:
         suitableForVibrationsValue && suitableForVibrationsSuitabilityLevel
           ? `${suitableForVibrationsValue} (${translate(
               `calculationResult.suitabilityLevel${suitableForVibrationsSuitabilityLevel}`
@@ -454,7 +403,7 @@ export class GreaseResultDataSourceService {
 
   public supportForSeals(
     dataItems: GreaseReportSubordinateDataItem[]
-  ): GreaseResultDataSourceItem {
+  ): GreaseResultItem<string> {
     const supportForSealsValue = helpers.itemValue(
       dataItems,
       SubordinateDataItemField.SEAL
@@ -466,7 +415,7 @@ export class GreaseResultDataSourceService {
 
     return {
       title: 'supportForSeals',
-      values:
+      value:
         supportForSealsValue && supportForSealsSuitabilityLevel
           ? `${supportForSealsValue} (${translate(
               `calculationResult.suitabilityLevel${supportForSealsSuitabilityLevel}`
@@ -475,12 +424,52 @@ export class GreaseResultDataSourceService {
     };
   }
 
+  public lowFriction(
+    dataItems: GreaseReportSubordinateDataItem[]
+  ): GreaseResultItem<string> {
+    const lowFrictionValue = helpers.itemValue(
+      dataItems,
+      SubordinateDataItemField.F_LOW
+    );
+
+    const lowFrictionSuitabilityLevel = helpers.mapSuitabilityLevel(
+      `${lowFrictionValue}`
+    );
+
+    return {
+      title: 'lowFriction',
+      value:
+        lowFrictionValue && lowFrictionSuitabilityLevel
+          ? `${lowFrictionValue} (${translate(
+              `calculationResult.suitabilityLevel${lowFrictionSuitabilityLevel}`
+            )})`
+          : translate('calculationResult.undefinedValue'),
+    };
+  }
+
+  public density(
+    dataItems: GreaseReportSubordinateDataItem[]
+  ): GreaseResultItem<number> | undefined {
+    const densityValue = helpers.itemValue(
+      dataItems,
+      SubordinateDataItemField.RHO
+    );
+
+    return densityValue
+      ? {
+          title: 'density',
+          value: +densityValue,
+          unit: helpers.itemUnit(dataItems, SubordinateDataItemField.RHO),
+        }
+      : undefined;
+  }
+
   public h1Registration(
     dataItems: GreaseReportSubordinateDataItem[]
-  ): GreaseResultDataSourceItem {
+  ): GreaseResultItem<string> {
     return {
       title: 'h1Registration',
-      values: `${this.undefinedValuePipe.transform(
+      value: `${this.undefinedValuePipe.transform(
         helpers.itemValue(dataItems, SubordinateDataItemField.NSF_H1)
       )}`,
     };
@@ -491,75 +480,69 @@ export class GreaseResultDataSourceService {
     rho: number,
     relubricationPerDays: number,
     numberOfDays: number
-  ): GreaseResultDataSourceItem {
-    const { roundedValue, prefix } = this.roundValue(relubricationPerDays);
+  ): GreaseResultItem<number> {
+    const relubricationPerDaysVolume = this.roundValue(relubricationPerDays);
+
+    const relubricationPerDaysMass = this.calculateMass(
+      rho,
+      relubricationPerDays,
+      `${numberOfDays} ${translate('calculationResult.days')}`
+    );
 
     return {
       title: `maximumManualRelubricationPerInterval`,
-      values: `${this.massTemplate(
-        rho,
-        relubricationPerDays,
-        `${numberOfDays} ${translate('calculationResult.days')}`
-      )}<br>${helpers.secondaryValue(
-        `${prefix}${this.localeService.localizeNumber(
-          roundedValue,
-          'decimal'
-        )} ${helpers.relubricationQuantityUnit(
-          items
-        )}/${numberOfDays} ${translate('calculationResult.days')}`
-      )}`,
+      value: relubricationPerDaysMass.value,
+      prefix: relubricationPerDaysMass.prefix,
+      unit: relubricationPerDaysMass.unit,
+      secondaryValue: relubricationPerDaysVolume.roundedValue,
+      secondaryPrefix: relubricationPerDaysVolume.prefix,
+      secondaryUnit: `${helpers.relubricationQuantityUnit(
+        items
+      )}/${numberOfDays} ${translate('calculationResult.days')}`,
     };
   }
 
-  private readonly massTemplate = (
+  private readonly calculateMass = (
     rho: number,
     quantity: number,
-    timespan?: string,
-    tiny = false
-  ): string => {
+    timespan?: string
+  ): { value: number | undefined; prefix: string; unit?: string } => {
     const value =
       (rho || this.calculationParametersService.getDensity()) * quantity;
 
     const { roundedValue, prefix } = this.roundValue(value);
 
-    return value
-      ? `<span>${
-          tiny
-            ? prefix +
-              this.localeService.localizeNumber(
-                roundedValue,
-                'decimal',
-                undefined,
-                this.tinyNumberFormatOptions
-              )
-            : prefix +
-              this.localeService.localizeNumber(roundedValue, 'decimal')
-        } ${this.calculationParametersService.weightUnit()}${
-          timespan ? `/${timespan}` : ''
-        }</span>`
-      : `<span>${translate('calculationResult.undefinedValue')}</span>`;
+    const timespanString = timespan ? `/${timespan}` : '';
+
+    const unit = `${this.calculationParametersService.weightUnit()}${timespanString}`;
+
+    return {
+      value: value ? roundedValue : undefined,
+      prefix,
+      unit,
+    };
   };
 
   private readonly roundValue = (
     value: number
-  ): { roundedValue: string; prefix: string } | undefined => {
+  ): { roundedValue: number | undefined; prefix: string } => {
     let prefix = '';
 
     if (!value) {
       return {
-        roundedValue: '',
+        roundedValue: undefined,
         prefix: '',
       };
     }
 
     const precision = 1;
     const rounder = Math.pow(10, 2);
-    let result = (Math.round(value * rounder) / rounder).toFixed(precision);
+    let result = +(Math.round(value * rounder) / rounder).toFixed(precision);
 
-    if (result === '0.0') {
-      prefix = '~ ';
+    if (result === 0) {
+      prefix = '~';
 
-      result = '0.1';
+      result = 0.1;
     }
 
     return {
@@ -587,7 +570,7 @@ export class GreaseResultDataSourceService {
     days: number,
     items: GreaseReportSubordinateDataItem[],
     rho: number
-  ): GreaseResultDataSourceItem | undefined {
+  ): GreaseResultItem<number> | undefined {
     const perDays = helpers.maximumRelubricationPerDays(days, items);
 
     if (!perDays) {
@@ -602,7 +585,7 @@ export class GreaseResultDataSourceService {
     items: GreaseReportSubordinateDataItem[],
     rho: number,
     tooltip?: string
-  ): GreaseResultDataSourceItem | undefined {
+  ): GreaseResultItem<number> | undefined {
     const perDays = helpers.relubricationPerDays(days, items);
 
     if (!perDays) {
@@ -624,23 +607,25 @@ export class GreaseResultDataSourceService {
     rho: number,
     relubricationPerDays: number,
     tooltip?: string
-  ): GreaseResultDataSourceItem | undefined {
-    const { roundedValue, prefix } = this.roundValue(relubricationPerDays);
+  ): GreaseResultItem<number> | undefined {
+    const relubricationPerDaysVolume = this.roundValue(relubricationPerDays);
 
-    const result: GreaseResultDataSourceItem = {
+    const relubricationPerDaysMass = this.calculateMass(
+      rho,
+      relubricationPerDays,
+      `${numberOfDays} ${translate('calculationResult.days')}`
+    );
+
+    const result: GreaseResultItem<number> = {
       title: `relubricationPer${numberOfDays}days`,
-      values: `${this.massTemplate(
-        rho,
-        relubricationPerDays,
-        `${numberOfDays} ${translate('calculationResult.days')}`
-      )}<br>${helpers.secondaryValue(
-        `${prefix}${this.localeService.localizeNumber(
-          roundedValue,
-          'decimal'
-        )} ${helpers.relubricationQuantityUnit(
-          dataItems
-        )}/${numberOfDays} ${translate('calculationResult.days')}`
-      )}`,
+      value: relubricationPerDaysMass.value,
+      prefix: relubricationPerDaysMass.prefix,
+      unit: relubricationPerDaysMass.unit,
+      secondaryValue: relubricationPerDaysVolume.roundedValue,
+      secondaryPrefix: relubricationPerDaysVolume.prefix,
+      secondaryUnit: `${helpers.relubricationQuantityUnit(
+        dataItems
+      )}/${numberOfDays} ${translate('calculationResult.days')}`,
     };
 
     if (tooltip) {

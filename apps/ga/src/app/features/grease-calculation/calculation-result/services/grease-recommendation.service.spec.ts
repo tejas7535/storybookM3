@@ -12,56 +12,40 @@ import { CalculationParametersFacade } from '@ga/core/store';
 import { Movement } from '@ga/shared/models';
 
 import { ApplicationScenario } from '../../calculation-parameters/constants/application-scenarios.model';
-import { GreaseReportSubordinate } from '../models';
+import { GreaseResult } from '../models';
 import { GreaseRecommendationService } from './grease-recommendation.service';
 
-const MOCK_GREASE_SUBORDINATES_SUFFICIENT: GreaseReportSubordinate[] = [
+const MOCK_GREASE_SUBORDINATES_SUFFICIENT: GreaseResult[] = [
   {
-    identifier: 'greaseResult',
-    greaseResult: {
-      mainTitle: 'Arcanol Clean M',
-      subTitle: '',
-      dataSource: [],
-      isSufficient: true,
-      isPreferred: false,
-    } as GreaseReportSubordinate['greaseResult'],
-  },
+    mainTitle: 'Arcanol Clean M',
+    subTitle: '',
+    isSufficient: true,
+    isPreferred: false,
+  } as GreaseResult,
   // This grease should be recommended for fan applications
   {
-    identifier: 'greaseResult',
-    greaseResult: {
-      mainTitle: 'Arcanol TEMP90',
-      subTitle: '',
-      dataSource: [],
-      isSufficient: true,
-      isPreferred: false,
-    } as GreaseReportSubordinate['greaseResult'],
-  },
+    mainTitle: 'Arcanol TEMP90',
+    subTitle: '',
+    isSufficient: true,
+    isPreferred: false,
+  } as GreaseResult,
 
   // This is the grease that should be recommended for oscillating loads
   {
-    identifier: 'greaseResult',
-    greaseResult: {
-      mainTitle: 'Arcanol MOTION 2',
-      subTitle: '',
-      dataSource: [],
-      isSufficient: true,
-      isPreferred: false,
-    } as GreaseReportSubordinate['greaseResult'],
-  },
+    mainTitle: 'Arcanol MOTION 2',
+    subTitle: '',
+    isSufficient: true,
+    isPreferred: false,
+  } as GreaseResult,
 
   // This recommendation is for lage electric motors, which serves as a testing value for
   // handling insufficient greases
   {
-    identifier: 'greaseResult',
-    greaseResult: {
-      mainTitle: 'Arcanol MULTITOP',
-      subTitle: '',
-      dataSource: [],
-      isSufficient: false,
-      isPreferred: false,
-    } as GreaseReportSubordinate['greaseResult'],
-  },
+    mainTitle: 'Arcanol MULTITOP',
+    subTitle: '',
+    isSufficient: false,
+    isPreferred: false,
+  } as GreaseResult,
 ] as const;
 
 describe('GreaseRecommendationService', () => {
@@ -70,7 +54,7 @@ describe('GreaseRecommendationService', () => {
 
   let store: MockStore;
 
-  let mockRecommendationSubordinates: GreaseReportSubordinate[];
+  let mockRecommendationSubordinates: GreaseResult[];
 
   const selectedApplication$$ = new ReplaySubject<ApplicationScenario>(1);
   const motionType$$ = new ReplaySubject<Movement>(1);
@@ -124,15 +108,13 @@ describe('GreaseRecommendationService', () => {
   it('should mark TEMP90 is the recommendation for Fan applications', waitForAsync(async () => {
     await service.processGreaseRecommendation(mockRecommendationSubordinates);
 
-    expect(mockRecommendationSubordinates[0].greaseResult.mainTitle).toEqual(
+    expect(mockRecommendationSubordinates[0].mainTitle).toEqual(
       'Arcanol TEMP90'
     );
-    expect(
-      mockRecommendationSubordinates[0].greaseResult.isRecommended
-    ).toEqual(true);
+    expect(mockRecommendationSubordinates[0].isRecommended).toEqual(true);
     expect(
       mockRecommendationSubordinates
-        .flatMap((sub) => sub.greaseResult.isRecommended)
+        .flatMap((sub) => sub.isRecommended)
         .filter(Boolean).length
     ).toEqual(1);
   }));
@@ -143,15 +125,13 @@ describe('GreaseRecommendationService', () => {
 
     await service.processGreaseRecommendation(mockRecommendationSubordinates);
 
-    expect(mockRecommendationSubordinates[0].greaseResult.mainTitle).toEqual(
+    expect(mockRecommendationSubordinates[0].mainTitle).toEqual(
       'Arcanol MOTION 2'
     );
-    expect(mockRecommendationSubordinates[0].greaseResult.isRecommended).toBe(
-      true
-    );
+    expect(mockRecommendationSubordinates[0].isRecommended).toBe(true);
     expect(
       mockRecommendationSubordinates
-        .flatMap((sub) => sub.greaseResult.isRecommended)
+        .flatMap((sub) => sub.isRecommended)
         .filter(Boolean).length
     ).toEqual(1);
   }));
@@ -168,7 +148,7 @@ describe('GreaseRecommendationService', () => {
     );
     expect(
       mockRecommendationSubordinates
-        .flatMap((sub) => sub.greaseResult.isRecommended)
+        .flatMap((sub) => sub.isRecommended)
         .filter(Boolean).length
     ).toEqual(0);
   }));

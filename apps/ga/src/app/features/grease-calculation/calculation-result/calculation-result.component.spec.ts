@@ -35,7 +35,6 @@ import { PartnerVersion } from '@ga/shared/models';
 import { ApplicationScenario } from '../calculation-parameters/constants/application-scenarios.model';
 import { GreaseCalculationPath } from '../grease-calculation-path.enum';
 import { CalculationResultComponent } from './calculation-result.component';
-import { GreaseReportComponent } from './components/grease-report';
 import { GreaseReportPdfGeneratorService } from './services';
 import { GreasePDFSelectionService } from './services/grease-pdf-select.service';
 
@@ -156,11 +155,19 @@ describe('CalculationResultComponent', () => {
     let spy: jest.SpyInstance;
 
     beforeEach(() => {
-      component.greaseReport = {
-        subordinates: [{ indentifier: 'text' }],
-        legalNote: 'some legal note',
-        automaticLubrication: true,
-      } as any as GreaseReportComponent;
+      Object.defineProperty(component, 'greaseReport', {
+        value: signal({
+          subordinates: signal([{ indentifier: 'text' }]),
+          legalNote: signal('some legal note'),
+          greaseResultReport: () => ({
+            greaseResult: [] as any,
+            inputs: { subordinates: [] as any },
+            errorWarningsAndNotes: {},
+          }),
+          automaticLubrication: signal(true),
+        }),
+        writable: false,
+      });
 
       spy = jest.spyOn(
         component['greaseReportGeneratorService'],
@@ -171,11 +178,13 @@ describe('CalculationResultComponent', () => {
     it('should generate pdf report with all contents', waitForAsync(async () => {
       await component.generateReport('bearing 123');
       expect(spy).toHaveBeenCalledWith({
-        data: [{ indentifier: 'text' }],
+        data: [{ subordinates: [] }, {}],
         legalNote: 'some legal note',
         reportTitle: 'de.calculationResult.title.main bearing 123',
+        results: [],
         sectionSubTitle: 'de.calculationResult.title.247hint',
         automaticLubrication: true,
+        versions: undefined,
       });
     }));
   });

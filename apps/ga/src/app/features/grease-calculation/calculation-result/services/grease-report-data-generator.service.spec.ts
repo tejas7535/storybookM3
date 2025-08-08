@@ -11,6 +11,11 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import {
   GREASE_PDF_INPUT_MOCK,
   GREASE_RESULT_SUBORDINATES_MOCK,
+  greaseResultMock,
+  greaseSelectionMock,
+  initialLubricationMock,
+  performanceMock,
+  relubricationMock,
 } from '@ga/testing/mocks';
 
 import { GreasePdfInput, GreasePdfMessage, GreasePdfResult } from '../models';
@@ -77,7 +82,15 @@ describe('GreaseReportDataGeneratorService', () => {
   describe('prepare report result data', () => {
     it('should return formatted data', () => {
       const result: GreasePdfResult = service.prepareReportResultData(
-        GREASE_RESULT_SUBORDINATES_MOCK,
+        [
+          {
+            ...greaseResultMock,
+            initialLubrication: initialLubricationMock,
+            performance: performanceMock,
+            relubrication: relubricationMock,
+            greaseSelection: greaseSelectionMock,
+          },
+        ],
         automaticallyLubricated
       );
 
@@ -91,7 +104,7 @@ describe('GreaseReportDataGeneratorService', () => {
       );
 
       expect(result).toEqual({
-        sectionTitle: '',
+        sectionTitle: 'calculationResult.resultsDefault',
         tableItems: [],
       } as GreasePdfResult);
     });
@@ -104,7 +117,15 @@ describe('GreaseReportDataGeneratorService', () => {
 
     it('should exclude concept1 information from result', () => {
       const result: GreasePdfResult = service.prepareReportResultData(
-        GREASE_RESULT_SUBORDINATES_MOCK,
+        [
+          {
+            ...greaseResultMock,
+            initialLubrication: initialLubricationMock,
+            performance: performanceMock,
+            relubrication: relubricationMock,
+            greaseSelection: greaseSelectionMock,
+          },
+        ],
         automaticallyLubricated
       );
 

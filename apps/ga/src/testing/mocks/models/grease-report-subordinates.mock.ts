@@ -2,16 +2,6 @@
 
 import { GreaseReportSubordinate } from '@ga/features/grease-calculation/calculation-result/models';
 
-import {
-  dataItemUnitMock,
-  dataItemValueNumberMock,
-} from './grease-report-subordinate-data.mock';
-import {
-  greaseResultConcept1Mock,
-  greaseResultDataMock,
-  greaseResultMock,
-} from './grease-result.mock';
-
 export const GREASE_RESULT_SUBORDINATES_MOCK: GreaseReportSubordinate[] = [
   {
     identifier: 'block',
@@ -156,53 +146,6 @@ export const GREASE_RESULT_SUBORDINATES_MOCK: GreaseReportSubordinate[] = [
         ],
       },
     ],
-  },
-  {
-    identifier: 'block',
-    title: 'Results',
-    titleID: 'STRING_OUTP_RESULTS',
-    subordinates: [
-      {
-        greaseResult: {
-          mainTitle: greaseResultMock.mainTitle,
-          subTitle: greaseResultMock.subTitle,
-          isSufficient: greaseResultMock.isSufficient,
-          dataSource: [
-            greaseResultConcept1Mock,
-            ...greaseResultDataMock(dataItemValueNumberMock, dataItemUnitMock),
-          ],
-        },
-        identifier: 'greaseResult',
-      },
-      {
-        greaseResult: {
-          mainTitle: greaseResultMock.mainTitle,
-          subTitle: greaseResultMock.subTitle,
-          isSufficient: greaseResultMock.isSufficient,
-          dataSource: [
-            {
-              title: greaseResultConcept1Mock.title,
-              custom: {
-                selector: greaseResultConcept1Mock.custom.selector,
-                data: {
-                  label: 'label',
-                  hint: 'not supported for greasing',
-                  c1_125: false,
-                  c1_60: false,
-                },
-              },
-            },
-            ...greaseResultDataMock(dataItemValueNumberMock, dataItemUnitMock),
-          ],
-        },
-        identifier: 'greaseResult',
-      },
-      {
-        greaseResult: greaseResultMock,
-        identifier: 'greaseResult',
-      },
-    ],
-    defaultOpen: true,
   },
   {
     identifier: 'block',

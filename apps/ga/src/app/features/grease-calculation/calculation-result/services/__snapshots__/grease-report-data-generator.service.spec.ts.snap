@@ -54,88 +54,24 @@ Object {
   "tableItems": Array [
     Object {
       "concept1": undefined,
-      "isRecommended": undefined,
+      "isRecommended": false,
       "items": Array [
         Object {
           "itemTitle": "calculationResult.initialGreaseQuantity",
           "items": Array [
-            "1234567.9 g/1234567.9 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer365days",
-          "items": Array [
-            "450617279.8 g/365 days",
-            "450617279.8 mock_unit/365 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationQuantityPer1000OperatingHours",
-          "items": Array [
-            "51440328.7 g/hours",
-            "51440328.7 mock_unit/hours",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.greaseServiceLife",
-          "items": Array [
-            "~ 51440 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer30days",
-          "items": Array [
-            "37037036.7 g/30 days",
-            "37037036.7 mock_unit/30 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer7days",
-          "items": Array [
-            "8641975.2 g/7 days",
-            "8641975.2 mock_unit/7 days",
+            "100 g/100 g",
           ],
         },
         Object {
           "itemTitle": "calculationResult.viscosityRatio",
           "items": Array [
-            "1234567.89",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.baseOilViscosityAt40",
-          "items": Array [
-            "1234567.89 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.lowerTemperatureLimit",
-          "items": Array [
-            "1234567.89 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.upperTemperatureLimit",
-          "items": Array [
-            "1234567.89 mock_unit",
+            "0.8",
           ],
         },
         Object {
           "itemTitle": "calculationResult.additiveRequired",
           "items": Array [
-            "1234567.89",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.effectiveEpAdditivation",
-          "items": Array [
-            "1234567.89",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.density",
-          "items": Array [
-            "1234567.89 mock_unit",
+            "0 (suitable)",
           ],
         },
         Object {
@@ -157,237 +93,93 @@ Object {
           ],
         },
         Object {
-          "itemTitle": "calculationResult.h1Registration",
+          "itemTitle": "calculationResult.effectiveEpAdditivation",
           "items": Array [
-            "1234567.89",
-          ],
-        },
-      ],
-      "subTitle": "Mineral oil",
-      "title": "Arcanol MULTI2",
-    },
-    Object {
-      "concept1": undefined,
-      "isRecommended": undefined,
-      "items": Array [
-        Object {
-          "itemTitle": "calculationResult.initialGreaseQuantity",
-          "items": Array [
-            "1234567.9 g/1234567.9 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer365days",
-          "items": Array [
-            "450617279.8 g/365 days",
-            "450617279.8 mock_unit/365 days",
+            "0 (suitable)",
           ],
         },
         Object {
           "itemTitle": "calculationResult.relubricationQuantityPer1000OperatingHours",
           "items": Array [
-            "51440328.7 g/hours",
-            "51440328.7 mock_unit/hours",
+            "50 g/hours",
+            "50 g/hours",
+          ],
+        },
+        Object {
+          "itemTitle": "calculationResult.relubricationPer365Days",
+          "items": Array [
+            "200 g/365 days",
+            "200 g/365 days",
+          ],
+        },
+        Object {
+          "itemTitle": "calculationResult.relubricationPer30Days",
+          "items": Array [
+            "20 g/30 days",
+            "20 g/30 days",
+          ],
+        },
+        Object {
+          "itemTitle": "calculationResult.CONCEPT1",
+          "items": Array [
+            "undefined",
+          ],
+        },
+        Object {
+          "itemTitle": "calculationResult.maximumManualRelubricationPerInterval",
+          "items": Array [
+            "100 g",
+            "100 g",
+          ],
+        },
+        Object {
+          "itemTitle": "calculationResult.relubricationInterval",
+          "items": Array [
+            "30 days",
+            "30 days",
+          ],
+        },
+        Object {
+          "itemTitle": "calculationResult.relubricationPer7Days",
+          "items": Array [
+            "10 g/7 days",
+            "10 g/7 days",
           ],
         },
         Object {
           "itemTitle": "calculationResult.greaseServiceLife",
           "items": Array [
-            "~ 51440 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer30days",
-          "items": Array [
-            "37037036.7 g/30 days",
-            "37037036.7 mock_unit/30 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer7days",
-          "items": Array [
-            "8641975.2 g/7 days",
-            "8641975.2 mock_unit/7 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.viscosityRatio",
-          "items": Array [
-            "1234567.89",
+            "~ 100 days",
           ],
         },
         Object {
           "itemTitle": "calculationResult.baseOilViscosityAt40",
           "items": Array [
-            "1234567.89 mock_unit",
+            "100 mm²/s",
           ],
         },
         Object {
           "itemTitle": "calculationResult.lowerTemperatureLimit",
           "items": Array [
-            "1234567.89 mock_unit",
+            "-20 °C",
           ],
         },
         Object {
           "itemTitle": "calculationResult.upperTemperatureLimit",
           "items": Array [
-            "1234567.89 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.additiveRequired",
-          "items": Array [
-            "1234567.89",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.effectiveEpAdditivation",
-          "items": Array [
-            "1234567.89",
+            "120 °C",
           ],
         },
         Object {
           "itemTitle": "calculationResult.density",
           "items": Array [
-            "1234567.89 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.lowFriction",
-          "items": Array [
-            "0 (suitable)",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.suitableForVibrations",
-          "items": Array [
-            "0 (suitable)",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.supportForSeals",
-          "items": Array [
-            "0 (suitable)",
+            "0.9 g/cm³",
           ],
         },
         Object {
           "itemTitle": "calculationResult.h1Registration",
           "items": Array [
-            "1234567.89",
-          ],
-        },
-      ],
-      "subTitle": "Mineral oil",
-      "title": "Arcanol MULTI2",
-    },
-    Object {
-      "concept1": undefined,
-      "isRecommended": undefined,
-      "items": Array [
-        Object {
-          "itemTitle": "calculationResult.initialGreaseQuantity",
-          "items": Array [
-            "1234567.9 g/1234567.9 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer365days",
-          "items": Array [
-            "450617279.8 g/365 days",
-            "450617279.8 mock_unit/365 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationQuantityPer1000OperatingHours",
-          "items": Array [
-            "51440328.7 g/hours",
-            "51440328.7 mock_unit/hours",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.greaseServiceLife",
-          "items": Array [
-            "~ 51440 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer30days",
-          "items": Array [
-            "37037036.7 g/30 days",
-            "37037036.7 mock_unit/30 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer7days",
-          "items": Array [
-            "8641975.2 g/7 days",
-            "8641975.2 mock_unit/7 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.viscosityRatio",
-          "items": Array [
-            "1234567.89",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.baseOilViscosityAt40",
-          "items": Array [
-            "1234567.89 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.lowerTemperatureLimit",
-          "items": Array [
-            "1234567.89 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.upperTemperatureLimit",
-          "items": Array [
-            "1234567.89 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.additiveRequired",
-          "items": Array [
-            "1234567.89",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.effectiveEpAdditivation",
-          "items": Array [
-            "1234567.89",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.density",
-          "items": Array [
-            "1234567.89 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.lowFriction",
-          "items": Array [
             "0 (suitable)",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.suitableForVibrations",
-          "items": Array [
-            "0 (suitable)",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.supportForSeals",
-          "items": Array [
-            "0 (suitable)",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.h1Registration",
-          "items": Array [
-            "1234567.89",
           ],
         },
       ],
@@ -416,88 +208,24 @@ Object {
         },
         "title": "calculationResult.concept1",
       },
-      "isRecommended": undefined,
+      "isRecommended": false,
       "items": Array [
         Object {
           "itemTitle": "calculationResult.initialGreaseQuantity",
           "items": Array [
-            "1234567.9 g/1234567.9 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer365days",
-          "items": Array [
-            "450617279.8 g/365 days",
-            "450617279.8 mock_unit/365 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationQuantityPer1000OperatingHours",
-          "items": Array [
-            "51440328.7 g/hours",
-            "51440328.7 mock_unit/hours",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.greaseServiceLife",
-          "items": Array [
-            "~ 51440 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer30days",
-          "items": Array [
-            "37037036.7 g/30 days",
-            "37037036.7 mock_unit/30 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer7days",
-          "items": Array [
-            "8641975.2 g/7 days",
-            "8641975.2 mock_unit/7 days",
+            "100 g/100 g",
           ],
         },
         Object {
           "itemTitle": "calculationResult.viscosityRatio",
           "items": Array [
-            "1234567.89",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.baseOilViscosityAt40",
-          "items": Array [
-            "1234567.89 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.lowerTemperatureLimit",
-          "items": Array [
-            "1234567.89 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.upperTemperatureLimit",
-          "items": Array [
-            "1234567.89 mock_unit",
+            "0.8",
           ],
         },
         Object {
           "itemTitle": "calculationResult.additiveRequired",
           "items": Array [
-            "1234567.89",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.effectiveEpAdditivation",
-          "items": Array [
-            "1234567.89",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.density",
-          "items": Array [
-            "1234567.89 mock_unit",
+            "0 (suitable)",
           ],
         },
         Object {
@@ -519,249 +247,93 @@ Object {
           ],
         },
         Object {
-          "itemTitle": "calculationResult.h1Registration",
+          "itemTitle": "calculationResult.effectiveEpAdditivation",
           "items": Array [
-            "1234567.89",
-          ],
-        },
-      ],
-      "subTitle": "Mineral oil",
-      "title": "Arcanol MULTI2",
-    },
-    Object {
-      "concept1": Object {
-        "concept125ml": Object {
-          "conceptTitle": "calculationResult.concept1settings.concept1Size",
-          "notes": "not supported for greasing",
-          "settingArrow": "",
-        },
-        "concept60ml": Object {
-          "conceptTitle": "calculationResult.concept1settings.concept1Size",
-          "notes": "not supported for greasing",
-          "settingArrow": "",
-        },
-        "title": "calculationResult.concept1",
-      },
-      "isRecommended": undefined,
-      "items": Array [
-        Object {
-          "itemTitle": "calculationResult.initialGreaseQuantity",
-          "items": Array [
-            "1234567.9 g/1234567.9 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer365days",
-          "items": Array [
-            "450617279.8 g/365 days",
-            "450617279.8 mock_unit/365 days",
+            "0 (suitable)",
           ],
         },
         Object {
           "itemTitle": "calculationResult.relubricationQuantityPer1000OperatingHours",
           "items": Array [
-            "51440328.7 g/hours",
-            "51440328.7 mock_unit/hours",
+            "50 g/hours",
+            "50 g/hours",
+          ],
+        },
+        Object {
+          "itemTitle": "calculationResult.relubricationPer365Days",
+          "items": Array [
+            "200 g/365 days",
+            "200 g/365 days",
+          ],
+        },
+        Object {
+          "itemTitle": "calculationResult.relubricationPer30Days",
+          "items": Array [
+            "20 g/30 days",
+            "20 g/30 days",
+          ],
+        },
+        Object {
+          "itemTitle": "calculationResult.CONCEPT1",
+          "items": Array [
+            "undefined",
+          ],
+        },
+        Object {
+          "itemTitle": "calculationResult.maximumManualRelubricationPerInterval",
+          "items": Array [
+            "100 g",
+            "100 g",
+          ],
+        },
+        Object {
+          "itemTitle": "calculationResult.relubricationInterval",
+          "items": Array [
+            "30 days",
+            "30 days",
+          ],
+        },
+        Object {
+          "itemTitle": "calculationResult.relubricationPer7Days",
+          "items": Array [
+            "10 g/7 days",
+            "10 g/7 days",
           ],
         },
         Object {
           "itemTitle": "calculationResult.greaseServiceLife",
           "items": Array [
-            "~ 51440 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer30days",
-          "items": Array [
-            "37037036.7 g/30 days",
-            "37037036.7 mock_unit/30 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer7days",
-          "items": Array [
-            "8641975.2 g/7 days",
-            "8641975.2 mock_unit/7 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.viscosityRatio",
-          "items": Array [
-            "1234567.89",
+            "~ 100 days",
           ],
         },
         Object {
           "itemTitle": "calculationResult.baseOilViscosityAt40",
           "items": Array [
-            "1234567.89 mock_unit",
+            "100 mm²/s",
           ],
         },
         Object {
           "itemTitle": "calculationResult.lowerTemperatureLimit",
           "items": Array [
-            "1234567.89 mock_unit",
+            "-20 °C",
           ],
         },
         Object {
           "itemTitle": "calculationResult.upperTemperatureLimit",
           "items": Array [
-            "1234567.89 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.additiveRequired",
-          "items": Array [
-            "1234567.89",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.effectiveEpAdditivation",
-          "items": Array [
-            "1234567.89",
+            "120 °C",
           ],
         },
         Object {
           "itemTitle": "calculationResult.density",
           "items": Array [
-            "1234567.89 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.lowFriction",
-          "items": Array [
-            "0 (suitable)",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.suitableForVibrations",
-          "items": Array [
-            "0 (suitable)",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.supportForSeals",
-          "items": Array [
-            "0 (suitable)",
+            "0.9 g/cm³",
           ],
         },
         Object {
           "itemTitle": "calculationResult.h1Registration",
           "items": Array [
-            "1234567.89",
-          ],
-        },
-      ],
-      "subTitle": "Mineral oil",
-      "title": "Arcanol MULTI2",
-    },
-    Object {
-      "concept1": undefined,
-      "isRecommended": undefined,
-      "items": Array [
-        Object {
-          "itemTitle": "calculationResult.initialGreaseQuantity",
-          "items": Array [
-            "1234567.9 g/1234567.9 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer365days",
-          "items": Array [
-            "450617279.8 g/365 days",
-            "450617279.8 mock_unit/365 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationQuantityPer1000OperatingHours",
-          "items": Array [
-            "51440328.7 g/hours",
-            "51440328.7 mock_unit/hours",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.greaseServiceLife",
-          "items": Array [
-            "~ 51440 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer30days",
-          "items": Array [
-            "37037036.7 g/30 days",
-            "37037036.7 mock_unit/30 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer7days",
-          "items": Array [
-            "8641975.2 g/7 days",
-            "8641975.2 mock_unit/7 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.viscosityRatio",
-          "items": Array [
-            "1234567.89",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.baseOilViscosityAt40",
-          "items": Array [
-            "1234567.89 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.lowerTemperatureLimit",
-          "items": Array [
-            "1234567.89 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.upperTemperatureLimit",
-          "items": Array [
-            "1234567.89 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.additiveRequired",
-          "items": Array [
-            "1234567.89",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.effectiveEpAdditivation",
-          "items": Array [
-            "1234567.89",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.density",
-          "items": Array [
-            "1234567.89 mock_unit",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.lowFriction",
-          "items": Array [
             "0 (suitable)",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.suitableForVibrations",
-          "items": Array [
-            "0 (suitable)",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.supportForSeals",
-          "items": Array [
-            "0 (suitable)",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.h1Registration",
-          "items": Array [
-            "1234567.89",
           ],
         },
       ],

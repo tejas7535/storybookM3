@@ -12,7 +12,7 @@ import { SettingsFacade } from '@ga/core/store';
 import { BadgeComponent } from '@ga/shared/components/badge/badge.component';
 import { greaseResultMock } from '@ga/testing/mocks';
 
-import { ResultSectionData } from '../../models';
+import { ResultSection } from '../../models';
 import { ResultSectionPipe } from '../../pipes/result-section.pipe';
 import { GreaseReportResultCardComponent } from './grease-report-result-card.component';
 import { GreaseReportResultCardSectionComponent } from './grease-report-result-card-section/grease-report-result-card-section.component';
@@ -32,11 +32,8 @@ describe('GreaseReportResultCardComponent', () => {
         ResultSectionPipe,
         () =>
           ({
-            initialLubrication: {},
-            performance: {},
-            relubrication: {},
-            greaseSelection: {},
-          }) as ResultSectionData
+            extendable: true,
+          }) as ResultSection
       ),
       provideTranslocoTestingModule({ en: {} }),
     ],

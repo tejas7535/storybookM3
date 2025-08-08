@@ -1,5 +1,12 @@
 import { LabelValue } from '@schaeffler/label-value';
 
+import {
+  GreaseSelectionResult,
+  InitialLubricationResult,
+  PerformanceResult,
+  RelubricationResult,
+} from './grease-result.model';
+
 export interface ResultSection {
   title: string;
   mainValue?: string;
@@ -21,6 +28,12 @@ export enum ResultSectionType {
 export type ResultSectionData = {
   [key in ResultSectionType]: ResultSection;
 };
+
+export type ResultSectionRaw =
+  | InitialLubricationResult
+  | PerformanceResult
+  | RelubricationResult
+  | GreaseSelectionResult;
 
 export type InitialResultSectionData = {
   [key in ResultSectionType]: Partial<ResultSection>;

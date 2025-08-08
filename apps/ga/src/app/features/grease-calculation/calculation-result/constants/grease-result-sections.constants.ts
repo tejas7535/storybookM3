@@ -34,7 +34,7 @@ export const initialResultSections: InitialResultSectionData = {
 export const performanceKeys = [
   'viscosityRatio',
   'applicationSpeedFactor',
-  'effectiveEpAddivation',
+  'effectiveEpAdditivation',
   'additiveRequired',
   'lowFriction',
   'suitableForVibrations',
@@ -45,7 +45,7 @@ export const relubricationKeys = [
   'relubricationQuantityPer1000OperatingHours',
   'relubricationPer365days',
   'relubricationPer30days',
-  'relubricationIntervalPer7Days',
+  'relubricationPer7days',
   'concept1',
   'quantityOfRelubrication',
   'maximumManualRelubricationPerInterval',

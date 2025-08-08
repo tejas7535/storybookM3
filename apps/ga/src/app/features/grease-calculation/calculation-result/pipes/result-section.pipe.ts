@@ -1,4 +1,9 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { inject, Pipe, PipeTransform } from '@angular/core';
+
+import { translate } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
+
+import { LabelValue } from '@schaeffler/label-value';
 
 import {
   greaseSelectionKeys,
@@ -7,10 +12,15 @@ import {
   relubricationKeys,
 } from '../constants';
 import {
-  adaptLabelValuesFromGreaseResultData,
   getKappaBadgeColorClass,
+  getLabelHintForResult,
 } from '../helpers/grease-helpers';
-import { GreaseResult, ResultSection, ResultSectionData } from '../models';
+import {
+  GreaseResultDataItem,
+  GreaseResultItem,
+  ResultSection,
+  ResultSectionRaw,
+} from '../models';
 
 @Pipe({
   name: 'resultSection',
@@ -18,93 +28,117 @@ import { GreaseResult, ResultSection, ResultSectionData } from '../models';
   pure: true,
 })
 export class ResultSectionPipe implements PipeTransform {
-  transform(result: GreaseResult): ResultSectionData {
-    const filteredDatasource = result.dataSource.filter(Boolean);
+  private readonly localeService = inject(TranslocoLocaleService);
 
-    const initialLubricationBadge = this.splitBadgeText(
-      filteredDatasource.find(({ title }) => title === 'initialGreaseQuantity')
-        ?.values || ''
-    );
-    const performanceBadge = this.splitBadgeText(
-      filteredDatasource.find(({ title }) => title === 'viscosityRatio')
-        ?.values || ''
-    );
-    const relubricationBadge = this.splitBadgeText(
-      filteredDatasource.find(
-        ({ title }) => title === 'relubricationQuantityPer1000OperatingHours'
-      )?.values || ''
-    );
-    const greaseSelectionBadge = this.splitBadgeText(
-      filteredDatasource.find(({ title }) => title === 'greaseServiceLife')
-        ?.values || ''
+  transform(sectionRaw: ResultSectionRaw): ResultSection {
+    const values: (GreaseResultItem | GreaseResultDataItem)[] =
+      Object.values(sectionRaw);
+    const initialSection = Object.values(initialResultSections).find(
+      (section) => Object.keys(sectionRaw).includes(section.mainValue)
     );
 
-    return {
-      initialLubrication: {
-        ...initialResultSections.initialLubrication,
-        badgeText: initialLubricationBadge.badgeText,
-        badgeSecondaryText: initialLubricationBadge.badgeSecondaryText,
-        extendable: false,
-      } as ResultSection,
-      performance: {
-        ...initialResultSections.performance,
-        badgeText: performanceBadge.badgeText,
-        badgeSecondaryText: performanceBadge.badgeSecondaryText,
-        badgeClass: getKappaBadgeColorClass(performanceBadge.badgeText),
-        labelValues: adaptLabelValuesFromGreaseResultData(
-          result.dataSource.filter(
-            (item) => !!item && performanceKeys.includes(item.title)
-          )
-        ),
-      } as ResultSection,
-      relubrication: {
-        ...initialResultSections.relubrication,
-        badgeText: relubricationBadge.badgeText.replace(/\/1000.+/, ''),
-        badgeSecondaryText: relubricationBadge.badgeSecondaryText.replace(
-          /\/1000.+/,
-          ''
-        ),
-        labelValues: adaptLabelValuesFromGreaseResultData(
-          this.getRelubricationSection(result)
-        ),
-      } as ResultSection,
-      greaseSelection: {
-        ...initialResultSections.greaseSelection,
-        badgeText: greaseSelectionBadge.badgeText,
-        badgeSecondaryText: greaseSelectionBadge.badgeSecondaryText,
-        labelValues: adaptLabelValuesFromGreaseResultData(
-          result.dataSource.filter(
-            (item) => !!item && greaseSelectionKeys.includes(item.title)
-          )
-        ),
-      } as ResultSection,
-    };
+    const mainValue = (
+      values.filter(
+        (value) => !!value && !('custom' in value)
+      ) as GreaseResultItem[]
+    ).find((value) => value.value !== undefined);
+
+    const section = {
+      ...initialSection,
+      mainValue: mainValue.title,
+      badgeText: mainValue?.value
+        ? this.getLocalizedStringValue(mainValue).replace(/\/\d+\s.+/, '')
+        : undefined,
+      badgeSecondaryText: mainValue?.secondaryValue
+        ? this.getLocalizedStringValue(mainValue, true).replace(/\/\d+\s.+/, '')
+        : undefined,
+      badgeClass:
+        mainValue.title === 'viscosityRatio'
+          ? getKappaBadgeColorClass(mainValue.value)
+          : initialSection.badgeClass,
+      labelValues: this.adaptLabelValuesFromGreaseResultItems(
+        values.filter(
+          (value) =>
+            [
+              ...greaseSelectionKeys,
+              ...performanceKeys,
+              ...relubricationKeys,
+            ].includes(value?.title) && value !== undefined
+        )
+      ),
+    } as ResultSection;
+
+    return section;
   }
 
-  private splitBadgeText(badgeText: string): {
-    badgeText: string;
-    badgeSecondaryText?: string;
-  } {
-    const regexp = /<[^>]+>/;
-    const parts = badgeText.split(regexp).filter((part) => part.trim() !== '');
+  private readonly adaptLabelValuesFromGreaseResultItems = (
+    results: (GreaseResultItem | GreaseResultDataItem)[] = []
+  ): LabelValue[] =>
+    results.length > 0
+      ? results.map((item) => {
+          let value: string;
+          if ('value' in item) {
+            value =
+              item?.title === 'viscosityRatio'
+                ? this.getLocalizedStringValue(item)
+                : this.getHtmlValue(item);
+          } else {
+            value = item?.values;
+          }
 
-    return {
-      badgeText: parts.at(0),
-      badgeSecondaryText: parts.at(1),
-    };
-  }
+          return {
+            label: translate(
+              item?.title ? `calculationResult.${item.title}` : ''
+            ),
+            labelHint: getLabelHintForResult(item),
+            metadata:
+              item?.title === 'viscosityRatio'
+                ? {
+                    badgeClass: getKappaBadgeColorClass(
+                      (item as GreaseResultItem<number>).value
+                    ),
+                  }
+                : undefined,
+            value,
+            custom: 'custom' in item ? item.custom : undefined,
+            specialTemplate:
+              item?.title === 'viscosityRatio' ? 'viscocity' : undefined,
+          };
+        })
+      : [];
 
-  private getRelubricationSection(result: GreaseResult) {
-    const filtered = result.dataSource.filter(
-      (item) => !!item && relubricationKeys.includes(item.title)
-    );
-
-    const sortedReturnValues: GreaseResult['dataSource'] = [];
-
-    for (const item of filtered) {
-      sortedReturnValues[relubricationKeys.indexOf(item.title)] = item;
+  private readonly getLocalizedStringValue = (
+    item: GreaseResultItem,
+    secondary?: boolean
+  ): string => {
+    let value = secondary ? item.secondaryValue : item.value;
+    const prefix = secondary ? item.secondaryPrefix : item.prefix;
+    const unit = secondary ? item.secondaryUnit : item.unit;
+    if (typeof value === 'number') {
+      const options =
+        item.title === 'initialGreaseQuantity'
+          ? { maximumFractionDigits: 2 }
+          : undefined;
+      value = this.localeService.localizeNumber(
+        value,
+        'decimal',
+        undefined,
+        options
+      );
     }
 
-    return sortedReturnValues.filter(Boolean);
-  }
+    return `${prefix || ''} ${value} ${unit || ''}`;
+  };
+
+  private readonly getHtmlValue = (item: GreaseResultItem): string => {
+    const mainValue = `<span>${this.getLocalizedStringValue(item)}</span>`;
+
+    if (item.secondaryValue) {
+      const secondaryValue = `<span class="text-low-emphasis">${this.getLocalizedStringValue(item, true)}</span>`;
+
+      return `${mainValue}<br>${secondaryValue}`;
+    }
+
+    return mainValue;
+  };
 }

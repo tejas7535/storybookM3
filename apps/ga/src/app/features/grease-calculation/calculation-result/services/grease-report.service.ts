@@ -1,12 +1,11 @@
-/* eslint max-lines: 1 */
+/* eslint-disable max-lines */
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { delay, lastValueFrom, map, retryWhen, take } from 'rxjs';
+import { lastValueFrom, map, retry, timer } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
@@ -26,7 +25,11 @@ import {
   GreaseReportSubordinateHint,
   GreaseReportSubordinateTitle,
   GreaseResult,
+  GreaseResultReport,
+  InitialLubricationResult,
+  PerformanceResult,
   PreferredGreaseResult,
+  RelubricationResult,
   SubordinateDataItemField,
   SUITABILITY_LABEL,
 } from '../models';
@@ -36,32 +39,61 @@ import { GreaseResultDataSourceService } from './grease-result-data-source.servi
 
 @Injectable()
 export class GreaseReportService {
+  private readonly http = inject(HttpClient);
+  private readonly applicationInsightsService = inject(
+    ApplicationInsightsService
+  );
+  private readonly greaseResultDataSourceService = inject(
+    GreaseResultDataSourceService
+  );
+  private readonly recommendationService = inject(GreaseRecommendationService);
+  private readonly appAnalyticsService = inject(AppAnalyticsService);
+  private readonly calculationParametersFacade = inject(
+    CalculationParametersFacade
+  );
+  private readonly greaseMiscibilityService = inject(GreaseMiscibilityService);
+
   private readonly isVerticalAxisSelected = toSignal(
     this.calculationParametersFacade.isVerticalAxisOrientation$
   );
 
-  public constructor(
-    private readonly http: HttpClient,
-    private readonly applicationInsightsService: ApplicationInsightsService,
-    private readonly greaseResultDataSourceService: GreaseResultDataSourceService,
-    private readonly recommendationService: GreaseRecommendationService,
-    private readonly appAnalyticsService: AppAnalyticsService,
-    private readonly calculationParametersFacade: CalculationParametersFacade,
-    private readonly greaseMiscibilityService: GreaseMiscibilityService,
-    private readonly translocoService: TranslocoLocaleService
-  ) {}
+  private readonly _greaseResultReport = signal<
+    GreaseResultReport | undefined
+    // eslint-disable-next-line unicorn/no-useless-undefined
+  >(undefined);
+  public readonly greaseResultReport = this._greaseResultReport.asReadonly();
 
-  public async getGreaseReport(greaseReportUrl: string) {
+  private readonly _subordinates = signal<
+    GreaseReportSubordinate[] | undefined
+    // eslint-disable-next-line unicorn/no-useless-undefined
+  >(undefined);
+  public readonly subordinates = this._subordinates.asReadonly();
+
+  public async getGreaseReport(
+    greaseReportUrl: string,
+    preferredGreaseResult?: PreferredGreaseResult,
+    automaticLubrication?: boolean
+  ): Promise<void> {
+    this._greaseResultReport.set(undefined);
+    this._subordinates.set(undefined);
+
     return lastValueFrom(
       this.http.get<GreaseReport>(greaseReportUrl).pipe(
-        map((val) => {
+        map(async (val) => {
           if (!val) {
             throw new Error('Empty Result');
           }
 
-          return val;
+          const greaseResultReport = await this.formatGreaseReport(
+            val.subordinates,
+            preferredGreaseResult,
+            automaticLubrication
+          );
+
+          this._greaseResultReport.set(greaseResultReport);
+          this._subordinates.set(val.subordinates);
         }),
-        retryWhen((error) => error.pipe(delay(1000), take(20)))
+        retry({ count: 20, delay: () => timer(1000) })
       )
     );
   }
@@ -70,19 +102,65 @@ export class GreaseReportService {
     subordinates: GreaseReportSubordinate[],
     preferredGreaseResult?: PreferredGreaseResult,
     automaticLubrication?: boolean
-  ): Promise<GreaseReportSubordinate[]> {
-    let formattedResult = subordinates || [];
-
-    // remove unneeded sections
-    formattedResult = formattedResult.filter(
-      (section: GreaseReportSubordinate) =>
-        section.titleID === GreaseReportSubordinateTitle.STRING_OUTP_INPUT
+  ): Promise<GreaseResultReport> {
+    const inputs = this.findSubordinateByTitleId(
+      subordinates,
+      GreaseReportSubordinateTitle.STRING_OUTP_INPUT
     );
 
     const resultSection = this.findSubordinateByTitleId(
       subordinates,
       GreaseReportSubordinateTitle.STRING_OUTP_RESULTS
     );
+
+    const legalNote = subordinates.find(
+      (subordinate) => subordinate.identifier === 'legalNote'
+    )?.legal;
+    // add errors, warning, notes
+    const hintTitles = new Set<string>(
+      Object.values(GreaseReportSubordinateHint).flatMap(
+        (value: GreaseReportSubordinateHint) => [
+          value && value[0].toUpperCase() + value.slice(1),
+          translate(`calculationResult.${value}`),
+        ]
+      )
+    );
+
+    const errorWarningsAndNotes: GreaseReportSubordinate = {
+      identifier: 'block',
+      clickHandler: () => this.trackWarningsOpened(),
+      defaultOpen: !resultSection,
+      title: translate('calculationResult.errorsWarningsNotes'),
+      subordinates: subordinates
+        .filter(
+          (subordinate: GreaseReportSubordinate) =>
+            subordinate.title && hintTitles.has(subordinate.title)
+        )
+        .map((subordinate: GreaseReportSubordinate) => {
+          if (
+            subordinate.titleID ===
+              GreaseReportSubordinateTitle.STRING_NOTE_BLOCK &&
+            this.isVerticalAxisSelected()
+          ) {
+            subordinate.subordinates.push({
+              identifier: 'text',
+              text: [translate('calculationResult.axisOrientation.disclaimer')],
+            });
+
+            return {
+              ...subordinate,
+            };
+          }
+
+          return subordinate;
+        }),
+    };
+
+    const greaseResultReport: GreaseResultReport = {
+      inputs,
+      errorWarningsAndNotes,
+      legalNote,
+    };
 
     const tables = resultSection?.subordinates
       ?.filter(
@@ -102,68 +180,155 @@ export class GreaseReportService {
       GreaseReportSubordinateTitle.STRING_OUTP_OVERVIEW_OF_CALCULATION_DATA_FOR_GREASES
     );
 
-    const concept1 = this.findSubordinateByTitleId(
+    const concept1Subordinate = this.findSubordinateByTitleId(
       resultSection?.subordinates,
       GreaseReportSubordinateTitle.STRING_OUTP_CONCEPT1
     )?.subordinates;
 
     // compose compact grease table
     if (resultSection) {
-      let formattedSubordinates: GreaseReportSubordinate[] = [
-        ...(table2?.data?.items.map(
+      let greaseResults: GreaseResult[] = [
+        // eslint-disable-next-line no-unsafe-optional-chaining
+        ...table2?.data?.items.map(
           (dataItems: GreaseReportSubordinateDataItem[], index: number) => {
             const mainTitle = `${itemValue(dataItems, undefined, 0)}`;
             const table1Items = table1?.data?.items[index] ?? [];
             const rho = +itemValue(dataItems, SubordinateDataItemField.RHO);
-            let greaseLifeService =
-              this.greaseResultDataSourceService.greaseServiceLife(table1Items);
 
-            let quantityOfRelubricationPer7Days =
+            // initialLubrication
+
+            const initialGreaseQuantity =
+              this.greaseResultDataSourceService.initialGreaseQuantity(
+                table1Items,
+                rho
+              );
+
+            // performance
+
+            const viscosityRatio =
+              this.greaseResultDataSourceService.viscosityRatio(table1Items);
+            const additiveRequired =
+              this.greaseResultDataSourceService.additiveRequired(table1Items);
+            const lowFriction =
+              this.greaseResultDataSourceService.lowFriction(dataItems);
+            const suitableForVibrations =
+              this.greaseResultDataSourceService.suitableForVibrations(
+                dataItems
+              );
+            const supportForSeals =
+              this.greaseResultDataSourceService.supportForSeals(dataItems);
+            // hidden
+            const effectiveEpAdditivation =
+              this.greaseResultDataSourceService.effectiveEpAdditivation(
+                dataItems
+              );
+
+            // relubrication
+
+            let relubricationQuantityPer1000OperatingHours =
+              this.greaseResultDataSourceService.relubricationQuantityPer1000OperatingHours(
+                table1Items,
+                rho
+              );
+            const relubricationPer365Days =
+              this.greaseResultDataSourceService.relubricationPer365Days(
+                table1Items,
+                rho
+              );
+            let relubricationPer30Days =
+              this.greaseResultDataSourceService.relubricationPer30Days(
+                table1Items,
+                rho
+              );
+            const concept1 =
+              this.greaseResultDataSourceService.automaticLubrication(
+                concept1Subordinate as GreaseReportConcept1Subordinate[],
+                index
+              );
+            let maximumManualRelubricationPerInterval =
+              this.greaseResultDataSourceService.maximumManualRelubricationInterval(
+                table1Items,
+                rho
+              );
+            let relubricationInterval =
+              this.greaseResultDataSourceService.relubricationInterval(
+                table1Items
+              );
+            let relubricationPer7Days =
               this.greaseResultDataSourceService.relubricationPer7Days(
                 table1Items,
                 rho
               );
 
-            let quntityOfRelubricationPer30days =
-              this.greaseResultDataSourceService.relubricationPer30Days(
-                table1Items,
-                rho
-              );
+            // greaseSelection
 
-            let maximumManualRelubricationInterval =
-              this.greaseResultDataSourceService.maximumManualRelubricationInterval(
-                table1Items,
-                rho
+            let greaseServiceLife =
+              this.greaseResultDataSourceService.greaseServiceLife(table1Items);
+            const baseOilViscosityAt40 =
+              this.greaseResultDataSourceService.baseOilViscosityAt40(
+                dataItems
               );
+            const lowerTemperatureLimit =
+              this.greaseResultDataSourceService.lowerTemperatureLimit(
+                dataItems
+              );
+            const upperTemperatureLimit =
+              this.greaseResultDataSourceService.upperTemperatureLimit(
+                dataItems
+              );
+            const density =
+              this.greaseResultDataSourceService.density(dataItems);
+            const h1Registration =
+              this.greaseResultDataSourceService.h1Registration(dataItems);
 
-            let relubricationInterval =
-              this.greaseResultDataSourceService.relubricationInterval(
-                table1Items
-              );
-
-            let per1000OperatingHours =
-              this.greaseResultDataSourceService.relubricationQuantityPer1000OperatingHours(
-                table1Items,
-                rho
-              );
+            // adjustments for vertical axis
 
             if (this.isVerticalAxisSelected()) {
-              greaseLifeService = undefined;
-              quntityOfRelubricationPer30days = undefined;
+              greaseServiceLife = undefined;
+              relubricationPer30Days = undefined;
               relubricationInterval = undefined;
-              per1000OperatingHours = undefined;
-              maximumManualRelubricationInterval =
+              relubricationQuantityPer1000OperatingHours = undefined;
+              maximumManualRelubricationPerInterval =
                 this.greaseResultDataSourceService.maxManualRelubricationIntervalForVerticalAxis(
                   table1Items,
                   rho
                 );
 
-              quantityOfRelubricationPer7Days =
+              relubricationPer7Days =
                 this.greaseResultDataSourceService.getMaximumLubricationPer7Days(
                   table1Items,
                   rho
                 );
             }
+
+            const initialLubrication: InitialLubricationResult = {
+              initialGreaseQuantity,
+            };
+            const performance: PerformanceResult = {
+              viscosityRatio,
+              additiveRequired,
+              effectiveEpAdditivation,
+              lowFriction,
+              suitableForVibrations,
+              supportForSeals,
+            };
+            const relubrication: RelubricationResult = {
+              relubricationQuantityPer1000OperatingHours,
+              relubricationPer365Days,
+              relubricationPer30Days,
+              relubricationPer7Days,
+              concept1,
+              maximumManualRelubricationPerInterval,
+              relubricationInterval,
+            };
+            const greaseSelection = {
+              greaseServiceLife,
+              baseOilViscosityAt40,
+              lowerTemperatureLimit,
+              upperTemperatureLimit,
+              density,
+              h1Registration,
+            };
 
             const greaseResult: GreaseResult = {
               mainTitle,
@@ -188,73 +353,22 @@ export class GreaseReportService {
                     mainTitle === title &&
                     category === preferredGreaseResult?.id
                 ).length === 1,
-              dataSource: [
-                this.greaseResultDataSourceService.automaticLubrication(
-                  concept1 as GreaseReportConcept1Subordinate[],
-                  index
-                ),
-                this.greaseResultDataSourceService.initialGreaseQuantity(
-                  table1Items,
-                  rho
-                ),
-                this.greaseResultDataSourceService.relubricationPer365Days(
-                  table1Items,
-                  rho
-                ),
-                maximumManualRelubricationInterval,
-                per1000OperatingHours,
-                greaseLifeService,
-                relubricationInterval,
-                quntityOfRelubricationPer30days,
-                quantityOfRelubricationPer7Days,
-                this.greaseResultDataSourceService.viscosityRatio(table1Items),
-                this.greaseResultDataSourceService.baseOilViscosityAt40(
-                  dataItems
-                ),
-                this.greaseResultDataSourceService.lowerTemperatureLimit(
-                  dataItems
-                ),
-                this.greaseResultDataSourceService.upperTemperatureLimit(
-                  dataItems
-                ),
-                this.greaseResultDataSourceService.additiveRequired(
-                  table1Items
-                ),
-                this.greaseResultDataSourceService.effectiveEpAdditivation(
-                  table1Items
-                ),
-                this.greaseResultDataSourceService.density(dataItems),
-                this.greaseResultDataSourceService.lowFriction(dataItems),
-                this.greaseResultDataSourceService.suitableForVibrations(
-                  dataItems
-                ),
-                this.greaseResultDataSourceService.supportForSeals(dataItems),
-                this.greaseResultDataSourceService.h1Registration(dataItems),
-              ],
+              initialLubrication,
+              performance,
+              relubrication,
+              greaseSelection,
             };
 
-            return {
-              greaseResult,
-              index,
-              identifier: 'greaseResult',
-            };
+            return greaseResult;
           }
-        ) as GreaseReportSubordinate[]),
+        ),
       ]
         // exclude grease which are available within the API, but should not be shown in the result because of certain limitations.
         // e.g. Arcanol XTRA3 is only for the Indian market
         .filter(
-          (subordinate) =>
-            !greaseResultExceptions.includes(
-              subordinate.greaseResult?.mainTitle
-            )
+          (greaseResult) =>
+            !greaseResultExceptions.includes(greaseResult?.mainTitle)
         );
-
-      // fix order by index just in case
-      formattedSubordinates = [...formattedSubordinates].sort(
-        (firstSubordinate, secondSubordinate) =>
-          +(firstSubordinate as any).index - +(secondSubordinate as any).index
-      );
 
       // reorder for automatic lubrication
       if (automaticLubrication) {
@@ -266,99 +380,38 @@ export class GreaseReportService {
           SUITABILITY_LABEL.UNSUITED,
         ];
 
-        formattedSubordinates = [...formattedSubordinates].sort(
-          ({ greaseResult: first }, { greaseResult: next }) =>
-            suitabilityOrder.indexOf(first.dataSource[0].custom.data.label) -
-            suitabilityOrder.indexOf(next.dataSource[0].custom.data.label)
+        greaseResults = [...greaseResults].sort(
+          (
+            { relubrication: { concept1: first } },
+            { relubrication: { concept1: next } }
+          ) =>
+            suitabilityOrder.indexOf(first.custom.data.label) -
+            suitabilityOrder.indexOf(next.custom.data.label)
         );
       }
       // Do sorting by kappa value here
-      formattedSubordinates = this.sortKappaValues(formattedSubordinates);
+      greaseResults = this.sortKappaValues(greaseResults);
 
       // move preferred grease to the top
-      const preferredIndex = formattedSubordinates.findIndex(
-        (item) => item?.greaseResult?.isPreferred
+      const preferredIndex = greaseResults.findIndex(
+        (greaseResult) => greaseResult?.isPreferred
       );
       if (preferredIndex > 0) {
-        formattedSubordinates.unshift(
-          formattedSubordinates.splice(preferredIndex, 1)[0]
-        );
+        greaseResults.unshift(greaseResults.splice(preferredIndex, 1)[0]);
       }
 
       // Call to highlight the recommended grease from the results
       await this.recommendationService.processGreaseRecommendation(
-        formattedSubordinates
+        greaseResults
       );
 
-      formattedSubordinates = this.greaseMiscibilityService.markMixableGreases(
-        formattedSubordinates
-      );
+      greaseResults =
+        this.greaseMiscibilityService.markMixableGreases(greaseResults);
 
-      formattedResult = [
-        ...formattedResult,
-        {
-          ...resultSection,
-          defaultOpen: true,
-          subordinates: formattedSubordinates,
-        },
-      ];
+      greaseResultReport.greaseResult = greaseResults;
     }
 
-    // add errors, warning, notes
-    const hintTitles = new Set<string>(
-      Object.values(GreaseReportSubordinateHint).flatMap(
-        (value: GreaseReportSubordinateHint) => [
-          value && value[0].toUpperCase() + value.slice(1),
-          translate(`calculationResult.${value}`),
-        ]
-      )
-    );
-
-    const errorWarningAndNotesSubordinates = subordinates
-      .filter(
-        (subordinate: GreaseReportSubordinate) =>
-          subordinate.title && hintTitles.has(subordinate.title)
-      )
-      .map((subordinate: GreaseReportSubordinate) => {
-        if (
-          subordinate.titleID ===
-            GreaseReportSubordinateTitle.STRING_NOTE_BLOCK &&
-          this.isVerticalAxisSelected()
-        ) {
-          subordinate.subordinates.push({
-            identifier: 'text',
-            text: [translate('calculationResult.axisOrientation.disclaimer')],
-          });
-
-          return {
-            ...subordinate,
-          };
-        }
-
-        return subordinate;
-      });
-
-    formattedResult = [
-      ...formattedResult,
-      {
-        identifier: 'block',
-        clickHandler: () => this.trackWarningsOpened(),
-        defaultOpen: !resultSection,
-        title: translate('calculationResult.errorsWarningsNotes'),
-        subordinates: errorWarningAndNotesSubordinates,
-      },
-    ];
-
-    return formattedResult;
-  }
-
-  public getResultAmount(subordinates: GreaseReportSubordinate[]): number {
-    return (
-      this.findSubordinateByTitleId(
-        subordinates,
-        GreaseReportSubordinateTitle.STRING_OUTP_RESULTS
-      )?.subordinates?.length ?? 0
-    );
+    return greaseResultReport;
   }
 
   public trackWarningsOpened(): void {
@@ -368,29 +421,22 @@ export class GreaseReportService {
     this.applicationInsightsService.logEvent(WARNINGSOPENED);
   }
 
-  private sortKappaValues(
-    subordinate: GreaseReportSubordinate[]
-  ): GreaseReportSubordinate[] {
-    const formatting =
-      this.translocoService.getLocale() === 'en-US'
-        ? 'decimal_point'
-        : 'decimal_comma';
-
-    const sorted = subordinate
-      .map((entry) => scoreGreaseEntry(entry, formatting))
+  private sortKappaValues(greaseResults: GreaseResult[]): GreaseResult[] {
+    const sorted = greaseResults
+      .map((result) => scoreGreaseEntry(result))
       .sort((a, b) => b.score - a.score);
 
     if (!environment.production) {
       /* eslint-disable no-console */
       console.table(
         sorted.flatMap((i) => ({
-          name: i.subordinate?.greaseResult?.mainTitle,
+          name: i.greaseResult?.mainTitle,
           score: i.score,
         }))
       );
     }
 
-    return sorted.map((sortingSubordinate) => sortingSubordinate.subordinate);
+    return sorted.map((item) => item.greaseResult);
   }
 
   private findSubordinateByTitleId(

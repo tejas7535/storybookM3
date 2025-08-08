@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -12,7 +20,7 @@ import {
 } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -35,7 +43,6 @@ import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/a
 import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
 
 import {
-  GreaseReport,
   GreaseReportSubordinate,
   GreaseReportSubordinateTitle,
   PreferredGreaseResult,
@@ -80,23 +87,33 @@ import { GreaseReportResultCardComponent } from '../grease-report-result-card/gr
   styleUrls: ['./grease-report.component.scss'],
 })
 export class GreaseReportComponent implements OnInit, OnDestroy {
-  @Input() public greaseReportUrl = '';
-  @Input() public preferredGreaseResult?: PreferredGreaseResult;
-  @Input() public automaticLubrication = false;
-  @Input() public versions?: string;
+  private readonly greaseReportService = inject(GreaseReportService);
+  private readonly snackbar = inject(MatSnackBar);
+  private readonly localeService = inject(TranslocoLocaleService);
+  private readonly store = inject(Store);
+  private readonly appAnalyticsService = inject(AppAnalyticsService);
+  private readonly settingsFacade = inject(SettingsFacade);
+  private readonly calculationParametersFacade = inject(
+    CalculationParametersFacade
+  );
+  protected readonly greasePDFSelection = inject(GreasePDFSelectionService);
+
+  public greaseReportUrl = input<string>('');
+  public preferredGreaseResult = input<PreferredGreaseResult | undefined>();
+  public automaticLubrication = input(false);
+  public versions = input<string | undefined>();
+
+  public messageSectionId = GreaseReportSubordinateTitle.STRING_NOTE_BLOCK;
 
   public isProdMode = environment.production;
 
   public resultsLimit = 3;
-  public limitResults = true;
+  public limitResults = signal(true);
   public isAppEmbedded$ = this.settingsFacade.appIsEmbedded$;
-  public legalNote: string;
-  public subordinates: GreaseReportSubordinate[] = [];
-  public greaseInput: GreaseReportSubordinate | undefined;
+  public subordinates = this.greaseReportService.subordinates;
   public snackBarRef?: MatSnackBarRef<TextOnlySnackBar>;
 
   public triggerRecommendationPresenceDetection$$ = new Subject<void>();
-  public hasRecommendation$$ = new BehaviorSubject(false);
   public hasMessages$ = this.store.select(hasResultMessage);
   public resultMessages$ = this.store.select(getResultMessages);
   public hasMiscibileGreaseResult = toSignal(
@@ -106,23 +123,47 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
     () => this.hasMiscibileGreaseResult()?.length > 0
   );
 
-  private reportRaw!: GreaseReport;
+  public greaseResultReport = this.greaseReportService.greaseResultReport;
+  public greaseResults = computed(() => {
+    if (this.limitResults()) {
+      return (
+        this.greaseResultReport()?.greaseResult?.slice(0, this.resultsLimit) ??
+        []
+      );
+    }
+
+    return this.greaseResultReport()?.greaseResult;
+  });
+  public greaseResultAmount = computed(
+    () => this.greaseResultReport()?.greaseResult?.length || 0
+  );
+  concept1Impossible = computed(
+    () =>
+      this.automaticLubrication &&
+      !this.greaseResultReport()?.greaseResult?.find(
+        (result) =>
+          result.relubrication.concept1.custom.data.label ===
+          SUITABILITY_LABEL.SUITED
+      )
+  );
+  public greaseInput = computed(() => this.greaseResultReport()?.inputs);
+  public hasRecommendation = computed(() => {
+    const hasRecommendation = this.greaseResultReport()?.greaseResult?.some(
+      (greaseResult) => greaseResult.isRecommended
+    );
+
+    return hasRecommendation;
+  });
+  public errorWarningsAndNotes = computed(
+    () => this.greaseResultReport()?.errorWarningsAndNotes
+  );
+  public legalNote = computed(() => this.greaseResultReport()?.legalNote);
+
   private currentLocale!: string;
   private localeChangeSubscription!: Subscription;
 
-  public constructor(
-    private readonly greaseReportService: GreaseReportService,
-    private readonly snackbar: MatSnackBar,
-    private readonly localeService: TranslocoLocaleService,
-    private readonly store: Store,
-    private readonly appAnalyticsService: AppAnalyticsService,
-    private readonly settingsFacade: SettingsFacade,
-    private readonly calculationParametersFacade: CalculationParametersFacade,
-    protected readonly greasePDFSelection: GreasePDFSelectionService
-  ) {}
-
   public ngOnInit(): void {
-    if (this.greaseReportUrl) {
+    if (this.greaseReportUrl()) {
       this.fetchGreaseReport();
     }
 
@@ -147,52 +188,8 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
     }
   }
 
-  public isGreaseResultSection = (
-    titleID: GreaseReportSubordinateTitle | string | undefined
-  ): boolean => titleID === GreaseReportSubordinateTitle.STRING_OUTP_RESULTS;
-
-  public isInputSection = (subordinate: GreaseReportSubordinate): boolean =>
-    subordinate?.titleID === GreaseReportSubordinateTitle.STRING_OUTP_INPUT;
-
-  public isMessagesSection = (
-    titleID: GreaseReportSubordinateTitle | string | undefined
-  ): boolean => titleID === GreaseReportSubordinateTitle.STRING_NOTE_BLOCK;
-
-  public toggleLimitResults(): void {
-    this.limitResults = !this.limitResults;
-  }
-
-  public limitSubordinates = (
-    subordinates: GreaseReportSubordinate[],
-    titleID: `${GreaseReportSubordinateTitle}`
-  ): GreaseReportSubordinate[] =>
-    this.isGreaseResultSection(titleID) && this.limitResults
-      ? subordinates.slice(0, this.resultsLimit)
-      : subordinates;
-
-  public getResultAmount(): number {
-    return this.greaseReportService.getResultAmount(this.subordinates);
-  }
-
-  public getRemainingResultAmount(): number {
-    return this.getResultAmount() - 3;
-  }
-
   public typedSubordinate = (subordinate: GreaseReportSubordinate) =>
     subordinate;
-
-  public concept1Impossible(): boolean {
-    return (
-      this.automaticLubrication &&
-      this.subordinates
-        .find(({ titleID }) => this.isGreaseResultSection(titleID))
-        ?.subordinates.filter(
-          ({ greaseResult }) =>
-            greaseResult.dataSource[0].custom.data.label ===
-            SUITABILITY_LABEL.SUITED
-        ).length === 0
-    );
-  }
 
   public logTogglingInputSection(): void {
     this.appAnalyticsService.logInteractionEvent(
@@ -206,43 +203,14 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
 
   private fetchGreaseReport(): void {
     this.greaseReportService
-      .getGreaseReport(this.greaseReportUrl)
-      .then((report) => {
-        this.reportRaw = report;
-        this.assignReportData();
-      })
+      .getGreaseReport(
+        this.greaseReportUrl(),
+        this.preferredGreaseResult(),
+        this.automaticLubrication()
+      )
       .catch(() => {
         this.showSnackBarError();
       });
-  }
-
-  private async assignReportData(): Promise<void> {
-    this.subordinates = await this.greaseReportService.formatGreaseReport(
-      this.reportRaw?.subordinates,
-      this.preferredGreaseResult,
-      this.automaticLubrication
-    );
-
-    // Pull the input section to the end
-    this.subordinates = [
-      ...this.subordinates.slice(1),
-      ...this.subordinates.slice(0, 1),
-    ];
-    this.greaseInput = this.subordinates.find(
-      (subordinate) =>
-        subordinate.titleID === GreaseReportSubordinateTitle.STRING_OUTP_INPUT
-    );
-
-    if (this.reportRaw?.subordinates) {
-      this.legalNote = this.reportRaw.subordinates.find(
-        (subordinate) => subordinate.identifier === 'legalNote'
-      )?.legal;
-    }
-
-    const hasRecommendation = this.subordinates
-      .find((sub) => sub.titleID === 'STRING_OUTP_RESULTS')
-      ?.subordinates.some((sub) => sub.greaseResult?.isRecommended);
-    this.hasRecommendation$$.next(hasRecommendation);
   }
 
   private showSnackBarError(): void {
@@ -253,9 +221,5 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
         duration: Number.POSITIVE_INFINITY,
       }
     );
-  }
-
-  protected isNoticesSection(subordinate: GreaseReportSubordinate) {
-    return subordinate.identifier === 'block' && !subordinate.titleID;
   }
 }

@@ -71,9 +71,8 @@
       </a>
     }
 
-    @let resultSections = greaseResult() | resultSection;
     <ga-grease-report-result-card-section
-      [section]="resultSections.initialLubrication"
+      [section]="greaseResult().initialLubrication | resultSection"
       [ngClass]="{
         'col-span-auto':
           !performanceSection.opened() && !initialLubricationSection.opened(),
@@ -83,7 +82,7 @@
       #initialLubricationSection
     ></ga-grease-report-result-card-section>
     <ga-grease-report-result-card-section
-      [section]="resultSections.performance"
+      [section]="greaseResult().performance | resultSection"
       [ngClass]="{
         'col-span-auto':
           !performanceSection.opened() && !initialLubricationSection.opened(),
@@ -93,7 +92,7 @@
       #performanceSection
     ></ga-grease-report-result-card-section>
     <ga-grease-report-result-card-section
-      [section]="resultSections.relubrication"
+      [section]="greaseResult().relubrication | resultSection"
       [greaseResult]="greaseResult()"
       [partnerVersion]="partnerVersion()"
       [ngClass]="{
@@ -105,7 +104,7 @@
       #relubricationSection
     ></ga-grease-report-result-card-section>
     <ga-grease-report-result-card-section
-      [section]="resultSections.greaseSelection"
+      [section]="greaseResult().greaseSelection | resultSection"
       [ngClass]="{
         'col-span-auto':
           !relubricationSection.opened() && !greaseSelectionSection.opened(),

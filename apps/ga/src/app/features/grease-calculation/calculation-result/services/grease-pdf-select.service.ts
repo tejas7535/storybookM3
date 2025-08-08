@@ -21,6 +21,11 @@ export class GreasePDFSelectionService {
   }
 
   public isSelected(title: string) {
+    // if selection mode is false everything is considered selected
+    if (!this.selectionMode()) {
+      return true;
+    }
+
     const set = this.selectedSet();
 
     return set.has(title);

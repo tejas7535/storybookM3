@@ -1,16 +1,39 @@
-import { greaseResultMock } from '@ga/testing/mocks';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+
+import {
+  greaseSelectionMock,
+  initialLubricationMock,
+  performanceMock,
+  relubricationMock,
+} from '@ga/testing/mocks';
 
 import { ResultSectionPipe } from './result-section.pipe';
 
 jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
   translate: jest.fn((key: string) => key),
 }));
 
 describe('ResultSectionPipe', () => {
   let pipe: ResultSectionPipe;
+  let spectator: SpectatorService<ResultSectionPipe>;
+
+  const createPipe = createServiceFactory({
+    service: ResultSectionPipe,
+    providers: [
+      {
+        provide: TranslocoLocaleService,
+        useValue: {
+          localizeNumber: (number: number) => `${number}`,
+        },
+      },
+    ],
+  });
 
   beforeEach(() => {
-    pipe = new ResultSectionPipe();
+    spectator = createPipe();
+    pipe = spectator.service;
   });
 
   it('should tranform the result matching the snapshot', () => {
@@ -18,32 +41,15 @@ describe('ResultSectionPipe', () => {
   });
 
   describe('transform', () => {
-    it('should transform the result', () => {
-      const result = pipe.transform(greaseResultMock);
+    it.each([
+      ['initialLubrication', initialLubricationMock],
+      ['performance', performanceMock],
+      ['relubrication', relubricationMock],
+      ['greaseSelection', greaseSelectionMock],
+    ])('should transform the result with %s', (_, resultSectionRaw) => {
+      const result = pipe.transform(resultSectionRaw);
 
       expect(result).toMatchSnapshot();
-    });
-  });
-
-  describe('splitBadgeText', () => {
-    it.each([
-      [
-        '<span>text</span>',
-        { badgeText: 'text', badgeSecondaryText: undefined },
-      ],
-      [
-        '<span>text</span> <span>secondary</span>',
-        { badgeText: 'text', badgeSecondaryText: 'secondary' },
-      ],
-      [
-        '<span>text</span><br><span class="something">secondary</span>',
-        { badgeText: 'text', badgeSecondaryText: 'secondary' },
-      ],
-      ['text', { badgeText: 'text', badgeSecondaryText: undefined }],
-      ['', { badgeText: undefined, badgeSecondaryText: undefined }],
-    ])('should split badge text "%s" into %j', (input, expected) => {
-      const result = pipe['splitBadgeText'](input);
-      expect(result).toEqual(expected);
     });
   });
 });

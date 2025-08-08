@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
+import { signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -21,24 +22,28 @@ import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { SettingsFacade } from '@ga/core/store';
+import {
+  getCompetitorsGreases,
+  getSchaefflerGreases,
+} from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
+import {
+  getResultMessages,
+  hasResultMessage,
+} from '@ga/core/store/selectors/calculation-result/calculation-result.selector';
 import { CalculationParametersService } from '@ga/features/grease-calculation/calculation-parameters/services';
 import { AppStoreButtonsComponent } from '@ga/shared/components/app-store-buttons/app-store-buttons.component';
 import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
 import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
-import {
-  GREASE_RESULT_SUBORDINATES_MOCK,
-  greaseResultMock,
-} from '@ga/testing/mocks';
 
 import {
-  CONCEPT1,
   GreaseReportSubordinate,
-  GreaseReportSubordinateTitle,
+  GreaseResult,
+  GreaseResultReport,
   SUITABILITY_LABEL,
 } from '../../models';
+import { GreaseResultDataSourceService } from '../../services';
 import { GreaseReportService } from '../../services/grease-report.service';
 import { GreaseReportInputComponent } from '../grease-report-input/grease-report-input.component';
-import { GreaseReportResultComponent } from '../grease-report-result';
 import { GreaseReportComponent } from './grease-report.component';
 
 describe('GreaseReportComponent', () => {
@@ -63,16 +68,50 @@ describe('GreaseReportComponent', () => {
       MatExpansionModule,
       MatSnackBarModule,
       GreaseReportInputComponent,
-      GreaseReportResultComponent,
       MatIconModule,
       MatButtonModule,
     ],
     providers: [
       provideMockStore({
         initialState: {},
-        selectors: [],
+        selectors: [
+          {
+            selector: getCompetitorsGreases,
+            value: [],
+          },
+          {
+            selector: getSchaefflerGreases,
+            value: [],
+          },
+          {
+            selector: getResultMessages,
+            value: [],
+          },
+          {
+            selector: hasResultMessage,
+            value: false,
+          },
+        ],
       }),
-      mockProvider(GreaseReportService),
+      {
+        provide: GreaseReportService,
+        useValue: {
+          _greaseResultReport: signal<GreaseResultReport | undefined>({
+            greaseResult: [],
+            inputs: {
+              subordinates: [],
+            },
+            errorWarningsAndNotes: {
+              title: '',
+              identifier: '',
+              subordinates: [],
+            } as unknown as GreaseResultReport['errorWarningsAndNotes'],
+          } as GreaseResultReport),
+          subordinates: signal<GreaseReportSubordinate[]>([]),
+          getGreaseReport: jest.fn(),
+        },
+      },
+      mockProvider(GreaseResultDataSourceService),
       mockProvider(CalculationParametersService),
       mockProvider(TranslocoLocaleService, { localizeNumber, localeChanges$ }),
       mockProvider(AppAnalyticsService),
@@ -95,18 +134,35 @@ describe('GreaseReportComponent', () => {
     spectator = createComponent();
     component = spectator.component;
 
+    spectator.detectChanges();
+
     snackBar = spectator.inject(MatSnackBar);
     snackBar.open = jest.fn();
   });
 
   it('should be created', () => {
+    component['greaseReportService']['_greaseResultReport'].set(
+      {} as GreaseResultReport
+    );
+    spectator.detectChanges();
+    component['greaseReportService']['_greaseResultReport'].set(
+      {} as GreaseResultReport
+    );
+    spectator.detectChanges();
+    component['greaseReportService']['_greaseResultReport'].set(
+      {} as GreaseResultReport
+    );
+    spectator.detectChanges();
+
     expect(component).toBeTruthy();
   });
 
   describe('ngOnInit', () => {
     it('should call getJsonReport if jsonReport is set', () => {
-      component.greaseReportUrl = 'jup';
       component['fetchGreaseReport'] = jest.fn();
+
+      spectator.setInput('greaseReportUrl', 'jup');
+      spectator.detectChanges();
 
       component.ngOnInit();
       expect(component['fetchGreaseReport']).toHaveBeenCalledTimes(1);
@@ -120,141 +176,101 @@ describe('GreaseReportComponent', () => {
     });
   });
 
-  describe('isGreaseResultSection', () => {
-    it('should return true if the titleID is the result titleID', () => {
-      const result = component.isGreaseResultSection(
-        GreaseReportSubordinateTitle.STRING_OUTP_RESULTS
-      );
-
-      expect(result).toBeTruthy();
-    });
-
-    it('should return false if the titleID is not the result titleID', () => {
-      const result = component.isGreaseResultSection(
-        GreaseReportSubordinateTitle.STRING_OUTP_INPUT
-      );
-
-      expect(result).toBeFalsy();
-    });
-  });
-
-  describe('isMessagesSection', () => {
-    it('should return true if the titleID is the message titleID', () => {
-      const result = component.isMessagesSection(
-        GreaseReportSubordinateTitle.STRING_NOTE_BLOCK
-      );
-
-      expect(result).toBeTruthy();
-    });
-
-    it('should return false if the titleID is not the message titleID', () => {
-      const result = component.isMessagesSection(
-        GreaseReportSubordinateTitle.STRING_OUTP_INPUT
-      );
-
-      expect(result).toBeFalsy();
-    });
-  });
-
-  describe('toggleLimitResults', () => {
-    it('should toggle the limitResults component var', () => {
-      component.limitResults = false;
-
-      component.toggleLimitResults();
-
-      expect(component.limitResults).toBeTruthy();
-    });
-  });
-
   describe('limitSubordinates', () => {
     it('should limit the subordinate to the amount of limitResults', () => {
-      component.limitResults = true;
       const mockLength = 2;
       component.resultsLimit = mockLength;
 
-      const result = component.limitSubordinates(
-        GREASE_RESULT_SUBORDINATES_MOCK[1]
-          .subordinates as GreaseReportSubordinate[],
-        GreaseReportSubordinateTitle.STRING_OUTP_RESULTS
-      );
+      component['greaseReportService']['_greaseResultReport'].set({
+        greaseResult: [
+          {} as GreaseResult,
+          {} as GreaseResult,
+          {} as GreaseResult,
+          {} as GreaseResult,
+          {} as GreaseResult,
+        ],
+      } as GreaseResultReport);
 
-      expect(result).toHaveLength(mockLength);
+      component.limitResults.set(true);
+
+      expect(component.greaseResults()).toHaveLength(mockLength);
     });
 
     it('should not limit the subordinate to the amount of limitResults', () => {
-      component.limitResults = false;
-      component.resultsLimit = 2;
+      const mockLength = 2;
+      component.resultsLimit = mockLength;
 
-      const result = component.limitSubordinates(
-        GREASE_RESULT_SUBORDINATES_MOCK[1]
-          .subordinates as GreaseReportSubordinate[],
-        GreaseReportSubordinateTitle.STRING_OUTP_RESULTS
-      );
+      component['greaseReportService']['_greaseResultReport'].set({
+        greaseResult: [
+          {} as GreaseResult,
+          {} as GreaseResult,
+          {} as GreaseResult,
+          {} as GreaseResult,
+          {} as GreaseResult,
+        ],
+      } as GreaseResultReport);
 
-      expect(result).toHaveLength(3);
+      component.limitResults.set(false);
+
+      expect(component.greaseResults()).toHaveLength(5);
     });
   });
 
   describe('getResultAmount', () => {
     it('should set the length of allResultAmount', () => {
-      const getResultAmountSpy = jest.spyOn(
-        component['greaseReportService'],
-        'getResultAmount'
-      );
-      component.subordinates = GREASE_RESULT_SUBORDINATES_MOCK;
+      component['greaseReportService']['_greaseResultReport'].set({
+        greaseResult: [
+          {} as GreaseResult,
+          {} as GreaseResult,
+          {} as GreaseResult,
+          {} as GreaseResult,
+          {} as GreaseResult,
+        ],
+      } as GreaseResultReport);
 
-      component.getResultAmount();
-
-      expect(getResultAmountSpy).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('getRemainingResultAmount', () => {
-    it('should set the length of allResultAmount - 3', () => {
-      component.getResultAmount = jest.fn(() => 5);
-
-      const result = component.getRemainingResultAmount();
-
-      expect(result).toBe(2);
+      expect(component.greaseResultAmount()).toBe(5);
     });
   });
 
   describe('concept1Impossible', () => {
     it('should return if all greases are unsuited', () => {
-      component.automaticLubrication = true;
-      component.subordinates = GREASE_RESULT_SUBORDINATES_MOCK.map(
-        (subordinate) =>
-          subordinate.titleID ===
-          GreaseReportSubordinateTitle.STRING_OUTP_RESULTS
-            ? {
-                ...subordinate,
-                subordinates: [
-                  {
-                    greaseResult: {
-                      ...greaseResultMock,
-                      dataSource: [
-                        {
-                          title: 'concept1',
-                          custom: {
-                            selector: CONCEPT1,
-                            data: {
-                              label: SUITABILITY_LABEL.UNSUITED,
-                            },
-                          },
-                        },
-                        ...greaseResultMock.dataSource,
-                      ],
-                    },
-                    identifier: 'greaseResult',
+      component['greaseReportService']['_greaseResultReport'].set({
+        greaseResult: [
+          {
+            relubrication: {
+              concept1: {
+                custom: {
+                  data: {
+                    label: SUITABILITY_LABEL.UNSUITED,
                   },
-                ],
-              }
-            : subordinate
-      );
-
-      component.getResultAmount();
+                },
+              },
+            },
+          } as GreaseResult,
+        ],
+      } as GreaseResultReport);
 
       expect(component.concept1Impossible()).toBe(true);
+    });
+
+    it('should return if a grease is suited', () => {
+      component['greaseReportService']['_greaseResultReport'].set({
+        greaseResult: [
+          {
+            relubrication: {
+              concept1: {
+                custom: {
+                  data: {
+                    label: SUITABILITY_LABEL.SUITED,
+                  },
+                },
+              },
+            },
+          } as GreaseResult,
+        ],
+      } as GreaseResultReport);
+
+      expect(component.concept1Impossible()).toBe(false);
     });
   });
 
@@ -295,20 +311,5 @@ describe('GreaseReportComponent', () => {
 
       expect(appStoreButtons).toBeFalsy();
     });
-  });
-
-  it('isNoticesSection', () => {
-    expect(
-      component['isNoticesSection']({
-        titleID: 'STRING_OUTP_RESULTS',
-        identifier: 'block',
-        subordinates: [],
-      })
-    ).toEqual(false);
-    expect(
-      component['isNoticesSection']({
-        identifier: 'block',
-      })
-    ).toEqual(true);
   });
 });

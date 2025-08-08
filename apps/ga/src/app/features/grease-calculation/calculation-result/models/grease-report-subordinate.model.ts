@@ -1,5 +1,3 @@
-import { GreaseResult } from './grease-result.model';
-
 export type GreaseReportSubordinateIdentifier =
   | 'text'
   | 'textPairList'
@@ -95,5 +93,4 @@ export interface GreaseReportSubordinate {
   defaultOpen?: boolean;
   content?: any;
   clickHandler?: any;
-  greaseResult?: GreaseResult;
 }

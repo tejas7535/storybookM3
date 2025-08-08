@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { firstValueFrom } from 'rxjs';
 
@@ -14,21 +14,19 @@ import {
   OscillatingMotionRecommendation,
   RecommendationMappings,
 } from '../constants/recommendation.constants';
-import { GreaseReportSubordinate } from '../models';
+import { GreaseResult } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class GreaseRecommendationService {
-  constructor(
-    private readonly store: Store,
-    private readonly calculationParametersFacade: CalculationParametersFacade,
-    private readonly transloco: TranslocoService
-  ) {}
+  private readonly store = inject(Store);
+  private readonly calculationParametersFacade = inject(
+    CalculationParametersFacade
+  );
+  private readonly transloco = inject(TranslocoService);
 
-  public async processGreaseRecommendation(
-    subordinates: GreaseReportSubordinate[]
-  ) {
+  public async processGreaseRecommendation(greaseResults: GreaseResult[]) {
     this.consoleLogGreaseTableForDevOnly(
-      subordinates,
+      greaseResults,
       'Order of Greases before applying recommendation logic'
     );
 
@@ -42,10 +40,9 @@ export class GreaseRecommendationService {
           typeof mapping === 'string' ? mapping : mapping.greaseName
         )
         .map((grease) =>
-          subordinates.findIndex(
-            (resultGrease) =>
-              resultGrease.greaseResult?.mainTitle === grease &&
-              resultGrease.greaseResult.isSufficient
+          greaseResults.findIndex(
+            (greaseResult) =>
+              greaseResult?.mainTitle === grease && greaseResult.isSufficient
           )
         )
         .filter((idx) => idx > -1)
@@ -55,11 +52,11 @@ export class GreaseRecommendationService {
       if (recommendedGreaseIndex === undefined) {
         this.dispatchErrorMessage();
       } else {
-        subordinates[recommendedGreaseIndex].greaseResult.isRecommended = true;
+        greaseResults[recommendedGreaseIndex].isRecommended = true;
 
         if (recommendedGreaseIndex > 0) {
-          subordinates.unshift(
-            subordinates.splice(recommendedGreaseIndex, 1)[0]
+          greaseResults.unshift(
+            greaseResults.splice(recommendedGreaseIndex, 1)[0]
           );
         }
       }
@@ -71,12 +68,11 @@ export class GreaseRecommendationService {
 
     if (typeOfMotion === Movement.oscillating) {
       const movementIdx = OscillatingMotionRecommendation.map((grease) =>
-        subordinates
-          .filter((sub) => sub.greaseResult.isSufficient)
+        greaseResults
+          .filter((greaseResult) => greaseResult.isSufficient)
           .findIndex(
-            (resultGrease) =>
-              resultGrease.greaseResult.mainTitle === grease &&
-              resultGrease.greaseResult.isSufficient
+            (greaseResult) =>
+              greaseResult.mainTitle === grease && greaseResult.isSufficient
           )
       )
         .filter((idx) => idx > -1)
@@ -84,15 +80,15 @@ export class GreaseRecommendationService {
         .shift();
 
       if (movementIdx !== undefined) {
-        subordinates[movementIdx].greaseResult.isRecommended = true;
+        greaseResults[movementIdx].isRecommended = true;
         if (movementIdx > 0) {
-          subordinates.unshift(subordinates.splice(movementIdx, 1)[0]);
+          greaseResults.unshift(greaseResults.splice(movementIdx, 1)[0]);
         }
       }
     }
 
     this.consoleLogGreaseTableForDevOnly(
-      subordinates,
+      greaseResults,
       'Order of Greases after applying recommendation logic'
     );
   }
@@ -116,7 +112,7 @@ export class GreaseRecommendationService {
   }
 
   private consoleLogGreaseTableForDevOnly(
-    subordinates: GreaseReportSubordinate[],
+    greaseResults: GreaseResult[],
     debugLineTitle: string
   ): void {
     if (!environment.production) {
@@ -124,10 +120,10 @@ export class GreaseRecommendationService {
       console.log(debugLineTitle);
       // eslint-disable-next-line no-console
       console.table(
-        subordinates.map((sub, idx) => ({
-          grease: sub.greaseResult?.mainTitle,
+        greaseResults.map((greaseResult, idx) => ({
+          grease: greaseResult?.mainTitle,
           index: idx,
-          sufficient: sub.greaseResult.isSufficient,
+          sufficient: greaseResult.isSufficient,
         }))
       );
     }

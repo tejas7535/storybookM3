@@ -27,14 +27,11 @@ import {
 import { Movement } from '@ga/shared/models';
 import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
 import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
-import {
-  GREASE_COMPLETE_RESULT_MOCK,
-  GREASE_RESULT_SUBORDINATES_MOCK,
-} from '@ga/testing/mocks';
+import { GREASE_COMPLETE_RESULT_MOCK } from '@ga/testing/mocks';
 
 import { CalculationParametersService } from '../../calculation-parameters/services';
 import { WARNINGSOPENED } from '../constants';
-import { GreaseReportSubordinate } from '../models';
+import { GreaseResult } from '../models';
 import { GreaseMiscibilityService } from './grease-miscibility/grease-miscibility.service';
 import { GreaseRecommendationService } from './grease-recommendation.service';
 import { GreaseReportService } from './grease-report.service';
@@ -129,21 +126,10 @@ describe('GreaseReportService', () => {
   beforeEach(() => {
     spectator = createService();
     service = spectator.service;
-    (service['translocoService'].getLocale as jest.Mock).mockReturnValue(
-      'de-DE'
-    );
   });
 
   it('should create the service', () => {
     expect(service).toBeTruthy();
-  });
-
-  describe('getResultAmount', () => {
-    it('return a number describing the length of the greases', () => {
-      const result = service.getResultAmount(GREASE_RESULT_SUBORDINATES_MOCK);
-
-      expect(result).toStrictEqual(3);
-    });
   });
 
   describe('format grease report', () => {
@@ -212,75 +198,81 @@ describe('GreaseReportService', () => {
   });
 
   it('sortKappa should prioritize entries with the best kappa values', () => {
-    const MOCK_SUBORDINATES: GreaseReportSubordinate[] = [
+    const MOCK_GREASE_RESULTS: GreaseResult[] = [
       {
-        greaseResult: {
-          dataSource: [
-            { title: 'viscosityRatio', values: '2.5' },
-            {
-              title: 'relubricationQuantityPer1000OperatingHours',
-              values: '10,0 cm³',
-            },
-          ],
+        performance: {
+          viscosityRatio: {
+            value: 2.5,
+          },
         },
-      } as GreaseReportSubordinate,
+        relubrication: {
+          relubricationQuantityPer1000OperatingHours: {
+            value: 10,
+          },
+        },
+      } as GreaseResult,
       {
-        greaseResult: {
-          dataSource: [
-            { title: 'viscosityRatio', values: '1.0' },
-            {
-              title: 'relubricationQuantityPer1000OperatingHours',
-              values: '10,0 cm³',
-            },
-          ],
+        performance: {
+          viscosityRatio: {
+            value: 1,
+          },
         },
-      } as GreaseReportSubordinate,
+        relubrication: {
+          relubricationQuantityPer1000OperatingHours: {
+            value: 10,
+          },
+        },
+      } as GreaseResult,
       {
-        greaseResult: {
-          dataSource: [
-            { title: 'viscosityRatio', values: '4.5' },
-            {
-              title: 'relubricationQuantityPer1000OperatingHours',
-              values: '10,0 cm³',
-            },
-          ],
+        performance: {
+          viscosityRatio: {
+            value: 4.5,
+          },
         },
-      } as GreaseReportSubordinate,
+        relubrication: {
+          relubricationQuantityPer1000OperatingHours: {
+            value: 10,
+          },
+        },
+      } as GreaseResult,
       {
-        greaseResult: {
-          dataSource: [
-            { title: 'viscosityRatio', values: '2.5' },
-            {
-              title: 'relubricationQuantityPer1000OperatingHours',
-              values: '8,0 cm³',
-            },
-          ],
+        performance: {
+          viscosityRatio: {
+            value: 2.5,
+          },
         },
-      } as GreaseReportSubordinate,
+        relubrication: {
+          relubricationQuantityPer1000OperatingHours: {
+            value: 8,
+          },
+        },
+      } as GreaseResult,
       {
-        greaseResult: {
-          dataSource: [
-            { title: 'viscosityRatio', values: '0.5' },
-            {
-              title: 'relubricationQuantityPer1000OperatingHours',
-              values: '10,0 cm³',
-            },
-          ],
+        performance: {
+          viscosityRatio: {
+            value: 0.5,
+          },
         },
-      } as GreaseReportSubordinate,
+        relubrication: {
+          relubricationQuantityPer1000OperatingHours: {
+            value: 10,
+          },
+        },
+      } as GreaseResult,
       {
-        greaseResult: {
-          dataSource: [
-            { title: 'viscosityRatio', values: '3.5' },
-            {
-              title: 'relubricationQuantityPer1000OperatingHours',
-              values: '10,0 cm³',
-            },
-          ],
+        performance: {
+          viscosityRatio: {
+            value: 3.5,
+          },
         },
-      } as GreaseReportSubordinate,
+        relubrication: {
+          relubricationQuantityPer1000OperatingHours: {
+            value: 10,
+          },
+        },
+      } as GreaseResult,
     ];
-    const result = service['sortKappaValues'](MOCK_SUBORDINATES);
+    const result = service['sortKappaValues'](MOCK_GREASE_RESULTS);
     expect(result).toMatchSnapshot();
   });
 });

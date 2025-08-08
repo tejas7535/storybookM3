@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { HashMap, TranslocoService } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -15,17 +15,17 @@ import {
   GreasePdfResultTable,
   GreaseReportSubordinate,
   GreaseReportSubordinateTitle,
-  GreaseResultData,
+  GreaseResult,
+  GreaseResultDataItem,
+  GreaseResultItem,
 } from '../models';
 import { ListItemsWrapperService } from './pdf/list-items-wrapper.service';
 
 @Injectable()
 export class GreaseReportDataGeneratorService {
-  public constructor(
-    private readonly localeService: TranslocoLocaleService,
-    private readonly translocoService: TranslocoService,
-    private readonly listItemsWrapperService: ListItemsWrapperService
-  ) {}
+  private readonly localeService = inject(TranslocoLocaleService);
+  private readonly translocoService = inject(TranslocoService);
+  private readonly listItemsWrapperService = inject(ListItemsWrapperService);
 
   public getDisclaimerTitle(): string {
     return this.translocoService.translate(`legal.disclaimer`);
@@ -41,13 +41,12 @@ export class GreaseReportDataGeneratorService {
   }
 
   public prepareReportResultData(
-    greaseReportData: GreaseReportSubordinate[],
+    greaseResults: GreaseResult[],
     automaticLubrication: boolean
   ): GreasePdfResult {
-    const greaseReportSubordinate: GreaseReportSubordinate =
-      this.getResultData(greaseReportData);
+    const result = this.mapToResultModel(greaseResults, automaticLubrication);
 
-    return this.mapToResultModel(greaseReportSubordinate, automaticLubrication);
+    return result;
   }
 
   public prepareReportErrorsAndWarningsData(
@@ -83,23 +82,21 @@ export class GreaseReportDataGeneratorService {
   }
 
   private mapToResultModel(
-    greaseReportSubordinate: GreaseReportSubordinate,
+    greaseResults: GreaseResult[],
     automaticLubrication: boolean
   ): GreasePdfResult {
     let title = '';
     let tableItems: GreasePdfResultTable[] = [];
 
-    if (greaseReportSubordinate) {
-      tableItems = greaseReportSubordinate.subordinates.map((item) => ({
-        title: item.greaseResult.mainTitle,
-        subTitle: item.greaseResult?.subTitle ?? '',
-        isRecommended: item.greaseResult?.isRecommended,
+    if (greaseResults) {
+      tableItems = greaseResults.map((result) => ({
+        title: result.mainTitle,
+        subTitle: result.subTitle ?? '',
+        isRecommended: result.isRecommended,
 
-        items: this.extractItemsFromGreaseResultData(
-          item.greaseResult?.dataSource
-        ),
+        items: this.extractItemsFromGreaseResultData(result),
         concept1: automaticLubrication
-          ? this.extractConcept1Result(item.greaseResult?.dataSource)
+          ? this.extractConcept1Result(result.relubrication.concept1)
           : undefined,
       }));
 
@@ -116,70 +113,64 @@ export class GreaseReportDataGeneratorService {
   }
 
   private extractItemsFromGreaseResultData(
-    data: GreaseResultData
+    result: GreaseResult
   ): GreasePdfResultItem[] {
-    if (!data) {
+    if (!result) {
       return [];
     }
 
-    return data
-      .map((dataSource) => {
-        let returnItem;
+    return [
+      ...Object.values(result.initialLubrication),
+      ...Object.values(result.performance),
+      ...Object.values(result.relubrication).filter(
+        (item) => item.title !== 'concept1'
+      ),
+      ...Object.values(result.greaseSelection),
+    ]
+      .filter(Boolean)
+      .map((item: GreaseResultItem) => {
+        const title: string = item.title;
 
-        if (dataSource && 'values' in dataSource) {
-          const title: string = dataSource.title;
-
-          return {
-            itemTitle: this.getTranslatedTitle(title),
-            items: this.encodeTextAndSplitOnNewLine(dataSource.values, title),
-          };
-        }
-
-        return returnItem;
+        return {
+          itemTitle: this.getTranslatedTitle(title),
+          items: this.encodeTextAndSplitOnNewLine(item, title),
+        };
       })
       .filter((dataSource) => dataSource !== undefined);
   }
 
   private extractConcept1Result(
-    data: GreaseResultData
+    item: GreaseResultDataItem
   ): GreasePdfConcept1Result | undefined {
-    if (!data) {
+    if (!item) {
       return undefined;
     }
 
-    return data
-      .filter((dataSource) => dataSource && 'custom' in dataSource)
-      .map(
-        (customDataSource) =>
-          ({
-            title: this.getTranslatedTitle('concept1'),
-            concept60ml: {
-              conceptTitle: this.getTranslatedTitle(
-                'concept1settings.concept1Size',
-                { size: 60 }
-              ),
-              settingArrow: customDataSource?.custom?.data?.c1_60
-                ? this.getTranslatedTitle('concept1settings.setArrowSetting', {
-                    setting: customDataSource.custom.data.c1_60,
-                  })
-                : '',
-              notes: this.getNoteFor60ml(customDataSource?.custom?.data),
-            },
-            concept125ml: {
-              conceptTitle: this.getTranslatedTitle(
-                'concept1settings.concept1Size',
-                { size: 125 }
-              ),
-              settingArrow: customDataSource?.custom?.data?.c1_125
-                ? this.getTranslatedTitle('concept1settings.setArrowSetting', {
-                    setting: customDataSource.custom.data.c1_125,
-                  })
-                : '',
-              notes: this.getNoteFor125ml(customDataSource?.custom?.data),
-            },
-          }) as GreasePdfConcept1Result
-      )
-      .shift();
+    return {
+      title: this.getTranslatedTitle('concept1'),
+      concept60ml: {
+        conceptTitle: this.getTranslatedTitle('concept1settings.concept1Size', {
+          size: 60,
+        }),
+        settingArrow: item.custom?.data?.c1_60
+          ? this.getTranslatedTitle('concept1settings.setArrowSetting', {
+              setting: item.custom.data.c1_60,
+            })
+          : '',
+        notes: this.getNoteFor60ml(item.custom?.data),
+      },
+      concept125ml: {
+        conceptTitle: this.getTranslatedTitle('concept1settings.concept1Size', {
+          size: 125,
+        }),
+        settingArrow: item.custom?.data?.c1_125
+          ? this.getTranslatedTitle('concept1settings.setArrowSetting', {
+              setting: item.custom.data.c1_125,
+            })
+          : '',
+        notes: this.getNoteFor125ml(item.custom?.data),
+      },
+    };
   }
 
   private getNoteFor60ml(data: any): string {
@@ -210,20 +201,21 @@ export class GreaseReportDataGeneratorService {
   }
 
   private encodeTextAndSplitOnNewLine(
-    dataSourceValueWithHtml: string | undefined,
+    item: GreaseResultItem,
     dataSourceTitle: string
   ): string[] {
-    const regex = /(<([^>]+)>)/gi;
     let result: string[] = [];
 
-    if (dataSourceValueWithHtml) {
-      dataSourceValueWithHtml.split('<br>').forEach((value) => {
-        result.push(value.replaceAll(regex, ''));
-      });
+    result.push(`${item.prefix || ''} ${item.value} ${item.unit || ''}`.trim());
 
-      if (dataSourceTitle === 'initialGreaseQuantity') {
-        result = [result.join('/')];
-      }
+    if (item.secondaryValue) {
+      result.push(
+        `${item.secondaryPrefix || ''} ${item.secondaryValue} ${item.secondaryUnit || ''}`.trim()
+      );
+    }
+
+    if (dataSourceTitle === 'initialGreaseQuantity') {
+      result = [result.join('/')];
     }
 
     return result;
@@ -309,15 +301,6 @@ export class GreaseReportDataGeneratorService {
     return this.findDataByTitleId(
       greaseReportData,
       GreaseReportSubordinateTitle.STRING_OUTP_INPUT
-    );
-  }
-
-  private getResultData(
-    greaseReportData: GreaseReportSubordinate[]
-  ): GreaseReportSubordinate | undefined {
-    return this.findDataByTitleId(
-      greaseReportData,
-      GreaseReportSubordinateTitle.STRING_OUTP_RESULTS
     );
   }
 
