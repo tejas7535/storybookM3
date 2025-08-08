@@ -10,7 +10,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { RoleFacade } from '@cdba/core/auth/role.facade';
+import { RoleFacade } from '@cdba/core/auth/role-facade/role.facade';
 import { ProductDetailService } from '@cdba/detail/service/detail.service';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 import {

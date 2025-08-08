@@ -16,9 +16,11 @@ import { CompareRoutingModule } from './compare-routing.module';
 import {
   BomEffects,
   CalculationsEffects,
+  CompareRootEffects,
+  ComparisonSummaryEffects,
+  FailureEffects,
   ProductDetailsEffects,
 } from './store/effects';
-import { FailureEffects } from './store/effects/failure.effects';
 import { compareReducer } from './store/reducers/compare.reducer';
 
 @NgModule({
@@ -32,7 +34,9 @@ import { compareReducer } from './store/reducers/compare.reducer';
       BomEffects,
       CalculationsEffects,
       ProductDetailsEffects,
+      ComparisonSummaryEffects,
       FailureEffects,
+      CompareRootEffects,
     ]),
     SubheaderModule,
     TabsHeaderModule,

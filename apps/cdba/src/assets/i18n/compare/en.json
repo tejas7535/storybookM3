@@ -2,7 +2,8 @@
   "title": "Detail Comparison",
   "tabs": {
     "details": "DETAILS",
-    "billOfMaterial": "BILL OF MATERIALS"
+    "billOfMaterial": "BILL OF MATERIALS",
+    "comparisonSummary": "COMPARISON SUMMARY"
   },
   "details": {
     "dimensions": {
@@ -21,6 +22,36 @@
       "salesOrganizations": "Sales Organization ID(s)",
       "plannedQuantity": "Planned Quantity {{year}}",
       "actualQuantity": "Quantity {{year}}"
+    }
+  },
+  "summary": {
+    "error": "An error occured during Comparison calculation",
+    "noBomsLoaded": "Two Bills of Material must be loaded first in order to create a Comparison",
+    "common": {
+      "purchase": "Purchase",
+      "remainder": "Remainder",
+      "moh": "MOH",
+      "burden": "Burden",
+      "labour": "Labour",
+      "rawMaterial": "Raw Material",
+      "total": "Total",
+      "referenceLine": "Reference Line (0)"
+    },
+    "leftArea": {
+      "costType": "Cost Type",
+      "currency": "Currency",
+      "costDeltaValue": "Cost Delta",
+      "costDeltaPercentage": "Cost Delta Percentage"
+    },
+    "rightArea": {
+      "header": "Filter Costs by Type",
+      "costDiff": "Cost Diff.",
+      "select": {
+        "label": "Cost Types",
+        "searchPlaceHolder": "Search...",
+        "hint": "Example value: WMM",
+        "noResults": "No results found"
+      }
     }
   }
 }

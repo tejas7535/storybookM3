@@ -1,8 +1,9 @@
 {
   "title": "Detailvergleich",
   "tabs": {
-    "details": "Details",
-    "billOfMaterial": "Stückliste"
+    "details": "DETAILS",
+    "billOfMaterial": "STÜCKLISTE",
+    "comparisonSummary": "VERGLEICHÜBERSICHT"
   },
   "details": {
     "dimensions": {
@@ -21,6 +22,36 @@
       "salesOrganizations": "Vertriebsorganisation Kennzeichen",
       "plannedQuantity": "Geplante Stückzahl {{year}}",
       "actualQuantity": "Stückzahl {{year}}"
+    }
+  },
+  "summary": {
+    "error": "Während der Vergleichsberechnung ist ein Fehler aufgetreten",
+    "noBomsLoaded": "Zwei Stücklisten müssen zuerst geladen werden, um einen Vergleich zu erstellen.",
+    "common": {
+      "purchase": "Einkauf",
+      "remainder": "Rest",
+      "moh": "MOH",
+      "burden": "Tragkraft",
+      "labour": "Arbeit",
+      "rawMaterial": "Rohmaterial",
+      "total": "Gesamt",
+      "referenceLine": "Referenzlinie (0)"
+    },
+    "leftArea": {
+      "costType": "Kostenart",
+      "currency": "Währung",
+      "costDeltaValue": "Kostendelta",
+      "costDeltaPercentage": "Kostendelta in Prozent"
+    },
+    "rightArea": {
+      "header": "Kosten nach Art filtern",
+      "costDiff": "Kostendiff.",
+      "select": {
+        "label": "Kostenarten",
+        "searchPlaceHolder": "Suchen...",
+        "hint": "Beispielwert: WMM",
+        "noResults": "Keine Ergebnisse gefunden"
+      }
     }
   }
 }

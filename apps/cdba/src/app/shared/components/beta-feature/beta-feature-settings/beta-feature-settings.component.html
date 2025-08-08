@@ -19,3 +19,21 @@
     </div>
   </div>
 </ng-template>
+
+@if (showComparisonSummaryToggle) {
+  <ng-container>
+    <div class="mb-2 text-subtitle-1">Comparison Summary</div>
+    <div class="mb-2 text-caption">
+      Activate to enable the Comparison Summary in Compare view.<br />The
+      application will be refreshed.
+    </div>
+    <mat-slide-toggle
+      color="primary"
+      [checked]="comparisonSummaryActivated"
+      [disabled]="disableToggles"
+      (change)="onComparisonSummaryToggleChange($event)"
+    >
+      Activate Comparison Summary
+    </mat-slide-toggle>
+  </ng-container>
+}

@@ -66,6 +66,10 @@ button {
   display: none !important;
 }
 
+mat-card.mat-mdc-card.mdc-card.mat-card-bom-container.mat-mdc-card-outlined.mdc-card--outlined {
+  background-color: var(--white);
+}
+
 .mat-mdc-tab-labels,
 .mat-mdc-tab-link,
 .mdc-button {

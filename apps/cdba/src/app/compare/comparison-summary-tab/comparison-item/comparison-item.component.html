@@ -1,0 +1,15 @@
+<div class="h-64 w-full flex flex-row">
+  <div class="h-full w-[20%] flex flex-col justify-center">
+    <h5>{{ detail.title }}</h5>
+  </div>
+  <div class="w-[80%] flex-shrink flex-grow">
+    <div class="h-full w-full relative overflow-hidden">
+      <div
+        echarts
+        class="h-full w-full absolute"
+        [options]="eChartOptions"
+        (chartInit)="onChartInit($event)"
+      ></div>
+    </div>
+  </div>
+</div>

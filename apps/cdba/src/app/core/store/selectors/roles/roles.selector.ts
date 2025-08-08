@@ -4,7 +4,7 @@ import { createSelector } from '@ngrx/store';
 
 import { getRoles } from '@schaeffler/azure-auth';
 
-import { adminRoles, RolePrefix } from '@cdba/core/auth/auth.config';
+import { adminRoles, RolePrefix } from '@cdba/core/auth/config/auth.config';
 import { RoleDescriptions } from '@cdba/core/auth/models/roles.models';
 
 import { getRolesState } from '../../reducers';

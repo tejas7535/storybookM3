@@ -16,7 +16,7 @@ import {
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
-import { RoleFacade } from '@cdba/core/auth/role.facade';
+import { RoleFacade } from '@cdba/core/auth/role-facade/role.facade';
 
 import packageJson from '../../package.json';
 import { URL_FAQ, URL_MY_SCHAEFFLER } from '../app/shared/constants/urls';

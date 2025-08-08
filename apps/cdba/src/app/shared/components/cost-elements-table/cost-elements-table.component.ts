@@ -104,7 +104,7 @@ export class CostElementsTableComponent implements OnInit, OnChanges {
 
   private showNoDataOverlay(): void {
     this.errorMessage = this.translocoService.translate(
-      `shared.table.noDataToDisplay`
+      `shared.noDataToDisplay`
     );
     this.gridApi.showNoRowsOverlay();
   }

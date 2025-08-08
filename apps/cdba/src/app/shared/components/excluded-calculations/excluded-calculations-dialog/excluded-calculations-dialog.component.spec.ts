@@ -5,7 +5,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { CostRoles } from '@cdba/core/auth/auth.config';
+import { CostRoles } from '@cdba/core/auth/config/auth.config';
 import { EXCLUDED_CALCULATIONS_MOCK } from '@cdba/testing/mocks';
 
 import { ExcludedCalculationsDialogComponent } from './excluded-calculations-dialog.component';

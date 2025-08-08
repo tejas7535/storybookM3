@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { createReducer, on } from '@ngrx/store';
 
 import {
@@ -9,6 +10,10 @@ import {
   ReferenceType,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
+import {
+  ComparisonDetail,
+  ComparisonSummary,
+} from '@cdba/shared/models/comparison.model';
 
 import {
   loadBom,
@@ -17,6 +22,9 @@ import {
   loadCalculationHistory,
   loadCalculationHistoryFailure,
   loadCalculationHistorySuccess,
+  loadComparisonSummary,
+  loadComparisonSummaryFailure,
+  loadComparisonSummarySuccess,
   loadCostComponentSplit,
   loadCostComponentSplitFailure,
   loadCostComponentSplitSuccess,
@@ -25,10 +33,17 @@ import {
   loadProductDetailsSuccess,
   selectBomItem,
   selectCalculation,
-  selectCompareItems,
   toggleSplitType,
 } from '../actions';
+import { loadComparisonFeatureData } from '../actions/root/compare-root.actions';
 
+export interface ComparisonState {
+  summary?: ComparisonSummary;
+  details?: ComparisonDetail[];
+  currency?: string;
+  loading?: boolean;
+  errorMessage?: string;
+}
 export interface CompareState {
   [index: number]: {
     referenceType?: ReferenceTypeIdentifier;
@@ -58,19 +73,26 @@ export interface CompareState {
       errorMessage: string;
     };
   };
+  comparison: ComparisonState;
 }
 
-export const initialState: CompareState = {};
+export const initialState: CompareState = {
+  [0]: undefined,
+  [1]: undefined,
+  comparison: undefined,
+};
 
 export const compareReducer = createReducer(
   initialState,
-  on(selectCompareItems, (_state, { items }) => {
-    const state: CompareState = {};
+  on(loadComparisonFeatureData, (_state, { items }) => {
+    const state: CompareState = {
+      comparison: undefined,
+    };
 
     items.forEach((item, index: number) => {
       state[index] = {
-        referenceType: item[1],
-        calculations: { selectedNodeId: item[0] },
+        referenceType: item.referenceTypeIdentifier,
+        calculations: { selectedNodeId: item.selectedCalculationId },
       };
     });
 
@@ -158,6 +180,12 @@ export const compareReducer = createReducer(
                 selected: items[0],
                 loading: false,
               },
+            },
+            comparison: {
+              loading: false,
+              summary: undefined,
+              details: undefined,
+              errorMessage: undefined,
             },
           }
         : state
@@ -348,7 +376,9 @@ export const compareReducer = createReducer(
         : state
   ),
   on(toggleSplitType, (state: CompareState): CompareState => {
-    const newState: CompareState = {};
+    const newState: CompareState = {
+      comparison: { details: undefined, summary: undefined, loading: true },
+    };
 
     Object.keys(state).forEach((index) => {
       if (state[+index]?.costComponentSplit) {
@@ -366,5 +396,43 @@ export const compareReducer = createReducer(
     });
 
     return newState;
-  })
+  }),
+  on(
+    loadComparisonSummary,
+    (state: CompareState): CompareState => ({
+      ...state,
+      comparison: {
+        details: undefined,
+        summary: undefined,
+        currency: undefined,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadComparisonSummarySuccess,
+    (state: CompareState, { comparison }): CompareState => ({
+      ...state,
+      comparison: {
+        details: comparison.details,
+        summary: comparison.summary,
+        currency: comparison.currency,
+        loading: false,
+        errorMessage: '',
+      },
+    })
+  ),
+  on(
+    loadComparisonSummaryFailure,
+    (state: CompareState, { errorMessage, statusCode }): CompareState => ({
+      ...state,
+      comparison: {
+        details: undefined,
+        summary: undefined,
+        currency: undefined,
+        loading: false,
+        errorMessage: `${statusCode} ${errorMessage}`,
+      },
+    })
+  )
 );

@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
-import { RoleFacade } from '@cdba/core/auth/role.facade';
+import { RoleFacade } from '@cdba/core/auth/role-facade/role.facade';
 import { getReferenceType } from '@cdba/core/store';
 import { Tab } from '@cdba/shared/components';
 import { ReferenceType } from '@cdba/shared/models';

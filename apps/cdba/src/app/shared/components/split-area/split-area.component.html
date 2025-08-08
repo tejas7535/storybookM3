@@ -1,0 +1,39 @@
+<ng-container
+  *ngTemplateOutlet="this.isLoading ? loadingTemplate : contentTemplate"
+>
+</ng-container>
+
+<ng-template #contentTemplate>
+  <div #wrapper class="h-full max-h-screen w-full flex p-4">
+    <div
+      #leftArea
+      class="order-1 h-full"
+      [style.min-width.%]="minLeftAreaWidthPercent"
+      [style.max-width.%]="maxLeftAreaWidthPercent"
+    >
+      <ng-container *ngTemplateOutlet="leftAreaTemplate"></ng-container>
+    </div>
+
+    <div
+      #separator
+      class="order-2 h-full flex flex-col items-center justify-center"
+    >
+      <button
+        (mousedown)="onDragStarted()"
+        (dblclick)="onDragIconDoubleClick()"
+        [disabled]="isDragDisabled"
+        mat-icon-button
+        class="!cursor-ew-resize"
+      >
+        <mat-icon fontIcon="drag_indicator"></mat-icon>
+      </button>
+    </div>
+
+    <div
+      #rightArea
+      class="order-3 h-full flex flex-shrink flex-grow rounded-xl p-4 outline outline-1 outline-secondary-variant"
+    >
+      <ng-container *ngTemplateOutlet="rightAreaTemplate"></ng-container>
+    </div>
+  </div>
+</ng-template>

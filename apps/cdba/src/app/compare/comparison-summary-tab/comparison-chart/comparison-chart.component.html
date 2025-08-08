@@ -1,0 +1,10 @@
+<div class="h-full w-full flex-shrink flex-grow">
+  <div class="h-full w-full relative">
+    <div
+      echarts
+      class="h-full w-full absolute"
+      [options]="eChartOptions"
+      (chartInit)="onChartInit($event)"
+    ></div>
+  </div>
+</div>

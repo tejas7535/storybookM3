@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { BetaFeatureRoleGuard } from '@cdba/core/auth/guards/beta-feature-role/beta-feature-role.guard';
+import { BetaFeature } from '@cdba/shared/constants/beta-feature';
+
 import { BasicRoleGuard, PricingRoleGuard } from '../core/auth';
 import { CompareComponent } from './compare.component';
 import { CompareRoutePath } from './compare-route-path.enum';
@@ -24,6 +27,21 @@ const routes: Routes = [
             (m) => m.BomCompareTabModule
           ),
         canActivateChild: [BasicRoleGuard, PricingRoleGuard],
+      },
+      {
+        path: CompareRoutePath.ComparisonSummaryPath,
+        loadChildren: () =>
+          import('./comparison-summary-tab/comparison-summary-tab.module').then(
+            (m) => m.ComparisonSummaryTabModule
+          ),
+        canActivateChild: [
+          BasicRoleGuard,
+          PricingRoleGuard,
+          BetaFeatureRoleGuard,
+        ],
+        data: {
+          betaFeature: BetaFeature.COMPARISON_SUMMARY,
+        },
       },
       {
         path: '',

@@ -42,10 +42,10 @@ export class CostElementsStatusBarComponent {
       this.costElements$ = this.store.select(getCostComponentSplitItemsDetail);
     } else {
       this.currentSplitType$ = this.store.select(
-        getSelectedSplitTypeCompare(this.index)
+        getSelectedSplitTypeCompare({ index: this.index })
       );
       this.costElements$ = this.store.select(
-        getCostComponentSplitItemsCompare(this.index)
+        getCostComponentSplitItemsCompare({ index: this.index })
       );
     }
   }

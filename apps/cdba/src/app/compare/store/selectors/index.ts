@@ -1,3 +1,4 @@
-export * from './bom.selectors';
-export * from './calculations.selectors';
-export * from './product-details.selectors';
+export * from './bom/bom.selectors';
+export * from './calculations/calculations.selectors';
+export * from './comparison-summary/comparison-summary.selectors';
+export * from './product-details/product-details.selectors';

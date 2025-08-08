@@ -18,7 +18,10 @@
         [routerLink]="tab.link"
         [active]="rla.isActive"
         [disabled]="tab.disabled"
-        >{{ t(tab.label) }}
+        >{{ t(tab.label) | uppercase }}
+        @if (tab.betaFeature) {
+          <cdba-beta-feature-badge class="ml-2"></cdba-beta-feature-badge>
+        }
       </a>
     }
   </nav>

@@ -9,7 +9,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 
-import { RoleFacade } from '@cdba/core/auth/role.facade';
+import { RoleFacade } from '@cdba/core/auth/role-facade/role.facade';
 import { ProductDetailService } from '@cdba/detail/service/detail.service';
 
 import {

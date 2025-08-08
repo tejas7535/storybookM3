@@ -52,9 +52,12 @@ export class CompareButtonComponent implements OnChanges {
       queryParams[`material_number_item_${index + 1}`] =
         selection.data.materialNumber;
       queryParams[`plant_item_${index + 1}`] = selection.data.plant;
-      queryParams[`node_id_item_${index + 1}`] = isDetailRoute(currentPath)
+      queryParams[`selected_calculation_id_item_${index + 1}`] = isDetailRoute(
+        currentPath
+      )
         ? selection.id
-        : undefined;
+        : // Select newest calculation by default if not in detail view
+          0;
     });
 
     this.router.navigate(route, {

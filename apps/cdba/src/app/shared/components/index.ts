@@ -8,5 +8,6 @@ export { CalculationsTableModule } from './calculations-table/calculations-table
 export { CostElementsTableModule } from './cost-elements-table/cost-elements-table.module';
 export { LoadingSpinnerModule } from './loading-spinner/loading-spinner.module';
 export { RoleDescriptionsModule } from './role-descriptions/role-descriptions.module';
+export { SplitAreaComponent } from './split-area/split-area.component';
 export { Tab, TabsHeaderModule } from './tabs-header';
 export { UserSettingsModule } from './user-settings/user-settings.module';

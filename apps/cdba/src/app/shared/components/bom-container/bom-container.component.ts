@@ -169,7 +169,7 @@ export class BomContainerComponent implements OnInit {
 
   private initializeWithCompareSelectors(): void {
     this.materialDesignation$ = this.store
-      .select(fromCompare.getMaterialDesignation, this.index)
+      .select(fromCompare.getMaterialDesignation({ index: this.index }))
       .pipe(
         tap(
           (materialDesignation) =>
@@ -178,15 +178,13 @@ export class BomContainerComponent implements OnInit {
       );
 
     this.calculations$ = this.store.select(
-      fromCompare.getCalculations,
-      this.index
+      fromCompare.getCalculations({ index: this.index })
     );
     this.selectedCalculationNodeId$ = this.store.select(
-      fromCompare.getSelectedCalculationNodeId,
-      this.index
+      fromCompare.getSelectedCalculationNodeId({ index: this.index })
     );
     this.selectedCalculation$ = this.store
-      .select(fromCompare.getSelectedCalculation, this.index)
+      .select(fromCompare.getSelectedCalculation({ index: this.index }))
       .pipe(
         tap(
           (selectedCalculation) =>
@@ -194,43 +192,48 @@ export class BomContainerComponent implements OnInit {
         )
       );
     this.calculationsLoading$ = this.store.select(
-      fromCompare.getCalculationsLoading,
-      this.index
+      fromCompare.getCalculationsLoading({ index: this.index })
     );
     this.calculationsErrorMessage$ = this.store.select(
-      fromCompare.getCalculationsError,
-      this.index
+      fromCompare.getCalculationsError({ index: this.index })
     );
 
-    this.bomItems$ = this.store.select(fromCompare.getBomItems, this.index);
-    this.bomLoading$ = this.store.select(fromCompare.getBomLoading, this.index);
+    this.bomItems$ = this.store.select(
+      fromCompare.getBomItems({ index: this.index })
+    );
+    this.bomLoading$ = this.store.select(
+      fromCompare.getBomLoading({ index: this.index })
+    );
     this.bomErrorMessage$ = this.store.select(
-      fromCompare.getBomError,
-      this.index
+      fromCompare.getBomError({ index: this.index })
     );
     this.childrenOfSelectedBomItem$ = this.store.select(
-      fromCompare.getDirectChildrenOfSelectedBomItem(this.index)
+      fromCompare.getDirectChildrenOfSelectedBomItem({ index: this.index })
     );
 
     this.costComponentSplitLoading$ = this.store.select(
-      fromCompare.getCostComponentSplitLoading(this.index)
+      fromCompare.getCostComponentSplitLoading({ index: this.index })
     );
     this.costComponentSplitErrorMessage$ = this.store.select(
-      fromCompare.getCostComponentSplitError(this.index)
+      fromCompare.getCostComponentSplitError({ index: this.index })
     );
     this.costComponentSplitItems$ = this.store.select(
-      fromCompare.getCostComponentSplitItems(this.index)
+      fromCompare.getCostComponentSplitItems({ index: this.index })
     );
     this.costComponentSplitSummary$ = this.store.select(
-      fromCompare.getCostComponentSplitSummary(this.index)
+      fromCompare.getCostComponentSplitSummary({ index: this.index })
     );
 
     this.rawMaterialAnalysis$ = this.store.select(
-      fromCompare.getRawMaterialAnalysisForSelectedBomItem(this.index)
+      fromCompare.getRawMaterialAnalysisForSelectedBomItem({
+        index: this.index,
+      })
     );
 
     this.rawMaterialAnalysisSummary$ = this.store.select(
-      fromCompare.getRawMaterialAnalysisSummaryForSelectedBom(this.index)
+      fromCompare.getRawMaterialAnalysisSummaryForSelectedBom({
+        index: this.index,
+      })
     );
   }
 

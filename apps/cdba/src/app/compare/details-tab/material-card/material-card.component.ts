@@ -38,21 +38,20 @@ export class MaterialCardComponent implements OnInit {
 
   public ngOnInit(): void {
     this.materialDesignation$ = this.store.select(
-      getMaterialDesignation,
-      this.index
+      getMaterialDesignation({ index: this.index })
     );
 
     this.dimensionAndWeightDetails$ = this.store.select(
-      getDimensionAndWeightDetails,
-      this.index
+      getDimensionAndWeightDetails({ index: this.index })
     );
 
     this.additionalInformation$ = this.store.select(
-      getAdditionalInformation,
-      this.index
+      getAdditionalInformation({ index: this.index })
     );
 
-    this.errorMessage$ = this.store.select(getProductError, this.index);
+    this.errorMessage$ = this.store.select(
+      getProductError({ index: this.index })
+    );
   }
 
   public addExpandedItem(item: number): void {

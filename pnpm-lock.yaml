@@ -1790,7 +1790,7 @@ packages:
       '@capacitor/core': ^7.0.0
 
   '@capacitor-community/in-app-review@7.0.1':
-    resolution: {integrity: sha512-NkxLJYADE2U4SyG3RqOTwIzPS7Ry/I6S709mXhzncYXkXJXtM6+hUE2mnFJ5QVpesZOoJCYq3ky2j4lzVECg5A==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor-community/in-app-review/-/in-app-review-7.0.1.tgz}
+    resolution: {integrity: sha512-NkxLJYADE2U4SyG3RqOTwIzPS7Ry/I6S709mXhzncYXkXJXtM6+hUE2mnFJ5QVpesZOoJCYq3ky2j4lzVECg5A==}
     peerDependencies:
       '@capacitor/core': '>=7.0.0'
 

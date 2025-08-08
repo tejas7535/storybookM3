@@ -8,9 +8,9 @@ import { TranslocoService } from '@jsverse/transloco';
 import { RolesGroup } from '@schaeffler/roles-and-rights';
 
 import { RolesGroupAdapter } from '@cdba/core/auth/adapters/roles-group.adapter';
-import { CostRoles } from '@cdba/core/auth/auth.config';
+import { CostRoles } from '@cdba/core/auth/config/auth.config';
 import { RoleDescriptions } from '@cdba/core/auth/models/roles.models';
-import { RoleFacade } from '@cdba/core/auth/role.facade';
+import { RoleFacade } from '@cdba/core/auth/role-facade/role.facade';
 import * as urls from '@cdba/shared/constants/urls';
 
 @Component({

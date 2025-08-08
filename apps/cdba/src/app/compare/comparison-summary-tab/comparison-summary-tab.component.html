@@ -1,0 +1,169 @@
+<cdba-split-area
+  class="mb-2"
+  [isLoading$]="isLoading$"
+  [loadingTemplate]="loading"
+  [leftAreaTemplate]="pickTemplate('left')"
+  [rightAreaTemplate]="pickTemplate('right')"
+  [minLeftAreaWidthPercent]="45"
+  [maxLeftAreaWidthPercent]="60"
+></cdba-split-area>
+
+<ng-template #loading
+  ><schaeffler-loading-spinner [relative]="true"></schaeffler-loading-spinner
+></ng-template>
+
+<ng-template #leftErrorTemplate>
+  <div class="flex items-center justify-center h-full w-full">
+    <mat-icon class="custom-icon-error">dangerous</mat-icon>
+  </div>
+</ng-template>
+
+<ng-template #rightErrorTemplate>
+  <div
+    *transloco="let t; read: 'compare.summary'"
+    class="flex flex-col items-center justify-center h-full w-full"
+  >
+    <span>{{ t('error') }}</span>
+    <span>{{ this.errorMessage }}</span>
+  </div>
+</ng-template>
+
+<ng-template #leftNoDataTemplate>
+  <div class="flex items-center justify-center h-full w-full">
+    <mat-icon class="custom-icon-info">info</mat-icon>
+  </div>
+</ng-template>
+
+<ng-template #rightNoDataTemplate>
+  <div
+    *transloco="let t; read: 'compare.summary'"
+    class="flex items-center justify-center h-full w-full"
+  >
+    <span>{{ t('noBomsLoaded') }}</span>
+  </div>
+</ng-template>
+
+<ng-template #leftValidTemplate>
+  <div class="flex flex-col h-full gap-8">
+    <div
+      echarts
+      [options]="eChartOptions"
+      (chartInit)="onChartInit($event)"
+      class="h-[60%] w-full"
+    ></div>
+    <div
+      *transloco="let t; read: 'compare.summary'"
+      class="w-full outline outline-1 rounded"
+    >
+      <table mat-table [dataSource]="comparison.summary.costDifferences">
+        <ng-container matColumnDef="costType">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ t('leftArea.costType') }}
+          </th>
+          <td mat-cell *matCellDef="let elem">
+            {{ elem.title }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="currency">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ t('leftArea.currency') }}
+          </th>
+          <td mat-cell *matCellDef="let elem">
+            {{ comparison.currency }}
+          </td></ng-container
+        >
+        <ng-container matColumnDef="valueBom1">
+          <th mat-header-cell *matHeaderCellDef class="break-normal">
+            {{ firstMaterialDesignation }}
+          </th>
+          <td mat-cell *matCellDef="let elem">
+            {{ elem.valueBom1 }}
+          </td></ng-container
+        >
+        <ng-container matColumnDef="valueBom2">
+          <th mat-header-cell *matHeaderCellDef class="break-normal">
+            {{ secondMaterialDesignation }}
+          </th>
+          <td mat-cell *matCellDef="let elem">
+            {{ elem.valueBom2 }}
+          </td></ng-container
+        >
+        <ng-container matColumnDef="costDeltaValue">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ t('leftArea.costDeltaValue') }}
+          </th>
+          <td mat-cell *matCellDef="let elem">
+            {{ elem.costDeltaValue }}
+          </td></ng-container
+        >
+        <ng-container matColumnDef="costDeltaPercentage">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ t('leftArea.costDeltaPercentage') }}
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let elem"
+            [ngStyle]="{
+              color: elem.costDeltaPercentage < 0 ? chartHighlightError : '',
+            }"
+          >
+            <div class="flex items-center justify-evenly">
+              <div class="w-[30%]">
+                @if (elem.costDeltaPercentage > 0) {
+                  <mat-icon>north</mat-icon>
+                } @else {
+                  <mat-icon>south</mat-icon>
+                }
+              </div>
+              <p class="w-[50%]">{{ elem.costDeltaPercentage }} %</p>
+            </div>
+          </td></ng-container
+        >
+        <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: tableColumns"></tr>
+      </table>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #rightValidTemplate>
+  <div
+    *transloco="let t; read: 'compare.summary'"
+    class="w-full flex flex-col gap-2"
+  >
+    <cdba-comparison-chart
+      class="min-h-[30%]"
+      [details]="comparison.details"
+      [currency]="comparison.currency"
+      #comparisonChart
+    ></cdba-comparison-chart>
+    <div class="w-full flex flex-shrink-0 gap-6 items-baseline">
+      <h5>{{ t('rightArea.header') }}</h5>
+      <schaeffler-select
+        [stringOptions]="stringOptions"
+        [label]="t('rightArea.select.label')"
+        [searchPlaceholder]="t('rightArea.select.searchPlaceHolder')"
+        [hint]="t('rightArea.select.hint')"
+        [noResultsText]="t('rightArea.select.noResults')"
+        [control]="formControl"
+        [loading]="false"
+        [multiple]="true"
+        [searchValueLengthTrigger]="0"
+        (optionSelected)="onOptionSelected($event)"
+        (searchUpdated)="onSearchUpdated($event)"
+        (openedChange)="onOpenedChange($event)"
+      ></schaeffler-select>
+    </div>
+    <div class="w-full flex flex-col overflow-y-auto flex-grow flex-shrink">
+      @for (detail of details; track detail.title; let last = $last) {
+        <cdba-comparison-item
+          [firstMaterialDesignation]="this.firstMaterialDesignation"
+          [secondMaterialDesignation]="this.secondMaterialDesignation"
+          [detail]="detail"
+          [currency]="this.comparison.currency"
+          [ngClass]="!last ? 'custom-border' : ''"
+        ></cdba-comparison-item>
+      }
+    </div>
+  </div>
+</ng-template>

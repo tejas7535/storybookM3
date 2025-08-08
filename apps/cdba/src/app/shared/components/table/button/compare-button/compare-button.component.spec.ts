@@ -111,7 +111,7 @@ describe('CompareButtonComponent', () => {
       ] as IRowNode[];
     });
 
-    it('should add node id and should route to compare screen if coming from detail page', () => {
+    it('should add selected_calculation_id and should route to compare screen if coming from detail page', () => {
       router.routerState.snapshot.url = '/detail/detail';
 
       component.showCompareView();
@@ -120,15 +120,15 @@ describe('CompareButtonComponent', () => {
         queryParams: {
           material_number_item_1: '1234',
           plant_item_1: '0060',
-          node_id_item_1: '0',
+          selected_calculation_id_item_1: '0',
           material_number_item_2: '5678',
           plant_item_2: '0076',
-          node_id_item_2: '1',
+          selected_calculation_id_item_2: '1',
         },
       });
     });
 
-    it('should not add node id and should route to compare screen if coming from results page', () => {
+    it('should add selected_calculation_id and should route to compare screen if coming from results page', () => {
       router.routerState.snapshot.url = '/results';
 
       component.showCompareView();
@@ -139,6 +139,8 @@ describe('CompareButtonComponent', () => {
           plant_item_1: '0060',
           material_number_item_2: '5678',
           plant_item_2: '0076',
+          selected_calculation_id_item_1: 0,
+          selected_calculation_id_item_2: 0,
         },
       });
     });

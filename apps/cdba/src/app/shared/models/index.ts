@@ -3,6 +3,7 @@ export { AggregationStatusBar } from './aggregation-status-bar.model';
 export * from './bom-item.model';
 export { BomIdentifier, BomItem } from './bom-item.model';
 export { Calculation } from './calculation.model';
+export { Comparison } from './comparison.model';
 export {
   CostComponentSplit,
   CostComponentSplitType,

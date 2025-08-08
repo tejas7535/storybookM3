@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription, take } from 'rxjs';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 import { Tab } from '@cdba/shared/components';
+import { BetaFeature } from '@cdba/shared/constants/beta-feature';
 import { BreadcrumbsService } from '@cdba/shared/services';
+import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 
 import { CompareRoutePath } from './compare-route-path.enum';
 
@@ -14,16 +16,26 @@ import { CompareRoutePath } from './compare-route-path.enum';
   templateUrl: './compare.component.html',
   standalone: false,
 })
-export class CompareComponent implements OnInit {
-  public breadcrumbs$: Observable<Breadcrumb[]>;
-  public tabs: Tab[];
+export class CompareComponent implements OnInit, OnDestroy {
+  breadcrumbs$: Observable<Breadcrumb[]>;
+  tabs: Tab[];
 
-  constructor(private readonly breadcrumbService: BreadcrumbsService) {}
+  canAccessComparisonSummarySubscription: Subscription;
+
+  constructor(
+    private readonly breadcrumbService: BreadcrumbsService,
+    private readonly betaFeatureService: BetaFeatureService
+  ) {}
 
   ngOnInit(): void {
     this.breadcrumbs$ = this.breadcrumbService.breadcrumbs$;
+    let canAccessComparisonSummary;
+    this.canAccessComparisonSummarySubscription = this.betaFeatureService
+      .canAccessBetaFeature$(BetaFeature.COMPARISON_SUMMARY)
+      .pipe(take(1))
+      .subscribe((canAccess) => (canAccessComparisonSummary = canAccess));
 
-    this.tabs = [
+    const tabz: Tab[] = [
       {
         label: 'compare.tabs.billOfMaterial',
         link: CompareRoutePath.BomPath,
@@ -33,12 +45,26 @@ export class CompareComponent implements OnInit {
         link: CompareRoutePath.DetailsPath,
       },
     ];
+
+    if (canAccessComparisonSummary) {
+      tabz.splice(1, 0, {
+        label: 'compare.tabs.comparisonSummary',
+        link: CompareRoutePath.ComparisonSummaryPath,
+        betaFeature: true,
+      });
+    }
+
+    this.tabs = tabz;
+  }
+
+  ngOnDestroy(): void {
+    this.canAccessComparisonSummarySubscription?.unsubscribe();
   }
 
   /**
    * Improves performance of ngFor.
    */
-  public trackByFn(index: number): number {
+  trackByFn(index: number): number {
     return index;
   }
 }

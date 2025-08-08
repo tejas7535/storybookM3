@@ -1,0 +1,9 @@
+export enum ComparisonType {
+  PURCHASE = 'PURCHASE',
+  REMAINDER = 'REMAINDER',
+  MOH = 'MOH',
+  BURDEN = 'BURDEN',
+  LABOUR = 'LABOUR',
+  RAW_MATERIAL = 'RAW_MATERIAL',
+  TOTAL = 'TOTAL',
+}

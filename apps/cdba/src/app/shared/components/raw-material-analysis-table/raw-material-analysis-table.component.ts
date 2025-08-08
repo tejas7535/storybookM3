@@ -40,23 +40,23 @@ export class RawMaterialAnalysisTableComponent implements OnInit, OnChanges {
   @Input() isLoading: boolean;
   @Input() errorMessage: string;
 
-  public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
-  public columnDefs: ColDef[];
+  defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
+  columnDefs: ColDef[];
 
-  public components: any;
+  components: any;
 
-  public noRowsOverlayComponentParams: NoRowsParams = {
+  noRowsOverlayComponentParams: NoRowsParams = {
     getMessage: () => this.errorMessage,
   };
 
-  public loadingOverlayComponent = 'customLoadingOverlay';
-  public noRowsOverlayComponent = 'customNoRowsOverlay';
+  loadingOverlayComponent = 'customLoadingOverlay';
+  noRowsOverlayComponent = 'customNoRowsOverlay';
 
-  public getMainMenuItems = getMainMenuItems;
-  public statusBar: {
+  getMainMenuItems = getMainMenuItems;
+  statusBar: {
     statusPanels: StatusPanelDef[];
   };
-  public modules: any[];
+  modules: any[];
 
   private gridApi: GridApi;
 
@@ -71,7 +71,7 @@ export class RawMaterialAnalysisTableComponent implements OnInit, OnChanges {
     this.components = FRAMEWORK_COMPONENTS;
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(changes: SimpleChanges): void {
     if (!this.gridApi) {
       return;
     }
@@ -82,17 +82,15 @@ export class RawMaterialAnalysisTableComponent implements OnInit, OnChanges {
        * the table only shows overlays, if there is no data to display
        */
       setTimeout(() => this.gridApi.setGridOption('loading', true), 10);
+    } else if (changes.rawMaterialAnalysisData?.currentValue?.length === 0) {
+      this.showNoDataOverlay();
     } else {
-      if (changes.rawMaterialAnalysisData?.currentValue.length === 0) {
-        this.showNoDataOverlay();
-      } else {
-        this.errorMessage = '';
-        this.gridApi.setGridOption('loading', false);
-      }
+      this.errorMessage = '';
+      this.gridApi.setGridOption('loading', false);
     }
   }
 
-  public onGridReady(params: GridReadyEvent): void {
+  onGridReady(params: GridReadyEvent): void {
     this.gridApi = params.api;
 
     if (!this.isLoading && this.rawMaterialAnalysisData.length === 0) {
@@ -102,7 +100,7 @@ export class RawMaterialAnalysisTableComponent implements OnInit, OnChanges {
 
   private showNoDataOverlay(): void {
     this.errorMessage = this.translocoService.translate(
-      `shared.table.noDataToDisplay`
+      `shared.noDataToDisplay`
     );
     this.gridApi.showNoRowsOverlay();
   }

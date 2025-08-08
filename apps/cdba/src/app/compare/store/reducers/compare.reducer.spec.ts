@@ -1,8 +1,5 @@
-import {
-  Calculation,
-  ExcludedCalculations,
-  ReferenceTypeIdentifier,
-} from '@cdba/shared/models';
+import { Calculation, ExcludedCalculations } from '@cdba/shared/models';
+import { ComparableItemIdentifier } from '@cdba/shared/models/comparison.model';
 import {
   BOM_IDENTIFIER_MOCK,
   BOM_MOCK,
@@ -13,6 +10,7 @@ import {
   REFERENCE_TYPE_IDENTIFIER_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
+import { COMPARISON_MOCK } from '@cdba/testing/mocks/models/comparison-summary.mock';
 
 import {
   CompareActions,
@@ -23,6 +21,9 @@ import {
   loadCalculationHistoryFailure,
   loadCalculationHistorySuccess,
   loadCalculations,
+  loadComparisonSummary,
+  loadComparisonSummaryFailure,
+  loadComparisonSummarySuccess,
   loadCostComponentSplit,
   loadCostComponentSplitFailure,
   loadCostComponentSplitSuccess,
@@ -31,9 +32,9 @@ import {
   loadProductDetailsSuccess,
   selectBomItem,
   selectCalculation,
-  selectCompareItems,
   toggleSplitType,
 } from '../actions/';
+import { loadComparisonFeatureData } from '../actions/root/compare-root.actions';
 import { compareReducer, CompareState, initialState } from './compare.reducer';
 
 describe('Compare Reducer', () => {
@@ -49,25 +50,30 @@ describe('Compare Reducer', () => {
     expected = undefined;
   });
 
-  describe('selectCompareItems', () => {
-    const compareItems: [
-      nodeId: string,
-      referenceTypeIdentifier: ReferenceTypeIdentifier,
-    ][] = [
-      ['0', REFERENCE_TYPE_IDENTIFIER_MOCK],
-      ['7', REFERENCE_TYPE_IDENTIFIER_MOCK],
-    ];
-    it('should set reftypes identifier and selected nodeid at correct index', () => {
-      action = selectCompareItems({ items: compareItems });
-      expected = REFERENCE_TYPE_IDENTIFIER_MOCK;
+  describe('Compare root actions', () => {
+    describe('loadComparisonFeatureData', () => {
+      const compareItems: ComparableItemIdentifier[] = [
+        {
+          referenceTypeIdentifier: REFERENCE_TYPE_IDENTIFIER_MOCK,
+          selectedCalculationId: '0',
+        },
+        {
+          referenceTypeIdentifier: REFERENCE_TYPE_IDENTIFIER_MOCK,
+          selectedCalculationId: '7',
+        },
+      ];
+      it('should set reftypes identifier and selected nodeid at correct index', () => {
+        action = loadComparisonFeatureData({ items: compareItems });
+        expected = REFERENCE_TYPE_IDENTIFIER_MOCK;
 
-      state = compareReducer(initialState, action);
+        state = compareReducer(initialState, action);
 
-      expect(state[0].referenceType).toEqual(expected);
-      expect(state[1].referenceType).toEqual(expected);
+        expect(state[0].referenceType).toEqual(expected);
+        expect(state[1].referenceType).toEqual(expected);
 
-      expect(state[0].calculations.selectedNodeId).toEqual('0');
-      expect(state[1].calculations.selectedNodeId).toEqual('7');
+        expect(state[0].calculations.selectedNodeId).toEqual('0');
+        expect(state[1].calculations.selectedNodeId).toEqual('7');
+      });
     });
   });
 
@@ -76,7 +82,7 @@ describe('Compare Reducer', () => {
       const referenceTypeIdentifier = REFERENCE_TYPE_IDENTIFIER_MOCK;
 
       it('should reset item & errorMessage and set loading true', () => {
-        const index = 2;
+        const index = 1;
         action = loadProductDetails({ index, referenceTypeIdentifier });
 
         state = compareReducer(mockState, action);
@@ -100,7 +106,7 @@ describe('Compare Reducer', () => {
       const item = REFERENCE_TYPE_MOCK;
 
       it('should set item and set loading false', () => {
-        const index = 2;
+        const index = 1;
         action = loadProductDetailsSuccess({ index, item });
 
         state = compareReducer(mockState, action);
@@ -124,7 +130,7 @@ describe('Compare Reducer', () => {
       const statusCode = 418;
 
       it('should set error and set loading false', () => {
-        const index = 2;
+        const index = 1;
         action = loadProductDetailsFailure({ index, errorMessage, statusCode });
 
         state = compareReducer(mockState, action);
@@ -148,7 +154,7 @@ describe('Compare Reducer', () => {
     describe('loadBom', () => {
       const bomIdentifier = BOM_IDENTIFIER_MOCK;
       it('should set loading to true', () => {
-        const index = 2;
+        const index = 1;
         action = loadBom({ index, bomIdentifier });
 
         state = compareReducer(mockState, action);
@@ -249,7 +255,7 @@ describe('Compare Reducer', () => {
       const materialNumber = 'foo';
       const plant = '0061';
       it('should set loading for calculations and bom to true', () => {
-        const index = 3;
+        const index = 1;
         action = loadCalculationHistory({ materialNumber, plant, index });
 
         state = compareReducer(mockState, action);
@@ -282,7 +288,7 @@ describe('Compare Reducer', () => {
 
     describe('loadCalculationHistorySuccess', () => {
       it('should reset loading and should set items and selected', () => {
-        const index = 3;
+        const index = 1;
         const plant = '0060';
         const items = CALCULATIONS_MOCK;
         const excludedItems = EXCLUDED_CALCULATIONS_MOCK;
@@ -391,7 +397,7 @@ describe('Compare Reducer', () => {
   describe('Cost Component Split Actions', () => {
     const bomIdentifier = BOM_IDENTIFIER_MOCK;
     describe('loadCostComponentSplit', () => {
-      test('should set loading', () => {
+      it('should set loading', () => {
         const index = 0;
         action = loadCostComponentSplit({ bomIdentifier, index });
         state = compareReducer(mockState, action);
@@ -399,7 +405,7 @@ describe('Compare Reducer', () => {
         expect(state[index].costComponentSplit.loading).toBeTruthy();
       });
 
-      test('should reset costComponentSplit state', () => {
+      it('should reset costComponentSplit state', () => {
         const index = 0;
         action = loadCostComponentSplit({ bomIdentifier, index });
         state = compareReducer(mockState, action);
@@ -408,7 +414,7 @@ describe('Compare Reducer', () => {
         expect(state[index].costComponentSplit.errorMessage).toBeUndefined();
       });
 
-      test('should return previous state for undefined index', () => {
+      it('should return previous state for undefined index', () => {
         const index = 99;
 
         action = loadCostComponentSplit({ index, bomIdentifier });
@@ -421,7 +427,7 @@ describe('Compare Reducer', () => {
 
     describe('loadCostComponentSplitSuccess', () => {
       const items = COST_COMPONENT_SPLIT_ITEMS_MOCK;
-      test('should unset loading and set cost element items', () => {
+      it('should unset loading and set cost element items', () => {
         const index = 0;
 
         action = loadCostComponentSplitSuccess({ items, index });
@@ -432,7 +438,7 @@ describe('Compare Reducer', () => {
         expect(state[index].costComponentSplit.items).toEqual(items);
       });
 
-      test('should return previous state for undefined index', () => {
+      it('should return previous state for undefined index', () => {
         const index = 99;
 
         action = loadCostComponentSplitSuccess({ index, items });
@@ -446,7 +452,7 @@ describe('Compare Reducer', () => {
     describe('loadCostComponentSplitFailure', () => {
       const errorMessage = 'FOOO';
       const statusCode = 418;
-      test('should unset loading / set error message', () => {
+      it('should unset loading / set error message', () => {
         const index = 0;
 
         action = loadCostComponentSplitFailure({
@@ -462,7 +468,7 @@ describe('Compare Reducer', () => {
           errorMessage
         );
       });
-      test('should return previous state for undefined index', () => {
+      it('should return previous state for undefined index', () => {
         const index = 99;
 
         action = loadCostComponentSplitFailure({
@@ -478,16 +484,61 @@ describe('Compare Reducer', () => {
     });
 
     describe('toggleSplitType', () => {
-      test('should toggle the currently selected split type for every substate', () => {
+      it('should toggle the currently selected split type for every substate', () => {
         action = toggleSplitType();
 
         state = compareReducer(mockState, action);
 
-        Object.keys(state).forEach((stateIndex) =>
-          expect(
-            state[+stateIndex]?.costComponentSplit?.selectedSplitType
-          ).toEqual('AUX')
-        );
+        expect(state['0'].costComponentSplit?.selectedSplitType).toEqual('AUX');
+      });
+    });
+  });
+
+  describe('Comparison actions', () => {
+    describe('loadComparisonSummary', () => {
+      it('should change state when loading comparison summary', () => {
+        action = loadComparisonSummary();
+
+        state = compareReducer(mockState, action);
+
+        expect(state.comparison).toEqual({
+          details: undefined,
+          summary: undefined,
+          currency: undefined,
+          loading: true,
+        });
+      });
+    });
+    describe('loadComparisonSummarySuccess', () => {
+      it('should update store state with comparison values', () => {
+        action = loadComparisonSummarySuccess({ comparison: COMPARISON_MOCK });
+
+        state = compareReducer(mockState, action);
+
+        expect(state.comparison).toEqual({
+          details: COMPARISON_MOCK.details,
+          summary: COMPARISON_MOCK.summary,
+          currency: COMPARISON_MOCK.currency,
+          loading: false,
+          errorMessage: '',
+        });
+      });
+    });
+    describe('loadComparisonSummaryFailure', () => {
+      it('should reset comparison state and update error message', () => {
+        const errorMessage = 'Error loading comparison';
+        const statusCode = 500;
+        action = loadComparisonSummaryFailure({ errorMessage, statusCode });
+
+        state = compareReducer(mockState, action);
+
+        expect(state.comparison).toEqual({
+          details: undefined,
+          summary: undefined,
+          currency: undefined,
+          loading: false,
+          errorMessage: `${statusCode} ${errorMessage}`,
+        });
       });
     });
   });

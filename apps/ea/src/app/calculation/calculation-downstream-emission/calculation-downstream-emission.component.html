@@ -30,7 +30,7 @@
                 <mat-icon
                   class="mr-1"
                   [ngStyle]="{
-                    color: chartColors[i % chartColors.length]
+                    color: chartColors[i % chartColors.length],
                   }"
                   >circle</mat-icon
                 >
@@ -76,7 +76,7 @@
           class="dot h-1.5 w-1.5 my-0 mx-1 bg-surface-container-highest inline-block rounded-full transition duration-500 easy"
           [ngClass]="{
             'bg-outline-variant h-2 w-2': i === selectedIndex,
-            'bg-surface-container-highest': i !== selectedIndex
+            'bg-surface-container-highest': i !== selectedIndex,
           }"
         ></span>
       }
@@ -102,7 +102,7 @@
           <mat-icon
             class="mr-1"
             [ngStyle]="{
-              color: chartColors[i % chartColors.length]
+              color: chartColors[i % chartColors.length],
             }"
             >circle</mat-icon
           >
@@ -117,7 +117,7 @@
   <ea-report-emissions-values
     class="sm:block"
     [ngClass]="{
-      hidden: downstreamEmission.length > 1
+      hidden: downstreamEmission.length > 1,
     }"
     [co2Emission]="downstreamEmission[selectedIndex].emission"
     [co2EmissionPercentage]="

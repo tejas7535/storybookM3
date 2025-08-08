@@ -1,0 +1,20 @@
+.custom-border {
+  border-bottom: 2px;
+  border-bottom-color: #f5f5f5;
+  border-bottom-style: solid;
+}
+
+td:not(:first-child),
+th {
+  @apply text-center !important;
+}
+
+.custom-icon-error {
+  @apply scale-[4];
+  @apply text-icon-error;
+}
+
+.custom-icon-info {
+  @apply scale-[4];
+  @apply text-icon-info;
+}

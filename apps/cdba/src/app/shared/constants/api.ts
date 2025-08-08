@@ -11,6 +11,8 @@ export enum ProductDetailPath {
   CostComponentSplit = 'cost-component-split',
 }
 
+export const ComparisonPath = 'comparison';
+
 export const BomExportPath = 'bom/export';
 export const BomExportStatusPath = `${BomExportPath}/status`;
 export const BomExportStatusLivePath = `${BomExportStatusPath}/live`;

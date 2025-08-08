@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { CostRoles } from '@cdba/core/auth/auth.config';
+import { CostRoles } from '@cdba/core/auth/config/auth.config';
 import * as urls from '@cdba/shared/constants/urls';
 import { ExcludedCalculations } from '@cdba/shared/models';
 

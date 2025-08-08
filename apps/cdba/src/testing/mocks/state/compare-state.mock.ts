@@ -1,6 +1,8 @@
+/* eslint-disable max-lines */
 import { CompareState } from '@cdba/compare/store/reducers/compare.reducer';
 
 import { BOM_MOCK, CALCULATIONS_MOCK, REFERENCE_TYPE_MOCK } from '../models';
+import { COMPARISON_MOCK } from '../models/comparison-summary.mock';
 
 export const COMPARE_STATE_MOCK: CompareState = {
   '0': {
@@ -328,52 +330,109 @@ export const COMPARE_STATE_MOCK: CompareState = {
       plant: '0060',
     },
     details: {
-      loading: true,
-      item: undefined,
-      errorMessage: undefined,
-    },
-    calculations: {
-      loading: true,
-      items: undefined,
-      selected: undefined,
-      selectedNodeId: undefined,
-      errorMessage: undefined,
-    },
-    billOfMaterial: {
-      loading: true,
-      items: undefined,
-      selected: undefined,
-      errorMessage: undefined,
-    },
-  },
-  '2': {
-    referenceType: {
-      materialNumber: '0943482680000',
-      plant: '0060',
-    },
-    details: {
       loading: false,
       item: undefined,
       errorMessage: '404 - Not Found',
     },
     calculations: {
-      loading: false,
-      items: [],
+      loading: true,
+      items: undefined,
       selected: undefined,
       selectedNodeId: undefined,
-      errorMessage: 'Service unavailable',
+      errorMessage: '404 - Not Found',
     },
     billOfMaterial: {
-      loading: false,
-      items: [],
+      loading: true,
+      items: undefined,
       selected: undefined,
-      errorMessage: 'Service unavailable',
+      errorMessage: '404 - Not Found',
     },
   },
-  '3': {
+  comparison: {
+    ...COMPARISON_MOCK,
+    loading: false,
+    errorMessage: '',
+  },
+};
+
+export const COMPARE_STATE_LOADED_BOMS_MOCK: CompareState = {
+  ...COMPARE_STATE_MOCK,
+  '0': {
+    ...COMPARE_STATE_MOCK['0'],
+    billOfMaterial: {
+      ...COMPARE_STATE_MOCK['0'].billOfMaterial,
+      loading: false,
+    },
+  },
+  '1': {
+    ...COMPARE_STATE_MOCK['1'],
+    billOfMaterial: {
+      ...COMPARE_STATE_MOCK['0'].billOfMaterial,
+      loading: false,
+    },
+  },
+};
+
+export const COMPARE_STATE_UNDEFINED_BOMS_MOCK: CompareState = {
+  ...COMPARE_STATE_MOCK,
+  '0': {
+    ...COMPARE_STATE_MOCK['0'],
+    billOfMaterial: undefined,
+  },
+  '1': {
+    ...COMPARE_STATE_MOCK['1'],
+    billOfMaterial: undefined,
+  },
+};
+
+export const COMPARE_STATE_LOADED_DETAILS_MOCK: CompareState = {
+  ...COMPARE_STATE_MOCK,
+  '1': {
+    ...COMPARE_STATE_MOCK['0'],
+    details: {
+      ...COMPARE_STATE_MOCK['0'].details,
+      loading: false,
+    },
+  },
+};
+
+export const COMPARE_STATE_UNDEFINED_DETAILS_MOCK: CompareState = {
+  ...COMPARE_STATE_MOCK,
+  '0': {
+    ...COMPARE_STATE_MOCK['0'],
+    details: undefined,
+  },
+  '1': {
+    ...COMPARE_STATE_MOCK['1'],
+    details: undefined,
+  },
+};
+
+export const COMPARE_STATE_LOADED_BOMS_NOT_COMPARISON_MOCK: CompareState = {
+  ...COMPARE_STATE_LOADED_BOMS_MOCK,
+  comparison: undefined,
+};
+
+export const COMPARE_STATE_SAME_MAT_DES_MOCK: CompareState = {
+  ...COMPARE_STATE_MOCK,
+  '0': {
+    ...COMPARE_STATE_MOCK[0],
     referenceType: {
-      materialNumber: '0943482680000',
-      plant: '0076',
+      ...COMPARE_STATE_MOCK[0].referenceType,
+      materialNumber: '000111222333',
     },
   },
+  '1': {
+    ...COMPARE_STATE_MOCK[1],
+    referenceType: {
+      ...COMPARE_STATE_MOCK[1].referenceType,
+      materialNumber: '000111222333',
+    },
+  },
+};
+
+export const COMPARE_STATE_UNDEFINED_MOCK: CompareState = {
+  '0': undefined,
+  '1': undefined,
+  comparison: undefined,
 };

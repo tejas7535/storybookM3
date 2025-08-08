@@ -1,5 +1,6 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 import { BetaFeature } from '@cdba/shared/constants/beta-feature';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
@@ -10,17 +11,36 @@ import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feat
   styleUrls: ['./beta-feature-settings.component.scss'],
   standalone: false,
 })
-export class BetaFeatureSettingsComponent {
+export class BetaFeatureSettingsComponent implements OnInit {
   @ViewChild('highFiveDialog') highFiveDialogTemplate: TemplateRef<any>;
 
   disableToggles = false;
   private highFiveTimeout: number;
   private reloadPage: boolean;
 
+  showComparisonSummaryToggle = true;
+  comparisonSummaryActivated = false;
+
   constructor(
     private readonly dialog: MatDialog,
     private readonly betaFeatureService: BetaFeatureService
   ) {}
+
+  ngOnInit(): void {
+    this.comparisonSummaryActivated = this.betaFeatureService.getBetaFeature(
+      BetaFeature.COMPARISON_SUMMARY
+    );
+  }
+
+  onComparisonSummaryToggleChange(
+    matSlideToggleChange: MatSlideToggleChange
+  ): void {
+    this.handleFeatureToggleChange(
+      BetaFeature.COMPARISON_SUMMARY,
+      matSlideToggleChange.checked,
+      true
+    );
+  }
 
   handleFeatureToggleChange(
     betaFeature: `${BetaFeature}`,
