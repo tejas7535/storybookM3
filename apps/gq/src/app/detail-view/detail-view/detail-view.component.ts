@@ -150,7 +150,6 @@ export class DetailViewComponent implements OnInit, OnDestroy {
     this.dialog.open(PricingAssistantModalComponent, {
       data: quotationDetail,
       width: '1000px',
-      autoFocus: false,
       panelClass: 'pricing-assistant-modal',
     });
   }

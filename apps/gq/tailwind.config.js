@@ -21,7 +21,6 @@ module.exports = {
       colors: {
         'navy-blue': '#16223B',
         'navy-gray': '#444E61',
-        'gray-300': '#F0F0F0',
       },
       textColor: {
         orange: colors.orange,
@@ -33,8 +32,8 @@ module.exports = {
         error: '#A31739',
         'iteration-item-icon': '#9E9E9E',
 
-        'in-progress-blue': '#007892',
-        'approval-status-blue': '#007892',
+        'in-progress-blue': '#1C98B5',
+        'approval-status-blue': '#4398AF',
         'approval-status-green': '#00893D',
         'approval-status-grey': '#666666',
         'quotation-status-green': '#517626',
@@ -82,7 +81,7 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/container-queries'),
-    // we have inconsistencies with text-h6 so, we create this class until we
+    // we have inconsistencies with text-title-large so, we create this class until we
     // figured which class is correct to use
     plugin(function ({ addUtilities, theme }) {
       addUtilities({

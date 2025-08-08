@@ -1,7 +1,7 @@
 <!-- Design how it should look like in edit Mode-->
 @if (isEditMode) {
   <input
-    class="text-overline !leading-7 text-high-emphasis w-12"
+    class="text-label-small !leading-7 text-on-surface w-12"
     autocomplete="off"
     type="number"
     cdkTextareaAutosize
@@ -21,7 +21,7 @@
     </span>
     @if (!isDisabled) {
       <mat-icon
-        class="text-medium-emphasis cursor-pointer !icon-5"
+        class="text-on-surface-variant cursor-pointer !icon-5"
         (click)="toggleEditMode()"
         >edit</mat-icon
       >

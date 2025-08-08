@@ -15,6 +15,7 @@
     >
     </gq-dialog-header>
   }
+
   @if ((updateLoading$ | ngrxPush) === false) {
     <form [formGroup]="editingFormGroup" class="flex h-full flex-col">
       @if (isPriceChangeTypeAvailable) {
@@ -24,23 +25,21 @@
         >
           <mat-radio-button
             [value]="false"
-            color="primary"
             [disabled]="isDisabled"
             (change)="callPriceChangeTypeSwitchHandler(false)"
             [attr.data-cy]="modalData.field + '-modal_absolute-radio-btn'"
           >
-            <span class="pl-2">
+            <span class="pl-2 text-on-surface text-body-large">
               {{ t('absolute') }}
             </span>
           </mat-radio-button>
           <mat-radio-button
             [value]="true"
-            color="primary"
             (change)="callPriceChangeTypeSwitchHandler(true)"
             [disabled]="isRelativePriceChangeDisabled || isDisabled"
             [attr.data-cy]="modalData.field + '-modal_relative-radio-btn'"
           >
-            <span class="pl-2">
+            <span class="pl-2 text-on-surface text-body-large">
               {{ t('relative') }}
             </span>
           </mat-radio-button>
@@ -59,7 +58,7 @@
             )
           }}</mat-label>
           <input
-            class="text-overline !leading-7"
+            class="text-label-small !leading-7"
             formControlName="valueInput"
             (keydown)="callInputFieldKeyDownHandler($event)"
             [placeholder]="localeValue"
@@ -90,7 +89,7 @@
         </mat-form-field>
         <div class="ml-4 mt-3 flex flex-col gap-2">
           <mat-icon
-            class="text-medium-emphasis"
+            class="text-on-surface-variant"
             [ngClass]="
               isDisabled
                 ? 'pointer-events-none cursor-default'
@@ -100,7 +99,7 @@
             >add
           </mat-icon>
           <mat-icon
-            class="text-medium-emphasis"
+            class="text-on-surface-variant"
             [ngClass]="
               isDisabled
                 ? 'pointer-events-none cursor-default'
@@ -159,25 +158,21 @@
         <gq-info-banner [infoText]="t('warning')"> </gq-info-banner>
       </ng-template>
       @if (isDialog) {
-        <div class="pt-8">
+        <div class="pt-8 flex justify-end gap-4">
           <button
-            class="!pl-4 !pr-4"
-            color="primary"
-            mat-raised-button
+            mat-button
+            (click)="closeDialog()"
+            [attr.data-cy]="modalData.field + '-modal_cancel-btn'"
+          >
+            <span> {{ t('cancel') }} </span>
+          </button>
+          <button
+            mat-flat-button
             [disabled]="editingFormGroup.invalid || !hasValueChanged"
             (click)="confirmEditing()"
             [attr.data-cy]="modalData.field + '-modal_submit-btn'"
           >
-            <span> {{ t('confirm.' + modalData.field) | uppercase }} </span>
-          </button>
-          <button
-            class="!ml-4 !pl-4 !pr-4"
-            color="primary"
-            mat-stroked-button
-            (click)="closeDialog()"
-            [attr.data-cy]="modalData.field + '-modal_cancel-btn'"
-          >
-            <span> {{ t('cancel') | uppercase }} </span>
+            <span> {{ t('confirm.' + modalData.field) }} </span>
           </button>
         </div>
       }
@@ -186,7 +181,6 @@
     <div class="py-24">
       <schaeffler-loading-spinner
         class="h-full"
-        backgroundColor="rgba(255,255,255, 0.1)"
         [relative]="true"
       ></schaeffler-loading-spinner>
     </div>

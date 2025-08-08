@@ -1,5 +1,6 @@
 import { CreateCustomerCaseButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-view/create-customer-case-button/create-customer-case-button.component';
 import { CreateManualCaseButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-view/create-manual-case-button/create-manual-case-button.component';
+import { ImportCaseButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-view/import-case-button/import-case-button.component';
 import { ExtendedStatusPanelComponentParams } from '@gq/shared/ag-grid/custom-status-bar/quotation-details-status/model/status-bar.model';
 import { ButtonType } from '@gq/shared/ag-grid/custom-status-bar/update-case-status-button/button-type.enum';
 import { UpdateCaseStatusButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/update-case-status-button/update-case-status-button.component';
@@ -10,9 +11,10 @@ export const ACTIVE_STATUS_BAR_CONFIG: {
   statusPanels: StatusPanelDef[];
 } = {
   statusPanels: [
-    { statusPanel: 'importCaseButtonComponent', align: 'left' },
-    { statusPanel: CreateManualCaseButtonComponent, align: 'left' },
-    { statusPanel: CreateCustomerCaseButtonComponent, align: 'left' },
+    { statusPanel: ImportCaseButtonComponent, align: 'right' },
+    { statusPanel: CreateCustomerCaseButtonComponent, align: 'right' },
+    { statusPanel: CreateManualCaseButtonComponent, align: 'right' },
+
     {
       statusPanel: UpdateCaseStatusButtonComponent,
       statusPanelParams: {

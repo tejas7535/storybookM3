@@ -1,12 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 
 import { ImportCaseComponent } from '@gq/case-view/case-creation/import-case/import-case.component';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
   selector: 'gq-import-case',
   templateUrl: './import-case-button.component.html',
-  standalone: false,
+  imports: [CommonModule, MatButtonModule, TranslocoModule],
 })
 export class ImportCaseButtonComponent implements OnDestroy {
   constructor(private readonly dialog: MatDialog) {}

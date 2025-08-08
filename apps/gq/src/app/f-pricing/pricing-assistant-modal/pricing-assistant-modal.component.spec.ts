@@ -119,7 +119,6 @@ describe('PricingAssistant.modalComponent', () => {
           width: '792px',
           data: component.dialogData,
           panelClass: 'show-more',
-          autoFocus: false,
         }
       );
     });

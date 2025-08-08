@@ -7,7 +7,9 @@
     (closeDialog)="closeDialog()"
   ></gq-dialog-header>
   @if (modalData.dialogSubtitle) {
-    <span class="pt-5">{{ modalData.dialogSubtitle }}</span>
+    <span class="text-body-medium text-on-surface pt-5">{{
+      modalData.dialogSubtitle
+    }}</span>
   }
   @if (modalData.showWarning) {
     <gq-info-banner
@@ -39,18 +41,18 @@
                 class="hidden"
               />
               <label for="fileInput" class="flex items-center">
-                <mat-icon color="primary" class="mr-2">add</mat-icon>
-                <p class="text-link font-medium mr-1 flex-grow">
+                <mat-icon class="mr-2 !text-icon-link">add</mat-icon>
+                <p class="text-primary font-medium mr-1 flex-grow">
                   {{ t('uploadButton') }}
                 </p>
               </label>
             </div>
-            <p class="text-medium-emphasis font-medium">
+            <p class="text-on-surface-variant font-medium">
               {{ t('dialogOptionInfo') }}
             </p>
           </div>
           <p
-            class="text-low-emphasis text-[12px] mt-3"
+            class="text-on-surface opacity-[0.38] text-[12px] mt-3"
             [innerHTML]="t('dialogInfo')"
           ></p>
         </div>
@@ -66,7 +68,7 @@
               fileToDisplay.unsupportedFileType
             ) {
               <mat-icon
-                class="text-error mr-2 !w-5 !text-body-1"
+                class="text-error mr-2 !w-4 !h-4 !text-[16px]"
                 [matTooltip]="
                   fileToDisplay.exists
                     ? t('fileExitsTooltip')
@@ -79,12 +81,12 @@
               </mat-icon>
             } @else {
               <mat-icon
-                class="text-approval-status-green mr-2 !w-5 !text-body-1"
+                class="text-approval-status-green mr-2 !w-4 !h-4 !text-[16px]"
               >
                 check_circle_outline
               </mat-icon>
             }
-            <span class="text-high-emphasis text-body-2">{{
+            <span class="text-on-surface text-body-medium">{{
               fileToDisplay?.file?.name
             }}</span>
             <div class="ml-auto text-approval-status-grey mt-1">
@@ -106,23 +108,16 @@
         </div>
       }
     </div>
-    <div class="mt-11 flex flex-row">
+    <div class="mt-11 flex justify-end gap-4 flex-row">
+      <button mat-button (click)="closeDialog()">
+        {{ t('cancelButton') }}
+      </button>
       <button
-        color="primary"
-        class="!mr-6 text-button font-medium"
-        mat-raised-button
+        mat-flat-button
         (click)="upload()"
         [disabled]="filesToUpload.length === 0 || disableUploadButton"
       >
         {{ this.modalData.uploadButtonCaption ?? t('uploadButton') }}
-      </button>
-      <button
-        color="primary"
-        class="text-button font-medium"
-        mat-stroked-button
-        (click)="closeDialog()"
-      >
-        {{ t('cancelButton') }}
       </button>
     </div>
   } @else {

@@ -11,6 +11,7 @@ import { of } from 'rxjs';
 
 import { getIsQuotationStatusActive } from '@gq/core/store/active-case/active-case.selectors';
 import { RolesFacade } from '@gq/core/store/facades/roles.facade';
+import { InfoIconComponent } from '@gq/shared/components/info-icon/info-icon.component';
 import { UserRoles } from '@gq/shared/constants';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
@@ -29,7 +30,6 @@ import {
   ACTIVE_CASE_STATE_MOCK,
   PROCESS_CASE_STATE_MOCK,
 } from '../../../../../testing/mocks';
-import { InfoIconModule } from '../../../components/info-icon/info-icon.module';
 import { SharedDirectivesModule } from '../../../directives/shared-directives.module';
 import { EVENT_NAMES } from '../../../models';
 import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
@@ -77,7 +77,7 @@ describe('ExtendedColumnHeaderComponent', () => {
       MatInputModule,
       ReactiveFormsModule,
       FormsModule,
-      InfoIconModule,
+      InfoIconComponent,
       SharedDirectivesModule,
       MatTooltipModule,
       PushPipe,

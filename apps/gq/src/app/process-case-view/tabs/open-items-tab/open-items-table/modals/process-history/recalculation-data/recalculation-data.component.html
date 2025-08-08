@@ -8,9 +8,10 @@
         read: 'shared.openItemsTable.approvalProcesses.showHistory.positionInformation'
       "
     >
-      <span class="text-subtitle-2 font-bold text-low-emphasis pb-4">{{
-        t('title')
-      }}</span>
+      <span
+        class="text-title-small font-bold text-on-surface opacity-[0.38] pb-4"
+        >{{ t('title') }}</span
+      >
       <div class="grid grid-cols-4 gap-4">
         <gq-recalculation-data-item
           class="col-span-1"
@@ -38,9 +39,10 @@
         read: 'shared.openItemsTable.approvalProcesses.showHistory.rfqInformation'
       "
     >
-      <span class="text-subtitle-2 font-bold text-low-emphasis pb-4">{{
-        t('title')
-      }}</span>
+      <span
+        class="text-title-small font-bold text-on-surface opacity-[0.38] pb-4"
+        >{{ t('title') }}</span
+      >
       <div class="grid grid-cols-4 gap-4">
         <gq-recalculation-data-item
           class="col-span-1"
@@ -140,7 +142,7 @@
           <gq-recalculation-data-item
             class="col-span-1"
             [caption]="t('state')"
-            [value]="'cancelled' | uppercase"
+            [value]="'cancelled'"
           ></gq-recalculation-data-item>
           <gq-recalculation-data-item
             class="col-span-1"

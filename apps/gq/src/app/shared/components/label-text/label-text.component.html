@@ -1,14 +1,17 @@
 <div>
   <p
-    class="flex flex-row flex-wrap text-body-2 text-medium-emphasis"
+    class="flex flex-row flex-wrap text-body-medium text-on-surface-variant"
     [ngClass]="{
       'mb-2': marginBottom,
-      '!text-caption': modalVersion,
+      '!text-body-small': modalVersion,
       'flex-col': modalVersion && !modalFlexRow,
-      'font-medium': modalVersion
+      'font-medium': modalVersion,
     }"
   >
-    <span class="pr-2" [ngClass]="{ 'text-low-emphasis': modalVersion }">
+    <span
+      class="pr-2"
+      [ngClass]="{ 'text-on-surface opacity-[0.38]': modalVersion }"
+    >
       <ng-content select="[label]"></ng-content>:
     </span>
 
@@ -26,7 +29,7 @@
     }
 
     <ng-template #textContent>
-      <span class="text-high-emphasis">
+      <span class="text-on-surface">
         <ng-content select="[text]"></ng-content>
       </span>
     </ng-template>

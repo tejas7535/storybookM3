@@ -12,9 +12,7 @@ export class MultiSelectPipe implements PipeTransform {
 
     let text = values.slice(0, 4).join(', ');
     if (values.length > 4) {
-      text += ` (${values.length - 4} ${translate(
-        'caseView.caseCreation.createCustomerCase.additionalMaterials.others'
-      )})`;
+      text += ` (${values.length - 4} ${translate('additionalFilters.others')})`;
     }
 
     return text;

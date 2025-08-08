@@ -1,6 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
   MarketValueDriverDisplayItem,
@@ -10,7 +16,13 @@ import {
 @Component({
   selector: 'gq-market-value-driver-item',
   templateUrl: './market-value-driver-item.component.html',
-  standalone: false,
+  imports: [
+    MatRadioModule,
+    MatIconModule,
+    MatTooltipModule,
+    CommonModule,
+    SharedTranslocoModule,
+  ],
 })
 export class MarketValueDriverItemComponent implements OnInit {
   @Input() item: MarketValueDriverDisplayItem;

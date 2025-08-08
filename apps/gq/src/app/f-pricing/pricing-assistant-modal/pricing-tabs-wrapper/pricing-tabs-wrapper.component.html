@@ -13,7 +13,7 @@
           [title]="t('referencePricingLabel')"
         ></gq-tabs-label
       ></ng-template>
-      <div class="p-2 h-full">
+      <div class="h-full">
         @if (comparableTransactionsLoading) {
           <ng-template [ngTemplateOutlet]="loadingSpinner"></ng-template>
         }
@@ -23,6 +23,7 @@
           <gq-no-data
             [title]="t('referencePricingTable.noReferenceDataTitle')"
             [subTitle]="t('referencePricingTable.noReferenceDataSubTitle')"
+            [showBorder]="false"
           ></gq-no-data>
         }
         @if (
@@ -60,9 +61,9 @@
           [iconColor]="
             marketValueDriverWarning ===
             marketValueDriverWarningLevel.INCOMPLETE
-              ? 'text-warning'
+              ? 'text-icon-warning'
               : marketValueDriverWarning === marketValueDriverWarningLevel.UNSET
-                ? 'text-error'
+                ? 'text-icon-error'
                 : ''
           "
           [iconTooltip]="
@@ -75,7 +76,7 @@
           "
         ></gq-tabs-label
       ></ng-template>
-      <div class="p-2 w-full absolute">
+      <div class="w-full h-full absolute">
         <gq-market-value-driver
           [marketValueDriverItems]="marketValueDriverData"
           [isDisabled]="isDisabled"
@@ -103,7 +104,7 @@
           [title]="t('technicalValueDriversLabel')"
         ></gq-tabs-label
       ></ng-template>
-      <div class="p-2 w-full absolute">
+      <div class="w-full absolute">
         <gq-technical-value-drivers-table
           [isDisabled]="isDisabled"
           [dataSource]="technicalValueDriversTableItems"
@@ -132,7 +133,7 @@
           [title]="t('sanityCheckLabel')"
         ></gq-tabs-label
       ></ng-template>
-      <div class="p-2 w-full absolute">
+      <div class="w-full absolute">
         <gq-sanity-checks-table [dataSource]="sanityChecksTableItems">
         </gq-sanity-checks-table>
       </div>

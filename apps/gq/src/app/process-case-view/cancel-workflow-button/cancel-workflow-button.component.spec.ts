@@ -95,7 +95,6 @@ describe('CancelWorkflowButtonComponent', () => {
     expect(openMock).toHaveBeenCalledTimes(1);
     expect(openMock).toHaveBeenCalledWith(CancelWorkflowModalComponent, {
       width: '634px',
-      autoFocus: false,
     });
   });
 });

@@ -90,7 +90,7 @@
         class="flex flex-col"
         *ngrxLet="isEditMode ? 'caseCreation' : 'today' as referenceDate"
       >
-        <span class="text-medium-emphasis pb-4 pt-2 text-[14px]">
+        <span class="text-on-surface-variant pb-4 pt-2 text-body-small">
           {{ t('additionalInformation') }}</span
         >
         <div
@@ -245,26 +245,23 @@
       </div>
     </div>
     @if (isEditMode) {
-      <div class="flex w-full">
+      <div class="flex w-full justify-end gap-4">
         <button
-          class="!pl-8 !pr-8"
-          color="primary"
-          mat-raised-button
-          [disabled]="!hasHeaderInfoFormChange || !headerInfoForm.valid"
-          [attr.data-cy]="'case-header-information_edit-case_update-btn'"
-        >
-          <span>
-            {{ t(isSapCase ? 'updateSapCase' : 'confirm') | uppercase }}
-          </span></button
-        ><button
-          class="!ml-6 !pl-8 !pr-8"
-          color="primary"
-          mat-stroked-button
+          mat-button
           type="button"
           (click)="closeDialog()"
           [attr.data-cy]="'case-header-information_edit-case_close-btn'"
         >
-          <span> {{ t('cancel') | uppercase }} </span>
+          <span> {{ t('cancel') }} </span>
+        </button>
+        <button
+          mat-flat-button
+          [disabled]="!hasHeaderInfoFormChange || !headerInfoForm.valid"
+          [attr.data-cy]="'case-header-information_edit-case_update-btn'"
+        >
+          <span>
+            {{ t(isSapCase ? 'updateSapCase' : 'confirm') }}
+          </span>
         </button>
       </div>
     }

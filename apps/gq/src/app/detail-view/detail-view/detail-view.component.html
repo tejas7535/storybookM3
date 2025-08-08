@@ -46,9 +46,8 @@
             <div class="flex justify-end md:mr-4">
               <button
                 *ngrxLet="quotationDetail$ as quotationDetail"
-                class="!mt-2 w-[250px]"
-                mat-raised-button
-                color="primary"
+                class="!mt-6 w-[250px]"
+                mat-stroked-button
                 (click)="openPricingAssistant(quotationDetail)"
               >
                 {{ t('pricingAssistantButton') }}

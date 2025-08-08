@@ -151,10 +151,6 @@ describe('InputTableComponent', () => {
         statusPanels: [
           ...BASE_STATUS_BAR_CONFIG.statusPanels,
           {
-            statusPanel: AddMaterialButtonComponent,
-            align: 'left',
-          },
-          {
             statusPanel: PasteButtonComponent,
             align: 'left',
             statusPanelParams: {
@@ -170,6 +166,10 @@ describe('InputTableComponent', () => {
           },
           {
             statusPanel: ProcessCaseResetAllButtonComponent,
+            align: 'right',
+          },
+          {
+            statusPanel: AddMaterialButtonComponent,
             align: 'right',
           },
         ],

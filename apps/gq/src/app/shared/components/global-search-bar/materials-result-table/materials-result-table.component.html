@@ -1,9 +1,9 @@
 <ng-container
   *transloco="let t; read: 'searchBarAdvanced.materialsResultsTable'"
 >
-  <div class="flex flex-col h-full pt-6 gap-4 border-border border-t">
+  <div class="flex flex-col h-full pt-6 gap-4">
     <div class="flex flex-row items-center">
-      <span class="text-medium-emphasis text-subtitle-2 pr-6"
+      <span class="text-on-surface-variant text-title-small pr-6"
         >{{ t('searchCriteriaLabel') }}
       </span>
       <mat-radio-group
@@ -14,8 +14,7 @@
         @for (criteria of criteriaSelections; track criteria) {
           <mat-radio-button
             [value]="criteria"
-            color="primary"
-            class="text-subtitle-2"
+            class="text-title-small"
             labelPosition="after"
             disableRipple
             >{{ t(criteria) }}</mat-radio-button
@@ -23,7 +22,7 @@
         }
       </mat-radio-group>
     </div>
-    <mat-card appearance="outlined" class="h-full">
+    <div class="h-full">
       @if (loading) {
         <ng-container [ngTemplateOutlet]="loadingTemplate"></ng-container>
       } @else {
@@ -37,20 +36,16 @@
           }
         }
       }
-    </mat-card>
+    </div>
   </div>
 
   <ng-template #noResults>
-    <gq-no-data
-      class="h-full bg-secondary-variant"
-      [title]="t('noResultsTitle')"
-    >
-    </gq-no-data>
+    <gq-no-data class="h-full" [title]="t('noResultsTitle')"> </gq-no-data>
   </ng-template>
 
   <ng-template #noInitialResults>
     <gq-no-data
-      class="h-full bg-secondary-variant"
+      class="h-full"
       [title]="t('noInitialResultsTitle')"
       [subTitle]="t('noInitialResultsSubTitle')"
     >
@@ -65,9 +60,9 @@
     -->
     <ag-grid-angular
       oncontextmenu="return false;"
-      class="ag-theme-material h-full"
+      class="ag-theme-material h-full overflow-hidden rounded-xl border border-border"
       [ngClass]="{
-        'material-results-table-with-pagination': materialsResults?.length > 4
+        'material-results-table-with-pagination': materialsResults?.length > 4,
       }"
       [defaultColDef]="defaultColDef"
       [columnDefs]="columnDefs$ | ngrxPush"
@@ -97,7 +92,7 @@
   <ng-template #loadingTemplate>
     <schaeffler-loading-spinner
       [ngClass]="{
-        'material-results-table-with-pagination': materialsResults?.length > 4
+        'material-results-table-with-pagination': materialsResults?.length > 4,
       }"
     ></schaeffler-loading-spinner>
   </ng-template>

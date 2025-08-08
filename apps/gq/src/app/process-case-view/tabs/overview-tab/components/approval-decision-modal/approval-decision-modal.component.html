@@ -20,10 +20,12 @@
   @if (
     (approvalFacade.updateApprovalWorkflowInProgress$ | ngrxPush) === false
   ) {
-    <p class="text-subtitle-2 pt-4">{{ t('summary') }}</p>
+    <p class="text-title-small pt-4">{{ t('summary') }}</p>
     <div class="flex items-center pt-3">
-      <p class="text-body-2 text-medium-emphasis">{{ t('approvalLevel') }}:</p>
-      <span class="text-body-2 text-high-emphasis pl-2">{{
+      <p class="text-body-medium text-on-surface-variant">
+        {{ t('approvalLevel') }}:
+      </p>
+      <span class="text-body-medium text-on-surface pl-2">{{
         approvalFacade.requiredApprovalLevelsForQuotation$ | ngrxPush
       }}</span>
     </div>
@@ -53,10 +55,12 @@
         >
       </mat-form-field>
     </div>
-    <div class="flex w-full gap-4">
+    <div class="flex w-full justify-end gap-4">
+      <button mat-button (click)="closeDialog()">
+        {{ t('cancel') }}
+      </button>
       <button
-        mat-raised-button
-        color="primary"
+        mat-flat-button
         [disabled]="formGroup.invalid"
         (click)="updateApprovalWorkflow()"
       >
@@ -68,15 +72,11 @@
           )
         }}
       </button>
-      <button mat-stroked-button (click)="closeDialog()" color="primary">
-        {{ t('cancel') }}
-      </button>
     </div>
   } @else {
     <div class="py-24">
       <schaeffler-loading-spinner
         class="h-full"
-        backgroundColor="rgba(255,255,255, 0.1)"
         [relative]="true"
       ></schaeffler-loading-spinner>
     </div>

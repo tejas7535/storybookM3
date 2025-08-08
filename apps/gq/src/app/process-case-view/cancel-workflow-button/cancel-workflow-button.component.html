@@ -5,7 +5,12 @@
       quotationStatus === status.REJECTED) &&
     isProcessCaseOverviewTabActive
   ) {
-    <button mat-raised-button class="text-error" (click)="openDialog()">
+    <button
+      mat-button
+      [disableRipple]="true"
+      class="noRippleHover error-with-opacity !text-error"
+      (click)="openDialog()"
+    >
       {{ t('header.cancelWorkflow') }}
     </button>
   }

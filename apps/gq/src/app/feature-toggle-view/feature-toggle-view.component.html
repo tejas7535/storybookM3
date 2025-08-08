@@ -26,7 +26,6 @@
           <div>
             <div class="flex flex-row justify-center">
               <mat-slide-toggle
-                color="primary"
                 labelPosition="before"
                 [checked]="toggle.value"
                 [disabled]="isDefaultConfig"
@@ -39,7 +38,7 @@
           </div>
         }
         @if (!isDefaultConfig) {
-          <button mat-raised-button color="primary" (click)="saveConfig()">
+          <button mat-button (click)="saveConfig()">
             {{ t('submit') }}
           </button>
         }

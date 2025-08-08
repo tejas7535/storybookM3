@@ -3,19 +3,18 @@
     <!-- header-->
     <div class="flex flex-row items-center w-full">
       <div class="flex flex-row items-center w-full gap-3">
-        <mat-icon matSuffix class="pr-4 text-medium-emphasis">
+        <mat-icon matSuffix class="pr-4 text-on-surface-variant">
           search
         </mat-icon>
         <div class="flex flex-col w-full pr-4">
           <input
             #inputField
             matInput
-            color="primary"
-            class="w-full leading-7 !outline-none z-10"
+            class="w-full leading-7 !outline-none z-10 !bg-transparent"
             [ngClass]="
               searchFormControl.hasError('minlengthDisplay')
                 ? 'text-error'
-                : 'text-high-emphasis'
+                : 'text-on-surface'
             "
             type="text"
             [placeholder]="t('searchHint')"
@@ -42,8 +41,8 @@
       </div>
       <div class="flex items-center">
         <mat-slide-toggle
-          class="whitespace-nowrap uppercase text-caption"
-          color="primary"
+          hideIcon="true"
+          class="whitespace-nowrap text-body-small"
           labelPosition="before"
           [checked]="onlyUserCases"
           (change)="toggleOnlyUserCases()"
@@ -53,14 +52,14 @@
           </span>
         </mat-slide-toggle>
         <span
-          class="text-caption cursor-pointer text-medium-emphasis font-normal pl-6"
+          class="text-body-small cursor-pointer text-on-surface-variant font-normal pl-6 hover:text-primary"
           (click)="clearDialog()"
         >
           {{ t('clear') }}
         </span>
-        <span class="px-2 text-medium-emphasis"> | </span>
+        <span class="px-2 text-on-surface-variant"> | </span>
         <mat-icon
-          class="float-right h-5 w-5 cursor-pointer text-medium-emphasis"
+          class="float-right h-5 w-5 cursor-pointer text-on-surface-variant"
           (click)="closeDialog()"
         >
           close
@@ -96,23 +95,16 @@
     </div>
     <!-- the footer-->
     <div class="flex flex-col">
-      <div class="flex justify-start gap-2 pt-2">
+      <div class="flex justify-end gap-4 pt-2">
+        <button mat-button (click)="closeDialog()">
+          {{ t('cancelButton') }}
+        </button>
         <button
-          color="primary"
-          class="text-button font-medium"
           [disabled]="searchFormControl.invalid || searchFormControl.pristine"
-          mat-raised-button
+          mat-flat-button
           (click)="search()"
         >
           {{ t('searchButton') }}
-        </button>
-        <button
-          color="primary"
-          class="text-button font-medium"
-          mat-stroked-button
-          (click)="closeDialog()"
-        >
-          {{ t('cancelButton') }}
         </button>
       </div>
     </div>

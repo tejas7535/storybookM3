@@ -32,7 +32,6 @@ export class RfqPositionDetailsComponent {
 
     this.matDialog.open(UpdateRfqPositionDetailsComponent, {
       width: '550px',
-      autoFocus: false,
       data: {
         gqPositionId: this.rfqData.gqPositionId,
       } as RfqModalData,

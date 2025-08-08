@@ -1,7 +1,7 @@
 export const basicTableStyle = `
 :host::ng-deep ag-grid-angular {
   .ag-status-bar {
-    @apply pr-0  #{!important};
+    padding-right: 0 !important;  
     padding-left: 0 !important;
   }
   .ag-root-wrapper {
@@ -33,6 +33,17 @@ export const statusBarStlye = `
   }
 }`;
 
+export const materialTableStatusBarStyle = `
+:host::ng-deep ag-grid-angular {
+    .ag-status-bar {
+    border: none !important;   
+    padding-right: 8px !important;  
+    padding-left: 8px !important;
+    padding-bottom: 8px !important;
+  }
+}
+`;
+
 export const disableTableHorizontalScrollbar = `
 :host::ng-deep ag-grid-angular {
     .ag-body-viewport {
@@ -46,11 +57,17 @@ export const disableTableHorizontalScrollbar = `
 
 export const statusBarSimulation = `
 :host::ng-deep ag-grid-angular {
-  .ag-status-bar-right {   
-    justify-content: end;
-    width: 100%;   
+  .ag-status-bar-left {   
+    justify-content: start;    
+    flex:1 !important;  
+  } 
+  .ag-status-bar-center {
+    justify-content: center !important;    
+  }  
+  .ag-status-bar-right {
+    justify-content: end !important;       
   }
-}
+ }
 `;
 
 export const statusBarWithBorderStyle = `

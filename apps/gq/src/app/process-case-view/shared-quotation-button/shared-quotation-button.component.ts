@@ -26,7 +26,6 @@ import { SharedQuotationFacade } from '../../../app/core/store/shared-quotation'
     LetDirective,
   ],
   templateUrl: './shared-quotation-button.component.html',
-  styleUrls: ['./shared-quotation-button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SharedQuotationButtonComponent implements OnInit {

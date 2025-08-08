@@ -1,5 +1,4 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
@@ -39,7 +38,6 @@ describe('uploadSelectionToSapButtonComponent', () => {
           processCase: PROCESS_CASE_STATE_MOCK,
         },
       }),
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       MockProvider(ActiveCaseFacade, {
         canEditQuotation$: of(true),
         isQuotationStatusActive$: of(true),
@@ -203,8 +201,8 @@ describe('uploadSelectionToSapButtonComponent', () => {
           maxHeight: '80%',
           data: {
             title: 'translate it',
-            confirmButtonText: 'TRANSLATE IT',
-            cancelButtonText: 'TRANSLATE IT',
+            confirmButtonText: 'translate it',
+            cancelButtonText: 'translate it',
             confirmButtonIcon: component.icon,
           },
         }

@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Observable } from 'rxjs';
 
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
-import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module';
+import { InfoIconComponent } from '@gq/shared/components/info-icon/info-icon.component';
 import { PasteMaterialsService } from '@gq/shared/services/paste-materials/paste-materials.service';
 import { translate, TranslocoModule } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
@@ -19,10 +18,9 @@ import { isCaseViewParams } from '../../models/is-case-view-params.model';
   templateUrl: './paste-button.component.html',
   imports: [
     CommonModule,
-    MatIconModule,
     MatButtonModule,
     TranslocoModule,
-    InfoIconModule,
+    InfoIconComponent,
     PushPipe,
   ],
 })

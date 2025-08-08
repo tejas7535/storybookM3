@@ -126,7 +126,6 @@ export class PricingAssistantModalComponent implements OnInit, AfterViewInit {
     this.dialog.open(MaterialDetailsComponent, {
       width: '792px',
       data: this.dialogData,
-      autoFocus: false,
       panelClass: 'show-more',
     });
   }

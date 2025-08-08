@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
+import {
+  buttonHoverActiveStyle,
+  rippleButtonOverrides,
+} from '@gq/shared/constants/custom-button-styles';
 
 import { ApprovalModalType } from '../../models';
 import { ApprovalDecisionModalComponent } from '../approval-decision-modal/approval-decision-modal.component';
@@ -11,6 +15,7 @@ import { ForwardApprovalWorkflowModalComponent } from '../forward-approval-workf
   selector: 'gq-approval-cockpit',
   templateUrl: './approval-cockpit.component.html',
   standalone: false,
+  styles: [rippleButtonOverrides, buttonHoverActiveStyle],
 })
 export class ApprovalCockpitComponent {
   constructor(
@@ -30,7 +35,6 @@ export class ApprovalCockpitComponent {
   openForwardDialog(): void {
     this.matDialog.open(ForwardApprovalWorkflowModalComponent, {
       width: '634px',
-      autoFocus: false,
     });
   }
 

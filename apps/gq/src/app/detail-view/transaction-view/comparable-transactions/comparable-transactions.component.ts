@@ -15,7 +15,7 @@ import { userHasGPCRole } from '@gq/core/store/selectors';
 import { TableContext } from '@gq/process-case-view/quotation-details-table/config/tablecontext.model';
 import { BaseAgGridComponent } from '@gq/shared/ag-grid/base-component/base-ag-grid.component';
 import { AgGridLocale } from '@gq/shared/ag-grid/models/ag-grid-locale.interface';
-import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module';
+import { InfoIconComponent } from '@gq/shared/components/info-icon/info-icon.component';
 import { basicTableStyle } from '@gq/shared/constants';
 import { Quotation } from '@gq/shared/models';
 import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
@@ -41,7 +41,7 @@ import { ROW_SELECTION } from './config/row-selection.config';
     CommonModule,
     SharedTranslocoModule,
     AgGridModule,
-    InfoIconModule,
+    InfoIconComponent,
     PushPipe,
   ],
   templateUrl: './comparable-transactions.component.html',

@@ -73,11 +73,11 @@ export class UploadSelectionToSapButtonComponent {
     });
     const confirmButtonText = translate(
       'processCaseView.confirmUpdatePositions.updateButton'
-    ).toUpperCase();
+    );
 
     const cancelButtonText = translate(
       'processCaseView.confirmUpdatePositions.cancelButton'
-    ).toUpperCase();
+    );
 
     const data: ConfirmationModalData = {
       title,

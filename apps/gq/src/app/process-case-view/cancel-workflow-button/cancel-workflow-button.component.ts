@@ -5,6 +5,10 @@ import { Event, NavigationEnd, Router } from '@angular/router';
 import { filter, Subject, takeUntil } from 'rxjs';
 
 import { AppRoutePath } from '@gq/app-route-path.enum';
+import {
+  buttonHoverActiveStyle,
+  rippleButtonOverrides,
+} from '@gq/shared/constants/custom-button-styles';
 import { QuotationStatus } from '@gq/shared/models';
 
 import { ProcessCaseRoutePath } from '../process-case-route-path.enum';
@@ -13,6 +17,7 @@ import { CancelWorkflowModalComponent } from './cancel-workflow-modal/cancel-wor
 @Component({
   selector: 'gq-cancel-workflow-button',
   templateUrl: './cancel-workflow-button.component.html',
+  styles: [rippleButtonOverrides, buttonHoverActiveStyle],
   standalone: false,
 })
 export class CancelWorkflowButtonComponent implements OnInit, OnDestroy {
@@ -42,7 +47,6 @@ export class CancelWorkflowButtonComponent implements OnInit, OnDestroy {
   openDialog() {
     this.dialog.open(CancelWorkflowModalComponent, {
       width: '634px',
-      autoFocus: false,
     });
   }
 

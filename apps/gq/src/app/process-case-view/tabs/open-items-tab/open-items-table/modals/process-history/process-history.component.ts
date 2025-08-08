@@ -9,6 +9,10 @@ import {
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
+import {
+  buttonHoverActiveStyle,
+  rippleButtonOverrides,
+} from '@gq/shared/constants/custom-button-styles';
 import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
 import { SqvApprovalStatus } from '@gq/shared/models/quotation-detail/cost/sqv-approval-status.enum';
 
@@ -29,6 +33,7 @@ import { RecalculationProgressComponent } from './recalculation-progress/recalcu
     MatButtonModule,
     SharedTranslocoModule,
   ],
+  styles: [rippleButtonOverrides, buttonHoverActiveStyle],
 })
 export class ProcessHistoryComponent {
   modalData: InputSignal<ProcessesModalDialogData> =

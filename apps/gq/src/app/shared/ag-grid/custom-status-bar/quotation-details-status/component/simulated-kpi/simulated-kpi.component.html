@@ -1,28 +1,31 @@
 <div *transloco="let t; read: 'shared.customStatusBar.quotationDetailsStatus'">
-  <div class="text-white-high-emphasis flex flex-row gap-16 pr-8 text-left">
+  <div class="text-inverse-on-surface flex flex-row gap-16 pr-8 text-left">
     <div class="flex flex-row">
       <div>
         <span
           data-cy="simulated-total-net-value_label"
-          class="text-subtitle-1"
+          class="text-title-medium"
           >{{ t('totalNetValue') }}</span
         >
         <div
           data-cy="simulated-previous-total-net-value_label"
-          class="text-caption opacity-60"
+          class="text-body-small opacity-[0.38]"
         >
           {{ t('previousNetValue') }}:
         </div>
       </div>
       <div class="ml-6">
-        <span class="text-subtitle-1" data-cy="simulated-total-net-value_value">
+        <span
+          class="text-title-medium"
+          data-cy="simulated-total-net-value_value"
+        >
           {{
             simulatedQuotation().simulatedStatusBar.totalNetValue
               | numberCurrency: quotationCurrency()
           }}
         </span>
         <div
-          class="text-caption opacity-60"
+          class="text-body-small opacity-[0.38]"
           data-cy="simulated-previous-total-net-value_value"
         >
           {{
@@ -36,19 +39,19 @@
       <div>
         <span
           data-cy="simulated-total-average-gpm_label"
-          class="text-subtitle-1"
+          class="text-title-medium"
           >{{ t('totalAverageGPM') }}</span
         >
         <div
           data-cy="simulated-previous-total-average-gpm_label"
-          class="text-caption opacity-60"
+          class="text-body-small opacity-[0.38]"
         >
           {{ t('previousGPM') }}:
         </div>
       </div>
       <div class="ml-6">
         <span
-          class="text-subtitle-1"
+          class="text-title-medium"
           data-cy="simulated-total-average-gpm_value"
         >
           {{
@@ -57,7 +60,7 @@
           }}
         </span>
         <div
-          class="text-caption opacity-60"
+          class="text-body-small opacity-[0.38]"
           data-cy="simulated-previous-total-average-gpm_label"
         >
           {{
@@ -69,25 +72,25 @@
     </div>
     <div class="flex flex-row">
       <div>
-        <span data-cy="simulated-total-gpi_label" class="text-subtitle-1">{{
+        <span data-cy="simulated-total-gpi_label" class="text-title-medium">{{
           t('totalAverageGPI')
         }}</span>
         <div
           data-cy="simulated-previous-total-gpi_label"
-          class="text-caption opacity-60"
+          class="text-body-small opacity-[0.38]"
         >
           {{ t('previousGPI') }}:
         </div>
       </div>
       <div class="ml-6">
-        <span class="text-subtitle-1" data-cy="simulated-total-gpi_value">
+        <span class="text-title-medium" data-cy="simulated-total-gpi_value">
           {{
             simulatedQuotation().simulatedStatusBar.totalWeightedAverageGpi
               | percentage: false
           }}
         </span>
         <div
-          class="text-caption opacity-60"
+          class="text-body-small opacity-[0.38]"
           data-cy="simulated-previous-total-gpi_value"
         >
           {{
@@ -101,19 +104,19 @@
       <div>
         <span
           data-cy="simulated-total-price-diff_label"
-          class="text-subtitle-1"
+          class="text-title-medium"
           >{{ t('totalPriceDiff') }}</span
         >
         <div
           data-cy="simulated-previous-total-price-diff_label"
-          class="text-caption opacity-60"
+          class="text-body-small opacity-[0.38]"
         >
           {{ t('previousPriceDiff') }}:
         </div>
       </div>
       <div class="ml-6">
         <span
-          class="text-subtitle-1"
+          class="text-title-medium"
           data-cy="simulated-total-price-diff_value"
         >
           {{
@@ -122,7 +125,7 @@
           }}
         </span>
         <div
-          class="text-caption opacity-60"
+          class="text-body-small opacity-[0.38]"
           data-cy="simulated-previous-total-price-diff_value"
         >
           {{

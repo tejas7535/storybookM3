@@ -1,10 +1,10 @@
 <div *transloco="let t; read: 'transactionView.graph'" class="h-full">
   <div class="mb-6">
-    <span class="block w-full text-h6 text-medium-emphasis">
+    <span class="block w-full text-title-large text-on-surface-variant">
       {{ t('title', { recommendationType }) }}
     </span>
     @if (!hideRolesHint) {
-      <span class="block w-full text-caption text-low-emphasis">
+      <span class="block w-full text-body-small text-on-surface opacity-[0.38]">
         {{ t('hint') }}
       </span>
     }

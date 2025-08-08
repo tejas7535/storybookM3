@@ -8,7 +8,7 @@
   >
   </gq-dialog-header>
   @if (customer$ | ngrxPush; as customer) {
-    <div class="text-caption text-medium-emphasis">
+    <div class="text-body-small text-on-surface-variant">
       <span>{{ customer.name }}</span>
       <span class="mx-2 opacity-[0.12]"> | </span>
       <span>{{ t('salesOrg') }} {{ customer.identifier.salesOrg }}</span>

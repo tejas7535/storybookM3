@@ -5,11 +5,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { InfoIconComponent } from '@gq/shared/components/info-icon/info-icon.component';
 import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { InfoIconModule } from '../../components/info-icon/info-icon.module';
 import { SharedDirectivesModule } from '../../directives/shared-directives.module';
 import { ExtendedColumnHeaderComponent } from './extended-column-header/extended-column-header.component';
 
@@ -21,7 +21,7 @@ import { ExtendedColumnHeaderComponent } from './extended-column-header/extended
     ReactiveFormsModule,
     FormsModule,
     SharedTranslocoModule,
-    InfoIconModule,
+    InfoIconComponent,
     SharedDirectivesModule,
     MatTooltipModule,
     PushPipe,

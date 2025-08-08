@@ -37,7 +37,6 @@ export class AddItemsButtonComponent {
       width: '71%',
       height: '75%',
       panelClass: 'add-material-dialog',
-      autoFocus: false,
     });
   }
 

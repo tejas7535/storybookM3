@@ -15,7 +15,7 @@ import {
   MomentDateAdapter,
 } from '@angular/material-moment-adapter';
 
-import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module';
+import { InfoIconComponent } from '@gq/shared/components/info-icon/info-icon.component';
 import { DATE_FORMATS } from '@gq/shared/constants/date-formats';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
@@ -29,7 +29,7 @@ import { QuotationNoteIconComponent } from './quotation-note/icon/quotation-note
 @NgModule({
   declarations: [HeaderContentComponent],
   imports: [
-    InfoIconModule,
+    InfoIconComponent,
     MatIconModule,
     MatButtonModule,
     SharedTranslocoModule,

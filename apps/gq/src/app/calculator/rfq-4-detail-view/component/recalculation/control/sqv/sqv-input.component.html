@@ -23,12 +23,14 @@
     </mat-form-field>
   </div>
   <div class="w-1/2 flex flex-col h-20 justify-end">
-    <div class="flex items-center justify-between px-4 h-16">
+    <div class="flex items-center justify-between h-16">
       <div>
-        <span class="text-body-2 text-medium-emphasis">{{ t('label') }}:</span>
+        <span class="text-body-medium text-on-surface-variant"
+          >{{ t('label') }}:</span
+        >
       </div>
       <div>
-        <span class="text-subtitle-1 text-medium-emphasis p-4">{{
+        <span class="text-title-medium text-on-surface-variant p-4">{{
           calculatedSqv()
             | translocoDecimal
               : { minimumFractionDigits: 2, maximumFractionDigits: 2 }

@@ -54,7 +54,6 @@ import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete
 import { CustomerMaterialAutoCompleteInputComponent } from '../../autocomplete-input/customer-material/customer-material-autocomplete-input.component';
 import { MaterialDescriptionAutoCompleteInputComponent } from '../../autocomplete-input/material-description/material-description-autocomplete-input.component';
 import { MaterialNumberAutoCompleteInputComponent } from '../../autocomplete-input/material-number/material-number-autocomplete-input.component';
-import { InfoIconModule } from '../../info-icon/info-icon.module';
 import { TargetPriceSourceSelectComponent } from '../../target-price-source-select/target-price-source-select.component';
 
 @Component({
@@ -70,7 +69,6 @@ import { TargetPriceSourceSelectComponent } from '../../target-price-source-sele
     SharedDirectivesModule,
     ReactiveFormsModule,
     PushPipe,
-    InfoIconModule,
     CommonModule,
     LetDirective,
     MatSelectModule,

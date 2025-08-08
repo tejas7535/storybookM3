@@ -6,19 +6,18 @@
   "
 >
   <div class="flex flex-col">
-    <span class="text-subtitle-2 text-high-emphasis wei">{{
+    <span class="text-title-small text-on-surface wei">{{
       t('questions.' + item.questionId + '.title')
     }}</span>
-    <span class="text-subtitle-2 text-medium-emphasis mb-3">{{
+    <span class="text-title-small text-on-surface-variant mb-3">{{
       t('questions.' + item.questionId + '.subtitle')
     }}</span>
     <mat-radio-group class="-ml-3 flex flex-row gap-3" [disabled]="isDisabled">
       @for (option of item.options; track i; let i = $index) {
         <mat-radio-button
-          color="primary"
           [checked]="option.selected"
           [value]="option.optionId"
-          class="text-subtitle-2"
+          class="text-title-small"
           disableRipple
           labelPosition="after"
           (change)="onOptionChange(option)"
@@ -28,8 +27,8 @@
               class="-ml-2"
               [ngClass]="
                 selectedOptionId === i + 1 && i !== item.options?.length - 1
-                  ? 'text-link'
-                  : 'text-medium-emphasis'
+                  ? 'text-primary'
+                  : 'text-on-surface-variant'
               "
               >{{
                 t('questions.' + item.questionId + '.option' + option.optionId)
@@ -37,7 +36,7 @@
             </span>
             @if (i === item.options?.length - 1) {
               <mat-icon
-                class="text-medium-emphasis cursor-pointer !overflow-visible !h-4 !w-4 !text-[16px]"
+                class="text-on-surface-variant cursor-pointer !overflow-visible !h-4 !w-4 !text-[16px]"
                 [matTooltip]="t('unknownTooltip')"
                 >info_outline</mat-icon
               >

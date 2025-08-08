@@ -2,11 +2,12 @@
   class="flex h-full flex-col"
   *transloco="let t; read: 'transactionView.transactions'"
 >
-  <div>
-    <span class="text-h6 text-medium-emphasis">{{ t('title') }}</span>
+  <div class="flex flex-row gap-2 items-center">
+    <span class="text-title-large text-on-surface-variant">{{
+      t('title')
+    }}</span>
     <span>
-      <gq-info-icon class="pl-2 align-top" [text]="t('info-hover')">
-      </gq-info-icon>
+      <gq-info-icon [text]="t('info-hover')"> </gq-info-icon>
     </span>
   </div>
   <div class="mt-4 flex-1">

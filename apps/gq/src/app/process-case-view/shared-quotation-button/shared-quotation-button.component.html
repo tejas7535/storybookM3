@@ -1,18 +1,21 @@
 <ng-container *transloco="let t; read: 'processCaseView'">
   @if (!(sharedQuotationLoading$ | ngrxPush)) {
     @if (!(sharedQuotation$ | ngrxPush)) {
-      <button class="gq-shared-quotation-button" (click)="onSave()">
-        <mat-icon class="pt-[1px]">save</mat-icon>
-        {{ t('header.save') }}
+      <button
+        mat-icon-button
+        class="!bg-surface-container-highest !text-on-surface-variant"
+        (click)="onSave()"
+      >
+        <mat-icon svgIcon="keep" class="mb-1">keep</mat-icon>
       </button>
     } @else {
       <button
+        mat-icon-button
         *ngrxLet="sharedQuotation$ as sq"
-        class="gq-shared-quotation-button"
+        class="!bg-secondary-container !text-on-secondary-container"
         (click)="onDelete(sq.id)"
       >
-        <mat-icon color="primary">save</mat-icon>
-        {{ t('header.delete') }}
+        <mat-icon svgIcon="keep_off" class="mb-1">keep_off</mat-icon>
       </button>
     }
   } @else {

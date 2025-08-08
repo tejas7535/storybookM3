@@ -3,13 +3,12 @@
   *transloco="let t; read: 'shared.customStatusBar.quotationDetailsStatus'"
 >
   <div class="ml-8 flex flex-col">
-    <span class="text-low-emphasis text-left" data-cy="selected-net-value_label"
+    <span
+      class="text-on-surface opacity-[0.38] text-left"
+      data-cy="selected-net-value_label"
       >{{ t('selectedNetValue') }}:</span
     >
-    <span
-      class="text-high-emphasis text-left"
-      data-cy="selected-net-value_value"
-    >
+    <span class="text-on-surface text-left" data-cy="selected-net-value_value">
       {{
         selectedQuotationDetailsKpi().totalNetValue
           | numberCurrency: quotationCurrency()
@@ -19,12 +18,12 @@
   @if (showGpi()) {
     <div class="ml-8 flex flex-col">
       <span
-        class="text-low-emphasis text-left"
+        class="text-on-surface opacity-[0.38] text-left"
         data-cy="selected-average-gpi_label"
         >{{ t('selectedAverageGPI') }}:</span
       >
       <span
-        class="text-high-emphasis text-left"
+        class="text-on-surface text-left"
         data-cy="selected-average-gpi_value"
       >
         {{
@@ -37,12 +36,12 @@
   @if (showGpm()) {
     <div class="ml-8 flex flex-col">
       <span
-        class="text-low-emphasis text-left"
+        class="text-on-surface opacity-[0.38] text-left"
         data-cy="selected-average-gpm_label"
         >{{ t('selectedAverageGPM') }}:
       </span>
       <span
-        class="text-high-emphasis text-left"
+        class="text-on-surface text-left"
         data-cy="selected-average-gpm_value"
         >{{
           selectedQuotationDetailsKpi().totalWeightedAverageGpm
@@ -53,12 +52,12 @@
   }
   <div class="ml-8 flex flex-col">
     <span
-      class="text-low-emphasis text-left"
+      class="text-on-surface opacity-[0.38] text-left"
       data-cy="selected-price-diff_label"
       >{{ t('selectedPriceDiff') }}:
     </span>
     <span
-      class="text-high-emphasis text-left"
+      class="text-on-surface text-left"
       data-cy="selected-price-diff_value"
       >{{
         selectedQuotationDetailsKpi().totalWeightedAveragePriceDiff

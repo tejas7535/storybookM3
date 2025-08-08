@@ -23,7 +23,7 @@ import { TagComponent } from '@schaeffler/tag';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { DetailViewComponent } from './detail-view.component';
-import { DetailViewHeaderContentModule } from './detail-view-header-content/detail-view-header-content.module';
+import { DetailViewHeaderContentComponent } from './detail-view-header-content/detail-view-header-content.component';
 import { DetailViewNavigationBarModule } from './detail-view-navigation-bar/detail-view-navigation-bar.module';
 import { DetailViewRoutingModule } from './detail-view-routing.module';
 import { FilterPricingModule } from './filter-pricing/filter-pricing.module';
@@ -32,7 +32,7 @@ import { PricingDetailsModule } from './pricing-details/pricing-details.module';
   declarations: [DetailViewComponent],
   imports: [
     DetailViewRoutingModule,
-    DetailViewHeaderContentModule,
+    DetailViewHeaderContentComponent,
     DetailViewNavigationBarModule,
     FilterPricingModule,
     MatButtonModule,

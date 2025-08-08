@@ -6,11 +6,10 @@
     *transloco="let t; read: 'processCaseView.header.noteModal'"
   >
     <gq-dialog-header
-      class="mb-2"
       [title]="
         t('title', {
           gqId: gqId$ | ngrxPush | gqQuotation,
-          quotationActive: modalData.isQuotationStatusActive
+          quotationActive: modalData.isQuotationStatusActive,
         })
       "
       (closeDialog)="closeDialog()"
@@ -41,24 +40,20 @@
     </div>
   </div>
   <!-- Mat buttons for confirm and cancel -->
-  <div *transloco="let t; read: 'processCaseView.header.noteModal.buttons'">
+  <div
+    *transloco="let t; read: 'processCaseView.header.noteModal.buttons'"
+    class="flex justify-end gap-4"
+  >
+    <button mat-button data-cy="cancel-button" (click)="onCancel()">
+      {{ t('cancel') }}
+    </button>
     <button
-      color="primary"
-      mat-raised-button
+      mat-flat-button
       [disabled]="quotationNoteForm.invalid || !quotationNoteForm.dirty"
       (click)="onConfirm()"
       data-cy="confirm-button"
     >
       {{ t('confirm') }}
-    </button>
-    <button
-      class="ml-4"
-      color="primary"
-      mat-stroked-button
-      data-cy="cancel-button"
-      (click)="onCancel()"
-    >
-      {{ t('cancel') }}
     </button>
   </div>
 }

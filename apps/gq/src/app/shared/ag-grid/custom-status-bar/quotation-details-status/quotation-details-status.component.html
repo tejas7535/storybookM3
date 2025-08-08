@@ -1,6 +1,6 @@
 <div
-  class="flex h-full w-full items-center justify-end !pr-4 text-center font-medium"
-  [ngClass]="{ 'bg-secondary-900': (simulationModeEnabled$ | ngrxPush) }"
+  class="flex h-full w-full items-center justify-start !pl-4 text-center font-medium"
+  [ngClass]="{ 'bg-inverse-surface': (simulationModeEnabled$ | ngrxPush) }"
 >
   @if (simulatedQuotation$ | ngrxPush; as simulatedQuotation) {
     <!-- Simulation view -->
@@ -38,7 +38,7 @@
     >
       <button
         mat-flat-button
-        class="!text-button !text-link cursor-pointer"
+        class="!text-label-large !text-primary cursor-pointer"
         (click)="showAll()"
       >
         {{ t('showAll') }}

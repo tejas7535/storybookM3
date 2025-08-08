@@ -13,7 +13,7 @@
         'bg-profile-pic-blue': colorSetNumber === 2,
         'bg-profile-pic-red': colorSetNumber === 3,
         'bg-profile-pic-green': colorSetNumber === 4,
-        'bg-profile-pic-purple': colorSetNumber === 5
+        'bg-profile-pic-purple': colorSetNumber === 5,
       }"
     >
       <span
@@ -23,7 +23,7 @@
           'text-profile-initials-blue': colorSetNumber === 2,
           'text-profile-initials-red': colorSetNumber === 3,
           'text-profile-initials-green': colorSetNumber === 4,
-          'text-profile-initials-purple': colorSetNumber === 5
+          'text-profile-initials-purple': colorSetNumber === 5,
         }"
         >{{ approver | userInitialLetters }}</span
       >
@@ -32,16 +32,16 @@
 
   <div class="flex w-full flex-col items-start justify-center">
     <div class="flex w-full flex-row justify-between">
-      <div class="text-body-2 text-medium-emphasis">
+      <div class="text-body-medium text-on-surface-variant">
         {{ approver | approverDisplay: t('unknownApprover') }}
       </div>
     </div>
 
-    <div class="text-caption text-low-emphasis">
+    <div class="text-body-small text-on-surface opacity-[0.38]">
       {{ workflowEvent?.eventDate | translocoDate: translocoDatePipeConfig }}
     </div>
 
-    <div class="text-caption text-medium-emphasis whitespace-pre-line">
+    <div class="text-body-small text-on-surface-variant whitespace-pre-line">
       {{ eventComment }}
     </div>
   </div>
@@ -50,49 +50,49 @@
     @if (approvalStatusOfApprover === displayStatus.APPROVED) {
       <ng-container class="flex items-center">
         <mat-icon
-          class="text-caption text-approval-status-green !text-[16px] !w-4 !h-4"
+          class="text-body-small text-approval-status-green !text-[16px] !w-4 !h-4"
           >check</mat-icon
-        ><span class="text-caption font-bold text-approval-status-green">{{
+        ><span class="text-body-small font-bold text-approval-status-green">{{
           t('approved')
         }}</span>
       </ng-container>
     }
     @if (approvalStatusOfApprover === displayStatus.IN_APPROVAL) {
       <span
-        class="text-caption font-bold text-approval-status-blue whitespace-nowrap"
+        class="text-body-small font-bold text-approval-status-blue whitespace-nowrap"
         >{{ t('inApproval') }}</span
       >
     }
     @if (approvalStatusOfApprover === displayStatus.PRE_APPROVED) {
       <mat-icon
-        class="text-caption text-approval-status-green !text-[16px] !w-4 !h-4"
+        class="text-body-small text-approval-status-green !text-[16px] !w-4 !h-4"
         >check</mat-icon
       ><span
-        class="text-caption font-bold text-approval-status-green whitespace-nowrap"
+        class="text-body-small font-bold text-approval-status-green whitespace-nowrap"
         >{{ t('preApproved') }}</span
       >
     }
     @if (approvalStatusOfApprover === displayStatus.AUTO_APPROVAL) {
       <mat-icon
-        class="text-caption text-approval-status-green !text-[16px] !w-4 !h-4"
+        class="text-body-small text-approval-status-green !text-[16px] !w-4 !h-4"
         >check</mat-icon
       ><span
-        class="text-caption font-bold text-approval-status-green whitespace-nowrap"
+        class="text-body-small font-bold text-approval-status-green whitespace-nowrap"
         >{{ t('autoApproved') }}</span
       >
     }
     @if (approvalStatusOfApprover === displayStatus.FORWARDED) {
       <mat-icon
-        class="text-caption text-approval-status-grey !text-[16px] !w-4 !h-4"
+        class="text-body-small text-approval-status-grey !text-[16px] !w-4 !h-4"
         >arrow_forward</mat-icon
-      ><span class="text-caption font-bold text-approval-status-grey">{{
+      ><span class="text-body-small font-bold text-approval-status-grey">{{
         t('forwarded')
       }}</span>
     }
     @if (approvalStatusOfApprover === displayStatus.REJECTED) {
-      <mat-icon class="text-caption text-error !text-[16px] !w-4 !h-4"
+      <mat-icon class="text-body-small text-error !text-[16px] !w-4 !h-4"
         >report_problem</mat-icon
-      ><span class="text-caption font-bold text-error">{{
+      ><span class="text-body-small font-bold text-error">{{
         t('rejected')
       }}</span>
     }

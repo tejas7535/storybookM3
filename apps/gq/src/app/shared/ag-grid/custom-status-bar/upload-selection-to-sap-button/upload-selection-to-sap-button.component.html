@@ -8,12 +8,10 @@
     >
       <button
         class="!m-4 !mr-0"
-        mat-raised-button
-        color="primary"
+        mat-button
         [disabled]="uploadDisabled || !(quotationEditable$ | ngrxPush)"
         (click)="uploadSelectionToSap()"
       >
-        <mat-icon class="!align-text-bottom !icon-5">{{ icon }}</mat-icon>
         {{ t('uploadSelectionToSap') }}
       </button>
     </div>

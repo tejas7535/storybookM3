@@ -4,7 +4,7 @@
   *transloco="let t; read: 'processCaseView.header.releaseModal'"
 >
   @if (!(approvalFacade.allApproversLoading$ | ngrxPush)) {
-    <div class="px-4 pt-4">
+    <div>
       <gq-dialog-header [title]="t('title')" (closeDialog)="closeDialog()">
       </gq-dialog-header>
     </div>
@@ -12,11 +12,11 @@
       !(approvalFacade.triggerApprovalWorkflowInProgress$ | ngrxPush) &&
       !(approvalFacade.saveApprovalWorkflowInformationInProgress$ | ngrxPush)
     ) {
-      <div class="px-4">
+      <div class="pb-4">
         @if (
           !(approvalFacade.approvalCockpitInformation$ | ngrxPush).autoApproval
         ) {
-          <p class="text-subtitle-2 pt-4">
+          <p class="text-title-small pt-4">
             {{ t('summary') }}
           </p>
         }
@@ -24,10 +24,10 @@
           !(approvalFacade.approvalCockpitInformation$ | ngrxPush).autoApproval
         ) {
           <div class="flex items-center pt-3">
-            <p class="text-body-2 text-medium-emphasis">
+            <p class="text-body-medium text-on-surface-variant">
               {{ t('approvalLevelLabel') }}:
             </p>
-            <span class="text-body-2 text-high-emphasis pl-2">{{
+            <span class="text-body-medium text-on-surface pl-2">{{
               approvalFacade.requiredApprovalLevelsForQuotation$ | ngrxPush
             }}</span>
           </div>
@@ -36,7 +36,7 @@
           !(approvalFacade.approvalCockpitInformation$ | ngrxPush).autoApproval
         ) {
           <div>
-            <p class="text-subtitle-2 pb-4 pt-6">{{ t('approvers') }}</p>
+            <p class="text-title-small pb-4 pt-6">{{ t('approvers') }}</p>
             <gq-user-select
               tabindex="0"
               [enableFiltering]="true"
@@ -47,7 +47,7 @@
                   level:
                     approvalLevelEnum[
                       approvalFacade.approvalLevelFirstApprover$ | ngrxPush
-                    ]
+                    ],
                 })
               "
               [errorMessage]="
@@ -64,7 +64,7 @@
                   level:
                     approvalLevelEnum[
                       approvalFacade.approvalLevelSecondApprover$ | ngrxPush
-                    ]
+                    ],
                 })
               "
               [errorMessage]="
@@ -85,7 +85,7 @@
                     level:
                       approvalLevelEnum[
                         approvalFacade.approvalLevelThirdApprover$ | ngrxPush
-                      ]
+                      ],
                   })
                 "
                 [errorMessage]="
@@ -111,7 +111,7 @@
           </div>
         }
         <div [ngClass]="{ 'pb-10': !priceLowerThanMsp }">
-          <p class="text-subtitle-2 pb-5 pt-6">
+          <p class="text-title-small pb-5 pt-6">
             {{ t('additionalInformation') }}
           </p>
           <gq-textarea-form-field
@@ -139,36 +139,9 @@
           </div>
         }
       </div>
-      <div class="flex w-full gap-4 border-t border-[#000000]/[0.12] px-4 py-4">
-        @if (
-          (approvalFacade.approvalCockpitInformation$ | ngrxPush)?.autoApproval
-        ) {
-          <button
-            mat-raised-button
-            [disabled]="priceLowerThanMsp"
-            color="primary"
-            (click)="triggerAutoApproval()"
-          >
-            {{ t('autoApproval') }}
-          </button>
-        } @else {
-          <button
-            mat-raised-button
-            color="primary"
-            [disabled]="
-              formGroup.invalid ||
-              (approvalFacade.quotationStatus$ | ngrxPush) !==
-                quotationStatus.ACTIVE ||
-              priceLowerThanMsp
-            "
-            (click)="startWorkflow()"
-          >
-            {{ t('startWorkflow') }}
-          </button>
-        }
+      <div class="flex w-full justify-between gap-4 pb-1">
         <button
-          mat-raised-button
-          color="primary"
+          mat-button
           [disabled]="
             formGroup.invalid || formGroup.pristine || !hasValueChanged
           "
@@ -176,15 +149,41 @@
         >
           {{ t('save') }}
         </button>
-        <button mat-stroked-button (click)="closeDialog()" color="primary">
-          {{ t('cancel') }}
-        </button>
+        <div class="flex gap-4">
+          <button mat-button (click)="closeDialog()">
+            {{ t('cancel') }}
+          </button>
+          @if (
+            (approvalFacade.approvalCockpitInformation$ | ngrxPush)
+              ?.autoApproval
+          ) {
+            <button
+              mat-flat-button
+              [disabled]="priceLowerThanMsp"
+              (click)="triggerAutoApproval()"
+            >
+              {{ t('autoApproval') }}
+            </button>
+          } @else {
+            <button
+              mat-flat-button
+              [disabled]="
+                formGroup.invalid ||
+                (approvalFacade.quotationStatus$ | ngrxPush) !==
+                  quotationStatus.ACTIVE ||
+                priceLowerThanMsp
+              "
+              (click)="startWorkflow()"
+            >
+              {{ t('startWorkflow') }}
+            </button>
+          }
+        </div>
       </div>
     } @else {
       <div class="py-24">
         <schaeffler-loading-spinner
           class="h-full"
-          backgroundColor="rgba(255,255,255, 0.1)"
           [relative]="true"
         ></schaeffler-loading-spinner>
       </div>

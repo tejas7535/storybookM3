@@ -10,12 +10,12 @@
   <div
     class="flex items-center gap-3"
     [ngClass]="{
-      'flex-wrap': breakTitle
+      'flex-wrap': breakTitle,
     }"
   >
     @if (showBackButton) {
       <mat-icon
-        class="text-medium-emphasis flex-none cursor-pointer"
+        class="text-on-surface-variant flex-none cursor-pointer"
         (click)="clickBackButton()"
         >arrow_back</mat-icon
       >
@@ -23,7 +23,7 @@
 
     <ng-content select="[subheaderStatusIcon]"></ng-content>
     <h5
-      class="text-high-emphasis sm:!text-h5 flex flex-auto flex-row items-center truncate"
+      class="text-on-surface sm:!text-h5 flex flex-auto flex-row items-center truncate"
     >
       {{ subheaderTitle }}
       <ng-content select="[subheaderTitleContent]"></ng-content>

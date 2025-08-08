@@ -49,10 +49,10 @@ export class ApprovalWorkflowHistoryIterationsComponent implements OnChanges {
     cancelledEvent: ApprovalWorkflowEvent
   ): string {
     if (isApproved) {
-      return 'text-approval-status-green';
+      return 'text-icon-success';
     }
     if (rejectedEvent || cancelledEvent) {
-      return 'text-error';
+      return 'text-icon-error';
     }
 
     return '';

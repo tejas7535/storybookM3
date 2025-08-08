@@ -1,16 +1,11 @@
 <ng-container *transloco="let t; read: 'ipExposure.legal'">
   <div>
-    <div class="p-4">
-      <span class="text-h5">{{ t('title') }}</span>
-      <div class="text-medium-emphasis" [innerHTML]="t('exposure')"></div>
+    <div>
+      <span class="text-headline-small">{{ t('title') }}</span>
+      <div class="text-on-surface-variant" [innerHTML]="t('exposure')"></div>
     </div>
 
-    <button
-      mat-button
-      color="primary"
-      class="flex float-right"
-      (click)="closeDialog()"
-    >
+    <button mat-button class="flex float-right" (click)="closeDialog()">
       {{ t('confirm') }}
     </button>
   </div>

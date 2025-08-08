@@ -1,11 +1,10 @@
 <button
   *transloco="let t; read: 'shared.customStatusBar.buttons'"
   class="!mt-4"
-  mat-stroked-button
-  color="primary"
+  mat-button
   (click)="resetAll()"
 >
-  <mat-icon>delete</mat-icon>
+  <mat-icon>delete_outline</mat-icon>
 
   {{ t('resetAll') }}
 </button>

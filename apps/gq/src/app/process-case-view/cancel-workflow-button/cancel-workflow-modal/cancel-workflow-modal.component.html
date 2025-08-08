@@ -10,31 +10,28 @@
   @if (
     (approvalFacade.updateApprovalWorkflowInProgress$ | ngrxPush) === false
   ) {
-    <p class="text-subtitle-2 mt-6">{{ t('summary') }}</p>
+    <p class="text-title-small mt-6">{{ t('summary') }}</p>
     <div class="flex items-center mt-3">
-      <p class="text-body-2 text-medium-emphasis">{{ t('approvalLevel') }}:</p>
-      <span class="text-body-2 text-high-emphasis ml-2">{{
+      <p class="text-body-medium text-on-surface-variant">
+        {{ t('approvalLevel') }}:
+      </p>
+      <span class="text-body-medium text-on-surface ml-2">{{
         approvalFacade.requiredApprovalLevelsForQuotation$ | ngrxPush
       }}</span>
     </div>
-    <p class="text-body-1 mt-3">{{ t('confirmationQuestion') }}</p>
-    <div class="flex w-full gap-4 mt-7">
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="cancelApprovalWorkflow()"
-      >
-        {{ t('cancelWorkflow') }}
-      </button>
-      <button mat-stroked-button (click)="closeDialog()" color="primary">
+    <p class="text-body-large mt-3">{{ t('confirmationQuestion') }}</p>
+    <div class="flex w-full gap-4 mt-7 justify-end">
+      <button mat-button (click)="closeDialog()">
         {{ t('backToOverview') }}
+      </button>
+      <button mat-flat-button (click)="cancelApprovalWorkflow()">
+        {{ t('cancelWorkflow') }}
       </button>
     </div>
   } @else {
     <div class="py-24">
       <schaeffler-loading-spinner
         class="h-full"
-        backgroundColor="rgba(255,255,255, 0.1)"
         [relative]="true"
       ></schaeffler-loading-spinner>
     </div>

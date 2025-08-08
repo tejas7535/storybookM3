@@ -13,7 +13,7 @@
       <div class="h-full">
         <mat-form-field class="w-full">
           <textarea
-            class="text-overline !leading-7"
+            class="text-label-small !leading-7"
             [formControl]="commentFormControl"
             appearance="fill"
             type="text"
@@ -30,25 +30,21 @@
         </mat-form-field>
       </div>
       @if (quotationIsEditable$ | ngrxPush) {
-        <div>
+        <div class="flex justify-end gap-4 pt-8">
           <button
-            class="!pl-8 !pr-8"
-            color="primary"
-            mat-raised-button
+            mat-button
+            (click)="closeDialog()"
+            data-cy="comment-modal_comment-cancel-btn"
+          >
+            <span> {{ t('cancel') }} </span>
+          </button>
+          <button
+            mat-flat-button
             [disabled]="commentDisabled || commentFormControl.invalid"
             (click)="confirmComment()"
             data-cy="comment-modal_comment-confirm-btn"
           >
-            <span> {{ t('confirm') | uppercase }} </span>
-          </button>
-          <button
-            class="!ml-6 !pl-8 !pr-8"
-            color="primary"
-            mat-stroked-button
-            (click)="closeDialog()"
-            data-cy="comment-modal_comment-cancel-btn"
-          >
-            <span> {{ t('cancel') | uppercase }} </span>
+            <span> {{ t('confirm') }} </span>
           </button>
         </div>
       }
@@ -56,7 +52,6 @@
   } @else {
     <schaeffler-loading-spinner
       class="h-full"
-      backgroundColor="rgba(255,255,255, 0.1)"
       [relative]="true"
     ></schaeffler-loading-spinner>
   }

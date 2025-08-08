@@ -59,7 +59,7 @@ describe('ApprovalWorkflowHistoryIterationsComponent', () => {
     test('should return green', () => {
       changes = { isApproved: new SimpleChange(undefined, true, true) };
       component.ngOnChanges(changes);
-      expect(component.iconColor).toBe('text-approval-status-green');
+      expect(component.iconColor).toBe('text-icon-success');
     });
     test('should return red when rejected', () => {
       changes = {
@@ -70,7 +70,7 @@ describe('ApprovalWorkflowHistoryIterationsComponent', () => {
         ),
       };
       component.ngOnChanges(changes);
-      expect(component.iconColor).toBe('text-error');
+      expect(component.iconColor).toBe('text-icon-error');
     });
     test('should return red when cancelled', () => {
       changes = {
@@ -81,7 +81,7 @@ describe('ApprovalWorkflowHistoryIterationsComponent', () => {
         ),
       };
       component.ngOnChanges(changes);
-      expect(component.iconColor).toBe('text-error');
+      expect(component.iconColor).toBe('text-icon-error');
     });
   });
 });

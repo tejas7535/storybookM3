@@ -8,7 +8,7 @@
   <div content>
     <div class="flex w-full flex-col flex-wrap sm:flex-row">
       <div class="min-w-[8rem] max-w-[25%] grow pt-2">
-        <div class="text-body-2 text-medium-emphasis mb-1">
+        <div class="text-body-medium text-on-surface-variant mb-1">
           <span data-cy="manual-price-label">{{ t('label') }}:</span>
         </div>
         <div>
@@ -22,7 +22,7 @@
             <ng-container *hideIfQuotationNotActiveOrPending>
               @if (userHasManualPriceRole) {
                 <mat-icon
-                  class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
+                  class="!text-[16px] text-on-surface-variant ml-1 cursor-pointer align-bottom !leading-6"
                   (click)="openEditing(ColumnFields.PRICE)"
                   >mode_edit</mat-icon
                 >
@@ -34,7 +34,7 @@
       @if (userHasGPCRole) {
         <div class="min-w-[8rem] pt-2">
           <div
-            class="text-body-2 text-medium-emphasis mb-1"
+            class="text-body-medium text-on-surface-variant mb-1"
             data-cy="gpi-label"
           >
             {{ t('gpi') }}:
@@ -46,7 +46,7 @@
             <ng-container *hideIfQuotationNotActiveOrPending>
               @if (userHasManualPriceRole) {
                 <mat-icon
-                  class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
+                  class="!text-[16px] text-on-surface-variant ml-1 cursor-pointer align-bottom !leading-6"
                   (click)="openEditing(ColumnFields.GPI)"
                   >mode_edit</mat-icon
                 >
@@ -58,7 +58,7 @@
       @if (userHasSQVRole) {
         <div class="min-w-[8rem] pt-2">
           <div
-            class="text-body-2 text-medium-emphasis mb-1"
+            class="text-body-medium text-on-surface-variant mb-1"
             data-cy="gpm-label"
           >
             {{ t('gpm') }}:
@@ -70,7 +70,7 @@
             <ng-container *hideIfQuotationNotActiveOrPending>
               @if (userHasManualPriceRole) {
                 <mat-icon
-                  class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
+                  class="!text-[16px] text-on-surface-variant ml-1 cursor-pointer align-bottom !leading-6"
                   (click)="openEditing(ColumnFields.GPM)"
                   >mode_edit</mat-icon
                 >
@@ -82,7 +82,7 @@
       @if (quotationDetail.rfqData) {
         <div class="min-w-[8rem] pt-2">
           <div
-            class="text-body-2 text-medium-emphasis mb-1"
+            class="text-body-medium text-on-surface-variant mb-1"
             data-cy="rfq-gpm-label"
           >
             {{ t('gpmRfq') }}:
@@ -96,7 +96,7 @@
       }
       <div class="min-w-[8rem] pt-2">
         <div
-          class="text-body-2 text-medium-emphasis mb-1"
+          class="text-body-medium text-on-surface-variant mb-1"
           data-cy="quantity-label"
         >
           {{ t('quantity') }}:
@@ -107,7 +107,7 @@
       </div>
       <div class="min-w-[8rem] pt-2">
         <div
-          class="text-body-2 text-medium-emphasis mb-1"
+          class="text-body-medium text-on-surface-variant mb-1"
           data-cy="price-unit-label"
         >
           {{ t('priceUnit') }}:

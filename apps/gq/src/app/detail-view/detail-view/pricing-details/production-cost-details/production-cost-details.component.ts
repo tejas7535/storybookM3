@@ -28,7 +28,6 @@ export class ProductionCostDetailsComponent {
 
     this.matDialog.open(UpdateCostsConfirmModalComponent, {
       width: '550px',
-      autoFocus: false,
       data: {
         gqPosId: this.quotationDetail.gqPositionId,
       },

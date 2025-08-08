@@ -7,16 +7,16 @@
 >
   <mat-accordion>
     <mat-expansion-panel
-      class="border border-border"
+      class="border border-border !shadow-none"
       [expanded]="numberOfDeltas > 0"
       (expandedChange)="toggleExpandedWhenCollapsing($event)"
       (afterExpand)="toggleExpand(true)"
     >
       <mat-expansion-panel-header
-        class="border-border !p-4"
-        [ngClass]="expanded ? 'border-b' : 'border-none'"
+        class="border-border"
+        [ngClass]="expanded ? 'border-b !rounded-b-none' : 'border-none'"
       >
-        <mat-panel-title class="text-body-1 text-high-emphasis">{{
+        <mat-panel-title class="text-body-large text-on-surface">{{
           t(panelKey + '.title')
         }}</mat-panel-title>
         @if (showDelta) {
@@ -57,7 +57,7 @@
         <ng-container matColumnDef="key">
           <mat-cell
             *matCellDef="let key"
-            class="!bg-primary !bg-opacity-[0.07] border-border flex-none text-caption !pl-4"
+            class="!bg-primary !bg-opacity-[0.07] !border-border flex-none text-body-small !pl-4"
             [ngClass]="showDelta ? '!w-1/4' : '!w-[20%]'"
           >
             {{ t(key.key, { fallback: key.key }) }}
@@ -67,7 +67,7 @@
         <ng-container matColumnDef="referenceValue">
           <mat-cell
             *matCellDef="let reference"
-            class="!border-r !border-b border-border !bg-primary !bg-opacity-0 flex-none text-caption"
+            class="!border-r !border-b !border-border !bg-primary !bg-opacity-0 flex-none text-body-small"
             [ngClass]="showDelta ? '!w-[37.5%]' : '!w-[40%]'"
           >
             {{ reference.values[0].value }}
@@ -77,14 +77,14 @@
         <ng-container matColumnDef="compareValue">
           <mat-cell
             *matCellDef="let compare"
-            class="text-caption"
+            class="text-body-small !border-border"
             [ngClass]="showDelta ? '!w-[37.5%]' : '!w-[40%]'"
           >
             {{ compare.values[1].value }}
           </mat-cell>
         </ng-container>
         <mat-row
-          class="border-b border-border"
+          class="border-b !border-border"
           *matRowDef="
             let row;
             columns: ['key', 'referenceValue', 'compareValue']

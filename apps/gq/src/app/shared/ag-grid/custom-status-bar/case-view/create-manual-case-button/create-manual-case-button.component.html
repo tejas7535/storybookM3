@@ -1,10 +1,8 @@
 <button
-  mat-stroked-button
+  mat-flat-button
   class="!m-4 !ml-0"
-  color="primary"
   *transloco="let t; read: 'shared.customStatusBar.buttons'"
   (click)="createManualCase()"
 >
-  <mat-icon class="mr-3 !align-text-bottom !icon-5">add</mat-icon>
   {{ t('createManualCase') }}
 </button>

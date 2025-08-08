@@ -15,7 +15,7 @@
       <ng-container subheaderTitleContent>
         <div class="flex flex-row items-center">
           @if (quotation.sapId) {
-            <span class="ml-4 text-low-emphasis">{{
+            <span class="ml-4 text-on-surface opacity-[0.38]">{{
               quotation.sapId | sapQuotation
             }}</span>
           }
@@ -28,12 +28,12 @@
       <ng-container subheaderInlineContent>
         @if ((loggedInUserId$ | ngrxPush) !== quotation.gqCreatedByUser.id) {
           <gq-shared-quotation-button
-            class="pr-3"
+            class="pr-4 !h-10"
             [quotationId]="quotation.gqId"
           ></gq-shared-quotation-button>
         }
         <schaeffler-share-button
-          class="pr-1 !text-medium-emphasis"
+          class="pr-1 !text-on-surface-variant"
         ></schaeffler-share-button>
         <gq-release-button [quotation]="quotation"></gq-release-button>
         <gq-cancel-workflow-button

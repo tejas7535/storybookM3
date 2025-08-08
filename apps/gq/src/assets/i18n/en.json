@@ -81,8 +81,8 @@
       "orderQuantity": "Quantity",
       "rlt": "RLT + Transit",
       "rltInfoText": "Replenishment Lead Time + Transit",
-      "materialClassificationSop": "S&OP Material Classification",
-      "materialClassificationSopInfoText": "Material classification defined within the Industrial Sales and Operations Planning Program",
+      "materialClassificationSOP": "S&OP Material Classification",
+      "materialClassificationSOPInfoText": "Material classification defined within the Industrial Sales and Operations Planning Program",
       "sqv": "SQV",
       "sqvInfoText": "Standard Quotation Value",
       "sqvRfq": "SQV (RFQ)",
@@ -273,7 +273,7 @@
         },
         "addItems": "Add Items",
         "addPosition": "Add Position",
-        "pasteFromClipboard": "Paste from clipboard",
+        "pasteFromClipboard": "Paste from Clipboard",
         "pasteSnackbar": {
           "message": "If you need help importing from excel here is a quick guide",
           "action": "instruction video"
@@ -398,15 +398,15 @@
     },
     "customStatusBar": {
       "buttons": {
-        "importCase": "Import from sap",
-        "createManualCase": "Create manual case",
-        "createCustomerCase": "New case from customer",
-        "addMaterial": "add items",
+        "importCase": "Import from SAP",
+        "createManualCase": "Create Manual Case",
+        "createCustomerCase": "New Case from Customer",
+        "addMaterial": "Add Items",
         "exportToExcelTooltip": "Download Excel File",
-        "addNewItem": "add new item",
-        "addNewItemMobile": "add",
-        "deleteCase": "delete case",
-        "refreshSapDataTooltip": "Refresh SAP price settings and stock & availability information",
+        "addNewItem": "Add New Item",
+        "addNewItemMobile": "Add",
+        "deleteCase": "Delete Case",
+        "refreshSapDataTooltip": "Refresh SAP Price Settings and Stock & Availability Information",
         "resetAll": "Reset All",
         "resetAllFiltered": {
           "buttonLabel": "Remove all filtered",
@@ -580,7 +580,7 @@
       "title": "Edit {{fieldName}} for Item {{id}}",
       "gpm": "GPM %",
       "gpi": "GPI %",
-      "discount": "discount %",
+      "discount": "Discount %",
       "price": "Net Price",
       "targetPrice": "Target Price",
       "orderQuantity": "Quantity",
@@ -588,13 +588,13 @@
       "relative": "Relative",
       "absolute": "Absolute",
       "confirm": {
-        "price": "Set new price",
+        "price": "Set new Price",
         "targetPrice": "Set new Target Price",
-        "gpi": "Set new gpi",
-        "gpm": "Set new gpm",
-        "discount": "Set new discount",
+        "gpi": "Set new GPI",
+        "gpm": "Set new GPM",
+        "discount": "Set new Discount",
         "orderQuantity": "Set new Quantity",
-        "customerMaterial": "Save new customer material number"
+        "customerMaterial": "Save new Customer Material Number"
       },
       "cancel": "Cancel",
       "labels": {
@@ -760,8 +760,8 @@
     "searchHint": "Keyword Search",
     "onlyMyCases": "only my cases",
     "clear": "Clear",
-    "searchButton": "search",
-    "cancelButton": "cancel",
+    "searchButton": "Search",
+    "cancelButton": "Cancel",
     "minLengthError": "Please enter at least {{ minLength }} characters. (Blanks before and after are ignored)",
     "casesLabel": "Cases",
     "materialsLabel": "Material",
@@ -772,9 +772,9 @@
         "sapId": "SAP Quotation",
         "customerId": "Customer Number",
         "customerName": "Customer Name",
-        "gqCreatedByUser": "Case Created by",
-        "gqCreated": "Case Created on",
-        "gqLastUpdated": "Case Last Updated on"
+        "gqCreatedByUser": "Case Created By",
+        "gqCreated": "Case Created On",
+        "gqLastUpdated": "Case Last Updated On"
       }
     },
     "casesResultsTable": {
@@ -785,9 +785,9 @@
       "customerName": "Customer Name",
       "customerId": "Customer Number",
       "gqCreatedByUser": "GQ Created by",
-      "noInitialResultsTitle": "No results yet",
-      "noInitialResultsSubTitle": "Enter keyword for search",
-      "noResultsTitle": "No results found",
+      "noInitialResultsTitle": "No Results yet",
+      "noInitialResultsSubTitle": "Enter Keyword for Search",
+      "noResultsTitle": "No Results found",
       "columns": {
         "totalNetValue": "Total Net Value"
       }
@@ -797,8 +797,8 @@
       "materialNumber": "Material Number",
       "materialDescription": "Material Description",
       "customerMaterialNumber": "Customer Material Number",
-      "noInitialResultsTitle": "No results yet",
-      "noInitialResultsSubTitle": "Enter keyword for search",
+      "noInitialResultsTitle": "No Results yet",
+      "noInitialResultsSubTitle": "Enter Keyword for Search",
       "noResultsTitle": "No results found",
       "columns": {
         "materialNumber": "Material Number (15-digits)",

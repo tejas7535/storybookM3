@@ -7,7 +7,7 @@
     (closeDialog)="closeDialog.emit()"
   >
   </gq-dialog-header>
-  <div class="pt-2 text-caption flex flex-row gap-3">
+  <div class="pt-2 text-body-small flex flex-row gap-3">
     @if (material.materialNumber13) {
       <gq-label-text [modalVersion]="true" [modalFlexRow]="true">
         <span label>
@@ -18,7 +18,7 @@
         </span>
       </gq-label-text>
     }
-    <span class="text-medium-emphasis"> | </span>
+    <span class="text-on-surface-variant"> | </span>
     @if (material.dimensions) {
       <gq-label-text [modalVersion]="true" [modalFlexRow]="true">
         <span label>
@@ -29,7 +29,7 @@
         </span>
       </gq-label-text>
     }
-    <span class="text-medium-emphasis"> | </span>
+    <span class="text-on-surface-variant"> | </span>
     @if (material.grossWeight) {
       <gq-label-text [modalVersion]="true" [modalFlexRow]="true">
         <span label>
@@ -38,9 +38,9 @@
         <span text> {{ material.grossWeight }} {{ material.weightUnit }} </span>
       </gq-label-text>
     }
-    <span class="text-medium-emphasis"> | </span>
+    <span class="text-on-surface-variant"> | </span>
     <div (click)="showMore.emit()">
-      <span class="text-link text-caption cursor-pointer">
+      <span class="text-primary text-body-small cursor-pointer">
         {{ t('showMoreButtonLabel') }}
       </span>
     </div>

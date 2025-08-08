@@ -1,8 +1,11 @@
 <span
-  class="flex cursor-help items-center text-medium-emphasis"
+  class="flex cursor-help items-center text-on-surface-variant"
   [ngClass]="{ 'align-middle': displaySmall }"
 >
-  <mat-icon [ngClass]="{ '!text-body-1': displaySmall }" [matTooltip]="text">
+  <mat-icon
+    [ngClass]="{ '!text-[16px] !leading-6': displaySmall }"
+    [matTooltip]="text"
+  >
     {{ showHelpIcon ? 'help_outline' : 'info_outline' }}
   </mat-icon>
 </span>

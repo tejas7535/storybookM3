@@ -3,7 +3,7 @@
     *transloco="let t; read: 'shared.validation'"
     class="float-left w-full truncate"
     [ngClass]="{
-      'text-error': isInvalidPriceError,
+      '!text-on-error-container': isInvalidPriceError,
       'text-on-warning-container': isWarningEnabled,
     }"
   >
@@ -15,7 +15,11 @@
             uom: params.data.material?.baseUoM | uom,
           })
         "
-        class="!text-caption mr-[10px] !w-3 cursor-help align-text-top"
+        class="!text-[16px] mr-[10px] !w-4 cursor-help align-text-top"
+        [ngClass]="{
+          '!text-icon-error': isInvalidPriceError,
+          'text-icon-warning': isWarningEnabled,
+        }"
         >warning_amber</mat-icon
       >
     }
@@ -40,7 +44,7 @@
   @if (isCellEditingAllowed) {
     <mat-icon
       *hideIfQuotationNotActiveOrPending
-      class="text-medium-emphasis cursor-pointer align-text-top !text-[16px]"
+      class="text-on-surface-variant cursor-pointer align-text-top !text-[16px]"
       (click)="onIconClick()"
       >mode_edit</mat-icon
     >
@@ -48,7 +52,7 @@
     @if (params.field === columnFields.ORDER_QUANTITY) {
       <mat-icon
         *hideIfQuotationNotActiveOrPending
-        class="text-medium-emphasis align-text-top !text-[16px] cursor-not-allowed"
+        class="text-on-surface-variant align-text-top !text-[16px] cursor-not-allowed"
         >edit_off</mat-icon
       >
     }

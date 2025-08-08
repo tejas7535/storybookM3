@@ -5,7 +5,7 @@
     showTimeline && !showInterruptedTimeline ? 'timeline border-l-2' : '',
     showTimeline && showInterruptedTimeline
       ? ' timeline-interrupted bg-gradient-to-l from-error to-error bg-no-repeat bg-left-top bg-[size:2px_50%]'
-      : ''
+      : '',
   ]"
   class="{{ getBorderClass }}"
 >
@@ -16,7 +16,7 @@
         iterationItemIconColor
           ? iterationItemIconColor
           : '!text-iteration-item-icon',
-        showTimeline && showInterruptedTimeline ? 'ml-[-3px]' : 'ml-[-5px]'
+        showTimeline && showInterruptedTimeline ? 'ml-[-3px]' : 'ml-[-5px]',
       ]"
       >circle</mat-icon
     >
@@ -25,23 +25,27 @@
     class="flex flex-row gap-5 justify-center items-center mt-1"
     [ngClass]="{
       'ml-6 pt-1 pb-2': isIterationItem,
-      '[&>*]:hover:text-link': isButton
+      '[&>*]:hover:text-primary [&>*>*]:hover:text-primary': isButton,
     }"
   >
-    <mat-icon class="{{ iconColor }}">{{ icon }}</mat-icon>
+    <mat-icon
+      class="{{ iconColor }}"
+      [svgIcon]="icon === 'timer' ? 'timer' : ''"
+      >{{ icon }}</mat-icon
+    >
     <div class="flex flex-col" [ngClass]="{ 'ml-[-2px]': isIterationItem }">
       <span
-        class="text-body-2"
-        [ngClass]="titleTextColor ? titleTextColor : 'text-high-emphasis'"
+        class="text-body-medium"
+        [ngClass]="titleTextColor ? titleTextColor : 'text-on-surface'"
         >{{ title }}</span
       >
       <span
-        class="text-[12px] text-medium-emphasis"
+        class="text-[12px] text-on-surface-variant"
         [ngClass]="subtitle ? 'mt-1' : ''"
         >{{ subtitle }}</span
       >
       <span
-        class="text-[12px] font-semibold text-medium-emphasis whitespace-pre-line"
+        class="text-[12px] font-semibold text-on-surface-variant whitespace-pre-line"
         [ngClass]="comment ? 'mt-1' : ''"
         >{{ comment }}</span
       >

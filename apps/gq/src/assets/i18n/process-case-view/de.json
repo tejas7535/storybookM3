@@ -48,8 +48,6 @@
       "cancelWorkflow": "Freigabe abbrechen",
       "backToOverview": "Zurück zur Übersicht"
     },
-    "save": "Case speichern",
-    "delete": "Case verwerfen",
     "disabledForSyncPendingTooltip": "Bearbeitung nicht möglich, da die Synchronisierung mit SAP noch aussteht",
     "noteModal": {
       "title": "Notiz {quotationActive, select, true{bearbeiten} other {anzeigen} } für {{gqId}}",
@@ -223,8 +221,8 @@
           "approversApproved": "{{ variable }} Genehmiger freigegeben",
           "workflowStartedText": "Angebotsfreigabe gestartet",
           "workflowAutoApprovedText": "Automatische Freigabe",
-          "viewIterationsLabel": "iterationen anzeigen ({{amount}})",
-          "hideIterationsLabel": "iterationen ausblenden ({{amount}})",
+          "viewIterationsLabel": "Iterationen anzeigen ({{amount}})",
+          "hideIterationsLabel": "Iterationen ausblenden ({{amount}})",
           "quotationApprovedText": "Angebot freigegeben",
           "caseApprovalStatus": "Freigabestatus",
           "approvalPending": "wartend",
@@ -251,19 +249,19 @@
     "sapTitle": "Möchten Sie diese ({{count}}) Position{multipleSelected, select, true{en} other {}} wirklich aus Ihrem Case sowie vom SAP Angebot löschen?",
     "subTitle": "Ausgewählte Position{multipleSelected, select, true{en können} other { kann}} nicht gelöscht werden, da sie mit einem RFQ verknüpft {multipleSelected, select, true{sind} other {ist}}.",
     "infoBannerText": "Bitte beachten Sie, dass diese Änderung dauerhaft ist und nicht rückgängig gemacht werden kann",
-    "deleteButtonText": "löschen",
-    "cancelButtonText": "abbrechen"
+    "deleteButtonText": "Löschen",
+    "cancelButtonText": "Abbrechen"
   },
   "confirmUpdatePositions": {
     "text": "Möchten Sie wirklich diese Einträge ({{variable}}) in SAP aktualisieren?",
-    "updateButton": "aktualisieren",
-    "cancelButton": "abbrechen"
+    "updateButton": "Aktualisieren",
+    "cancelButton": "Abbrechen"
   },
   "confirmRefreshSapPricing": {
     "title": "SAP-Preisstellungen aktualisieren",
     "text": "Möchten Sie wirklich die SAP-Daten für alle Positionen des Cases aktualisieren? Beachten Sie, dass dadurch die SAP-Daten dieses Cases überschrieben werden.",
-    "refreshButton": "aktualisieren",
-    "cancelButton": "abbrechen"
+    "refreshButton": "Aktualisieren",
+    "cancelButton": "Abbrechen"
   },
   "calcInProgress": {
     "header": "Wir sind dabei, Ihren Fall zu erstellen ({{variable}} Positionen)",

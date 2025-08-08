@@ -1,20 +1,10 @@
-<div class="footer pt-4">
-  <button
-    class="!pl-4 !pr-4"
-    mat-raised-button
-    (click)="submitAction.emit()"
-    color="primary"
-  >
-    <span class="font-medium">
-      {{ submitText() | uppercase }}
-    </span>
+<div class="footer flex justify-end gap-4 pt-4">
+  <button mat-button (click)="cancelAction.emit()">
+    {{ cancelText() }}
   </button>
-  <button
-    color="primary"
-    class="!ml-4 text-button font-medium"
-    mat-stroked-button
-    (click)="cancelAction.emit()"
-  >
-    {{ cancelText() | uppercase }}
+  <button mat-flat-button (click)="submitAction.emit()">
+    <span class="font-medium">
+      {{ submitText() }}
+    </span>
   </button>
 </div>

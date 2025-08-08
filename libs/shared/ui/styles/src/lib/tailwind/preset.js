@@ -90,6 +90,7 @@ const backgroundColors = {
   'category-3-container': 'var(--category-3-container)',
   'background-dark': colors['background-dark'],
   surface: colors['surface'],
+  'inverse-surface': 'var(--inverse-surface)',
   'surface-legacy': colors['surface-legacy'],
 };
 

@@ -15,26 +15,26 @@ import { BarChartData } from '../models/bar-chart-data.model';
 })
 export class ChartConfigService {
   COLORS: string[] = [
-    '#C4DB9B',
-    '#00445F',
-    '#E2EDD0',
-    '#A7C3B9',
-    '#9D9D9D',
-    '#4E8C7A',
+    '#619685',
+    '#AFC2C7',
+    '#C9DEA5',
+    '#67898F',
+    '#20617C',
+    '#94BF99',
+    '#237864',
+    '#8DA8BC',
+    '#8CBFD3',
     '#476E75',
-    '#646464',
-    '#A1C861',
     '#73B281',
-    '#A0B6C8',
-    '#477791',
-    '#A1CADB',
-    '#BDCDD1',
-    '#B2CFB3',
-    '#005E46',
+    '#00445F',
     '#1C98B5',
-    '#E7EFE6',
-    '#7F9CA3',
-    '#D0D0D0',
+    '#95B7AB',
+    '#D6C7A4',
+    '#B86300',
+    '#A1C861',
+    '#522C00',
+    '#F7D52A',
+    '#C4A200',
   ];
 
   LEGEND: LegendComponentOption = {
@@ -131,20 +131,18 @@ export class ChartConfigService {
     const data: BarChartData = param.data;
     const item = `
     <div class="flex w-[250px] flex-col p-2">
-    <span class="text-body-2 font-semibold text-high-emphasis">${
-      data.name
-    }</span>
+    <span class="text-body-medium font-semibold text-on-surface">${data.name}</span>
 
     <div class="flex flex-row justify-between">
     <div class="flex flex-row items-center">
     <span
     style ="${this.tooltipLegendStyle} background-color: ${param.color};"
     ></span>
-      <span class="text-body-2 text-medium-emphasis">${translate(
+      <span class="text-body-medium text-on-surface-variant">${translate(
         `processCaseView.tabs.overview.quotationByProductionLineOrGPSD.tooltip.numberOfItemsLabel`
       )}</span>
       </div>
-      <span class="text-body-2 text-high-emphasis">${data.numberOfItems}</span>
+      <span class="text-body-medium text-on-surface">${data.numberOfItems}</span>
     </div>
 
     <div class="flex flex-row justify-between">
@@ -152,11 +150,11 @@ export class ChartConfigService {
       <span style ="${this.tooltipLegendStyle} background-color: ${
         param.color
       };"></span>
-        <span class="text text-body-2 text-medium-emphasis"> ${translate(
+        <span class="text text-body-medium text-on-surface-variant"> ${translate(
           `processCaseView.tabs.overview.quotationByProductionLineOrGPSD.tooltip.shareLabel`
         )}</span>
       </div>
-      <span class="text-body-2 text-high-emphasis">${data.share}</span>
+      <span class="text-body-medium text-on-surface">${data.share}</span>
     </div>
 
     <div class="flex flex-row justify-between">
@@ -164,11 +162,11 @@ export class ChartConfigService {
     <span
     style ="${this.tooltipLegendStyle} background-color: ${param.color};"
     ></span>
-      <span class="text-body-2 text-medium-emphasis">${translate(
+      <span class="text-body-medium text-on-surface-variant">${translate(
         `processCaseView.tabs.overview.quotationByProductionLineOrGPSD.tooltip.gpmLabel`
       )}</span>
       </div>
-      <span class="text-body-2 text-high-emphasis">${data.gpm}</span>
+      <span class="text-body-medium text-on-surface">${data.gpm}</span>
     </div>
   </div>`;
 

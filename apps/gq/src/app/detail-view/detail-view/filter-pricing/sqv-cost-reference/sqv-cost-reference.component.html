@@ -4,13 +4,15 @@
     *transloco="let t; read: 'detailView.filterPricing.sqvCostReference'"
   >
     <div class="min-w-[8rem] max-w-[25%] grow pt-2">
-      <div class="text-body-2 text-medium-emphasis mb-1">{{ t('cost') }}:</div>
+      <div class="text-body-medium text-on-surface-variant mb-1">
+        {{ t('cost') }}:
+      </div>
       <span *ngrxLet="currency$ as currency" class="font-bold">{{
         sqvCheck?.sqvCheckResult | numberCurrency: currency
       }}</span>
     </div>
     <div class="min-w-[8rem] pt-2">
-      <div class="text-body-2 text-medium-emphasis mb-1">
+      <div class="text-body-medium text-on-surface-variant mb-1">
         {{ t('costSource') }}:
       </div>
       <div>

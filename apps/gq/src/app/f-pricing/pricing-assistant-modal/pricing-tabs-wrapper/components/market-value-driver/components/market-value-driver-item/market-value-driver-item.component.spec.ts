@@ -7,6 +7,8 @@ import {
 } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver-display-item.interface';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { MarketValueDriverItemComponent } from './market-value-driver-item.component';
 
 describe('MarketValueDriverItemComponent', () => {
@@ -15,7 +17,7 @@ describe('MarketValueDriverItemComponent', () => {
 
   const createComponent = createComponentFactory({
     component: MarketValueDriverItemComponent,
-
+    imports: [provideTranslocoTestingModule({ en: {} })],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     detectChanges: false,
   });

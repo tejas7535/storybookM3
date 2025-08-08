@@ -1,6 +1,6 @@
 <div
   oncontextmenu="return false;"
-  class="ag-cell-label-container flex w-full flex-row justify-between"
+  class="flex w-full flex-row justify-between"
   role="presentation"
   (click)="onSortRequested($event)"
 >
@@ -70,7 +70,7 @@
 @if (editMode || value) {
   <div>
     @if (!isPriceSourceColumn) {
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" class="w-full">
         <input
           #inputField
           matInput
@@ -78,12 +78,12 @@
           [placeholder]="params.displayName"
           (keydown.enter)="submitValue($event)"
           (blur)="disableEditMode()"
-          class="!text-high-emphasis"
+          class="!text-on-surface !text-body-small !font-semibold"
           [formControl]="editFormControl"
           autocomplete="off"
           step="1"
         />
-        <span matSuffix>%&nbsp;</span>
+        <span matSuffix class="!pb-[6px]">%&nbsp;</span>
       </mat-form-field>
     } @else {
       <mat-form-field
@@ -100,10 +100,10 @@
           type="text"
           [value]="t(getSelectedPriceSourceTranslationKey())"
           [readonly]="true"
-          class="!text-high-emphasis p-3"
+          class="!text-on-surface !text-body-small !font-semibold"
         />
         <span (click)="switchPriceSource()" matSuffix
-          ><mat-icon class="!text-body-1 !h-4 !leading-3">unfold_more</mat-icon>
+          ><mat-icon class="">unfold_more</mat-icon>
         </span>
       </mat-form-field>
     }

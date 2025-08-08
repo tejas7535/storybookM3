@@ -15,71 +15,70 @@
             aria-labelledby="example-radio-group-label"
             class="!divide-light grid grid-cols-1 divide-y text-[12px]"
           >
-            <div class="mt-[60px] grid grid-cols-2 pb-[16px]">
-              <div class="ml-6 text-medium-emphasis">
+            <div class="mt-6 grid grid-cols-2 pb-[16px]">
+              <div class="ml-6 text-on-surface-variant">
                 {{ t('chooseColumn.title') }}
               </div>
-              <div class="text-medium-emphasis">
+              <div class="text-on-surface-variant">
                 {{ t('descriptionColumn.title') }}
               </div>
             </div>
             <div class="grid grid-cols-2 items-center">
               <div class="ml-4">
                 <mat-radio-button
-                  color="primary"
                   [value]="ExportExcel.BASIC_DOWNLOAD"
                   data-cy="export-excel-modal_basic-download-radiobtn"
                 ></mat-radio-button>
-                <span class="!text-high-emphasis">
+                <span class="!text-on-surface">
                   {{ t('chooseColumn.basicDownload') }}
                 </span>
               </div>
-              <div class="text-high-emphasis">
+              <div class="text-on-surface">
                 {{ t('descriptionColumn.basicDownload') }}
               </div>
             </div>
             <div class="grid grid-cols-2 items-center">
               <div class="ml-4">
                 <mat-radio-button
-                  color="primary"
                   [value]="ExportExcel.DETAILED_DOWNLOAD"
                   data-cy="export-excel-modal_detailed-download-radiobtn"
                 ></mat-radio-button>
-                <span class="!text-high-emphasis">
+                <span class="!text-on-surface">
                   {{ t('chooseColumn.detailedDownload') }}
                 </span>
               </div>
-              <div class="text-high-emphasis">
+              <div class="text-on-surface">
                 {{ t('descriptionColumn.detailedDownload') }}
               </div>
             </div>
             <div></div>
           </mat-radio-group>
         } @else {
-          <div class="flex flex-col py-8">
+          <div class="flex flex-col py-6">
             <span>{{ t('onlyBasicLine1') }}</span
             ><span>{{ t('onlyBasicLine2') }}</span>
           </div>
         }
       </div>
-      <div [ngClass]="{ 'mt-[75px]': extendedDownloadEnabled }">
+      <div
+        class="flex justify-end gap-4"
+        [ngClass]="{ 'mt-6': extendedDownloadEnabled }"
+      >
+        <button
+          mat-button
+          mat-dialog-close
+          data-cy="export-excel-modal_close-btn"
+        >
+          {{ t('cancel') }}
+        </button>
         <button
           class="!mr-[16px]"
-          mat-raised-button
-          color="primary"
+          mat-flat-button
           (click)="fetchTransactions()"
           data-cy="export-excel-modal_download-btn"
         >
           <mat-icon class="!icon-5">download</mat-icon>
           {{ t('confirm') }}
-        </button>
-        <button
-          color="primary"
-          mat-stroked-button
-          mat-dialog-close
-          data-cy="export-excel-modal_close-btn"
-        >
-          {{ t('cancel') }}
         </button>
       </div>
     </div>

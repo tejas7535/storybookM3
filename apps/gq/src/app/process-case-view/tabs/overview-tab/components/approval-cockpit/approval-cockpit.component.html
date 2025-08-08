@@ -1,11 +1,11 @@
 <mat-card
   appearance="outlined"
-  class="mat-elevation-z0 border-border w-full grow rounded border-[1px]"
+  class="mat-elevation-z0 !bg-transparent border-border w-full grow rounded border-[1px]"
   *transloco="let t; read: 'processCaseView.tabs.overview.approvalCockpit'"
 >
   <mat-card-content>
     <div class="flex flex-col">
-      <div class="mat-card-title text-high-emphasis gq-text-5 pb-5 !mb-[4px]">
+      <div class="mat-card-title text-on-surface gq-text-5 pb-5 !mb-[4px]">
         {{ t('approvalOverview') }}
       </div>
       <gq-approval-workflow-history
@@ -35,24 +35,24 @@
 
       @if (!(approvalFacade.quotationAutoApprovedEvent$ | ngrxPush)) {
         <div class="flex items-center justify-between">
-          <div class="py-6 text-body-1 font-bold">
+          <div class="py-6 text-body-large font-bold">
             {{ t('approver') }}
           </div>
           <div>
             <div
-              class="flex flex-row items-center gap-1 rounded-full px-2 py-1"
+              class="flex flex-row items-center rounded-full px-2 py-1"
               [ngClass]="
                 (approvalFacade.quotationFullyApproved$ | ngrxPush)
-                  ? 'bg-primary'
-                  : 'bg-gray-300'
+                  ? 'bg-success-container'
+                  : 'bg-surface-container'
               "
             >
               <mat-icon
-                class="!w-[14px] !h-[auto] !flex items-center !text-[14px] font-normal"
+                class="!flex items-center !text-[14px] font-normal"
                 [ngClass]="
                   (approvalFacade.quotationFullyApproved$ | ngrxPush)
-                    ? 'text-white'
-                    : 'text-low-emphasis'
+                    ? 'text-success'
+                    : 'text-on-surface'
                 "
                 >check_circle_outline</mat-icon
               >
@@ -60,8 +60,8 @@
                 class="text-[10px]"
                 [ngClass]="
                   (approvalFacade.quotationFullyApproved$ | ngrxPush)
-                    ? 'text-white'
-                    : 'text-low-emphasis'
+                    ? 'text-success'
+                    : 'text-on-surface'
                 "
                 >{{
                   approvalFacade.receivedApprovalsOfRequiredApprovals$
@@ -90,18 +90,18 @@
         }
       } @else {
         <div class="flex items-center justify-between">
-          <div class="py-4 !text-body-1 !font-bold">
+          <div class="py-4 !text-body-large !font-bold">
             {{ t('approver') }}
           </div>
           <div>
             <div
-              class="flex flex-row bg-primary items-center gap-1 rounded-full px-2 py-1"
+              class="flex flex-row bg-success-container items-center rounded-full px-2 py-1"
             >
               <mat-icon
-                class="!w-[14px] !h-[auto] text-white !flex items-center !text-[14px] font-normal"
+                class="text-success !flex items-center !text-[14px] font-normal"
                 >check_circle_outline</mat-icon
               >
-              <span class="text-[12px] text-white">1/1</span>
+              <span class="text-[12px] text-success">1/1</span>
             </div>
           </div>
         </div>
@@ -121,32 +121,36 @@
         <gq-horizontal-divider class="mx-[-1rem] mt-4"></gq-horizontal-divider>
         <div class="flex flex-row justify-between">
           <button
-            mat-stroke-button
-            class="flex flex-col items-center gap-2 px-8"
+            mat-button
+            [disableRipple]="true"
             (click)="openRejectionDialog()"
+            class="noRippleHover warning-with-opacity"
           >
             <mat-icon class="text-icon-warning">clear</mat-icon>
-            <span class="text-on-warning-container text-[12px]">{{
+            <span class="text-warning text-[12px]">{{
               t('rejectButton')
             }}</span>
           </button>
           <button
-            mat-stroke-button
-            class="flex flex-col items-center gap-2 px-8"
+            mat-button
+            [disableRipple]="true"
             (click)="openForwardDialog()"
+            class="noRippleHover neutral-with-opacity"
           >
-            <mat-icon class="text-medium-emphasis">arrow_forward</mat-icon>
-            <span class="text-medium-emphasis text-[12px]">{{
+            <mat-icon class="text-on-surface-variant">arrow_forward</mat-icon>
+            <span class="text-on-surface-variant text-[12px]">{{
               t('forwardButton')
             }}</span>
           </button>
           <button
-            mat-stroke-button
-            class="flex flex-col items-center gap-2 px-8"
+            mat-button
+            [disableRipple]="true"
             (click)="openApprovalDialog()"
           >
-            <mat-icon class="text-link">check</mat-icon
-            ><span class="text-link text-[12px]">{{ t('approveButton') }}</span>
+            <mat-icon class="text-icon-success">check</mat-icon
+            ><span class="text-success text-[12px]">{{
+              t('approveButton')
+            }}</span>
           </button>
         </div>
       }

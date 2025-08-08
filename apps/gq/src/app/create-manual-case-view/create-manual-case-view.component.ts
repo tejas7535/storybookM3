@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
@@ -34,6 +35,7 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
+
 type typeAnimation = 'fade-in' | 'fade-out';
 @Component({
   selector: 'gq-create-manual-case-view',
@@ -54,6 +56,7 @@ type typeAnimation = 'fade-in' | 'fade-out';
     OverlayComponent,
     LoadingSpinnerModule,
     LetDirective,
+    MatCardModule,
   ],
   providers: [
     { provide: TRANSLOCO_SCOPE, useValue: 'create-manual-case-view' },

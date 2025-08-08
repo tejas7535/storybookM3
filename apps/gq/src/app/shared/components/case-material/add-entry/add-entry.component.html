@@ -121,7 +121,7 @@
                 </mat-label>
                 <input
                   (keydown)="onQuantityKeyPress($event)"
-                  class="text-overline"
+                  class="text-label-small"
                   autocomplete="off"
                   matInput
                   [min]="selectedMaterial?.deliveryUnit ?? 1"
@@ -163,7 +163,7 @@
                   {{ t('targetPrice.label') }}
                 </mat-label>
                 <input
-                  class="text-overline"
+                  class="text-label-small"
                   autocomplete="off"
                   matInput
                   type="text"
@@ -189,12 +189,11 @@
         mat-button
         (click)="addRow()"
         [disabled]="!addRowEnabled"
-        color="primary"
-        class="h-12 flex justify-center items-center px-4 text-button font-medium text-medium-emphasis @[0px]/addEntry:!mb-0 @4xl:!mb-6"
+        class="h-12 flex justify-center items-center px-4 text-label-large font-medium text-on-surface-variant @[0px]/addEntry:!mb-0 @4xl:!mb-6"
         [attr.data-cy]="'add-entry-add-position-btn'"
       >
         <mat-icon> add</mat-icon>
-        {{ t('addPosition') | uppercase }}
+        {{ t('addPosition') }}
       </button>
     </div>
   </form>

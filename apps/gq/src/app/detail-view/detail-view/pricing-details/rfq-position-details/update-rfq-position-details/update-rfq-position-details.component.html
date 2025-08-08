@@ -13,19 +13,19 @@
   @if (!(rfqInformationUpdating$ | ngrxPush)) {
     <div class="py-4">
       <p
-        class="text-body-2 text-medium-emphasis"
+        class="text-body-medium text-on-surface-variant"
         [innerHTML]="t('confirmDialogMessage')"
       ></p>
       <p
-        class="text-body-2 text-medium-emphasis"
+        class="text-body-medium text-on-surface-variant"
         [innerHTML]="t('confirmDialogWarning')"
       ></p>
     </div>
     <div class="flex w-full gap-4">
-      <button mat-raised-button color="primary" (click)="confirm()">
+      <button mat-button (click)="confirm()">
         {{ t('confirmButton') }}
       </button>
-      <button mat-stroked-button (click)="closeDialog()" color="primary">
+      <button mat-stroked-button (click)="closeDialog()">
         {{ t('cancelButton') }}
       </button>
     </div>

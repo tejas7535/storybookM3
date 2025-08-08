@@ -6,7 +6,7 @@
     ></gq-dialog-header>
 
     @if (data.subtitle) {
-      <div class="text-body-1 text-medium-emphasis mt-2">
+      <div class="text-body-large text-on-surface-variant mt-2">
         {{ data.subtitle }}
       </div>
     }
@@ -14,10 +14,8 @@
       <div class="mt-2 max-h-[300px] overflow-y-auto">
         @for (item of data.contentList; track $index) {
           <div>
-            <span class="text-subtitle-2 text-high-emphasis"
-              >{{ item.id }}
-            </span>
-            <span class="text-body-2 text-medium-emphasis">
+            <span class="text-title-small text-on-surface">{{ item.id }} </span>
+            <span class="text-body-medium text-on-surface-variant">
               | {{ item.value }}</span
             >
           </div>
@@ -28,24 +26,21 @@
   @if (data.infoBannerText) {
     <gq-info-banner [infoText]="data.infoBannerText"> </gq-info-banner>
   }
-  <div class="mt-4 flex flex-row">
+  <div class="mt-4 flex flex-row justify-end gap-4">
     <button
-      color="primary"
-      class="!mr-6 text-button font-medium"
-      mat-raised-button
-      (click)="closeDialog(true)"
-    >
-      <mat-icon class="align-middle">{{ data.confirmButtonIcon }}</mat-icon>
-      {{ data.confirmButtonText | uppercase }}
-    </button>
-    <button
-      color="primary"
-      class="text-button font-medium"
-      mat-stroked-button
+      class="text-label-large font-medium"
+      mat-button
       (click)="closeDialog(false)"
       cdkFocusInitial
     >
-      {{ data.cancelButtonText | uppercase }}
+      {{ data.cancelButtonText }}
+    </button>
+    <button
+      class="!mr-6 text-label-large font-medium"
+      mat-flat-button
+      (click)="closeDialog(true)"
+    >
+      {{ data.confirmButtonText }}
     </button>
   </div>
 </div>

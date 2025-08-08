@@ -25,7 +25,7 @@ import { MaterialBasicComponent } from '@gq/shared/components/material-details/m
 import { MaterialSalesOrgDetailsComponent } from '@gq/shared/components/material-details/material-sales-org-details/material-sales-org-details.component';
 import { ProductDetailsComponent } from '@gq/shared/components/material-details/product-details/product-details.component';
 import { EditingModalModule } from '@gq/shared/components/modal/editing-modal/editing-modal.module';
-import { NoDataModule } from '@gq/shared/components/no-data/no-data.module';
+import { NoDataComponent } from '@gq/shared/components/no-data/no-data.component';
 import { StarRatingModule } from '@gq/shared/components/star-rating/star-rating.module';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { OperatorTextPipe } from '@gq/shared/pipes/operator-text/operator-text.pipe';
@@ -43,7 +43,6 @@ import { PriceButtonComponent } from './pricing-assistant-modal/price-button/pri
 import { PricingAssistantHeaderComponent } from './pricing-assistant-modal/pricing-assistant-header/pricing-assistant-header.component';
 import { PricingAssistantModalComponent } from './pricing-assistant-modal/pricing-assistant-modal.component';
 import { PricingResultsComponent } from './pricing-assistant-modal/pricing-results/pricing-results.component';
-import { MarketValueDriverItemComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/components/market-value-driver/components/market-value-driver-item/market-value-driver-item.component';
 import { MarketValueDriverComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/components/market-value-driver/market-value-driver.component';
 import { ReferencePricingTableComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/components/reference-pricing-table/reference-pricing-table.component';
 import { SanityChecksTableComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/components/sanity-checks-table/sanity-checks-table.component';
@@ -96,9 +95,10 @@ import { ProductComparisonModalComponent } from './pricing-assistant-modal/produ
     // ToDo: Move feature store in modal, requires modal to be standalone
     fPricingStoreModule,
     SharedDirectivesModule,
-    NoDataModule,
+    NoDataComponent,
     OperatorTextPipe,
     PositiveValuePipe,
+    MarketValueDriverComponent,
   ],
   declarations: [
     PricingAssistantModalComponent,
@@ -118,8 +118,6 @@ import { ProductComparisonModalComponent } from './pricing-assistant-modal/produ
     SanityChecksTableComponent,
     TechnicalValueDriversTableComponent,
     EditValueComponent,
-    MarketValueDriverComponent,
-    MarketValueDriverItemComponent,
   ],
   exports: [PricingAssistantModalComponent],
 })

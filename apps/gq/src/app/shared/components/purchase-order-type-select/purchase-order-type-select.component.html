@@ -15,11 +15,13 @@
       @for (type of purchaseOrderTypes; track $index) {
         <mat-option [value]="type">
           <div class="flex flex-row items-center">
-            <span class="whitespace-nowrap w-12 text-subtitle-1">{{
+            <span class="whitespace-nowrap w-12 text-title-medium">{{
               type.id
             }}</span>
             @if (type.name) {
-              <span class="whitespace-nowrap text-caption text-medium-emphasis">
+              <span
+                class="whitespace-nowrap text-body-small text-on-surface-variant"
+              >
                 - {{ type.name }}</span
               >
             }

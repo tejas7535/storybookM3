@@ -7,13 +7,11 @@
       matTooltipPosition="above"
     >
       <button
-        class="!m-4 !ml-0"
+        class="!m-4 !mr-0"
         [disabled]="uploadDisabled || !(quotationActive$ | ngrxPush)"
-        mat-raised-button
-        color="primary"
+        mat-button
         (click)="uploadCaseToSap()"
       >
-        <mat-icon>cloud_upload</mat-icon>
         <span class="hidden lg:inline">
           {{ t('uploadQuoteToSap') }}
         </span>

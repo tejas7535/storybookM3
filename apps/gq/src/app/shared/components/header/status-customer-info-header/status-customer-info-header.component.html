@@ -17,7 +17,7 @@
         }"
       >
         <span
-          class="text-caption"
+          class="text-body-small"
           [attr.data-cy]="'customer-info_quotation-status'"
         >
           {{ t(statusOfQuotation) }}
@@ -33,11 +33,11 @@
       </div>
     } @else {
       <span
-        class="pl-9 pt-2 text-caption"
+        class="pl-9 pt-2 text-body-small"
         [ngClass]="{
           'text-on-info-container':
             (sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED,
-          'text-medium-emphasis':
+          'text-on-surface-variant':
             (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED && !errorCode,
           'text-on-warning-container':
             (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED ||
@@ -58,11 +58,13 @@
         }}
       </span>
     }
-    <span class="ml-[10px] mr-[10px] pt-2 text-caption opacity-[0.12]">|</span>
+    <span class="ml-[10px] mr-[10px] pt-2 text-body-small opacity-[0.12]"
+      >|</span
+    >
   }
 
   <gq-customer-subheader-content
-    class="pt-2 text-caption"
+    class="pt-2 text-body-small"
     [ngClass]="!showStatus ? paddingLeftClass : ''"
     [customer]="customer"
     [displaySalesOrg]="displaySalesOrg"

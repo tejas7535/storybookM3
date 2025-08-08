@@ -12,7 +12,7 @@
         <div class="min-w-[8rem] max-w-[25%] grow pt-2">
           <div>
             <div
-              class="text-body-2 text-medium-emphasis mb-1"
+              class="text-body-medium text-on-surface-variant mb-1"
               data-cy="gq-price-label"
             >
               {{ t('priceLabel') }}:
@@ -25,7 +25,7 @@
         @if (userHasGPCRole()) {
           <div class="min-w-[8rem] pt-2">
             <div
-              class="text-body-2 text-medium-emphasis mb-1"
+              class="text-body-medium text-on-surface-variant mb-1"
               data-cy="gpi-label"
             >
               {{ t('gpi') }}:
@@ -40,7 +40,7 @@
         @if (userHasSQVRole()) {
           <div class="min-w-[8rem] pt-2">
             <div
-              class="text-body-2 text-medium-emphasis mb-1"
+              class="text-body-medium text-on-surface-variant mb-1"
               data-cy="gpm-label"
             >
               {{ t('gpm') }}:
@@ -55,7 +55,7 @@
         @if (gpmRfq()) {
           <div class="min-w-[8rem] pt-2">
             <div
-              class="text-body-2 text-medium-emphasis mb-1"
+              class="text-body-medium text-on-surface-variant mb-1"
               data-cy="rfq-gpm-label"
             >
               {{ t('gpmRfq') }}:
@@ -69,7 +69,7 @@
         }
         <div class="min-w-[8rem] pt-2">
           <div
-            class="text-body-2 text-medium-emphasis mb-1"
+            class="text-body-medium text-on-surface-variant mb-1"
             data-cy="quantity-label"
           >
             {{ t('quantity') }}:
@@ -81,7 +81,7 @@
         @if (quotationDetail().gqRating) {
           <div class="min-w-[8rem] pt-2">
             <div
-              class="text-body-2 text-medium-emphasis mb-1"
+              class="text-body-medium text-on-surface-variant mb-1"
               data-cy="gq-rating-label"
             >
               {{ t('rating') }}:
@@ -91,20 +91,20 @@
                 i of [].constructor(quotationDetail().gqRating);
                 track $index
               ) {
-                <mat-icon class="text-link mr-1">star</mat-icon>
+                <mat-icon class="mr-1">star</mat-icon>
               }
               @for (
                 i of [].constructor(3 - quotationDetail().gqRating);
                 track $index
               ) {
-                <mat-icon class="text-link mr-1">star_border</mat-icon>
+                <mat-icon class="mr-1">star_border</mat-icon>
               }
             </div>
           </div>
         } @else {
           <div class="min-w-[8rem] pt-2">
             <div
-              class="text-body-2 text-medium-emphasis mb-1"
+              class="text-body-medium text-on-surface-variant mb-1"
               data-cy="gq-price-source-label"
             >
               {{ t('source') }}:

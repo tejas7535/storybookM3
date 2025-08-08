@@ -54,7 +54,6 @@ export class RemoveAllFilteredButtonComponent {
     };
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       data,
-      autoFocus: false,
     });
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {

@@ -35,39 +35,33 @@
           class="flex flex-col pt-6"
           formControlName="createFromDefault"
         >
-          <mat-radio-button checked color="primary" [value]="true">
-            <span class="pl-2 text-medium-emphasis">
+          <mat-radio-button checked [value]="true">
+            <span class="pl-2 text-on-surface-variant">
               {{ t('createFromDefault') }}
             </span>
           </mat-radio-button>
-          <mat-radio-button color="primary" [value]="false">
-            <span class="pl-2 text-medium-emphasis">
+          <mat-radio-button [value]="false">
+            <span class="pl-2 text-on-surface-variant">
               {{ t('createFromCurrent') }}
             </span>
           </mat-radio-button>
         </mat-radio-group>
       }
     </div>
-    <div class="flex pt-8">
+    <div class="flex pt-8 justify-end gap-4">
+      <button mat-button (click)="closeDialog()">
+        <span> {{ t('cancel') }} </span>
+      </button>
       <button
-        color="primary"
-        mat-raised-button
+        mat-flat-button
         [disabled]="
           !formGroup.valid || formGroup.controls?.name?.value === modalData.name
         "
         (click)="save()"
       >
         <span>
-          {{ (modalData.createNewView ? t('addView') : t('save')) | uppercase }}
+          {{ modalData.createNewView ? t('addView') : t('save') }}
         </span>
-      </button>
-      <button
-        color="primary"
-        mat-stroked-button
-        (click)="closeDialog()"
-        class="!ml-4"
-      >
-        <span> {{ t('cancel') | uppercase }} </span>
       </button>
     </div>
   </form>

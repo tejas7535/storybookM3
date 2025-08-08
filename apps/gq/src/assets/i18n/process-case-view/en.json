@@ -48,8 +48,6 @@
       "cancelWorkflow": "Cancel Workflow",
       "backToOverview": "Back to Overview"
     },
-    "save": "Save Case",
-    "delete": "Discard Case",
     "disabledForSyncPendingTooltip": "Cases with pending SAP sync cannot be edited; for editing option please wait until the sync is completed.",
     "noteModal": {
       "title": "{quotationActive, select, true{Edit} other {View} } note for {{gqId}}",
@@ -223,8 +221,8 @@
           "approversApproved": "{{ variable }} Approvers have approved",
           "workflowStartedText": "Quotation Approval started",
           "workflowAutoApprovedText": "Quotation auto approved",
-          "viewIterationsLabel": "view iterations ({{amount}})",
-          "hideIterationsLabel": "hide iterations ({{amount}})",
+          "viewIterationsLabel": "View Iterations ({{amount}})",
+          "hideIterationsLabel": "Hide Iterations ({{amount}})",
           "quotationApprovedText": "Quotation approved",
           "caseApprovalStatus": "Approval given",
           "approvalPending": "pending",
@@ -251,19 +249,19 @@
     "sapTitle": "Do you really want to delete {multipleSelected, select, true{these entries} other {this entry}} ({{count}}) from this case as well as from the SAP Quote?",
     "subTitle": "Selected Item{multipleSelected, select, true{s} other {}} cannot be deleted because {multipleSelected, select, true{they are} other {this is}} linked to a RFQ.",
     "infoBannerText": "Please be aware this change is permanent and cannot be undone",
-    "deleteButtonText": "delete",
-    "cancelButtonText": "cancel"
+    "deleteButtonText": "Delete",
+    "cancelButtonText": "Cancel"
   },
   "confirmUpdatePositions": {
     "text": "Do you really want to update these entries ({{variable}}) in SAP?",
-    "updateButton": "update",
-    "cancelButton": "cancel"
+    "updateButton": "Update",
+    "cancelButton": "Cancel"
   },
   "confirmRefreshSapPricing": {
     "title": "Refresh SAP Price Settings",
     "text": "Do you really want to refresh the SAP Data for all positions of this case? Be aware this will overwrite the SAP Data of this case.",
-    "refreshButton": "refresh",
-    "cancelButton": "cancel"
+    "refreshButton": "Refresh",
+    "cancelButton": "Cancel"
   },
   "calcInProgress": {
     "header": "We are currently creating your case ({{variable}} positions)",

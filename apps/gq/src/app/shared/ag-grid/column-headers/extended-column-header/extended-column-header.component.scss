@@ -2,7 +2,7 @@
   ::ng-deep {
     .mat-mdc-text-field-wrapper {
       padding: 0 !important;
-
+      height: 35px !important;
       .mat-mdc-form-field-flex {
         padding: 0 0 0 0.75em;
       }
@@ -11,7 +11,7 @@
       display: flex;
       width: 75px;
       min-height: 0;
-      padding: 1em 4px 1em 0 !important;
+      padding: 0.55em 4px 1em 0 !important;
     }
 
     .mdc-text-field:not(.mdc-text-field--disabled)
@@ -19,6 +19,7 @@
     .mat-mdc-form-field-icon-suffix {
       color: rgba(0, 0, 0, 0.42);
       font-weight: 400;
+      padding-bottom: 6px;
     }
 
     .mat-mdc-form-field-subscript-wrapper {

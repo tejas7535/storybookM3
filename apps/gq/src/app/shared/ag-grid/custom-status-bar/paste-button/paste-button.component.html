@@ -1,16 +1,9 @@
-<div
-  *transloco="let t; read: 'shared.caseMaterial.addEntry'"
-  class="!mt-4"
-  [ngClass]="isCaseView ? '!ml-0' : '!ml-4'"
->
+<div *transloco="let t; read: 'shared.caseMaterial.addEntry'" class="!mt-4">
   <button
-    class="!pl-4 !pr-4"
-    mat-stroked-button
-    color="primary"
+    mat-button
     [disabled]="isCaseView && !(customerIdentifier$ | ngrxPush)"
     (click)="pasteFromClipboard()"
   >
-    <mat-icon>content_paste</mat-icon>
     <span class="font-medium">
       {{ t('pasteFromClipboard') }}
     </span>

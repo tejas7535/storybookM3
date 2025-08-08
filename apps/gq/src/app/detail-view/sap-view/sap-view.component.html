@@ -25,21 +25,18 @@
         </schaeffler-subheader>
       }
     </div>
-    <mat-card appearance="outlined" class="m-4 h-full">
-      <mat-card-content class="h-full">
-        @if (
-          (translationsLoaded$ | ngrxPush) &&
-          !(sapPriceDetailsLoading$ | ngrxPush)
-        ) {
-          <gq-sap-price-details-table
-            [rowData]="rowData$ | ngrxPush"
-            [tableContext]="{ quotation: (quotation$ | ngrxPush) }"
-          ></gq-sap-price-details-table>
-        } @else {
-          <schaeffler-loading-spinner></schaeffler-loading-spinner>
-        }
-      </mat-card-content>
-    </mat-card>
+    @if (
+      (translationsLoaded$ | ngrxPush) && !(sapPriceDetailsLoading$ | ngrxPush)
+    ) {
+      <div class="p-4 w-full h-full">
+        <gq-sap-price-details-table
+          [rowData]="rowData$ | ngrxPush"
+          [tableContext]="{ quotation: (quotation$ | ngrxPush) }"
+        ></gq-sap-price-details-table>
+      </div>
+    } @else {
+      <schaeffler-loading-spinner></schaeffler-loading-spinner>
+    }
   </div>
 } @else {
   <schaeffler-loading-spinner></schaeffler-loading-spinner>

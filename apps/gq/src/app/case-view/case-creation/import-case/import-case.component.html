@@ -20,23 +20,16 @@
           ></gq-sap-id-autocomplete-input>
         </div>
       }
-      <div class="flex flex-row">
+      <div class="flex flex-row justify-end gap-4">
+        <button mat-button (click)="closeDialog()">
+          {{ t('cancelButton') }}
+        </button>
         <button
-          class="!mr-4 !pl-8 !pr-8"
-          color="primary"
-          mat-raised-button
+          mat-flat-button
           [disabled]="!quotationIsValid"
           (click)="importQuotation()"
         >
-          {{ t('importButton') | uppercase }}
-        </button>
-        <button
-          color="primary"
-          class="text-button font-medium"
-          mat-stroked-button
-          (click)="closeDialog()"
-        >
-          {{ t('cancelButton') | uppercase }}
+          {{ t('importButton') }}
         </button>
       </div>
     </div>

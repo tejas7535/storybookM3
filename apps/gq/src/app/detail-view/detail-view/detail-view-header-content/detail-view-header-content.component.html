@@ -3,35 +3,32 @@
     class="flex items-center justify-center"
     *transloco="let t; read: 'detailView.headerContent'"
   >
-    <mat-chip-set class="mt-1 !flex-nowrap" role="list">
+    <div class="flex flex-nowrap pl-4 gap-3">
       @if (materialStock?.excessStock || materialStockLoading) {
-        <mat-chip
-          class="excess-stock"
-          [ngClass]="{
-            loading: materialStockLoading
-          }"
-        >
-          @if (materialStock?.excessStock) {
-            <span>
-              {{ t('excessStock') }}
-            </span>
-          }
-        </mat-chip>
+        <schaeffler-tag
+          [value]="!materialStockLoading ? t('excessStock') : ''"
+          [type]="!materialStockLoading ? 'info' : 'neutral'"
+          [withDot]="false"
+          [styleClass]="
+            materialStockLoading === true
+              ? 'animate-pulse !min-w-[4rem] !min-h-[1.5rem]'
+              : ''
+          "
+        ></schaeffler-tag>
       }
+
       @if (materialStock?.slowMover || materialStockLoading) {
-        <mat-chip
-          class="slow-mover"
-          [ngClass]="{
-            loading: materialStockLoading
-          }"
-        >
-          @if (materialStock?.slowMover) {
-            <span>
-              {{ t('slowMover') }}
-            </span>
-          }
-        </mat-chip>
+        <schaeffler-tag
+          [value]="!materialStockLoading ? t('slowMover') : ''"
+          [type]="!materialStockLoading ? 'warning' : 'neutral'"
+          [withDot]="false"
+          [styleClass]="
+            materialStockLoading === true
+              ? 'animate-pulse !min-w-[4rem] !min-h-[1.5rem]'
+              : ''
+          "
+        ></schaeffler-tag>
       }
-    </mat-chip-set>
+    </div>
   </div>
 </div>

@@ -148,13 +148,13 @@ describe('ChartConfigService', () => {
       const result = service.getTooltipFormatter(param);
       // checks if value have been set into the text
       expect(result).toContain(
-        '<span class="text-body-2 text-high-emphasis">10</span>'
+        '<span class="text-body-medium text-on-surface">10</span>'
       );
       expect(result).toContain(
-        '<span class="text-body-2 text-high-emphasis">5%</span>'
+        '<span class="text-body-medium text-on-surface">5%</span>'
       );
       expect(result).toContain(
-        '<span class="text-body-2 font-semibold text-high-emphasis">name1</span>'
+        '<span class="text-body-medium font-semibold text-on-surface">name1</span>'
       );
     });
   });

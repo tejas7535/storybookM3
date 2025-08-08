@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
@@ -45,6 +46,7 @@ type typeAnimation = 'fade-in' | 'fade-out';
     SubheaderModule,
     MatIconModule,
     MatButtonModule,
+    MatCardModule,
     CreateCaseHeaderInformationComponent,
     PushPipe,
     CurrencyModule,

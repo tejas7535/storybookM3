@@ -2,10 +2,12 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { MatIconRegistry } from '@angular/material/icon';
 import {
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
   MatSnackBarModule,
 } from '@angular/material/snack-bar';
+import { DomSanitizer } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
@@ -79,7 +81,12 @@ import { StoreModule } from './store';
     },
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
-      useValue: { disableClose: true, hasBackdrop: true, autoFocus: true },
+      useValue: {
+        disableClose: true,
+        hasBackdrop: true,
+        autoFocus: false,
+        maxWidth: 'unset',
+      },
     },
     {
       provide: HTTP_INTERCEPTORS,
@@ -99,4 +106,25 @@ import { StoreModule } from './store';
   ],
   exports: [AppComponent],
 })
-export class CoreModule {}
+export class CoreModule {
+  public constructor(
+    private readonly matIconRegistry: MatIconRegistry,
+    private readonly sanitizer: DomSanitizer
+  ) {
+    this.registerGQIcons();
+  }
+
+  public registerGQIcons(): void {
+    const iconSet: Record<string, string> = {
+      keep: 'keep.svg',
+      keep_off: 'keep_off.svg',
+      timer: 'timer.svg',
+    };
+    for (const [name, url] of Object.entries(iconSet)) {
+      const setUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+        `/assets/svg/${url}`
+      );
+      this.matIconRegistry.addSvgIcon(name, setUrl);
+    }
+  }
+}

@@ -39,8 +39,8 @@
       "showMoreRows": "show more transactions (+{{amount}})"
     },
     "comparisonPanel": {
-      "showDelta": "show delta",
-      "hideDelta": "hide delta",
+      "showDelta": "Show Delta",
+      "hideDelta": "Hide Delta",
       "backButton": "Back",
       "differentString": "different",
       "amountOfDelta": "{{amount}} Deltas",

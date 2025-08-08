@@ -14,11 +14,15 @@
     [rfq4Status]="rfq4Status()"
   ></gq-recalculation-data>
   <!--footer-->
-  <div class="flex justify-between pt-4">
+  <div class="flex justify-between pt-4 gap-4">
     @if (
       modalData().quotationDetail.rfq4.rfq4Status === rfq4StatusEnum.IN_PROGRESS
     ) {
-      <button mat-stroked-button class="!text-error">
+      <button
+        mat-button
+        disableRipple
+        class="noRippleHover error-with-opacity !text-error disabled:!text-on-surface-variant disabled:!opacity-[0.38]"
+      >
         {{ t('cancelButton') }}
       </button>
     } @else if (
@@ -27,8 +31,7 @@
       modalData().quotationDetail.rfq4.rfq4Status === rfq4StatusEnum.CANCELLED
     ) {
       <button
-        mat-stroked-button
-        color="primary"
+        mat-button
         [disabled]="
           !modalData().quotationDetail.rfq4.allowedToReopen ||
           modalData().quotationDetail.rfq4?.sqvApprovalStatus ===
@@ -39,11 +42,8 @@
         {{ t('reopenButton') }}
       </button>
     }
-    <button
-      mat-raised-button
-      color="primary"
-      (click)="cancelButtonClicked.emit()"
-    >
+
+    <button mat-button (click)="cancelButtonClicked.emit()">
       {{ t('closeButton') }}
     </button>
   </div>

@@ -2,7 +2,7 @@
   *transloco="let t; read: 'shared.openItemsTable.approvalProcesses.cancel'"
   class="flex w-full h-full flex-col gap-4"
 >
-  <span class="text-high-emphasis text-body-1">
+  <span class="text-on-surface text-body-large">
     {{ t('label') }}
   </span>
   <ng-container [formGroup]="cancelFormGroup">
@@ -12,13 +12,13 @@
       class="flex flex-col"
       formControlName="reasonForCancellation"
     >
-      <mat-radio-button color="primary" value="CUSTOMER">
-        <span class="pl-2 text-medium-emphasis">
+      <mat-radio-button value="CUSTOMER">
+        <span class="pl-2 text-on-surface text-body-large">
           {{ t('cancelledByCustomer') }}
         </span>
       </mat-radio-button>
-      <mat-radio-button color="primary" value="SCHAEFFLER">
-        <span class="pl-2 text-medium-emphasis">
+      <mat-radio-button value="SCHAEFFLER">
+        <span class="pl-2 text-on-surface text-body-large">
           {{ t('cancelledBySchaeffler') }}
         </span>
       </mat-radio-button>

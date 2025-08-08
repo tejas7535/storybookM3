@@ -5,8 +5,7 @@
   @if (showDeleteButton$ | ngrxPush) {
     <button
       mat-stroked-button
-      class="text-button"
-      color="primary"
+      class="text-label-large"
       (click)="deleteItems()"
       [matTooltip]="t('deleteInvalid.tooltip')"
     >

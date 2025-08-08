@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col gap-4 p-4 md:flex-row lg:grid lg:grid-cols-4 lg:items-start border-border border-t"
+  class="flex flex-col gap-4 p-4 md:flex-row lg:grid lg:grid-cols-4 lg:items-start"
   *transloco="let t; read: 'processCaseView'"
 >
   @if (!(dataLoading$ | ngrxPush)) {
@@ -26,14 +26,14 @@
         [title]="t('tabs.overview.netValueCardTitle')"
         [subtitle]="
           t('tabs.overview.netValueCardSubtitle', {
-            currency: (quotationCurrency$ | ngrxPush)
+            currency: (quotationCurrency$ | ngrxPush),
           })
         "
         [warning]="pricingInformation?.netValue.warning"
         [warningInfo]="t('tabs.overview.netValueCardTitleWarning')"
       >
         <div class="flex gap-y-2 gap-x-8 items-end flex-wrap pt-4">
-          <div class="text-h4">
+          <div class="text-display-small">
             {{
               pricingInformation?.netValue.value
                 | numberCurrency: (quotationCurrency$ | ngrxPush)
@@ -43,7 +43,7 @@
             pricingInformation?.currency !== 'EUR' &&
             pricingInformation.netValueEur
           ) {
-            <div class="text-h6 leading-9">
+            <div class="text-title-large leading-9">
               {{ pricingInformation.netValueEur | numberCurrency: 'EUR' }}
             </div>
           }
@@ -92,6 +92,7 @@
         ><div class="pt-6">
           <gq-star-rating
             [rating]="pricingInformation?.avgGqRating.value"
+            [iconClasses]="'!text-primary'"
           ></gq-star-rating>
         </div>
       </gq-kpi-status-card>

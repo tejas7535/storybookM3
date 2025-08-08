@@ -12,13 +12,13 @@ import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { InfoIconModule } from '../info-icon/info-icon.module';
+import { InfoIconComponent } from '../info-icon/info-icon.component';
 import { AttachmentFilesComponent } from './attachment-files.component';
 @NgModule({
   declarations: [AttachmentFilesComponent],
   imports: [
     CommonModule,
-    InfoIconModule,
+    InfoIconComponent,
     MatIconModule,
     MatDialogModule,
     DialogHeaderModule,

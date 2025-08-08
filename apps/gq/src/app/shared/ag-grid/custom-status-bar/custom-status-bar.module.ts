@@ -36,7 +36,7 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     MaterialValidationStatusComponent,
     RemoveAllFilteredButtonComponent,
     ProcessCaseResetAllButtonComponent,
-    ImportCaseButtonComponent,
+
     AddItemsButtonComponent,
     RefreshSapPriceComponent,
     ConfirmSimulationButtonComponent,
@@ -53,6 +53,7 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     LetDirective,
     PushPipe,
     QuotationDetailsStatusComponent,
+    ImportCaseButtonComponent,
     SharedPipesModule,
     SharedDirectivesModule,
   ],

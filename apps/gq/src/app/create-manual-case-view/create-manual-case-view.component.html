@@ -18,47 +18,50 @@
       </ng-container>
     </schaeffler-subheader>
     <div class="flex overflow-auto flex-1 w-full px-4 py-4">
-      <div
-        class="h-full flex flex-col gap-2 lg:gap-4 transition-[width] duration-300 ease-in-out"
+      <mat-card
+        class="flex h-full transition-[width] duration-300 ease-in-out min-w-[80px] !shadow-none"
         [ngClass]="{
-          'w-[40%]': displayHeader,
-          'w-[5%]': !displayHeader
+          'w-[40%] min-w-[320px]': displayHeader,
+          'w-[5%]:': !displayHeader,
         }"
       >
-        <div class="flex flex-row justify-between items-center">
-          <div class="flex flex-row justify-start items-center gap-2">
-            <mat-icon class="text-medium-emphasis">article</mat-icon>
-            @if (displayHeader) {
-              <span class="text-high-emphasis gq-text-5">
-                {{ t('headerInformation') }}
-              </span>
-            }
+        <mat-card-content class="overflow-hidden">
+          <div class="h-full flex flex-col gap-2 lg:gap-4">
+            <div class="flex flex-row justify-between items-center">
+              <div class="flex flex-row justify-start items-center gap-2">
+                <mat-icon class="text-on-surface-variant">article</mat-icon>
+                @if (displayHeader) {
+                  <span class="text-on-surface gq-text-5">
+                    {{ t('headerInformation') }}
+                  </span>
+                }
+              </div>
+              <button
+                class="text-on-surface-variant flex items-center"
+                (click)="toggleHeader()"
+              >
+                <mat-icon class="text-on-surface-variant">{{
+                  displayHeader ? 'arrow_back' : 'arrow_forward'
+                }}</mat-icon>
+              </button>
+            </div>
+            <div
+              class="overflow-y-auto h-full pr-4"
+              [ngClass]="{ hidden: !displayHeader }"
+            >
+              <gq-create-case-header-information
+                class="pr-4"
+                (hasChanges)="handleHeaderInformationHasChanges($event)"
+                (isValid)="handleHeaderInformationIsValid($event)"
+                (data)="handleHeaderInformationData($event)"
+              ></gq-create-case-header-information>
+            </div>
           </div>
-          <button
-            class="text-medium-emphasis flex items-center"
-            (click)="toggleHeader()"
-          >
-            <mat-icon class="text-medium-emphasis">{{
-              displayHeader ? 'arrow_back' : 'arrow_forward'
-            }}</mat-icon>
-          </button>
-        </div>
-        <div
-          class="overflow-y-auto h-full pr-4"
-          [ngClass]="{ hidden: !displayHeader }"
-        >
-          <gq-create-case-header-information
-            class="pr-4"
-            (hasChanges)="handleHeaderInformationHasChanges($event)"
-            (isValid)="handleHeaderInformationIsValid($event)"
-            (data)="handleHeaderInformationData($event)"
-          ></gq-create-case-header-information>
-        </div>
-      </div>
+        </mat-card-content>
+      </mat-card>
 
-      <div class="vertical-divider mx-4 w-px h-full bg-selected-overlay"></div>
-      <div class="w-full h-full flex flex-col pl-4 gap-2 lg:gap-4">
-        <div class="flex flex-row justify-between">
+      <div class="w-full h-full flex flex-col pl-12 gap-2 lg:gap-4">
+        <div class="flex flex-row justify-between pt-4">
           <div class="flex flex-row justify-start items-center gap-2">
             <img src="assets/png/bearing.png" width="24" height="24" />
             <span class="gq-text-5">
@@ -66,7 +69,7 @@
             </span>
           </div>
           <div class="flex items-center">
-            <span class="text-medium-emphasis text-caption">{{
+            <span class="text-on-surface-variant text-body-small">{{
               t('mandatoryField')
             }}</span>
           </div>
@@ -81,25 +84,22 @@
         </div>
       </div>
     </div>
-    <div class="footer px-4 py-4">
+    <div class="footer flex justify-end px-4 py-4 gap-4">
       <button
-        class="!pl-4 !pr-4"
-        mat-raised-button
+        mat-button
+        class="text-label-large font-medium"
+        (click)="backToCaseOverView()"
+      >
+        {{ t('cancelButton') }}
+      </button>
+      <button
+        mat-flat-button
         [disabled]="createCaseButtonDisabled$ | ngrxPush"
         (click)="createCase()"
-        color="primary"
       >
         <span class="font-medium">
           {{ t('createCase') }}
         </span>
-      </button>
-      <button
-        color="primary"
-        class="!ml-4 text-button font-medium"
-        mat-stroked-button
-        (click)="backToCaseOverView()"
-      >
-        {{ t('cancelButton') | uppercase }}
       </button>
     </div>
     @if (onCreating) {

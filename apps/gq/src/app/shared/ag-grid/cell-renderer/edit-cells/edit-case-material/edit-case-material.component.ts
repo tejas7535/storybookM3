@@ -79,7 +79,6 @@ export class EditCaseMaterialComponent {
           field: this.params.colDef.field,
           isCaseView: this.isCaseView,
         } as EditMaterialModalData,
-        autoFocus: false,
         panelClass: 'edit-material-modal',
       })
       .afterClosed()

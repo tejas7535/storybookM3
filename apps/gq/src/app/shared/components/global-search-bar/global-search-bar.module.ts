@@ -23,7 +23,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { SharedDirectivesModule } from '../../directives/shared-directives.module';
 import { SharedPipesModule } from '../../pipes/shared-pipes.module';
 import { ContextMenuModule } from '../contextMenu/context-menu.module';
-import { NoDataModule } from '../no-data/no-data.module';
+import { NoDataComponent } from '../no-data/no-data.component';
 import { CasesResultTableComponent } from './cases-result-table/cases-result-table.component';
 import { GlobalSearchAdvancedModalComponent } from './global-search-advanced-modal/global-search-advanced-modal.component';
 import { GlobalSearchBarComponent } from './global-search-bar.component';
@@ -57,7 +57,7 @@ import { MaterialsResultTableComponent } from './materials-result-table/material
     MatSlideToggleModule,
     MatTabsModule,
     MatRadioModule,
-    NoDataModule,
+    NoDataComponent,
     AgGridModule,
     LoadingSpinnerModule,
   ],

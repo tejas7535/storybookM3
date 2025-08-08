@@ -9,8 +9,8 @@
     <mat-icon
       class="cursor-pointer text-icon"
       [ngClass]="{
-        'text-white-high-emphasis': selectedCaseIndex > 0,
-        'text-icon-disabled': selectedCaseIndex === 0
+        'text-inverse-on-surface': selectedCaseIndex > 0,
+        'text-on-surface-variant': selectedCaseIndex === 0,
       }"
       >first_page</mat-icon
     >
@@ -24,8 +24,8 @@
     <mat-icon
       class="cursor-pointer text-icon"
       [ngClass]="{
-        'text-white-high-emphasis': selectedCaseIndex > 0,
-        'text-icon-disabled': selectedCaseIndex === 0
+        'text-inverse-on-surface': selectedCaseIndex > 0,
+        'text-on-surface-variant': selectedCaseIndex === 0,
       }"
       >arrow_back</mat-icon
     >
@@ -33,7 +33,7 @@
 
   <input
     matInput
-    class="bg-[#444E61] w-24 appearance-none rounded-md px-3 py-2 text-center text-white-high-emphasis outline-none placeholder:text-white-high-emphasis focus:placeholder:text-white-low-emphasis"
+    class="bg-[#444E61] w-24 appearance-none rounded-md px-3 py-2 text-center text-inverse-on-surface outline-none placeholder:text-inverse-on-surface focus:placeholder:text-on-surface-variant"
     type="text"
     placeholder="{{ selectedCaseIndex + 1 }} / {{ numberOfCases }}"
     [formControl]="customIndexFormControl"
@@ -49,8 +49,8 @@
     <mat-icon
       class="cursor-pointer text-icon"
       [ngClass]="{
-        'text-white-high-emphasis': selectedCaseIndex < numberOfCases - 1,
-        'text-icon-disabled': selectedCaseIndex >= numberOfCases - 1
+        'text-inverse-on-surface': selectedCaseIndex < numberOfCases - 1,
+        'text-on-surface-variant': selectedCaseIndex >= numberOfCases - 1,
       }"
       >arrow_forward</mat-icon
     >
@@ -64,8 +64,8 @@
     <mat-icon
       class="cursor-pointer pr-6 text-icon"
       [ngClass]="{
-        'text-white-high-emphasis': selectedCaseIndex < numberOfCases - 1,
-        'text-icon-disabled': selectedCaseIndex >= numberOfCases - 1
+        'text-inverse-on-surface': selectedCaseIndex < numberOfCases - 1,
+        'text-on-surface-variant': selectedCaseIndex >= numberOfCases - 1,
       }"
       >last_page</mat-icon
     >

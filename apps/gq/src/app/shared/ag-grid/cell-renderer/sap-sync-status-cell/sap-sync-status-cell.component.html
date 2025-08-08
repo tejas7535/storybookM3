@@ -2,19 +2,14 @@
   class="flex h-full items-center overflow-hidden"
   *transloco="let t; read: 'shared.sapStatusLabels'"
 >
-  <schaeffler-tag
-    [type]="tagType"
-    [styleClass]="'uppercase'"
-    size="small"
-    [withDot]="syncedStatus !== syncPending"
-  >
+  <schaeffler-tag [type]="tagType" [withDot]="syncedStatus !== syncPending">
     <span
-      class="truncate text-[8px] font-bold"
+      class="truncate"
       [matTooltip]="errorCode ? t('errorCodes.' + errorCode) : undefined"
     >
       {{
         t('sapSyncStatus', {
-          sapSyncStatus: syncedStatus
+          sapSyncStatus: syncedStatus,
         })
       }}
     </span>

@@ -14,7 +14,7 @@
       "productHierarchy": "Product Hierarchy",
       "dimension": "Dimension",
       "assignedTo": "Assigned To",
-      "assignToMe": "Assign it to me",
+      "assignToMe": "Assign to Me",
       "message": "Comment",
       "link": "Bill of Material"
     },
@@ -24,8 +24,8 @@
       "customerDeliveryDate": "Requested Delivery Date",
       "currency": "Currency",
       "caseCreatedBy": "Case Created By",
-      "rfqStartedBy": "Process started By",
-      "rfqStartedOn": "Process started"
+      "rfqStartedBy": "Process Started By",
+      "rfqStartedOn": "Process Started"
     },
     "recalculation": {
       "title": "Recalculation",
@@ -35,7 +35,7 @@
         "currency": {
           "label": "Currency",
           "labelCustomerCurrency": "Currency",
-          "hint": "Select currency for calculation",
+          "hint": "Select Currency for Calculation",
           "subtitle": "Based on Quote"
         },
         "sqv": {
@@ -59,11 +59,11 @@
         },
         "calculatorDetails": {
           "label": "Calculation Details",
-          "hint": "Visible for all Users with the rights to see costs"
+          "hint": "Visible for all Users with the rights to see Costs"
         },
         "deliveryTime": {
           "label": "Delivery Time",
-          "hint": "Delivery time after order receiving (AOR)",
+          "hint": "Delivery Time after Order Receiving (AOR)",
           "select": {
             "MONTHS": "Months",
             "WEEKS": "Weeks"

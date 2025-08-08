@@ -7,13 +7,13 @@
 >
   <!-- the Headline-->
   <div class="flex items-center justify-between pb-6">
-    <div class="text-body-1 font-bold">{{ t('historyLabel') }}</div>
+    <div class="text-body-large font-bold">{{ t('historyLabel') }}</div>
   </div>
 
   <!--StartEvent-->
   <gq-approval-workflow-history-section
     [icon]="'check_circle_outline'"
-    [iconColor]="'text-link'"
+    [iconColor]="'text-icon-success'"
     [title]="
       startedEvent?.event === eventType.AUTO_APPROVAL
         ? t('workflowAutoApprovedText')
@@ -22,7 +22,7 @@
     [subtitle]="
       t('eventCreatedBy', {
         date: startedEvent?.eventDate | translocoDate: translocoDatePipeConfig,
-        user: startedEvent?.user | approverDisplay: t('unknownApprover')
+        user: startedEvent?.user | approverDisplay: t('unknownApprover'),
       })
     "
   ></gq-approval-workflow-history-section>
@@ -37,7 +37,7 @@
       class="timeline history border-l-2 border-solid h-[1.5rem] bg border-y-border ml-3"
       [ngClass]="
         quotationStatus === quotationStatusEnum.APPROVED
-          ? 'text-approval-status-green'
+          ? 'text-icon-success'
           : 'border-l-border'
       "
     ></div>
@@ -63,7 +63,7 @@
       @if (workflowEvents?.length > 2) {
         <gq-approval-workflow-history-section
           [icon]="'check_circle_outline'"
-          [iconColor]="'text-link'"
+          [iconColor]="'text-icon-success'"
           [title]="t('workflowAutoApprovedText')"
           [subtitle]="
             quotationAutoApprovedEvent?.eventDate
@@ -74,7 +74,7 @@
     } @else {
       <gq-approval-workflow-history-section
         [icon]="'check_circle_outline'"
-        [iconColor]="'text-link'"
+        [iconColor]="'text-icon-success'"
         [title]="t('quotationApprovedText')"
         [subtitle]="
           quotationFinalReleaseEvent?.eventDate
@@ -86,8 +86,8 @@
     <!-- when quotation has been rejected, we do not want the end event to be displayed-->
     @if (!quotationRejectedEvent) {
       <gq-approval-workflow-history-section
-        [icon]="'timer_outline'"
-        [iconColor]="'text-low-emphasis'"
+        [icon]="'timer'"
+        [iconColor]="'text-on-surface-variant'"
         [title]="t('caseApprovalStatus')"
         [subtitle]="t('approvalPending')"
       ></gq-approval-workflow-history-section>

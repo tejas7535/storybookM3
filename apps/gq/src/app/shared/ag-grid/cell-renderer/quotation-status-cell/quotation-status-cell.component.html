@@ -2,13 +2,7 @@
   class="flex h-full items-center overflow-hidden"
   *transloco="let t; read: 'shared.quotationStatusLabels'"
 >
-  <schaeffler-tag
-    [type]="tagType"
-    [value]="t(status)"
-    [styleClass]="'uppercase'"
-    size="small"
-    [withDot]="false"
-  >
+  <schaeffler-tag [type]="tagType" [value]="t(status)" [withDot]="false">
     @if (statusVerified === false) {
       <mat-icon
         class="ml-1 !text-[12px] !h-3 !w-3"

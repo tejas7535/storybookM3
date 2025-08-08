@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router, RouterModule } from '@angular/router';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
@@ -20,13 +18,7 @@ describe('SubheaderComponent', () => {
       CommonModule,
       MatIconModule,
       BreadcrumbsModule,
-      RouterTestingModule,
-    ],
-    providers: [
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
+      RouterModule.forRoot([]),
     ],
     declarations: [SubheaderComponent],
   });

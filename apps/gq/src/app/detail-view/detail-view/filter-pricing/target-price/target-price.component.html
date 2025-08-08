@@ -9,7 +9,7 @@
   >
     <div content class="flex w-full flex-col flex-wrap sm:flex-row">
       <div class="min-w-[8rem] max-w-[25%] grow pt-2">
-        <div class="text-body-2 text-medium-emphasis mb-1">
+        <div class="text-body-medium text-on-surface-variant mb-1">
           {{ t('priceLabel') }}:
         </div>
         <div class="flex-1">
@@ -18,7 +18,7 @@
           }}</span>
           @if (isQuotationActive$ | ngrxPush) {
             <mat-icon
-              class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
+              class="!text-[16px] text-on-surface-variant ml-1 cursor-pointer align-bottom !leading-6"
               (click)="openTargetPriceEditingModal()"
               >mode_edit</mat-icon
             >
@@ -26,20 +26,24 @@
         </div>
       </div>
       <div class="min-w-[8rem] pt-2">
-        <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpi') }}:</div>
+        <div class="text-body-medium text-on-surface-variant mb-1">
+          {{ t('gpi') }}:
+        </div>
         <div>
           <span class="font-bold">{{ gpi | percentage: false }}</span>
         </div>
       </div>
       <div class="min-w-[8rem] pt-2">
-        <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpm') }}:</div>
+        <div class="text-body-medium text-on-surface-variant mb-1">
+          {{ t('gpm') }}:
+        </div>
         <div>
           <span class="font-bold">{{ gpm | percentage: false }}</span>
         </div>
       </div>
       @if (gpmRfq) {
         <div class="min-w-[8rem] pt-2">
-          <div class="text-body-2 text-medium-emphasis mb-1">
+          <div class="text-body-medium text-on-surface-variant mb-1">
             {{ t('gpmRfq) }}:
           </div>
           <div>
@@ -48,7 +52,7 @@
         </div>
       }
       <div class="min-w-[8rem] pt-2">
-        <div class="text-body-2 text-medium-emphasis mb-1">
+        <div class="text-body-medium text-on-surface-variant mb-1">
           {{ t('quantity') }}:
         </div>
         <gq-quantity-display
@@ -56,7 +60,7 @@
         ></gq-quantity-display>
       </div>
       <div class="min-w-[8rem] pt-2">
-        <div class="text-body-2 text-medium-emphasis mb-1">
+        <div class="text-body-medium text-on-surface-variant mb-1">
           {{ t('priceUnit') }}:
         </div>
         <div>
@@ -66,7 +70,7 @@
         </div>
       </div>
       <div class="min-w-[14rem] pt-2">
-        <div class="text-body-2 text-medium-emphasis mb-1">
+        <div class="text-body-medium text-on-surface-variant mb-1">
           {{ t('targetPriceSource') }}:
         </div>
         <div class="flex-1">
@@ -75,7 +79,7 @@
           }}</span>
           @if (isQuotationActive$ | ngrxPush) {
             <mat-icon
-              class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
+              class="!text-[16px] text-on-surface-variant ml-1 cursor-pointer align-bottom !leading-6"
               (click)="openTargetPriceEditingModal()"
               >mode_edit</mat-icon
             >

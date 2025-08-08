@@ -5,12 +5,12 @@
     <gq-dialog-header
       [title]="
         t('materialDetailsDialogTitle', {
-          materialDescription: material.materialDescription
+          materialDescription: material.materialDescription,
         })
       "
       (closeDialog)="closeDialog()"
     ></gq-dialog-header>
-    <mat-card appearance="outlined" class="mt-4 p-4">
+    <mat-card appearance="outlined" class="mt-4 p-4 !bg-surface !shadow-none">
       <div class="flex flex-row gap-6">
         <div class="w-1/2">
           <gq-material-basic

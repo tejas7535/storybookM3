@@ -15,14 +15,10 @@
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker>
       <mat-datepicker-actions>
-        <button
-          mat-raised-button
-          matDateRangePickerCancel
-          (click)="resetDate()"
-        >
+        <button mat-button matDateRangePickerCancel (click)="resetDate()">
           {{ t('actions.reset') }}
         </button>
-        <button mat-raised-button matDatepickerApply color="primary">
+        <button mat-button matDatepickerApply>
           {{ t('actions.apply') }}
         </button>
       </mat-datepicker-actions>

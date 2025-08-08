@@ -2,14 +2,13 @@
   *transloco="let t; read: 'calculator.rfq4DetailView.recalculation'"
 >
   <mat-card
-    appearance="outlined"
-    class="mat-elevation-z0 border-x-border border-y-border w-full grow rounded border-[1px]"
+    class="mat-elevation-z0 !shadow-none border-x-border border-y-border w-full grow rounded border-[1px]"
   >
     <!-- Header, did not use mat-card-title here to avoid required deep overwrites-->
     <div class="!flex !flex-row !justify-between p-4">
-      <span class="!text-high-emphasis !gq-text-5 !leading-6">
+      <span class="!text-on-surface !gq-text-5 !leading-6">
         {{ t('title') }} </span
-      ><span class="text-caption text-medium-emphasis">
+      ><span class="text-body-small text-on-surface-variant">
         {{ t('mandatoryInputHint') }}</span
       >
     </div>
@@ -70,12 +69,11 @@
           </div>
         </ng-container>
       </div>
-
       <button
         type="submit"
+        class="float-right"
         [disabled]="isSaveDisabled()"
-        mat-stroked-button
-        color="primary"
+        mat-button
         (click)="submit()"
       >
         {{ t('saveButton') }}

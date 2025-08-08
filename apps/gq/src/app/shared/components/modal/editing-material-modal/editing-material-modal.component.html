@@ -95,7 +95,7 @@
             </mat-label>
 
             <input
-              class="text-overline"
+              class="text-label-small"
               autocomplete="off"
               matInput
               #valueInput
@@ -142,7 +142,7 @@
               </mat-label>
 
               <input
-                class="text-overline"
+                class="text-label-small"
                 autocomplete="off"
                 matInput
                 #targetPriceInput
@@ -168,26 +168,22 @@
     </div>
   </form>
 
-  <div class="pt-8">
+  <div class="pt-8 flex justify-end gap-4">
+    <button
+      (click)="closeDialog()"
+      mat-button
+      [attr.data-cy]="'edit-material-cancel_btn'"
+    >
+      <span> {{ t('cancel') }} </span>
+    </button>
     <button
       *ngrxLet="selectedMaterialAutocomplete$ | ngrxPush as selectedMaterial"
-      class="!pl-4 !pr-4"
-      color="primary"
-      mat-raised-button
+      mat-flat-button
       (click)="update(selectedMaterial?.deliveryUnit)"
       [disabled]="!updateRowEnabled"
       [attr.data-cy]="'edit-material-update_btn'"
     >
-      <span> {{ t('update') | uppercase }} </span>
-    </button>
-    <button
-      class="!ml-4 !pl-4 !pr-4"
-      color="primary"
-      (click)="closeDialog()"
-      mat-stroked-button
-      [attr.data-cy]="'edit-material-cancel_btn'"
-    >
-      <span> {{ t('cancel') | uppercase }} </span>
+      <span> {{ t('update') }} </span>
     </button>
   </div>
 </div>

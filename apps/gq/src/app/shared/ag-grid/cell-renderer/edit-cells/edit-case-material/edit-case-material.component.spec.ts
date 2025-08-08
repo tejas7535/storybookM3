@@ -168,7 +168,6 @@ describe('EditCaseMaterialComponent', () => {
             material: MATERIAL_TABLE_ITEM_MOCK,
             field: MaterialColumnFields.MATERIAL,
           },
-          autoFocus: false,
           panelClass: 'edit-material-modal',
         }
       );

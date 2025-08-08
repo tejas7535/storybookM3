@@ -13,8 +13,7 @@
             @if (isSelected) {
               <button
                 class="!mt-2 w-[200px]"
-                mat-raised-button
-                color="primary"
+                mat-button
                 data-cy="select-price-button"
               >
                 <mat-icon>check_circle</mat-icon>
@@ -24,7 +23,6 @@
               <button
                 class="!mt-2 w-[200px]"
                 mat-stroked-button
-                color="primary"
                 (click)="selectPrice()"
                 [disabled]="isDisabled"
                 data-cy="select-price-button"
@@ -37,7 +35,6 @@
               <button
                 class="!mt-2 w-[200px]"
                 mat-stroked-button
-                color="primary"
                 (click)="selectPrice()"
                 [disabled]="isDisabled"
               >
@@ -51,7 +48,6 @@
       </div>
     } @else {
       <schaeffler-loading-spinner
-        backgroundColor="rgba(255,255,255, 0.1)"
         [relative]="true"
       ></schaeffler-loading-spinner>
     }

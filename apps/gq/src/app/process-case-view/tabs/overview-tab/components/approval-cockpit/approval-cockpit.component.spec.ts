@@ -60,7 +60,6 @@ describe('ApprovalCockpitComponent', () => {
       ForwardApprovalWorkflowModalComponent,
       {
         width: '634px',
-        autoFocus: false,
       }
     );
   });

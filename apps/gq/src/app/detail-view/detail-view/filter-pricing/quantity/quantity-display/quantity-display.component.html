@@ -5,11 +5,11 @@
 
   <span
     *hideIfQuotationNotActiveOrPending
-    class="text-medium-emphasis ml-1"
+    class="text-on-surface-variant ml-1"
     [ngClass]="isRfq4ProcessOngoing() ? 'cursor-not-allowed' : 'cursor-pointer'"
     (click)="openEditing()"
   >
-    <mat-icon class="!text-body-1 align-bottom !leading-6">{{
+    <mat-icon class="!text-[16px] align-bottom !leading-6">{{
       isRfq4ProcessOngoing() ? 'edit_off' : 'mode_edit'
     }}</mat-icon>
   </span>

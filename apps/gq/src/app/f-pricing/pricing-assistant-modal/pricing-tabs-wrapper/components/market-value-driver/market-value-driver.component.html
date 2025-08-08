@@ -5,32 +5,40 @@
     read: 'fPricing.pricingAssistantModal.marketValueDriver'
   "
 >
-  <mat-card appearance="outlined" class="p-4 mb-3">
-    <div class="flex flex-row items-center gap-4">
-      <mat-icon
-        class="text-on-info-container !overflow-visible !icon-5 !h-5 !w-5"
-        >info_outline</mat-icon
-      >
-      <span class="text-subtitle-2 text-medium-emphasis">
-        {{ t('information') }}</span
-      >
-    </div>
-  </mat-card>
-  <mat-card appearance="outlined" class="p-4">
-    @for (
-      item of marketValueDriverItems;
-      track item.questionId;
-      let i = $index
-    ) {
-      <gq-market-value-driver-item
-        [item]="item"
-        [isDisabled]="isDisabled"
-        (optionChange)="onOptionChange($event)"
-      >
-        @if (i < marketValueDriverItems.length - 1) {
-          <gq-horizontal-divider></gq-horizontal-divider>
-        }
-      </gq-market-value-driver-item>
-    }
-  </mat-card>
+  <div
+    class="!bg-surface flex gap-2 rounded-xl rounded-t-none overflow-auto !shadow-none flex-col h-full py-2"
+  >
+    <mat-card
+      appearance="outlined"
+      class="p-4 mx-2 !rounded !bg-info-container !border-info"
+    >
+      <div class="flex flex-row items-center gap-4">
+        <mat-icon class="text-icon-info !overflow-visible !icon-5 !h-5 !w-5"
+          >info_outline</mat-icon
+        >
+        <span class="text-title-small text-on-info-container">
+          {{ t('information') }}</span
+        >
+      </div>
+    </mat-card>
+    <mat-card
+      class="!rounded-t-none !bg-transparent !shadow-none p-4 overflow-auto"
+    >
+      @for (
+        item of marketValueDriverItems;
+        track item.questionId;
+        let i = $index
+      ) {
+        <gq-market-value-driver-item
+          [item]="item"
+          [isDisabled]="isDisabled"
+          (optionChange)="onOptionChange($event)"
+        >
+          @if (i < marketValueDriverItems.length - 1) {
+            <gq-horizontal-divider></gq-horizontal-divider>
+          }
+        </gq-market-value-driver-item>
+      }
+    </mat-card>
+  </div>
 </ng-container>

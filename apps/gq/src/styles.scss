@@ -13,7 +13,7 @@
 
  */
 
-@import 'libs/shared/ui/styles/src/lib/scss/material-theme';
+@import 'libs/shared/ui/styles/src/lib/scss/m3-theme';
 
 /*
    * ag grid components
@@ -71,15 +71,32 @@ schaeffler-tag.subheader-status-icon {
   }
 }
 
+.mat-mdc-tab.mdc-tab .mdc-tab__text-label,
+.mat-mdc-tab-link.mdc-tab .mdc-tab__text-label {
+  color: var(--medium-emphasis-color, var(--mat-sys-on-surface)) !important;
+}
+
+.mat-mdc-tab.mdc-tab--active .mdc-tab__text-label,
+.mat-mdc-tab-link.mdc-tab--active .mdc-tab__text-label {
+  color: var(--primary-color-hex, var(--mat-sys-on-surface)) !important;
+}
+
 .ag-theme-material {
   --ag-font-family: 'Noto sans';
-  --ag-selected-row-background-color: #eee;
+  --ag-selected-row-background-color: #ededed;
+
   .ag-column-panel {
     border-left: 1px solid ag-param(border-color);
     border-right: 1px solid ag-param(border-color);
   }
   .ag-header-cell-text {
     font-size: 14px;
+  }
+}
+gq-comparable-transactions {
+  .ag-theme-material {
+    --ag-background-color: var(--surface-color) !important;
+    --ag-header-background-color: var(--surface-color) !important;
   }
 }
 
@@ -97,7 +114,8 @@ schaeffler-tag.subheader-status-icon {
 }
 
 .mat-mdc-dialog-surface {
-  padding: 16px !important;
+  padding: 24px !important;
+  --mdc-dialog-container-color: var(--surface-container-high-color);
 }
 
 .mat-mdc-tab-group {
@@ -114,10 +132,6 @@ button {
   vertical-align: -4px !important;
 }
 
-.global-search-modal .mat-mdc-dialog-surface {
-  @apply px-0 #{!important};
-}
-
 .global-search-advanced-modal:has(.cases-results-table-with-pagination) {
   @apply top-8 bottom-16 h-[unset] fixed #{!important};
 }
@@ -130,6 +144,11 @@ button {
   // enter classes here
   .mat-mdc-tab-group {
     @apply h-full;
+    .mat-mdc-tab-label-container {
+      .mat-mdc-tab-ripple.mat-mdc-tab-ripple {
+        @apply border-b border-border #{!important};
+      }
+    }
   }
   .mat-mdc-tab-body-wrapper {
     @apply h-full;
@@ -137,19 +156,19 @@ button {
 
   mat-slide-toggle {
     .mdc-label {
-      @apply text-medium-emphasis #{!important};
+      @apply text-on-surface-variant #{!important};
       @apply cursor-pointer;
     }
   }
 
   .mat-mdc-radio-button {
     &.mat-mdc-radio-checked .mdc-label {
-      @apply text-high-emphasis #{!important};
+      @apply text-on-surface #{!important};
       @apply cursor-pointer;
     }
 
     .mdc-label {
-      @apply text-medium-emphasis #{!important};
+      @apply text-on-surface-variant #{!important};
       @apply cursor-pointer;
     }
 
@@ -159,28 +178,10 @@ button {
   }
 }
 
-.release-modal .mat-mdc-dialog-surface {
-  padding: 0 !important;
-}
-
 .editing-modal mat-form-field {
   line-height: normal;
 }
 
-.create-manual-case-modal,
-.add-material-dialog {
-  .mat-mdc-button-base .mdc-button__label,
-  .mat-mdc-button-base .mat-icon {
-    z-index: 0;
-  }
-}
-
-gq-create-manual-case-view:has(.newCaseCreateView) {
-  .ag-root-wrapper-body {
-    border: 1px solid rgba(0, 0, 0, 0.12) !important;
-    border-radius: 4px;
-  }
-}
 .edit-material-modal {
   .mat-mdc-button-base .mdc-button__label {
     z-index: 0;
@@ -190,11 +191,9 @@ gq-create-manual-case-view:has(.newCaseCreateView) {
   .mat-mdc-button-base .mdc-button__label {
     z-index: 0;
   }
-  .mat-mdc-dialog-surface {
-    @apply p-0 #{!important};
-  }
+
   mat-dialog-content {
-    @apply p-4 #{!important};
+    @apply p-0 #{!important};
   }
 
   mat-dialog-content.mat-mdc-dialog-content {
@@ -213,8 +212,8 @@ gq-create-manual-case-view:has(.newCaseCreateView) {
   @apply py-2 #{!important};
   @apply px-4 #{!important};
   @apply text-left #{!important};
-  @apply bg-secondary-900 #{!important};
-  @apply text-caption #{!important};
+  @apply bg-inverse-surface #{!important};
+  @apply text-body-small #{!important};
 }
 
 gq-kpi-status-card {
@@ -223,25 +222,61 @@ gq-kpi-status-card {
   }
 }
 .pricing-assistant-modal {
+  .mat-mdc-tab-body-wrapper {
+    @apply rounded-b-xl #{!important};
+
+    .mat-mdc-tab-body {
+      @apply bg-surface;
+    }
+    .mat-mdc-tab-body:has(gq-no-data) {
+      @apply bg-surface-container-high;
+    }
+  }
+  gq-price-editing-modal {
+    @apply bg-surface p-4 rounded-xl border border-border #{!important};
+  }
+
+  .ag-theme-material {
+    --ag-background-color: var(--surface-color) !important;
+    --ag-header-background-color: var(--surface-color) !important;
+  }
+
   @apply inset-y-8 fixed #{!important};
 
   .mat-mdc-dialog-surface {
     @apply p-0 #{!important};
   }
-  mat-dialog-content {
-    @apply p-4 #{!important};
-  }
+
   mat-dialog-content.mat-mdc-dialog-content {
     max-height: 95vh !important;
     font-family:
       Noto Sans,
       sans-serif !important;
+
+    gq-overlay {
+      > div {
+        background: var(--surface-container-high-color);
+        @apply p-6 #{!important};
+        @apply overflow-hidden #{!important};
+      }
+    }
+
+    gq-comparison-panel {
+      .mat-expansion-panel-body {
+        @apply p-0 #{!important};
+      }
+    }
   }
   .mat-mdc-button-base .mdc-button__label {
     z-index: 0;
   }
   .mat-mdc-dialog-container {
     @apply flex;
+  }
+
+  .mat-mdc-dialog-surface {
+    @apply p-0 #{!important};
+    --mdc-dialog-container-color: var(--surface-container-high-color);
   }
 
   .mdc-dialog__container {
@@ -278,7 +313,7 @@ gq-kpi-status-card {
     min-width: 60px;
 
     span {
-      @apply text-medium-emphasis;
+      @apply text-on-surface-variant;
     }
   }
 
@@ -286,15 +321,9 @@ gq-kpi-status-card {
     @apply h-full;
   }
 
-  .mat-mdc-tab-label-active {
-    span {
-      @apply text-link;
-    }
-  }
-
   .mat-mdc-tab-body-wrapper {
     @apply h-full;
-    @apply bg-secondary-900 bg-opacity-5;
+    @apply bg-surface-container-high;
     @apply z-0;
   }
 
@@ -309,23 +338,23 @@ gq-kpi-status-card {
 }
 .mat-mdc-snack-bar-container {
   .mdc-snackbar__label {
-    @apply text-body-2 #{!important};
+    @apply text-body-medium #{!important};
   }
   .mdc-snackbar__surface {
-    @apply bg-high-emphasis #{!important};
-    @apply text-white-high-emphasis #{!important};
+    @apply bg-inverse-surface #{!important};
+    @apply text-inverse-on-surface #{!important};
   }
 }
 .mdc-tab__content {
-  @apply text-button;
+  @apply text-label-large;
   @apply leading-4;
 }
 .mat-mdc-menu-item {
-  @apply text-body-2 #{!important};
+  @apply text-body-medium #{!important};
 }
 
 .mdc-button__label {
-  @apply whitespace-nowrap font-medium text-body-2 uppercase;
+  @apply whitespace-nowrap font-medium text-body-medium;
 }
 
 // This fixes an ui issue when the form field is opened with appearance outline
@@ -345,13 +374,13 @@ gq-kpi-status-card {
 .mat-mdc-form-field-icon-suffix > .mat-icon {
   @apply p-0 #{!important};
   @apply relative #{!important};
-  @apply text-medium-emphasis #{!important};
+  @apply text-on-surface-variant #{!important};
 }
 
 mat-error,
 mat-hint {
-  @apply text-caption;
-  @apply text-medium-emphasis;
+  @apply text-body-small;
+  @apply text-on-surface-variant;
 }
 
 .mdc-menu-surface.mat-mdc-autocomplete-panel {
@@ -368,7 +397,7 @@ mat-hint {
 }
 
 .delta-chip {
-  @apply flex items-center justify-center w-full overflow-hidden rounded-full px-3 py-1 uppercase;
+  @apply flex items-center justify-center w-full overflow-hidden rounded-full px-3 py-1;
 
   span {
     @apply text-[10px] font-bold whitespace-nowrap;

@@ -2,7 +2,7 @@
   <mat-button-toggle-group
     [value]="active"
     (change)="onViewSelect($event)"
-    class="!rounded-b-none"
+    class="!border-border !rounded-b-none !rounded-t-xl"
     [hideSingleSelectionIndicator]="true"
     [ngClass]="{
       '!border-b-0': !displayBorderBottom,
@@ -10,13 +10,13 @@
   >
     @for (item of items; track item.id; let i = $index) {
       <mat-button-toggle
-        class="h-8 !bg-[#fafafa] px-1 !leading-8 !text-medium-emphasis [&>button>span]:!text-caption [&>.mat-button-toggle-focus-overlay]:!hidden"
+        class="h-8 !bg-[#fafafa] px-1 !leading-8 !text-on-surface-variant [&>button>span]:!text-body-small [&>.mat-button-toggle-focus-overlay]:!hidden !border-border"
         [value]="item"
         [ngClass]="{
-          '!bg-secondary-legacy !font-medium !text-high-emphasis':
+          '!bg-secondary-legacy !font-medium !text-on-surface':
             item.id === active.id,
-          'hover:!font-medium hover:!text-high-emphasis ': !item.disabled,
-          '!text-low-emphasis': item.disabled,
+          'hover:!font-medium hover:!text-on-surface ': !item.disabled,
+          '!text-on-surface opacity-[0.38]': item.disabled,
         }"
         [disabled]="item.disabled"
         [attr.cy-view-toggle-id]="item.id"
@@ -49,9 +49,9 @@
                   mat-icon-button
                   class="flex"
                   [ngClass]="{
-                    ' !text-high-emphasis': item.id === active.id,
-                    ' !text-medium-emphasis': item.id !== active.id,
-                    '!text-low-emphasis': icon.disabled,
+                    '!text-on-surface': item.id === active.id,
+                    '!text-on-surface-variant ': item.id !== active.id,
+                    '!text-on-surface !opacity-[0.38]': icon.disabled,
                   }"
                   (click)="onIconClicked($event, item.id, icon.name)"
                   [disabled]="icon.disabled"

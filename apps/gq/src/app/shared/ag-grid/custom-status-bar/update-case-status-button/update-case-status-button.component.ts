@@ -92,7 +92,6 @@ export class UpdateCaseStatusButtonComponent {
       // aligned with UX. we will have some changes later see GQUOTE-6175
       // width: '40%',
       data,
-      autoFocus: false,
     });
 
     dialogRef.afterClosed().subscribe((result) => {

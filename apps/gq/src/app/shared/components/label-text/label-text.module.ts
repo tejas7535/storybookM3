@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { InfoIconModule } from '../info-icon/info-icon.module';
+import { InfoIconComponent } from '../info-icon/info-icon.component';
 import { LabelTextComponent } from './label-text.component';
 
 @NgModule({
   declarations: [LabelTextComponent],
-  imports: [CommonModule, InfoIconModule],
+  imports: [CommonModule, InfoIconComponent],
   exports: [LabelTextComponent],
 })
 export class LabelTextModule {}

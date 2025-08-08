@@ -5,7 +5,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { of } from 'rxjs';
 
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
-import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module';
+import { InfoIconComponent } from '@gq/shared/components/info-icon/info-icon.component';
 import { PasteMaterialsService } from '@gq/shared/services/paste-materials/paste-materials.service';
 import {
   createComponentFactory,
@@ -29,7 +29,7 @@ describe('PasteButtonComponent', () => {
   const createComponent = createComponentFactory({
     component: PasteButtonComponent,
     imports: [
-      InfoIconModule,
+      InfoIconComponent,
       MatIconModule,
       MatButtonModule,
       provideTranslocoTestingModule({ en: {} }),

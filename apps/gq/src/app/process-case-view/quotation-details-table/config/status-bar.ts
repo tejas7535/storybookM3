@@ -9,15 +9,17 @@ export const STATUS_BAR_CONFIG: {
   statusPanels: StatusPanelDef[];
 } = {
   statusPanels: [
-    { statusPanel: 'UploadSelectionToSapButtonComponent', align: 'left' },
-    { statusPanel: 'ConfirmSimulationButtonComponent', align: 'left' },
-    { statusPanel: 'DiscardSimulationButtonComponent', align: 'left' },
-    { statusPanel: 'AddItemsButtonComponent', align: 'left' },
-    { statusPanel: UploadQuoteToSapButtonComponent, align: 'left' },
-    { statusPanel: 'ExportToExcelButtonComponent', align: 'left' },
-    { statusPanel: RefreshSapPriceComponent, align: 'left' },
-    { statusPanel: TotalRowCountComponent, align: 'left' },
-    { statusPanel: QuotationDetailsStatusComponent, align: 'right' },
+    { statusPanel: QuotationDetailsStatusComponent, align: 'left' },
+    { statusPanel: TotalRowCountComponent, align: 'center' },
+
+    { statusPanel: 'DiscardSimulationButtonComponent', align: 'right' },
+    { statusPanel: 'ConfirmSimulationButtonComponent', align: 'right' },
+
+    { statusPanel: RefreshSapPriceComponent, align: 'right' },
+    { statusPanel: 'ExportToExcelButtonComponent', align: 'right' },
+    { statusPanel: 'UploadSelectionToSapButtonComponent', align: 'right' },
+    { statusPanel: UploadQuoteToSapButtonComponent, align: 'right' },
+    { statusPanel: 'AddItemsButtonComponent', align: 'right' },
     { statusPanel: DeleteItemsButtonComponent, align: 'right' },
   ],
 };

@@ -15,9 +15,9 @@
         ></gq-pricing-assistant-header>
 
         <!-- content and possible overlays -->
-        <div class="flex flex-col w-full overflow-auto flex-1">
+        <div class="flex flex-col h-full w-full overflow-auto flex-1">
           @if (visibleOverlay === overlayToShowEnum.comparisonScreen) {
-            <gq-overlay>
+            <gq-overlay class="p-6">
               <ng-container
                 [ngTemplateOutlet]="comparisonScreenView"
               ></ng-container>
@@ -36,29 +36,20 @@
           visibleOverlay !== overlayToShowEnum.comparisonScreen &&
           !(fPricingDataLoading$ | ngrxPush)
         ) {
-          <div class="flex flex-col">
-            <div class="mb-4 mt-2 -mx-4 h-px bg-selected-overlay"></div>
-            <div class="flex justify-start">
-              @if (visibleOverlay === overlayToShowEnum.gqPricing) {
-                <ng-container
-                  [ngTemplateOutlet]="gqPricingConfirmButton"
-                ></ng-container>
-              }
-              @if (visibleOverlay === overlayToShowEnum.manualPricing) {
-                <ng-container
-                  [ngTemplateOutlet]="manualConfirmButton"
-                ></ng-container>
-              }
-
-              <button
-                color="primary"
-                class="text-button font-medium"
-                mat-stroked-button
-                (click)="closeDialog()"
-              >
-                {{ t('cancelButton') }}
-              </button>
-            </div>
+          <div class="pt-8 flex justify-end gap-4">
+            <button mat-button (click)="closeDialog()">
+              {{ t('cancelButton') }}
+            </button>
+            @if (visibleOverlay === overlayToShowEnum.gqPricing) {
+              <ng-container
+                [ngTemplateOutlet]="gqPricingConfirmButton"
+              ></ng-container>
+            }
+            @if (visibleOverlay === overlayToShowEnum.manualPricing) {
+              <ng-container
+                [ngTemplateOutlet]="manualConfirmButton"
+              ></ng-container>
+            }
           </div>
         }
       </div>
@@ -67,9 +58,7 @@
     <!--confirmButtons-->
     <ng-template #manualConfirmButton>
       <button
-        color="primary"
-        class="!mr-4 text-button font-medium"
-        mat-raised-button
+        mat-flat-button
         [disabled]="
           !fPricingData?.quotationIsActive ||
           !manualPriceToDisplay ||
@@ -82,9 +71,7 @@
     </ng-template>
     <ng-template #gqPricingConfirmButton>
       <button
-        color="primary"
-        class="!mr-4 text-button font-medium"
-        mat-raised-button
+        mat-flat-button
         [disabled]="
           gqPricingConfirmButtonDisabled || !fPricingData?.quotationIsActive
         "
@@ -133,7 +120,7 @@
         @if (showAddManualPriceButton) {
           <gq-price-button
             [ngClass]="{
-              'pointer-events-none': !fPricingData?.quotationIsActive
+              'pointer-events-none': !fPricingData?.quotationIsActive,
             }"
             class="w-full"
             [isAddPriceButton]="true"
@@ -162,7 +149,8 @@
         class="gq-pricing-view"
         [ngClass]="{
           hidden: visibleOverlay !== overlayToShowEnum.gqPricing,
-          'flex flex-col h-full': visibleOverlay === overlayToShowEnum.gqPricing
+          'flex flex-col h-full':
+            visibleOverlay === overlayToShowEnum.gqPricing,
         }"
       >
         <ng-container [ngTemplateOutlet]="priceButtons"></ng-container>
@@ -223,22 +211,20 @@
     </ng-template>
 
     <ng-template #comparisonScreenView>
-      <div class="pt-3">
-        <gq-product-comparison
-          [referenceMaterial]="material"
-          [comparedMaterial]="materialToCompare"
-          [materialInformation]="fPricingFacade.materialInformation$ | ngrxPush"
-          [materialComparisonLoading]="materialComparisonLoading$ | ngrxPush"
-          (closeView)="backToGqPricingPage()"
-        ></gq-product-comparison>
-      </div>
+      <gq-product-comparison
+        [referenceMaterial]="material"
+        [comparedMaterial]="materialToCompare"
+        [materialInformation]="fPricingFacade.materialInformation$ | ngrxPush"
+        [materialComparisonLoading]="materialComparisonLoading$ | ngrxPush"
+        (closeView)="backToGqPricingPage()"
+      ></gq-product-comparison>
     </ng-template>
 
     <ng-template #manualPricingView>
       <div
         class="flex flex-col manual-pricing-view"
         [ngClass]="{
-          hidden: visibleOverlay !== overlayToShowEnum.manualPricing
+          hidden: visibleOverlay !== overlayToShowEnum.manualPricing,
         }"
       >
         <ng-container [ngTemplateOutlet]="priceButtons"></ng-container>
@@ -266,7 +252,7 @@
               t('manualPrice.warningText', {
                 value:
                   fPricingData?.calculations?.finalPrice - manualPriceToDisplay
-                  | numberCurrency: fPricingData?.currency
+                  | numberCurrency: fPricingData?.currency,
               })
             "
           ></gq-info-banner>

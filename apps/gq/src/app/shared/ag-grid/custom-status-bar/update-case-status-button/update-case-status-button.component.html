@@ -18,7 +18,7 @@
     @if (isOnlyVisibleOnSelection ? selections.length > 0 : true) {
       <button
         [disabled]="selections.length === 0"
-        mat-stroked-button
+        mat-button
         [color]="buttonColor"
         (click)="updateStatus()"
       >

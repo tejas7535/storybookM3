@@ -2,7 +2,7 @@
   <schaeffler-tag [withDot]="false" [type]="delta | deltaTagType">
     @if (delta.absolute) {
       <mat-icon
-        class="!text-caption !h-4 !w-4"
+        class="!text-[14px] !h-4 !w-4"
         [ngClass]="
           delta.absolute >= 0 ? 'text-icon-success' : 'text-icon-error'
         "
@@ -10,6 +10,6 @@
         {{ delta.absolute >= 0 ? 'arrow_upward' : 'arrow_downward' }}
       </mat-icon>
     }
-    <span>{{ delta | deltaDisplay | uppercase }}</span>
+    <span>{{ delta | deltaDisplay }}</span>
   </schaeffler-tag>
 }

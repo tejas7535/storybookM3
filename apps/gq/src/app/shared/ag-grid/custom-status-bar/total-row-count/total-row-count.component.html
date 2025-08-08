@@ -1,7 +1,7 @@
 <div
-  class="text-caption hidden h-full items-center text-center font-medium md:flex md:!pl-4"
+  class="text-body-small hidden h-full items-center text-center font-medium md:flex md:!pr-4"
   *ngrxLet="simulationModeEnabled$ as simulationModeEnabled"
-  [ngClass]="{ 'bg-secondary-900': simulationModeEnabled }"
+  [ngClass]="{ 'bg-inverse-surface': simulationModeEnabled }"
 >
   <div
     class="flex"
@@ -13,18 +13,18 @@
           class="text-left"
           [ngClass]="
             simulationModeEnabled
-              ? 'text-white-medium-emphasis'
-              : 'text-low-emphasis'
+              ? 'text-inverse-on-surface opacity-[0.38]'
+              : 'text-on-surface opacity-[0.38]'
           "
         >
           {{ t('total') }}:</span
         >
         <span
-          class="text-high-emphasis text-left"
+          class="text-left"
           [ngClass]="
             simulationModeEnabled
-              ? 'text-white-medium-emphasis '
-              : 'text-high-emphasis'
+              ? 'text-inverse-on-surface'
+              : 'text-on-surface'
           "
         >
           {{ totalRowCount$ | ngrxPush }}</span
@@ -38,8 +38,8 @@
           class="text-left"
           [ngClass]="
             simulationModeEnabled
-              ? 'text-white-medium-emphasis'
-              : 'text-low-emphasis'
+              ? 'text-inverse-on-surface opacity-[0.38]'
+              : 'text-on-surface opacity-[0.38]'
           "
         >
           {{ t('selected') }}:</span
@@ -48,8 +48,8 @@
           class="text-left"
           [ngClass]="
             simulationModeEnabled
-              ? 'text-white-medium-emphasis'
-              : 'text-high-emphasis'
+              ? 'text-inverse-on-surface'
+              : 'text-on-surface'
           "
         >
           {{ selectedRowCount }}</span
@@ -62,8 +62,8 @@
         class="text-left"
         [ngClass]="
           simulationModeEnabled
-            ? 'text-white-medium-emphasis'
-            : 'text-low-emphasis'
+            ? 'text-inverse-on-surface opacity-[0.38]'
+            : 'text-on-surface opacity-[0.38]'
         "
       >
         {{ t('filtered') }}:</span
@@ -71,9 +71,7 @@
       <span
         class="text-left"
         [ngClass]="
-          simulationModeEnabled
-            ? 'text-white-medium-emphasis'
-            : 'text-high-emphasis'
+          simulationModeEnabled ? 'text-inverse-on-surface' : 'text-on-surface'
         "
       >
         {{ filteredRowCount }}</span

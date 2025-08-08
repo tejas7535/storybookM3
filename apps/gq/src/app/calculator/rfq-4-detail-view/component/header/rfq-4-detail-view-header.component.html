@@ -14,19 +14,18 @@
     <ng-container subheaderInlineContent>
       <schaeffler-share-button></schaeffler-share-button>
       <button
-        color="primary"
         [disabled]="isConfirmDisabled()"
-        mat-raised-button
+        mat-flat-button
         (click)="onConfirm()"
       >
         {{ t('confirmButton') }}
       </button>
     </ng-container>
     <ng-container subheaderBlockContent>
-      <div class="flex flex-row pt-2 text-caption pl-9">
+      <div class="flex flex-row pt-2 text-body-small pl-9">
         <span
           [ngClass]="{
-            'text-medium-emphasis': recalculationStatus() === 'OPEN',
+            'text-on-surface-variant': recalculationStatus() === 'OPEN',
             'text-info': recalculationStatus() === 'IN_PROGRESS',
             'text-warning': recalculationStatus() === 'REOPEN',
             'text-success': recalculationStatus() === 'CONFIRMED',
@@ -40,7 +39,9 @@
             })
           }}</span
         >
-        <span class="ml-[10px] mr-[10px] text-caption opacity-[0.12]">|</span>
+        <span class="ml-[10px] mr-[10px] text-body-small opacity-[0.12]"
+          >|</span
+        >
         <gq-customer-subheader-content
           [customer]="rfq4DetailViewData()?.customerData"
         ></gq-customer-subheader-content>

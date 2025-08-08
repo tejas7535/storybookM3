@@ -22,7 +22,7 @@ import { AgGridLocale } from '../../../ag-grid/models/ag-grid-locale.interface';
 import { LocalizationService } from '../../../ag-grid/services/localization.service';
 import {
   basicTableStyle,
-  statusBarStlye,
+  materialTableStatusBarStyle,
 } from '../../../constants/table-styles';
 import { StatusBarConfig } from '../../../models/table/status-bar-config.model';
 import { BASE_STATUS_BAR_CONFIG } from './config/base-status-bar';
@@ -32,7 +32,7 @@ import { InputTableColumnDefService } from './config/input-table-column-defs.ser
 @Component({
   selector: 'gq-material-input-table',
   templateUrl: './input-table.component.html',
-  styles: [basicTableStyle, statusBarStlye],
+  styles: [basicTableStyle, materialTableStatusBarStyle],
   imports: [AgGridModule, CommonModule, CellRendererModule, PushPipe],
 })
 export class InputTableComponent implements OnInit {
@@ -81,10 +81,6 @@ export class InputTableComponent implements OnInit {
     isCaseView: boolean,
     statusBar: StatusBarConfig
   ): StatusBarConfig {
-    const addPanel: StatusPanelDef = {
-      statusPanel: AddMaterialButtonComponent,
-      align: 'left',
-    };
     const resetAllFilteredPanel: StatusPanelDef = {
       statusPanel: RemoveAllFilteredButtonComponent,
       align: 'right',
@@ -98,6 +94,12 @@ export class InputTableComponent implements OnInit {
         : ProcessCaseResetAllButtonComponent,
       align: 'right',
     };
+
+    const addPanel: StatusPanelDef = {
+      statusPanel: AddMaterialButtonComponent,
+      align: 'right',
+    };
+
     const pastePanel: StatusPanelDef = {
       statusPanel: PasteButtonComponent,
       align: 'left',
@@ -109,10 +111,11 @@ export class InputTableComponent implements OnInit {
     const adjustedStatusBar = {
       statusPanels: [
         ...statusBar.statusPanels,
-        ...(isCaseView ? [] : [addPanel]),
+
         pastePanel,
         resetAllFilteredPanel,
         resetPanel,
+        ...(isCaseView ? [] : [addPanel]),
       ],
     };
 

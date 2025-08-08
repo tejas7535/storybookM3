@@ -1,19 +1,19 @@
 <ng-container
   *transloco="let t; scope: 'f-pricing'; read: 'fPricing.pricingAssistantModal'"
 >
-  <mat-card appearance="outlined" class="p1">
-    <mat-table [dataSource]="dataSource">
+  <mat-card class="!bg-surface !shadow-none !rounded-xl !rounded-t-none">
+    <mat-table [dataSource]="dataSource" class="!bg-transparent">
       <!-- columnName for column 1-->
       <ng-container matColumnDef="description">
         <mat-header-cell
           *matHeaderCellDef
-          class="text-caption text-medium-emphasis flex-none pb-2"
+          class="text-body-small text-on-surface !border-b-2 !border-border flex-none pb-2"
           [ngClass]="columnWidth"
           >{{ t(translationKey + '.description') }}</mat-header-cell
         >
         <mat-cell
           *matCellDef="let description"
-          class="text-caption flex-none"
+          class="text-body-small flex-none !border-b !border-border"
           [ngClass]="columnWidth"
         >
           {{ description.description }}
@@ -24,13 +24,13 @@
         <ng-container matColumnDef="selectedValue">
           <mat-header-cell
             *matHeaderCellDef
-            class="text-caption text-medium-emphasis flex-none"
+            class="text-body-small text-on-surface flex-none !border-b-2 !border-border"
             [ngClass]="columnWidth"
             >{{ t(translationKey + '.selectedValue') }}</mat-header-cell
           >
           <mat-cell
             *matCellDef="let selectedValue"
-            class="text-caption flex-none text-high-emphasis"
+            class="text-body-small flex-none text-on-surface !border-b !border-border"
             [ngClass]="columnWidth"
           >
             <!-- use a template for the selectedValue Column, set the value,id as contexts -->
@@ -39,7 +39,7 @@
                 valueTemplate || defaultSelectedValueTemplate;
                 context: {
                   id: selectedValue.id,
-                  value: selectedValue.editableValue
+                  value: selectedValue.editableValue,
                 }
               "
             ></ng-container>
@@ -54,13 +54,13 @@
       <ng-container matColumnDef="value">
         <mat-header-cell
           *matHeaderCellDef
-          class="text-caption text-medium-emphasis flex-none"
+          class="text-body-small text-on-surface flex-none !border-b-2 !border-border"
           [ngClass]="columnWidth"
           >{{ t(translationKey + '.value') }}</mat-header-cell
         >
         <mat-cell
           *matCellDef="let value"
-          class="text-caption flex-none text-high-emphasis"
+          class="text-body-small flex-none text-on-surface !border-b !border-border"
           [ngClass]="columnWidth"
         >
           {{ value.value }}
@@ -71,16 +71,25 @@
       <ng-container matColumnDef="additionalDescription">
         <mat-header-cell
           *matHeaderCellDef
-          class="text-caption text-medium-emphasis"
+          class="text-body-small text-on-surface !border-b-2 !border-border"
           >{{ t(translationKey + '.additionalDescription') }}</mat-header-cell
         >
-        <mat-cell *matCellDef="let additionalDescription" class="text-caption">
+        <mat-cell
+          *matCellDef="let additionalDescription"
+          class="text-body-small !border-b !border-border"
+        >
           {{ additionalDescription?.additionalDescription }}
         </mat-cell>
       </ng-container>
 
-      <mat-row *matHeaderRowDef="columnsToDisplay"></mat-row>
-      <mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
+      <mat-row
+        class="!border-b !border-border"
+        *matHeaderRowDef="columnsToDisplay"
+      ></mat-row>
+      <mat-row
+        class="!border-b !border-border"
+        *matRowDef="let row; columns: columnsToDisplay"
+      ></mat-row>
     </mat-table>
   </mat-card>
 </ng-container>
