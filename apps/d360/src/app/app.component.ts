@@ -42,10 +42,12 @@ import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import packageJson from '../../package.json';
+import { getEnv } from '../environments/environments.provider';
 import { appRoutes, getAllRoutes } from './app.routes';
 import { AppRoutePath, AppRouteValue } from './app.routes.enum';
 import { AlertService } from './feature/alerts/alert.service';
 import { BannerComponent } from './shared/components/banner/banner.component';
+import { FeedbackButtonComponent } from './shared/components/feedback-button/feedback-button.component';
 import { GlobalSelectionStateService } from './shared/components/global-selection-criteria/global-selection-state.service';
 import { TabBarNavigationComponent } from './shared/components/tab-bar-navigation/tab-bar-navigation.component';
 import { UserSettingsComponent } from './shared/components/user-settings/user-settings.component';
@@ -69,6 +71,7 @@ import { ValidationHelper } from './shared/utils/validation/validation-helper';
     MatTabsModule,
     CommonModule,
     BannerComponent,
+    FeedbackButtonComponent,
   ],
   selector: 'd360-root',
   templateUrl: './app.component.html',
@@ -151,6 +154,8 @@ export class AppComponent implements OnInit {
       external: true,
     },
   ];
+
+  protected qualtricsQuestionnaireUrl = '';
 
   public constructor() {
     this.router.events
@@ -269,6 +274,8 @@ export class AppComponent implements OnInit {
 
     // add translocoLocaleService to static class.
     ValidationHelper.localeService = this.translocoLocaleService;
+
+    this.qualtricsQuestionnaireUrl = this.getQualtricsUrl();
   }
 
   private checkAndSetActiveAccount() {
@@ -308,6 +315,23 @@ export class AppComponent implements OnInit {
       }),
       takeUntilDestroyed(this.destroyRef)
     );
+  }
+
+  /**
+   * Get the Qualtrics questionnaire URL from environment configuration.
+   *
+   * @private
+   * @return {string} The Qualtrics URL or empty string if not available
+   * @memberof AppComponent
+   */
+  private getQualtricsUrl(): string {
+    try {
+      return getEnv()?.qualtricsQuestionnaireUrl || '';
+    } catch (error) {
+      console.warn('Failed to get Qualtrics URL:', error);
+
+      return '';
+    }
   }
 
   /**

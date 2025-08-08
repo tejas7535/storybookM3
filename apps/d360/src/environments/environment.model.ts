@@ -6,6 +6,8 @@ export interface Environment {
   devToolsEnabled: boolean;
   enableMsalLogger: boolean;
 
+  qualtricsQuestionnaireUrl: string;
+
   // AAD auth
   tenantId: string;
   clientId: string;

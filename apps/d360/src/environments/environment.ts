@@ -11,6 +11,9 @@ export const environment: Environment = {
   devToolsEnabled: false,
   enableMsalLogger: false,
 
+  qualtricsQuestionnaireUrl:
+    'https://schaefflertech.qualtrics.com/jfe/form/SV_cvzdQ4bTLVY8EKy',
+
   // AAD auth
   tenantId: '67416604-6509-4014-9859-45e709f53d3f',
   clientId: '07adc052-926e-4f07-9603-84d2be66473f',
