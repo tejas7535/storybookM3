@@ -7,8 +7,9 @@ import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { AgGridModule } from 'ag-grid-angular';
 import { FilterChangedEvent } from 'ag-grid-enterprise';
-import { MockProvider } from 'ng-mocks';
+import { MockModule, MockProvider } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -24,7 +25,11 @@ describe('ComparableTransactionsComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ComparableTransactionsComponent,
-    imports: [provideTranslocoTestingModule({ en: {} }), PushPipe],
+    imports: [
+      provideTranslocoTestingModule({ en: {} }),
+      MockModule(AgGridModule),
+      PushPipe,
+    ],
     providers: [
       ColumnDefService,
       {

@@ -3,14 +3,17 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { Quotation } from '@gq/shared/models';
 import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CUSTOMER_MOCK } from '../../../testing/mocks';
@@ -40,6 +43,9 @@ describe('SapViewComponent', () => {
       MockProvider(BreadcrumbsService, {
         getPriceDetailBreadcrumbs: jest.fn(() => breadcrumbs),
       }),
+      MockProvider(ApprovalFacade),
+      MockProvider(TransformationService),
+      MockProvider(ApplicationInsightsService),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });

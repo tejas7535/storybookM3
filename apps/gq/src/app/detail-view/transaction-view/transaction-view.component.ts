@@ -1,13 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module';
 import { RolesFacade } from '@gq/core/store/facades';
 import { ComparableLinkedTransaction } from '@gq/core/store/reducers/models';
 import { RecommendationType } from '@gq/core/store/transactions/models/recommendation-type.enum';
 import { TransactionsFacade } from '@gq/core/store/transactions/transactions.facade';
+import { MaterialPriceHeaderContentModule } from '@gq/shared/components/header/material-price-header-content/material-price-header-content.module';
+import { StatusCustomerInfoHeaderModule } from '@gq/shared/components/header/status-customer-info-header/status-customer-info-header.module';
 import { UserRoles } from '@gq/shared/constants';
 import { Customer } from '@gq/shared/models/customer';
 import {
@@ -16,16 +21,50 @@ import {
 } from '@gq/shared/models/quotation-detail';
 import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
 import { CurrencyService } from '@gq/shared/services/rest/currency/currency.service';
-import { TranslocoService } from '@jsverse/transloco';
+import {
+  TRANSLOCO_SCOPE,
+  TranslocoModule,
+  TranslocoService,
+} from '@jsverse/transloco';
+import { PushPipe } from '@ngrx/component';
 import { FilterChangedEvent, IRowNode } from 'ag-grid-enterprise';
 
-import { Breadcrumb } from '@schaeffler/breadcrumbs';
+import { Breadcrumb, BreadcrumbsModule } from '@schaeffler/breadcrumbs';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { ShareButtonModule } from '@schaeffler/share-button';
+import { SubheaderModule } from '@schaeffler/subheader';
+
+import { ComparableTransactionsComponent } from './comparable-transactions/comparable-transactions.component';
+import { SavingInProgressComponent } from './saving-in-progress/saving-in-progress.component';
+import { TransparencyGraphModule } from './transparency-graph/transparency-graph.module';
 
 @Component({
   selector: 'gq-transaction-view',
+  imports: [
+    TranslocoModule,
+    ComparableTransactionsComponent,
+    TransparencyGraphModule,
+    MatCardModule,
+    PushPipe,
+    LoadingSpinnerModule,
+    MaterialPriceHeaderContentModule,
+    SubheaderModule,
+    BreadcrumbsModule,
+    ShareButtonModule,
+    CommonModule,
+    StatusCustomerInfoHeaderModule,
+    ActiveCaseModule,
+    SavingInProgressComponent,
+  ],
   templateUrl: './transaction-view.component.html',
   styleUrls: ['./transaction-view.component.scss'],
-  standalone: false,
+  providers: [
+    {
+      provide: TRANSLOCO_SCOPE,
+      useValue: 'transaction-view',
+    },
+  ],
+  standalone: true,
 })
 export class TransactionViewComponent {
   private readonly translocoService: TranslocoService =

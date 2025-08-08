@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ComparableTransactionsGuard } from '@gq/core/guards';
+import { TransactionsModule } from '@gq/core/store/transactions/transactions.module';
 
 import { DetailRoutePath } from './detail-route-path.enum';
 
@@ -15,16 +16,17 @@ const routes: Routes = [
   },
   {
     path: DetailRoutePath.TransactionsPath,
-    loadChildren: () =>
-      import('./transaction-view/transaction-view.module').then(
-        (m) => m.TransactionViewModule
+    loadComponent: () =>
+      import('./transaction-view/transaction-view.component').then(
+        (m) => m.TransactionViewComponent
       ),
+    loadChildren: () => TransactionsModule,
     canActivateChild: [ComparableTransactionsGuard],
   },
   {
     path: DetailRoutePath.SapPath,
-    loadChildren: () =>
-      import('./sap-view/sap-view.module').then((m) => m.SapViewModule),
+    loadComponent: () =>
+      import('./sap-view/sap-view.component').then((m) => m.SapViewComponent),
   },
 ];
 

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, Input, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -10,6 +11,8 @@ import {
   basicTableStyle,
   disableTableHorizontalScrollbar,
 } from '@gq/shared/constants/table-styles';
+import { PushPipe } from '@ngrx/component';
+import { AgGridModule } from 'ag-grid-angular';
 
 import {
   COMPONENTS,
@@ -20,9 +23,10 @@ import { ROW_SELECTION } from './config/row-selection.config';
 
 @Component({
   selector: 'gq-sap-price-details-table',
+  imports: [CommonModule, AgGridModule, PushPipe],
   templateUrl: './sap-price-details-table.component.html',
   styles: [basicTableStyle, disableTableHorizontalScrollbar],
-  standalone: false,
+  standalone: true,
 })
 export class SapPriceDetailsTableComponent
   extends BaseAgGridComponent

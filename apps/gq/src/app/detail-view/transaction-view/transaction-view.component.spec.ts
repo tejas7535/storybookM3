@@ -1,5 +1,3 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
 import { BehaviorSubject, of } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
@@ -7,22 +5,16 @@ import { RolesFacade } from '@gq/core/store/facades';
 import { RecommendationType } from '@gq/core/store/transactions/models/recommendation-type.enum';
 import { TransactionsFacade } from '@gq/core/store/transactions/transactions.facade';
 import { CurrencyService } from '@gq/shared/services/rest/currency/currency.service';
+import { TranslocoService } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushPipe } from '@ngrx/component';
-import { provideMockStore } from '@ngrx/store/testing';
 import { FilterChangedEvent } from 'ag-grid-enterprise';
-import { MockProvider } from 'ng-mocks';
-import resize_observer_polyfill from 'resize-observer-polyfill';
+import { MockBuilder } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
-
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../testing/mocks';
 import { QUOTATION_MOCK } from '../../../testing/mocks/models/quotation';
 import { QUOTATION_DETAIL_MOCK } from '../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { TransactionViewComponent } from './transaction-view.component';
-
-window.ResizeObserver = resize_observer_polyfill;
 
 describe('TransactionViewComponent', () => {
   let component: TransactionViewComponent;
@@ -37,34 +29,38 @@ describe('TransactionViewComponent', () => {
   const recommendationType$$ = new BehaviorSubject(RecommendationType.MARGIN);
   const currency$$ = new BehaviorSubject(QUOTATION_MOCK.currency);
 
+  const dependencies = MockBuilder(TransactionViewComponent)
+    .mock(TranslocoService, {
+      selectTranslateObject: jest.fn(
+        () => new BehaviorSubject({ test: 'test' }) as any
+      ),
+    })
+    .mock(ActiveCaseFacade, {
+      selectedQuotationDetail$: of(QUOTATION_DETAIL_MOCK),
+      quotationLoading$: of(false),
+      quotationCurrency$: currency$$.asObservable(),
+      detailViewQueryParams$: of({} as any),
+    })
+    .mock(CurrencyService, {
+      getExchangeRateForCurrency: jest
+        .fn()
+        .mockReturnValue(of(EXCHANGE_RATE_MOCK)),
+    })
+    .mock(TransactionsFacade, {
+      transactions$: of(mockTransactions),
+      transactionsLoading$: of(false),
+      graphTransactions$: of(mockTransactions),
+      recommendationType$: recommendationType$$.asObservable(),
+    })
+    .mock(RolesFacade, {
+      userHasGPCRole$: of(false),
+      userHasRoles$: jest.fn(() => of(false)),
+    })
+    .build();
+
   const createComponent = createComponentFactory({
     component: TransactionViewComponent,
-    imports: [provideTranslocoTestingModule({ en: {} }), PushPipe],
-    providers: [
-      provideMockStore({}),
-      MockProvider(CurrencyService, {
-        getExchangeRateForCurrency: jest
-          .fn()
-          .mockReturnValue(of(EXCHANGE_RATE_MOCK)),
-      }),
-      MockProvider(ActiveCaseFacade, {
-        selectedQuotationDetail$: of(QUOTATION_DETAIL_MOCK),
-        quotationLoading$: of(false),
-        quotationCurrency$: currency$$.asObservable(),
-        detailViewQueryParams$: of({} as any),
-      }),
-      MockProvider(TransactionsFacade, {
-        transactions$: of(mockTransactions),
-        transactionsLoading$: of(false),
-        graphTransactions$: of(mockTransactions),
-        recommendationType$: recommendationType$$.asObservable(),
-      }),
-      MockProvider(RolesFacade, {
-        userHasGPCRole$: of(false),
-        userHasRoles$: jest.fn(() => of(false)),
-      }),
-    ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    ...dependencies,
   });
 
   beforeEach(() => {
@@ -142,7 +138,7 @@ describe('TransactionViewComponent', () => {
         m.cold('(a|)', { a: false })
       );
       m.expect(component.translationsLoaded$).toBeObservable(
-        m.cold('a', { a: false })
+        m.cold('a', { a: true })
       );
       m.expect(component.recommendationType$).toBeObservable(
         m.cold('a', { a: RecommendationType.MARGIN })
