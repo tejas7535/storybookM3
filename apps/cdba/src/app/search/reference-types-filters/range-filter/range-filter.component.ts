@@ -32,17 +32,17 @@ import { InputType } from './input-type.enum';
 })
 export class RangeFilterComponent implements OnChanges, OnInit, Filter {
   @Input()
-  public filter: FilterItemRange;
+  filter: FilterItemRange;
 
   @Output()
   private readonly updateFilter: EventEmitter<FilterItemRange> =
     new EventEmitter();
 
-  public form = new UntypedFormControl();
-  public inputType = InputType;
-  public disabledFilterHint: string;
-  public FILTER_NAME_LIMIT = FILTER_NAME_LIMIT;
-  public STABLE_THRESHOLD = 700;
+  form = new UntypedFormControl();
+  inputType = InputType;
+  disabledFilterHint: string;
+  FILTER_NAME_LIMIT = FILTER_NAME_LIMIT;
+  STABLE_THRESHOLD = 700;
 
   minSectionValue = 0;
   minSectionMin = 0;
@@ -54,9 +54,9 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
 
   decimalNumberFormat: NumberFormatOptions = { maximumFractionDigits: 2 };
 
-  public constructor(private readonly translocoService: TranslocoService) {}
+  constructor(private readonly translocoService: TranslocoService) {}
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     switch (this.filter.name) {
       case FILTER_NAME_LIMIT: {
         this.maxSectionValue = DEFAULT_RESULTS_THRESHOLD;
@@ -85,7 +85,7 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
     }
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(changes: SimpleChanges): void {
     this.minSectionValue = changes.filter?.currentValue.minSelected;
     this.maxSectionValue = changes.filter?.currentValue.maxSelected;
 
@@ -103,7 +103,7 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
   /**
    * Reset input and emit update.
    */
-  public resetInput(input: InputType): void {
+  resetInput(input: InputType): void {
     const toUpdate = `${input}Selected`;
 
     if (this.filter.name === FILTER_NAME_LIMIT) {
@@ -122,7 +122,7 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
   /**
    * Change listener for min/max slider and manual text input
    */
-  public update(input: InputType, newValue: number | string): void {
+  update(input: InputType, newValue: number | string): void {
     const value = Number.parseFloat(newValue.toString().replace(',', '.'));
 
     switch (this.filter.name) {
@@ -154,14 +154,14 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
     }
   }
 
-  public reset(): void {
+  reset(): void {
     // skip form reset for Limit filter as it clears the label
     if (this.filter.name !== FILTER_NAME_LIMIT) {
       this.form.reset();
     }
   }
 
-  public formatSliderThumbLabel(value: number): string {
+  formatSliderThumbLabel(value: number): string {
     if (value > 999 && value < 1_000_000) {
       return `${Math.round(value / 1000)}K`;
     }
@@ -190,7 +190,7 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
       // check if value < max
       if (value < this.filter.max) {
         // define ticks, 1 may be to large for some filters
-        maxSelected = maxSelected === 0 ? this.filter.max : value + 1;
+        maxSelected = maxSelected === 0 ? this.filter.max : value;
       } else {
         value = this.filter.max - 1;
         maxSelected = this.filter.max;
@@ -220,7 +220,7 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
     if (value <= this.filter.minSelected) {
       // check if value > min
       if (value > this.filter.min) {
-        minSelected = value - 1;
+        minSelected = value;
       } else {
         value += 1;
         minSelected = this.filter.min;

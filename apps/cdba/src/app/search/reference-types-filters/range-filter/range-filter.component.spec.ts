@@ -411,7 +411,7 @@ describe('RangeFilterComponent', () => {
       expect(component['updateFilter'].emit).toHaveBeenCalledWith({
         ...filter,
         minSelected: 50,
-        maxSelected: 51,
+        maxSelected: 50,
       } as FilterItemRange);
     });
 
@@ -469,7 +469,7 @@ describe('RangeFilterComponent', () => {
 
       expect(component['updateFilter'].emit).toHaveBeenCalledWith({
         ...filter,
-        minSelected: 39,
+        minSelected: 40,
         maxSelected: 40,
       } as FilterItemRange);
     });
