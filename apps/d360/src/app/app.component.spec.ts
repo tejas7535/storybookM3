@@ -8,8 +8,6 @@ import {
   InteractionStatus,
 } from '@azure/msal-browser';
 
-import { Environment } from '../environments/environment.model';
-import { getEnv } from '../environments/environments.provider';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { AppRoutePath } from './app.routes.enum';
@@ -17,9 +15,6 @@ import { DATE_FNS_LOOKUP } from './shared/constants/available-locales';
 import { Stub } from './shared/test/stub.class';
 import { ValidationHelper } from './shared/utils/validation/validation-helper';
 
-jest.mock('../environments/environments.provider', () => ({
-  getEnv: jest.fn(),
-}));
 describe('AppComponent', () => {
   let component: AppComponent;
   let routerEvents: BehaviorSubject<any>;
@@ -45,6 +40,9 @@ describe('AppComponent', () => {
         Stub.getUserServiceProvider(),
         Stub.getDateAdapterProvider(),
         Stub.getStreamSaverServiceProvider(),
+        Stub.getEnvProvider({
+          qualtricsQuestionnaireUrl: 'https://qualtrics.example.com/survey',
+        }),
       ],
     });
   });
@@ -379,17 +377,11 @@ describe('AppComponent', () => {
     });
 
     it('should set the qualtricsQuestionnaireUrl', () => {
-      const expectedUrl = 'https://qualtrics.example.com';
-      const getQualtricsUrlSpy = jest.spyOn(
-        component as any,
-        'getQualtricsUrl'
-      ) as jest.Mock;
-      getQualtricsUrlSpy.mockReturnValue(expectedUrl);
-
       component.ngOnInit();
 
-      expect(getQualtricsUrlSpy).toHaveBeenCalled();
-      expect((component as any).qualtricsQuestionnaireUrl).toBe(expectedUrl);
+      expect((component as any).qualtricsQuestionnaireUrl).toBe(
+        'https://qualtrics.example.com/survey'
+      );
     });
 
     it('should set empty string when getQualtricsUrl fails', () => {
@@ -687,28 +679,17 @@ describe('AppComponent', () => {
     });
   });
 
-  describe('qualtricsQuestionnaireUrl', () => {
-    let mockGetEnv: jest.MockedFunction<typeof getEnv>;
-
-    beforeEach(() => {
-      mockGetEnv = getEnv as jest.MockedFunction<typeof getEnv>;
-      mockGetEnv.mockClear();
-    });
-
+  describe('getQualtricsUrl', () => {
     it('should return URL from environment configuration', () => {
       const expectedUrl = 'https://qualtrics.example.com/survey';
-      mockGetEnv.mockReturnValue({
-        qualtricsQuestionnaireUrl: expectedUrl,
-      } as Environment);
 
       const result = (component as any).getQualtricsUrl();
 
-      expect(mockGetEnv).toHaveBeenCalled();
       expect(result).toBe(expectedUrl);
     });
 
     it('should return empty string when getEnv returns null', () => {
-      mockGetEnv.mockReturnValue(null);
+      (component as any).environment = { qualtricsQuestionnaireUrl: null };
 
       const result = (component as any).getQualtricsUrl();
 
@@ -716,7 +697,7 @@ describe('AppComponent', () => {
     });
 
     it('should return empty string when qualtricsQuestionnaireUrl is not set', () => {
-      mockGetEnv.mockReturnValue({} as Environment);
+      (component as any).environment = { qualtricsQuestionnaireUrl: undefined };
 
       const result = (component as any).getQualtricsUrl();
 
@@ -724,11 +705,14 @@ describe('AppComponent', () => {
     });
 
     it('should return empty string when getEnv throws an error', () => {
-      mockGetEnv.mockImplementation(() => {
-        throw new Error('Environment not available');
+      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+      Object.defineProperty(component, 'environment', {
+        get: jest.fn(() => {
+          throw new Error('Environment access failed');
+        }),
+        configurable: true,
       });
 
-      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
       const result = (component as any).getQualtricsUrl();
 
       expect(result).toBe('');

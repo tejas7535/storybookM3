@@ -56,6 +56,7 @@ import {
 } from '@schaeffler/transloco';
 
 import { environment } from '../environments/environment';
+import { ENV, getEnv } from '../environments/environments.provider';
 import { appRoutes } from './app.routes';
 import { AppRoutePath } from './app.routes.enum';
 import { SnackbarComponent } from './shared/components/snackbar/snackbar.component';
@@ -190,5 +191,9 @@ export const appConfig: ApplicationConfig = {
       progressBar: false,
       maxOpened: 5,
     }),
+    {
+      provide: ENV,
+      useFactory: getEnv,
+    },
   ],
 };

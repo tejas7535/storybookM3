@@ -38,6 +38,8 @@ import { MockProvider, MockService } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
+import { Environment } from '../../../environments/environment.model';
+import { ENV } from '../../../environments/environments.provider';
 import { AppRoutePath } from '../../app.routes.enum';
 import { AlertRulesService } from '../../feature/alert-rules/alert-rules.service';
 import { AlertService, GroupedAlert } from '../../feature/alerts/alert.service';
@@ -745,5 +747,11 @@ export class Stub {
       { nativeElement: document.createElement('div') },
       'useValue'
     );
+  }
+
+  public static getEnvProvider(
+    environment: Partial<Environment>
+  ): ValueProvider {
+    return MockProvider(ENV, environment as Environment, 'useValue');
   }
 }

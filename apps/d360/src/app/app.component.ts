@@ -42,7 +42,8 @@ import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import packageJson from '../../package.json';
-import { getEnv } from '../environments/environments.provider';
+import { Environment } from '../environments/environment.model';
+import { ENV } from '../environments/environments.provider';
 import { appRoutes, getAllRoutes } from './app.routes';
 import { AppRoutePath, AppRouteValue } from './app.routes.enum';
 import { AlertService } from './feature/alerts/alert.service';
@@ -55,6 +56,7 @@ import {
   DATE_FNS_LOOKUP,
   LocaleType,
 } from './shared/constants/available-locales';
+import { DisableOnProdDirective } from './shared/directives';
 import { UserService } from './shared/services/user.service';
 import { StreamSaverService } from './shared/utils/service/stream-saver.service';
 import { ValidationHelper } from './shared/utils/validation/validation-helper';
@@ -72,11 +74,13 @@ import { ValidationHelper } from './shared/utils/validation/validation-helper';
     CommonModule,
     BannerComponent,
     FeedbackButtonComponent,
+    DisableOnProdDirective,
   ],
   selector: 'd360-root',
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
+  private readonly environment: Environment = inject(ENV);
   private readonly dateAdapter: DateAdapter<Date> = inject(DateAdapter);
   private readonly translocoService: TranslocoService =
     inject(TranslocoService);
@@ -326,7 +330,7 @@ export class AppComponent implements OnInit {
    */
   private getQualtricsUrl(): string {
     try {
-      return getEnv()?.qualtricsQuestionnaireUrl || '';
+      return this.environment.qualtricsQuestionnaireUrl || '';
     } catch (error) {
       console.warn('Failed to get Qualtrics URL:', error);
 
