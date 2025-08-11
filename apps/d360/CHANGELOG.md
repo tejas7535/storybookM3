@@ -1,4 +1,14 @@
 # Release Notes of Demand360
+## [3.0.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/d360-v3.0.2...d360-v3.0.3) (2025-08-11)
+
+
+### Features
+
+* **cdba:** compare screen 2.0 ([#6244](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6244)) ([3d6448f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3d6448fae99c4f18de2c17c3d3e706fd34ced916))
+* **d360:** add feedback button (D360-489) ([#7452](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7452)) ([1738fc3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1738fc39777c9e495b7a8ff41d98e423a9bfe0f4))
+* **d360:** avoid layout reset when resetting global selection (D360-522) ([#7437](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7437)) ([21571a1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/21571a10b5cffb87f27081ba220c0d76abd83641))
+* **d360:** disable feedback on prod (D360-489) ([#7456](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7456)) ([1e05358](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1e053586fb99c7d249e3d3567d4928e34e8f181b))
+
 ## [3.0.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/d360-v3.0.1...d360-v3.0.2) (2025-07-25)
 
 
