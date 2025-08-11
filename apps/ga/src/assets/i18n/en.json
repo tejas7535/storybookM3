@@ -19,11 +19,11 @@
         "tag": "New",
         "externalUrl": "https://medias.schaeffler.de/en/lubrication-selection-assistant"
       },
-      "calculator": {
+      "vic": {
         "title": {
-          "main": "Grease Calculator",
-          "sub": "Powered by Bearinx"
-        }
+          "main": "Viscosity Index Calculator"
+        },
+        "tag": "New"
       },
       "greases": {
         "title": {
@@ -129,6 +129,19 @@
     "tag": "New",
     "contact": "Contact",
     "advert": "Over 100 greases available for interchangeability"
+  },
+  "viscosityIndexCalculator": {
+    "title": "Viscosity Index Calculator",
+    "description": "The viscosity of oils and base oils of lubricating greases can be determined by means of the known kinematic viscosity at 40 °C and 100 °C. The higher the viscosity index, the lower the viscosity change of an oil at fluctuating temperatures. A high viscosity index ensures consistent lubricating properties across a wide temperature range.",
+    "resultLabel": "Viscosity index (VI):",
+    "tag": "New",
+    "openCalculator": "Open Calculator",
+    "pleaseEnter": "Enter {{label}}",
+    "errors": {
+      "required": "This field is required",
+      "v100Relative": "v100 must be less than v40",
+      "v100Min": "v100 must be greater than 2"
+    }
   },
   "bearing": {
     "title": {

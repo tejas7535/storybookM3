@@ -19,11 +19,11 @@
         "tag": "Nuovo",
         "externalUrl": "https://medias.schaeffler.it/it/lubrication-selection-assistant"
       },
-      "calculator": {
+      "vic": {
         "title": {
-          "main": "Calcolatore di grasso",
-          "sub": "Con tecnologia Bearinx"
-        }
+          "main": "Calcolatore indice di viscosità"
+        },
+        "tag": "Nuovo"
       },
       "greases": {
         "title": {
@@ -129,6 +129,19 @@
     "tag": "Nuovo",
     "contact": "Contatto",
     "advert": "Oltre 100 grassi disponibili per intercambiabilità"
+  },
+  "viscosityIndexCalculator": {
+    "title": "Calcolatore indice di viscosità",
+    "description": "La viscosità degli oli e degli oli base dei grassi lubrificanti può essere determinata tramite la viscosità cinematica nota a 40 °C e 100 °C. Maggiore è l'indice di viscosità, minore è la variazione di viscosità dell’olio al variare della temperatura. Un alto indice di viscosità garantisce proprietà lubrificanti costanti su un ampio intervallo di temperatura.",
+    "resultLabel": "Indice di viscosità (VI):",
+    "tag": "Nuovo",
+    "openCalculator": "Apri calcolatore",
+    "pleaseEnter": "Inserisci {{label}}",
+    "errors": {
+      "required": "Questo campo è obbligatorio",
+      "v100Relative": "v100 deve essere inferiore a v40",
+      "v100Min": "v100 deve essere maggiore di 2"
+    }
   },
   "bearing": {
     "title": {

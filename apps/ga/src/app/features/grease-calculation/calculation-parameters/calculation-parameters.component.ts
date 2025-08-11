@@ -10,6 +10,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -34,6 +35,7 @@ import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { MaintenanceModule } from '@schaeffler/empty-states';
 import { InfoBannerComponent } from '@schaeffler/feedback-banner';
 import { SubheaderModule } from '@schaeffler/subheader';
+import { TagComponent } from '@schaeffler/tag';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
@@ -62,6 +64,7 @@ import {
 } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
 import { environment } from '@ga/environments/environment';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
+import { ViCalculatorService } from '@ga/features/vi-calculator/services/vi-calculator.service';
 import { AppStoreButtonsComponent } from '@ga/shared/components/app-store-buttons/app-store-buttons.component';
 import { FormFieldModule } from '@ga/shared/components/form-field';
 import { GreaseSelectionAdvertComponent } from '@ga/shared/components/grease-selection-advert/grease-selection-advert.component';
@@ -121,8 +124,10 @@ import { CalculationParametersService } from './services';
     MatInputModule,
     MatRadioModule,
     MatDividerModule,
+    MatCardModule,
     GreaseSelectionAdvertComponent,
     InfoBannerComponent,
+    TagComponent,
   ],
   providers: [CalculationParametersService],
 })
@@ -264,7 +269,8 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
     private readonly appAnalyticsService: AppAnalyticsService,
     private readonly appInsightsService: ApplicationInsightsService,
     private readonly calculationParametersFacade: CalculationParametersFacade,
-    private readonly injector: Injector
+    private readonly injector: Injector,
+    private readonly viCalculatorService: ViCalculatorService
   ) {}
 
   public ngOnInit(): void {
@@ -458,6 +464,10 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
       this.logHorizontalAxisSelection();
       this.calculationParametersFacade.setAutomaticLubrication(true);
     }
+  }
+
+  openViscosityIndexCalculator(): void {
+    this.viCalculatorService.showViscosityIndexCalculator();
   }
 
   private logHorizontalAxisSelection(): void {

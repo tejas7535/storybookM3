@@ -19,11 +19,11 @@
         "tag": "新",
         "externalUrl": "https://medias.schaeffler.cn/zh_TW/lubrication-selection-assistant"
       },
-      "calculator": {
+      "vic": {
         "title": {
-          "main": "潤滑油計算器",
-          "sub": "由 Bearinx 提供"
-        }
+          "main": "黏度指數計算器"
+        },
+        "tag": "新"
       },
       "greases": {
         "title": {
@@ -129,6 +129,19 @@
     "tag": "新",
     "contact": "聯絡",
     "advert": "超過100種潤滑脂可供互換。"
+  },
+  "viscosityIndexCalculator": {
+    "title": "黏度指數計算器",
+    "description": "潤滑油及潤滑脂基礎油的黏度可通過已知的40 ℃和100 ℃下運動黏度來確定。黏度指數越高，油品在溫度波動時的黏度變化越小。高黏度指數確保在廣泛溫度範圍內具有穩定的潤滑性能。",
+    "resultLabel": "黏度指數 (VI)：",
+    "tag": "新",
+    "openCalculator": "打開計算機",
+    "pleaseEnter": "輸入 {{label}}",
+    "errors": {
+      "required": "此欄位為必填項",
+      "v100Relative": "v100必須小於v40",
+      "v100Min": "v100必須大於2"
+    }
   },
   "bearing": {
     "title": {

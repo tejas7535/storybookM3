@@ -19,11 +19,11 @@
         "tag": "Baru",
         "externalUrl": "https://medias.schaeffler.de/en/lubrication-selection-assistant"
       },
-      "calculator": {
+      "vic": {
         "title": {
-          "main": "Kalkulator Grease",
-          "sub": "Didukung oleh Bearinx"
-        }
+          "main": "Kalkulator Indeks Kekentalan"
+        },
+        "tag": "Baru"
       },
       "greases": {
         "title": {
@@ -129,6 +129,19 @@
     "tag": "Baru",
     "contact": "Kontak",
     "advert": "Lebih dari 100 gemuk tersedia untuk pertukaran"
+  },
+  "viscosityIndexCalculator": {
+    "title": "Kalkulator Indeks Kekentalan",
+    "description": "Kekentalan oli dan oli dasar dari gemuk pelumas dapat ditentukan melalui nilai kekentalan kinematik yang diketahui pada suhu 40 °C dan 100 °C. Semakin tinggi indeks kekentalan, semakin kecil perubahan kekentalan oli saat terjadi fluktuasi suhu. Indeks kekentalan yang tinggi memastikan sifat pelumas tetap konsisten pada rentang suhu yang luas.",
+    "resultLabel": "Indeks kekentalan (VI):",
+    "tag": "Baru",
+    "openCalculator": "Buka kalkulator",
+    "pleaseEnter": "Masukkan {{label}}",
+    "errors": {
+      "required": "Kolom ini wajib diisi",
+      "v100Relative": "v100 harus lebih kecil dari v40",
+      "v100Min": "v100 harus lebih besar dari 2"
+    }
   },
   "bearing": {
     "title": {

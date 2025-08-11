@@ -19,11 +19,11 @@
         "tag": "新しい",
         "externalUrl": "https://medias.schaeffler.jp/ja/lubrication-selection-assistant"
       },
-      "calculator": {
+      "vic": {
         "title": {
-          "main": "グリース計算機",
-          "sub": "Powered by Bearinx"
-        }
+          "main": "粘度指数計算ツール"
+        },
+        "tag": "新規"
       },
       "greases": {
         "title": {
@@ -129,6 +129,19 @@
     "tag": "新しい",
     "contact": "連絡先",
     "advert": "互換性のために利用可能な100を超えるグリース。"
+  },
+  "viscosityIndexCalculator": {
+    "title": "粘度指数計算ツール",
+    "description": "油および潤滑グリースの基油の粘度は、40℃および100℃での既知の動粘度によって求めることができます。粘度指数が高いほど、温度変化に対するオイルの粘度変化が小さくなります。粘度指数が高いと、広い温度範囲で一貫した潤滑特性が得られます。",
+    "resultLabel": "粘度指数（VI）：",
+    "tag": "新規",
+    "openCalculator": "計算機を開く",
+    "pleaseEnter": "{{label}}を入力",
+    "errors": {
+      "required": "この項目は必須です",
+      "v100Relative": "v100はv40より小さくなければなりません",
+      "v100Min": "v100は2より大きくなければなりません"
+    }
   },
   "bearing": {
     "title": {

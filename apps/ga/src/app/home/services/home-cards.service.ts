@@ -1,17 +1,13 @@
-import { computed, Inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Router } from '@angular/router';
-
-import { map, Observable } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { AppRoutePath } from '@ga/app-route-path.enum';
 import { SettingsFacade } from '@ga/core/store';
-import { Environment } from '@ga/environments/environment.model';
 import { ENV } from '@ga/environments/environments.provider';
+import { ViCalculatorService } from '@ga/features/vi-calculator/services/vi-calculator.service';
 import {
   TRACKING_NAME_HOMECARD,
   UTM_PARAMS_DEFAULT,
@@ -25,26 +21,67 @@ import { HomeCardsTrackingIds } from './home-cards-tracking-ids.enum';
   providedIn: 'root',
 })
 export class HomeCardsService {
-  private readonly isProduction;
   private readonly imagePathBase = 'assets/images/homepage/cards';
 
-  constructor(
-    private readonly settingsFacade: SettingsFacade,
-    private readonly router: Router,
-    private readonly translocoService: TranslocoService,
-    private readonly applicationInsightsService: ApplicationInsightsService,
-    @Inject(ENV) private readonly env: Environment
-  ) {
-    this.isProduction = this.env.production;
-  }
+  private readonly settingsFacade = inject(SettingsFacade);
 
-  public getHomeCards(): Observable<HomepageCard[]> {
-    return this.settingsFacade.partnerVersion$.pipe(
-      map((partnerVersion) => this.mapToHomeCards(partnerVersion))
-    );
-  }
+  private readonly translocoService = inject(TranslocoService);
+  private readonly applicationInsightsService = inject(
+    ApplicationInsightsService
+  );
+
+  private readonly viCalculatorService = inject(ViCalculatorService);
+
+  private readonly env = inject(ENV);
+  private readonly isProduction = this.env.production;
 
   public partnerVersion = toSignal(this.settingsFacade.partnerVersion$);
+
+  private readonly vicMainTitle = toSignal(
+    this.translocoService.selectTranslate('homepage.cards.vic.title.main')
+  );
+  private readonly vicTag = toSignal(
+    this.translocoService.selectTranslate('homepage.cards.vic.tag')
+  );
+  private readonly greasesMainTitle = toSignal(
+    this.translocoService.selectTranslate('homepage.cards.greases.title.main')
+  );
+  private readonly greasesSubTitle = toSignal(
+    this.translocoService.selectTranslate('homepage.cards.greases.title.sub')
+  );
+  private readonly lubricatorsMainTitle = toSignal(
+    this.translocoService.selectTranslate(
+      'homepage.cards.lubricators.title.main'
+    )
+  );
+  private readonly maintenanceMainTitle = toSignal(
+    this.translocoService.selectTranslate(
+      'homepage.cards.maintenance.title.main'
+    )
+  );
+  private readonly maintenanceSubTitle = toSignal(
+    this.translocoService.selectTranslate(
+      'homepage.cards.maintenance.title.sub'
+    )
+  );
+  private readonly optimeMainTitle = toSignal(
+    this.translocoService.selectTranslate('homepage.cards.optime.title.main')
+  );
+  private readonly catalogMainTitle = toSignal(
+    this.translocoService.selectTranslate('homepage.cards.catalog.title.main')
+  );
+  private readonly contactMainTitle = toSignal(
+    this.translocoService.selectTranslate('homepage.cards.contact.title.main')
+  );
+  private readonly faqMainTitle = toSignal(
+    this.translocoService.selectTranslate('homepage.cards.faq.title.main')
+  );
+
+  public homeCards = computed(() => {
+    const partnerVersion = this.partnerVersion();
+
+    return this.mapToHomeCards(partnerVersion);
+  });
 
   public contactExpertsAction = computed(() => {
     const partnerVersion = this.partnerVersion();
@@ -57,17 +94,15 @@ export class HomeCardsService {
 
     return [
       {
-        mainTitle: this.translateText('calculator.title.main'),
-        subTitle: this.translateText('calculator.title.sub'),
-        templateId: 'calculatorLogo',
-        cardAction: this.createNavigationAction(
-          AppRoutePath.GreaseCalculationPath,
-          HomeCardsTrackingIds.GreaseCalculation
-        ),
+        mainTitle: this.vicMainTitle(),
+        templateId: 'badgeCard',
+        imagePath: 'assets/images/icons/vc-icon.svg',
+        additionalDescription: this.vicTag(),
+        cardAction: this.createViCalculatorDialogAction(),
       },
       {
-        mainTitle: this.translateText('greases.title.main'),
-        subTitle: this.translateText('greases.title.sub'),
+        mainTitle: this.greasesMainTitle(),
+        subTitle: this.greasesSubTitle(),
         templateId: 'imageCard',
         imagePath: this.getCardImageUrl('greases.jpg'),
         cardAction: this.getExternalLinkAction(
@@ -77,7 +112,7 @@ export class HomeCardsService {
         ),
       },
       {
-        mainTitle: this.translateText('lubricators.title.main'),
+        mainTitle: this.lubricatorsMainTitle(),
         templateId: 'imageCard',
         imagePath: this.getCardImageUrl('lubricators.jpg'),
         cardAction: this.getExternalLinkAction(
@@ -87,8 +122,8 @@ export class HomeCardsService {
         ),
       },
       {
-        mainTitle: this.translateText('maintenance.title.main'),
-        subTitle: this.translateText('maintenance.title.sub'),
+        mainTitle: this.maintenanceMainTitle(),
+        subTitle: this.maintenanceSubTitle(),
         templateId: 'imageCard',
         imagePath: this.getCardImageUrl('maintenance.jpg'),
         cardAction: this.getExternalLinkAction(
@@ -98,7 +133,7 @@ export class HomeCardsService {
         ),
       },
       {
-        mainTitle: this.translateText('optime.title.main'),
+        mainTitle: this.optimeMainTitle(),
         templateId: 'imageCard',
         imagePath: this.getCardImageUrl('optime.jpg'),
         cardAction: this.getExternalLinkAction(
@@ -108,7 +143,7 @@ export class HomeCardsService {
         ),
       },
       {
-        mainTitle: this.translateText('catalog.title.main'),
+        mainTitle: this.catalogMainTitle(),
         templateId: 'imageCard',
         imagePath: this.getCardImageUrl('catalog.jpg'),
         cardAction: this.getExternalLinkAction(
@@ -125,7 +160,7 @@ export class HomeCardsService {
         cardAction: this.getSchaefflerExpertsCardAction(partnerVersion),
       },
       {
-        mainTitle: this.translateText('faq.title.main'),
+        mainTitle: this.faqMainTitle(),
         templateId: 'imageCard',
         imagePath: this.getCardImageUrl('faq.jpg'),
         cardAction: this.getExternalLinkAction(
@@ -145,7 +180,7 @@ export class HomeCardsService {
       );
     }
 
-    return this.translateText(key);
+    return this.contactMainTitle();
   }
 
   private getSchaefflerExpertsCardSubTitle(partnerVersion: string): string {
@@ -197,14 +232,11 @@ export class HomeCardsService {
     };
   }
 
-  private createNavigationAction(
-    navigationPath: string,
-    trackingId: HomeCardsTrackingIds
-  ): () => void {
+  private createViCalculatorDialogAction(): () => void {
     return (): void => {
-      this.logCardClick(trackingId);
+      this.logCardClick(HomeCardsTrackingIds.ViscosityCard);
 
-      this.router.navigate([navigationPath]);
+      this.viCalculatorService.showViscosityIndexCalculator();
     };
   }
 

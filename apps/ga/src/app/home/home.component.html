@@ -10,35 +10,36 @@
         [resetOnInit]="true"
       ></ga-quick-bearing-selection>
     </div>
-  </div>
-  <div class="container mx-auto px-4 md:!max-w-screen-md">
-    <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
-      @if (!(partnerVersion$ | ngrxPush)) {
-        <ga-app-ad-card
-          class="col-span-2 md:col-span-4"
-          translocoPrefix="homepage.cards.lsa"
-        />
-      }
 
-      @if (!(partnerVersion$ | ngrxPush)) {
-        <div class="col-span-2 md:col-span-4">
-          <ga-qualtrics-info-banner class="block"></ga-qualtrics-info-banner>
-        </div>
-      }
+    <div class="container mx-auto px-4 md:max-w-screen-md">
+      <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+        @if (!(partnerVersion$ | ngrxPush)) {
+          <ga-app-ad-card
+            class="col-span-2 md:col-span-4"
+            translocoPrefix="homepage.cards.lsa"
+          />
+        }
 
-      @for (card of homeCardsService.getHomeCards() | ngrxPush; track card) {
-        <ga-homepage-card [homepageCard]="card"></ga-homepage-card>
+        @if (!(partnerVersion$ | ngrxPush)) {
+          <div class="col-span-2 md:col-span-4">
+            <ga-qualtrics-info-banner class="block"></ga-qualtrics-info-banner>
+          </div>
+        }
+
+        @for (card of homeCardsService.homeCards(); track card) {
+          <ga-homepage-card [homepageCard]="card"></ga-homepage-card>
+        }
+      </div>
+
+      @if (
+        (appDelivery$ | ngrxPush) === 'standalone' &&
+        !(partnerVersion$ | ngrxPush)
+      ) {
+        <ga-app-store-buttons
+          [title]="'shared.appStoreButtonsTitle' | transloco"
+          (appStoreClick)="sendClickEvent($event)"
+        ></ga-app-store-buttons>
       }
     </div>
-
-    @if (
-      (appDelivery$ | ngrxPush) === 'standalone' &&
-      !(partnerVersion$ | ngrxPush)
-    ) {
-      <ga-app-store-buttons
-        [title]="'shared.appStoreButtonsTitle' | transloco"
-        (appStoreClick)="sendClickEvent($event)"
-      ></ga-app-store-buttons>
-    }
   </div>
 </div>

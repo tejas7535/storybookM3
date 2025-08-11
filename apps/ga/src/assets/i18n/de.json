@@ -19,11 +19,11 @@
         "tag": "Neu",
         "externalUrl": "https://medias.schaeffler.de/de/lubrication-selection-assistant"
       },
-      "calculator": {
+      "vic": {
         "title": {
-          "main": "Grease Calculator",
-          "sub": "Powered by Bearinx"
-        }
+          "main": "Viskositätsindex Rechner"
+        },
+        "tag": "Neu"
       },
       "greases": {
         "title": {
@@ -129,6 +129,19 @@
     "tag": "Neu",
     "contact": "Kontakt",
     "advert": "Über 100 Schmierstoffe zur Austauschbarkeit verfügbar"
+  },
+  "viscosityIndexCalculator": {
+    "title": "Viskositätsindex-Rechner",
+    "description": "Die Viskosität von Ölen und Grundölen von Schmierfetten kann mittels der bekannten kinematischen Viskosität bei 40 °C und 100 °C bestimmt werden. Je höher der Viskositätsindex, desto geringer ist die Viskositätsänderung eines Öls bei schwankenden Temperaturen. Ein hoher Viskositätsindex gewährleistet gleichbleibende Schmiereigenschaften über einen weiten Temperaturbereich.",
+    "resultLabel": "Viskositätsindex (VI):",
+    "tag": "Neu",
+    "openCalculator": "Rechner öffnen",
+    "pleaseEnter": "{{label}} angeben",
+    "errors": {
+      "required": "Dieses Feld ist eine Pflichteingabe",
+      "v100Relative": "v100 muss kleiner als v40 sein.",
+      "v100Min": "v100 muss größer als 2 sein."
+    }
   },
   "bearing": {
     "title": {

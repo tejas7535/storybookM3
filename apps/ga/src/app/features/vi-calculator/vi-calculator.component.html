@@ -1,0 +1,76 @@
+<ng-container *transloco="let t; read: 'viscosityIndexCalculator'">
+  <div class="flex flex-row justify-between items-center pr-2">
+    <h2 mat-dialog-title class="m-0">
+      {{ t('title') }}
+    </h2>
+    <button mat-icon-button (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <mat-dialog-content>
+    {{ t('description') }}
+    <div class="py-4">
+      <form [formGroup]="viForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="flex flex-col">
+          <mat-form-field appearance="outline" class="w-full mb-4">
+            <mat-label>V 40°C</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="v40"
+              placeholder="{{ t('pleaseEnter', { label: 'V 40°C' }) }}"
+            />
+            <span matSuffix style="font-size: 0.8rem; margin-right: 0.3rem"
+              >mm<sup>2</sup>/s</span
+            >
+            @if (formSubmitted && viForm.controls['v40'].hasError('required')) {
+              <mat-error> {{ t('errors.required') }} </mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>V 100°C</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="v100"
+              placeholder="{{ t('pleaseEnter', { label: 'V 100°C' }) }}"
+            />
+            <span matSuffix style="font-size: 0.8rem; margin-right: 0.3rem"
+              >mm<sup>2</sup>/s</span
+            >
+            @if (
+              formSubmitted && viForm.controls['v100'].hasError('required')
+            ) {
+              <mat-error> {{ t('errors.required') }} </mat-error>
+            }
+
+            @if (
+              formSubmitted &&
+              viForm.controls['v100'].errors?.relativeValidatorError
+            ) {
+              <mat-error> {{ t('errors.v100Relative') }} </mat-error>
+            }
+
+            @if (formSubmitted && viForm.controls['v100'].hasError('min')) {
+              <mat-error> {{ t('errors.v100Min') }} </mat-error>
+            }
+          </mat-form-field>
+
+          <div
+            class="vi-result-box"
+            [ngClass]="
+              formSubmitted && viWert !== undefined ? 'visible' : 'invisible'
+            "
+          >
+            <mat-label>{{ t('resultLabel') }}</mat-label>
+            <div class="result-field">
+              {{ viWert !== undefined ? viWert : '-' }}
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </mat-dialog-content>
+</ng-container>

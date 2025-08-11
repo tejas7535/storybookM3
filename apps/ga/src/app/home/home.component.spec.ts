@@ -60,7 +60,7 @@ describe('HomeComponent', () => {
         },
       },
       mockProvider(HomeCardsService, {
-        getHomeCards: () => [HOMEPAGE_CARD_MOCK, HOMEPAGE_CARD_MOCK],
+        homeCards: () => [HOMEPAGE_CARD_MOCK, HOMEPAGE_CARD_MOCK],
       }),
     ],
     detectChanges: false,

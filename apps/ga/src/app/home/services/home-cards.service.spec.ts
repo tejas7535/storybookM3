@@ -1,17 +1,15 @@
 import { waitForAsync } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 
-import { BehaviorSubject, firstValueFrom } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { AppRoutePath } from '@ga/app-route-path.enum';
 import { SettingsFacade } from '@ga/core/store/facades';
 import { ENV, getEnv } from '@ga/environments/environments.provider';
+import { ViCalculatorService } from '@ga/features/vi-calculator/services/vi-calculator.service';
 import { TRACKING_NAME_HOMECARD } from '@ga/shared/constants';
 import { PartnerAffiliateCode, PartnerVersion } from '@ga/shared/models';
 
@@ -23,23 +21,16 @@ describe('HomeCardsService', () => {
   let spectator: SpectatorService<HomeCardsService>;
   let service: HomeCardsService;
   let applicationInsightsService: ApplicationInsightsService;
-  let router: Router;
 
   const partnerSubject = new BehaviorSubject<PartnerVersion>(undefined);
   const createServiceWithProductionConfig = createServiceFactory({
     service: HomeCardsService,
-    imports: [RouterTestingModule, provideTranslocoTestingModule({ en: {} })],
+    imports: [provideTranslocoTestingModule({ en: {} })],
     providers: [
       {
         provide: ApplicationInsightsService,
         useValue: {
           logEvent: jest.fn(),
-        },
-      },
-      {
-        provide: Router,
-        useValue: {
-          navigate: jest.fn(),
         },
       },
       {
@@ -52,6 +43,12 @@ describe('HomeCardsService', () => {
         provide: ENV,
         useValue: { ...getEnv(), production: true },
       },
+      {
+        provide: ViCalculatorService,
+        useValue: {
+          showViscosityIndexCalculator: jest.fn(),
+        },
+      },
     ],
   });
 
@@ -60,7 +57,6 @@ describe('HomeCardsService', () => {
       spectator = createServiceWithProductionConfig();
       service = spectator.inject(HomeCardsService);
       applicationInsightsService = spectator.inject(ApplicationInsightsService);
-      router = spectator.inject(Router);
       Object.defineProperty(window, 'open', {
         value: jest.fn(),
       });
@@ -74,7 +70,7 @@ describe('HomeCardsService', () => {
       let result: HomepageCard[];
 
       beforeAll(async () => {
-        result = await firstValueFrom(service.getHomeCards());
+        result = service.homeCards();
       });
 
       it('should get home cards for production', waitForAsync(() => {
@@ -117,20 +113,13 @@ describe('HomeCardsService', () => {
         }));
       });
 
-      describe('when performing navigation action', () => {
-        it('should log and navigate to given link', waitForAsync(() => {
+      describe('when performing viscosity index calculator action', () => {
+        it('should show viscosity index calculator', waitForAsync(() => {
+          const viService = spectator.inject(ViCalculatorService);
+
           result[0].cardAction();
 
-          expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
-            TRACKING_NAME_HOMECARD,
-            {
-              card: HomeCardsTrackingIds.GreaseCalculation,
-            }
-          );
-
-          expect(router.navigate).toHaveBeenCalledWith([
-            AppRoutePath.GreaseCalculationPath,
-          ]);
+          expect(viService.showViscosityIndexCalculator).toHaveBeenCalled();
         }));
       });
     });
@@ -141,7 +130,6 @@ describe('HomeCardsService', () => {
       spectator = createServiceWithProductionConfig();
       service = spectator.inject(HomeCardsService);
       applicationInsightsService = spectator.inject(ApplicationInsightsService);
-      router = spectator.inject(Router);
       Object.defineProperty(window, 'open', {
         value: jest.fn(),
       });
@@ -155,7 +143,7 @@ describe('HomeCardsService', () => {
       let result: HomepageCard[];
 
       beforeAll(async () => {
-        result = await firstValueFrom(service.getHomeCards());
+        result = service.homeCards();
       });
 
       it('should get home cards for production', waitForAsync(() => {

@@ -1,5 +1,4 @@
 export enum HomeCardsTrackingIds {
-  GreaseCalculation = 'greaseCalculation',
   Sources = 'sources',
   LubricatorsLink = 'lubricatorsLink',
   MaintenanceLink = 'maintenanceLink',
@@ -7,4 +6,5 @@ export enum HomeCardsTrackingIds {
   CatalogLink = 'catalogLink',
   ContactLink = 'contactLink',
   FaqLink = 'faqLink',
+  ViscosityCard = 'viscosityCard',
 }

@@ -3,5 +3,6 @@ export interface HomepageCard {
   templateId: string;
   subTitle?: string;
   imagePath?: string;
+  additionalDescription?: string;
   cardAction: () => void;
 }

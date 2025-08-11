@@ -19,11 +19,11 @@
         "tag": "신규",
         "externalUrl": "https://medias.schaeffler.kr/ko/lubrication-selection-assistant"
       },
-      "calculator": {
+      "vic": {
         "title": {
-          "main": "그리스 계산기",
-          "sub": "Bearinx 제공"
-        }
+          "main": "점도 지수 계산기"
+        },
+        "tag": "신규"
       },
       "greases": {
         "title": {
@@ -129,6 +129,19 @@
     "tag": "새로운",
     "contact": "연락처",
     "advert": "교환 가능성을 위한 100개 이상의 그리스 제공"
+  },
+  "viscosityIndexCalculator": {
+    "title": "점도 지수 계산기",
+    "description": "윤활유 및 그리스의 기본유의 점도는 40°C와 100°C에서의 알려진 동점도를 통해 결정할 수 있습니다. 점도 지수가 높을수록 온도 변동에 따른 오일의 점도 변화가 적습니다. 점도 지수가 높으면 넓은 온도 범위에서 일관된 윤활 특성이 보장됩니다.",
+    "resultLabel": "점도 지수 (VI):",
+    "tag": "신규",
+    "openCalculator": "계산기 열기",
+    "pleaseEnter": "{{label}} 입력",
+    "errors": {
+      "required": "이 필드는 필수 입력 항목입니다",
+      "v100Relative": "v100은 v40보다 작아야 합니다",
+      "v100Min": "v100은 2보다 커야 합니다"
+    }
   },
   "bearing": {
     "title": {

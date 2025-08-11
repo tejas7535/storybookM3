@@ -1,5 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import {
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogModule,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { MatRadioButton } from '@angular/material/radio';
 
 import { PushPipe } from '@ngrx/component';
 
@@ -32,9 +41,18 @@ import { HomeCardsService } from './services/home-cards.service';
     QualtricsInfoBannerComponent,
     AppAdCardComponent,
     AppStoreButtonsComponent,
+    MatButtonModule,
 
     // Translation
     SharedTranslocoModule,
+    MatRadioButton,
+
+    // MAT-Dialog
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogContent,
+    MatDialogTitle,
+    MatDialogModule,
   ],
   providers: [
     HomeCardsService,

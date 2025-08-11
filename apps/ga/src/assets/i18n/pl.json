@@ -19,11 +19,11 @@
         "tag": "Nowy",
         "externalUrl": "https://medias.schaeffler.pl/pl/lubrication-selection-assistant"
       },
-      "calculator": {
+      "vic": {
         "title": {
-          "main": "Kalkulator smarowania",
-          "sub": "Powered by Bearinx"
-        }
+          "main": "Kalkulator wskaźnika lepkości"
+        },
+        "tag": "Nowość"
       },
       "greases": {
         "title": {
@@ -129,6 +129,19 @@
     "tag": "Nowość",
     "contact": "Kontakt",
     "advert": "Ponad 100 smarów dostępnych do wymienności"
+  },
+  "viscosityIndexCalculator": {
+    "title": "Kalkulator wskaźnika lepkości",
+    "description": "Lepkość olejów i bazowych olejów smarowych można określić na podstawie znanej lepkości kinematycznej w 40°C i 100°C. Im wyższy wskaźnik lepkości, tym mniejsza zmiana lepkości oleju przy wahaniach temperatury. Wysoki wskaźnik lepkości gwarantuje stałe właściwości smarne w szerokim zakresie temperatur.",
+    "resultLabel": "Wskaźnik lepkości (VI):",
+    "tag": "Nowość",
+    "openCalculator": "Otwórz kalkulator",
+    "pleaseEnter": "Wprowadź {{label}}",
+    "errors": {
+      "required": "To pole jest wymagane",
+      "v100Relative": "v100 musi być mniejsze niż v40",
+      "v100Min": "v100 musi być większe niż 2"
+    }
   },
   "bearing": {
     "title": {

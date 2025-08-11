@@ -1,26 +1,39 @@
 <div
-  class="overflow-hidden rounded-2xl border border-border bg-surface-legacy py-4 cursor-pointer transition-shadow hover:shadow-lg"
+  class="overflow-hidden rounded-2xl border border-border bg-surface-legacy py-4 h-full cursor-pointer transition-shadow hover:shadow-lg"
   (click)="onCardClick()"
 >
-  <div class="px-2 pb-4 text-center text-overline">
-    <div class="truncate" [innerHTML]="homepageCard.mainTitle"></div>
-    <div
-      class="truncate"
-      [innerHTML]="homepageCard?.subTitle ? homepageCard.subTitle : '&nbsp;'"
-    ></div>
-  </div>
-  <ng-container
-    *ngTemplateOutlet="{ imageCard, calculatorLogo }[homepageCard?.templateId]"
-  ></ng-container>
-  <ng-template #imageCard>
+  @if (homepageCard?.templateId === 'badgeCard') {
+    <div class="mx-4 mb-4">
+      <div class="flex flex-row gap-2 items-center mb-3">
+        <schaeffler-tag
+          [value]="homepageCard.additionalDescription"
+          type="primary"
+          [withDot]="false"
+          [withBorder]="true"
+        ></schaeffler-tag>
+        <p class="text-overline">
+          {{ homepageCard.mainTitle }}
+        </p>
+      </div>
+      <div class="aspect-video rounded-b bg-cover">
+        <img
+          [src]="getCardImageUrl()"
+          alt="Viscosity Calculation"
+          class="w-full h-full"
+        />
+      </div>
+    </div>
+  } @else {
+    <div class="px-2 pb-4 text-center text-overline">
+      <div class="truncate" [innerHTML]="homepageCard.mainTitle"></div>
+      <div
+        class="truncate"
+        [innerHTML]="homepageCard?.subTitle ? homepageCard.subTitle : '&nbsp;'"
+      ></div>
+    </div>
     <div
       class="mx-4 aspect-video rounded-b bg-cover"
       [ngStyle]="{ 'background-image': 'url(' + getCardImageUrl() + ')' }"
     ></div>
-  </ng-template>
-  <ng-template #calculatorLogo>
-    <div class="mx-4 aspect-video rounded-b bg-cover">
-      <ga-calculator-logo></ga-calculator-logo>
-    </div>
-  </ng-template>
+  }
 </div>

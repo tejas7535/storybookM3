@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
@@ -14,14 +14,12 @@ import { HomeCardsService } from './services/home-cards.service';
   standalone: false,
 })
 export class HomeComponent {
+  private readonly settingsFacade = inject(SettingsFacade);
+  private readonly appInsightService = inject(ApplicationInsightsService);
+  public readonly homeCardsService = inject(HomeCardsService);
+
   public appDelivery$ = this.settingsFacade.appDelivery$;
   public partnerVersion$ = this.settingsFacade.partnerVersion$;
-
-  constructor(
-    private readonly settingsFacade: SettingsFacade,
-    private readonly appInsightService: ApplicationInsightsService,
-    public readonly homeCardsService: HomeCardsService
-  ) {}
 
   sendClickEvent(storeName: string) {
     this.appInsightService.logEvent(TRACKING_APP_STORE_LINK_CLICK, {

@@ -19,11 +19,11 @@
         "tag": "Novo",
         "externalUrl": "https://medias.schaeffler.pt/pt/lubrication-selection-assistant"
       },
-      "calculator": {
+      "vic": {
         "title": {
-          "main": "Calculadora de massa lubrificante",
-          "sub": "Com o apoio da Bearinx"
-        }
+          "main": "Calculadora do Índice de Viscosidade"
+        },
+        "tag": "Novo"
       },
       "greases": {
         "title": {
@@ -129,6 +129,19 @@
     "tag": "Novo",
     "contact": "Contato",
     "advert": "Mais de 100 graxas disponíveis para intercambiabilidade"
+  },
+  "viscosityIndexCalculator": {
+    "title": "Calculadora do Índice de Viscosidade",
+    "description": "A viscosidade dos óleos e dos óleos base das massas lubrificantes pode ser determinada pela viscosidade cinemática conhecida a 40 °C e a 100 °C. Quanto maior o índice de viscosidade, menor a alteração da viscosidade de um óleo com variações de temperatura. Um índice de viscosidade elevado assegura propriedades lubrificantes consistentes numa ampla gama de temperaturas.",
+    "resultLabel": "Índice de viscosidade (VI):",
+    "tag": "Novo",
+    "openCalculator": "Abrir calculadora",
+    "pleaseEnter": "Introduzir {{label}}",
+    "errors": {
+      "required": "Este campo é obrigatório",
+      "v100Relative": "v100 deve ser inferior a v40",
+      "v100Min": "v100 deve ser superior a 2"
+    }
   },
   "bearing": {
     "title": {

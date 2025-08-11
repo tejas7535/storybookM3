@@ -19,11 +19,11 @@
         "tag": "Mới",
         "externalUrl": "https://medias.schaeffler.vn/vn/lubrication-selection-assistant"
       },
-      "calculator": {
+      "vic": {
         "title": {
-          "main": "Máy tính mỡ",
-          "sub": "Được cung cấp bởi Bearinx"
-        }
+          "main": "Máy tính chỉ số độ nhớt"
+        },
+        "tag": "Mới"
       },
       "greases": {
         "title": {
@@ -129,6 +129,19 @@
     "tag": "Mới",
     "contact": "Liên hệ",
     "advert": "Hơn 100 loại mỡ bôi trơn có sẵn để hoán đổi lẫn nhau"
+  },
+  "viscosityIndexCalculator": {
+    "title": "Máy tính chỉ số độ nhớt",
+    "description": "Độ nhớt của dầu và dầu gốc dùng trong mỡ bôi trơn có thể xác định thông qua độ nhớt động học đã biết ở 40°C và 100°C. Chỉ số độ nhớt càng cao thì sự thay đổi độ nhớt của dầu khi nhiệt độ thay đổi càng nhỏ. Chỉ số độ nhớt cao đảm bảo tính chất bôi trơn ổn định trong dải nhiệt độ rộng.",
+    "resultLabel": "Chỉ số độ nhớt (VI):",
+    "tag": "Mới",
+    "openCalculator": "Mở máy tính",
+    "pleaseEnter": "Nhập {{label}}",
+    "errors": {
+      "required": "Trường này là bắt buộc",
+      "v100Relative": "v100 phải nhỏ hơn v40",
+      "v100Min": "v100 phải lớn hơn 2"
+    }
   },
   "bearing": {
     "title": {

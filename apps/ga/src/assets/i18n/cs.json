@@ -19,11 +19,11 @@
         "tag": "Nový",
         "externalUrl": "https://medias.schaeffler.cz/cs/lubrication-selection-assistant"
       },
-      "calculator": {
+      "vic": {
         "title": {
-          "main": "Kalkulačka maziva",
-          "sub": "Powered by Bearinx"
-        }
+          "main": "Kalkulátor viskozitního indexu"
+        },
+        "tag": "Nové"
       },
       "greases": {
         "title": {
@@ -130,6 +130,19 @@
     "tag": "Nový",
     "contact": "Kontakt",
     "advert": "Více než 100 maziv k dispozici pro zaměnitelnost"
+  },
+  "viscosityIndexCalculator": {
+    "title": "Kalkulátor viskozitního indexu",
+    "description": "Viskozita olejů a základních olejů maziv lze určit na základě známé kinematické viskozity při 40 °C a 100 °C. Čím vyšší viskozitní index, tím menší změna viskozity oleje při kolísání teploty. Vysoký viskozitní index zajišťuje stálé mazací vlastnosti v širokém rozsahu teplot.",
+    "resultLabel": "Viskozitní index (VI):",
+    "tag": "Nové",
+    "openCalculator": "Otevřít kalkulátor",
+    "pleaseEnter": "Zadat {{label}}",
+    "errors": {
+      "required": "Toto pole je povinné",
+      "v100Relative": "v100 musí být menší než v40",
+      "v100Min": "v100 musí být větší než 2"
+    }
   },
   "bearing": {
     "title": {

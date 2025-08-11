@@ -19,11 +19,11 @@
         "tag": "新",
         "externalUrl": "https://medias.schaeffler.cn/zh/lubrication-selection-assistant"
       },
-      "calculator": {
+      "vic": {
         "title": {
-          "main": "润滑脂计算器",
-          "sub": "由 Bearinx 提供技术支持"
-        }
+          "main": "粘度指数计算器"
+        },
+        "tag": "新"
       },
       "greases": {
         "title": {
@@ -129,6 +129,19 @@
     "tag": "新",
     "contact": "联系",
     "advert": "超过100种润滑脂可供互换。"
+  },
+  "viscosityIndexCalculator": {
+    "title": "粘度指数计算器",
+    "description": "润滑油和润滑脂基础油的粘度可以通过已知的40 ℃和100 ℃下的运动粘度来确定。粘度指数越高，油品在温度波动时的粘度变化越小。高粘度指数可确保在宽温度范围内具有稳定的润滑性能。",
+    "resultLabel": "粘度指数 (VI)：",
+    "tag": "新",
+    "openCalculator": "打开计算器",
+    "pleaseEnter": "输入 {{label}}",
+    "errors": {
+      "required": "此字段为必填项",
+      "v100Relative": "v100必须小于v40",
+      "v100Min": "v100必须大于2"
+    }
   },
   "bearing": {
     "title": {

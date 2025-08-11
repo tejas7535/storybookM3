@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
+import { TagComponent } from '@schaeffler/tag';
+
 import { HomepageCard } from '@ga/home/models';
-import { CalculatorLogoModule } from '@ga/shared/components/calculator-logo';
 
 @Component({
   selector: 'ga-homepage-card',
   templateUrl: './homepage-card.component.html',
-  imports: [CommonModule, CalculatorLogoModule],
+  imports: [CommonModule, TagComponent],
 })
 export class HomepageCardComponent {
   @Input() homepageCard: HomepageCard;

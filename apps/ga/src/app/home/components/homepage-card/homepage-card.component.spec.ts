@@ -1,6 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { CalculatorLogoModule } from '@ga/shared/components/calculator-logo';
 import { HOMEPAGE_CARD_MOCK } from '@ga/testing/mocks/models/homepage-card.mock';
 
 import { HomepageCardComponent } from './homepage-card.component';
@@ -11,7 +10,6 @@ describe('HomepageCardComponent', () => {
 
   const createComponent = createComponentFactory({
     component: HomepageCardComponent,
-    imports: [CalculatorLogoModule],
     detectChanges: false,
   });
 

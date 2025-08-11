@@ -19,11 +19,11 @@
         "tag": "Yeni",
         "externalUrl": "https://medias.schaeffler.de/tr/lubrication-selection-assistant"
       },
-      "calculator": {
+      "vic": {
         "title": {
-          "main": "Gres Hesaplayıcı",
-          "sub": "Bearinx tarafından desteklenmektedir"
-        }
+          "main": "Viskozite İndeksi Hesaplayıcı"
+        },
+        "tag": "Yeni"
       },
       "greases": {
         "title": {
@@ -129,6 +129,19 @@
     "tag": "Yeni",
     "contact": "İletişim",
     "advert": "Değiştirilebilirlik için 100'den fazla gres mevcut"
+  },
+  "viscosityIndexCalculator": {
+    "title": "Viskozite İndeksi Hesaplayıcı",
+    "description": "Yağların ve greslerin baz yağlarının viskozitesi, 40°C ve 100°C’de bilinen kinematik viskozite ile belirlenebilir. Viskozite indeksi ne kadar yüksekse, sıcaklık dalgalanmalarında yağın viskozite değişimi o kadar az olur. Yüksek viskozite indeksi, geniş bir sıcaklık aralığında tutarlı yağlama özellikleri sağlar.",
+    "resultLabel": "Viskozite indeksi (VI):",
+    "tag": "Yeni",
+    "openCalculator": "Hesap makinesini aç",
+    "pleaseEnter": "{{label}} öğesini girin",
+    "errors": {
+      "required": "Bu alan gereklidir",
+      "v100Relative": "v100, v40'tan küçük olmalıdır",
+      "v100Min": "v100, 2'den büyük olmalıdır"
+    }
   },
   "bearing": {
     "title": {
