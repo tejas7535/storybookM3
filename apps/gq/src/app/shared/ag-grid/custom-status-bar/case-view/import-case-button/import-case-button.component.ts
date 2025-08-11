@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -12,7 +12,7 @@ import { TranslocoModule } from '@jsverse/transloco';
   imports: [CommonModule, MatButtonModule, TranslocoModule],
 })
 export class ImportCaseButtonComponent implements OnDestroy {
-  constructor(private readonly dialog: MatDialog) {}
+  private readonly dialog: MatDialog = inject(MatDialog);
   agInit() {}
   importCase(): void {
     this.dialog.open(ImportCaseComponent, {

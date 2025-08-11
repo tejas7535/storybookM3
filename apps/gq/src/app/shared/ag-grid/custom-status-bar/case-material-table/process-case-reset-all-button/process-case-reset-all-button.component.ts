@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { ProcessCaseActions } from '@gq/core/store/process-case';
 import { Store } from '@ngrx/store';
@@ -9,7 +9,7 @@ import { Store } from '@ngrx/store';
   standalone: false,
 })
 export class ProcessCaseResetAllButtonComponent {
-  constructor(private readonly store: Store) {}
+  private readonly store: Store = inject(Store);
   agInit(): void {}
   resetAll(): void {
     this.store.dispatch(ProcessCaseActions.clearRowData());

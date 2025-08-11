@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { PricingAssistantModalComponent } from '@gq/f-pricing/pricing-assistant-modal/pricing-assistant-modal.component';
@@ -16,7 +16,7 @@ export class PricingAssistantActionCellComponent {
   isFNumber = false;
   canDisplay = false;
 
-  constructor(private readonly dialog: MatDialog) {}
+  private readonly dialog: MatDialog = inject(MatDialog);
 
   agInit(params: CellClassParams): void {
     this.params = params;

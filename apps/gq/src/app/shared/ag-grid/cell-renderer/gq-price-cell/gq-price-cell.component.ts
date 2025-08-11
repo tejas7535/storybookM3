@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
@@ -17,6 +17,9 @@ import { QuotationDetail } from '../../../models/quotation-detail';
   standalone: false,
 })
 export class GqPriceCellComponent {
+  private readonly router: Router = inject(Router);
+  public readonly rolesFacade: RolesFacade = inject(RolesFacade);
+
   readonly #isFNumber: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
   );
@@ -35,11 +38,6 @@ export class GqPriceCellComponent {
         hasAccess && !isFNumberValue && !strategicPrice
     )
   );
-
-  constructor(
-    public readonly rolesFacade: RolesFacade,
-    private readonly router: Router
-  ) {}
 
   agInit(params: ICellRendererParams): void {
     this.value = params.valueFormatted;

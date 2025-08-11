@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { combineLatest, map, Observable } from 'rxjs';
 
@@ -21,7 +21,7 @@ export class ProcessCaseActionHeaderComponent {
   public params: HeaderClassParams;
   public showDeleteButton$: Observable<boolean>;
 
-  constructor(private readonly store: Store) {}
+  private readonly store: Store = inject(Store);
 
   agInit(params: HeaderClassParams): void {
     this.params = params;

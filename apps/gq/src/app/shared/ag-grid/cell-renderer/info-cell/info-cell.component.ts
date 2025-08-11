@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { SAP_ERROR_MESSAGE_CODE } from '@gq/shared/models';
 import { CellClassParams } from 'ag-grid-enterprise';
@@ -17,7 +17,8 @@ export class InfoCellComponent {
   public isErrorText: boolean;
   isLoading: boolean;
 
-  constructor(private readonly columnUtilityService: ColumnUtilityService) {}
+  private readonly columnUtilityService: ColumnUtilityService =
+    inject(ColumnUtilityService);
 
   agInit(params: CellClassParams): void {
     this.isLoading = !!params?.data?.info?.description?.includes(

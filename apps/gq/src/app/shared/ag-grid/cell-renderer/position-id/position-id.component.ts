@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 
 import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-data/rfq-status.enum';
@@ -22,7 +22,7 @@ export class PositionIdComponent {
   imagePath: string;
   toolTipText: string;
 
-  constructor(private readonly router: Router) {}
+  private readonly router: Router = inject(Router);
   agInit(params: CellClassParams): void {
     this.itemId = translate('shared.itemId', { id: params.value });
     this.gqPositionId = params.data.gqPositionId;

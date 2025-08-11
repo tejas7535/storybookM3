@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { ProcessCaseActions } from '@gq/core/store/process-case/process-case.action';
 import { Store } from '@ngrx/store';
@@ -12,7 +12,7 @@ import { CellClassParams } from 'ag-grid-enterprise';
 export class ProcessCaseActionCellComponent {
   public params: CellClassParams;
 
-  constructor(private readonly store: Store) {}
+  private readonly store: Store = inject(Store);
 
   agInit(params: CellClassParams): void {
     this.params = params;

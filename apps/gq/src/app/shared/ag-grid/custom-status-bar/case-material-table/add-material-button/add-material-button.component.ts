@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -14,7 +14,7 @@ import { Store } from '@ngrx/store';
 export class AddMaterialButtonComponent implements OnInit {
   createCaseEnabled$: Observable<boolean>;
 
-  constructor(private readonly store: Store) {}
+  private readonly store: Store = inject(Store);
 
   ngOnInit(): void {
     this.createCaseEnabled$ = this.store.select(getAddMaterialRowDataValid);

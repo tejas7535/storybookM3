@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -57,12 +62,12 @@ export class ImportCaseComponent implements OnInit {
   title$: Observable<string>;
   quotationIsValid = false;
 
-  constructor(
-    private readonly store: Store,
-    private readonly dialogRef: MatDialogRef<ImportCaseComponent>,
-    private readonly translocoService: TranslocoService,
-    private readonly insightsService: ApplicationInsightsService
-  ) {
+  private readonly store = inject(Store);
+  private readonly dialogRef = inject(MatDialogRef<ImportCaseComponent>);
+  private readonly translocoService = inject(TranslocoService);
+  private readonly insightsService = inject(ApplicationInsightsService);
+
+  constructor() {
     this.title$ = this.translocoService.selectTranslate(
       'caseCreation.importCase.title',
       {},

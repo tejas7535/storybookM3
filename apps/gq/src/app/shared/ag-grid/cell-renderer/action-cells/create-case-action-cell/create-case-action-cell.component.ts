@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import {
   deleteRowDataItem,
@@ -14,8 +14,7 @@ import { CellClassParams } from 'ag-grid-enterprise';
 })
 export class CreateCaseActionCellComponent {
   public params: CellClassParams;
-
-  constructor(private readonly store: Store) {}
+  private readonly store: Store = inject(Store);
 
   agInit(params: CellClassParams): void {
     this.params = params;

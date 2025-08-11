@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -52,6 +59,10 @@ export class TargetPriceComponent implements OnInit {
     this._isLoading = this.isLoading && value;
   }
 
+  private readonly store: Store = inject(Store);
+  private readonly editingModalService: EditingModalService =
+    inject(EditingModalService);
+
   @Output() readonly targetPriceSelected = new EventEmitter<UpdatePrice>();
 
   isQuotationActive$: Observable<boolean>;
@@ -62,11 +73,6 @@ export class TargetPriceComponent implements OnInit {
 
   private _quotationDetail: QuotationDetail;
   private _isLoading: boolean;
-
-  constructor(
-    private readonly store: Store,
-    private readonly editingModalService: EditingModalService
-  ) {}
 
   ngOnInit(): void {
     this.isQuotationActive$ = this.store.select(getIsQuotationStatusActive);

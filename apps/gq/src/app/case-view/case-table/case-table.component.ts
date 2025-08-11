@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Observable, take } from 'rxjs';
@@ -61,14 +61,12 @@ export class CaseTableComponent implements OnInit, OnDestroy {
 
   private readonly TABLE_KEY = 'CASE_OVERVIEW';
 
-  constructor(
-    private readonly columnDefService: ColumnDefService,
-    private readonly columnUtilityService: ColumnUtilityService,
-    private readonly localizationService: LocalizationService,
-    private readonly router: Router,
-    private readonly overviewCasesFacade: OverviewCasesFacade,
-    private readonly agGridStateService: AgGridStateService
-  ) {}
+  private readonly columnDefService = inject(ColumnDefService);
+  private readonly columnUtilityService = inject(ColumnUtilityService);
+  private readonly localizationService = inject(LocalizationService);
+  private readonly router = inject(Router);
+  private readonly overviewCasesFacade = inject(OverviewCasesFacade);
+  private readonly agGridStateService = inject(AgGridStateService);
 
   ngOnInit(): void {
     this.localeText$ = this.localizationService.locale$;

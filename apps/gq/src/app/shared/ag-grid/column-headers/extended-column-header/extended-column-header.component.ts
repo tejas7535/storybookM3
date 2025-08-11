@@ -1,6 +1,7 @@
 import {
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -65,12 +66,14 @@ export class ExtendedColumnHeaderComponent
   private availablePriceSourceOptions: PriceSourceOptions[] = [];
   private readonly subscription: Subscription = new Subscription();
 
-  constructor(
-    private readonly store: Store,
-    private readonly insightsService: ApplicationInsightsService,
-    private readonly translocoLocaleService: TranslocoLocaleService,
-    private readonly rolesFacade: RolesFacade
-  ) {}
+  private readonly store: Store = inject(Store);
+  private readonly insightsService: ApplicationInsightsService = inject(
+    ApplicationInsightsService
+  );
+  private readonly translocoLocaleService: TranslocoLocaleService = inject(
+    TranslocoLocaleService
+  );
+  private readonly rolesFacade: RolesFacade = inject(RolesFacade);
 
   ngOnInit(): void {
     // Non-editable columns are not part of the simulation so we shouldn't add the subscriptions

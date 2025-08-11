@@ -23,8 +23,8 @@ export class RemoveAllFilteredButtonComponent {
   private gridApi: GridApi;
 
   private readonly translationPath = `shared.customStatusBar.buttons.resetAllFiltered.`;
-  private readonly store = inject(Store);
-  private readonly dialog = inject(MatDialog);
+  private readonly store: Store = inject(Store);
+  private readonly dialog: MatDialog = inject(MatDialog);
 
   agInit(params: isCaseViewParams): void {
     this.isCaseView = params.isCaseView;

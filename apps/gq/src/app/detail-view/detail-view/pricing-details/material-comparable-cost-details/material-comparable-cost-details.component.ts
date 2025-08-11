@@ -1,5 +1,6 @@
 import {
   Component,
+  inject,
   Input,
   OnChanges,
   OnInit,
@@ -44,7 +45,7 @@ export class MaterialComparableCostDetailsComponent
   userHasGPCRole$: Observable<boolean>;
   userHasSQVRole$: Observable<boolean>;
 
-  constructor(private readonly store: Store) {}
+  private readonly store: Store = inject(Store);
 
   ngOnChanges(changes: SimpleChanges): void {
     // Do not execute the processMaterialComparableCosts logic on price first change (when the price parameter is initially set) because the role check (executed in ngOnInit) has not completed yet.

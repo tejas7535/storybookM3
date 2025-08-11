@@ -1,6 +1,6 @@
 import 'moment/locale/de';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -52,10 +52,10 @@ export class CustomDateFloatingFilterComponent
   public dateFormControl = new FormControl();
   public applyDisabled = true;
 
-  constructor(
-    private readonly adapter: DateAdapter<any>,
-    private readonly translocoLocaleService: TranslocoLocaleService
-  ) {}
+  private readonly adapter: DateAdapter<any> = inject(DateAdapter);
+  private readonly translocoLocaleService: TranslocoLocaleService = inject(
+    TranslocoLocaleService
+  );
 
   ngOnInit(): void {
     const locale = this.translocoLocaleService.getLocale();

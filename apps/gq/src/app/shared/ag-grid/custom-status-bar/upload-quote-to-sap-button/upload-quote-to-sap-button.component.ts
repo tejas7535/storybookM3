@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 
 import { map, Observable, Subject, takeUntil } from 'rxjs';
 
@@ -33,7 +33,7 @@ export class UploadQuoteToSapButtonComponent implements OnDestroy {
   private readonly QUOTATION_POSITION_UPLOAD_LIMIT = 1000;
   private readonly shutdown$$: Subject<void> = new Subject<void>();
 
-  constructor(private readonly store: Store) {}
+  private readonly store: Store = inject(Store);
 
   agInit(params: IStatusPanelParams): void {
     this.params = params;

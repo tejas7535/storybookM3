@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, inject, Input, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Router } from '@angular/router';
 
@@ -19,10 +19,10 @@ export class DetailButtonComponent {
 
   public contextMenuPosition: { x: number; y: number } = { x: 0, y: 0 };
 
-  constructor(
-    private readonly router: Router,
-    private readonly insightsService: ApplicationInsightsService
-  ) {}
+  private readonly router: Router = inject(Router);
+  private readonly insightsService: ApplicationInsightsService = inject(
+    ApplicationInsightsService
+  );
 
   navigateClick(): void {
     this.router.navigate([`${AppRoutePath.DetailViewPath}/${this.path}`], {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NavigationExtras, Params, Router } from '@angular/router';
 
@@ -20,11 +20,10 @@ export class GqIdComponent {
   urlQueryParams: NavigationExtras;
   url: string;
 
-  constructor(
-    private readonly router: Router,
-    private readonly columnUtilityService: ColumnUtilityService,
-    private readonly dialog: MatDialog
-  ) {}
+  private readonly router: Router = inject(Router);
+  private readonly columnUtilityService: ColumnUtilityService =
+    inject(ColumnUtilityService);
+  private readonly dialog: MatDialog = inject(MatDialog);
 
   agInit(params: any): void {
     const context = params.context as SearchbarGridContext;

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { take } from 'rxjs';
@@ -11,12 +11,10 @@ import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade'
   standalone: false,
 })
 export class UpdateCostsConfirmModalComponent {
-  constructor(
-    public readonly activeCaseFacade: ActiveCaseFacade,
-    @Inject(MAT_DIALOG_DATA)
-    public readonly modalData: { gqPosId: string },
-    private readonly dialogRef: MatDialogRef<UpdateCostsConfirmModalComponent>
-  ) {}
+  private readonly dialogRef: MatDialogRef<UpdateCostsConfirmModalComponent> =
+    inject(MatDialogRef);
+  public readonly activeCaseFacade: ActiveCaseFacade = inject(ActiveCaseFacade);
+  public readonly modalData: { gqPosId: string } = inject(MAT_DIALOG_DATA);
 
   confirm(): void {
     this.activeCaseFacade.updateCosts(this.modalData.gqPosId);
