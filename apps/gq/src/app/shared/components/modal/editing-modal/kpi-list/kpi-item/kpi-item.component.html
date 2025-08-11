@@ -24,7 +24,7 @@
             '!text-on-warning-container': kpi().hasWarning,
             '!text-on-error-container': kpi().hasError,
           }"
-          [attr.data-cy]="field + '-modal_' + kpi().key + '-value'"
+          [attr.data-cy]="field() + '-modal_' + kpi().key + '-value'"
         >
           {{ kpi().displayValue }}
           @if (kpi().warningText) {
@@ -43,7 +43,7 @@
       </h6>
       <div class="text-body-small text-on-surface-variant">
         <span
-          [attr.data-cy]="field + '-modal_' + kpi().key + '-previous-value'"
+          [attr.data-cy]="field() + '-modal_' + kpi().key + '-previous-value'"
         >
           {{ kpi().previousDisplayValue }}
         </span>
