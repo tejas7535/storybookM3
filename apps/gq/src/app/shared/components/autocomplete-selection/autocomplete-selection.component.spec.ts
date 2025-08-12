@@ -1,4 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { fakeAsync, tick } from '@angular/core/testing';
 import {
   FormBuilder,
   FormGroupDirective,
@@ -93,15 +94,18 @@ describe('AutocompleteSelectionComponent', () => {
   });
 
   describe('formControl', () => {
-    test('should set filteredOptions and set error', (done) => {
+    test('should set not FoundError when allowOptionsValuesOnly is true', (done) => {
+      spectator.setInput('allowOptionsValuesOnly', true);
       component.ngOnInit();
+      component['valueNotFound'] = jest.fn(() => true);
       component.formControl.setValue('test');
+      spectator.detectChanges();
       setTimeout(() => {
-        expect(component.filteredOptions().length).toEqual(0);
         expect(component.formControl.errors).toEqual({ notFound: true });
         done();
-      }, component['debounceTime']);
+      }, 500);
     });
+
     test('should set filteredOptions and set error to null', (done) => {
       component.ngOnInit();
       component.formControl.setValue('value');
@@ -228,85 +232,15 @@ describe('AutocompleteSelectionComponent', () => {
       expect(component.getSelectedValue()).toEqual(null);
     });
   });
-  describe('handleErrors', () => {
-    test('should set error when option is not found', () => {
-      component.filteredOptions.set([]);
-      component.handleErrors('test');
-      expect(component.formControl.errors).toEqual({ notFound: true });
-    });
-    test('should set error when option object is not found', () => {
-      const value: SelectableValue = {
-        id: '1',
-        value: 'value',
-        value2: 'value2',
-      };
-      component.filteredOptions.set([value]);
-      const searchValue: SelectableValue = {
-        id: '2',
-        value: 'value',
-        value2: 'value2',
-      };
-      component.handleErrors(searchValue);
-      expect(component.formControl.errors).toEqual({ notFound: true });
-    });
-    test('should set error to null when option is found', () => {
-      const value: SelectableValue = {
-        id: '1',
-        value: 'value',
-        value2: 'value2',
-      };
-      component.filteredOptions.set([value]);
-      component.handleErrors('value');
-      expect(component.formControl.errors).toEqual(null);
-    });
-  });
+
   describe('onBlur', () => {
     beforeEach(() => {
       component['onTouched'] = jest.fn();
     });
-    test('should not set error on blur when allowOptionsValuesOnly is false', () => {
-      spectator.setInput('allowOptionsValuesOnly', false);
-      component.formControl.setValue('test');
+    test('should have called the defaultValueSelection', () => {
+      component['handleDefaultValueWhenEmptyInput'] = jest.fn();
       component.onBlur();
-      expect(component.formControl.errors).toEqual(null);
-    });
-    test('should set error on blur when selection is a string', () => {
-      component.formControl.setValue('test');
-      component.onBlur();
-      expect(component.formControl.errors).toEqual({ wrongSelection: true });
-      expect(component['onTouched']).toHaveBeenCalled();
-    });
-    test('should not set error on blur when input option is empty', () => {
-      component.formControl.setValue('');
-      component.onBlur();
-      expect(component.formControl.errors).toEqual(null);
-      expect(component['onTouched']).toHaveBeenCalled();
-    });
-    test('should not set error on blur when object is selected', () => {
-      const value = component.options()[0];
-      component.filteredOptions.set([value]);
-      component.formControl.setValue(value);
-      component.onBlur();
-      expect(component.formControl.errors).toEqual(null);
-      expect(component['onTouched']).toHaveBeenCalled();
-    });
-    test('should set error on blur when selected object is not found', () => {
-      const value: SelectableValue = {
-        id: '1',
-        value: 'valueNotFound',
-        value2: 'value2NotFound',
-      };
-      component.formControl.setValue(value);
-      component.onBlur();
-      expect(component.formControl.errors).toEqual({ wrongSelection: true });
-      expect(component['onTouched']).toHaveBeenCalled();
-    });
-    test('should set error on blur when value is empty but required', () => {
-      spectator.setInput('isRequired', () => true);
-      component.formControl.setValue('');
-      component.onBlur();
-      expect(component.formControl.errors).toEqual({ required: true });
-      expect(component['onTouched']).toHaveBeenCalled();
+      expect(component['handleDefaultValueWhenEmptyInput']).toHaveBeenCalled();
     });
   });
 
@@ -370,5 +304,70 @@ describe('AutocompleteSelectionComponent', () => {
       expect(component.filteredOptions.set).toHaveBeenCalledWith([option]);
       expect(component.setSelectedValue).toHaveBeenCalledWith(null);
     });
+  });
+
+  describe('validation', () => {
+    beforeEach(() => {
+      component = spectator.debugElement.componentInstance;
+      component.formControl?.clearValidators();
+    });
+    // emission of value from ValueChanges is quite wild
+    // with calling onInit, wait, setValue, wait, setValue wait again, all action to beforehand will be performed
+    // so that the validation can be unitTested
+    // for following this logic add a console.log in the valueChanges subscription
+    // and subscribe to the valueChanges here in the test
+    // ``` component.formControl.valueChanges.subscribe((data) =>
+    //    console.log('subscribed from test', data)
+    //  );```
+    test('should set an error when allowOptionsValuesOnly is true', fakeAsync(() => {
+      component.ngOnInit();
+      tick(300);
+      component.formControl.setValue('test2');
+      tick(300);
+      component.formControl.setValue('test2');
+      expect(component.formControl.errors).toEqual({ notFound: true });
+    }));
+    test('should set error when required and value is empty', fakeAsync(() => {
+      spectator.setInput('isRequired', () => true);
+      component.ngOnInit();
+      tick(300);
+      component.formControl.setValue('');
+      tick(300);
+
+      expect(component.formControl.errors).toEqual({ required: true });
+    }));
+    test('should set an error when required but value is not in the options list', fakeAsync(() => {
+      spectator.setInput('isRequired', () => true);
+      spectator.setInput('allowOptionsValuesOnly', () => true);
+      component.ngOnInit();
+      tick(300);
+      component.formControl.setValue('test2');
+      tick(300);
+      expect(component.formControl.errors).toEqual({ wrongSelection: true });
+    }));
+    test('should not set an error when required and value is in the options list', fakeAsync(() => {
+      spectator.setInput('isRequired', () => true);
+      component.ngOnInit();
+      tick(300);
+      component.formControl.setValue('value');
+      tick(300);
+      expect(component.formControl.errors).toEqual(null);
+    }));
+    test('should not set an error when allowOptionsValuesOnly is false', fakeAsync(() => {
+      spectator.setInput('allowOptionsValuesOnly', false);
+      component.ngOnInit();
+      tick(300);
+      component.formControl.setValue('test2');
+      tick(300);
+      expect(component.formControl.errors).toEqual(null);
+    }));
+    test('should not set an error when allowOptionsValuesOnly is false and value is in the options list', fakeAsync(() => {
+      spectator.setInput('allowOptionsValuesOnly', false);
+      component.ngOnInit();
+      tick(300);
+      component.formControl.setValue('value');
+      tick(300);
+      expect(component.formControl.errors).toEqual(null);
+    }));
   });
 });

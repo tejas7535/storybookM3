@@ -15,6 +15,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import {
+  AbstractControl,
   ControlValueAccessor,
   FormControl,
   FormGroup,
@@ -22,6 +23,9 @@ import {
   FormsModule,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
 } from '@angular/forms';
 import {
   MatAutocomplete,
@@ -135,6 +139,9 @@ export class AutocompleteSelectionComponent
       this.formControlName()
     ) as FormControl;
 
+    // add Validators
+    this.setValidators();
+
     this.options$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((options) => {
@@ -185,31 +192,18 @@ export class AutocompleteSelectionComponent
           this.defaultValueWhenEmptyInput()
         );
 
-        const tmp = this.options()?.filter((option) => {
-          if (typeof value === 'string') {
-            const searchValue = value.toLowerCase();
+        this.setFilteredOptions(value);
 
-            return this.includesOption(option, searchValue);
-          }
-
-          return option;
-        });
-
-        this.filteredOptions.set(
-          this.showDefaultValueWhenEmptyInputHint
-            ? [this.defaultValueWhenEmptyInputHint() as any as IdValue, ...tmp]
-            : tmp
-        );
-
-        if (this.allowOptionsValuesOnly()) {
-          // If only one option left during filtering - set it automatically
-          if (this.filteredOptions()?.length === 1 && value && value !== '') {
-            const option = this.filteredOptions()[0];
-            this.formControl.setValue(option);
-            this.setSelectedValue(option);
-            this.autocomplete.closePanel();
-          }
-          this.handleErrors(value);
+        if (
+          this.allowOptionsValuesOnly() && // If only one option left during filtering - set it automatically
+          this.filteredOptions()?.length === 1 &&
+          value &&
+          value !== ''
+        ) {
+          const option = this.filteredOptions()[0];
+          this.formControl.setValue(option);
+          this.setSelectedValue(option);
+          this.autocomplete.closePanel();
         }
       });
   }
@@ -290,15 +284,6 @@ export class AutocompleteSelectionComponent
     this.selectedValue.set(value);
   }
 
-  handleErrors(value: string | SelectableValue) {
-    const error = this.valueNotFound(value) ? { notFound: true } : null;
-    if (error) {
-      // Force to mark as touched to display an error for example for wrong initial values
-      this.formControl.markAsTouched();
-    }
-    this.formControl.setErrors(error);
-  }
-
   private valueNotFound(value: string | SelectableValue) {
     if (typeof value !== 'string' && value !== null) {
       return !this.options().some(
@@ -314,19 +299,6 @@ export class AutocompleteSelectionComponent
 
   onBlur() {
     this.inputFocused = false;
-    if (this.allowOptionsValuesOnly()) {
-      let error = null;
-      const value = this.formControl.value;
-      if (
-        (typeof value === 'string' && value !== '') ||
-        this.valueNotFound(value)
-      ) {
-        error = { wrongSelection: true };
-      } else if (value === '' && this.isRequired()) {
-        error = { required: true };
-      }
-      this.formControl.setErrors(error);
-    }
     this.handleDefaultValueWhenEmptyInput();
 
     this.onTouched();
@@ -345,5 +317,62 @@ export class AutocompleteSelectionComponent
       });
       this.showDefaultValueWhenEmptyInputHint = false;
     }
+  }
+
+  private setValidators() {
+    if (!this.allowOptionsValuesOnly()) {
+      return;
+    }
+    const validators = this.isRequired()
+      ? [Validators.required, this.noValueSelectedValidator()]
+      : [this.valueNotFoundValidator()];
+
+    this.formControl.setValidators(validators);
+    this.formControl.updateValueAndValidity();
+  }
+
+  private valueNotFoundValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      this.setFilteredOptions(value);
+
+      if (this.valueNotFound(value)) {
+        return { notFound: true };
+      }
+
+      return null;
+    };
+  }
+
+  private setFilteredOptions(value: any) {
+    const tmp = this.options()?.filter((option) => {
+      if (typeof value === 'string') {
+        const searchValue = value.toLowerCase();
+
+        return this.includesOption(option, searchValue);
+      }
+
+      return option;
+    });
+
+    this.filteredOptions.set(
+      this.showDefaultValueWhenEmptyInputHint
+        ? [this.defaultValueWhenEmptyInputHint() as any as IdValue, ...tmp]
+        : tmp
+    );
+  }
+
+  private noValueSelectedValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if (
+        (typeof value === 'string' && value !== '') ||
+        this.valueNotFound(value)
+      ) {
+        return { wrongSelection: true };
+      }
+
+      return null;
+    };
   }
 }
