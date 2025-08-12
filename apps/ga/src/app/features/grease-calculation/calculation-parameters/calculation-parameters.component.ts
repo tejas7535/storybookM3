@@ -1,7 +1,14 @@
 /* eslint-disable max-lines */
 /* eslint max-lines: [1] */
 import { CommonModule } from '@angular/common';
-import { Component, effect, Injector, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  Injector,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   FormControl,
   ReactiveFormsModule,
@@ -63,6 +70,7 @@ import {
   radialLoadPossible,
 } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
 import { environment } from '@ga/environments/environment';
+import { ENV } from '@ga/environments/environments.provider';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
 import { ViCalculatorService } from '@ga/features/vi-calculator/services/vi-calculator.service';
 import { AppStoreButtonsComponent } from '@ga/shared/components/app-store-buttons/app-store-buttons.component';
@@ -133,6 +141,9 @@ import { CalculationParametersService } from './services';
 })
 export class CalculationParametersComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
+
+  private readonly env = inject(ENV);
+  public readonly isProduction = this.env.production;
 
   public axisOrientationEnabled = environment.axisOrientationEnabled;
 

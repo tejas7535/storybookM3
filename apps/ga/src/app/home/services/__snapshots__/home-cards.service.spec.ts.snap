@@ -3,11 +3,10 @@
 exports[`HomeCardsService when in Schmeckthal partner version setting when getting home cards should get home cards for production 1`] = `
 Array [
   Object {
-    "additionalDescription": "homepage.cards.vic.tag",
     "cardAction": [Function],
-    "imagePath": "assets/images/icons/vc-icon.svg",
-    "mainTitle": "homepage.cards.vic.title.main",
-    "templateId": "badgeCard",
+    "mainTitle": "homepage.cards.calculator.title.main",
+    "subTitle": "homepage.cards.calculator.title.sub",
+    "templateId": "calculatorLogo",
   },
   Object {
     "cardAction": [Function],
@@ -60,11 +59,10 @@ Array [
 exports[`HomeCardsService when in production settings when getting home cards should get home cards for production 1`] = `
 Array [
   Object {
-    "additionalDescription": "homepage.cards.vic.tag",
     "cardAction": [Function],
-    "imagePath": "assets/images/icons/vc-icon.svg",
-    "mainTitle": "homepage.cards.vic.title.main",
-    "templateId": "badgeCard",
+    "mainTitle": "homepage.cards.calculator.title.main",
+    "subTitle": "homepage.cards.calculator.title.sub",
+    "templateId": "calculatorLogo",
   },
   Object {
     "cardAction": [Function],

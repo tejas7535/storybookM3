@@ -2,6 +2,12 @@
   "appTitle": "Grease App",
   "homepage": {
     "cards": {
+      "calculator": {
+        "title": {
+          "main": "Kalkulator Grease",
+          "sub": "Didukung oleh Bearinx"
+        }
+      },
       "easyCalc": {
         "title": {
           "main": "medias EasyCalc",

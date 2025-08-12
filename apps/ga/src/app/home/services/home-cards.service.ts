@@ -1,10 +1,12 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 
 import { TranslocoService } from '@jsverse/transloco';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
+import { AppRoutePath } from '@ga/app-route-path.enum';
 import { SettingsFacade } from '@ga/core/store';
 import { ENV } from '@ga/environments/environments.provider';
 import { ViCalculatorService } from '@ga/features/vi-calculator/services/vi-calculator.service';
@@ -31,6 +33,8 @@ export class HomeCardsService {
   );
 
   private readonly viCalculatorService = inject(ViCalculatorService);
+
+  private readonly router = inject(Router);
 
   private readonly env = inject(ENV);
   private readonly isProduction = this.env.production;
@@ -76,6 +80,14 @@ export class HomeCardsService {
   private readonly faqMainTitle = toSignal(
     this.translocoService.selectTranslate('homepage.cards.faq.title.main')
   );
+  private readonly calculatorMainTitle = toSignal(
+    this.translocoService.selectTranslate(
+      'homepage.cards.calculator.title.main'
+    )
+  );
+  private readonly calculatorSubTitle = toSignal(
+    this.translocoService.selectTranslate('homepage.cards.calculator.title.sub')
+  );
 
   public homeCards = computed(() => {
     const partnerVersion = this.partnerVersion();
@@ -93,13 +105,27 @@ export class HomeCardsService {
     const affiliateCode = this.getPatnerVersionAffiliateCode(partnerVersion);
 
     return [
-      {
-        mainTitle: this.vicMainTitle(),
-        templateId: 'badgeCard',
-        imagePath: 'assets/images/icons/vc-icon.svg',
-        additionalDescription: this.vicTag(),
-        cardAction: this.createViCalculatorDialogAction(),
-      },
+      ...(this.isProduction
+        ? [
+            {
+              mainTitle: this.calculatorMainTitle(),
+              subTitle: this.calculatorSubTitle(),
+              templateId: 'calculatorLogo',
+              cardAction: this.createNavigationAction(
+                AppRoutePath.GreaseCalculationPath,
+                HomeCardsTrackingIds.GreaseCalculation
+              ),
+            },
+          ]
+        : [
+            {
+              mainTitle: this.vicMainTitle(),
+              templateId: 'badgeCard',
+              imagePath: 'assets/images/icons/vc-icon.svg',
+              additionalDescription: this.vicTag(),
+              cardAction: this.createViCalculatorDialogAction(),
+            },
+          ]),
       {
         mainTitle: this.greasesMainTitle(),
         subTitle: this.greasesSubTitle(),
@@ -286,5 +312,16 @@ export class HomeCardsService {
     const code: string = PartnerAffiliateCode[partnerVersion];
 
     return code ? `&${code}` : '';
+  }
+
+  private createNavigationAction(
+    navigationPath: string,
+    trackingId: HomeCardsTrackingIds
+  ): () => void {
+    return (): void => {
+      this.logCardClick(trackingId);
+
+      this.router.navigate([navigationPath]);
+    };
   }
 }

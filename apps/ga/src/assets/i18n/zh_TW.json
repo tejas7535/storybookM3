@@ -2,6 +2,12 @@
   "appTitle": "Grease App",
   "homepage": {
     "cards": {
+      "calculator": {
+        "title": {
+          "main": "润滑脂计算器",
+          "sub": "由 Bearinx 提供技术支持"
+        }
+      },
       "easyCalc": {
         "title": {
           "main": "medias EasyCalc",

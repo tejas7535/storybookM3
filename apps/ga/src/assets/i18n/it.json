@@ -2,6 +2,12 @@
   "appTitle": "Grease App",
   "homepage": {
     "cards": {
+      "calculator": {
+        "title": {
+          "main": "Calcolatore di grasso",
+          "sub": "Con tecnologia Bearinx"
+        }
+      },
       "easyCalc": {
         "title": {
           "main": "medias EasyCalc",
