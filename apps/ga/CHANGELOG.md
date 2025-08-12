@@ -1,4 +1,26 @@
 # Release Notes of Grease App
+## [2.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v2.0.1...ga-v2.1.0) (2025-08-12)
+
+
+### Features
+
+* **cdba:** compare screen 2.0 ([#6244](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6244)) ([3d6448f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3d6448fae99c4f18de2c17c3d3e706fd34ced916))
+* **ga:** add disabled hint for parameter fields ([#7432](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7432)) ([dcba55a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/dcba55a3f0c46eae6dd83869474292f41a55eda6))
+* **ga:** add Viscosity index calculator component (UFTABI-9150) ([#7423](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7423)) ([74c0f05](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/74c0f05982e937b8c5d8c2647f7af4cd20e4a261))
+* **ga:** adjust result parsing ([#7448](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7448)) ([e13bcec](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e13bcecfbf79d65234a9590b2ad07875545b6d1e))
+* **ga:** migrate to webcomponent ([#7419](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7419)) ([5c79df9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5c79df996686f07113dbc678d962bdda48031663))
+
+
+### Bug Fixes
+
+* **ga:** adjust sorting order for kappa values - UFTABI-9113 ([#7433](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7433)) ([24fb00b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/24fb00bf231dafa4fb68c0e2b3d9dad1f092e563))
+* **ga:** ask mobile users for reviews - UFTABI-7862 ([#7409](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7409)) ([b9a4df3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b9a4df316f1cbc1e9b57c13557be150aa73a9d2b))
+* **ga:** drop moment dependency ([#7446](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7446)) ([3c937a7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3c937a7b0ee86bf5b3434d26f425c632aa8a6fdf))
+* **ga:** fix linting issue in GA ([#7447](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7447)) ([f6d60b9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f6d60b9eaa4a754de71b05506cc0e1e8277b0321))
+* **ga:** implement custom display for kappa value - UFTABI-9111 ([#7429](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7429)) ([2b1a458](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2b1a4582c479c796e9366494f8a33d3e58103e95))
+* **ga:** sort by volume ([#7462](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7462)) ([a0f0134](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a0f0134172b8b05610ca65ed9f04105717b4187c))
+* **ga:** translation issue - UFTABI-9142 ([#7439](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7439)) ([372c062](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/372c06210ae945342710594a49266ce185947063))
+
 ## [2.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v2.0.0...ga-v2.0.1) (2025-07-10)
 
 
