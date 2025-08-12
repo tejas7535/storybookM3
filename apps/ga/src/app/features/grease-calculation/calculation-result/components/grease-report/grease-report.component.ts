@@ -208,7 +208,8 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
         this.preferredGreaseResult(),
         this.automaticLubrication()
       )
-      .catch(() => {
+      .catch((error) => {
+        console.error(error);
         this.showSnackBarError();
       });
   }

@@ -300,16 +300,21 @@ export const scoreGreaseEntry = (
 ): { score: number; greaseResult: GreaseResult } => {
   let score = 0;
   const kappa = greaseResult.performance.viscosityRatio?.value;
-  const relubrication =
-    greaseResult.relubrication.relubricationQuantityPer1000OperatingHours
-      .secondaryValue;
+  let relubrication =
+    greaseResult.relubrication?.relubricationQuantityPer1000OperatingHours
+      ?.secondaryValue;
+
+  if (!relubrication) {
+    relubrication =
+      greaseResult.relubrication?.relubricationPer365Days?.secondaryValue;
+  }
 
   if (!kappa) {
     return { score: score - 999, greaseResult };
   }
 
   if (kappa >= 1 && kappa <= 4) {
-    score += 1 + 1 / (relubrication + Math.abs(2.5 - kappa));
+    score += 1 + 1 / ((relubrication ?? 1) + Math.abs(2.5 - kappa));
   }
 
   if (kappa < 1) {

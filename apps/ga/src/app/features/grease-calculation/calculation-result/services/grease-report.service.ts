@@ -285,9 +285,9 @@ export class GreaseReportService {
 
             if (this.isVerticalAxisSelected()) {
               greaseServiceLife = undefined;
+              relubricationQuantityPer1000OperatingHours = undefined;
               relubricationPer30Days = undefined;
               relubricationInterval = undefined;
-              relubricationQuantityPer1000OperatingHours = undefined;
               maximumManualRelubricationPerInterval =
                 this.greaseResultDataSourceService.maxManualRelubricationIntervalForVerticalAxis(
                   table1Items,

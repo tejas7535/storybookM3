@@ -2203,36 +2203,36 @@ Array [
   Object {
     "performance": Object {
       "viscosityRatio": Object {
-        "value": 1,
-      },
-    },
-    "relubrication": Object {
-      "relubricationQuantityPer1000OperatingHours": Object {
-        "value": 10,
-      },
-    },
-  },
-  Object {
-    "performance": Object {
-      "viscosityRatio": Object {
-        "value": 4.5,
-      },
-    },
-    "relubrication": Object {
-      "relubricationQuantityPer1000OperatingHours": Object {
-        "value": 10,
-      },
-    },
-  },
-  Object {
-    "performance": Object {
-      "viscosityRatio": Object {
         "value": 2.5,
       },
     },
     "relubrication": Object {
       "relubricationQuantityPer1000OperatingHours": Object {
         "value": 8,
+      },
+    },
+  },
+  Object {
+    "performance": Object {
+      "viscosityRatio": Object {
+        "value": 3.5,
+      },
+    },
+    "relubrication": Object {
+      "relubricationQuantityPer1000OperatingHours": Object {
+        "value": 10,
+      },
+    },
+  },
+  Object {
+    "performance": Object {
+      "viscosityRatio": Object {
+        "value": 1,
+      },
+    },
+    "relubrication": Object {
+      "relubricationQuantityPer1000OperatingHours": Object {
+        "value": 10,
       },
     },
   },
@@ -2251,7 +2251,7 @@ Array [
   Object {
     "performance": Object {
       "viscosityRatio": Object {
-        "value": 3.5,
+        "value": 4.5,
       },
     },
     "relubrication": Object {
