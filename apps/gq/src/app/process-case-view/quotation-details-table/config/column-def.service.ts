@@ -808,10 +808,10 @@ export class ColumnDefService {
       headerName: translate(
         'shared.quotationDetailsTable.materialClassificationSOP'
       ),
-      field: 'materialClassificationSOP',
+      field: 'materialClassificationSop',
       valueGetter: (params: ValueGetterParams) =>
         ColumnUtilityService.transformMaterialClassificationSOP(
-          params.data.materialClassificationSOP
+          params.data.materialClassificationSop
         ),
       filterParams: FILTER_PARAMS,
       headerComponentParams: {
