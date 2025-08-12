@@ -1,4 +1,16 @@
 # Release Notes of Grease App
+## [2.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v2.1.0...ga-v2.2.0) (2025-08-12)
+
+
+### Features
+
+* **ga:** adjust mobile view (UFTABI-9150)  ([#7464](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7464)) ([1197a24](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1197a24ccf8af26e60838f5b9b436ceab693429f))
+
+
+### Bug Fixes
+
+* **ga:** hide vi calculator in production ([#7466](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7466)) ([765eac6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/765eac65bd05b0c14ed7e97afbccf156ad35a909))
+
 ## [2.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v2.0.1...ga-v2.1.0) (2025-08-12)
 
 
