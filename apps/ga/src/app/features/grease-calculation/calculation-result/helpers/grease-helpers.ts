@@ -301,7 +301,8 @@ export const scoreGreaseEntry = (
   let score = 0;
   const kappa = greaseResult.performance.viscosityRatio?.value;
   const relubrication =
-    greaseResult.relubrication.relubricationQuantityPer1000OperatingHours.value;
+    greaseResult.relubrication.relubricationQuantityPer1000OperatingHours
+      .secondaryValue;
 
   if (!kappa) {
     return { score: score - 999, greaseResult };

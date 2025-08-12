@@ -432,6 +432,12 @@ export class GreaseReportService {
         sorted.flatMap((i) => ({
           name: i.greaseResult?.mainTitle,
           score: i.score,
+          kappa: i.greaseResult?.performance?.viscosityRatio?.value,
+          mass: i.greaseResult?.relubrication
+            ?.relubricationQuantityPer1000OperatingHours?.value,
+          volume:
+            i.greaseResult?.relubrication
+              ?.relubricationQuantityPer1000OperatingHours?.secondaryValue,
         }))
       );
     }
