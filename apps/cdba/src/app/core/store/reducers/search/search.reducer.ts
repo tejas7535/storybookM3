@@ -23,6 +23,8 @@ import {
   searchFailure,
   searchSuccess,
   selectReferenceTypes,
+  setPaginationEnabled,
+  setPaginationVisible,
   shareSearchResult,
   updateFilter,
   updatePaginationState,
@@ -63,7 +65,7 @@ export interface SearchState {
 }
 
 export interface PaginationState {
-  isDisabled: boolean;
+  isEnabled: boolean;
   isVisible: boolean;
   pageSize: number;
   currentPage: number;
@@ -198,6 +200,32 @@ export const searchReducer = createReducer(
       referenceTypes: {
         ...state.referenceTypes,
         paginationState,
+      },
+    })
+  ),
+  on(
+    setPaginationVisible,
+    (state: SearchState, { isVisible }): SearchState => ({
+      ...state,
+      referenceTypes: {
+        ...state.referenceTypes,
+        paginationState: {
+          ...state.referenceTypes.paginationState,
+          isVisible,
+        },
+      },
+    })
+  ),
+  on(
+    setPaginationEnabled,
+    (state: SearchState, { isEnabled }): SearchState => ({
+      ...state,
+      referenceTypes: {
+        ...state.referenceTypes,
+        paginationState: {
+          ...state.referenceTypes.paginationState,
+          isEnabled,
+        },
       },
     })
   ),
@@ -358,7 +386,7 @@ export const searchReducer = createReducer(
         ...state.referenceTypes,
         paginationState: {
           ...state.referenceTypes.paginationState,
-          isDisabled: true,
+          isEnabled: false,
         },
       },
     })
@@ -371,7 +399,7 @@ export const searchReducer = createReducer(
         ...state.referenceTypes,
         paginationState: {
           ...state.referenceTypes.paginationState,
-          isDisabled: false,
+          isEnabled: true,
         },
       },
     })
@@ -384,7 +412,7 @@ export const searchReducer = createReducer(
         ...state.referenceTypes,
         paginationState: {
           ...state.referenceTypes.paginationState,
-          isDisabled: false,
+          isEnabled: true,
         },
       },
     })

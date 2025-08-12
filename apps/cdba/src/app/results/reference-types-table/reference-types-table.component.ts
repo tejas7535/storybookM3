@@ -17,6 +17,7 @@ import {
   ColumnRowGroupChangedEvent,
   ColumnState,
   DisplayedColumnsChangedEvent,
+  FilterChangedEvent,
   FirstDataRenderedEvent,
   GridApi,
   GridOptions,
@@ -40,7 +41,10 @@ import {
   DEFAULT_ROW_SELECTION,
   DEFAULT_SELECTION_COLUMN_DEF,
 } from '@cdba/shared/constants/grid-config';
-import { MIN_PAGE_SIZE } from '@cdba/shared/constants/pagination';
+import {
+  MIN_PAGE_SIZE,
+  PAGINATION_LOADING_TIMEOUT,
+} from '@cdba/shared/constants/pagination';
 import { ReferenceType } from '@cdba/shared/models';
 import { AgGridStateService } from '@cdba/shared/services';
 
@@ -66,8 +70,8 @@ import { TableStore } from './table.store';
 export class ReferenceTypesTableComponent implements OnInit, OnDestroy {
   private static readonly TABLE_KEY = 'referenceTypes';
 
-  @Input() public selectedNodeIds: string[];
-  @Input() public rowData: ReferenceType[];
+  @Input() selectedNodeIds: string[];
+  @Input() rowData: ReferenceType[];
 
   @Output() readonly selectionChange: EventEmitter<string[]> =
     new EventEmitter();
@@ -133,7 +137,9 @@ export class ReferenceTypesTableComponent implements OnInit, OnDestroy {
     });
 
     if (this.paginationState === undefined) {
-      this.setupInitialPaginationState();
+      this.paginationControlsService.setupInitialPaginationState(
+        this.rowData?.length
+      );
     }
   }
 
@@ -192,33 +198,9 @@ export class ReferenceTypesTableComponent implements OnInit, OnDestroy {
 
     // Hide pagination component when row grouping is active
     if (event.api.getRowGroupColumns().length > 0) {
-      this.store.dispatch(
-        updatePaginationState({
-          paginationState: {
-            ...this.paginationState,
-            isVisible: false,
-          } as PaginationState,
-        })
-      );
+      this.paginationControlsService.setVisible(false);
     } else {
-      this.store.dispatch(
-        updatePaginationState({
-          paginationState: {
-            ...this.paginationState,
-            isVisible: true,
-          } as PaginationState,
-        })
-      );
-    }
-  }
-
-  private shiftToFront(columnState: ColumnState[], columnName: string) {
-    const columnIndex = columnState.findIndex(
-      (col) => col.colId === columnName
-    );
-    if (columnIndex !== -1) {
-      const column = columnState.splice(columnIndex, 1);
-      columnState.splice(0, 0, column[0]);
+      this.paginationControlsService.setVisible(true);
     }
   }
 
@@ -254,21 +236,61 @@ export class ReferenceTypesTableComponent implements OnInit, OnDestroy {
       } else if (event.columns.length > 1) {
         isVisible = false;
       }
+      this.paginationControlsService.setVisible(isVisible);
+    }
+  }
+
+  onFilterChange(evt: FilterChangedEvent): void {
+    this.tableStore.setFilters(this.gridApi.getFilterModel());
+
+    this.paginationControlsService.disablePagination();
+    evt.api.setGridOption('loading', true);
+
+    setTimeout(() => {
+      let currentPage = this.paginationState.currentPage;
+      if (evt.api.paginationGetCurrentPage() !== 0) {
+        currentPage = 0;
+        evt.api.paginationGoToFirstPage();
+      }
+
+      const displayedRowCount = evt.api.getDisplayedRowCount();
+      const pageSize =
+        this.paginationState.pageSize === 0 ||
+        this.paginationState.pageSize === undefined
+          ? MIN_PAGE_SIZE
+          : this.paginationState.pageSize;
+      const totalPages = Math.ceil(displayedRowCount / pageSize);
+      const indexes = this.paginationControlsService.calculateRangeIndexes(
+        currentPage,
+        pageSize,
+        this.paginationState.totalRange
+      );
+
       this.store.dispatch(
         updatePaginationState({
           paginationState: {
             ...this.paginationState,
-            isVisible,
+            currentPage,
+            isEnabled: true,
+            totalPages: totalPages === 0 ? 1 : totalPages,
+            totalRange: displayedRowCount,
+            currentRangeStartIndex: indexes.currentRangeStartIndex,
+            currentRangeEndIndex: indexes.currentRangeEndIndex,
           } as PaginationState,
         })
       );
-    }
+      evt.api.setGridOption('loading', false);
+    }, PAGINATION_LOADING_TIMEOUT);
   }
 
-  onFilterChange(): void {
-    const filters = this.gridApi.getFilterModel();
-
-    this.tableStore.setFilters(filters);
+  private shiftToFront(columnState: ColumnState[], columnName: string) {
+    const columnIndex = columnState.findIndex(
+      (col) => col.colId === columnName
+    );
+    if (columnIndex !== -1) {
+      const column = columnState.splice(columnIndex, 1);
+      columnState.splice(0, 0, column[0]);
+    }
   }
 
   private selectNodes(): void {
@@ -278,22 +300,5 @@ export class ReferenceTypesTableComponent implements OnInit, OnDestroy {
       );
       this.gridApi.setNodesSelected({ nodes, newValue: true, source: 'api' });
     }
-  }
-
-  private setupInitialPaginationState(): void {
-    const pageSize =
-      this.paginationControlsService.getPageSizeFromLocalStorage();
-    this.store.dispatch(
-      updatePaginationState({
-        paginationState: {
-          isVisible: true,
-          isDisabled: this.rowData?.length <= MIN_PAGE_SIZE,
-          currentPage: 0,
-          pageSize,
-          totalPages: Math.ceil(this.rowData?.length / pageSize),
-          totalRange: this.rowData?.length,
-        } as PaginationState,
-      })
-    );
   }
 }

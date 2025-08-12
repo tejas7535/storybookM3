@@ -39,6 +39,16 @@ export const updatePaginationState = createAction(
   props<{ paginationState: PaginationState }>()
 );
 
+export const setPaginationVisible = createAction(
+  '[Search] Set Pagination Visibility',
+  props<{ isVisible: boolean }>()
+);
+
+export const setPaginationEnabled = createAction(
+  '[Search] Set Pagination Enabled',
+  props<{ isEnabled: boolean }>()
+);
+
 export const updateFilter = createAction(
   '[Search] Update Filter',
   props<{ filter: FilterItem }>()
@@ -120,6 +130,8 @@ const all = union({
   selectReferenceTypes,
   deselectReferenceType,
   updatePaginationState,
+  setPaginationVisible,
+  setPaginationEnabled,
   requestBomExport,
   requestBomExportSuccess,
   requestBomExportFailure,

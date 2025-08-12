@@ -15,6 +15,7 @@ import {
   ColumnRowGroupChangedEvent,
   ColumnState,
   DisplayedColumnsChangedEvent,
+  FilterChangedEvent,
   FirstDataRenderedEvent,
   GridApi,
   GridReadyEvent,
@@ -28,7 +29,6 @@ import { getPaginationState, updatePaginationState } from '@cdba/core/store';
 import { PaginationState } from '@cdba/core/store/reducers/search/search.reducer';
 import { PaginationControlsService } from '@cdba/shared/components/table/pagination-controls/service/pagination-controls.service';
 import { ResultsStatusBarModule } from '@cdba/shared/components/table/status-bar/results-status-bar';
-import { ReferenceType } from '@cdba/shared/models';
 import { AgGridStateService } from '@cdba/shared/services';
 import {
   CALCULATIONS_MOCK,
@@ -64,6 +64,12 @@ describe('ReferenceTypesTableComponent', () => {
       mockProvider(PaginationControlsService, {
         getPageSizeFromLocalStorage: jest.fn(() => 100),
         setPageSizeToLocalStorage: jest.fn(),
+        setupInitialPaginationState: jest.fn(),
+        disablePagination: jest.fn(),
+        calculateRangeIndexes: jest.fn(() => ({
+          currentRangeStartIndex: 0,
+          currentRangeEndIndex: 10,
+        })),
       }),
       provideMockStore({
         initialState: {
@@ -97,7 +103,7 @@ describe('ReferenceTypesTableComponent', () => {
   describe('ngOnInit', () => {
     beforeEach(() => {
       spectator.setInput('rowData', []);
-      component['setupInitialPaginationState'] = jest.fn();
+      jest.clearAllMocks();
     });
 
     it('should set subcriptions', () => {
@@ -112,14 +118,18 @@ describe('ReferenceTypesTableComponent', () => {
 
       component.ngOnInit();
 
-      expect(component['setupInitialPaginationState']).toHaveBeenCalledTimes(1);
+      expect(
+        component['paginationControlsService'].setupInitialPaginationState
+      ).toHaveBeenCalledTimes(1);
     });
     it('should not set subcriptions and initial pagination state if it defined', () => {
       component.paginationState = PAGINATION_STATE_MOCK;
 
       component.ngOnInit();
 
-      expect(component['setupInitialPaginationState']).toHaveBeenCalledTimes(0);
+      expect(
+        component['paginationControlsService'].setupInitialPaginationState
+      ).toHaveBeenCalledTimes(0);
     });
   });
 
@@ -140,6 +150,22 @@ describe('ReferenceTypesTableComponent', () => {
       expect(
         component['paginationStateSubscription'].unsubscribe
       ).toHaveBeenCalled();
+    });
+  });
+
+  describe('onColumnChange', () => {
+    it('should receive current column state and set it via state service', () => {
+      const mockEvent = {
+        api: { getColumnState: jest.fn(() => [] as (ColDef | ColGroupDef)[]) },
+      } as unknown as SortChangedEvent;
+
+      component.onColumnChange(mockEvent);
+
+      expect(mockEvent.api.getColumnState).toHaveBeenCalled();
+      expect(stateService.setColumnState).toHaveBeenCalledWith(
+        'referenceTypes',
+        []
+      );
     });
   });
 
@@ -206,22 +232,6 @@ describe('ReferenceTypesTableComponent', () => {
       component.onDisplayedColumnsChanged(event);
 
       expect(event.api.moveColumnByIndex).toHaveBeenCalledWith(1, 0);
-    });
-  });
-
-  describe('onColumnChange', () => {
-    it('should receive current column state and set it via state service', () => {
-      const mockEvent = {
-        api: { getColumnState: jest.fn(() => [] as (ColDef | ColGroupDef)[]) },
-      } as unknown as SortChangedEvent;
-
-      component.onColumnChange(mockEvent);
-
-      expect(mockEvent.api.getColumnState).toHaveBeenCalled();
-      expect(stateService.setColumnState).toHaveBeenCalledWith(
-        'referenceTypes',
-        []
-      );
     });
   });
 
@@ -299,15 +309,14 @@ describe('ReferenceTypesTableComponent', () => {
       expect(component['gridApi'].paginationGoToPage).not.toHaveBeenCalled();
     });
 
-    it('should dispatch updatePaginationState with isVisible=false (hide) if rowGroupColumns is not empty', () => {
+    it('should hide pagination if rowGroupColumns is not empty', () => {
       event.api.getRowGroupColumns = jest.fn(() => [
         {} as Column,
         {} as Column,
       ]);
-      const storeSpy = jest.spyOn(store, 'dispatch');
       component.paginationState = {
         isVisible: true,
-        isDisabled: false,
+        isEnabled: true,
         currentPage: 0,
         pageSize: 100,
         totalPages: 1,
@@ -316,26 +325,16 @@ describe('ReferenceTypesTableComponent', () => {
 
       component.onGridReady(event);
 
-      expect(storeSpy).toHaveBeenCalledWith(
-        updatePaginationState({
-          paginationState: {
-            isVisible: false,
-            isDisabled: false,
-            currentPage: 0,
-            pageSize: 100,
-            totalPages: 1,
-            totalRange: 2,
-          } as PaginationState,
-        })
-      );
+      expect(
+        component['paginationControlsService'].setVisible
+      ).toHaveBeenCalledWith(false);
     });
 
-    it('should dispatch updatePaginationState with isVisible=true (show) if rowGroupColumns is empty', () => {
+    it('should show pagination if rowGroupColumns is empty', () => {
       event.api.getRowGroupColumns = jest.fn(() => [] as Column[]);
-      const storeSpy = jest.spyOn(store, 'dispatch');
       component.paginationState = {
         isVisible: false,
-        isDisabled: false,
+        isEnabled: true,
         currentPage: 0,
         pageSize: 100,
         totalPages: 1,
@@ -344,18 +343,9 @@ describe('ReferenceTypesTableComponent', () => {
 
       component.onGridReady(event);
 
-      expect(storeSpy).toHaveBeenCalledWith(
-        updatePaginationState({
-          paginationState: {
-            isVisible: true,
-            isDisabled: false,
-            currentPage: 0,
-            pageSize: 100,
-            totalPages: 1,
-            totalRange: 2,
-          } as PaginationState,
-        })
-      );
+      expect(
+        component['paginationControlsService'].setVisible
+      ).toHaveBeenCalledWith(true);
     });
   });
 
@@ -388,114 +378,6 @@ describe('ReferenceTypesTableComponent', () => {
     });
   });
 
-  describe('onColumnRowGroupChanged', () => {
-    it('should show pagination when column is being changed but row grouping is inactive', () => {
-      const storeSpy = jest.spyOn(store, 'dispatch');
-      const event = {
-        source: 'toolPanelUi',
-        columns: [
-          {
-            isRowGroupActive: jest.fn(() => false),
-          } as unknown as Column,
-        ],
-      } as ColumnRowGroupChangedEvent;
-      component.paginationState = {
-        isVisible: false,
-        isDisabled: false,
-        currentPage: 0,
-        pageSize: 100,
-        totalPages: 1,
-        totalRange: 2,
-      } as PaginationState;
-
-      component.onColumnRowGroupChanged(event);
-
-      expect(storeSpy).toHaveBeenCalledWith(
-        updatePaginationState({
-          paginationState: {
-            isVisible: true,
-            isDisabled: false,
-            currentPage: 0,
-            pageSize: 100,
-            totalPages: 1,
-            totalRange: 2,
-          } as PaginationState,
-        })
-      );
-    });
-    it('should hide pagination when column is being changed and row grouping is active', () => {
-      const storeSpy = jest.spyOn(store, 'dispatch');
-      const event = {
-        source: 'toolPanelUi',
-        columns: [
-          {
-            isRowGroupActive: jest.fn(() => true),
-          } as unknown as Column,
-        ],
-      } as ColumnRowGroupChangedEvent;
-      component.paginationState = {
-        isVisible: true,
-        isDisabled: false,
-        currentPage: 0,
-        pageSize: 100,
-        totalPages: 1,
-        totalRange: 2,
-      } as PaginationState;
-
-      component.onColumnRowGroupChanged(event);
-
-      expect(storeSpy).toHaveBeenCalledWith(
-        updatePaginationState({
-          paginationState: {
-            isVisible: false,
-            isDisabled: false,
-            currentPage: 0,
-            pageSize: 100,
-            totalPages: 1,
-            totalRange: 2,
-          } as PaginationState,
-        })
-      );
-    });
-    it('should hide pagination when more than one column is being changed', () => {
-      const storeSpy = jest.spyOn(store, 'dispatch');
-      const event = {
-        source: 'toolPanelUi',
-        columns: [
-          {
-            isRowGroupActive: jest.fn(() => true),
-          } as unknown as Column,
-          {
-            isRowGroupActive: jest.fn(() => true),
-          } as unknown as Column,
-        ],
-      } as ColumnRowGroupChangedEvent;
-      component.paginationState = {
-        isVisible: true,
-        isDisabled: false,
-        currentPage: 0,
-        pageSize: 100,
-        totalPages: 1,
-        totalRange: 2,
-      } as PaginationState;
-
-      component.onColumnRowGroupChanged(event);
-
-      expect(storeSpy).toHaveBeenCalledWith(
-        updatePaginationState({
-          paginationState: {
-            isVisible: false,
-            isDisabled: false,
-            currentPage: 0,
-            pageSize: 100,
-            totalPages: 1,
-            totalRange: 2,
-          } as PaginationState,
-        })
-      );
-    });
-  });
-
   describe('onSelectionChanged', () => {
     const event = {
       api: {
@@ -509,6 +391,84 @@ describe('ReferenceTypesTableComponent', () => {
       component.onSelectionChanged(event);
 
       expect(component.selectionChange.emit).toHaveBeenCalledWith([0]);
+    });
+  });
+
+  describe('onColumnRowGroupChanged', () => {
+    it('should show pagination when column is being changed but row grouping is inactive', () => {
+      const event = {
+        source: 'toolPanelUi',
+        columns: [
+          {
+            isRowGroupActive: jest.fn(() => false),
+          } as unknown as Column,
+        ],
+      } as ColumnRowGroupChangedEvent;
+      component.paginationState = {
+        isVisible: false,
+        isEnabled: true,
+        currentPage: 0,
+        pageSize: 100,
+        totalPages: 1,
+        totalRange: 2,
+      } as PaginationState;
+
+      component.onColumnRowGroupChanged(event);
+
+      expect(
+        component['paginationControlsService'].setVisible
+      ).toHaveBeenCalledWith(true);
+    });
+    it('should hide pagination when column is being changed and row grouping is active', () => {
+      const event = {
+        source: 'toolPanelUi',
+        columns: [
+          {
+            isRowGroupActive: jest.fn(() => true),
+          } as unknown as Column,
+        ],
+      } as ColumnRowGroupChangedEvent;
+      component.paginationState = {
+        isVisible: true,
+        isEnabled: true,
+        currentPage: 0,
+        pageSize: 100,
+        totalPages: 1,
+        totalRange: 2,
+      } as PaginationState;
+
+      component.onColumnRowGroupChanged(event);
+
+      expect(
+        component['paginationControlsService'].setVisible
+      ).toHaveBeenCalledWith(false);
+    });
+    it('should hide pagination when more than one column is being changed', () => {
+      const event = {
+        source: 'toolPanelUi',
+        columns: [
+          {
+            isRowGroupActive: jest.fn(() => true),
+          } as unknown as Column,
+          {
+            isRowGroupActive: jest.fn(() => true),
+          } as unknown as Column,
+        ],
+      } as ColumnRowGroupChangedEvent;
+      component.paginationState = {
+        isVisible: true,
+        isEnabled: true,
+        currentPage: 0,
+        pageSize: 100,
+        totalPages: 1,
+        totalRange: 2,
+      } as PaginationState;
+
+      component.onColumnRowGroupChanged(event);
+
+      expect(
+        component['paginationControlsService'].setVisible
+      ).toHaveBeenCalledWith(false);
     });
   });
 
@@ -545,39 +505,107 @@ describe('ReferenceTypesTableComponent', () => {
   });
 
   describe('onFilterChange', () => {
-    it('should set filters of tables store', () => {
-      const mockFilters = { sqv: { type: 'number', value: 10 } };
+    let evt: FilterChangedEvent;
+    let mockFilters: any;
+    let storeSpy: jest.SpyInstance;
+    let tableStoreSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      jest.useFakeTimers();
+      storeSpy = jest.spyOn(store, 'dispatch');
+      tableStoreSpy = jest.spyOn(component['tableStore'] as any, 'setFilters');
+      mockFilters = { sqv: { type: 'number', value: 10 } };
+
       component['gridApi'] = {
         getFilterModel: jest.fn(() => mockFilters),
       } as unknown as GridApi;
-      jest.spyOn(component['tableStore'] as any, 'setFilters');
 
-      component.onFilterChange();
-
-      expect(component['tableStore'].setFilters).toHaveBeenCalledWith(
-        mockFilters
-      );
+      evt = {
+        api: {
+          setGridOption: jest.fn(),
+          paginationGetCurrentPage: jest.fn(() => 0),
+          paginationGoToFirstPage: jest.fn(),
+          getDisplayedRowCount: jest.fn(() => 10),
+        },
+      } as unknown as FilterChangedEvent;
     });
-  });
 
-  describe('setupInitialPaginationState', () => {
-    it('should dispatch updatePaginationState with pageSize from local storage', () => {
-      const storeSpy = jest.spyOn(store, 'dispatch');
-      component.rowData = [{ foo: 'bar' } as unknown as ReferenceType];
-      component['setupInitialPaginationState']();
+    afterEach(() => {
+      jest.useRealTimers();
+      jest.clearAllMocks();
+    });
 
+    afterAll(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should set filters of tables store and update pagination state', () => {
+      component.paginationState = {
+        ...component.paginationState,
+        currentPage: 0,
+        pageSize: 1,
+      };
+
+      component.onFilterChange(evt);
+
+      jest.runAllTimers();
+
+      expect(tableStoreSpy).toHaveBeenCalledWith(mockFilters);
+      expect(
+        component['paginationControlsService'].disablePagination
+      ).toHaveBeenCalledTimes(1);
+      expect(evt.api.setGridOption).toHaveBeenCalledWith('loading', true);
+      expect(evt.api.paginationGoToFirstPage).not.toHaveBeenCalled();
       expect(storeSpy).toHaveBeenCalledWith(
         updatePaginationState({
           paginationState: {
-            isVisible: true,
-            isDisabled: true,
             currentPage: 0,
-            pageSize: 100,
-            totalPages: 1,
-            totalRange: 1,
+            isEnabled: true,
+            pageSize: 1,
+            totalPages: 10,
+            totalRange: 10,
+            currentRangeStartIndex: 0,
+            currentRangeEndIndex: 10,
           } as PaginationState,
         })
       );
+      expect(evt.api.setGridOption).toHaveBeenCalledWith('loading', false);
+    });
+
+    it('should set filters of tables store and navigate to first page', () => {
+      evt = {
+        ...evt,
+        api: { ...evt.api, paginationGetCurrentPage: jest.fn(() => 10) },
+      };
+      component.paginationState = {
+        ...component.paginationState,
+        pageSize: 50,
+      };
+
+      component.onFilterChange(evt);
+
+      jest.runAllTimers();
+
+      expect(tableStoreSpy).toHaveBeenCalledWith(mockFilters);
+      expect(
+        component['paginationControlsService'].disablePagination
+      ).toHaveBeenCalledTimes(1);
+      expect(evt.api.setGridOption).toHaveBeenCalledWith('loading', true);
+      expect(evt.api.paginationGoToFirstPage).toHaveBeenCalledTimes(1);
+      expect(storeSpy).toHaveBeenCalledWith(
+        updatePaginationState({
+          paginationState: {
+            currentPage: 0,
+            isEnabled: true,
+            pageSize: 50,
+            totalPages: 1,
+            totalRange: 10,
+            currentRangeStartIndex: 0,
+            currentRangeEndIndex: 10,
+          } as PaginationState,
+        })
+      );
+      expect(evt.api.setGridOption).toHaveBeenCalledWith('loading', false);
     });
   });
 });

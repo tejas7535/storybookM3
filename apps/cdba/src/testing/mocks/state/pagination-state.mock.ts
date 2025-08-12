@@ -1,7 +1,7 @@
 import { PaginationState } from '@cdba/core/store/reducers/search/search.reducer';
 
 export const PAGINATION_STATE_MOCK: PaginationState = {
-  isDisabled: false,
+  isEnabled: true,
   isVisible: false,
   pageSize: 0,
   currentPage: 0,

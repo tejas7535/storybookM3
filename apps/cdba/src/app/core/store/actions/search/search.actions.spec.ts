@@ -31,6 +31,8 @@ import {
   searchFailure,
   searchSuccess,
   selectReferenceTypes,
+  setPaginationEnabled,
+  setPaginationVisible,
   shareSearchResult,
   updateFilter,
   updatePaginationState,
@@ -264,6 +266,24 @@ describe('Search Actions', () => {
       expect(action).toEqual({
         type: '[Search] Update Pagination State',
         paginationState: undefined,
+      });
+    });
+
+    test('setPaginationVisible', () => {
+      const action = setPaginationVisible({ isVisible: true });
+
+      expect(action).toEqual({
+        type: '[Search] Set Pagination Visibility',
+        isVisible: true,
+      });
+    });
+
+    test('setPaginationEnabled', () => {
+      const action = setPaginationEnabled({ isEnabled: true });
+
+      expect(action).toEqual({
+        type: '[Search] Set Pagination Enabled',
+        isEnabled: true,
       });
     });
   });

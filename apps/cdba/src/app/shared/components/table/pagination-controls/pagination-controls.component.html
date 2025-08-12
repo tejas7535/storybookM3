@@ -11,20 +11,20 @@
         {{
           t('pages', {
             pagesStartIndex: paginationState.currentPage + 1,
-            pagesEndIndex: paginationState.totalPages
+            pagesEndIndex: paginationState.totalPages,
           })
         }}
       </div>
       <div class="flex gap-1 items-center">
         <div>
-          <label> {{ t('itemsPerPage') }}</label>
+          <p>{{ t('itemsPerPage') }}</p>
         </div>
         <button
           mat-raised-button
           [matMenuTriggerFor]="menu"
-          [disabled]="paginationState.isDisabled"
+          [disabled]="!paginationState.isEnabled"
           [ngClass]="
-            paginationState.isDisabled ? 'icon-disabled' : 'icon-enabled'
+            paginationState.isEnabled ? 'icon-enabled' : 'icon-disabled'
           "
         >
           {{ (paginationState$ | ngrxPush).pageSize }}
@@ -45,7 +45,7 @@
           t('range', {
             rangeStartIndex: paginationState.currentRangeStartIndex,
             rangeEndIndex: paginationState.currentRangeEndIndex,
-            totalRange: paginationState.totalRange
+            totalRange: paginationState.totalRange,
           })
         }}
       </div>
@@ -53,11 +53,11 @@
         <button
           mat-icon-button
           [disabled]="
-            paginationState.isDisabled || paginationState.currentPage === 0
+            !paginationState.isEnabled || paginationState.currentPage === 0
           "
           (click)="onPageChange(paginationType.FIRST)"
           [ngClass]="
-            paginationState.isDisabled || paginationState.currentPage === 0
+            !paginationState.isEnabled || paginationState.currentPage === 0
               ? 'icon-disabled'
               : 'icon-enabled'
           "
@@ -67,11 +67,11 @@
         <button
           mat-icon-button
           [disabled]="
-            paginationState.isDisabled || paginationState.currentPage <= 0
+            !paginationState.isEnabled || paginationState.currentPage <= 0
           "
           (click)="onPageChange(paginationType.PREVIOUS)"
           [ngClass]="
-            paginationState.isDisabled || paginationState.currentPage <= 0
+            !paginationState.isEnabled || paginationState.currentPage <= 0
               ? 'icon-disabled'
               : 'icon-enabled'
           "
@@ -81,12 +81,12 @@
         <button
           mat-icon-button
           [disabled]="
-            paginationState.isDisabled ||
+            !paginationState.isEnabled ||
             paginationState.currentPage + 1 >= paginationState.totalPages
           "
           (click)="onPageChange(paginationType.NEXT)"
           [ngClass]="
-            paginationState.isDisabled ||
+            !paginationState.isEnabled ||
             paginationState.currentPage + 1 >= paginationState.totalPages
               ? 'icon-disabled'
               : 'icon-enabled'
@@ -97,12 +97,12 @@
         <button
           mat-icon-button
           [disabled]="
-            paginationState.isDisabled ||
+            !paginationState.isEnabled ||
             paginationState.currentPage + 1 === paginationState.totalPages
           "
           (click)="onPageChange(paginationType.LAST)"
           [ngClass]="
-            paginationState.isDisabled ||
+            !paginationState.isEnabled ||
             paginationState.currentPage + 1 === paginationState.totalPages
               ? 'icon-disabled'
               : 'icon-enabled'

@@ -24,6 +24,8 @@ import {
   searchFailure,
   searchSuccess,
   selectReferenceTypes,
+  setPaginationEnabled,
+  setPaginationVisible,
   shareSearchResult,
   updateFilter,
   updatePaginationState,
@@ -265,6 +267,28 @@ describe('Search Reducer', () => {
       expect(state.referenceTypes.paginationState).toEqual(
         PAGINATION_STATE_MOCK
       );
+    });
+
+    it('should change the visibility of pagination', () => {
+      const action = setPaginationVisible({
+        isVisible: true,
+      });
+      const expectedState = { isVisible: true };
+
+      const state = searchReducer(initialState, action);
+
+      expect(state.referenceTypes.paginationState).toEqual(expectedState);
+    });
+
+    it('should change the isEnabled of pagination', () => {
+      const action = setPaginationEnabled({
+        isEnabled: true,
+      });
+      const expectedState = { isEnabled: true };
+
+      const state = searchReducer(initialState, action);
+
+      expect(state.referenceTypes.paginationState).toEqual(expectedState);
     });
   });
 

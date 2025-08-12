@@ -25,7 +25,7 @@
     [suppressPaginationPanel]="true"
     [pagination]="paginationState.isVisible"
     [paginationPageSize]="paginationState.pageSize"
-    (filterChanged)="onFilterChange()"
+    (filterChanged)="onFilterChange($event)"
     (firstDataRendered)="onFirstDataRendered($event)"
     (selectionChanged)="onSelectionChanged($event)"
     (gridReady)="onGridReady($event)"
