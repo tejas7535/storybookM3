@@ -1,4 +1,11 @@
 # Release Notes of Grease App
+## [2.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v2.2.0...ga-v2.2.1) (2025-08-12)
+
+
+### Bug Fixes
+
+* **ga:** fix sorting and vertical axis values ([#7470](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7470)) ([312f6f6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/312f6f641de6cd3f25a1ff851f0f2c590c034dd4))
+
 ## [2.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v2.1.0...ga-v2.2.0) (2025-08-12)
 
 
