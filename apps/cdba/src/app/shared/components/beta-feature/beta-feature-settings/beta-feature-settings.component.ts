@@ -8,7 +8,6 @@ import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feat
 @Component({
   selector: 'cdba-beta-feature-settings',
   templateUrl: './beta-feature-settings.component.html',
-  styleUrls: ['./beta-feature-settings.component.scss'],
   standalone: false,
 })
 export class BetaFeatureSettingsComponent implements OnInit {

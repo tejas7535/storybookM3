@@ -18,7 +18,6 @@ import { BetaFeatureSettingsComponent } from './beta-feature-settings/beta-featu
     MatDialogModule,
     MatIconModule,
     MatSlideToggleModule,
-
     SharedTranslocoModule,
   ],
   declarations: [
