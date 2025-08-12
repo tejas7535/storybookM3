@@ -1,10 +1,22 @@
 <ng-container *transloco="let t; read: 'viscosityIndexCalculator'">
-  <div class="flex flex-row justify-between items-center pr-2">
-    <h2 mat-dialog-title class="m-0">
+  <div
+    class="flex flex-row flex-wrap justify-between items-center pr-2 gap-2 gap-y-2"
+  >
+    <h2
+      mat-dialog-title
+      class="m-0 flex-1 min-w-0 break-words text-base sm:text-lg"
+    >
       {{ t('title') }}
     </h2>
-    <button mat-icon-button (click)="closeDialog()">
-      <mat-icon>close</mat-icon>
+    <button
+      mat-icon-button
+      (click)="closeDialog()"
+      class="shrink-0 flex items-center justify-center p-0 h-10 w-10 min-w-[40px]"
+    >
+      <mat-icon
+        class="!flex items-center justify-center text-[24px] leading-none"
+        >close</mat-icon
+      >
     </button>
   </div>
 
@@ -64,8 +76,13 @@
               formSubmitted && viWert !== undefined ? 'visible' : 'invisible'
             "
           >
-            <mat-label>{{ t('resultLabel') }}</mat-label>
-            <div class="result-field">
+            <mat-label
+              class="text-title-medium text-high-emphasis mb-2 block"
+              >{{ t('resultLabel') }}</mat-label
+            >
+            <div
+              class="result-field text-title-large text-high-emphasis bg-primary-50 rounded-lg py-3 px-6 shadow-sm flex min-h-[3.5rem] tracking-wider"
+            >
               {{ viWert !== undefined ? viWert : '-' }}
             </div>
           </div>
