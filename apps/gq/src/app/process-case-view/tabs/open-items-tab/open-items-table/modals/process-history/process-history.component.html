@@ -22,6 +22,7 @@
         mat-button
         disableRipple
         class="noRippleHover error-with-opacity !text-error disabled:!text-on-surface-variant disabled:!opacity-[0.38]"
+        (click)="triggerChangeProcess(recalculationProcessActionEnum.CANCEL)"
       >
         {{ t('cancelButton') }}
       </button>

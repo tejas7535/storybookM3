@@ -61,4 +61,21 @@ describe('ProcessHistoryComponent', () => {
       expect(component.activeStep()).toBe(2);
     });
   });
+
+  describe('canCancel', () => {
+    test('should return true when status is IN_PROGRESS', () => {
+      component.rfq4Status.set(Rfq4Status.IN_PROGRESS);
+      expect(component.canCancel()).toBe(true);
+    });
+
+    test('should return false when status is CONFIRMED', () => {
+      component.rfq4Status.set(Rfq4Status.CONFIRMED);
+      expect(component.canCancel()).toBe(false);
+    });
+
+    test('should return false when status is CANCELLED', () => {
+      component.rfq4Status.set(Rfq4Status.CANCELLED);
+      expect(component.canCancel()).toBe(false);
+    });
+  });
 });

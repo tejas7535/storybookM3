@@ -62,10 +62,15 @@ export class ProcessHistoryComponent {
     return 1;
   });
 
+  canCancel = computed(
+    (): boolean =>
+      this.rfq4Status() === Rfq4Status.IN_PROGRESS ||
+      this.rfq4Status() === Rfq4Status.OPEN ||
+      this.rfq4Status() === Rfq4Status.REOPEN
+  );
   rfq4StatusEnum = Rfq4Status;
   sqvApprovalStatusEnum = SqvApprovalStatus;
   recalculationProcessActionEnum = RecalculationProcessAction;
-  closeDialog(): void {}
 
   triggerChangeProcess(process: RecalculationProcessAction): void {
     this.changeModal.emit(process);
