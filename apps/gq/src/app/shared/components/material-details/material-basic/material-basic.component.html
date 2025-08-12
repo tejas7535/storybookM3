@@ -1,34 +1,48 @@
 <ng-container *transloco="let t; read: 'pricingDetails.materialDetails'">
   <div *ngrxLet="quotationDetail.material as materialDetails">
     <gq-label-text>
-      <span label>{{ t('materialDescription') }}</span>
-      <span text
+      <span data-cy="materialDescription-label" label>{{
+        t('materialDescription')
+      }}</span>
+      <span data-cy="materialDescription-value" text
         >{{ materialDetails.materialDescription | nullableString }}
       </span>
     </gq-label-text>
     <gq-label-text>
-      <span label>{{ t('materialNumber') }}</span>
-      <span text
+      <span data-cy="materialNumber-label" label>{{
+        t('materialNumber')
+      }}</span>
+      <span data-cy="materialNumber-value" text
         >{{ materialDetails.materialNumber15 | materialTransform }}
       </span>
     </gq-label-text>
     <gq-label-text>
-      <span label>{{ t('brandName') }}</span>
-      <span text>{{ materialDetails.brandName | nullableString }}</span>
+      <span data-cy="brandName-label" label>{{ t('brandName') }}</span>
+      <span data-cy="brandName-value" text>{{
+        materialDetails.brandName | nullableString
+      }}</span>
     </gq-label-text>
     <gq-label-text>
-      <span label>{{ t('materialStatus') }}</span>
-      <span text>{{ materialDetails.materialStatus | nullableString }}</span>
+      <span data-cy="materialStatus-label" label>{{
+        t('materialStatus')
+      }}</span>
+      <span data-cy="materialStatus-value" text>{{
+        materialDetails.materialStatus | nullableString
+      }}</span>
     </gq-label-text>
     <gq-label-text>
-      <span label>{{ t('materialClassificationSop') }}</span>
-      <span text>{{
+      <span data-cy="materialClassificationSop-label" label>{{
+        t('materialClassificationSop')
+      }}</span>
+      <span data-cy="materialClassificationSop-value" text>{{
         quotationDetail.materialClassificationSop | materialClassificationSop
       }}</span>
     </gq-label-text>
     <gq-label-text [marginBottom]="false">
-      <span label>{{ t('abcxClassification') }}</span>
-      <span text>{{
+      <span data-cy="abcxClassification-label" label>{{
+        t('abcxClassification')
+      }}</span>
+      <span data-cy="abcxClassification-value" text>{{
         quotationDetail.abcxClassification
           ? ('shared.quotationDetailsTable.abcxClassification.' +
               quotationDetail.abcxClassification | transloco)

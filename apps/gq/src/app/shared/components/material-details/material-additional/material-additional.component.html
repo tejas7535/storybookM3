@@ -1,22 +1,28 @@
 <ng-container *transloco="let t; read: 'pricingDetails.materialDetails'">
   <div *ngrxLet="quotationDetail.material as materialDetails">
     <gq-label-text>
-      <span label>{{ t('baseUoM') }}</span>
-      <span text>{{ materialDetails.baseUoM | uom | nullableString }}</span>
+      <span data-cy="baseUoM-label" label>{{ t('baseUoM') }}</span>
+      <span data-cy="baseUoM-value" text>{{
+        materialDetails.baseUoM | uom | nullableString
+      }}</span>
     </gq-label-text>
     <gq-label-text>
-      <span label>{{ t('deliveryUnit') }}</span>
-      <span text>{{
+      <span data-cy="deliveryUnit-label" label>{{ t('deliveryUnit') }}</span>
+      <span data-cy="deliveryUnit-value" text>{{
         quotationDetail.deliveryUnit?.toString() | nullableString
       }}</span>
     </gq-label-text>
     <gq-label-text>
-      <span label>{{ t('materialType') }}</span>
-      <span text>{{ materialDetails.materialType | nullableString }}</span>
+      <span data-cy="materialType-label" label>{{ t('materialType') }}</span>
+      <span data-cy="materialType-value" text>{{
+        materialDetails.materialType | nullableString
+      }}</span>
     </gq-label-text>
     <gq-label-text [marginBottom]="false">
-      <span label>{{ t('ean11') }}</span>
-      <span text>{{ materialDetails.ean11 | nullableString }}</span>
+      <span data-cy="ean11-label" label>{{ t('ean11') }}</span>
+      <span data-cy="ean11-value" text>{{
+        materialDetails.ean11 | nullableString
+      }}</span>
     </gq-label-text>
   </div>
 </ng-container>

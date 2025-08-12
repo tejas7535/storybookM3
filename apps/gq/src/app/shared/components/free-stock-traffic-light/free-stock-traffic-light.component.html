@@ -4,10 +4,10 @@
       class="mr-2 h-3 w-3 rounded-full bg-primary"
       [ngClass]="{
         '!bg-[#cb0b15]': freeStock === 0,
-        '!bg-[#e9b300]': freeStock <= 10 && freeStock > 0
+        '!bg-[#e9b300]': freeStock <= 10 && freeStock > 0,
       }"
     ></div>
-    <span>
+    <span data-cy="freeStock-value">
       {{ freeStock }}
       {{ uom | uom | nullableString }}
     </span>

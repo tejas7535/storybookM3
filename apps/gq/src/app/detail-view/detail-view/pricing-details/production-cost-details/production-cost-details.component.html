@@ -30,8 +30,8 @@
         }
         @if (userHasGPCRole) {
           <gq-label-text>
-            <span label> {{ t('gpc') }}</span>
-            <span text>{{
+            <span data-cy="gpc-label" label> {{ t('gpc') }}</span>
+            <span data-cy="gpc-value" text>{{
               quotationDetail.gpc | numberCurrency: currency
             }}</span>
             @if (quotationDetail.gpc) {
@@ -51,8 +51,8 @@
         }
         @if (userHasSQVRole) {
           <gq-label-text>
-            <span label>{{ t('sqv') }}</span>
-            <span text>{{
+            <span data-cy="sqv-label" label>{{ t('sqv') }}</span>
+            <span data-cy="sqv-value" text>{{
               quotationDetail.sqv | numberCurrency: currency
             }}</span>
             @if (quotationDetail.sqv) {
@@ -71,18 +71,26 @@
           </gq-label-text>
         }
         <gq-label-text>
-          <span label>{{ t('deliveryPlant') }}</span>
-          <span text> {{ quotationDetail.plant | plantDisplay }}</span>
+          <span data-cy="deliveryPlant-label" label>{{
+            t('deliveryPlant')
+          }}</span>
+          <span data-cy="deliveryPlant-value" text>
+            {{ quotationDetail.plant | plantDisplay }}</span
+          >
         </gq-label-text>
         <gq-label-text>
-          <span label>{{ t('productionPlant') }}</span>
-          <span text>
+          <span data-cy="productionPlant-label" label>{{
+            t('productionPlant')
+          }}</span>
+          <span data-cy="productionPlant-value" text>
             {{ quotationDetail.productionPlant | plantDisplay }}</span
           >
         </gq-label-text>
         <gq-label-text [marginBottom]="false">
-          <span label>{{ t('productionSegment') }}</span>
-          <span text>
+          <span data-cy="productionSegment-label" label>{{
+            t('productionSegment')
+          }}</span>
+          <span data-cy="productionSegment-value" text>
             {{ quotationDetail.productionSegment | nullableString }}</span
           >
         </gq-label-text>

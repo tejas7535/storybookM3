@@ -1,24 +1,32 @@
 <ng-container *transloco="let t; read: 'pricingDetails.materialDetails'">
   <div>
     <gq-label-text>
-      <span label>{{ t('dimensions') }}</span>
-      <span text>{{ materialDetails.dimensions | nullableString }}</span>
+      <span data-cy="dimensions-label" label>{{ t('dimensions') }}</span>
+      <span data-cy="dimensions-value" text>{{
+        materialDetails.dimensions | nullableString
+      }}</span>
     </gq-label-text>
     <gq-label-text>
-      <span label>{{ t('outerDiameter') }}</span>
-      <span text>{{ materialDetails.outerDiameter | millimeterUnit }}</span>
+      <span data-cy="outerDiameter-label" label>{{ t('outerDiameter') }}</span>
+      <span data-cy="outerDiameter-value" text>{{
+        materialDetails.outerDiameter | millimeterUnit
+      }}</span>
     </gq-label-text>
     <gq-label-text>
-      <span label>{{ t('innerDiameter') }}</span>
-      <span text>{{ materialDetails.innerDiameter | millimeterUnit }}</span>
+      <span data-cy="innerDiameter-label" label>{{ t('innerDiameter') }}</span>
+      <span data-cy="innerDiameter-value" text>{{
+        materialDetails.innerDiameter | millimeterUnit
+      }}</span>
     </gq-label-text>
     <gq-label-text>
-      <span label>{{ t('width') }}</span>
-      <span text>{{ materialDetails.width | millimeterUnit }}</span>
+      <span data-cy="overallWidth-label" label>{{ t('width') }}</span>
+      <span data-cy="overallWidth-value" text>{{
+        materialDetails.width | millimeterUnit
+      }}</span>
     </gq-label-text>
     <gq-label-text>
-      <span label>{{ t('grossWeight') }}</span>
-      <span text
+      <span data-cy="grossWeight-label" label>{{ t('grossWeight') }}</span>
+      <span data-cy="grossWeight-value" text
         >{{ materialDetails.grossWeight }} [{{
           materialDetails.weightUnit
         }}]</span

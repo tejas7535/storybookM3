@@ -8,19 +8,23 @@
     >
       <gq-kpi-status-card [title]="t('title')">
         <gq-label-text>
-          <span label>{{ t('deliveryPlant') }}</span>
-          <span text>{{ materialStockByPlant.plant | plantDisplay }}</span>
+          <span data-cy="deliveryPlant-label" label>{{
+            t('deliveryPlant')
+          }}</span>
+          <span data-cy="deliveryPlant-value" text>{{
+            materialStockByPlant.plant | plantDisplay
+          }}</span>
         </gq-label-text>
         <gq-label-text>
-          <span label>{{ t('stock') }}</span>
-          <span text
+          <span data-cy="stock-label" label>{{ t('stock') }}</span>
+          <span data-cy="stock-value" text
             >{{ materialStockByPlant.stock }}
             {{ uom | uom | nullableString }}
           </span>
         </gq-label-text>
         <gq-label-text>
-          <span label>{{ t('freeStock') }}</span>
-          <span text>
+          <span data-cy="freeStock-label" label>{{ t('freeStock') }}</span>
+          <span data-cy="freeStock-value" text>
             <gq-free-stock-traffic-light
               [freeStock]="materialStockByPlant.freeStock"
               [uom]="uom"
@@ -29,28 +33,32 @@
           </span>
         </gq-label-text>
         <gq-label-text>
-          <span label>{{ t('backlog') }}</span>
-          <span text
+          <span data-cy="backlog-label" label>{{ t('backlog') }}</span>
+          <span data-cy="backlog-value" text
             >{{ materialStockByPlant.backlog }}
             {{ uom | uom | nullableString }}
           </span>
         </gq-label-text>
         <gq-label-text>
-          <span label>{{ t('nextFreeAtp') }}</span>
-          <span text
+          <span data-cy="nextFreeAtp-label" label>{{ t('nextFreeAtp') }}</span>
+          <span data-cy="nextFreeAtp-value" text
             >{{ materialStockByPlant.nextFree }}
             {{ uom | uom | nullableString }}
           </span>
         </gq-label-text>
         <gq-label-text>
-          <span label>{{ t('dateNextFreeAtp') }}</span>
-          <span text>{{
+          <span data-cy="dateNextFreeAtp-label" label>{{
+            t('dateNextFreeAtp')
+          }}</span>
+          <span data-cy="dateNextFreeAtp-value" text>{{
             materialStockByPlant.dateNextFree | translocoDate
           }}</span>
         </gq-label-text>
         <gq-label-text>
-          <span label>{{ t('deliveryDate') }}</span>
-          <span text>{{
+          <span data-cy="deliveryDate-label" label>{{
+            t('deliveryDate')
+          }}</span>
+          <span data-cy="deliveryDate-value" text>{{
             materialStockByPlant.arrivalDate | translocoDate
           }}</span>
         </gq-label-text>

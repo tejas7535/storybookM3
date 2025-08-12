@@ -6,16 +6,26 @@
     @if (quotationDetail) {
       <div>
         <gq-label-text>
-          <span label>{{ t('supplyPlant') }}</span>
-          <span text>{{ quotationDetail.plant | plantDisplay }}</span>
+          <span data-cy="supplyPlant-label" label>{{ t('supplyPlant') }}</span>
+          <span data-cy="supplyPlant-value" text>{{
+            quotationDetail.plant | plantDisplay
+          }}</span>
         </gq-label-text>
         <gq-label-text>
-          <span label>{{ t('productionPlant') }}</span>
-          <span text>{{ quotationDetail.productionPlant | plantDisplay }}</span>
+          <span data-cy="productionPlant-label" label>{{
+            t('productionPlant')
+          }}</span>
+          <span data-cy="productionPlant-value" text>{{
+            quotationDetail.productionPlant | plantDisplay
+          }}</span>
         </gq-label-text>
         <gq-label-text>
-          <span label>{{ t('productionPlantRltAndTransit') }}</span>
-          <span text>{{ quotationDetail.rlt || '-' }}</span>
+          <span data-cy="productionPlantRltAndTransit-label" label>{{
+            t('productionPlantRltAndTransit')
+          }}</span>
+          <span data-cy="productionPlantRltAndTransit-value" text>{{
+            quotationDetail.rlt || '-'
+          }}</span>
         </gq-label-text>
         <gq-label-text
           [tooltipText]="
@@ -24,8 +34,10 @@
               : ''
           "
         >
-          <span label>{{ t('supplyPlantStType') }}</span>
-          <span text>
+          <span data-cy="supplyPlantStType-label" label>{{
+            t('supplyPlantStType')
+          }}</span>
+          <span data-cy="supplyPlantStType-value" text>
             {{ supplyPlantStochasticType | nullableString }}
           </span>
         </gq-label-text>
@@ -36,14 +48,18 @@
               : ''
           "
         >
-          <span label>{{ t('productionPlantStType') }}</span>
-          <span text>
+          <span data-cy="productionPlantStType-label" label>{{
+            t('productionPlantStType')
+          }}</span>
+          <span data-cy="productionPlantStType-value" text>
             {{ productionPlantStochasticType | nullableString }}
           </span>
         </gq-label-text>
         <gq-label-text [marginBottom]="false">
-          <span label>{{ t('mrpController') }}</span>
-          <span text>
+          <span data-cy="mrpController-label" label>{{
+            t('mrpController')
+          }}</span>
+          <span data-cy="mrpController-value" text>
             {{ quotationDetail.mrpData | mrpDisplay }}
           </span>
         </gq-label-text>
