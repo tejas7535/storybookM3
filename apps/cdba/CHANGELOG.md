@@ -1,4 +1,20 @@
 # Release Notes of Cost Database Analytics
+## [5.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v5.5.0...cdba-v5.6.0) (2025-08-13)
+
+
+### Features
+
+* **cdba:** allow the same values in min and max range ([#7441](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7441)) ([a17311d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a17311dc860b6f67ada76704772d28afaf233af7))
+* **cdba:** changed ref line color to black in radar chart ([#7473](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7473)) ([bc715a6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bc715a67fd150c4a40f0d0973bc7f45b40b56481))
+* **cdba:** compare screen 2.0 ([#6244](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6244)) ([3d6448f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3d6448fae99c4f18de2c17c3d3e706fd34ced916))
+
+
+### Bug Fixes
+
+* **cdba:** enabled parsing ([#7469](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7469)) ([3327e51](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3327e51ceca9bf0dbfe45f5f759101141bd5f9b3))
+* **cdba:** pagination state ([#7457](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7457)) ([438374f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/438374f30ce7c0392af85b5fb914c1ce4ee5ea2e))
+* **cdba:** ui beta feature ([#7460](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7460)) ([c0ba900](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c0ba900f57b32be4634dec87c2034701422d49de))
+
 ## [5.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v5.4.0...cdba-v5.5.0) (2025-05-26)
 
 
