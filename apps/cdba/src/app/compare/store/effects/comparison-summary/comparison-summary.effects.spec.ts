@@ -1,5 +1,7 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
+import { of } from 'rxjs';
+
 import {
   createServiceFactory,
   mockProvider,
@@ -11,6 +13,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { ComparisonService } from '@cdba/compare/comparison-summary-tab/service/comparison.service';
+import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 import {
   AUTH_STATE_MOCK,
   BOM_IDENTIFIER_MOCK,
@@ -36,6 +39,7 @@ describe('ComparisonSummaryEffects', () => {
   let actions$: any;
   let effects: ComparisonSummaryEffects;
   let comparisonService: ComparisonService;
+  let betaFeatureService: BetaFeatureService;
   let store: MockStore;
 
   const createService = createServiceFactory({
@@ -57,6 +61,7 @@ describe('ComparisonSummaryEffects', () => {
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(ComparisonSummaryEffects);
     comparisonService = spectator.inject(ComparisonService);
+    betaFeatureService = spectator.inject(BetaFeatureService);
     store = spectator.inject(MockStore);
 
     store.overrideSelector(getBomIdentifiersForSelectedBomItems, [
@@ -118,6 +123,7 @@ describe('ComparisonSummaryEffects', () => {
     it(
       'should not load comparison when only one bom identifier is loaded',
       marbles((m) => {
+        betaFeatureService.canAccessBetaFeature$ = jest.fn(() => of(true));
         store.overrideSelector(
           areBomIdentifiersForSelectedBomItemsLoaded,
           false
@@ -133,8 +139,26 @@ describe('ComparisonSummaryEffects', () => {
     );
 
     it(
+      'should not load comparison when feature is disabled',
+      marbles((m) => {
+        betaFeatureService.canAccessBetaFeature$ = jest.fn(() => of(false));
+        store.overrideSelector(
+          areBomIdentifiersForSelectedBomItemsLoaded,
+          true
+        );
+        actions$ = m.hot('-a', { a: loadBomSuccess });
+
+        const expected = m.cold('--');
+
+        m.expect(effects.triggerDataLoad$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+
+    it(
       'should load comparison when both bom identifiers are loaded',
       marbles((m) => {
+        betaFeatureService.canAccessBetaFeature$ = jest.fn(() => of(true));
         store.overrideSelector(
           areBomIdentifiersForSelectedBomItemsLoaded,
           true

@@ -2,14 +2,16 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { catchError, filter, map, mergeMap, of } from 'rxjs';
+import { catchError, filter, map, mergeMap, of, switchMap } from 'rxjs';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 
 import { ComparisonService } from '@cdba/compare/comparison-summary-tab/service/comparison.service';
+import { BetaFeature } from '@cdba/shared/constants/beta-feature';
 import { Comparison } from '@cdba/shared/models/comparison.model';
+import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 
 import {
   areBomIdentifiersForSelectedBomItemsLoaded,
@@ -49,6 +51,12 @@ export class ComparisonSummaryEffects {
   triggerDataLoad$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadBomSuccess),
+      switchMap(() =>
+        this.betaFeatureService.canAccessBetaFeature$(
+          BetaFeature.COMPARISON_SUMMARY
+        )
+      ),
+      filter((hasAccess) => !!hasAccess),
       concatLatestFrom(() =>
         this.store.select(areBomIdentifiersForSelectedBomItemsLoaded)
       ),
@@ -60,6 +68,7 @@ export class ComparisonSummaryEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly comparisonService: ComparisonService,
+    private readonly betaFeatureService: BetaFeatureService,
     private readonly store: Store
   ) {}
 }
