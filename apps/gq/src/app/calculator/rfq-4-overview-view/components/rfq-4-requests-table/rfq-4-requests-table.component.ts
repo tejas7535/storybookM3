@@ -39,6 +39,7 @@ import {
 } from './configs/custom-request-views.config';
 import { DEFAULT_COLUMN_DEFS } from './configs/default-column-def.config';
 import { Rfq4RequestsColDefService } from './configs/rfq-4-request-col-def-service';
+import { Rfq4RequestsFields } from './configs/rfq-4-requests-fields.enum';
 import { ROW_SELECTION } from './configs/row-selection.config';
 @Component({
   selector: 'gq-rfq-4-requests-table',
@@ -106,8 +107,19 @@ export class Rfq4RequestsTableComponent
   getContextMenuItems(
     params: GetContextMenuItemsParams
   ): (string | MenuItemDef)[] {
+    let hyperlinkMenuItems: (string | MenuItemDef)[] = [];
+    const HYPERLINK_COLUMNS: string[] = [Rfq4RequestsFields.RFQ_ID];
+
+    if (HYPERLINK_COLUMNS.includes(params.column.getColId())) {
+      hyperlinkMenuItems = [
+        ColumnUtilityService.getOpenInNewTabContextMenuItem(params),
+        ColumnUtilityService.getOpenInNewWindowContextMenuItem(params),
+      ];
+    }
+
     return [
       this.columnUtilityService.getCopyCellContentContextMenuItem(params),
+      ...hyperlinkMenuItems,
     ];
   }
 

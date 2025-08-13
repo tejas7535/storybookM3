@@ -23,6 +23,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { CalculatorTab } from '../../models/calculator-tab.enum';
 import { RFQ_4_REQUESTS_TABLE_CUSTOM_VIEWS_CONFIG } from './configs/custom-request-views.config';
 import { Rfq4RequestsColDefService } from './configs/rfq-4-request-col-def-service';
+import { Rfq4RequestsFields } from './configs/rfq-4-requests-fields.enum';
 import { Rfq4RequestsTableComponent } from './rfq-4-requests-table.component';
 
 describe('Rfq4RequestsTableComponent', () => {
@@ -132,14 +133,62 @@ describe('Rfq4RequestsTableComponent', () => {
     });
 
     describe('getContextMenuItems', () => {
-      test('should call getCopyCellContentContextMenuItem', () => {
-        const params = {} as unknown as GetContextMenuItemsParams;
+      let params: GetContextMenuItemsParams = {
+        column: { getColId: jest.fn(() => 'anyColId') },
+        defaultItems: ['item1', 'item2'],
+      } as unknown as GetContextMenuItemsParams;
+
+      beforeEach(() => {
         component['columnUtilityService'].getCopyCellContentContextMenuItem =
-          jest.fn();
+          jest.fn(() => 'item3');
+        ColumnUtilityService.getOpenInNewTabContextMenuItem = jest.fn(
+          () => 'tab'
+        );
+        ColumnUtilityService.getOpenInNewWindowContextMenuItem = jest.fn(
+          () => 'window'
+        );
+      });
+
+      test('should add item to context menu', () => {
+        component.ngOnInit();
+
+        const result = component.getContextMenuItems(params);
+        expect(result).toBeDefined();
+        expect(result.length).toBe(1);
+        expect(result[0]).toBe('item3');
+      });
+
+      test('should not add hyperlink context MenuItems', () => {
         component.getContextMenuItems(params);
         expect(
-          component['columnUtilityService'].getCopyCellContentContextMenuItem
+          ColumnUtilityService.getOpenInNewTabContextMenuItem
+        ).not.toHaveBeenCalled();
+        expect(
+          ColumnUtilityService.getOpenInNewWindowContextMenuItem
+        ).not.toHaveBeenCalled();
+      });
+
+      test('should request hyperlink contextMenuItems', () => {
+        params = {
+          ...params,
+          column: {
+            getColId: jest.fn(() => Rfq4RequestsFields.RFQ_ID),
+          },
+        } as unknown as GetContextMenuItemsParams;
+
+        const result = component.getContextMenuItems(params);
+        expect(
+          ColumnUtilityService.getOpenInNewTabContextMenuItem
         ).toHaveBeenCalled();
+        expect(
+          ColumnUtilityService.getOpenInNewWindowContextMenuItem
+        ).toHaveBeenCalled();
+        expect(result).toBeDefined();
+        expect(result.length).toBe(3);
+
+        expect(result[0]).toBe('item3');
+        expect(result[1]).toBe('tab');
+        expect(result[2]).toBe('window');
       });
     });
   });
