@@ -21,7 +21,7 @@ export class BetaFeatureService {
   getBetaFeature(key: `${BetaFeature}`): boolean | undefined {
     return this.localStorageService.getItem<boolean>(
       `${this.storageKeyPrefix}_${key}`,
-      false
+      true
     );
   }
 

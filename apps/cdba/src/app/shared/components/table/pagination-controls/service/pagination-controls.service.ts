@@ -84,7 +84,7 @@ export class PaginationControlsService {
   getPageSizeFromLocalStorage(): number {
     const localStoragePageSize = this.localStorageService.getItem<number>(
       USER_PAGE_SIZE_KEY,
-      false
+      true
     );
     if (
       localStoragePageSize !== undefined &&
