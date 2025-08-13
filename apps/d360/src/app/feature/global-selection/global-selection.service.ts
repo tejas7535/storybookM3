@@ -350,7 +350,9 @@ export class GlobalSelectionHelperService {
           );
         }
       });
+    };
 
+    const finalizeResults = () => {
       resolveResults.forEach((entry) => {
         if (entry.error == null && entry.selectableValue == null) {
           entry.error = [
@@ -360,6 +362,8 @@ export class GlobalSelectionHelperService {
           ];
         }
       });
+
+      return resolveResults;
     };
 
     const requests = GlobalSelectionUtils.splitToChunks(
@@ -374,7 +378,7 @@ export class GlobalSelectionHelperService {
     );
 
     return requests.length > 0
-      ? forkJoin(requests).pipe(map(() => resolveResults))
+      ? forkJoin(requests).pipe(map(() => finalizeResults()))
       : of(resolveResults);
   }
 
@@ -431,7 +435,9 @@ export class GlobalSelectionHelperService {
           );
         }
       });
+    };
 
+    const finalizeResults = () => {
       resolveResults.forEach((entry) => {
         if (entry.error == null && entry.selectableValue == null) {
           entry.error = [
@@ -441,6 +447,8 @@ export class GlobalSelectionHelperService {
           ];
         }
       });
+
+      return resolveResults;
     };
 
     const requests = GlobalSelectionUtils.splitToChunks(
@@ -453,7 +461,7 @@ export class GlobalSelectionHelperService {
     );
 
     return requests.length > 0
-      ? forkJoin(requests).pipe(map(() => resolveResults))
+      ? forkJoin(requests).pipe(map(() => finalizeResults()))
       : of(resolveResults);
   }
 }

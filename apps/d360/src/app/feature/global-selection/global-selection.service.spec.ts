@@ -316,6 +316,69 @@ describe('GlobalSelectionHelperService', () => {
         });
     });
 
+    it('should correctly handle 102 material numbers across multiple chunks', (done) => {
+      const materialNumbers = Array.from({ length: 102 }).map(
+        (_, i) => `064155${i.toString().padStart(3, '0')}-0000-13`
+      );
+
+      const formattedMaterialNumbers = materialNumbers.map((mat) =>
+        mat.replaceAll('-', '')
+      );
+
+      const firstChunk = formattedMaterialNumbers.slice(0, 100);
+      const secondChunk = formattedMaterialNumbers.slice(100);
+
+      const firstChunkResponse = {
+        rows: formattedMaterialNumbers.slice(0, 100).map((num) => ({
+          materialNumber: num.replace(/(\d{9})(\d{4})(\d{2})/, '$1-$2-$3'),
+          materialDescription: `Material ${num}`,
+        })),
+      };
+
+      const secondChunkResponse = {
+        rows: [
+          {
+            materialNumber: '064155100-0000-13',
+            materialDescription: 'Material 064155100-0000-13',
+          },
+        ],
+      };
+
+      jest
+        .spyOn(GlobalSelectionUtils, 'splitToChunks')
+        .mockReturnValue([firstChunk, secondChunk]);
+
+      jest
+        .spyOn(materialCustomerService, 'getMaterialCustomerData')
+        .mockImplementation((materialNums) =>
+          materialNums.length === 100
+            ? of(firstChunkResponse as any)
+            : of(secondChunkResponse as any)
+        );
+
+      service
+        .resolveMaterialNumbers(materialNumbers)
+        .pipe(take(1))
+        .subscribe((results) => {
+          const validSelectableValueCount = results.filter(
+            (r) => r.selectableValue
+          ).length;
+          expect(validSelectableValueCount).toBe(101);
+
+          const lastMaterial = results.find(
+            (r) => r.id === '064155101-0000-13'
+          );
+          expect(lastMaterial?.error).toBeDefined();
+          expect(lastMaterial?.selectableValue).toBeUndefined();
+
+          expect(
+            materialCustomerService.getMaterialCustomerData
+          ).toHaveBeenCalledTimes(2);
+
+          done();
+        });
+    });
+
     it('should return errors for invalid material numbers', (done) => {
       jest
         .spyOn(materialCustomerService, 'getMaterialCustomerData')
