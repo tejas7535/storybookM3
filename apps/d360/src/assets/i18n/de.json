@@ -634,7 +634,8 @@
     },
     "error": {
       "check_replacement_type": "Typ fehlerhaft. Bitte wählen Sie einen gültigen Wert aus.",
-      "fieldNotAllowed": "Das Feld darf für den ausgewählten Typ nicht befüllt werden."
+      "fieldNotAllowed": "Das Feld darf für den ausgewählten Typ nicht befüllt werden.",
+      "substitutionBeforeCutoverDate": "Ersetzungsdatum darf nicht vor dem Cutover Datum liegen"
     },
     "helper_text": {
       "note": "Hinweis: Bitte möglichst in englischer Sprache ausfüllen.",

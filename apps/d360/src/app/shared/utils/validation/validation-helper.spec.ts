@@ -232,6 +232,21 @@ describe('ValidationHelper', () => {
         ValidationHelper.getStartEndDateValidationErrors(formGroup);
       expect(result).toEqual({ endDate: ['end-before-start'] });
     });
+
+    it('should return errors if start date is equal to end date and equal dates are not allowed', () => {
+      const formGroup = new FormGroup({
+        startDate: new FormControl(new Date('2024-01-01')),
+        endDate: new FormControl(new Date('2024-01-01')),
+      });
+      const result = ValidationHelper.getStartEndDateValidationErrors(
+        formGroup,
+        false,
+        'startDate',
+        'endDate',
+        false
+      );
+      expect(result).toEqual({ endDate: ['end-before-start'] });
+    });
   });
 
   describe('getCrossTotalExceedsLimit', () => {

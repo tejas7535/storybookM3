@@ -634,7 +634,8 @@
     },
     "error": {
       "check_replacement_type": "Type incorrect. Please select a valid value.",
-      "fieldNotAllowed": "The field must not be filled for the selected type."
+      "fieldNotAllowed": "The field must not be filled for the selected type.",
+      "substitutionBeforeCutoverDate": "Substitution Date before Cutover Date is not allowed"
     },
     "helper_text": {
       "note": "Note: Please complete in English if possible.",

@@ -149,9 +149,9 @@ export class ValidationHelper {
       valid = false;
     }
 
-    return valid
-      ? null
-      : `${translate('error.date.invalidFormat')} (${ValidationHelper.getDateFormat().toLocaleLowerCase()})`;
+    const errorMessage = `${translate('error.date.invalidFormat')} (${ValidationHelper.getDateFormat().toLocaleLowerCase()})`;
+
+    return valid ? null : errorMessage;
   }
 
   /**
@@ -221,8 +221,8 @@ export class ValidationHelper {
   /**
    * Returns a public static that fills a string with a number of leading zeros.
    * Does not check for number chars.
-   * If the string is longer than than the requested string, returns the input.
-   *´
+   * If the string is longer than the requested string, returns the input.
+   *
    * @static
    * @param {number} targetLength
    * @return {(value: string) => string}
@@ -278,7 +278,8 @@ export class ValidationHelper {
     formGroup: FormGroup,
     touchFields: boolean = false,
     startDateControlName: string = 'startDate',
-    endDateControlName: string = 'endDate'
+    endDateControlName: string = 'endDate',
+    allowEqualDates: boolean = true
   ) {
     let errors: { [key: string]: string[] } = {};
 
@@ -287,11 +288,14 @@ export class ValidationHelper {
       formGroup.markAllAsTouched();
     }
 
-    // start- / endDate
     const startDate = formGroup.get(startDateControlName)?.value;
     const endDate = formGroup.get(endDateControlName)?.value;
 
-    if (startDate && endDate && startDate > endDate) {
+    const isInvalidDateRange = allowEqualDates
+      ? startDate && endDate && startDate > endDate
+      : startDate && endDate && startDate >= endDate;
+
+    if (isInvalidDateRange) {
       formGroup
         .get(endDateControlName)
         .setErrors({ toDateAfterFromDate: true });
@@ -374,7 +378,6 @@ export class ValidationHelper {
             fieldErrors =
               Object.keys(fieldErrors).length === 0 ? null : fieldErrors;
           }
-
           // set the new error state
           control.setErrors(fieldErrors);
         }

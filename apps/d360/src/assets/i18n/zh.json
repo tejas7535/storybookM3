@@ -634,7 +634,8 @@
     },
     "error": {
       "check_replacement_type": "类型不正确。请选择有效值。",
-      "fieldNotAllowed": "禁止该选项在此使用"
+      "fieldNotAllowed": "禁止该选项在此使用",
+      "substitutionBeforeCutoverDate": "更换日期不得早于交接日期"
     },
     "helper_text": {
       "note": "提示: 请填写英语",

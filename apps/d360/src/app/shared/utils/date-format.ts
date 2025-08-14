@@ -47,6 +47,20 @@ export function toNativeDate(date: any): Date {
 }
 
 /**
+ * Helper function to get date if it is a valid Date object or a string.
+ *
+ * @param {Date | null} date - The date to check.
+ * @returns {Date | null} - Returns the date if valid, otherwise returns null.
+ */
+export function getDateOrNull(date: Date | null): Date | null {
+  if (date instanceof Date) {
+    return date;
+  } else {
+    return typeof date === 'string' && !!date ? new Date(date) : null;
+  }
+}
+
+/**
  * Helper function to generate a format string based on the given options and locale.
  *
  * @param {string} locale - The locale for which to generate the format string.

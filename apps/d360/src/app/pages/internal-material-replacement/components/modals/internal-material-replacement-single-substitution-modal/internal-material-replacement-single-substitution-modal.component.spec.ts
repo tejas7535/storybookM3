@@ -1,13 +1,7 @@
-import {
-  FormControl,
-  FormGroup,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
-
 import { of } from 'rxjs';
 
 import * as ValidateFormDecorator from '../../../../../shared/decorators';
+import { IMRValidatorsService } from '../../../services/imr-validators.service';
 import { MessageType } from './../../../../../shared/models/message-type.enum';
 import { Stub } from './../../../../../shared/test/stub.class';
 import { InternalMaterialReplacementSingleSubstitutionModalComponent } from './internal-material-replacement-single-substitution-modal.component';
@@ -20,11 +14,26 @@ jest.mock('../../../../../shared/decorators', () => ({
 
 describe('InternalMaterialReplacementSingleSubstitutionModalComponent', () => {
   let component: InternalMaterialReplacementSingleSubstitutionModalComponent;
+  let mockIMRValidatorsService: Partial<IMRValidatorsService>;
 
   beforeEach(() => {
+    mockIMRValidatorsService = {
+      keepMaterialOnPackagingChange: jest
+        .fn()
+        .mockReturnValue((): null => null),
+      cutoverDateBeforeSOP: jest.fn().mockReturnValue((): null => null),
+      replacementBeforeCutoverDate: jest.fn().mockReturnValue((): null => null),
+      validateAgainstExistingDate: jest.fn().mockReturnValue((): null => null),
+      setOrRemoveRequired: jest.fn(),
+    };
+
     component = Stub.get({
       component: InternalMaterialReplacementSingleSubstitutionModalComponent,
       providers: [
+        {
+          provide: IMRValidatorsService,
+          useValue: mockIMRValidatorsService,
+        },
         Stub.getMatDialogDataProvider({
           isNewSubstitution: true,
           substitution: {
@@ -199,103 +208,6 @@ describe('InternalMaterialReplacementSingleSubstitutionModalComponent', () => {
     });
   });
 
-  describe('keepMaterialOnPackagingChange', () => {
-    let validatorFn: ValidatorFn;
-
-    beforeEach(() => {
-      validatorFn =
-        component['keepMaterialOnPackagingChange']('successorMaterial');
-    });
-
-    it('should return validation error if replacementType is PACKAGING_CHANGE and materials do not match', () => {
-      const formGroup = new FormGroup({
-        replacementType: new FormControl({ id: 'PACKAGING_CHANGE' }),
-        successorMaterial: new FormControl({ id: 'material2' }),
-        materialControl: new FormControl({ id: 'material1' }),
-      });
-
-      const result = validatorFn(formGroup.get('materialControl'));
-
-      expect(result).toEqual({ keepMaterialOnPackagingChange: true });
-      expect(component['materialCustomErrorMessage']()).toBe(
-        'sap_message./SGD/SCM_SOP_SALES.107'
-      );
-    });
-
-    it('should return null if replacementType is PACKAGING_CHANGE and materials match', () => {
-      const formGroup = new FormGroup({
-        replacementType: new FormControl({ id: 'PACKAGING_CHANGE' }),
-        successorMaterial: new FormControl({ id: 'material1' }),
-        materialControl: new FormControl({ id: 'material1' }),
-      });
-
-      const result = validatorFn(formGroup.get('materialControl'));
-
-      expect(result).toBeNull();
-      expect(component['materialCustomErrorMessage']()).toBeNull();
-    });
-
-    it('should return null if replacementType is not PACKAGING_CHANGE', () => {
-      const formGroup = new FormGroup({
-        replacementType: new FormControl({ id: 'OTHER_TYPE' }),
-        successorMaterial: new FormControl({ id: 'material2' }),
-        materialControl: new FormControl({ id: 'material1' }),
-      });
-
-      const result = validatorFn(formGroup.get('materialControl'));
-
-      expect(result).toBeNull();
-      expect(component['materialCustomErrorMessage']()).toBeNull();
-    });
-
-    it('should handle undefined materialControl gracefully', () => {
-      const formGroup = new FormGroup({
-        replacementType: new FormControl({ id: 'PACKAGING_CHANGE' }),
-        successorMaterial: new FormControl({ id: 'material2' }),
-      });
-
-      const result = validatorFn(formGroup.get('nonExistentControl'));
-
-      expect(result).toBeNull();
-      expect(component['materialCustomErrorMessage']()).toBeNull();
-    });
-
-    it('should correctly handle material numbers longer than 13 characters', () => {
-      const formGroup = new FormGroup({
-        replacementType: new FormControl({ id: 'PACKAGING_CHANGE' }),
-        successorMaterial: new FormControl({ id: '1234567890123' }),
-        materialControl: new FormControl({ id: '1234567890123-456' }),
-      });
-
-      const result = validatorFn(formGroup.get('materialControl'));
-
-      expect(result).toBeNull();
-      expect(component['materialCustomErrorMessage']()).toBeNull();
-    });
-  });
-
-  describe('cutoverDateBeforeSOP', () => {
-    it('should return validation error if cutover date is after start of production', () => {
-      const formGroup = new FormGroup({
-        cutoverDate: new FormControl(new Date('2025-02-15')),
-        startOfProduction: new FormControl(new Date('2025-02-14')),
-      });
-
-      const result = component['cutoverDateBeforeSOP']()(formGroup);
-
-      expect(result).toEqual({ endDate: ['end-before-start'] });
-    });
-
-    it('should return null if cutover date is before start of production', () => {
-      const formGroup = new FormGroup({
-        cutoverDate: new FormControl(new Date('2025-02-13')),
-        startOfProduction: new FormControl(new Date('2025-02-14')),
-      });
-      const result = component['cutoverDateBeforeSOP']()(formGroup);
-      expect(result).toBeNull();
-    });
-  });
-
   describe('updateForm', () => {
     it('should call nothing, if no event', () => {
       const spy1 = jest.spyOn(component as any, 'enableAllFields');
@@ -431,142 +343,6 @@ describe('InternalMaterialReplacementSingleSubstitutionModalComponent', () => {
     });
   });
 
-  describe('validateAgainstExistingDate', () => {
-    it('should validate date against existing date', () => {
-      const validatorFn = component['validateAgainstExistingDate'](
-        new Date(),
-        component['replacementDateCustomErrorMessage']
-      );
-      const control = { value: new Date(), setErrors: jest.fn() } as any;
-      const result = validatorFn(control);
-      expect(result).toBeNull();
-    });
-
-    it('should return null when current date is equal to pre-filled date', () => {
-      const today = new Date();
-      const errorMessageSignal = component['cutoverDateCustomErrorMessage'];
-      const validatorFn = component['validateAgainstExistingDate'](
-        today,
-        errorMessageSignal
-      );
-
-      const control = new FormControl(today);
-      const result = validatorFn(control);
-
-      expect(result).toBeNull();
-      expect(errorMessageSignal()).toBeNull();
-    });
-
-    it('should return error when date is before today', () => {
-      const yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 1);
-
-      const preFilledDate = new Date();
-      preFilledDate.setDate(preFilledDate.getDate() + 10);
-
-      const errorMessageSignal = component['cutoverDateCustomErrorMessage'];
-      const validatorFn = component['validateAgainstExistingDate'](
-        preFilledDate,
-        errorMessageSignal
-      );
-
-      const control = new FormControl(yesterday);
-      const result = validatorFn(control);
-
-      expect(result).toEqual({ customDatepickerMin: true });
-      expect(errorMessageSignal()).toContain(
-        'error.date.beforeMinEditingExistingRecord'
-      );
-    });
-
-    it('should return error when date is after MAX_DATE', () => {
-      const futureDate = new Date(10_000, 1, 1); // Date far in the future
-      const preFilledDate = new Date();
-
-      const errorMessageSignal = component['cutoverDateCustomErrorMessage'];
-      const validatorFn = component['validateAgainstExistingDate'](
-        preFilledDate,
-        errorMessageSignal
-      );
-
-      const control = new FormControl(futureDate);
-      const result = validatorFn(control);
-
-      expect(result).toEqual({ customDatepickerMax: true });
-      expect(errorMessageSignal()).toContain(
-        'error.date.afterMaxEditingExistingRecord'
-      );
-    });
-
-    it('should return null for null date value', () => {
-      const preFilledDate = new Date();
-      const errorMessageSignal = component['cutoverDateCustomErrorMessage'];
-      const validatorFn = component['validateAgainstExistingDate'](
-        preFilledDate,
-        errorMessageSignal
-      );
-
-      const control = new FormControl(null);
-      const result = validatorFn(control);
-
-      expect(result).toBeNull();
-      expect(errorMessageSignal()).toBeNull();
-    });
-  });
-
-  describe('getDateOrNull', () => {
-    it('should return date or null', () => {
-      const date = component['getDateOrNull']('2025-02-14' as any);
-      expect(date).toBeInstanceOf(Date);
-    });
-
-    it('should return Date object when valid Date is provided', () => {
-      const date = new Date(2023, 5, 15);
-      const result = component['getDateOrNull'](date);
-      expect(result).toEqual(date);
-    });
-
-    it('should return Date object when valid date string is provided', () => {
-      const result = component['getDateOrNull']('2023-06-15' as any);
-      expect(result).toBeInstanceOf(Date);
-      expect(result?.getFullYear()).toBe(2023);
-    });
-
-    it('should return null when null is provided', () => {
-      const result = component['getDateOrNull'](null);
-      expect(result).toBeNull();
-    });
-
-    it('should return null when empty string is provided', () => {
-      const result = component['getDateOrNull']('' as any);
-      expect(result).toBeNull();
-    });
-  });
-
-  describe('disableAllFieldsExceptReplacementType', () => {
-    it('should disable all fields except replacement type', () => {
-      const spy = jest.spyOn(component['formGroup'], 'get');
-      component['disableAllFieldsExceptReplacementType']();
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it('should disable all fields except replacementType', () => {
-      component['disableAllFieldsExceptReplacementType']();
-
-      expect(component['formGroup'].get('replacementType').disabled).toBe(
-        false
-      );
-      expect(component['formGroup'].get('region').disabled).toBe(true);
-      expect(component['formGroup'].get('successorMaterial').disabled).toBe(
-        true
-      );
-      expect(component['formGroup'].get('predecessorMaterial').disabled).toBe(
-        true
-      );
-      expect(component['formGroup'].get('note').disabled).toBe(true);
-    });
-  });
-
   describe('enableAllFields', () => {
     it('should enable all fields', () => {
       const spy = jest.spyOn(component['formGroup'], 'get');
@@ -601,79 +377,121 @@ describe('InternalMaterialReplacementSingleSubstitutionModalComponent', () => {
       expect(spy).toHaveBeenCalled();
     });
 
-    it('should set required validators based on the replacement type logic', () => {
+    it('should call imrValidatorsService.setOrRemoveRequired for each form control', () => {
       jest.spyOn(component as any, 'getReplacementTypeLogic').mockReturnValue({
         replacementType: 'TEST_TYPE',
         mandatoryFields: ['region', 'note'],
         deactivatedFields: [],
       });
 
+      const spy = jest.spyOn(mockIMRValidatorsService, 'setOrRemoveRequired');
+
       component['configureRequiredFields']();
 
-      expect(
-        component['formGroup'].get('region').hasValidator(Validators.required)
-      ).toBe(true);
-      expect(
-        component['formGroup'].get('note').hasValidator(Validators.required)
-      ).toBe(true);
-      expect(
-        component['formGroup']
-          .get('customerNumber')
-          .hasValidator(Validators.required)
-      ).toBe(false);
+      expect(spy).toHaveBeenCalledWith(
+        false,
+        component['formGroup'].get('replacementType')
+      );
+      expect(spy).toHaveBeenCalledWith(
+        true,
+        component['formGroup'].get('region')
+      );
+      expect(spy).toHaveBeenCalledWith(
+        true,
+        component['formGroup'].get('note')
+      );
+      expect(spy).toHaveBeenCalledWith(
+        false,
+        component['formGroup'].get('customerNumber')
+      );
     });
   });
 
-  describe('setOrRemoveRequired', () => {
-    it('should set or remove required validator', () => {
-      const control = new FormControl();
-      component['setOrRemoveRequired'](true, control);
-      expect(control.hasValidator(Validators.required)).toBeTruthy();
-    });
-
-    it('should add required validator when required is true', () => {
-      const control = new FormControl('test');
-      const addValidatorsSpy = jest.spyOn(control, 'addValidators');
-      const removeValidatorsSpy = jest.spyOn(control, 'removeValidators');
-      const updateValueAndValiditySpy = jest.spyOn(
-        control,
-        'updateValueAndValidity'
+  describe('form validation integration', () => {
+    it('should use imrValidatorsService for predecessor material validation', () => {
+      expect(
+        mockIMRValidatorsService.keepMaterialOnPackagingChange
+      ).toHaveBeenCalledWith(
+        'successorMaterial',
+        component['materialCustomErrorMessage']
       );
-
-      component['setOrRemoveRequired'](true, control);
-
-      expect(addValidatorsSpy).toHaveBeenCalledWith(Validators.required);
-      expect(removeValidatorsSpy).not.toHaveBeenCalled();
-      expect(updateValueAndValiditySpy).toHaveBeenCalledWith({
-        emitEvent: true,
-      });
-      expect(control.hasValidator(Validators.required)).toBeTruthy();
     });
 
-    it('should remove required validator when required is false', () => {
-      const control = new FormControl('test', Validators.required);
-      const addValidatorsSpy = jest.spyOn(control, 'addValidators');
-      const removeValidatorsSpy = jest.spyOn(control, 'removeValidators');
-      const updateValueAndValiditySpy = jest.spyOn(
-        control,
-        'updateValueAndValidity'
+    it('should use imrValidatorsService for successor material validation', () => {
+      expect(
+        mockIMRValidatorsService.keepMaterialOnPackagingChange
+      ).toHaveBeenCalledWith(
+        'predecessorMaterial',
+        component['materialCustomErrorMessage']
       );
-
-      component['setOrRemoveRequired'](false, control);
-
-      expect(addValidatorsSpy).not.toHaveBeenCalled();
-      expect(removeValidatorsSpy).toHaveBeenCalledWith(Validators.required);
-      expect(updateValueAndValiditySpy).toHaveBeenCalledWith({
-        emitEvent: true,
-      });
-      expect(control.hasValidator(Validators.required)).toBeFalsy();
     });
 
-    it('should handle undefined control gracefully', () => {
-      // This test verifies that the method doesn't throw errors with undefined control
-      expect(() => {
-        component['setOrRemoveRequired'](true, undefined as any);
-      }).not.toThrow();
+    it('should use imrValidatorsService for replacementBeforeCutoverDate validation', () => {
+      expect(
+        mockIMRValidatorsService.replacementBeforeCutoverDate
+      ).toHaveBeenCalledWith(component['replacementDateCustomErrorMessage']);
+    });
+
+    it('should use imrValidatorsService for form group validation when not new substitution', () => {
+      component['data'].isNewSubstitution = false;
+
+      // Recreate component to trigger validator setup
+      component = Stub.get({
+        component: InternalMaterialReplacementSingleSubstitutionModalComponent,
+        providers: [
+          {
+            provide: IMRValidatorsService,
+            useValue: mockIMRValidatorsService,
+          },
+          Stub.getMatDialogDataProvider({
+            isNewSubstitution: false,
+            substitution: {
+              replacementType: 'RELOCATION',
+              region: null,
+              salesArea: null,
+              salesOrg: null,
+              customerNumber: null,
+              replacementDate: new Date(),
+              startOfProduction: new Date(),
+              cutoverDate: new Date(),
+              note: null,
+              predecessorMaterial: null,
+              successorMaterial: null,
+            },
+            gridApi: { applyServerSideTransaction: jest.fn() } as any,
+          }),
+        ],
+      });
+      expect(
+        mockIMRValidatorsService.cutoverDateBeforeSOP
+      ).toHaveBeenCalledWith(component['startOfProductionCustomErrorMessage']);
+      expect(
+        mockIMRValidatorsService.validateAgainstExistingDate
+      ).toHaveBeenCalled();
+    });
+  });
+
+  describe('disableAllFieldsExceptReplacementType', () => {
+    it('should disable all fields except replacement type', () => {
+      const spy = jest.spyOn(component['formGroup'], 'get');
+      component['disableAllFieldsExceptReplacementType']();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should disable all fields except replacementType', () => {
+      component['disableAllFieldsExceptReplacementType']();
+
+      expect(component['formGroup'].get('replacementType').disabled).toBe(
+        false
+      );
+      expect(component['formGroup'].get('region').disabled).toBe(true);
+      expect(component['formGroup'].get('successorMaterial').disabled).toBe(
+        true
+      );
+      expect(component['formGroup'].get('predecessorMaterial').disabled).toBe(
+        true
+      );
+      expect(component['formGroup'].get('note').disabled).toBe(true);
     });
   });
 });

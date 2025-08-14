@@ -634,7 +634,8 @@
     },
     "error": {
       "check_replacement_type": "Tipo incorreto. Por favor, selecione um valor válido.",
-      "fieldNotAllowed": "O campo não deve ser preenchido para o tipo selecionado."
+      "fieldNotAllowed": "O campo não deve ser preenchido para o tipo selecionado.",
+      "substitutionBeforeCutoverDate": "Não é permitida a substituição antes da data de transição"
     },
     "helper_text": {
       "note": "Observação: Preencha em inglês, se possível.",

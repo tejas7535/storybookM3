@@ -1,23 +1,13 @@
 /* eslint-disable max-lines */
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  DestroyRef,
-  inject,
-  OnInit,
-  signal,
-  WritableSignal,
-} from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
-  AbstractControl,
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -39,10 +29,8 @@ import {
 import { map, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { PushPipe } from '@ngrx/component';
 import { GridApi } from 'ag-grid-enterprise';
-import { isAfter, isBefore, isEqual } from 'date-fns';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -63,13 +51,14 @@ import { DisplayFunctions } from '../../../../../shared/components/inputs/displa
 import { FilterDropdownComponent } from '../../../../../shared/components/inputs/filter-dropdown/filter-dropdown.component';
 import { ValidateForm } from '../../../../../shared/decorators';
 import { SelectableOptionsService } from '../../../../../shared/services/selectable-options.service';
+import { getDateOrNull } from '../../../../../shared/utils/date-format';
 import {
   errorsFromSAPtoMessage,
   singlePostResultToUserMessage,
   ToastResult,
 } from '../../../../../shared/utils/error-handling';
 import { SnackbarService } from '../../../../../shared/utils/service/snackbar.service';
-import { ValidationHelper } from '../../../../../shared/utils/validation/validation-helper';
+import { IMRValidatorsService } from '../../../services/imr-validators.service';
 import {
   getReplacementTypeLogic,
   ReplacementTypeLogic,
@@ -126,7 +115,7 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
   protected readonly data: InternalMaterialReplacementModalProps =
     inject(MAT_DIALOG_DATA);
   protected readonly iMRService = inject(IMRService);
-  protected readonly translocoLocaleService = inject(TranslocoLocaleService);
+  protected readonly iMRValidatorsService = inject(IMRValidatorsService);
   protected readonly snackbarService = inject(SnackbarService);
   protected readonly selectableOptionsService = inject(
     SelectableOptionsService
@@ -138,20 +127,22 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
   protected loading = signal(false);
 
   protected translationStart = 'internal_material_replacement.column';
-
   protected cutoverDateCustomErrorMessage = signal<string | null>(null);
   protected startOfProductionCustomErrorMessage = signal<string | null>(null);
   protected replacementDateCustomErrorMessage = signal<string | null>(null);
   protected materialCustomErrorMessage = signal<string | null>(null);
 
-  protected MAX_DATE = new Date(9999, 12, 31);
-  protected TODAY = new Date();
-
   protected predecessorMaterialControl = new FormControl(null, {
-    validators: this.keepMaterialOnPackagingChange('successorMaterial'),
+    validators: this.iMRValidatorsService.keepMaterialOnPackagingChange(
+      'successorMaterial',
+      this.materialCustomErrorMessage
+    ),
   });
   protected successorMaterialControl = new FormControl(null, {
-    validators: this.keepMaterialOnPackagingChange('predecessorMaterial'),
+    validators: this.iMRValidatorsService.keepMaterialOnPackagingChange(
+      'predecessorMaterial',
+      this.materialCustomErrorMessage
+    ),
   });
   protected formGroup = new FormGroup(
     {
@@ -167,7 +158,7 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
       replacementDate: new FormControl(null, {
         validators: this.data.isNewSubstitution
           ? []
-          : this.validateAgainstExistingDate(
+          : this.iMRValidatorsService.validateAgainstExistingDate(
               this.data.substitution.replacementDate,
               this.replacementDateCustomErrorMessage
             ),
@@ -175,7 +166,7 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
       startOfProduction: new FormControl(null, {
         validators: this.data.isNewSubstitution
           ? []
-          : this.validateAgainstExistingDate(
+          : this.iMRValidatorsService.validateAgainstExistingDate(
               this.data.substitution.startOfProduction,
               this.startOfProductionCustomErrorMessage
             ),
@@ -183,7 +174,7 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
       cutoverDate: new FormControl(null, {
         validators: this.data.isNewSubstitution
           ? []
-          : this.validateAgainstExistingDate(
+          : this.iMRValidatorsService.validateAgainstExistingDate(
               this.data.substitution.cutoverDate,
               this.cutoverDateCustomErrorMessage
             ),
@@ -191,7 +182,14 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
       note: new FormControl(null),
     },
     {
-      validators: [this.cutoverDateBeforeSOP()],
+      validators: [
+        this.iMRValidatorsService.cutoverDateBeforeSOP(
+          this.startOfProductionCustomErrorMessage
+        ),
+        this.iMRValidatorsService.replacementBeforeCutoverDate(
+          this.replacementDateCustomErrorMessage
+        ),
+      ],
       updateOn: 'change',
     }
   );
@@ -270,64 +268,6 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
       );
   }
 
-  private keepMaterialOnPackagingChange(opponent: string): ValidatorFn {
-    return (materialControl: AbstractControl) => {
-      const type = materialControl?.parent
-        ?.get('replacementType')
-        ?.getRawValue()?.id;
-      const material = materialControl?.getRawValue()?.id;
-      const opponentMaterialControl = materialControl?.parent?.get(opponent);
-      const opponentMaterial = opponentMaterialControl?.getRawValue()?.id;
-
-      const getMaterialNumber13 = (value: string) => {
-        let cleaned = String(value).replaceAll('-', '');
-
-        if (cleaned.trim().length > 13) {
-          cleaned = cleaned.slice(0, 13);
-        }
-
-        return cleaned;
-      };
-
-      if (
-        type === 'PACKAGING_CHANGE' &&
-        material &&
-        opponentMaterial &&
-        getMaterialNumber13(material) !== getMaterialNumber13(opponentMaterial)
-      ) {
-        this.materialCustomErrorMessage.set(
-          translate('sap_message./SGD/SCM_SOP_SALES.107')
-        );
-
-        return { keepMaterialOnPackagingChange: true };
-      }
-      this.materialCustomErrorMessage.set(null);
-
-      return null;
-    };
-  }
-
-  private cutoverDateBeforeSOP(): ValidatorFn {
-    return (formGroup: AbstractControl) => {
-      const errors = ValidationHelper.getStartEndDateValidationErrors(
-        formGroup as FormGroup,
-        false,
-        'cutoverDate',
-        'startOfProduction'
-      );
-
-      if (errors?.['endDate']) {
-        this.startOfProductionCustomErrorMessage.set(
-          translate('sap_message./SGD/SCM_SOP_SALES.123')
-        );
-        this.formGroup.get('cutoverDate').markAsTouched();
-        this.formGroup.get('startOfProduction').markAsTouched();
-      }
-
-      return errors;
-    };
-  }
-
   protected updateForm(event: any): void {
     if (event !== null) {
       this.enableAllFields();
@@ -355,11 +295,11 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
       // overwrite with the form values
       ...this.formGroup.getRawValue(),
 
-      cutoverDate: this.getDateOrNull(this.formGroup.getRawValue().cutoverDate),
-      replacementDate: this.getDateOrNull(
+      cutoverDate: getDateOrNull(this.formGroup.getRawValue().cutoverDate),
+      replacementDate: getDateOrNull(
         this.formGroup.getRawValue().replacementDate
       ),
-      startOfProduction: this.getDateOrNull(
+      startOfProduction: getDateOrNull(
         this.formGroup.getRawValue().startOfProduction
       ),
     };
@@ -419,71 +359,6 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
     this.dialogRef.close({ reloadData, redefinedSubstitution });
   }
 
-  /**
-   * A custom validator to only check the max/min date ranges if the value is different
-   * from the prefilled one. We don't want to show an error message if the user didn't change
-   * an already valid date while editing an existing (but older) record.
-   *
-   * @param preFilledValue
-   * @param errorMessage
-   */
-  private validateAgainstExistingDate(
-    preFilledValue: any,
-    errorMessage: WritableSignal<string | null>
-  ): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const currentDate: Date | null = this.getDateOrNull(control.value);
-      const preFilledDate: Date | null = this.getDateOrNull(preFilledValue);
-
-      if (errorMessage) {
-        errorMessage.set(null);
-      }
-
-      if (!currentDate || isEqual(currentDate, preFilledDate)) {
-        return null;
-      }
-
-      if (isBefore(currentDate, this.TODAY)) {
-        errorMessage.set(
-          translate('error.date.beforeMinEditingExistingRecord', {
-            existingDate:
-              this.translocoLocaleService.localizeDate(preFilledValue),
-            earliestPossibleDate: this.translocoLocaleService.localizeDate(
-              this.TODAY
-            ),
-          })
-        );
-
-        return { customDatepickerMin: true };
-      }
-
-      if (isAfter(currentDate, this.MAX_DATE)) {
-        errorMessage.set(
-          translate('error.date.afterMaxEditingExistingRecord', {
-            existingDate:
-              this.translocoLocaleService.localizeDate(preFilledValue),
-            latestPossibleDate: this.translocoLocaleService.localizeDate(
-              this.MAX_DATE
-            ),
-          })
-        );
-
-        return { customDatepickerMax: true };
-      }
-
-      return null;
-    };
-  }
-
-  private getDateOrNull(date: Date | null) {
-    return date instanceof Date
-      ? date
-      : // eslint-disable-next-line unicorn/no-nested-ternary
-        typeof date === 'string' && !!date
-        ? new Date(date)
-        : null;
-  }
-
   private disableAllFieldsExceptReplacementType() {
     Object.keys(this.formGroup.controls)
       .filter((key) => key !== 'replacementType')
@@ -501,22 +376,10 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
 
     Object.keys(this.formGroup.controls).forEach((key) => {
       const control = this.formGroup.get(key);
-      this.setOrRemoveRequired(
+      this.iMRValidatorsService.setOrRemoveRequired(
         mandatoryFields.includes(key as keyof IMRSubstitution),
         control
       );
     });
-  }
-
-  private setOrRemoveRequired(
-    required: boolean,
-    control: AbstractControl
-  ): void {
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    required
-      ? control?.addValidators(Validators.required)
-      : control?.removeValidators(Validators.required);
-
-    control?.updateValueAndValidity({ emitEvent: true });
   }
 }

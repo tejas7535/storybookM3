@@ -1,5 +1,6 @@
 import {
   getDateFormatString,
+  getDateOrNull,
   getMonthYearFormatString,
   toNativeDate,
 } from './date-format';
@@ -63,6 +64,28 @@ describe('Date Format Utilities', () => {
       const result = toNativeDate(timestamp);
       expect(result instanceof Date).toBe(true);
       expect(result.getTime()).toBe(timestamp);
+    });
+  });
+
+  describe('getDateOrNull', () => {
+    it('should return the date if it is a valid Date object', () => {
+      const date = new Date(2023, 0, 1);
+      const result = getDateOrNull(date);
+      expect(result).toBe(date);
+    });
+
+    it('should return null if the date is null', () => {
+      const result = getDateOrNull(null);
+      expect(result).toBeNull();
+    });
+
+    it('should convert a valid date string to a Date object', () => {
+      const dateString = '2023-01-01';
+      const result = getDateOrNull(dateString as null);
+      expect(result instanceof Date).toBe(true);
+      expect(result.getFullYear()).toBe(2023);
+      expect(result.getMonth()).toBe(0);
+      expect(result.getDate()).toBe(1);
     });
   });
 });
