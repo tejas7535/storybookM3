@@ -1,4 +1,11 @@
 # Release Notes of Cost Database Analytics
+## [5.6.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v5.6.0...cdba-v5.6.1) (2025-08-14)
+
+
+### Bug Fixes
+
+* **cdba:** filter out cases with no access ([#7474](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7474)) ([4261483](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4261483515946efca56c6b9e293b96b3c0fea6c9))
+
 ## [5.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v5.5.0...cdba-v5.6.0) (2025-08-13)
 
 
