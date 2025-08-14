@@ -24,14 +24,16 @@ export const initGlobal$ = createEffect(
   ) => {
     return actions$.pipe(
       ofType(GlobalActions.initGlobal),
-      delay(0),
+      delay(1),
       switchMap(({ isStandalone, bearingId, separator, language }) => {
         const appDelivery = bearingId
           ? AppDelivery.Embedded
           : detectAppDelivery();
 
         const actions: Action[] = [
-          GlobalActions.setIsStandalone({ isStandalone: isStandalone ?? true }),
+          GlobalActions.setIsStandalone({
+            isStandalone: isStandalone ?? true,
+          }),
           GlobalActions.setAppDelivery({ appDelivery }),
           GlobalActions.determineInternalUser(),
           StorageMessagesActions.getStorageMessage(),

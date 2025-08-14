@@ -36,7 +36,7 @@ describe('Global Effects', () => {
           }),
         });
 
-        const expected = m.cold('(bcdefg)', {
+        const expected = m.cold('-(bcdefg)', {
           b: GlobalActions.setIsStandalone({ isStandalone: false }),
           c: GlobalActions.setAppDelivery({
             appDelivery: 'embedded' as AppDelivery,
@@ -70,7 +70,7 @@ describe('Global Effects', () => {
           a: GlobalActions.initGlobal({}),
         });
 
-        const expected = m.cold('(bcdef)', {
+        const expected = m.cold('-(bcdef)', {
           b: GlobalActions.setIsStandalone({ isStandalone: true }),
           c: GlobalActions.setAppDelivery({
             appDelivery: 'Standalone' as AppDelivery,
