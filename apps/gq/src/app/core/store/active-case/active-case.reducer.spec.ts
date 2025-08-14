@@ -1084,8 +1084,8 @@ describe('Active Case Feature', () => {
       });
     });
 
-    describe('getOpenItems', () => {
-      test('should return open items', () => {
+    describe('getRfqItems', () => {
+      test('should return rfq items', () => {
         const state = {
           activeCase: {
             ...ACTIVE_CASE_STATE_MOCK,
@@ -1109,11 +1109,11 @@ describe('Active Case Feature', () => {
             },
           },
         };
-        expect(activeCaseFeature.getOpenItems(state).length).toEqual(1);
+        expect(activeCaseFeature.getRfqItems(state).length).toEqual(1);
       });
     });
 
-    describe('hasOpenItems', () => {
+    describe('hasRfqItems', () => {
       test('should return true', () => {
         const state = {
           activeCase: {
@@ -1139,7 +1139,7 @@ describe('Active Case Feature', () => {
           },
         };
 
-        expect(activeCaseFeature.hasOpenItems(state)).toBeTruthy();
+        expect(activeCaseFeature.hasRfqItems(state)).toBeTruthy();
       });
     });
   });

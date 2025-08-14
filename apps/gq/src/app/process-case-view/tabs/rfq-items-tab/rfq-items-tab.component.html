@@ -1,0 +1,11 @@
+<ng-container *ngrxLet="dataLoading$ as loading">
+  <div class="p-4 w-full h-full">
+    @if (loading) {
+      <gq-overlay>
+        <schaeffler-loading-spinner></schaeffler-loading-spinner>
+      </gq-overlay>
+    } @else {
+      <gq-rfq-items-table></gq-rfq-items-table>
+    }
+  </div>
+</ng-container>

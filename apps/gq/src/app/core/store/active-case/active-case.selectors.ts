@@ -118,8 +118,8 @@ export const getQuotationDetailsByPL = createSelector(
 export const getTabsForProcessCaseView = () =>
   createSelector(
     activeCaseFeature.selectQuotation,
-    activeCaseFeature.hasOpenItems,
-    (quotation: Quotation, hasOpenItems: boolean): Tab[] => {
+    activeCaseFeature.hasRfqItems,
+    (quotation: Quotation, hasRfqItems: boolean): Tab[] => {
       const tabs: Tab[] = [];
 
       if (quotation?.customer?.enabledForApprovalWorkflow) {
@@ -131,10 +131,10 @@ export const getTabsForProcessCaseView = () =>
         });
       }
 
-      if (hasOpenItems) {
+      if (hasRfqItems) {
         tabs.push({
-          label: 'processCaseView.tabs.openItems.title',
-          link: ProcessCaseRoutePath.OpenItemsPath,
+          label: 'processCaseView.tabs.rfqItems.title',
+          link: ProcessCaseRoutePath.RfqItemsPath,
           parentPath: AppRoutePath.ProcessCaseViewPath,
           sortOrder: 3,
         });

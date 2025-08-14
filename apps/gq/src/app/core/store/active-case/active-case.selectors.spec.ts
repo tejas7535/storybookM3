@@ -393,7 +393,7 @@ describe('Active Case Selectors', () => {
     //   ).toEqual(expected);
     // });
 
-    test('should return the openItems Tab', () => {
+    test('should return the rfqItems Tab', () => {
       const state: { activeCase: ActiveCaseState } = {
         activeCase: {
           quotation: {
@@ -416,8 +416,8 @@ describe('Active Case Selectors', () => {
           sortOrder: 2,
         },
         {
-          label: 'processCaseView.tabs.openItems.title',
-          link: ProcessCaseRoutePath.OpenItemsPath,
+          label: 'processCaseView.tabs.rfqItems.title',
+          link: ProcessCaseRoutePath.RfqItemsPath,
           parentPath: AppRoutePath.ProcessCaseViewPath,
           sortOrder: 3,
         },

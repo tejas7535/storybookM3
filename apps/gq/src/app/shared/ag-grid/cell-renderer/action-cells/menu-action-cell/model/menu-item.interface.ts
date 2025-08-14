@@ -1,4 +1,4 @@
-import { RecalculationProcessAction } from '@gq/process-case-view/tabs/open-items-tab/open-items-table/modals/models/recalculation-process-action.enum';
+import { RecalculationProcessAction } from '@gq/process-case-view/tabs/rfq-items-tab/rfq-items-table/modals/models/recalculation-process-action.enum';
 import { QuotationDetail } from '@gq/shared/models';
 
 export interface MenuItem {

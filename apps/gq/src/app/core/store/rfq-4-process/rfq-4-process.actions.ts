@@ -1,4 +1,4 @@
-import { CancellationReason } from '@gq/process-case-view/tabs/open-items-tab/open-items-table/modals/cancel-process/cancel-process.component';
+import { CancellationReason } from '@gq/process-case-view/tabs/rfq-items-tab/rfq-items-table/modals/cancel-process/cancel-process.component';
 import { ActiveDirectoryUser, QuotationDetail } from '@gq/shared/models';
 import { RfqProcessResponse } from '@gq/shared/services/rest/rfq4/models/rfq-process-response.interface';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';

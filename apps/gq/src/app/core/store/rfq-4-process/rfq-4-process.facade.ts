@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { CancellationReason } from '@gq/process-case-view/tabs/open-items-tab/open-items-table/modals/cancel-process/cancel-process.component';
+import { CancellationReason } from '@gq/process-case-view/tabs/rfq-items-tab/rfq-items-table/modals/cancel-process/cancel-process.component';
 import { ActiveDirectoryUser, QuotationDetail } from '@gq/shared/models';
 import { QuotationDetailRfq4 } from '@gq/shared/models/quotation-detail/rfq/quotation-detail-rfq4.interface';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
@@ -75,7 +75,7 @@ export class Rfq4ProcessFacade {
     );
   }
   getSapMaintainers(): void {
-    if (this.featureToggleService.isEnabled('openItemsTab')) {
+    if (this.featureToggleService.isEnabled('rfqItemsTab')) {
       this.store.dispatch(Rfq4ProcessActions.getSapMaintainerUserIds());
     }
   }

@@ -746,7 +746,7 @@ describe('ActiveCaseFacade', () => {
             sortOrder: 4,
           },
         ] as any;
-        mockStore.overrideSelector(activeCaseFeature.hasOpenItems, false);
+        mockStore.overrideSelector(activeCaseFeature.hasRfqItems, false);
         mockStore.overrideSelector(getTabsForProcessCaseView(), tabs);
 
         m.expect(facade.tabsForProcessCaseView$).toBeObservable(

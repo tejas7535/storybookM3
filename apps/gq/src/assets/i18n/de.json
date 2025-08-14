@@ -162,7 +162,7 @@
         "UR2": "X - Geblockt"
       }
     },
-    "openItemsTable": {
+    "rfqItemsTable": {
       "item": "Position",
       "materialDescription": "Materialbeschreibung",
       "materialNumber": "Materialnummer (15-stellig)",

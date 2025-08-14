@@ -1,0 +1,23 @@
+<ng-container
+  *transloco="let t; prefix: 'shared.rfqItemsTable.approvalProcesses.start'"
+>
+  @if (calculators()?.length > 0) {
+    <gq-calculator-found
+      [quotationDetail]="quotationDetail()"
+      (cancelButtonClicked)="cancelButtonClicked()"
+      (messageChanged)="messageChanged($event)"
+    ></gq-calculator-found>
+    <gq-modal-footer
+      [submitText]="t('sendRequestButton')"
+      (submitAction)="sendRequest()"
+      [cancelText]="t('cancelButton')"
+      (cancelAction)="cancelButtonClicked()"
+    ></gq-modal-footer>
+  } @else {
+    <gq-calculator-missing
+      [quotationDetail]="quotationDetail()"
+      (cancelButtonClicked)="cancelButtonClicked()"
+    >
+    </gq-calculator-missing>
+  }
+</ng-container>

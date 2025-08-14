@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { OpenItemsTabGuard } from '@gq/core/guards/open-items-tab.guard';
+import { RfqItemsTabGuard } from '@gq/core/guards/rfq-items-tab.guard';
 
 import { ProcessCaseRoutePath } from './process-case-route-path.enum';
 import { ProcessCaseViewComponent } from './process-case-view.component';
@@ -33,12 +33,12 @@ const routes: Routes = [
           ),
       },
       {
-        path: ProcessCaseRoutePath.OpenItemsPath,
+        path: ProcessCaseRoutePath.RfqItemsPath,
         loadComponent: () =>
-          import('./tabs/open-items-tab/open-items-tab.component').then(
-            (m) => m.OpenItemsTabComponent
+          import('./tabs/rfq-items-tab/rfq-items-tab.component').then(
+            (m) => m.RfqItemsTabComponent
           ),
-        canActivate: [OpenItemsTabGuard],
+        canActivate: [RfqItemsTabGuard],
       },
       {
         path: ProcessCaseRoutePath.BasePath,

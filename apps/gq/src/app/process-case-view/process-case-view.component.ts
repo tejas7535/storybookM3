@@ -53,10 +53,10 @@ export class ProcessCaseViewComponent implements OnDestroy {
 
   tabs$: Observable<Tab[]> = this.activeCaseFacade.tabsForProcessCaseView$.pipe(
     map((tabs) => {
-      if (!this.featureToggleService.isEnabled('openItemsTab')) {
-        // filter open items tab if not enabled
+      if (!this.featureToggleService.isEnabled('rfqItemsTab')) {
+        // filter rfq items tab if not enabled
         return tabs.filter(
-          (tab) => tab.link !== ProcessCaseRoutePath.OpenItemsPath
+          (tab) => tab.link !== ProcessCaseRoutePath.RfqItemsPath
         );
       }
 

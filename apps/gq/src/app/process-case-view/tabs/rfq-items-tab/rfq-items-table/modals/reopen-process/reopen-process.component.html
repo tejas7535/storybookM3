@@ -1,0 +1,18 @@
+<ng-container
+  *transloco="let t; prefix: 'shared.rfqItemsTable.approvalProcesses.reopen'"
+>
+  <div>
+    <p>{{ t('confirmMessage') }}</p>
+  </div>
+  <gq-info-banner
+    [isWarning]="true"
+    [isFullWidth]="true"
+    [infoText]="t('reopenWarning')"
+  ></gq-info-banner>
+  <gq-modal-footer
+    [submitText]="t('sendRequestButton')"
+    (submitAction)="sendRequest()"
+    [cancelText]="t('cancelButton')"
+    (cancelAction)="cancelButtonClicked()"
+  ></gq-modal-footer>
+</ng-container>

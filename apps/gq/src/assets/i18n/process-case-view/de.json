@@ -239,8 +239,8 @@
         }
       }
     },
-    "openItems": {
-      "title": "Offene Punkte"
+    "rfqItems": {
+      "title": "RFQ Positionen"
     }
   },
   "confirmDeletePositions": {

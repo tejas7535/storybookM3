@@ -670,7 +670,7 @@ export const activeCaseFeature = createFeature({
         )
     );
 
-    const getOpenItems = createSelector(
+    const getRfqItems = createSelector(
       selectQuotation,
       (quotation: Quotation): QuotationDetail[] =>
         quotation?.quotationDetails.filter(
@@ -680,9 +680,9 @@ export const activeCaseFeature = createFeature({
         )
     );
 
-    const hasOpenItems = createSelector(
-      getOpenItems,
-      (openItems: QuotationDetail[]): boolean => openItems?.length > 0
+    const hasRfqItems = createSelector(
+      getRfqItems,
+      (rfqItems: QuotationDetail[]): boolean => rfqItems?.length > 0
     );
 
     return {
@@ -693,8 +693,8 @@ export const activeCaseFeature = createFeature({
       getQuotationSalesOrgIsGreaterChina,
       getQuotationDetailsSummaryKpi,
       isAnyMspWarningPresent,
-      getOpenItems,
-      hasOpenItems,
+      getRfqItems,
+      hasRfqItems,
     };
   },
 });
