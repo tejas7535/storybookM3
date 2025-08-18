@@ -48,6 +48,18 @@ mounting-manager {
 }
 
 mounting-manager {
+  @layer resets {
+    * {
+      font-family:
+        Noto Sans,
+        sans-serif !important;
+    }
+
+    .material-icons {
+      font-family: 'Material Icons' !important;
+    }
+  }
+
   button {
     outline: none !important;
   }
