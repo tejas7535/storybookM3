@@ -31,8 +31,11 @@ export class LocaleService {
   }
 
   public setLocale(locale: MMLocales): void {
+    const supportedLocales = Object.keys(locales) as MMLocales[];
+    const isSupported = supportedLocales.includes(locale);
+    const targetLocale = isSupported ? locale : 'en';
     if (!this.manualSeparator) {
-      this.separator.next(locales[locale].defaultSeparator);
+      this.separator.next(locales[targetLocale].defaultSeparator);
     }
   }
 

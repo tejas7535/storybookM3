@@ -24,6 +24,11 @@ mounting-manager {
 }
 @tailwind utilities;
 
+/*
+ * Tailwind preflight modified with application scope only
+ */
+@import './preflight';
+
 /***************************************************************************************************
    * OVERRIDES
    */

@@ -22,16 +22,18 @@
           <div class="pt-2 sm:pt-4">
             @switch (index) {
               @case (BEARING_STEP) {
-                <h5>{{ t(step.text) }}</h5>
-                <div class="mt-8 mb-4 max-w-sm sm:mb-8">
-                  <mm-bearing-search
-                    (bearing)="selectBearing($event)"
-                    [selectedBearing]="selectedBearingOption()"
-                  ></mm-bearing-search>
-                </div>
-                <mm-qualtrics-info-banner
-                  class="block my-3"
-                ></mm-qualtrics-info-banner>
+                @if (!isAppDeliveryEmbedded()) {
+                  <h5>{{ t(step.text) }}</h5>
+                  <div class="mt-8 mb-4 max-w-sm sm:mb-8">
+                    <mm-bearing-search
+                      (bearing)="selectBearing($event)"
+                      [selectedBearing]="selectedBearingOption()"
+                    ></mm-bearing-search>
+                  </div>
+                  <mm-qualtrics-info-banner
+                    class="block my-3"
+                  ></mm-qualtrics-info-banner>
+                }
               }
               @case (BEARING_SEAT_STEP) {
                 @if (index === currentStep()) {

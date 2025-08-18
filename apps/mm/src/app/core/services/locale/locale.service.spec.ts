@@ -1,7 +1,7 @@
 import { AvailableLangs, TranslocoService } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { MMLocales } from './locale.enum';
+import { locales, MMLocales } from './locale.enum';
 import { LocaleService } from './locale.service';
 import { MMSeparator } from './separator.enum';
 
@@ -27,6 +27,14 @@ describe('LocaleService', () => {
   beforeEach(() => {
     spectator = createService();
     service = spectator.inject(LocaleService);
+  });
+
+  it('should use en locale if unsupported locale is provided', () => {
+    service['separator'].next = jest.fn();
+    service.setLocale('pl' as MMLocales);
+
+    const expectedSeparator = locales.en.defaultSeparator;
+    expect(service['separator'].next).toHaveBeenCalledWith(expectedSeparator);
   });
 
   it('should be created', () => {
