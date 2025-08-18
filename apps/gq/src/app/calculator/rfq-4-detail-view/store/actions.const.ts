@@ -44,4 +44,16 @@ export const RFQ4_DETAIL_VIEW_ACTIONS = {
   GET_EXCHANGE_RATE_FOR_SELECTED_CURRENCY_FAILURE:
     '[RFQ4 Detail View] Get Exchange Rate For Selected Currency Failure',
   SET_LOGGED_USER: '[RFQ4 Detail View] Set Logged User',
+
+  GET_CALCULATOR_ATTACHMENTS: '[RFQ4 Detail View] Get Calculator Attachments',
+  GET_CALCULATOR_ATTACHMENTS_SUCCESS:
+    '[RFQ4 Detail View] Get Calculator Attachments Success',
+  GET_CALCULATOR_ATTACHMENTS_FAILURE:
+    '[RFQ4 Detail View] Get Calculator Attachments Failure',
+  UPLOAD_CALCULATOR_ATTACHMENTS:
+    '[RFQ4 Detail View] Upload Calculator Attachments',
+  UPLOAD_CALCULATOR_ATTACHMENTS_SUCCESS:
+    '[RFQ4 Detail View] Upload Calculator Attachments Success',
+  UPLOAD_CALCULATOR_ATTACHMENTS_FAILURE:
+    '[RFQ4 Detail View] Upload Calculator Attachments Failure',
 };

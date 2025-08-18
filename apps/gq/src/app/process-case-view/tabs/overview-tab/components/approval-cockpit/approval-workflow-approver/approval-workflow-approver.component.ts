@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 
+import { TRANSLOCO_DATE_PIPE_CONFIG } from '@gq/shared/constants/transloco-date-pipe-config';
 import {
   ApprovalEventType,
   ApprovalWorkflowEvent,
@@ -10,7 +11,6 @@ import { TransformationService } from '@gq/shared/services/transformation/transf
 import { TranslocoService } from '@jsverse/transloco';
 
 import { APPROVAL_STATUS_OF_APPROVER_DISPLAY } from './consts/approval-status-display';
-import { TRANSLOCO_DATE_PIPE_CONFIG } from './consts/transloco-date-pipe-config';
 
 @Component({
   selector: 'gq-approval-workflow-approver',

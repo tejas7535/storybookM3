@@ -1,0 +1,53 @@
+<ng-container
+  *transloco="
+    let t;
+    prefix: 'calculator.rfq4DetailView.recalculation.attachments'
+  "
+>
+  <div class="flex flex-col items-start gap-1 pb-4">
+    <button
+      mat-button
+      [disabled]="
+        !this.isLoggedUserAssignedToRfq() || !canUploadOrDeleteAttachments()
+      "
+      (click)="openAddFileDialog()"
+    >
+      {{ t('addAttachmentsButtonLabel') }}<mat-icon>add</mat-icon>
+    </button>
+
+    @if (attachmentLoading()) {
+      <schaeffler-loading-spinner
+        class="w-full"
+        [relative]="true"
+      ></schaeffler-loading-spinner>
+    } @else {
+      <gq-attachments
+        class="w-full"
+        [attachments]="attachments()"
+        [deleteButtonEnabled]="canUploadOrDeleteAttachments()"
+        [deleteButtonDisabledTooltipText]="t('deleteButtonDisabledTooltipText')"
+        [additionContentTemplate]="accessDropDownTemplate"
+        (downloadClicked)="downloadAttachment($event)"
+        (deleteClicked)="openConfirmDeleteAttachmentDialog($event)"
+      >
+      </gq-attachments>
+    }
+  </div>
+</ng-container>
+
+<ng-template #accessDropDownTemplate let-attachment="attachment">
+  <div class="w-80">
+    <mat-form-field appearance="outline" class="w-80" subscriptSizing="dynamic">
+      <mat-select
+        [value]="attachment.accessibleBy"
+        (selectionChange)="onAccessChange(attachment, $event.value)"
+      >
+        @for (option of accessibleByOptions; track option) {
+          <mat-option [value]="option.key">
+            {{ option.value }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+</ng-template>

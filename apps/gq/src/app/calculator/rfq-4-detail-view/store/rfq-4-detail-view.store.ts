@@ -37,6 +37,7 @@ import {
   RfqDetailViewCalculationData,
   RfqDetailViewData,
 } from '../models/rfq-4-detail-view-data.interface';
+import { RfqCalculatorAttachment } from '../models/rfq-calculator-attachments.interface';
 import { Rfq4DetailViewService } from '../service/rest/rfq-4-detail-view.service';
 import { RFQ4_DETAIL_VIEW_ACTIONS } from './actions.const';
 
@@ -53,9 +54,11 @@ interface Rfq4DetailViewState {
   exchangeRateForSelectedCurrency: number;
   exchangeRateForSelectedCurrencyLoading: boolean;
   loggedUserId: string;
+  attachments: RfqCalculatorAttachment[] | null;
+  attachmentsLoading: boolean;
 }
 
-const initalState: Rfq4DetailViewState = {
+const initialState: Rfq4DetailViewState = {
   rfq4DetailViewData: null,
   rfq4DetailViewDataLoading: false,
   processStartedByAdUser: undefined,
@@ -68,11 +71,13 @@ const initalState: Rfq4DetailViewState = {
   exchangeRateForSelectedCurrency: null,
   exchangeRateForSelectedCurrencyLoading: false,
   loggedUserId: null,
+  attachments: null,
+  attachmentsLoading: false,
 };
 
 export const Rfq4DetailViewStore = signalStore(
   withDevtools('Rfq4DetailViewStore'),
-  withState(initalState),
+  withState(initialState),
   withComputed((store) => ({
     getQuotationDetailData: computed(
       (): CalculatorQuotationDetailData =>
@@ -129,6 +134,12 @@ export const Rfq4DetailViewStore = signalStore(
       (): boolean =>
         store.rfq4DetailViewData()?.rfq4ProcessData.assignedUserId ===
         store.loggedUserId()
+    ),
+    isAttachmentUploadSuccess: computed(
+      (): boolean =>
+        !store.attachmentsLoading() &&
+        store.attachments() !== null &&
+        store.attachments().length > 0
     ),
   })),
   withProps(() => ({
@@ -585,6 +596,79 @@ export const Rfq4DetailViewStore = signalStore(
         )
       );
 
+      const getCalculatorAttachments = rxMethod<number>(
+        pipe(
+          tap(() =>
+            updateState(
+              store,
+              RFQ4_DETAIL_VIEW_ACTIONS.GET_CALCULATOR_ATTACHMENTS,
+              {
+                attachmentsLoading: true,
+              }
+            )
+          ),
+          switchMap((rfqId: number) =>
+            rfq4DetailViewService.getCalculatorAttachments(rfqId).pipe(
+              tapResponse({
+                next: (attachments: RfqCalculatorAttachment[]) => {
+                  updateState(
+                    store,
+                    RFQ4_DETAIL_VIEW_ACTIONS.GET_CALCULATOR_ATTACHMENTS_SUCCESS,
+                    { attachments, attachmentsLoading: false }
+                  );
+                },
+                error: () =>
+                  updateState(
+                    store,
+                    RFQ4_DETAIL_VIEW_ACTIONS.GET_CALCULATOR_ATTACHMENTS_FAILURE,
+                    { attachmentsLoading: false }
+                  ),
+              })
+            )
+          )
+        )
+      );
+
+      const uploadCalculatorAttachments = rxMethod<File[]>(
+        pipe(
+          tap(() =>
+            updateState(
+              store,
+              RFQ4_DETAIL_VIEW_ACTIONS.UPLOAD_CALCULATOR_ATTACHMENTS,
+              { attachmentsLoading: true }
+            )
+          ),
+          switchMap((files: File[]) =>
+            rfq4DetailViewService
+              .uploadCalculatorAttachments(
+                files,
+                store.getRfq4ProcessData().rfqId
+              )
+              .pipe(
+                tapResponse({
+                  next: (attachments: RfqCalculatorAttachment[]) => {
+                    updateState(
+                      store,
+                      RFQ4_DETAIL_VIEW_ACTIONS.UPLOAD_CALCULATOR_ATTACHMENTS_SUCCESS,
+                      { attachments, attachmentsLoading: false }
+                    );
+                    const successMessage = translate(
+                      'calculator.rfq4DetailView.snackBarMessages.uploadSuccess'
+                    );
+                    snackBar.open(successMessage);
+                  },
+                  error: () =>
+                    updateState(
+                      store,
+                      RFQ4_DETAIL_VIEW_ACTIONS.UPLOAD_CALCULATOR_ATTACHMENTS_FAILURE,
+                      { attachmentsLoading: false }
+                    ),
+                })
+              )
+          )
+        )
+      );
+
       return {
         loadRfq4DetailViewData,
         loadProcessAssignedToAdUser,
@@ -597,6 +681,8 @@ export const Rfq4DetailViewStore = signalStore(
         setCalculationDataStatus,
         getExchangeRateForSelectedCurrency,
         setLoggedUser,
+        getCalculatorAttachments,
+        uploadCalculatorAttachments,
       };
     }
   ),
@@ -608,6 +694,7 @@ export const Rfq4DetailViewStore = signalStore(
           tap((queryParams) => {
             const rfqId = queryParams['rfqId'];
             store.loadRfq4DetailViewData(rfqId);
+            store.getCalculatorAttachments(rfqId);
           })
         )
         .subscribe();

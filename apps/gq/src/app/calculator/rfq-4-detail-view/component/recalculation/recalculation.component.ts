@@ -35,6 +35,7 @@ import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { RecalculateSqvStatus } from '../../models/recalculate-sqv-status.enum';
+import { RecalculationAttachmentsComponent } from './components/recalculation-attachments/recalculation-attachments.component';
 import { CalculatorDetailsInputComponent } from './control/calculator-details/calculator-details-input.component';
 import { CommentInputComponent } from './control/comment/comment-input.component';
 import { CurrencyInputComponent } from './control/currency/currency-input.component';
@@ -65,6 +66,7 @@ import { ToolCostInputComponent } from './control/tool-cost/tool-cost-input.comp
     ProdPlantInputComponent,
     DeliveryTimeInputComponent,
     MatCardModule,
+    RecalculationAttachmentsComponent,
   ],
   templateUrl: './recalculation.component.html',
   styles: [

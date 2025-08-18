@@ -1,9 +1,9 @@
 import { SqvApprovalStatus } from '@gq/shared/models/quotation-detail/cost/sqv-approval-status.enum';
 
-import { Attachment } from './attachment.interface';
+import { PositionAttachment } from './position-attachment.interface';
 
 export interface UploadRfqSqvCheckApprovalResponse {
-  uploads: Attachment[];
+  uploads: PositionAttachment[];
   status: {
     processVariables: {
       approvalStatus: SqvApprovalStatus;

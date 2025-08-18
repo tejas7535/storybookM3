@@ -1,9 +1,4 @@
-import {
-  HttpHeaders,
-  HttpParams,
-  HttpResponse,
-  provideHttpClient,
-} from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -13,11 +8,10 @@ import { of } from 'rxjs';
 
 import { ApiVersion, QuotationAttachment } from '@gq/shared/models';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import * as saveAsMock from 'file-saver';
 
 import { QuotationPaths } from '../quotation/models/quotation-paths.enum';
 import { AttachmentsService } from './attachments.service';
-import { Attachment } from './models/attachment.interface';
+import { PositionAttachment } from './models/position-attachment.interface';
 
 jest.mock('file-saver', () => ({
   saveAs: jest.fn(),
@@ -56,7 +50,9 @@ describe('Service: Attachments', () => {
           uploadedBy: 'user',
         },
       ];
-      service['uploadFiles'] = jest.fn().mockReturnValue(of(returnValue));
+      service['fileService'].uploadFiles = jest
+        .fn()
+        .mockReturnValue(of(returnValue));
       service
         .uploadQuotationFiles(files, gqId)
         .subscribe((res) => expect(res).toEqual(returnValue));
@@ -66,7 +62,7 @@ describe('Service: Attachments', () => {
     test('should call uploadFiles', () => {
       const files = [{ name: 'file-1' } as File, { name: 'file-2' } as File];
       const gqPositionId = '4600';
-      const returnValue: Attachment[] = [
+      const returnValue: PositionAttachment[] = [
         {
           gqPositionId: '134',
           fileName: 'filename',
@@ -75,7 +71,9 @@ describe('Service: Attachments', () => {
           uploadedBy: 'user',
         },
       ];
-      service['uploadFiles'] = jest.fn().mockReturnValue(of(returnValue));
+      service['fileService'].uploadFiles = jest
+        .fn()
+        .mockReturnValue(of(returnValue));
       service
         .uploadRfqSqvCheckApproval(files, gqPositionId)
         .subscribe((res) => expect(res).toEqual(returnValue));
@@ -105,7 +103,7 @@ describe('Service: Attachments', () => {
         uploadedBy: 'user',
         fileName: 'test.jpg',
       };
-      service['downloadAttachments'] = jest
+      service['fileService'].downloadAttachments = jest
         .fn()
         .mockReturnValue(of('test.jpg'));
       service.downloadQuotationAttachment(attachment).subscribe((result) => {
@@ -117,7 +115,7 @@ describe('Service: Attachments', () => {
   describe('downloadRfqSqvCheckApprovalAttachments', () => {
     test('should call downloadAttachments', () => {
       const gqPositionId = '4600';
-      service['downloadAttachments'] = jest
+      service['fileService'].downloadAttachments = jest
         .fn()
         .mockReturnValue(of('test.jpg'));
       service
@@ -149,89 +147,6 @@ describe('Service: Attachments', () => {
 
       expect(req.request.method).toBe('DELETE');
       req.flush([]);
-    });
-  });
-  describe('uploadFiles', () => {
-    test('should call POST', () => {
-      const files = [{ name: 'file-1' } as File, { name: 'file-2' } as File];
-      const url = 'test';
-      service['uploadFiles'](files, url).subscribe((res) =>
-        expect(res).toEqual([])
-      );
-      const req = httpMock.expectOne(url);
-      expect(req.request.method).toBe('POST');
-      req.flush([]);
-    });
-  });
-
-  describe('downloadAttachments', () => {
-    test('should call the GET method with params', () => {
-      const url = 'test';
-      const params = new HttpParams().set('filename', 'test.jpg');
-      service['downloadAttachments'](url, params).subscribe((result) => {
-        expect(result instanceof Blob).toBeTruthy();
-      });
-
-      const req = httpMock.expectOne(`${url}?filename=test.jpg`);
-
-      const blob = new Blob(['file content'], {
-        type: 'application/octet-stream',
-      });
-      expect(req.request.method).toBe('GET');
-      req.flush(blob);
-    });
-
-    test('should call the GET method without params', () => {
-      const url = 'test';
-      service['downloadAttachments'](url).subscribe((result) => {
-        expect(result instanceof Blob).toBeTruthy();
-      });
-
-      const req = httpMock.expectOne(url);
-
-      const blob = new Blob(['file content'], {
-        type: 'application/octet-stream',
-      });
-      expect(req.request.method).toBe('GET');
-      req.flush(blob);
-    });
-  });
-
-  describe('saveDownloadFile', () => {
-    test('should extract the filename from headers and call saveAs', () => {
-      service['getFileNameFromHeaders'] = jest
-        .fn()
-        .mockReturnValue('test-file.txt');
-      const response = {
-        headers: {
-          get: jest
-            .fn()
-            .mockReturnValue('attachment; filename="test-file.txt"'),
-        },
-        body: new Blob(['file content'], { type: 'text/plain' }),
-      } as unknown as HttpResponse<Blob>;
-
-      const fileName = service['saveDownloadFile'](response);
-
-      expect(service['getFileNameFromHeaders']).toHaveBeenCalledWith(
-        response.headers
-      );
-      expect(saveAsMock.saveAs).toHaveBeenCalled();
-      expect(fileName).toBe('test-file.txt');
-    });
-  });
-
-  describe('getFileNameFromHeaders', () => {
-    test('should extract the filename from headers', () => {
-      const headers = {
-        get: jest
-          .fn()
-          .mockReturnValue('attachment; filename*=UTF-8"test-file.txt"'),
-      } as unknown as HttpHeaders;
-
-      const fileName = service['getFileNameFromHeaders'](headers);
-
-      expect(fileName).toBe('test-file.txt');
     });
   });
 });

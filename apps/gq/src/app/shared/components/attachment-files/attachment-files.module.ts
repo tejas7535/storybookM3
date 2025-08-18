@@ -12,6 +12,7 @@ import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { AttachmentsComponent } from '../attachments/attachments.component';
 import { InfoIconComponent } from '../info-icon/info-icon.component';
 import { AttachmentFilesComponent } from './attachment-files.component';
 @NgModule({
@@ -28,6 +29,7 @@ import { AttachmentFilesComponent } from './attachment-files.component';
     MatButtonModule,
     MatTooltipModule,
     TranslocoDatePipe,
+    AttachmentsComponent,
   ],
   exports: [AttachmentFilesComponent],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'process-case-view' }],

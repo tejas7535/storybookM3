@@ -704,6 +704,9 @@
         }
       }
     },
+    "attachments": {
+      "uploadInformation": "{{at}} by {{by}}"
+    },
     "deleteDialog": {
       "title": "Delete Attachment",
       "dialogInfo": "Are you sure you want to delete the attachment ?",

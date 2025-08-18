@@ -1,9 +1,8 @@
 import { Component, Input } from '@angular/core';
 
+import { TRANSLOCO_DATE_PIPE_CONFIG } from '@gq/shared/constants/transloco-date-pipe-config';
 import { ApprovalEventType, ApprovalWorkflowEvent } from '@gq/shared/models';
 import { QuotationStatus } from '@gq/shared/models/quotation';
-
-import { TRANSLOCO_DATE_PIPE_CONFIG } from '../approval-workflow-approver/consts/transloco-date-pipe-config';
 
 @Component({
   selector: 'gq-approval-workflow-history',

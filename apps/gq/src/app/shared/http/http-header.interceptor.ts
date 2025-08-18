@@ -9,11 +9,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {} from 'rxjs/operators';
 
+import { DetailViewPaths } from '@gq/calculator/rfq-4-detail-view/service/rest/rfq-4-detail-view-paths.enum';
 import { TranslocoService } from '@jsverse/transloco';
 
 import { ApiVersion } from '../models';
 import { RfqSqvCheckPaths } from '../services/rest/attachments/models/rfq-sqv-check-paths.enum';
 import { QuotationPaths } from '../services/rest/quotation/models/quotation-paths.enum';
+import { Rfq4PathsEnum } from '../services/rest/rfq4/models/rfq-4-paths.enum';
 
 @Injectable()
 export class HttpHeaderInterceptor implements HttpInterceptor {
@@ -57,12 +59,18 @@ export class HttpHeaderInterceptor implements HttpInterceptor {
       request.url?.endsWith(`${RfqSqvCheckPaths.DOWNLOAD_APPROVAL_PATH}`) &&
       request.method === 'GET';
 
+    const isCalculatorAttachmentUpload =
+      request.url?.startsWith(`${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}`) &&
+      request.url?.endsWith(`${DetailViewPaths.PATH_RFQ4_ATTACHMENTS}`) &&
+      request.method === 'POST';
+
     if (
       isAttachmentUpload ||
       isDownloadAttachment ||
       isUserSettingsPost ||
       isUploadApprovalAttachment ||
-      isDownloadApprovalAttachment
+      isDownloadApprovalAttachment ||
+      isCalculatorAttachmentUpload
     ) {
       return next.handle(request);
     }

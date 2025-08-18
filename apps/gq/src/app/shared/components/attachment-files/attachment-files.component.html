@@ -1,7 +1,7 @@
 <div
   *transloco="
     let t;
-    read: 'processCaseView.tabs.overview.generalInformation.attachments'
+    prefix: 'processCaseView.tabs.overview.generalInformation.attachments'
   "
   class="flex flex-row flex-wrap text-body-medium text-on-surface-variant mb-2 justify-between items-center"
 >
@@ -12,74 +12,19 @@
   </label>
 </div>
 
-@for (attachment of attachments; track $index) {
-  <div class="mb-3">
-    <div
-      class="flex flex-row items-center"
-      *transloco="
-        let t;
-        read: 'processCaseView.tabs.overview.generalInformation.attachments'
-      "
-    >
-      <div
-        class="flex flex-col whitespace-nowrap overflow-hidden text-ellipsis"
-      >
-        <span
-          class="text-on-surface text-body-medium hover:text-primary hover:underline hover:cursor-pointer"
-          (click)="downloadAttachment(attachment)"
-        >
-          {{ attachment.fileName }}
-        </span>
-        <span class="text-on-surface-variant text-[12px]">
-          {{
-            t('uploadInformation', {
-              at:
-                attachment.uploadedAt | translocoDate: translocoDatePipeConfig,
-              by: attachment.uploadedBy,
-            })
-          }}
-        </span>
-      </div>
-      <div
-        class="ml-auto text-approval-status-grey mt-1"
-        *ngrxLet="quotationActive$ as buttonEnabled"
-      >
-        <div
-          class="group inline-block"
-          [matTooltip]="
-            workflowInProgress || quotationFullyApproved
-              ? t('toolTipApprovalWorkFlowStarted')
-              : t('toolTipDeletedDrafts')
-          "
-          [matTooltipDisabled]="buttonEnabled"
-        >
-          <button
-            (click)="openConfirmDeleteAttachmentDialog(attachment)"
-            [disabled]="!buttonEnabled"
-          >
-            <mat-icon
-              class="!w-5 !h-5 !icon-5 relative text-approval-status-grey hover:!text-approval-status-green"
-            >
-              <span
-                [ngClass]="
-                  buttonEnabled
-                    ? 'group-hover:opacity-0'
-                    : 'text-approval-status-grey opacity-50'
-                "
-              >
-                delete
-              </span>
-              @if (buttonEnabled) {
-                <mat-icon
-                  class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 !w-5 !h-5 !icon-5 hover:cursor-pointer"
-                >
-                  delete_forever
-                </mat-icon>
-              }
-            </mat-icon>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-}
+<gq-attachments
+  *transloco="
+    let t;
+    prefix: 'processCaseView.tabs.overview.generalInformation.attachments'
+  "
+  [attachments]="attachments"
+  [deleteButtonEnabled]="quotationActive$ | ngrxPush"
+  [deleteButtonDisabledTooltipText]="
+    workflowInProgress || quotationFullyApproved
+      ? t('toolTipApprovalWorkFlowStarted')
+      : t('toolTipDeletedDrafts')
+  "
+  (downloadClicked)="downloadAttachment($event)"
+  (deleteClicked)="openConfirmDeleteAttachmentDialog($event)"
+>
+</gq-attachments>

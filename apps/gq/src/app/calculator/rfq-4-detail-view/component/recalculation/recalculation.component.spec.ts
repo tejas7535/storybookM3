@@ -1,21 +1,10 @@
-import { signal } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 
-import { CalculatorDetailsInputComponent } from '@gq/calculator/rfq-4-detail-view/component/recalculation/control/calculator-details/calculator-details-input.component';
-import { CommentInputComponent } from '@gq/calculator/rfq-4-detail-view/component/recalculation/control/comment/comment-input.component';
-import { CurrencyInputComponent } from '@gq/calculator/rfq-4-detail-view/component/recalculation/control/currency/currency-input.component';
-import { DeliveryTimeInputComponent } from '@gq/calculator/rfq-4-detail-view/component/recalculation/control/delivery-time/delivery-time-input.component';
-import { LotSizeInputComponent } from '@gq/calculator/rfq-4-detail-view/component/recalculation/control/lot-size/lot-size-input.component';
-import { PriceUnitInputComponent } from '@gq/calculator/rfq-4-detail-view/component/recalculation/control/price-unit/price-unit-input.component';
-import { ProdPlantInputComponent } from '@gq/calculator/rfq-4-detail-view/component/recalculation/control/prod-plant/prod-plant-input.component';
-import { SqvInputComponent } from '@gq/calculator/rfq-4-detail-view/component/recalculation/control/sqv/sqv-input.component';
-import { ToolCostInputComponent } from '@gq/calculator/rfq-4-detail-view/component/recalculation/control/tool-cost/tool-cost-input.component';
 import { Rfq4DetailViewStore } from '@gq/calculator/rfq-4-detail-view/store/rfq-4-detail-view.store';
 import { SelectableValue } from '@gq/shared/models/selectable-value.model';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockComponents, MockProvider } from 'ng-mocks';
-
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+import { MockBuilder } from 'ng-mocks';
 
 import {
   CALCULATOR_QUOTATION_DETAIL_DATA_MOCK,
@@ -30,38 +19,24 @@ describe('RecalculationComponent', () => {
   const rfq4recalculationStatus = signal(RecalculateSqvStatus.OPEN);
   const loggedUserAssignedToRfq = signal(true);
 
+  const dependencies = MockBuilder(RecalculationComponent)
+    .mock(TranslocoLocaleService)
+    .mock(Rfq4DetailViewStore, {
+      saveRfq4DetailViewCalculationData: signal(RFQ_CALCULATION_DATA),
+      confirmRfq4DetailViewCalculationData: signal(RFQ_CALCULATION_DATA),
+      getRfq4DetailViewCalculationData: signal(RFQ_CALCULATION_DATA),
+      getQuotationDetailData: signal(CALCULATOR_QUOTATION_DETAIL_DATA_MOCK),
+      getRecalculationStatus: rfq4recalculationStatus,
+      setCalculationDataStatus: signal('INVALID'),
+      confirmRecalculationTriggered: signal(true),
+      isLoggedUserAssignedToRfq: loggedUserAssignedToRfq,
+    })
+    .build();
+
   const createComponent = createComponentFactory({
     component: RecalculationComponent,
-    imports: [
-      provideTranslocoTestingModule({ en: {} }),
-      MockComponents(
-        SqvInputComponent,
-        CurrencyInputComponent,
-        LotSizeInputComponent,
-        PriceUnitInputComponent,
-        CommentInputComponent,
-        CalculatorDetailsInputComponent,
-        ToolCostInputComponent,
-        ProdPlantInputComponent,
-        DeliveryTimeInputComponent
-      ),
-    ],
-    providers: [
-      MockProvider(TranslocoLocaleService),
-      {
-        provide: Rfq4DetailViewStore,
-        useValue: {
-          saveRfq4DetailViewCalculationData: signal(RFQ_CALCULATION_DATA),
-          confirmRfq4DetailViewCalculationData: signal(RFQ_CALCULATION_DATA),
-          getRfq4DetailViewCalculationData: signal(RFQ_CALCULATION_DATA),
-          getQuotationDetailData: signal(CALCULATOR_QUOTATION_DETAIL_DATA_MOCK),
-          getRecalculationStatus: rfq4recalculationStatus,
-          setCalculationDataStatus: signal('INVALID'),
-          confirmRecalculationTriggered: signal(true),
-          isLoggedUserAssignedToRfq: loggedUserAssignedToRfq,
-        },
-      },
-    ],
+    ...dependencies,
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

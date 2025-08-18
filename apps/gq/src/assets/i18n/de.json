@@ -705,6 +705,9 @@
         }
       }
     },
+    "attachments": {
+      "uploadInformation": "{{at}} von {{by}}"
+    },
     "deleteDialog": {
       "title": "Anhang Löschen",
       "dialogInfo": "Sind Sie sich sicher, dass Sie den Anhang löschen möchten?",

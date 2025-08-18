@@ -70,6 +70,11 @@
           }
         }
       },
+      "attachments": {
+        "addAttachmentsButtonLabel": "Anhänge hinzufügen",
+        "addAttachmentDialogTitle": "Anhänge hinzufügen",
+        "deleteButtonDisabledTooltipText": "Löschen nicht möglich. Rekalkulation im Status 'Bestätigt'."
+      },
       "validation": {
         "notValid": "Gib Dezimalzahl ein",
         "required": "{fieldName} erforderlich",
@@ -89,7 +94,8 @@
       }
     },
     "snackBarMessages": {
-      "assignRfq": "Sie sind zugewiesen und der RFQ ist auf 'In Bearbeitung' gesetzt"
+      "assignRfq": "Sie sind zugewiesen und der RFQ ist auf 'In Bearbeitung' gesetzt",
+      "uploadSuccess": "Anhänge erfolgreich hochgeladen"
     }
   },
   "rfq4Overview": {

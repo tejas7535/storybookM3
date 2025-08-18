@@ -7,7 +7,7 @@ import { of, throwError } from 'rxjs';
 
 import { SqvApprovalStatus } from '@gq/shared/models/quotation-detail/cost/sqv-approval-status.enum';
 import { AttachmentsService } from '@gq/shared/services/rest/attachments/attachments.service';
-import { Attachment } from '@gq/shared/services/rest/attachments/models/attachment.interface';
+import { PositionAttachment } from '@gq/shared/services/rest/attachments/models/position-attachment.interface';
 import { UploadRfqSqvCheckApprovalResponse } from '@gq/shared/services/rest/attachments/models/upload-rfq-sqv-approval-response.interface';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
@@ -58,7 +58,7 @@ describe('RfqSqvCheckAttachmentsEffects', () => {
           files: [new File([], 'test')],
         });
         const uploadResponse: UploadRfqSqvCheckApprovalResponse = {
-          uploads: [{ fileName: '1' } as Attachment],
+          uploads: [{ fileName: '1' } as PositionAttachment],
           status: {
             processVariables: {
               approvalStatus: SqvApprovalStatus.APPROVED,

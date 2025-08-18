@@ -69,6 +69,10 @@ class ExampleService {
       {}
     );
   }
+
+  public postRfqCalculatorAttachments(): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/rfq4/12345/attachments`, {});
+  }
 }
 
 describe(`HttpHeaderInterceptor`, () => {
@@ -198,6 +202,23 @@ describe(`HttpHeaderInterceptor`, () => {
         `${environment.baseUrl}/rfq4/12345/download-approval`
       );
       expect(httpRequest.request.method).toEqual('GET');
+
+      expect(
+        httpRequest.request.headers.keys().includes('language')
+      ).toBeFalsy();
+      expect(
+        httpRequest.request.headers.keys().includes('content-type')
+      ).toBeFalsy();
+    });
+
+    test('should add content-type header on calls against /api/v1/rfq4/{rfqId}/attachments when post', () => {
+      service.postRfqCalculatorAttachments().subscribe((res) => {
+        expect(res).toBeTruthy();
+      });
+      const httpRequest = httpMock.expectOne(
+        `${environment.baseUrl}/rfq4/12345/attachments`
+      );
+      expect(httpRequest.request.method).toEqual('POST');
 
       expect(
         httpRequest.request.headers.keys().includes('language')

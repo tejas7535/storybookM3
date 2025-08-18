@@ -70,6 +70,11 @@
           }
         }
       },
+      "attachments": {
+        "addAttachmentsButtonLabel": "Add Attachments",
+        "addAttachmentDialogTitle": "Add Attachments",
+        "deleteButtonDisabledTooltipText": "Deletion not possible. Recalculation in status 'Confirmed'."
+      },
       "validation": {
         "notValid": "Enter decimal number",
         "required": "{fieldName} required",
@@ -89,7 +94,8 @@
       }
     },
     "snackBarMessages": {
-      "assignRfq": "You are assigned and the RFQ is set to in Progress"
+      "assignRfq": "You are assigned and the RFQ is set to in Progress",
+      "uploadSuccess": "Attachments uploaded successfully"
     }
   },
   "rfq4Overview": {

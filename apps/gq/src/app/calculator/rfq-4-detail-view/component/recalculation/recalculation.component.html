@@ -1,5 +1,5 @@
 <ng-container
-  *transloco="let t; read: 'calculator.rfq4DetailView.recalculation'"
+  *transloco="let t; prefix: 'calculator.rfq4DetailView.recalculation'"
 >
   <mat-card
     class="mat-elevation-z0 !shadow-none border-x-border border-y-border w-full grow rounded border-[1px]"
@@ -69,6 +69,9 @@
           </div>
         </ng-container>
       </div>
+      <!-- Attachments Section -->
+      <gq-recalculation-attachments></gq-recalculation-attachments>
+
       <button
         type="submit"
         class="float-right"

@@ -1,4 +1,5 @@
 import { DeliveryTimeUnit } from '@gq/calculator/rfq-4-detail-view/component/recalculation/control/delivery-time/delivery-time-input.component';
+import { AccessibleByEnum } from '@gq/calculator/rfq-4-detail-view/models/accessibly-by.enum';
 import { RecalculateSqvStatus } from '@gq/calculator/rfq-4-detail-view/models/recalculate-sqv-status.enum';
 import {
   CalculatorCustomerData,
@@ -11,6 +12,7 @@ import {
   RfqDetailViewCalculationData,
   RfqDetailViewData,
 } from '@gq/calculator/rfq-4-detail-view/models/rfq-4-detail-view-data.interface';
+import { RfqCalculatorAttachment } from '@gq/calculator/rfq-4-detail-view/models/rfq-calculator-attachments.interface';
 
 export const CALCULATOR_CUSTOMER_DATA_MOCK: CalculatorCustomerData = {
   identifier: {
@@ -116,3 +118,14 @@ export const RFQ_CALCULATION_DATA: RfqDetailViewCalculationData = {
   deliveryTime: 12,
   deliveryTimeUnit: DeliveryTimeUnit.MONTHS,
 };
+
+export const RFQ_CALCULATOR_ATTACHMENTS_MOCK: RfqCalculatorAttachment[] = [
+  {
+    gqId: 4600,
+    accessibleBy: AccessibleByEnum.CALCULATOR,
+    fileName: 'a_filename',
+    rfqId: 317,
+    uploadedAt: '2020-01-01',
+    uploadedBy: 'user',
+  },
+];

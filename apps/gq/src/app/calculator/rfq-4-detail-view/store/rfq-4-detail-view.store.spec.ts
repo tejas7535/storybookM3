@@ -17,6 +17,7 @@ import {
   CALCULATOR_QUOTATION_DETAIL_DATA_MOCK,
   CALCULATOR_RFQ_4_PROCESS_DATA_MOCK,
   CONFIRM_RFQ_RESPONSE_MOCK,
+  RFQ_CALCULATOR_ATTACHMENTS_MOCK,
   RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK,
   RFQ_DETAIL_VIEW_DATA_MOCK,
   RFQ_PRODUCTION_PLANTS,
@@ -43,6 +44,12 @@ describe('Rfq4DetailViewStore', () => {
     confirmRfq4CalculationData: jest
       .fn()
       .mockReturnValue(of(CONFIRM_RFQ_RESPONSE_MOCK)),
+    getCalculatorAttachments: jest
+      .fn()
+      .mockReturnValue(of(RFQ_CALCULATOR_ATTACHMENTS_MOCK)),
+    uploadCalculatorAttachments: jest
+      .fn()
+      .mockReturnValue(of(RFQ_CALCULATOR_ATTACHMENTS_MOCK)),
   };
   const aadUser: ActiveDirectoryUser = {
     firstName: 'firstName',
@@ -249,6 +256,17 @@ describe('Rfq4DetailViewStore', () => {
       const isAssigned = store.isLoggedUserAssignedToRfq();
       expect(isAssigned).toBeTruthy();
     });
+
+    test('isAttachmentUploadSuccess', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      patchState(unprotected(store), {
+        attachmentsLoading: false,
+        attachments: [{} as any],
+      });
+
+      const isSuccess = store.isAttachmentUploadSuccess();
+      expect(isSuccess).toBeTruthy();
+    });
   });
 
   describe('methods', () => {
@@ -411,6 +429,33 @@ describe('Rfq4DetailViewStore', () => {
 
       expect(store.loggedUserId()).toEqual(userId);
     });
+
+    test('getCalculatorAttachments', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      const rfqId = 123;
+
+      store.getCalculatorAttachments(rfqId);
+
+      expect(
+        rfq4DetailViewService.getCalculatorAttachments
+      ).toHaveBeenCalledWith(rfqId);
+      expect(store.attachmentsLoading()).toBeFalsy();
+      expect(store.attachments()).toEqual(RFQ_CALCULATOR_ATTACHMENTS_MOCK);
+    });
+
+    test('uploadCalculatorAttachments', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      const files: File[] = [new File([''], 'test.txt')];
+      const rfqId = 12_345;
+
+      store.uploadCalculatorAttachments(files);
+
+      expect(
+        rfq4DetailViewService.uploadCalculatorAttachments
+      ).toHaveBeenCalledWith(files, rfqId);
+      expect(store.attachmentsLoading()).toBeFalsy();
+      expect(store.attachments()).toEqual(RFQ_CALCULATOR_ATTACHMENTS_MOCK);
+    });
   });
 
   describe('hooks', () => {
@@ -428,6 +473,16 @@ describe('Rfq4DetailViewStore', () => {
       expect(
         productionPlantService.getProductionPlantsForRfq
       ).toHaveBeenCalled();
+    });
+
+    test('onInit calls getCalculatorAttachments', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      TestBed.flushEffects();
+      // Verify the rxMethod was triggered with the correct argument
+      expect(
+        rfq4DetailViewService.getCalculatorAttachments
+      ).toHaveBeenCalledWith(routerRfqId);
+      expect(store.rfq4DetailViewDataLoading()).toBeFalsy();
     });
   });
 });

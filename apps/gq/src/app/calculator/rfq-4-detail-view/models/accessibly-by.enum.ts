@@ -1,0 +1,4 @@
+export enum AccessibleByEnum {
+  CALCULATOR = 'CALCULATOR',
+  CALCULATOR_SALES = 'CALCULATOR_SALES',
+}

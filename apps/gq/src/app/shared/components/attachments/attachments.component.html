@@ -1,0 +1,72 @@
+@for (attachment of attachments(); track $index) {
+  <div class="mb-3">
+    <div
+      class="flex flex-row gap-4 items-center"
+      *transloco="let t; prefix: 'shared.attachments'"
+    >
+      <div
+        class="flex flex-col whitespace-nowrap overflow-hidden text-ellipsis flex-1"
+      >
+        <span
+          class="text-on-surface text-body-medium hover:text-primary hover:underline hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis"
+          (click)="downloadClicked.emit(attachment)"
+        >
+          {{ attachment.fileName }}
+        </span>
+
+        <span class="text-on-surface-variant text-[12px]">
+          {{
+            t('uploadInformation', {
+              at:
+                attachment.uploadedAt | translocoDate: translocoDatePipeConfig,
+              by: attachment.uploadedBy,
+            })
+          }}
+        </span>
+      </div>
+      @if (additionContentTemplate()) {
+        <!-- {{ attachment | json }} -->
+        <ng-container
+          *ngTemplateOutlet="
+            additionContentTemplate();
+            context: { attachment: attachment }
+          "
+        >
+        </ng-container>
+      }
+      <div class="ml-auto text-on-surface-variant mt-1">
+        <div
+          class="group inline-block"
+          [matTooltip]="deleteButtonDisabledTooltipText()"
+          [matTooltipDisabled]="deleteButtonEnabled()"
+        >
+          <button
+            (click)="deleteClicked.emit(attachment)"
+            [disabled]="!deleteButtonEnabled()"
+          >
+            <mat-icon
+              class="!w-5 !h-5 !icon-5 relative text-on-surface-variant hover:!text-link"
+            >
+              <span
+                [ngClass]="
+                  deleteButtonEnabled()
+                    ? 'group-hover:opacity-0'
+                    : 'text-on-surface opacity-[0.38]'
+                "
+              >
+                delete
+              </span>
+              @if (deleteButtonEnabled()) {
+                <mat-icon
+                  class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 !w-5 !h-5 !icon-5 hover:cursor-pointer"
+                >
+                  delete_forever
+                </mat-icon>
+              }
+            </mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

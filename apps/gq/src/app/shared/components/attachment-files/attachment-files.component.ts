@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { getIsQuotationStatusActive } from '@gq/core/store/active-case/active-case.selectors';
-import { TRANSLOCO_DATE_PIPE_CONFIG } from '@gq/process-case-view/tabs/overview-tab/components/approval-cockpit/approval-workflow-approver/consts/transloco-date-pipe-config';
+import { TRANSLOCO_DATE_PIPE_CONFIG } from '@gq/shared/constants/transloco-date-pipe-config';
 import { QuotationAttachment } from '@gq/shared/models';
 import { Store } from '@ngrx/store';
 
