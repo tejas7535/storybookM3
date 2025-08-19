@@ -2,12 +2,6 @@
   "appTitle": "Grease App",
   "homepage": {
     "cards": {
-      "calculator": {
-        "title": {
-          "main": "グリース計算機",
-          "sub": "Powered by Bearinx"
-        }
-      },
       "easyCalc": {
         "title": {
           "main": "medias EasyCalc",

@@ -1,5 +1,4 @@
 export enum HomeCardsTrackingIds {
-  GreaseCalculation = 'greaseCalculation',
   Sources = 'sources',
   LubricatorsLink = 'lubricatorsLink',
   MaintenanceLink = 'maintenanceLink',

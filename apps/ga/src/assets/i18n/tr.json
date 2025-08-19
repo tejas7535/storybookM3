@@ -2,12 +2,6 @@
   "appTitle": "Grease App",
   "homepage": {
     "cards": {
-      "calculator": {
-        "title": {
-          "main": "Gres Hesaplayıcı",
-          "sub": "Bearinx tarafından desteklenmektedir"
-        }
-      },
       "easyCalc": {
         "title": {
           "main": "medias EasyCalc",

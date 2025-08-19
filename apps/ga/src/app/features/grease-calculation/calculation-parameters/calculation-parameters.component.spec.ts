@@ -25,7 +25,6 @@ import { CalculationParametersActions } from '@ga/core/store/actions';
 import { CalculationParametersState } from '@ga/core/store/models';
 import { initialState } from '@ga/core/store/reducers/calculation-parameters/calculation-parameters.reducer';
 import { applicationScenarioDisabledHint } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
-import { ENV, getEnv } from '@ga/environments/environments.provider';
 import { AppStoreButtonsComponent } from '@ga/shared/components/app-store-buttons/app-store-buttons.component';
 import { MediasButtonComponent } from '@ga/shared/components/medias-button';
 import { PreferredGreaseSelectionComponent } from '@ga/shared/components/preferred-grease-selection';
@@ -107,10 +106,6 @@ describe('CalculationParametersComponent', () => {
       {
         provide: translate,
         useValue: jest.fn(),
-      },
-      {
-        provide: ENV,
-        useValue: { ...getEnv(), production: true },
       },
     ],
   });

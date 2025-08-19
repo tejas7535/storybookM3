@@ -2,12 +2,6 @@
   "appTitle": "Grease App",
   "homepage": {
     "cards": {
-      "calculator": {
-        "title": {
-          "main": "그리스 계산기",
-          "sub": "Bearinx 제공"
-        }
-      },
       "easyCalc": {
         "title": {
           "main": "medias EasyCalc",

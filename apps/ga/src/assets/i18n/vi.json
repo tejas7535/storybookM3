@@ -2,12 +2,6 @@
   "appTitle": "Grease App",
   "homepage": {
     "cards": {
-      "calculator": {
-        "title": {
-          "main": "Máy tính mỡ",
-          "sub": "Được cung cấp bởi Bearinx"
-        }
-      },
       "easyCalc": {
         "title": {
           "main": "medias EasyCalc",

@@ -115,9 +115,6 @@ describe('HomeCardsService', () => {
 
       describe('when performing viscosity index calculator action', () => {
         it('should show viscosity index calculator', waitForAsync(() => {
-          Object.defineProperty(service, 'isProduction', { value: false });
-          result = service.homeCards();
-
           const viService = spectator.inject(ViCalculatorService);
 
           result[0].cardAction();

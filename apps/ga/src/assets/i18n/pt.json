@@ -1,12 +1,6 @@
 {
   "appTitle": "Grease App",
   "homepage": {
-    "calculator": {
-      "title": {
-        "main": "Calculadora de massa lubrificante",
-        "sub": "Com o apoio da Bearinx"
-      }
-    },
     "cards": {
       "easyCalc": {
         "title": {
