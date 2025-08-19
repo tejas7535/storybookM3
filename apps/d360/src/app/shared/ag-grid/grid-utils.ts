@@ -2,6 +2,7 @@ import { GridApi } from 'ag-grid-enterprise';
 
 import { ColumnSetting, OverlayTypes } from '../components/table';
 import { OverlayType } from './../components/table/enums/overlay-type.enum';
+import { refreshGridFilters } from './grid-defaults';
 
 export function showFloatingFilters(
   gridApi: GridApi,
@@ -61,6 +62,7 @@ export function applyColumnSettings<ColId extends string>(
     })),
     applyOrder: true,
   });
+  refreshGridFilters(gridApi);
 }
 
 export function resetGrid(gridApi: GridApi) {

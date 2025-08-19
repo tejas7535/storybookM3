@@ -1,4 +1,8 @@
-import { CellDoubleClickedEvent, CellKeyDownEvent } from 'ag-grid-enterprise';
+import {
+  CellDoubleClickedEvent,
+  CellKeyDownEvent,
+  GridApi,
+} from 'ag-grid-enterprise';
 
 import { GlobalSelectionUtils } from '../../feature/global-selection/global-selection.utils';
 import {
@@ -11,6 +15,7 @@ import {
   getDefaultColDef,
   getDefaultColumn,
   KeyEventEnum,
+  refreshGridFilters,
   serverSideTableDefaultProps,
   sideBar,
   tableDefaultProps,
@@ -310,6 +315,66 @@ describe('Grid Defaults', () => {
       );
 
       expect(filter).toBeUndefined();
+    });
+  });
+
+  describe('refreshGridFilters', () => {
+    let mockGridApi: jest.Mocked<GridApi>;
+
+    beforeEach(() => {
+      mockGridApi = {
+        getFilterModel: jest.fn(),
+        setFilterModel: jest.fn(),
+      } as unknown as jest.Mocked<GridApi>;
+      jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it('should refresh filter model after a delay when gridApi is provided', () => {
+      const mockFilterModel = { name: { filter: 'test' } };
+      mockGridApi.getFilterModel.mockReturnValue(mockFilterModel);
+
+      refreshGridFilters(mockGridApi);
+
+      expect(mockGridApi.getFilterModel).not.toHaveBeenCalled();
+      expect(mockGridApi.setFilterModel).not.toHaveBeenCalled();
+
+      jest.advanceTimersByTime(10);
+
+      expect(mockGridApi.getFilterModel).toHaveBeenCalled();
+      expect(mockGridApi.setFilterModel).toHaveBeenCalledWith(mockFilterModel);
+    });
+
+    it('should not call any methods when gridApi is null', () => {
+      refreshGridFilters(null);
+
+      jest.advanceTimersByTime(10);
+
+      expect(mockGridApi.getFilterModel).not.toHaveBeenCalled();
+      expect(mockGridApi.setFilterModel).not.toHaveBeenCalled();
+    });
+
+    it('should not call any methods when gridApi is undefined', () => {
+      refreshGridFilters(undefined as any);
+
+      jest.advanceTimersByTime(10);
+
+      expect(mockGridApi.getFilterModel).not.toHaveBeenCalled();
+      expect(mockGridApi.setFilterModel).not.toHaveBeenCalled();
+    });
+
+    it('should handle empty filter model', () => {
+      const emptyFilterModel = {};
+      mockGridApi.getFilterModel.mockReturnValue(emptyFilterModel);
+
+      refreshGridFilters(mockGridApi);
+      jest.advanceTimersByTime(10);
+
+      expect(mockGridApi.getFilterModel).toHaveBeenCalled();
+      expect(mockGridApi.setFilterModel).toHaveBeenCalledWith(emptyFilterModel);
     });
   });
 });

@@ -2,6 +2,7 @@ import { GridApi } from 'ag-grid-enterprise';
 
 import { OverlayType } from '../components/table/enums/overlay-type.enum';
 import { Stub } from '../test/stub.class';
+import { refreshGridFilters } from './grid-defaults';
 import {
   applyColumnSettings,
   ensureEmptyRowAtBottom,
@@ -10,6 +11,10 @@ import {
   resetGrid,
   showFloatingFilters,
 } from './grid-utils';
+
+jest.mock('./grid-defaults', () => ({
+  refreshGridFilters: jest.fn(),
+}));
 
 describe('Grid Utils', () => {
   let mockGridApi: jest.Mocked<GridApi>;
@@ -58,6 +63,10 @@ describe('Grid Utils', () => {
   });
 
   describe('applyColumnSettings', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
     it('should apply column settings to grid', () => {
       const columnSettings = [
         { colId: 'name', visible: true, sort: 'asc' },
@@ -73,6 +82,17 @@ describe('Grid Utils', () => {
         ],
         applyOrder: true,
       });
+    });
+
+    it('should call refreshGridFilters after applying column settings', () => {
+      const columnSettings = [
+        { colId: 'name', visible: true },
+        { colId: 'age', visible: false },
+      ] as any;
+
+      applyColumnSettings(mockGridApi, columnSettings);
+
+      expect(refreshGridFilters).toHaveBeenCalledWith(mockGridApi);
     });
   });
 

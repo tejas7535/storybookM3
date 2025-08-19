@@ -2,6 +2,7 @@ import {
   CellDoubleClickedEvent,
   CellKeyDownEvent,
   ColDef,
+  GridApi,
   GridOptions,
 } from 'ag-grid-enterprise';
 
@@ -203,4 +204,14 @@ export function getColFilter(
   return criteriaData?.filterableFields?.includes(colId)
     ? filter || AgGridFilterType.Text
     : undefined;
+}
+
+// Refresh the grid filters to fix empty filter dropdown issue
+export function refreshGridFilters(gridApi: GridApi): void {
+  if (gridApi) {
+    setTimeout(() => {
+      const filterModel = gridApi.getFilterModel();
+      gridApi.setFilterModel(filterModel);
+    }, 10);
+  }
 }
