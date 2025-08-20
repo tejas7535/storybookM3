@@ -56,7 +56,6 @@ import {
   DATE_FNS_LOOKUP,
   LocaleType,
 } from './shared/constants/available-locales';
-import { DisableOnProdDirective } from './shared/directives';
 import { UserService } from './shared/services/user.service';
 import { StreamSaverService } from './shared/utils/service/stream-saver.service';
 import { ValidationHelper } from './shared/utils/validation/validation-helper';
@@ -74,7 +73,6 @@ import { ValidationHelper } from './shared/utils/validation/validation-helper';
     CommonModule,
     BannerComponent,
     FeedbackButtonComponent,
-    DisableOnProdDirective,
   ],
   selector: 'd360-root',
   templateUrl: './app.component.html',
