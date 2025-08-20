@@ -13,6 +13,7 @@
                   : 'text-on-surface opacity-[0.38]'
               "
               [matTooltip]="refreshButtonTooltipText"
+              data-cy="refresh-icon"
             >
               refresh</mat-icon
             >
@@ -20,49 +21,68 @@
             <mat-icon
               class="!w-4 !h-4 !text-[16px] text-primary"
               [matTooltip]="t('rfqDataUpToDate')"
+              data-cy="check-icon"
               >check_circle</mat-icon
             >
           }
         </span>
         <gq-label-text>
-          <span label>{{ t('rfqNumber') }}</span>
-          <span text>{{ rfqData.rfqId }}</span>
+          <span data-cy="rfqId-label" label>{{ t('rfqNumber') }}</span>
+          <span data-cy="rfqId-value" text>{{ rfqData.rfqId }}</span>
         </gq-label-text>
         <gq-label-text>
-          <span label>{{ t('rfqType.title') }}</span>
-          <span text>{{ t('rfqType.' + rfqData.type) }}</span>
+          <span data-cy="rfqType-label" label>{{ t('rfqType.title') }}</span>
+          <span data-cy="rfqType-value" text>{{
+            t('rfqType.' + rfqData.type)
+          }}</span>
         </gq-label-text>
         <gq-label-text>
-          <span label>{{ t('rfqStatus.title') }}</span>
-          <span text>{{ t('rfqStatus.' + rfqData.status) }}</span>
+          <span data-cy="rfqStatus-label" label>{{
+            t('rfqStatus.title')
+          }}</span>
+          <span data-cy="rfqStatus-value" text>{{
+            t('rfqStatus.' + rfqData.status)
+          }}</span>
         </gq-label-text>
         <gq-label-text>
-          <span label>{{ t('rfqCreatedOn') }}</span>
-          <span text>{{ rfqData.createdOn | translocoDate }}</span>
+          <span data-cy="createdOn-label" label>{{ t('rfqCreatedOn') }}</span>
+          <span data-cy="createdOn-value" text>{{
+            rfqData.createdOn | translocoDate
+          }}</span>
         </gq-label-text>
         <gq-label-text>
-          <span label>{{ t('rfqCreatedBy') }}</span>
-          <span text>{{ rfqData.createdBy }}</span>
+          <span data-cy="createdBy-label" label>{{ t('rfqCreatedBy') }}</span>
+          <span data-cy="createdBy-value" text>{{ rfqData.createdBy }}</span>
         </gq-label-text>
         <gq-label-text>
-          <span label>{{ t('rfqPlant') }}</span>
-          <span text>{{ rfqData.productionPlant | plantDisplay }}</span>
+          <span data-cy="plant-label" label>{{ t('rfqPlant') }}</span>
+          <span data-cy="plant-value" text>{{
+            rfqData.productionPlant | plantDisplay
+          }}</span>
         </gq-label-text>
         <gq-label-text>
-          <span label>{{ t('deliveryTime') }}</span>
-          <span text>{{ rfqData.deliveryTime | undefinedToDash }}</span>
+          <span data-cy="deliveryTime-label" label>{{
+            t('deliveryTime')
+          }}</span>
+          <span data-cy="deliveryTime-value" text>{{
+            rfqData.deliveryTime | undefinedToDash
+          }}</span>
         </gq-label-text>
         <gq-label-text>
-          <span label>{{ t('deliveryUnit.label') }}</span>
-          <span text>{{
+          <span data-cy="deliveryUnit-label" label>{{
+            t('deliveryUnit.label')
+          }}</span>
+          <span text data-cy="deliveryUnit-value">{{
             rfqData.deliveryUnit
               ? t('deliveryUnit.' + rfqData.deliveryUnit)
               : (rfqData.deliveryUnit | undefinedToDash)
           }}</span>
         </gq-label-text>
         <gq-label-text>
-          <span label>{{ t('rfqSqv') }}</span>
-          <span text>{{ rfqData.sqv | numberCurrency: currency }}</span>
+          <span data-cy="sqv-label" label>{{ t('rfqSqv') }}</span>
+          <span data-cy="sqv-value" text>{{
+            rfqData.sqv | numberCurrency: currency
+          }}</span>
         </gq-label-text>
       </gq-kpi-status-card>
     </div>
