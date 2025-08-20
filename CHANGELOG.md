@@ -2,6 +2,9 @@
 
 **Note:** old/deprecated changelog can be found [here](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/-/blob/184ca646a740a82b55eee4f43c56c076a0ca82e2/CHANGELOG.md)
 
+## 8/20/2025
+* ga: [2.3.0](./apps/ga/CHANGELOG.md)
+
 ## 8/14/2025
 * cdba: [5.6.1](./apps/cdba/CHANGELOG.md)
 
