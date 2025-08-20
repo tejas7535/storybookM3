@@ -11,6 +11,7 @@ import { AttachmentDialogData } from '@gq/shared/components/modal/attachment-fil
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockBuilder } from 'ng-mocks';
 
+import { RFQ_CALCULATOR_ATTACHMENTS_MOCK } from '../../../../../../../testing/mocks/models/calculator/rfq-4-detail-view/rfq-4-detail-view-data.mock';
 import { RecalculationAttachmentsComponent } from './recalculation-attachments.component';
 
 describe('RecalculationAttachmentsComponent', () => {
@@ -28,6 +29,7 @@ describe('RecalculationAttachmentsComponent', () => {
       isAttachmentUploadSuccess: attachmentUploadSuccess,
       attachments: signal([]),
       uploadCalculatorAttachments: jest.fn(),
+      downloadCalculatorAttachment: jest.fn(),
     })
     .build();
 
@@ -102,6 +104,15 @@ describe('RecalculationAttachmentsComponent', () => {
       // get arguments of first mockCall and compare
       const actualArgs = openMock.mock.calls[0];
       expect(actualArgs.toString()).toStrictEqual(expected.toString());
+    });
+  });
+  describe('downloadAttachment', () => {
+    test('should call store', () => {
+      component.downloadAttachment(RFQ_CALCULATOR_ATTACHMENTS_MOCK[0]);
+
+      expect(
+        component['store'].downloadCalculatorAttachment
+      ).toHaveBeenCalledWith(RFQ_CALCULATOR_ATTACHMENTS_MOCK[0]);
     });
   });
 });

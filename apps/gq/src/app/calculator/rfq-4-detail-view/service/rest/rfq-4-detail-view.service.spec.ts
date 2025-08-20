@@ -15,7 +15,10 @@ import {
   SpectatorService,
 } from '@ngneat/spectator/jest';
 
-import { RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK } from '../../../../../testing/mocks/models/calculator/rfq-4-detail-view/rfq-4-detail-view-data.mock';
+import {
+  RFQ_CALCULATOR_ATTACHMENTS_MOCK,
+  RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK,
+} from '../../../../../testing/mocks/models/calculator/rfq-4-detail-view/rfq-4-detail-view-data.mock';
 import { AccessibleByEnum } from '../../models/accessibly-by.enum';
 import { CalculatorAttachmentsResponse } from '../../models/calculator-attachments-response.interface';
 import { Rfq4DetailViewService } from './rfq-4-detail-view.service';
@@ -135,6 +138,19 @@ describe('Rfq4DetailViewService', () => {
         `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/123/${DetailViewPaths.PATH_RFQ4_ATTACHMENTS}`
       );
       expect(req.request.method).toBe('GET');
+    });
+  });
+  describe('downloadCalculatorAttachment', () => {
+    test('should call downloadAttachments with correct URL and params', () => {
+      const attachment = RFQ_CALCULATOR_ATTACHMENTS_MOCK[0];
+
+      service['fileService'].downloadAttachments = jest
+        .fn()
+        .mockReturnValue(of('test.jpg'));
+
+      service.downloadCalculatorAttachment(attachment).subscribe((result) => {
+        expect(result).toEqual('test.jpg');
+      });
     });
   });
 });

@@ -50,6 +50,7 @@ describe('Rfq4DetailViewStore', () => {
     uploadCalculatorAttachments: jest
       .fn()
       .mockReturnValue(of(RFQ_CALCULATOR_ATTACHMENTS_MOCK)),
+    downloadCalculatorAttachment: jest.fn(),
   };
   const aadUser: ActiveDirectoryUser = {
     firstName: 'firstName',
@@ -455,6 +456,16 @@ describe('Rfq4DetailViewStore', () => {
       ).toHaveBeenCalledWith(files, rfqId);
       expect(store.attachmentsLoading()).toBeFalsy();
       expect(store.attachments()).toEqual(RFQ_CALCULATOR_ATTACHMENTS_MOCK);
+    });
+    test('downloadCalculatorAttachment', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      const attachment = RFQ_CALCULATOR_ATTACHMENTS_MOCK[0];
+
+      store.downloadCalculatorAttachment(attachment);
+
+      expect(
+        rfq4DetailViewService.downloadCalculatorAttachment
+      ).toHaveBeenCalledWith(attachment);
     });
   });
 

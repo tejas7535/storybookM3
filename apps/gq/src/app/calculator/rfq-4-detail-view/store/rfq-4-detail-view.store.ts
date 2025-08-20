@@ -669,6 +669,14 @@ export const Rfq4DetailViewStore = signalStore(
         )
       );
 
+      const downloadCalculatorAttachment = rxMethod<RfqCalculatorAttachment>(
+        pipe(
+          switchMap((attachment: RfqCalculatorAttachment) =>
+            rfq4DetailViewService.downloadCalculatorAttachment(attachment)
+          )
+        )
+      );
+
       return {
         loadRfq4DetailViewData,
         loadProcessAssignedToAdUser,
@@ -683,6 +691,7 @@ export const Rfq4DetailViewStore = signalStore(
         setLoggedUser,
         getCalculatorAttachments,
         uploadCalculatorAttachments,
+        downloadCalculatorAttachment,
       };
     }
   ),

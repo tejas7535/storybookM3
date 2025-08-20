@@ -115,7 +115,7 @@ export class RecalculationAttachmentsComponent implements OnInit {
   }
 
   downloadAttachment(attachment: RfqCalculatorAttachment): void {
-    console.log('Download attachment:', attachment);
+    this.store.downloadCalculatorAttachment(attachment);
   }
 
   openConfirmDeleteAttachmentDialog(attachment: RfqCalculatorAttachment): void {

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
@@ -68,6 +68,17 @@ export class Rfq4DetailViewService {
       .pipe(
         map((response: CalculatorAttachmentsResponse) => response.attachments)
       );
+  }
+
+  downloadCalculatorAttachment(
+    attachment: RfqCalculatorAttachment
+  ): Observable<string> {
+    const params = new HttpParams().set('filename', attachment.fileName);
+    const url = `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${attachment.rfqId}/${DetailViewPaths.PATH_RFQ4_ATTACHMENTS}/download`;
+
+    return this.fileService
+      .downloadAttachments(url, params)
+      .pipe(map((response) => this.fileService.saveDownloadFile(response)));
   }
 
   getCalculatorAttachments(
