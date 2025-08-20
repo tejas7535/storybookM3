@@ -1,4 +1,11 @@
 # Release Notes of Grease App
+## [2.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v2.2.1...ga-v2.3.0) (2025-08-20)
+
+
+### Bug Fixes
+
+* **ga:** show vi calculator in production ([#7468](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7468)) ([a13e564](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a13e564fea378f09707bd9af58df57b3ef38e56e))
+
 ## [2.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v2.2.0...ga-v2.2.1) (2025-08-12)
 
 
