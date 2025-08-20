@@ -8,4 +8,5 @@ export interface RfqProcessResponse {
     rfq4Status: Rfq4Status;
     rfqId?: number;
   };
+  allowedToReopen: boolean;
 }

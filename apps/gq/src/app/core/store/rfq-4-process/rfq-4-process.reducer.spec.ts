@@ -92,6 +92,7 @@ describe('rfq4ProcessFeature.reducer', () => {
             gqId: 123,
             gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
           },
+          allowedToReopen: true,
         },
       });
       const state = rfq4ProcessFeature.reducer(fakeState, action);
@@ -133,6 +134,7 @@ describe('rfq4ProcessFeature.reducer', () => {
             gqId: 123,
             gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
           },
+          allowedToReopen: true,
         },
       });
       const state = rfq4ProcessFeature.reducer(fakeState, action);
@@ -254,6 +256,7 @@ describe('rfq4ProcessFeature.reducer', () => {
             gqId: 123,
             gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
           },
+          allowedToReopen: true,
         },
       });
       const state = activeCaseFeature.reducer(fakeState.activeCase, action);
@@ -262,6 +265,9 @@ describe('rfq4ProcessFeature.reducer', () => {
         Rfq4Status.IN_PROGRESS
       );
       expect(state.quotation.quotationDetails[0].rfq4.rfq4Id).toEqual(456);
+      expect(state.quotation.quotationDetails[0].rfq4.allowedToReopen).toEqual(
+        true
+      );
     });
   });
 
@@ -294,6 +300,7 @@ describe('rfq4ProcessFeature.reducer', () => {
             gqId: 123,
             gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
           },
+          allowedToReopen: false,
         },
       });
       const state = activeCaseFeature.reducer(fakeState.activeCase, action);
@@ -302,6 +309,9 @@ describe('rfq4ProcessFeature.reducer', () => {
         Rfq4Status.IN_PROGRESS
       );
       expect(state.quotation.quotationDetails[0].rfq4.rfq4Id).toEqual(456);
+      expect(state.quotation.quotationDetails[0].rfq4.allowedToReopen).toEqual(
+        false
+      );
     });
   });
   describe('sendCancelProcess', () => {
@@ -332,6 +342,7 @@ describe('rfq4ProcessFeature.reducer', () => {
             gqId: 123,
             gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
           },
+          allowedToReopen: true,
         },
       });
       const state = rfq4ProcessFeature.reducer(fakeState, action);

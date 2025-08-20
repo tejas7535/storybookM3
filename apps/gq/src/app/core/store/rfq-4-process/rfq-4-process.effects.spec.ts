@@ -240,6 +240,7 @@ describe('Rfq4Effects', () => {
             gqId: 123,
             gqPositionId: '123456',
           },
+          allowedToReopen: true,
         };
         const expectedAction =
           Rfq4ProcessActions.sendRecalculateSqvRequestSuccess({
@@ -299,6 +300,7 @@ describe('Rfq4Effects', () => {
             gqId: 123,
             gqPositionId: '123456',
           },
+          allowedToReopen: true,
         };
         const expectedAction =
           Rfq4ProcessActions.sendReopenRecalculationRequestSuccess({
@@ -440,6 +442,7 @@ describe('Rfq4Effects', () => {
             gqId: 123,
             gqPositionId,
           },
+          allowedToReopen: false,
         };
         const expectedAction = Rfq4ProcessActions.sendCancelProcessSuccess({
           gqPositionId,

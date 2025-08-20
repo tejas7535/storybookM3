@@ -69,6 +69,7 @@ describe('rfq4ProcessFacade', () => {
               rfq4Status: Rfq4Status.IN_PROGRESS,
               rfqId: 456,
             },
+            allowedToReopen: true,
           },
         });
         const expected = m.cold('b', {
@@ -122,6 +123,7 @@ describe('rfq4ProcessFacade', () => {
               rfq4Status: Rfq4Status.CANCELLED,
               rfqId: 456,
             },
+            allowedToReopen: false,
           },
         });
         const expected = m.cold('b', {
