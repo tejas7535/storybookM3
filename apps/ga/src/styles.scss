@@ -30,6 +30,11 @@ grease-app {
 }
 @tailwind utilities;
 
+/*
+ * Tailwind preflight modified with application scope only
+ */
+@import './preflight';
+
 $logoUrl: '/assets/images/schaeffler-logo.png' !default;
 
 @layer base {
