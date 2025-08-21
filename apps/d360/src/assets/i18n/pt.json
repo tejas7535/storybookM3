@@ -635,6 +635,7 @@
     "error": {
       "check_replacement_type": "Tipo incorreto. Por favor, selecione um valor válido.",
       "fieldNotAllowed": "O campo não deve ser preenchido para o tipo selecionado.",
+      "startOfProductionBeforeCutoverDate": "A data de início da produção não pode ser anterior à data de transição.",
       "substitutionBeforeCutoverDate": "Não é permitida a substituição antes da data de transição"
     },
     "helper_text": {
@@ -1122,7 +1123,6 @@
       "117": "O sucessor {{messageV1}} não está presente em nenhuma planta AP/OP do grupo DC {{messageV2}}.",
       "118": "O sucessor de {{messageV1}} na obra {{messageV2}} é diferente no MARC: {{messageV3}}.",
       "119": "A área de vendas não deve ser atualizada para o tipo de substituição {{messageV1}}.",
-      "123": "Não é permitida uma data SOP anterior à data de transferência",
       "133": "Mais de 2.500 clientes foram selecionados. Por favor, selecione outros dados."
     },
     "error": "Não foi possível encontrar a mensagem com a classe {{messageClass}} e o número {{messageNumber}}."

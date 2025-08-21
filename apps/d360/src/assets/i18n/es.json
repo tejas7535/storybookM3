@@ -635,6 +635,7 @@
     "error": {
       "check_replacement_type": "Tipo incorrecto. Por favor, seleccione un valor válido.",
       "fieldNotAllowed": "El campo no debe rellenarse para el tipo seleccionado.",
+      "startOfProductionBeforeCutoverDate": "No se permite que la fecha de inicio de la producción sea anterior a la fecha de transición.",
       "substitutionBeforeCutoverDate": "No se permite la fecha de sustitución anterior a la fecha de corte."
     },
     "helper_text": {
@@ -1122,7 +1123,6 @@
       "117": "El sucesor {{mensajeV1}} no está presente en ninguna planta AP/OP del grupo DC {{mensajeV2}}.",
       "118": "El sucesor de {{mensajeV1}} en la obra {{mensajeV2}} es diferente en MARC: {{mensajeV3}}.",
       "119": "La superficie de venta no debe actualizarse para el tipo de sustitución {{messageV1}}.",
-      "123": "No se permite la fecha SOP anterior a la fecha de corte",
       "133": "Se han seleccionado más de 2.500 clientes. Seleccione más datos."
     },
     "error": "No se ha podido encontrar el mensaje con la clase {{messageClass}} y el número {{messageNumber}}."

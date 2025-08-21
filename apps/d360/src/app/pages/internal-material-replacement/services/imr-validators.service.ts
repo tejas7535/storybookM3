@@ -74,27 +74,12 @@ export class IMRValidatorsService {
   public cutoverDateBeforeSOP(
     startOfProductionCustomErrorMessage: WritableSignal<string | null>
   ): ValidatorFn {
-    return (formGroup: AbstractControl) => {
-      const errors = ValidationHelper.getStartEndDateValidationErrors(
-        formGroup as FormGroup,
-        false,
-        'cutoverDate',
-        'startOfProduction'
-      );
-
-      if (errors?.['endDate']) {
-        startOfProductionCustomErrorMessage.set(
-          translate('sap_message./SGD/SCM_SOP_SALES.123')
-        );
-        const fg = formGroup as FormGroup;
-        fg.get('cutoverDate')?.markAsTouched();
-        fg.get('startOfProduction')?.markAsTouched();
-      } else {
-        startOfProductionCustomErrorMessage.set(null);
-      }
-
-      return errors;
-    };
+    return this.createDateRangeValidator(
+      'cutoverDate',
+      'startOfProduction',
+      startOfProductionCustomErrorMessage,
+      'internal_material_replacement.error.startOfProductionBeforeCutoverDate'
+    );
   }
 
   /**
@@ -103,30 +88,12 @@ export class IMRValidatorsService {
   public replacementBeforeCutoverDate(
     replacementDateCustomErrorMessage: WritableSignal<string | null>
   ): ValidatorFn {
-    return (formGroup: AbstractControl) => {
-      const errors = ValidationHelper.getStartEndDateValidationErrors(
-        formGroup as FormGroup,
-        false,
-        'cutoverDate',
-        'replacementDate',
-        false
-      );
-
-      if (errors?.['endDate']) {
-        replacementDateCustomErrorMessage.set(
-          translate(
-            'internal_material_replacement.error.substitutionBeforeCutoverDate'
-          )
-        );
-        const fg = formGroup as FormGroup;
-        fg.get('cutoverDate')?.markAsTouched();
-        fg.get('replacementDate')?.markAsTouched();
-      } else {
-        replacementDateCustomErrorMessage.set(null);
-      }
-
-      return errors;
-    };
+    return this.createDateRangeValidator(
+      'cutoverDate',
+      'replacementDate',
+      replacementDateCustomErrorMessage,
+      'internal_material_replacement.error.substitutionBeforeCutoverDate'
+    );
   }
 
   /**
@@ -193,5 +160,33 @@ export class IMRValidatorsService {
       : control?.removeValidators(Validators.required);
 
     control?.updateValueAndValidity({ emitEvent: true });
+  }
+
+  private createDateRangeValidator(
+    startFieldName: string,
+    endFieldName: string,
+    errorMessage: WritableSignal<string | null>,
+    translationKey: string
+  ): ValidatorFn {
+    return (formGroup: AbstractControl) => {
+      const errors = ValidationHelper.getStartEndDateValidationErrors(
+        formGroup as FormGroup,
+        false,
+        startFieldName,
+        endFieldName,
+        false
+      );
+
+      if (errors?.['endDate']) {
+        errorMessage.set(translate(translationKey));
+        const fg = formGroup as FormGroup;
+        fg.get(startFieldName)?.markAsTouched();
+        fg.get(endFieldName)?.markAsTouched();
+      } else {
+        errorMessage.set(null);
+      }
+
+      return errors;
+    };
   }
 }

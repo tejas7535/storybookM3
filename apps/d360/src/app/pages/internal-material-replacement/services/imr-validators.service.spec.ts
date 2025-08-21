@@ -166,7 +166,8 @@ describe('IMRValidatorsService', () => {
         formGroup,
         false,
         'cutoverDate',
-        'startOfProduction'
+        'startOfProduction',
+        false
       );
     });
 
@@ -201,7 +202,7 @@ describe('IMRValidatorsService', () => {
 
       expect(result).toEqual(mockErrors);
       expect(startOfProductionCustomErrorMessage()).toBe(
-        'sap_message./SGD/SCM_SOP_SALES.123'
+        'internal_material_replacement.error.startOfProductionBeforeCutoverDate'
       );
       expect(cutoverDateSpy).toHaveBeenCalled();
       expect(startOfProductionSpy).toHaveBeenCalled();
@@ -248,7 +249,7 @@ describe('IMRValidatorsService', () => {
         const result = validator(formGroup);
         expect(result).toEqual(mockErrors);
         expect(startOfProductionCustomErrorMessage()).toBe(
-          'sap_message./SGD/SCM_SOP_SALES.123'
+          'internal_material_replacement.error.startOfProductionBeforeCutoverDate'
         );
       }).not.toThrow();
     });
@@ -273,6 +274,42 @@ describe('IMRValidatorsService', () => {
 
       expect(result).toBeNull();
       expect(startOfProductionCustomErrorMessage()).toBeNull();
+    });
+
+    it('should return error when cutover date equals start of production date', () => {
+      const startOfProductionCustomErrorMessage = signal<string | null>(null);
+      const formGroup = new FormGroup({
+        cutoverDate: new FormControl(new Date('2025-01-15')),
+        startOfProduction: new FormControl(new Date('2025-01-15')),
+      });
+
+      const mockErrors = { endDate: ['dates-equal'] };
+      mockValidationHelper.getStartEndDateValidationErrors.mockReturnValue(
+        mockErrors
+      );
+
+      const cutoverDateControl = formGroup.get('cutoverDate');
+      const startOfProductionControl = formGroup.get('startOfProduction');
+      const cutoverDateSpy = jest.spyOn(
+        cutoverDateControl as FormControl,
+        'markAsTouched'
+      );
+      const startOfProductionSpy = jest.spyOn(
+        startOfProductionControl as FormControl,
+        'markAsTouched'
+      );
+
+      const validator = service.cutoverDateBeforeSOP(
+        startOfProductionCustomErrorMessage
+      );
+      const result = validator(formGroup);
+
+      expect(result).toEqual(mockErrors);
+      expect(startOfProductionCustomErrorMessage()).toBe(
+        'internal_material_replacement.error.startOfProductionBeforeCutoverDate'
+      );
+      expect(cutoverDateSpy).toHaveBeenCalled();
+      expect(startOfProductionSpy).toHaveBeenCalled();
     });
   });
 
@@ -392,6 +429,42 @@ describe('IMRValidatorsService', () => {
 
       expect(result).toBeNull();
       expect(replacementDateCustomErrorMessage()).toBeNull();
+    });
+
+    it('should return error when replacement date equals cutover date', () => {
+      const replacementDateCustomErrorMessage = signal<string | null>(null);
+      const formGroup = new FormGroup({
+        cutoverDate: new FormControl(new Date('2025-01-15')),
+        replacementDate: new FormControl(new Date('2025-01-15')),
+      });
+
+      const mockErrors = { endDate: ['dates-equal'] };
+      mockValidationHelper.getStartEndDateValidationErrors.mockReturnValue(
+        mockErrors
+      );
+
+      const cutoverDateControl = formGroup.get('cutoverDate');
+      const replacementDateControl = formGroup.get('replacementDate');
+      const cutoverDateSpy = jest.spyOn(
+        cutoverDateControl as FormControl,
+        'markAsTouched'
+      );
+      const replacementDateSpy = jest.spyOn(
+        replacementDateControl as FormControl,
+        'markAsTouched'
+      );
+
+      const validator = service.replacementBeforeCutoverDate(
+        replacementDateCustomErrorMessage
+      );
+      const result = validator(formGroup);
+
+      expect(result).toEqual(mockErrors);
+      expect(replacementDateCustomErrorMessage()).toBe(
+        'internal_material_replacement.error.substitutionBeforeCutoverDate'
+      );
+      expect(cutoverDateSpy).toHaveBeenCalled();
+      expect(replacementDateSpy).toHaveBeenCalled();
     });
   });
 

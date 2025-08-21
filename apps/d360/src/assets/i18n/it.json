@@ -635,6 +635,7 @@
     "error": {
       "check_replacement_type": "Tipo non corretto. Selezionare un valore valido.",
       "fieldNotAllowed": "Il campo non deve essere compilato per il tipo selezionato.",
+      "startOfProductionBeforeCutoverDate": "La data di inizio della produzione non può essere antecedente alla data di transizione.",
       "substitutionBeforeCutoverDate": "La data di sostituzione prima della data di Cutover non è consentita."
     },
     "helper_text": {
@@ -1122,7 +1123,6 @@
       "117": "Il successore {{messageV1}} non è presente in nessun impianto AP/OP del gruppo DC {{messageV2}}.",
       "118": "Il successore di {{messageV1}} nell'opera {{messageV2}} è diverso in MARC: {{messageV3}}.",
       "119": "L'area di vendita non deve essere mantenuta per il tipo di sostituzione {{messageV1}}.",
-      "123": "Non è consentita la data SOP prima della data di cutover",
       "133": "Sono stati selezionati oltre 2.500 clienti. Selezionare ulteriori dati."
     },
     "error": "Non è stato possibile trovare un messaggio con classe {{messageClass}} e numero {{messageNumber}}."

@@ -635,6 +635,7 @@
     "error": {
       "check_replacement_type": "Type incorrect. Please select a valid value.",
       "fieldNotAllowed": "The field must not be filled for the selected type.",
+      "startOfProductionBeforeCutoverDate": "Start of Production Date before Cutover Date is not allowed",
       "substitutionBeforeCutoverDate": "Substitution Date before Cutover Date is not allowed"
     },
     "helper_text": {
@@ -1122,7 +1123,6 @@
       "117": "Successor {{messageV1}} is not present in any AP/OP plant of DC group {{messageV2}}.",
       "118": "Successor for {{messageV1}} in plant {{messageV2}} is different in MARC: {{messageV3}}.",
       "119": "The sales area must not be maintained for the {{messageV1}} substitution type.",
-      "123": "SOP date before cutover date is not allowed",
       "133": "More than 2,500 customers have been selected. Please select further data."
     },
     "error": "Message with class {{messageClass}} and number {{messageNumber}} could not be found."
