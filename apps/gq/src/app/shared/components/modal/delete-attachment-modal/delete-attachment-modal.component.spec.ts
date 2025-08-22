@@ -3,31 +3,33 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
-import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { Attachment } from '@gq/shared/services/rest/attachments/models/attachment.interface';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
-import { MockProvider } from 'ng-mocks';
+import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { DialogHeaderModule } from '../../header/dialog-header/dialog-header.module';
 import { DeletingAttachmentModalComponent } from './delete-attachment-modal.component';
 
 describe('DeletingAttachmentModalComponent', () => {
-  let component: DeletingAttachmentModalComponent;
-  let spectator: Spectator<DeletingAttachmentModalComponent>;
+  let component: DeletingAttachmentModalComponent<any>;
+  let spectator: Spectator<DeletingAttachmentModalComponent<any>>;
 
   const createComponent = createComponentFactory({
     component: DeletingAttachmentModalComponent,
-    imports: [provideTranslocoTestingModule({ en: {} }), PushPipe],
+    imports: [
+      provideTranslocoTestingModule({ en: {} }),
+      PushPipe,
+      MockModule(DialogHeaderModule),
+    ],
     providers: [
       { provide: MatDialogRef, useValue: {} },
       {
         provide: MAT_DIALOG_DATA,
-        useValue: {
-          attachment: {},
-        },
+        useValue: {},
       },
-      MockProvider(ActiveCaseFacade),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
@@ -60,18 +62,18 @@ describe('DeletingAttachmentModalComponent', () => {
       const closeDialogSpy = jest.spyOn(component, 'closeDialog');
       closeDialogSpy.mockImplementation();
 
-      const facadeMock: ActiveCaseFacade = {
-        deleteAttachmentSuccess$: of(true),
-        deleteAttachment: jest.fn(),
-      } as unknown as ActiveCaseFacade;
-
-      Object.defineProperty(component, 'activeCaseFacade', {
-        value: facadeMock,
-      });
+      component.modalData.delete = jest.fn();
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      component.modalData.deleteSuccess$ = of(undefined);
+      component.modalData.attachment = { gqId: 123 } as unknown as Attachment;
 
       component.confirmDelete();
 
       expect(closeDialogSpy).toHaveBeenCalledTimes(1);
+      expect(component.modalData.delete).toHaveBeenCalledTimes(1);
+      expect(component.modalData.delete).toHaveBeenCalledWith(
+        component.modalData.attachment
+      );
     });
   });
 });

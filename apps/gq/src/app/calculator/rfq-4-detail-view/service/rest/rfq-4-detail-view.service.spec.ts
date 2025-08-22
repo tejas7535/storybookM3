@@ -21,6 +21,7 @@ import {
 } from '../../../../../testing/mocks/models/calculator/rfq-4-detail-view/rfq-4-detail-view-data.mock';
 import { AccessibleByEnum } from '../../models/accessibly-by.enum';
 import { CalculatorAttachmentsResponse } from '../../models/calculator-attachments-response.interface';
+import { RfqCalculatorAttachment } from '../../models/rfq-calculator-attachments.interface';
 import { Rfq4DetailViewService } from './rfq-4-detail-view.service';
 import { DetailViewPaths } from './rfq-4-detail-view-paths.enum';
 
@@ -138,6 +139,24 @@ describe('Rfq4DetailViewService', () => {
         `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/123/${DetailViewPaths.PATH_RFQ4_ATTACHMENTS}`
       );
       expect(req.request.method).toBe('GET');
+    });
+  });
+
+  describe('deleteCalculatorAttachment', () => {
+    test('should call delete with correct URL and params', () => {
+      const attachment = {
+        fileName: 'test.txt',
+        gqId: 123,
+        rfqId: 456,
+      } as RfqCalculatorAttachment;
+
+      service.deleteCalculatorAttachment(attachment).subscribe();
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/456/${DetailViewPaths.PATH_RFQ4_ATTACHMENTS}?filename=test.txt`
+      );
+      expect(req.request.method).toBe('DELETE');
+      expect(req.request.params.get('filename')).toBe(attachment.fileName);
     });
   });
   describe('downloadCalculatorAttachment', () => {

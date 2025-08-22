@@ -8,6 +8,8 @@ import { RfqCalculatorAttachment } from '@gq/calculator/rfq-4-detail-view/models
 import { Rfq4DetailViewStore } from '@gq/calculator/rfq-4-detail-view/store/rfq-4-detail-view.store';
 import { AttachmentFilesUploadModalComponent } from '@gq/shared/components/modal/attachment-files-upload-modal/attachment-files-upload-modal.component';
 import { AttachmentDialogData } from '@gq/shared/components/modal/attachment-files-upload-modal/models/attachment-dialog-data.interface';
+import { DeletingAttachmentModalComponent } from '@gq/shared/components/modal/delete-attachment-modal/delete-attachment-modal.component';
+import { DeleteAttachmentDialogData } from '@gq/shared/components/modal/delete-attachment-modal/models/delete-attachment-dialog-data.interface';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockBuilder } from 'ng-mocks';
 
@@ -21,14 +23,17 @@ describe('RecalculationAttachmentsComponent', () => {
   const rfq4recalculationStatus = signal(RecalculateSqvStatus.OPEN);
   const loggedUserAssignedToRfq = signal(true);
   const attachmentUploadSuccess = signal(false);
+  const deleteAttachmentSuccess = signal(false);
 
   const dependencies = MockBuilder(RecalculationAttachmentsComponent)
     .mock(Rfq4DetailViewStore, {
       getRecalculationStatus: rfq4recalculationStatus,
       isLoggedUserAssignedToRfq: loggedUserAssignedToRfq,
       isAttachmentUploadSuccess: attachmentUploadSuccess,
+      isAttachmentDeleteSuccess: deleteAttachmentSuccess,
       attachments: signal([]),
       uploadCalculatorAttachments: jest.fn(),
+      deleteCalculatorAttachment: jest.fn(),
       downloadCalculatorAttachment: jest.fn(),
     })
     .build();
@@ -54,6 +59,17 @@ describe('RecalculationAttachmentsComponent', () => {
       });
       component.ngOnInit();
       attachmentUploadSuccess.set(true);
+      spectator.detectChanges();
+      expect(testResult).toBeTruthy();
+    });
+
+    test('should emit deleteSuccessfulSubject when isAttachmentDeleteSuccess is true', () => {
+      let testResult = false;
+      component['deleteSuccessfulSubject'].subscribe(() => {
+        testResult = true;
+      });
+      component.ngOnInit();
+      deleteAttachmentSuccess.set(true);
       spectator.detectChanges();
       expect(testResult).toBeTruthy();
     });
@@ -98,6 +114,45 @@ describe('RecalculationAttachmentsComponent', () => {
       ];
 
       component.openAddFileDialog();
+
+      expect(openMock).toHaveBeenCalledTimes(1);
+      // workAround because strictEquality
+      // get arguments of first mockCall and compare
+      const actualArgs = openMock.mock.calls[0];
+      expect(actualArgs.toString()).toStrictEqual(expected.toString());
+    });
+  });
+
+  describe('openConfirmDeleteAttachmentDialog', () => {
+    test('should open delete attachment dialog', () => {
+      const attachment: RfqCalculatorAttachment = {
+        fileName: 'test.txt',
+        gqId: 123,
+        rfqId: 456,
+      } as RfqCalculatorAttachment;
+
+      const openMock = jest.fn(
+        () =>
+          ({
+            afterClosed: () => {},
+          }) as any
+      );
+      component['dialog'].open = openMock;
+      const expected = [
+        DeletingAttachmentModalComponent,
+        {
+          width: '634px',
+          disableClose: true,
+          data: {
+            attachment,
+            delete: jest.fn().bind(component['store']),
+            deleteSuccess$: of(),
+            deleting$: of(false),
+          } as DeleteAttachmentDialogData<RfqCalculatorAttachment>,
+        },
+      ];
+
+      component.openConfirmDeleteAttachmentDialog(attachment);
 
       expect(openMock).toHaveBeenCalledTimes(1);
       // workAround because strictEquality

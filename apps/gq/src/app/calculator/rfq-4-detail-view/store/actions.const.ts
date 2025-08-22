@@ -56,4 +56,10 @@ export const RFQ4_DETAIL_VIEW_ACTIONS = {
     '[RFQ4 Detail View] Upload Calculator Attachments Success',
   UPLOAD_CALCULATOR_ATTACHMENTS_FAILURE:
     '[RFQ4 Detail View] Upload Calculator Attachments Failure',
+  DELETE_CALCULATOR_ATTACHMENT:
+    '[RFQ4 Detail View] Delete Calculator Attachment',
+  DELETE_CALCULATOR_ATTACHMENT_SUCCESS:
+    '[RFQ4 Detail View] Delete Calculator Attachment Success',
+  DELETE_CALCULATOR_ATTACHMENT_FAILURE:
+    '[RFQ4 Detail View] Delete Calculator Attachment Failure',
 };

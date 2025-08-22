@@ -23,6 +23,7 @@ import {
   RFQ_PRODUCTION_PLANTS,
 } from '../../../../testing/mocks/models/calculator/rfq-4-detail-view/rfq-4-detail-view-data.mock';
 import { RecalculateSqvStatus } from '../models/recalculate-sqv-status.enum';
+import { RfqCalculatorAttachment } from '../models/rfq-calculator-attachments.interface';
 import { Rfq4DetailViewService } from '../service/rest/rfq-4-detail-view.service';
 import { Rfq4DetailViewStore } from './rfq-4-detail-view.store';
 
@@ -51,6 +52,9 @@ describe('Rfq4DetailViewStore', () => {
       .fn()
       .mockReturnValue(of(RFQ_CALCULATOR_ATTACHMENTS_MOCK)),
     downloadCalculatorAttachment: jest.fn(),
+    deleteCalculatorAttachment: jest
+      .fn()
+      .mockReturnValue(of([] as RfqCalculatorAttachment[])),
   };
   const aadUser: ActiveDirectoryUser = {
     firstName: 'firstName',
@@ -268,6 +272,17 @@ describe('Rfq4DetailViewStore', () => {
       const isSuccess = store.isAttachmentUploadSuccess();
       expect(isSuccess).toBeTruthy();
     });
+
+    test('isAttachmentDeleteSuccess', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      patchState(unprotected(store), {
+        attachmentsDeleting: false,
+        attachments: [{} as any],
+      });
+
+      const isSuccess = store.isAttachmentDeleteSuccess();
+      expect(isSuccess).toBeTruthy();
+    });
   });
 
   describe('methods', () => {
@@ -466,6 +481,17 @@ describe('Rfq4DetailViewStore', () => {
       expect(
         rfq4DetailViewService.downloadCalculatorAttachment
       ).toHaveBeenCalledWith(attachment);
+    });
+    test('deleteCalculatorAttachment', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      const attachment: RfqCalculatorAttachment = {} as RfqCalculatorAttachment;
+
+      store.deleteCalculatorAttachment(attachment);
+      expect(
+        rfq4DetailViewService.deleteCalculatorAttachment
+      ).toHaveBeenCalledWith(attachment);
+      expect(store.attachmentsDeleting()).toBeFalsy();
+      expect(store.attachments()).toEqual([]);
     });
   });
 

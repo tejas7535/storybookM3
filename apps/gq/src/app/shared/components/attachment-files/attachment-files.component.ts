@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { AttachmentFilesUploadModalComponent } from '../modal/attachment-files-upload-modal/attachment-files-upload-modal.component';
 import { AttachmentDialogData } from '../modal/attachment-files-upload-modal/models/attachment-dialog-data.interface';
 import { DeletingAttachmentModalComponent } from '../modal/delete-attachment-modal/delete-attachment-modal.component';
+import { DeleteAttachmentDialogData } from '../modal/delete-attachment-modal/models/delete-attachment-dialog-data.interface';
 @Component({
   selector: 'gq-attachment-files',
   templateUrl: './attachment-files.component.html',
@@ -54,7 +55,14 @@ export class AttachmentFilesComponent implements OnInit {
     this.dialog.open(DeletingAttachmentModalComponent, {
       width: '634px',
       disableClose: true,
-      data: { attachment },
+      data: {
+        attachment,
+        delete: this.activeCaseFacade.deleteAttachment.bind(
+          this.activeCaseFacade
+        ),
+        deleteSuccess$: this.activeCaseFacade.deleteAttachmentSuccess$,
+        deleting$: this.activeCaseFacade.deletionAttachmentInProgress$,
+      } as DeleteAttachmentDialogData<QuotationAttachment>,
     });
   }
 

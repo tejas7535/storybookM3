@@ -18,6 +18,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { AttachmentFilesUploadModalComponent } from '../modal/attachment-files-upload-modal/attachment-files-upload-modal.component';
 import { AttachmentDialogData } from '../modal/attachment-files-upload-modal/models/attachment-dialog-data.interface';
 import { DeletingAttachmentModalComponent } from '../modal/delete-attachment-modal/delete-attachment-modal.component';
+import { DeleteAttachmentDialogData } from '../modal/delete-attachment-modal/models/delete-attachment-dialog-data.interface';
 import { AttachmentFilesComponent } from './attachment-files.component';
 
 describe('AttachmentFilesComponent', () => {
@@ -97,15 +98,30 @@ describe('AttachmentFilesComponent', () => {
         }) as any
     );
     component['dialog'].open = openMock;
+    component.activeCaseFacade.deleteAttachmentSuccess$ = of();
+    component.activeCaseFacade.deletionAttachmentInProgress$ = of(false);
+    component.activeCaseFacade.deleteAttachment = jest.fn();
+    const expected = [
+      DeletingAttachmentModalComponent,
+      {
+        width: '634px',
+        disableClose: true,
+        data: {
+          delete: jest.fn().bind(component.activeCaseFacade),
+          deleting$: of(false),
+          deleteSuccess$: of(),
+          attachment,
+        } as DeleteAttachmentDialogData<QuotationAttachment>,
+      },
+    ];
 
     component.openConfirmDeleteAttachmentDialog(attachment);
 
     expect(openMock).toHaveBeenCalledTimes(1);
-    expect(openMock).toHaveBeenCalledWith(DeletingAttachmentModalComponent, {
-      width: '634px',
-      disableClose: true,
-      data: { attachment },
-    });
+    // workAround because strictEquality
+    // get arguments of first mockCall and compare
+    const actualArgs = openMock.mock.calls[0];
+    expect(actualArgs.toString()).toStrictEqual(expected.toString());
   });
 
   describe('download attachment', () => {

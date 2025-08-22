@@ -56,6 +56,7 @@ interface Rfq4DetailViewState {
   loggedUserId: string;
   attachments: RfqCalculatorAttachment[] | null;
   attachmentsLoading: boolean;
+  attachmentsDeleting: boolean;
 }
 
 const initialState: Rfq4DetailViewState = {
@@ -73,6 +74,7 @@ const initialState: Rfq4DetailViewState = {
   loggedUserId: null,
   attachments: null,
   attachmentsLoading: false,
+  attachmentsDeleting: false,
 };
 
 export const Rfq4DetailViewStore = signalStore(
@@ -140,6 +142,10 @@ export const Rfq4DetailViewStore = signalStore(
         !store.attachmentsLoading() &&
         store.attachments() !== null &&
         store.attachments().length > 0
+    ),
+    isAttachmentDeleteSuccess: computed(
+      (): boolean =>
+        !store.attachmentsDeleting() && store.attachments() !== null
     ),
   })),
   withProps(() => ({
@@ -677,6 +683,44 @@ export const Rfq4DetailViewStore = signalStore(
         )
       );
 
+      const deleteCalculatorAttachment = rxMethod<RfqCalculatorAttachment>(
+        pipe(
+          tap(() =>
+            updateState(
+              store,
+              RFQ4_DETAIL_VIEW_ACTIONS.DELETE_CALCULATOR_ATTACHMENT,
+              { attachmentsDeleting: true }
+            )
+          ),
+          switchMap((attachment: RfqCalculatorAttachment) =>
+            rfq4DetailViewService.deleteCalculatorAttachment(attachment).pipe(
+              tapResponse({
+                next: (attachments: RfqCalculatorAttachment[]) => {
+                  updateState(
+                    store,
+                    RFQ4_DETAIL_VIEW_ACTIONS.DELETE_CALCULATOR_ATTACHMENT_SUCCESS,
+                    {
+                      attachments,
+                      attachmentsDeleting: false,
+                    }
+                  );
+                  const successMessage = translate(
+                    'calculator.rfq4DetailView.snackBarMessages.deleteSuccess'
+                  );
+                  snackBar.open(successMessage);
+                },
+                error: () =>
+                  updateState(
+                    store,
+                    RFQ4_DETAIL_VIEW_ACTIONS.DELETE_CALCULATOR_ATTACHMENT_FAILURE,
+                    { attachmentsDeleting: false }
+                  ),
+              })
+            )
+          )
+        )
+      );
+
       return {
         loadRfq4DetailViewData,
         loadProcessAssignedToAdUser,
@@ -692,6 +736,7 @@ export const Rfq4DetailViewStore = signalStore(
         getCalculatorAttachments,
         uploadCalculatorAttachments,
         downloadCalculatorAttachment,
+        deleteCalculatorAttachment,
       };
     }
   ),

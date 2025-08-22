@@ -92,4 +92,18 @@ export class Rfq4DetailViewService {
         map((response: CalculatorAttachmentsResponse) => response.attachments)
       );
   }
+  deleteCalculatorAttachment(
+    attachment: RfqCalculatorAttachment
+  ): Observable<RfqCalculatorAttachment[]> {
+    const params = new HttpParams().set('filename', attachment.fileName);
+
+    return this.http
+      .delete<CalculatorAttachmentsResponse>(
+        `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${attachment.rfqId}/${DetailViewPaths.PATH_RFQ4_ATTACHMENTS}`,
+        { params }
+      )
+      .pipe(
+        map((response: CalculatorAttachmentsResponse) => response.attachments)
+      );
+  }
 }

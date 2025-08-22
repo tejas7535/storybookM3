@@ -1,18 +1,23 @@
 <div
   class="flex h-full flex-col"
-  *transloco="let t; read: 'shared.deleteDialog'"
+  *transloco="let t; prefix: 'shared.deleteDialog'"
 >
-  <gq-dialog-header [title]="t('title')" (closeDialog)="closeDialog()">
+  <gq-dialog-header
+    [title]="modalData.dialogTitle ?? t('title')"
+    (closeDialog)="closeDialog()"
+  >
   </gq-dialog-header>
 
-  @if (!(activeCaseFacade.deletionAttachmentInProgress$ | ngrxPush)) {
-    <p class="text-body-large mt-5 text-on-surface">{{ t('dialogInfo') }}</p>
+  @if (!(modalData.deleting$ | ngrxPush)) {
+    <p class="text-body-large mt-5 text-on-surface">
+      {{ modalData.dialogSubtitle ?? t('dialogInfo') }}
+    </p>
     <div class="pt-8 flex justify-end gap-4">
-      <button class="!ml-4 !px-4" (click)="closeDialog()" mat-button>
+      <button (click)="closeDialog()" mat-button>
         <span> {{ t('cancelButton') }} </span>
       </button>
-      <button class="!px-4" mat-flat-button (click)="confirmDelete()">
-        <span> {{ t('deleteButton') }} </span>
+      <button mat-flat-button (click)="confirmDelete()">
+        <span> {{ modalData.deleteButtonCaption ?? t('deleteButton') }} </span>
       </button>
     </div>
   } @else {

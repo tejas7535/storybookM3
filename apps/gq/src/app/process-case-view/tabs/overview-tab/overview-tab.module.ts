@@ -13,7 +13,7 @@ import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/d
 import { HorizontalDividerComponent } from '@gq/shared/components/horizontal-divider/horizontal-divider.component';
 import { KpiStatusCardComponent } from '@gq/shared/components/kpi-status-card/kpi-status-card.component';
 import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
-import { DeletingAttachmentModalModule } from '@gq/shared/components/modal/delete-attachment-modal/delete-attachment-modal.module';
+import { DeletingAttachmentModalComponent } from '@gq/shared/components/modal/delete-attachment-modal/delete-attachment-modal.component';
 import { StarRatingModule } from '@gq/shared/components/star-rating/star-rating.module';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
@@ -66,7 +66,7 @@ import { OverviewTabRoutingModule } from './overview-tab.routing.module';
     UserSelectComponent,
     LetDirective,
     AttachmentFilesModule,
-    DeletingAttachmentModalModule,
+    DeletingAttachmentModalComponent,
     SharedDirectivesModule,
     StarRatingModule,
     TranslocoDatePipe,

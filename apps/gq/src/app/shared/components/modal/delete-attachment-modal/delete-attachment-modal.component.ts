@@ -1,37 +1,46 @@
-import { Component, Inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { take } from 'rxjs';
 
-import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
-import { QuotationAttachment } from '@gq/shared/models';
+import { Attachment } from '@gq/shared/services/rest/attachments/models/attachment.interface';
+import { PushPipe } from '@ngrx/component';
+
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { DialogHeaderModule } from '../../header/dialog-header/dialog-header.module';
+import { DeleteAttachmentDialogData } from './models/delete-attachment-dialog-data.interface';
 
 @Component({
   selector: 'gq-delete-attachment-modal',
   templateUrl: './delete-attachment-modal.component.html',
-  standalone: false,
+  imports: [
+    CommonModule,
+    PushPipe,
+    MatButtonModule,
+    DialogHeaderModule,
+    SharedTranslocoModule,
+    LoadingSpinnerModule,
+  ],
 })
-export class DeletingAttachmentModalComponent {
-  constructor(
-    @Inject(MAT_DIALOG_DATA)
-    public modalData: {
-      attachment: QuotationAttachment;
-    },
-    private readonly dialogRef: MatDialogRef<DeletingAttachmentModalComponent>,
-    public readonly activeCaseFacade: ActiveCaseFacade
-  ) {}
+export class DeletingAttachmentModalComponent<T extends Attachment> {
+  modalData: DeleteAttachmentDialogData<T> = inject(MAT_DIALOG_DATA);
+  private readonly dialogRef: MatDialogRef<
+    DeletingAttachmentModalComponent<T>
+  > = inject(MatDialogRef);
 
   closeDialog(): void {
     this.dialogRef.close();
   }
 
   confirmDelete(): void {
-    this.activeCaseFacade.deleteAttachment(this.modalData.attachment);
+    this.modalData.delete(this.modalData.attachment);
 
-    this.activeCaseFacade.deleteAttachmentSuccess$
-      .pipe(take(1))
-      .subscribe(() => {
-        this.closeDialog();
-      });
+    this.modalData.deleteSuccess$.pipe(take(1)).subscribe(() => {
+      this.closeDialog();
+    });
   }
 }

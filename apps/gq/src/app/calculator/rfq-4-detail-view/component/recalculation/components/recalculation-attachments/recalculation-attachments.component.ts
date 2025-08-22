@@ -24,6 +24,8 @@ import { Rfq4DetailViewStore } from '@gq/calculator/rfq-4-detail-view/store/rfq-
 import { AttachmentsComponent } from '@gq/shared/components/attachments/attachments.component';
 import { AttachmentFilesUploadModalComponent } from '@gq/shared/components/modal/attachment-files-upload-modal/attachment-files-upload-modal.component';
 import { AttachmentDialogData } from '@gq/shared/components/modal/attachment-files-upload-modal/models/attachment-dialog-data.interface';
+import { DeletingAttachmentModalComponent } from '@gq/shared/components/modal/delete-attachment-modal/delete-attachment-modal.component';
+import { DeleteAttachmentDialogData } from '@gq/shared/components/modal/delete-attachment-modal/models/delete-attachment-dialog-data.interface';
 import { translate } from '@jsverse/transloco';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -63,7 +65,9 @@ export class RecalculationAttachmentsComponent implements OnInit {
   );
 
   readonly canUploadOrDeleteAttachments = computed(
-    () => this.recalculationStatus() !== RecalculateSqvStatus.CONFIRMED
+    () =>
+      this.recalculationStatus() === RecalculateSqvStatus.IN_PROGRESS &&
+      this.isLoggedUserAssignedToRfq()
   );
 
   readonly attachments = computed<RfqCalculatorAttachment[]>(
@@ -72,6 +76,8 @@ export class RecalculationAttachmentsComponent implements OnInit {
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   private readonly uploadSuccessfulSubject: Subject<void> = new Subject<void>();
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  private readonly deleteSuccessfulSubject: Subject<void> = new Subject<void>();
 
   attachmentLoading = this.store.attachmentsLoading;
 
@@ -80,6 +86,15 @@ export class RecalculationAttachmentsComponent implements OnInit {
       () => {
         if (this.store.isAttachmentUploadSuccess()) {
           this.uploadSuccessfulSubject.next();
+        }
+      },
+      { injector: this.injector }
+    );
+
+    effect(
+      () => {
+        if (this.store.isAttachmentDeleteSuccess()) {
+          this.deleteSuccessfulSubject.next();
         }
       },
       { injector: this.injector }
@@ -119,6 +134,18 @@ export class RecalculationAttachmentsComponent implements OnInit {
   }
 
   openConfirmDeleteAttachmentDialog(attachment: RfqCalculatorAttachment): void {
-    console.log('Open confirm delete dialog for attachment:', attachment);
+    this.dialog.open(DeletingAttachmentModalComponent, {
+      width: '634px',
+      disableClose: true,
+      data: {
+        attachment,
+        delete: this.store.deleteCalculatorAttachment.bind(this.store),
+
+        deleting$: toObservable(this.store.attachmentsLoading, {
+          injector: this.injector,
+        }),
+        deleteSuccess$: this.deleteSuccessfulSubject.asObservable(),
+      } as DeleteAttachmentDialogData<RfqCalculatorAttachment>,
+    });
   }
 }
