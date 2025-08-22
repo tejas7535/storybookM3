@@ -2,5 +2,7 @@
   <span class="text-body-small text-on-surface opacity-[0.38]">{{
     caption()
   }}</span>
-  <span class="text-title-medium text-on-surface-variant">{{ value() }}</span>
+  <span class="text-title-medium text-on-surface-variant">{{
+    value() | undefinedToDash
+  }}</span>
 </div>

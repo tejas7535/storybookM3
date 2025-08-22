@@ -9,15 +9,15 @@
     [cancelled]="rfq4Status() === rfq4StatusEnum.CANCELLED"
   ></gq-recalculation-progress>
   <gq-recalculation-data
-    [quotationDetail]="modalData().quotationDetail"
+    [quotationDetail]="quotationDetail()"
     [hasAssignee]="hasAssignee()"
+    [assignee]="assignee()"
     [rfq4Status]="rfq4Status()"
+    [processHistoryData]="processHistoryData()"
   ></gq-recalculation-data>
   <!--footer-->
   <div class="flex justify-between pt-4 gap-4">
-    @if (
-      modalData().quotationDetail.rfq4.rfq4Status === rfq4StatusEnum.IN_PROGRESS
-    ) {
+    @if (quotationDetail().rfq4.rfq4Status === rfq4StatusEnum.IN_PROGRESS) {
       <button
         mat-button
         disableRipple
@@ -27,15 +27,14 @@
         {{ t('cancelButton') }}
       </button>
     } @else if (
-      modalData().quotationDetail.rfq4.rfq4Status ===
-        rfq4StatusEnum.CONFIRMED ||
-      modalData().quotationDetail.rfq4.rfq4Status === rfq4StatusEnum.CANCELLED
+      quotationDetail().rfq4.rfq4Status === rfq4StatusEnum.CONFIRMED ||
+      quotationDetail().rfq4.rfq4Status === rfq4StatusEnum.CANCELLED
     ) {
       <button
         mat-button
         [disabled]="
-          !modalData().quotationDetail.rfq4.allowedToReopen ||
-          modalData().quotationDetail.rfq4?.sqvApprovalStatus ===
+          !quotationDetail().rfq4.allowedToReopen ||
+          quotationDetail().rfq4?.sqvApprovalStatus ===
             sqvApprovalStatusEnum.APPROVAL_NEEDED
         "
         (click)="triggerChangeProcess(recalculationProcessActionEnum.REOPEN)"

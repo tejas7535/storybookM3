@@ -16,7 +16,9 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import { RFQ_4_PROCESS_HISTORY_MOCK } from '../../../../testing/mocks/models/calculator/rfq-4-overview/rfq-4-overview-data-mock';
 import * as mailConsts from './consts/maintainer-mail.consts';
+import { RfqProcessHistory } from './model/process-history.model';
 import { Rfq4ProcessActions } from './rfq-4-process.actions';
 import { Rfq4ProcessEffects } from './rfq-4-process.effects';
 import { rfq4ProcessFeature } from './rfq-4-process.reducer';
@@ -483,6 +485,52 @@ describe('Rfq4Effects', () => {
         const expected = m.cold('--b', { b: result });
 
         m.expect(effects.sendCancelProcessRequest$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('getProcessHistoryData$', () => {
+    test(
+      'should call getProcessHistory and return success action',
+      marbles((m) => {
+        const gqPositionId = '123456';
+        action = Rfq4ProcessActions.getProcessHistory({ gqPositionId });
+
+        const mockResponse: RfqProcessHistory = RFQ_4_PROCESS_HISTORY_MOCK;
+
+        const expectedAction = Rfq4ProcessActions.getProcessHistorySuccess({
+          processHistory: mockResponse,
+        });
+        rfq4Service.getProcessHistory = jest
+          .fn()
+          .mockReturnValue(of(mockResponse));
+
+        actions$ = of(action);
+
+        m.expect(effects.getProcessHistoryData$).toBeObservable(
+          m.cold('(a|)', {
+            a: expectedAction,
+          })
+        );
+      })
+    );
+
+    test(
+      'should call getProcessHistory and return error action',
+      marbles((m) => {
+        const gqPositionId = '123456';
+        action = Rfq4ProcessActions.getProcessHistory({ gqPositionId });
+        rfq4Service.getProcessHistory = jest.fn(() => response);
+        const result = Rfq4ProcessActions.getProcessHistoryError({
+          error: errorMessage,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.getProcessHistoryData$).toBeObservable(expected);
         m.flush();
       })
     );

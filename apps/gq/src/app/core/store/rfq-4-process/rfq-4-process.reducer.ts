@@ -10,6 +10,7 @@ import {
 } from '@ngrx/store';
 
 import { ActiveCaseState } from '../active-case/active-case.reducer';
+import { RfqProcessHistory } from './model/process-history.model';
 import { Rfq4ProcessActions } from './rfq-4-process.actions';
 
 export enum ProcessLoading {
@@ -18,6 +19,7 @@ export enum ProcessLoading {
   SEND_RECALCULATE_SQV = 'Send recalculate sqv',
   REOPEN_RECALCULATION = 'Reopen recalculation',
   CANCEL_RECALCULATION = 'Cancel recalculation',
+  PROCESS_HISTORY = 'Process History',
 }
 
 const RFQ_4_PROCESS_FEATURE_KEY = 'rfq4Processes';
@@ -28,6 +30,7 @@ export interface Rfq4ProcessState {
   foundCalculators: string[];
   sapMaintainersLoading: boolean;
   sapMaintainers: ActiveDirectoryUser[];
+  processHistory: RfqProcessHistory | null;
 }
 
 export const initialState: Rfq4ProcessState = {
@@ -37,6 +40,7 @@ export const initialState: Rfq4ProcessState = {
   foundCalculators: [],
   sapMaintainers: [],
   sapMaintainersLoading: false,
+  processHistory: null,
 };
 
 export const rfq4ProcessFeature = createFeature({
@@ -209,6 +213,32 @@ export const rfq4ProcessFeature = createFeature({
       (state): Rfq4ProcessState => ({
         ...state,
         gqPositionId: undefined,
+        processLoading: ProcessLoading.NONE,
+      })
+    ),
+    on(
+      Rfq4ProcessActions.getProcessHistory,
+      (state, { gqPositionId }): Rfq4ProcessState => ({
+        ...state,
+        gqPositionId,
+        processLoading: ProcessLoading.PROCESS_HISTORY,
+      })
+    ),
+    on(
+      Rfq4ProcessActions.getProcessHistorySuccess,
+      (state, { processHistory }): Rfq4ProcessState => ({
+        ...state,
+        gqPositionId: undefined,
+        processHistory,
+        processLoading: ProcessLoading.NONE,
+      })
+    ),
+    on(
+      Rfq4ProcessActions.getProcessHistoryError,
+      (state): Rfq4ProcessState => ({
+        ...state,
+        gqPositionId: undefined,
+        processHistory: null,
         processLoading: ProcessLoading.NONE,
       })
     )

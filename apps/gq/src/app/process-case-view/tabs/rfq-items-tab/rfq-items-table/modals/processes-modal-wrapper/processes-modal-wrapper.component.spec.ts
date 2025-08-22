@@ -101,6 +101,13 @@ describe('ProcessesModalFrameComponent', () => {
         component['rfq4ProcessesFacade'].findCalculators
       ).toHaveBeenCalledWith(gqPositionId);
     });
+    test('should call getProcessHistory with gqPositionId', () => {
+      component.modalData.process = RecalculationProcessAction.SHOW_HISTORY;
+      component.ngOnInit();
+      expect(
+        component['rfq4ProcessesFacade'].getProcessHistory
+      ).toHaveBeenCalledWith(gqPositionId);
+    });
   });
 
   describe('getTitle', () => {

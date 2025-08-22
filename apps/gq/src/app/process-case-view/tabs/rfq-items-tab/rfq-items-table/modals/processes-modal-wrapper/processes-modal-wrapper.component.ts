@@ -106,6 +106,12 @@ export class ProcessesModalWrapperComponent implements OnInit {
           closeAction = this.rfq4ProcessesFacade.cancelProcessSuccess$;
           break;
         }
+        case RecalculationProcessAction.SHOW_HISTORY: {
+          this.rfq4ProcessesFacade.getProcessHistory(
+            this.modalData.quotationDetail.gqPositionId
+          );
+          break;
+        }
         // no default
       }
       closeAction

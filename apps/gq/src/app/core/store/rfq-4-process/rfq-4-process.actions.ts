@@ -3,6 +3,8 @@ import { ActiveDirectoryUser, QuotationDetail } from '@gq/shared/models';
 import { RfqProcessResponse } from '@gq/shared/services/rest/rfq4/models/rfq-process-response.interface';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
+import { RfqProcessHistory } from './model/process-history.model';
+
 export const Rfq4ProcessActions = createActionGroup({
   source: 'RFQ4 Processes',
   events: {
@@ -64,5 +66,14 @@ export const Rfq4ProcessActions = createActionGroup({
       rfqProcessResponse: RfqProcessResponse;
     }>(),
     'send cancel process error': props<{ error: string }>(),
+    'get process history': props<{
+      gqPositionId: string;
+    }>(),
+    'get process history success': props<{
+      processHistory: RfqProcessHistory;
+    }>(),
+    'get process history error': props<{
+      error: string;
+    }>(),
   },
 });

@@ -1,6 +1,7 @@
 import { QuotationDetail } from '@gq/shared/models';
 import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
 
+import { RFQ_4_PROCESS_HISTORY_MOCK } from '../../../../testing/mocks/models/calculator/rfq-4-overview/rfq-4-overview-data-mock';
 import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { ACTIVE_CASE_STATE_MOCK } from '../../../../testing/mocks/state/active-case-state.mock';
 import { activeCaseFeature } from '../active-case/active-case.reducer';
@@ -19,6 +20,7 @@ describe('rfq4ProcessFeature.reducer', () => {
     foundCalculators: [],
     sapMaintainers: [],
     sapMaintainersLoading: false,
+    processHistory: null,
   };
 
   const gqPositionId = '1245';
@@ -363,6 +365,44 @@ describe('rfq4ProcessFeature.reducer', () => {
       const state = rfq4ProcessFeature.reducer(fakeState, action);
       expect(state.processLoading).toEqual(ProcessLoading.NONE);
       expect(state.gqPositionId).toBeUndefined();
+    });
+  });
+
+  describe('getProcessHistory', () => {
+    test('should set processLoading to PROCESS_HISTORY', () => {
+      const action = Rfq4ProcessActions.getProcessHistory({
+        gqPositionId: '123456',
+      });
+      const state = rfq4ProcessFeature.reducer(rfq4ProcessesMock, action);
+      expect(state.processLoading).toEqual(ProcessLoading.PROCESS_HISTORY);
+    });
+    test('should set processLoading to NONE on getProcessHistorySuccess', () => {
+      const fakeState = {
+        ...rfq4ProcessesMock,
+        gqPositionId: '123456',
+        processLoading: ProcessLoading.PROCESS_HISTORY,
+      };
+      const action = Rfq4ProcessActions.getProcessHistorySuccess({
+        processHistory: RFQ_4_PROCESS_HISTORY_MOCK,
+      });
+      const state = rfq4ProcessFeature.reducer(fakeState, action);
+      expect(state.processLoading).toEqual(ProcessLoading.NONE);
+      expect(state.gqPositionId).toBeUndefined();
+      expect(state.processHistory).toEqual(RFQ_4_PROCESS_HISTORY_MOCK);
+    });
+    test('should set processLoading to NONE on getProcessHistoryError', () => {
+      const fakeState = {
+        ...rfq4ProcessesMock,
+        gqPositionId: '123456',
+        processLoading: ProcessLoading.PROCESS_HISTORY,
+      };
+      const action = Rfq4ProcessActions.getProcessHistoryError({
+        error: 'Error',
+      });
+      const state = rfq4ProcessFeature.reducer(fakeState, action);
+      expect(state.processLoading).toEqual(ProcessLoading.NONE);
+      expect(state.gqPositionId).toBeUndefined();
+      expect(state.processHistory).toBeNull();
     });
   });
 

@@ -202,6 +202,24 @@ export class Rfq4ProcessEffects {
       })
     );
   });
+
+  getProcessHistoryData$ = createEffect(() => {
+    return this.actions.pipe(
+      ofType(Rfq4ProcessActions.getProcessHistory),
+      switchMap((action) => {
+        return this.rfq4Service.getProcessHistory(action.gqPositionId).pipe(
+          map((processHistory) =>
+            Rfq4ProcessActions.getProcessHistorySuccess({
+              processHistory,
+            })
+          ),
+          catchError((error) =>
+            of(Rfq4ProcessActions.getProcessHistoryError({ error }))
+          )
+        );
+      })
+    );
+  });
 }
 const getAddresses = (maintainers: ActiveDirectoryUser[]): string => {
   return maintainers.length === 0

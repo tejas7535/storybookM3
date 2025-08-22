@@ -7,6 +7,7 @@ import { createSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import { RFQ_4_PROCESS_HISTORY_MOCK } from '../../../../testing/mocks/models/calculator/rfq-4-overview/rfq-4-overview-data-mock';
 import { QUOTATION_DETAIL_RFQ4 } from '../../../../testing/mocks/models/quotation-detail/rfq/quotation-detail-rfq4.mock';
 import * as fromSelectors from '../active-case/active-case.selectors';
 import { Rfq4ProcessActions } from './rfq-4-process.actions';
@@ -135,6 +136,18 @@ describe('rfq4ProcessFacade', () => {
         m.expect(facade.cancelProcessSuccess$).toBeObservable(expected as any);
       })
     );
+
+    test(
+      'processHistory$',
+      marbles((m) => {
+        const expected = m.cold('a', { a: RFQ_4_PROCESS_HISTORY_MOCK });
+        mockStore.overrideSelector(
+          rfq4ProcessFeature.selectProcessHistory,
+          RFQ_4_PROCESS_HISTORY_MOCK
+        );
+        m.expect(facade.processHistory$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('methods', () => {
@@ -232,6 +245,16 @@ describe('rfq4ProcessFacade', () => {
           reasonForCancellation,
           comment
         );
+        expect(spy).toHaveBeenCalledWith(action);
+      });
+    });
+
+    describe('getProcessHistory', () => {
+      test('should dispatch getProcessHistory', () => {
+        const gqPositionId = '123456';
+        const action = Rfq4ProcessActions.getProcessHistory({ gqPositionId });
+        const spy = jest.spyOn(mockStore, 'dispatch');
+        facade.getProcessHistory(gqPositionId);
         expect(spy).toHaveBeenCalledWith(action);
       });
     });

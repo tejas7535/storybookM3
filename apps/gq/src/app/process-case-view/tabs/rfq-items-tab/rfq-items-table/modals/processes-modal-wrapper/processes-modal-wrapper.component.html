@@ -35,7 +35,7 @@
       }
       @case (processEnum.SHOW_HISTORY) {
         <gq-process-history
-          [modalData]="modalData"
+          [quotationDetail]="modalData?.quotationDetail"
           (cancelButtonClicked)="closeDialog()"
           (changeModal)="setProcess($event)"
         ></gq-process-history>

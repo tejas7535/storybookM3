@@ -10,6 +10,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { getQuotationDetailRfq } from '../active-case/active-case.selectors';
+import { RfqProcessHistory } from './model/process-history.model';
 import { Rfq4ProcessActions } from './rfq-4-process.actions';
 import { ProcessLoading, rfq4ProcessFeature } from './rfq-4-process.reducer';
 
@@ -48,6 +49,9 @@ export class Rfq4ProcessFacade {
   );
   cancelProcessSuccess$: Observable<void> = this.actions$.pipe(
     ofType(Rfq4ProcessActions.sendCancelProcessSuccess)
+  );
+  processHistory$: Observable<RfqProcessHistory | null> = this.store.select(
+    rfq4ProcessFeature.selectProcessHistory
   );
 
   // ########################################################
@@ -110,5 +114,9 @@ export class Rfq4ProcessFacade {
         comment,
       })
     );
+  }
+
+  getProcessHistory(gqPositionId: string) {
+    this.store.dispatch(Rfq4ProcessActions.getProcessHistory({ gqPositionId }));
   }
 }

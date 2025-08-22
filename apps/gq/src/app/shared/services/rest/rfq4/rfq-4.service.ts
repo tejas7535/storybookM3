@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { map, Observable, take } from 'rxjs';
 
+import { RfqProcessHistory } from '@gq/core/store/rfq-4-process/model/process-history.model';
 import { ApiVersion } from '@gq/shared/models';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 
@@ -76,6 +77,12 @@ export class Rfq4Service {
         reasonForCancellation,
         comment,
       }
+    );
+  }
+
+  getProcessHistory(gqPositionId: string): Observable<RfqProcessHistory> {
+    return this.http.get<RfqProcessHistory>(
+      `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${gqPositionId}/${Rfq4PathsEnum.RFQ4_PATH_PROCESS_HISTORY}`
     );
   }
 }

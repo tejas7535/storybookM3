@@ -5,4 +5,5 @@ export enum Rfq4PathsEnum {
   RFQ4_PATH_GET_SAP_MAINTAINERS = 'rfq-support-contacts',
   RFQ4_PATH_REOPEN_RECALCULATION = 'reopen',
   RFQ4_PATH_CANCEL_PROCESS = 'cancel',
+  RFQ4_PATH_PROCESS_HISTORY = 'process-history',
 }
