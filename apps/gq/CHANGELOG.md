@@ -1,4 +1,11 @@
 # Release Notes of Guided Quoting
+## [6.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v6.5.0...gq-v6.6.0) (2025-08-26)
+
+
+### Features
+
+* **gq:** Delete Calculator Attachments (GQUOTE-6398) ([#7477](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7477)) ([038ceda](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/038ceda6dda080b68d29b096e777863f08d9c16b))
+
 ## [6.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v6.4.0...gq-v6.5.0) (2025-08-06)
 
 
