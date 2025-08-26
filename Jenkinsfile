@@ -945,7 +945,10 @@ pipeline {
                         github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', 'git fetch')
                         github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', 'git checkout master')
                         try {
-                            github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', "git merge ${env.BRANCH_NAME}")
+                            def mergeFailed = github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', "git merge ${env.BRANCH_NAME}")
+                            if(mergeFailed) {
+                                throw new Exception("Merge failed for branch ${env.BRANCH_NAME}")
+                            }
                             github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', 'git push')
                             github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', "git push -d origin ${env.BRANCH_NAME}")
                         } catch(error) {
