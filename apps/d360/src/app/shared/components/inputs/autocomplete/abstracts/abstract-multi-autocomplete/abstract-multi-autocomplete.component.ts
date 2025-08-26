@@ -102,6 +102,16 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
   );
 
   /**
+   * Returns the tooltip for the selected option
+   *
+   * @type {InputSignal<DisplayFunction>}
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  public getOptionTooltip: InputSignal<DisplayFunction> = input((option) =>
+    DisplayFunctions.displayFnTooltip(option, this.getOptionName())
+  );
+
+  /**
    * The label used in the autocomplete field.
    *
    * @type {(InputSignal<string | null | undefined>)}

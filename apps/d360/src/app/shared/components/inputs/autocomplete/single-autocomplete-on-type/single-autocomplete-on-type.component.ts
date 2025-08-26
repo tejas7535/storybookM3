@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Observable, of } from 'rxjs';
 import {
@@ -47,6 +48,7 @@ import {
   imports: [
     MatAutocompleteModule,
     MatInputModule,
+    MatTooltipModule,
     ReactiveFormsModule,
     SharedTranslocoModule,
     MatIcon,
@@ -82,7 +84,7 @@ export class SingleAutocompleteOnTypeComponent
   public displayFn: InputSignal<(option: SelectableValue | string) => string> =
     input((option) =>
       SelectableValueUtils.isSelectableValue(option)
-        ? option?.text ?? ''
+        ? (option?.text ?? '')
         : option
     );
 

@@ -70,6 +70,16 @@ describe('AbstractMultiAutocompleteComponent', () => {
     });
   });
 
+  describe('getOptionTooltip', () => {
+    it('should return the tooltip text for the option', () => {
+      const mockOption = { text: 'Test Option', id: 'test-id' };
+      const result = component.getOptionTooltip()(mockOption);
+      expect(result).toBe(
+        DisplayFunctions.displayFnTooltip(mockOption, () => 'Test Option')
+      );
+    });
+  });
+
   describe('ngOnInit', () => {
     it('should convert the raw value from the form control to SelectableValue[] and set it back to the form control', () => {
       const mockRawValue = { id: 1, text: 'Test' };

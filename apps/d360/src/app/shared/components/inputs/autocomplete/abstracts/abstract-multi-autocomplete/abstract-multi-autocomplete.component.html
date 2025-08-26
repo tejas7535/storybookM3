@@ -14,9 +14,13 @@
       option of control().value;
       track option.id + '-' + getOptionName()(option)
     ) {
-      <mat-chip-row (removed)="remove(option)">
+      <mat-chip-row
+        matTooltipTouchGestures="auto"
+        [matTooltip]="getOptionTooltip()(option)"
+        (removed)="remove(option)"
+      >
         <!-- Chip name -->
-        {{ getOptionName()(option) }}
+        <span>{{ getOptionName()(option) }}</span>
 
         <!-- Chip delete button -->
         <button [attr.aria-label]="'remove ' + option.text" matChipRemove>

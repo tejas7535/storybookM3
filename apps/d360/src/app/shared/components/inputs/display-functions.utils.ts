@@ -73,6 +73,28 @@ export class DisplayFunctions {
   }
 
   /**
+   * Show tooltip with text when id equals the display name, otherwise show id.
+   *
+   * @static
+   * @param {(SelectableValue | string)} option
+   * @param {DisplayFunction} getOptionName - Function to get the option display name
+   * @return {string}
+   * @memberof DisplayFunctions
+   */
+  public static displayFnTooltip(
+    option: SelectableValue | string,
+    getOptionName: DisplayFunction
+  ): string {
+    if (typeof option === 'string') {
+      return option;
+    } else if (SelectableValueUtils.isSelectableValue(option)) {
+      return option.id === getOptionName(option) ? option.text : option.id;
+    }
+
+    return '-';
+  }
+
+  /**
    * Combine the id and the text. When the option is null, return an empty string.
    *
    * @static

@@ -73,6 +73,80 @@ describe('DisplayFunctions', () => {
     });
   });
 
+  describe('displayFnTooltip', () => {
+    it('should return text when id equals the display name from getOptionName', () => {
+      const option: SelectableValue = { id: 'test-id', text: 'Test Text' };
+      const getOptionName = () => 'test-id';
+      expect(DisplayFunctions.displayFnTooltip(option, getOptionName)).toBe(
+        'Test Text'
+      );
+    });
+
+    it('should return id when id does not equal the display name from getOptionName', () => {
+      const option: SelectableValue = { id: 'test-id', text: 'Test Text' };
+      const getOptionName = () => 'Test Text';
+      expect(DisplayFunctions.displayFnTooltip(option, getOptionName)).toBe(
+        'test-id'
+      );
+    });
+
+    it('should return text when using displayFnText and id equals text', () => {
+      const option: SelectableValue = { id: 'same-value', text: 'same-value' };
+      expect(
+        DisplayFunctions.displayFnTooltip(
+          option,
+          DisplayFunctions.displayFnText
+        )
+      ).toBe('same-value');
+    });
+
+    it('should return id when using displayFnText and id does not equal text', () => {
+      const option: SelectableValue = { id: 'test-id', text: 'Test Text' };
+      expect(
+        DisplayFunctions.displayFnTooltip(
+          option,
+          DisplayFunctions.displayFnText
+        )
+      ).toBe('test-id');
+    });
+
+    it('should return id when using displayFnId', () => {
+      const option: SelectableValue = { id: 'test-id', text: 'Test Text' };
+      expect(
+        DisplayFunctions.displayFnTooltip(option, DisplayFunctions.displayFnId)
+      ).toBe('Test Text');
+    });
+
+    it('should return the string when option is a string', () => {
+      const option = 'test-string';
+      const getOptionName = () => 'anything';
+      expect(DisplayFunctions.displayFnTooltip(option, getOptionName)).toBe(
+        'test-string'
+      );
+    });
+
+    it('should return "-" when option is not a SelectableValue or string', () => {
+      const option = null as any;
+      const getOptionName = () => 'anything';
+      expect(DisplayFunctions.displayFnTooltip(option, getOptionName)).toBe(
+        '-'
+      );
+    });
+
+    it('should handle undefined id or text gracefully', () => {
+      const optionNoId: SelectableValue = { text: 'Test Text' } as any;
+      const optionNoText: SelectableValue = { id: 'test-id' } as any;
+      const getOptionName: any = (opt: SelectableValue) => opt.text || '';
+
+      expect(DisplayFunctions.displayFnTooltip(optionNoId, getOptionName)).toBe(
+        '-'
+      );
+      expect(
+        DisplayFunctions.displayFnTooltip(optionNoText, getOptionName)
+      ).toBe('-');
+    });
+  });
+
   describe('displayFnUnitedNullable', () => {
     it('should return combined id and text when option is a SelectableValue', () => {
       const option: SelectableValue = { id: 'test-id', text: 'Test Text' };

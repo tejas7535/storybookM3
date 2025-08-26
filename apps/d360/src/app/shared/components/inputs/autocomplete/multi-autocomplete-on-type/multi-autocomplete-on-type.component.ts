@@ -13,6 +13,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import {
   catchError,
@@ -46,6 +47,7 @@ import {
   imports: [
     MatAutocompleteModule,
     MatInputModule,
+    MatTooltipModule,
     ReactiveFormsModule,
     SharedTranslocoModule,
     MatIcon,
@@ -90,7 +92,7 @@ export class MultiAutocompleteOnTypeComponent
   public displayFn: InputSignal<(option: SelectableValue | string) => string> =
     input((option) =>
       SelectableValueUtils.isSelectableValue(option)
-        ? option?.text ?? ''
+        ? (option?.text ?? '')
         : option
     );
 
