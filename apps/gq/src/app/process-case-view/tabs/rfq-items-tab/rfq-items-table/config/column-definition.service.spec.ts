@@ -47,7 +47,7 @@ describe('columnDefinitionService for rfqItems Table', () => {
           data: {
             sqvCheck: {
               sqvCheckStatus: RecalculationReasons.INVALID,
-              sqvRecalculationValue: 3,
+              sqvValidityPeriod: 3,
             },
           },
         } as ValueGetterParams;

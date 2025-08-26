@@ -1,3 +1,4 @@
+import { SqvCheckSource } from '@gq/shared/models/quotation-detail/cost';
 import { RfqDataDeliveryUnit } from '@gq/shared/models/quotation-detail/rfq-data/rfq-data-delivery-unit.enum';
 import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-data/rfq-status.enum';
 import { RfqType } from '@gq/shared/models/quotation-detail/rfq-data/rfq-type.enum';
@@ -19,4 +20,5 @@ export const RFQ_DATA_MOCK: RfqData = {
   deliveryTime: 5,
   deliveryUnit: RfqDataDeliveryUnit.WEEKS,
   gpm: 10.21,
+  sqvSource: SqvCheckSource.RELOCATION,
 };

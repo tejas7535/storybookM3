@@ -18,6 +18,7 @@ export enum ColumnFields {
   GPC = 'gpc',
   SQV = 'sqv',
   SQV_RFQ = 'rfqData.sqv',
+  SQV_RFQ_SOURCE = 'rfqData.sqvSource',
   RELOCATION_COST = 'relocationCost',
   LAST_CUSTOMER_PRICE = 'lastCustomerPrice',
   LAST_CUSTOMER_PRICE_QUANTITY = 'lastCustomerPriceQuantity',

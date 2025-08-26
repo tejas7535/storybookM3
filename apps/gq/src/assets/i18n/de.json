@@ -86,6 +86,8 @@
       "sqv": "SAW",
       "sqvInfoText": "Standard Angebotswert",
       "sqvRfq": "SAW (RFQ)",
+      "sqvSource": "SAW Quelle",
+      "sqvSourceInfoText": "Quelle des ausgewählten SAW RFQ",
       "uom": "Mengeneinheit",
       "uomInfoText": "Maßeinheit",
       "rlm": "RLM % (Verlagerung)",

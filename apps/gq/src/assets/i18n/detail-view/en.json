@@ -97,6 +97,7 @@
       "rfqCreatedBy": "Created by",
       "rfqPlant": "Production Plant",
       "rfqSqv": "SQV (RFQ)",
+      "rfqSqvSource": "SQV Source",
       "updateRfqData": {
         "tooltip": "Refresh RFQ Information",
         "confirmDialogTitle": "Refresh RFQ Information?",

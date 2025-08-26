@@ -1,3 +1,4 @@
+import { SqvCheckSource } from '@gq/shared/models/quotation-detail/cost';
 import { Plant } from '@gq/shared/models/quotation-detail/plant.model';
 import { QuotationRfqData } from '@gq/shared/models/quotation-detail/rfq-data/quotation-rfq-data.interface';
 import { RfqDataDeliveryUnit } from '@gq/shared/models/quotation-detail/rfq-data/rfq-data-delivery-unit.enum';
@@ -24,4 +25,5 @@ export const QUOTATION_RFQ_DATA_MOCK: QuotationRfqData = {
   deliveryTime: 5,
   deliveryUnit: RfqDataDeliveryUnit.WEEKS,
   gpm: 0.1032,
+  sqvSource: SqvCheckSource.RELOCATION,
 };

@@ -98,6 +98,7 @@
       "rfqCreatedBy": "Erstellt von",
       "rfqPlant": "Produktionswerk",
       "rfqSqv": "SAW (RFQ)",
+      "rfqSqvSource": "SAW Quelle",
       "updateRfqData": {
         "tooltip": "RFQ Information aktualisieren",
         "confirmDialogTitle": "RFQ Information aktualisieren?",

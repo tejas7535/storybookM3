@@ -7,5 +7,5 @@ export const QUOTATION_DETAIL_SQV_CHECK_MOCK: QuotationDetailSqvCheck = {
   sqvCheckResult: 1,
   sqvCheckSource: SqvCheckSource.RELOCATION,
   sqvCheckStatus: RecalculationReasons.VALID,
-  sqvRecalculationValue: undefined,
+  sqvValidityPeriod: undefined,
 };

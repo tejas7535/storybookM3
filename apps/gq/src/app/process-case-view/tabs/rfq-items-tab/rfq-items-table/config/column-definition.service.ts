@@ -139,7 +139,7 @@ export class ColumnDefinitionService {
         return translate(
           `shared.rfqItemsTable.issueToResolve.${RecalculationReasons.INVALID.toLocaleLowerCase()}`,
           {
-            months: params.data.sqvCheck?.sqvRecalculationValue,
+            months: params.data.sqvCheck?.sqvValidityPeriod,
           }
         );
       }

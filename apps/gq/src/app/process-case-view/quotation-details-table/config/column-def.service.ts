@@ -417,6 +417,21 @@ export class ColumnDefService {
       filterParams: this.columnUtilityService.numberFilterParams,
     },
     {
+      headerName: translate('shared.quotationDetailsTable.sqvSource'),
+      field: ColumnFields.SQV_RFQ_SOURCE,
+      valueFormatter: ColumnUtilityService.basicTransform,
+      filterParams: {
+        ...FILTER_PARAMS,
+        valueFormatter: (params: ValueFormatterParams) =>
+          ColumnUtilityService.basicTransform(params),
+      },
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.sqvSourceInfoText'
+        ),
+      },
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.relocCost'),
       field: ColumnFields.RELOCATION_COST,
       valueFormatter: (params) =>

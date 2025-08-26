@@ -11,6 +11,7 @@ export enum SqvCheckSource {
   OPEN_RFQ = 'OPEN_RFQ',
   // SQV costs from SAP
   SQV_SAP = 'SQV_SAP',
+  RFQ_GQ = 'RFQ_GQ',
   // Result of ACVA (automatic recalculation)
   ACVA = 'ACVA',
 }

@@ -86,6 +86,8 @@
       "sqv": "SQV",
       "sqvInfoText": "Standard Quotation Value",
       "sqvRfq": "SQV (RFQ)",
+      "sqvSource": "SQV Source",
+      "sqvSourceInfoText": "Source of SQV RFQ",
       "uom": "UoM",
       "uomInfoText": "Unit of Measurement",
       "rlm": "RLM % (Reloc.)",
