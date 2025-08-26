@@ -3,5 +3,7 @@ export * from './disclaimer-footer.component';
 export * from './heading.component';
 export * from './label-grid';
 export * from './pdf-header.component';
+export * from './pdf-table-with-header/table-with-header';
 export * from './product-list';
+export * from './string-list/string-list';
 export * from './table';

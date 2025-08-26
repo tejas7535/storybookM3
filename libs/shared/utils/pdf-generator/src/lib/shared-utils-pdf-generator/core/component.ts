@@ -29,8 +29,8 @@ export abstract class Component {
   protected _pdfDoc?: PDFDocument;
   private renderDebug = false;
 
-  public setDocument(document: PDFDocument): void {
-    if (document.pdfDoc) {
+  public setDocument(document: PDFDocument | undefined): void {
+    if (document?.pdfDoc) {
       this._pdfDoc = document;
       this._doc = document.pdfDoc;
     }

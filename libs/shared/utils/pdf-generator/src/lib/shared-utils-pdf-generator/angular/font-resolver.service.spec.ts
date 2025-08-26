@@ -53,9 +53,17 @@ describe('FontResolverService', () => {
   });
 
   beforeEach(() => {
+    // Mock console methods to avoid cluttering test output
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+
     spectator = createService();
     service = spectator.service;
     httpMock = spectator.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    // Restore console methods
+    jest.restoreAllMocks();
   });
 
   it('should create', () => {
