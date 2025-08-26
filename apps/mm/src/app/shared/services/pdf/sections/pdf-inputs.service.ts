@@ -11,6 +11,12 @@ import { PdfLayoutService } from '../pdf-layout.service';
 
 @Injectable()
 export class PdfInputsService {
+  private readonly layoutService = inject(PdfLayoutService);
+  private readonly componentFactory = inject(PdfComponentFactory);
+  private readonly translocoService = inject(TranslocoService);
+  private readonly tableFactory = inject(PdfTableFactory);
+  private readonly dataService = inject(ResultDataService);
+
   readonly inputTables = computed(() =>
     this.dataService
       .inputs()
@@ -28,12 +34,6 @@ export class PdfInputsService {
         };
       })
   );
-
-  private readonly layoutService = inject(PdfLayoutService);
-  private readonly componentFactory = inject(PdfComponentFactory);
-  private readonly translocoService = inject(TranslocoService);
-  private readonly tableFactory = inject(PdfTableFactory);
-  private readonly dataService = inject(ResultDataService);
 
   getInputsSection(): Component[] {
     const inputTables = this.createInputTableComponents();

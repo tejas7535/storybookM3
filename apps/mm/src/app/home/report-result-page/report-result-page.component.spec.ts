@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { of } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
+import { GlobalFacade } from '@mm/core/store/facades/global/global.facade';
 import {
   MountingTools,
   ReportMessages,
@@ -108,6 +109,9 @@ describe('ReportResultPageComponent', () => {
       MockComponent(MobileDownloadPdfButtonComponent),
     ],
     providers: [
+      mockProvider(GlobalFacade, {
+        isStandalone$: of(true),
+      }),
       {
         provide: ResultDataService,
         useValue: {

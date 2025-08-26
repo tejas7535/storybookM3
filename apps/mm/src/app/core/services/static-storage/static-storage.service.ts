@@ -16,10 +16,10 @@ import { MaintenanceMessage } from '../../../shared/models';
   providedIn: 'root',
 })
 export class StaticStorageService implements OnDestroy {
+  private readonly destroy$ = new Subject<void>();
+
   storageUrl = environment.staticStorageUrl;
   fileName = 'mounting-manager-app-maintenance-message.json';
-
-  private readonly destroy$ = new Subject<void>();
 
   public constructor(
     private readonly httpClient: HttpClient,

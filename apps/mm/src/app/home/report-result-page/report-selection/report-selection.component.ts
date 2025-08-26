@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -17,11 +18,13 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
     MatIconModule,
     SharedTranslocoModule,
     MatProgressSpinnerModule,
+    CommonModule,
   ],
 })
 export class ReportSelectionComponent {
   @Input() isPdfGenerating: boolean;
   @Input() selectionTypes: ResultTypeConfig[] = [];
+  @Input() standalone = false;
   @Output() readonly calculationTypeClicked: EventEmitter<
     ResultTypeConfig['name']
   > = new EventEmitter();

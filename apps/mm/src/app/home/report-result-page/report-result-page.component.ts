@@ -1,15 +1,21 @@
 /* eslint-disable @typescript-eslint/member-ordering */
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
   inject,
+  Signal,
   signal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+import { map } from 'rxjs';
+
 import { TranslocoService } from '@jsverse/transloco';
+import { GlobalFacade } from '@mm/core/store/facades/global/global.facade';
 import { ResultTypeConfig } from '@mm/core/store/models/calculation-result-state.model';
 import { QualtricsInfoBannerComponent } from '@mm/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import {
@@ -58,6 +64,7 @@ import { SleeveConnectorComponent } from './sleeve-connector/sleeve-connector.co
     GridResultItemCardComponent,
     QualtricsInfoBannerComponent,
     MobileDownloadPdfButtonComponent,
+    CommonModule,
   ],
   providers: [
     PdfGenerationService,
@@ -80,6 +87,7 @@ export class ReportResultPageComponent {
   private readonly dataService = inject(ResultDataService);
   private readonly snackBar = inject(MatSnackBar);
   private readonly translocoService = inject(TranslocoService);
+  private readonly globalFacade = inject(GlobalFacade);
 
   private readonly _isGeneratingPdf = signal(false);
   public isGeneratingPdf = this._isGeneratingPdf.asReadonly();
@@ -88,6 +96,11 @@ export class ReportResultPageComponent {
 
   public readonly inputs = this.dataService.inputs;
   public readonly messages = this.dataService.categorizedMessages;
+  public readonly isStandalone: Signal<boolean> = toSignal(
+    this.globalFacade.isStandalone$.pipe(
+      map((input) => (input as any) === 'true')
+    )
+  );
 
   public readonly mountingRecommendations =
     this.dataService.mountingRecommendations;

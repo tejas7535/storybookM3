@@ -4,7 +4,8 @@
 >
   <mat-divider [vertical]="true"></mat-divider>
   <div
-    class="mb-2 ml-8 mr-4 w-full md:overflow-y-auto md:max-h-[calc(65vh-20px)] md:pr-4"
+    class="mb-2 ml-8 mr-4 w-full md:overflow-y-auto md:pr-4"
+    [ngClass]="{ 'md:max-h-[calc(65vh-20px)]': standalone }"
   >
     <div class="mb-4">
       <button

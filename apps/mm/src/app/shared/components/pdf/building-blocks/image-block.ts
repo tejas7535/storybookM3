@@ -1,8 +1,8 @@
 import { Component, Rect } from '@schaeffler/pdf-generator';
 
 export class ImageBlock extends Component {
-  private scaledHeight: number;
   private readonly topPadding: number = 7; // Add top padding
+  private scaledHeight: number;
 
   constructor(
     private readonly imageData: string,

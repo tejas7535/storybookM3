@@ -12,10 +12,9 @@ import { RestService } from '../';
   providedIn: 'root',
 })
 export class LazyListLoaderService {
-  public baseImageURL = environment.baseUrl.replace('/v2/mountingmanager', '');
-
   private readonly restService = inject(RestService);
 
+  public baseImageURL = environment.baseUrl.replace('/v2/mountingmanager', '');
   public loadOptions(url: string): Observable<ListValue[]> {
     return this.restService
       .getLoadOptions<SimpleListResponse>(url)

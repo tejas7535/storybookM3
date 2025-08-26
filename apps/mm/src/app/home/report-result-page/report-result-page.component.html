@@ -9,7 +9,8 @@
       (downloadPdfClicked)="generatePDF()"
     ></mm-mobile-download-pdf-button>
     <schaeffler-result-report
-      class="flex h-full flex-row justify-between md:max-h-[calc(100vh-320px)]"
+      class="flex h-full flex-row justify-between"
+      [ngClass]="{ 'md:max-h-[calc(100vh-320px)]': isStandalone() }"
       [reportInputs]="inputs()"
       [messages]="messages()"
       [isMessageSectionExpanded]="false"
@@ -94,6 +95,7 @@
           (calculationTypeClicked)="scrollIntoView($event)"
           [isPdfGenerating]="isGeneratingPdf()"
           (downloadPdfClicked)="generatePDF()"
+          [standalone]="isStandalone()"
         ></mm-report-selection>
       </ng-container>
     </schaeffler-result-report>
