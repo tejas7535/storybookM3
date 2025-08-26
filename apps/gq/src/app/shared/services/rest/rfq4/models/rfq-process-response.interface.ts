@@ -7,6 +7,7 @@ export interface RfqProcessResponse {
     gqPositionId: string;
     rfq4Status: Rfq4Status;
     rfqId?: number;
+    recalculationMessage?: string;
   };
   allowedToReopen: boolean;
 }

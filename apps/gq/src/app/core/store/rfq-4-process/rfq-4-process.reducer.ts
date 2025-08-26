@@ -285,6 +285,9 @@ export const RfqProcessRequestSuccessReducer: ReducerTypes<
             rfq4Status: rfqProcessResponse.processVariables.rfq4Status,
             rfq4Id: rfqProcessResponse.processVariables.rfqId ?? qd.rfq4.rfq4Id,
             allowedToReopen: rfqProcessResponse.allowedToReopen,
+            message:
+              rfqProcessResponse.processVariables.recalculationMessage ??
+              qd.rfq4.message,
           },
         })
       ),
