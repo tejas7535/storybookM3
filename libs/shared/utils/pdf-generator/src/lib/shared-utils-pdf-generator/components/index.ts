@@ -2,6 +2,7 @@ export * from './chip';
 export * from './disclaimer-footer.component';
 export * from './heading.component';
 export * from './label-grid';
+export * from './pdf-card';
 export * from './pdf-header.component';
 export * from './pdf-table-with-header/table-with-header';
 export * from './product-list';
