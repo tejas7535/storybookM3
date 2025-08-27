@@ -1280,6 +1280,7 @@
     },
     "filter": {
       "customerMaterialNumber": "Número do material do cliente",
+      "forecastMaintained": "Previsão validada?",
       "product_line": "Linha de produtos",
       "production_line": "Linha de produção (trem)",
       "productionPlant": "Planta de produção",

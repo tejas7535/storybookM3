@@ -24,6 +24,7 @@ describe('FilterDemandValidationComponent', () => {
         productLine: [],
         customerMaterialNumber: [],
         stochasticType: [],
+        forecastMaintained: null,
       });
     });
 
@@ -33,6 +34,7 @@ describe('FilterDemandValidationComponent', () => {
         productLine: ['Product1'],
         customerMaterialNumber: ['M123'],
         stochasticType: ['Type1'],
+        forecastMaintained: {},
       };
 
       Stub.setInput('initial', initialFilter);
@@ -112,11 +114,15 @@ describe('FilterDemandValidationComponent', () => {
         productLine: ['Product1'],
         customerMaterialNumber: [],
         stochasticType: ['Type1', 'Type2', 'Type3'],
+        forecastMaintained: {
+          id: 'true',
+          text: 'True',
+        },
       });
 
       const count = component['getCount'](formGroup);
 
-      expect(count).toBe(6); // 2 + 1 + 0 + 3
+      expect(count).toBe(7); // 2 + 1 + 0 + 3 + 1
     });
 
     it('should return 0 when no filters are selected', () => {
@@ -126,6 +132,7 @@ describe('FilterDemandValidationComponent', () => {
         productLine: [],
         customerMaterialNumber: [],
         stochasticType: [],
+        forecastMaintained: null,
       });
 
       const count = component['getCount'](formGroup);

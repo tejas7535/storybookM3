@@ -1280,6 +1280,7 @@
     },
     "filter": {
       "customerMaterialNumber": "Kundenmaterialnummer",
+      "forecastMaintained": "Forecast Validated?",
       "product_line": "Produktlinie",
       "production_line": "Produktionslinie (Zug)",
       "productionPlant": "Produktionswerk",

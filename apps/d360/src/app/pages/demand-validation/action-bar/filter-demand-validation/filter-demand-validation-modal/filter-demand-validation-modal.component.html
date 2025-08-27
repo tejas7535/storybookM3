@@ -2,7 +2,7 @@
   <h2 mat-dialog-title>
     {{
       t('validation_of_demand.filter.rootString', {
-        count: data?.activeFilterFn(data.formGroup).toString()
+        count: data?.activeFilterFn(data.formGroup).toString(),
       })
     }}
   </h2>
@@ -49,6 +49,16 @@
         [getOptionLabelInTag]="displayFnUnited"
         [getOptionLabel]="displayFnUnited"
         [optionsLoadingResult]="selectableOptionService.get('stochasticType')"
+      />
+
+      <d360-filter-dropdown
+        [label]="t('validation_of_demand.filter.forecastMaintained')"
+        [control]="$any(data.formGroup.get('forecastMaintained'))"
+        [form]="data.formGroup"
+        [options]="selectableOptionsService.get('forecastMaintained').options"
+        [addClearButton]="true"
+        [formatSelectedValue]="displayFnText"
+        [formatOptionValue]="displayFnText"
       />
     </div>
   </mat-dialog-content>

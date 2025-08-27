@@ -46,6 +46,7 @@ describe('FilterDemandValidationModalComponent', () => {
         productLine: [],
         customerMaterialNumber: [],
         stochasticType: [],
+        forecastMaintained: null,
       } as any;
       const spyReset = jest.spyOn(component['data'].formGroup, 'reset');
       jest

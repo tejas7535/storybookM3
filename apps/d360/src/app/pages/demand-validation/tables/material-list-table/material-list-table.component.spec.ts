@@ -160,6 +160,7 @@ describe('MaterialListTableComponent', () => {
         productLine: [],
         customerMaterialNumber: [],
         stochasticType: [],
+        forecastMaintained: null,
       });
     });
   });
@@ -179,9 +180,10 @@ describe('MaterialListTableComponent', () => {
         productLine: [{ value: 'product1' }, { value: 'product2' }],
         customerMaterialNumber: [],
         stochasticType: [{ value: 'type1' }],
+        forecastMaintained: { value: 'true' },
       });
 
-      expect(component['getFilterCount']()).toBe(4);
+      expect(component['getFilterCount']()).toBe(5);
     });
   });
 

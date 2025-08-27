@@ -17,6 +17,7 @@ import {
 import { MultiAutocompleteOnTypeComponent } from '../../../../../shared/components/inputs/autocomplete/multi-autocomplete-on-type/multi-autocomplete-on-type.component';
 import { MultiAutocompletePreLoadedComponent } from '../../../../../shared/components/inputs/autocomplete/multi-autocomplete-pre-loaded/multi-autocomplete-pre-loaded.component';
 import { DisplayFunctions } from '../../../../../shared/components/inputs/display-functions.utils';
+import { FilterDropdownComponent } from '../../../../../shared/components/inputs/filter-dropdown/filter-dropdown.component';
 import { SelectableOptionsService } from '../../../../../shared/services/selectable-options.service';
 
 export type DemandValidationForm = Record<
@@ -33,6 +34,7 @@ export interface FilterDemandValidationModalInput {
   selector: 'd360-filter-demand-validation-modal',
   imports: [
     CommonModule,
+    FilterDropdownComponent,
     MultiAutocompleteOnTypeComponent,
     MultiAutocompletePreLoadedComponent,
     SharedTranslocoModule,
@@ -49,13 +51,19 @@ export class FilterDemandValidationModalComponent {
   protected readonly data: FilterDemandValidationModalInput =
     inject(MAT_DIALOG_DATA);
 
+  /** Service for handling selectable options */
+  protected readonly selectableOptionsService: SelectableOptionsService =
+    inject(SelectableOptionsService);
+
   protected searchProductionLine = new FormControl();
   protected searchProductLine = new FormControl();
   protected searchCustomerMaterial = new FormControl();
   protected searchStochasticType = new FormControl();
+  protected searchforecastMaintained = new FormControl();
 
   protected readonly displayFnUnited = DisplayFunctions.displayFnUnited;
   protected readonly displayFnId = DisplayFunctions.displayFnId;
+  protected readonly displayFnText = DisplayFunctions.displayFnText;
 
   public handleApplyFilter() {
     this.dialogRef.close(this.data.formGroup.getRawValue());
@@ -68,6 +76,7 @@ export class FilterDemandValidationModalComponent {
       productLine: [],
       customerMaterialNumber: [],
       stochasticType: [],
+      forecastMaintained: null,
     });
     this.close(this.data.formGroup.getRawValue());
   }

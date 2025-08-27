@@ -1,7 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
-import { BehaviorSubject, forkJoin, map, Observable, take, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  forkJoin,
+  map,
+  Observable,
+  of,
+  take,
+  tap,
+} from 'rxjs';
 
 import { translate, TranslocoService } from '@jsverse/transloco';
 import { ValueFormatterFunc, ValueFormatterParams } from 'ag-grid-enterprise';
@@ -48,6 +56,7 @@ export interface OptionsTypes {
   gkam: OptionsLoadingResult;
   productLine: OptionsLoadingResult;
   stochasticType: OptionsLoadingResult;
+  forecastMaintained: OptionsLoadingResult;
   interval: OptionsLoadingResult;
   execDay: OptionsLoadingResult;
   demandCharacteristics: OptionsLoadingResult;
@@ -94,6 +103,23 @@ export class SelectableOptionsService {
    * @memberof SelectableOptionsService
    */
   private readonly translocoService = inject(TranslocoService);
+
+  /**
+   * The forecast maintained options.
+   *
+   * @private
+   * @type {Observable<OptionsLoadingResult>}
+   * @memberof SelectableOptionsService
+   */
+  private readonly forecastMaintainedOptions = of({
+    options: [
+      { id: 'true', text: translate('field.forecastMaintained.value.true') },
+      {
+        id: 'false',
+        text: translate('field.forecastMaintained.value.false'),
+      },
+    ],
+  });
 
   /**
    * Creates an instance of SelectableOptionsService.
@@ -305,6 +331,7 @@ export class SelectableOptionsService {
       gkam: this.call(`key-accounts`),
       productLine: this.call(`product-line`),
       stochasticType: this.call(`stochastic-types?language=${language}`),
+      forecastMaintained: this.forecastMaintainedOptions,
     })
       .pipe(
         take(1),

@@ -1280,6 +1280,7 @@
     },
     "filter": {
       "customerMaterialNumber": "Numero di materiale del cliente",
+      "forecastMaintained": "Previsioni convalidate?",
       "product_line": "Linea di prodotti",
       "production_line": "Linea di produzione (treno)",
       "productionPlant": "Impianto di produzione",

@@ -5,6 +5,7 @@ export const DEMAND_VALIDATION_FILTER_NAMES = [
   'productLine',
   'productionLine',
   'stochasticType',
+  'forecastMaintained',
 ] as const;
 
 export type DemandValidationFilterName =
@@ -13,7 +14,7 @@ export type DemandValidationFilterName =
 // Filter object for handling in Frontend
 export type DemandValidationFilter = Record<
   DemandValidationFilterName,
-  SelectableValue[]
+  SelectableValue[] | SelectableValue
 >;
 
 // Filter object for sending to backend
@@ -30,15 +31,27 @@ export function demandValidationFilterToStringFilter(
 
   let filterValuesObject: DemandValidationStringFilter = {};
   Object.entries(filter).forEach(
-    ([key, filterValues]: [string, SelectableValue[]]) => {
-      if (filterValues?.length > 0) {
+    ([key, filterValues]: [string, SelectableValue[] | SelectableValue]) => {
+      const valuesArray = normalizeToArray(filterValues);
+
+      if (valuesArray?.length > 0) {
         filterValuesObject = {
           ...filterValuesObject,
-          [key]: filterValues?.map((v) => v.id),
+          [key]: valuesArray?.map((v) => v.id),
         };
       }
     }
   );
 
   return filterValuesObject;
+}
+
+function normalizeToArray(
+  value: SelectableValue[] | SelectableValue | null | undefined
+): SelectableValue[] {
+  if (Array.isArray(value)) {
+    return value;
+  }
+
+  return value == null ? [] : [value];
 }

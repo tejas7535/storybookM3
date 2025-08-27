@@ -18,6 +18,7 @@ import { tap } from 'rxjs';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { DemandValidationFilter } from '../../../../feature/demand-validation/demand-validation-filters';
+import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import {
   DemandValidationForm,
   FilterDemandValidationModalComponent,
@@ -42,6 +43,7 @@ export class FilterDemandValidationComponent {
     productLine: new FormControl([]),
     customerMaterialNumber: new FormControl([]),
     stochasticType: new FormControl([]),
+    forecastMaintained: new FormControl(null),
   });
 
   public constructor() {
@@ -52,10 +54,12 @@ export class FilterDemandValidationComponent {
           productLine: [],
           customerMaterialNumber: [],
           stochasticType: [],
+          forecastMaintained: null,
         }
       )
     );
   }
+
   protected openDemandValidationFilterModal() {
     this.dialog
       .open(FilterDemandValidationModalComponent, {
@@ -79,11 +83,18 @@ export class FilterDemandValidationComponent {
   }
 
   protected getCount(formGroup: FormGroup): number {
-    // eslint-disable-next-line unicorn/no-array-reduce
-    return Object.keys(this.formGroup['controls']).reduce(
-      (previous, current) =>
-        previous + (formGroup.get(current)?.getRawValue()?.length || 0),
-      0
-    );
+    const getValueCount = (
+      value: SelectableValue[] | SelectableValue
+    ): number => {
+      if (Array.isArray(value)) {
+        return value.length;
+      }
+
+      return value ? 1 : 0;
+    };
+
+    return Object.keys(this.formGroup.controls)
+      .map((controlName) => formGroup.get(controlName)?.getRawValue())
+      .reduce((total, value) => total + getValueCount(value), 0);
   }
 }

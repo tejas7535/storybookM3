@@ -146,6 +146,7 @@ export class MaterialListTableComponent
       productLine: [],
       customerMaterialNumber: [],
       stochasticType: [],
+      forecastMaintained: null,
     });
   }
 
@@ -156,8 +157,13 @@ export class MaterialListTableComponent
 
     // eslint-disable-next-line unicorn/no-array-reduce
     return Object.values(this.demandValidationFilters()).reduce(
-      (prev: number, current: SelectableValue[]) =>
-        prev + (current || []).length,
+      (prev: number, current: SelectableValue[] | SelectableValue) => {
+        if (!current) {
+          return prev;
+        }
+
+        return prev + (Array.isArray(current) ? current.length : 1);
+      },
       0
     );
   }

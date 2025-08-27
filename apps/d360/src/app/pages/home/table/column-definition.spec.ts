@@ -124,7 +124,7 @@ describe('HomeTableColumnDefinitions', () => {
       expect(forecastMaintainedColumn).toBeDefined();
       // eslint-disable-next-line @typescript-eslint/ban-types
       const valueGetter = forecastMaintainedColumn?.valueGetter as Function;
-      const result = valueGetter({ data: { forecastMaintained: true } });
+      const result = valueGetter({ data: { forecastMaintained: 'true' } });
       expect(result).toBe('field.forecastMaintained.value.true');
 
       expect(

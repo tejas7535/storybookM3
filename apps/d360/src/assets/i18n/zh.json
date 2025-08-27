@@ -1280,6 +1280,7 @@
     },
     "filter": {
       "customerMaterialNumber": "客户物料号",
+      "forecastMaintained": "预测得到验证?",
       "product_line": "产品线",
       "production_line": "生产线 (Train)",
       "productionPlant": "生产工厂",
