@@ -1,4 +1,22 @@
 # Release Notes of Demand360
+## [3.0.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/d360-v3.0.3...d360-v3.0.4) (2025-08-27)
+
+
+### Features
+
+* **d360:** add forecast maintained filter (D360-39) ([#7490](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7490)) ([3c24b5f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3c24b5f2f1bedd6ee61d6050b5ec987f623fffc8))
+* **d360:** create default tooltip for autocomplete chips (D360-509) ([#7500](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7500)) ([3cacae1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3cacae1dadc859c1f0b058e7bc57da29dac4fbc5))
+* **d360:** enable feedback button on prod (D360-489) ([#7489](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7489)) ([339065b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/339065b8ec8042c309df0a8bdb4883c4c29224e0))
+
+
+### Bug Fixes
+
+* **d360:** add substitution and cutover dates validator (D360-236) ([#7467](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7467)) ([323fa36](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/323fa36db598d1fa739dec694dd51f57ee049eb9))
+* **d360:** date handling in customer material details export ([#7493](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7493)) ([0edd057](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0edd0573321a9adaa5043a662a4c1e6e6084d5dc))
+* **d360:** fix ag-grid default empty filter (D360-529) ([#7482](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7482)) ([270e0e0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/270e0e080bfaa8963e134e6fd96e5e105c217a2a))
+* **d360:** remove misleading error message on clipboard multi-insert (D360-486) ([#7463](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7463)) ([9b98d28](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9b98d28c49ecb603ca66cbc1980b76f1384bffcd))
+* **d360:** show error on SOP and cutover equal dates (D360-236) ([#7487](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7487)) ([f209b00](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f209b008be64f94827677cf1062abfbb544be8b6))
+
 ## [3.0.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/d360-v3.0.2...d360-v3.0.3) (2025-08-11)
 
 
