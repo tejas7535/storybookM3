@@ -4,7 +4,24 @@
 
 ### Features
 
+* **gq:** added option to open RFQ Calculator in new Tab/Window (GQUOTE-6429) ([#7472](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7472)) ([ba5d480](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ba5d480642c0504285c37693a713e2b9e806004e))
+* **gq:** created fixed IDs for item detail-view (GQUOTE-5796) ([#7459](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7459)) ([4ffeb62](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4ffeb624bc17de7eca47f91002934fe9de7c509a))
 * **gq:** Delete Calculator Attachments (GQUOTE-6398) ([#7477](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7477)) ([038ceda](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/038ceda6dda080b68d29b096e777863f08d9c16b))
+* **gq:** display sqv source (GQUOTE-6088) ([#7495](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7495)) ([747f079](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/747f0798d2d339dc7b1cd9e635664160eadb9c53))
+* **gq:** download rfq calculator attachments (GQUOTE-6366) ([#7484](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7484)) ([0cec0f3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0cec0f36d65132de1e6ea3942cdb7c1e86a6b1d3))
+* **gq:** fetch and display rfq process history data (GQOTE-6438) (GQUOTE-6181) ([#7444](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7444)) ([ae00c0d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ae00c0da39ab1f78013c5dca1625b2887333afcd))
+* **gq:** open Cancel dialog from ProcessHistory (GQUOTE-6437) ([#7443](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7443)) ([ebed931](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ebed9319a6da01cc02546119f9161be01b651cd1))
+* **gq:** reopen rfq calculation (GQUOTE-6007) ([#7431](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7431)) ([acd3f8e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/acd3f8e4edfa91a188c7b5afdb3de907e3ae9e2a))
+* **gq:** Upload and Display Attachment in RFQ4DetailView (GQUOTE-6469) ([#7471](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7471)) ([0c7ee18](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0c7ee18bcf1ebf254f810277cd37e3bddceb070e))
+
+
+### Bug Fixes
+
+* **gq:** add ids for rfq position details (GQUOTE-5796) ([#7486](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7486)) ([2e2a6e7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2e2a6e7d3f389a73f3e8e5ab3cb7f9bd020a5e91))
+* **gq:** corrected signal display for data-cy (GQUOTE-5606) ([#7458](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7458)) ([73fc455](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/73fc4558de6ea210cb25a7873f10374645efeb62))
+* **gq:** implement ValidatorFn and Test (GQUOTE-6439) ([#7454](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7454)) ([5e40910](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5e4091028aedb63de152628dfc78db519a6964d1))
+* **gq:** update allowedToReopen after cancel rfq process (GQUOTE-6501) ([#7485](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7485)) ([cbf4441](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cbf4441cbdcb0a26307dd9cb66234adbb43b3a62))
+* **gq:** values are correctly displayed in the S&OP Material Classification column (GQUOTE-6486) ([#7461](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7461)) ([23e4275](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/23e4275fdc465a9d0f7113e9ee1b2b8755db7328))
 
 ## [6.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v6.4.0...gq-v6.5.0) (2025-08-06)
 
