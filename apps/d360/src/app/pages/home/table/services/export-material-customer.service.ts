@@ -4,6 +4,7 @@ import { inject, Injectable } from '@angular/core';
 import { catchError, EMPTY, Observable, of, switchMap, take } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { GridApi } from 'ag-grid-enterprise';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -11,6 +12,7 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { GlobalSelectionCriteriaFilters } from '../../../../feature/global-selection/model';
 import { formatFilterModelForBackend } from '../../../../shared/ag-grid/grid-filter-model';
 import { USE_DEFAULT_HTTP_ERROR_INTERCEPTOR } from '../../../../shared/interceptors/http-error.interceptor';
+import { getDateFormatString } from '../../../../shared/utils/date-format';
 import {
   CustomErrorMessages,
   getErrorMessage,
@@ -27,6 +29,7 @@ export class ExportMaterialCustomerService {
   private readonly streamSaverService = inject(StreamSaverService);
   private readonly snackbarService = inject(SnackbarService);
   private readonly appInsights = inject(ApplicationInsightsService);
+  private readonly translocoLocaleService = inject(TranslocoLocaleService);
 
   private readonly EXPORT_MATERIAL_CUSTOMER_API =
     'api/material-customer/export';
@@ -100,6 +103,9 @@ export class ExportMaterialCustomerService {
             forecastMaintained_false: translate(
               'field.forecastMaintained.value.false',
               {}
+            ),
+            dateFormat: getDateFormatString(
+              this.translocoLocaleService.getLocale()
             ),
           },
         },
