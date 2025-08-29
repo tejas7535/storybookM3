@@ -1,3 +1,4 @@
+import { DoughnutChartDataFactory } from '../../../shared/charts/models/doughnut-chart-data.factory';
 import { DoughnutChartData } from '../../../shared/charts/models/doughnut-chart-data.model';
 import {
   AnalysisData,
@@ -159,47 +160,65 @@ export function mapReasonsToChartData(reasons: Reason[]): DoughnutChartData[] {
     0
   );
 
-  return rankedReasons.map((item) => ({
-    name: item.reason,
-    value: item.leavers,
-    percent: getPercentageValue(item.leavers, totalReasons),
-  }));
+  return rankedReasons.map((item) =>
+    DoughnutChartDataFactory.createWithReasonId(
+      item.leavers,
+      item.reason,
+      item.reasonId,
+      getPercentageValue(item.leavers, totalReasons)
+    )
+  );
 }
 
 export function mapReasonsToChildren(
   reasons: Reason[]
 ): { reason: string; children: DoughnutChartData[] }[] {
-  const reasonsMap = new Map<string, Map<string, number>>();
+  const reasonsMap = new Map<
+    string,
+    Map<string, { count: number; detailedReasonId: number }>
+  >();
 
   reasons.forEach((reason) => {
     if (!reasonsMap.has(reason.reason)) {
-      reasonsMap.set(reason.reason, new Map<string, number>());
+      reasonsMap.set(
+        reason.reason,
+        new Map<string, { count: number; detailedReasonId: number }>()
+      );
     }
 
     const reasonMap = reasonsMap.get(reason.reason);
     if (reasonMap) {
       const detailedReason = reasonMap.get(reason.detailedReason);
       if (detailedReason) {
-        reasonMap.set(reason.detailedReason, detailedReason + 1);
+        reasonMap.set(reason.detailedReason, {
+          count: detailedReason.count + 1,
+          detailedReasonId: reason.detailedReasonId,
+        });
       } else {
-        reasonMap.set(reason.detailedReason, 1);
+        reasonMap.set(reason.detailedReason, {
+          count: 1,
+          detailedReasonId: reason.detailedReasonId,
+        });
       }
     }
   });
 
   return [...reasonsMap.entries()].map(([reason, detailedReasons]) => {
     const totalDetailedReasons = [...detailedReasons.values()].reduce(
-      (acc, item) => acc + item,
+      (acc, item) => acc + item.count,
       0
     );
 
     return {
       reason,
-      children: [...detailedReasons.entries()].map(([name, count]) => ({
-        name,
-        value: count,
-        percent: getPercentageValue(count, totalDetailedReasons),
-      })),
+      children: [...detailedReasons.entries()].map(([name, data]) =>
+        DoughnutChartDataFactory.createWithDetailedReasonId(
+          data.count,
+          name,
+          data.detailedReasonId,
+          getPercentageValue(data.count, totalDetailedReasons)
+        )
+      ),
     };
   });
 }

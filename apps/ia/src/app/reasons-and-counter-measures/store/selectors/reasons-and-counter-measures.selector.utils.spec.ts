@@ -1,4 +1,5 @@
 import { DoughnutChartData } from '../../../shared/charts/models';
+import { CHART_COLOR_PALETTE } from '../../../shared/models';
 import {
   AnalysisData,
   Reason,
@@ -260,30 +261,34 @@ describe('mapReasonsToTableData', () => {
           value: 2,
           name: 'Reason A',
           percent: 50,
+          color: undefined,
+          itemStyle: undefined,
         },
         {
           value: 1,
           name: 'Reason B',
           percent: 25,
+          color: undefined,
+          itemStyle: undefined,
         },
         {
           value: 1,
           name: 'Reason C',
           percent: 25,
+          color: undefined,
+          itemStyle: undefined,
         },
       ]);
     });
-  });
 
-  describe('mapReasonsToChildren', () => {
-    test('should map reasons to children', () => {
+    test('should map reasons to chart data with colors for existing reasonIds', () => {
       const reasons: Reason[] = [
         {
           reason: 'Reason A',
           detailedReason: 'Detailed Reason A',
           impact: ReasonImpact.HIGH,
           interviewId: 1,
-          reasonId: 1,
+          reasonId: 46,
           detailedReasonId: 1,
         },
         {
@@ -291,7 +296,7 @@ describe('mapReasonsToTableData', () => {
           detailedReason: 'Detailed Reason B',
           impact: ReasonImpact.HIGH,
           interviewId: 2,
-          reasonId: 1,
+          reasonId: 46,
           detailedReasonId: 2,
         },
         {
@@ -299,170 +304,293 @@ describe('mapReasonsToTableData', () => {
           detailedReason: 'Detailed Reason B',
           impact: ReasonImpact.LOW,
           interviewId: 3,
-          reasonId: 2,
+          reasonId: 47,
           detailedReasonId: 3,
-        },
-        {
-          reason: 'Reason C',
-          detailedReason: 'Detailed Reason B',
-          impact: ReasonImpact.MEDIUM,
-          interviewId: 4,
-          reasonId: 3,
-          detailedReasonId: 4,
         },
       ];
 
-      const result = utils.mapReasonsToChildren(reasons);
+      const result: DoughnutChartData[] = utils.mapReasonsToChartData(reasons);
 
       expect(result).toEqual([
         {
-          reason: 'Reason A',
-          children: [
-            {
-              name: 'Detailed Reason A',
-              value: 1,
-              percent: 50,
-            },
-            {
-              name: 'Detailed Reason B',
-              value: 1,
-              percent: 50,
-            },
-          ],
+          value: 2,
+          name: 'Reason A',
+          percent: 66.7,
+          color: CHART_COLOR_PALETTE.COLORFUL_CHART_14,
+          itemStyle: { color: CHART_COLOR_PALETTE.COLORFUL_CHART_14 },
         },
         {
-          reason: 'Reason B',
-          children: [
-            {
-              name: 'Detailed Reason B',
-              value: 1,
-              percent: 100,
-            },
-          ],
-        },
-        {
-          reason: 'Reason C',
-          children: [
-            {
-              name: 'Detailed Reason B',
-              value: 1,
-              percent: 100,
-            },
-          ],
+          value: 1,
+          name: 'Reason B',
+          percent: 33.3,
+          color: CHART_COLOR_PALETTE.COLORFUL_CHART_15,
+          itemStyle: { color: CHART_COLOR_PALETTE.COLORFUL_CHART_15 },
         },
       ]);
     });
   });
+});
 
-  describe('getPercentageValue', () => {
-    test('should get percentage value', () => {
-      const part = 2;
-      const total = 11;
+describe('mapReasonsToChildren', () => {
+  test('should map reasons to children', () => {
+    const reasons: Reason[] = [
+      {
+        reason: 'Reason A',
+        detailedReason: 'Detailed Reason A',
+        impact: ReasonImpact.HIGH,
+        interviewId: 1,
+        reasonId: 1,
+        detailedReasonId: 1,
+      },
+      {
+        reason: 'Reason A',
+        detailedReason: 'Detailed Reason B',
+        impact: ReasonImpact.HIGH,
+        interviewId: 2,
+        reasonId: 1,
+        detailedReasonId: 2,
+      },
+      {
+        reason: 'Reason B',
+        detailedReason: 'Detailed Reason B',
+        impact: ReasonImpact.LOW,
+        interviewId: 3,
+        reasonId: 2,
+        detailedReasonId: 3,
+      },
+      {
+        reason: 'Reason C',
+        detailedReason: 'Detailed Reason B',
+        impact: ReasonImpact.MEDIUM,
+        interviewId: 4,
+        reasonId: 3,
+        detailedReasonId: 4,
+      },
+    ];
 
-      const result = utils.getPercentageValue(part, total);
+    const result = utils.mapReasonsToChildren(reasons);
 
-      expect(result).toEqual(18.2);
-    });
-
-    test('should not add decimal numbers for integer', () => {
-      const part = 1;
-      const total = 1;
-
-      const result = utils.getPercentageValue(part, total);
-
-      expect(result).toEqual(100);
-    });
-
-    test('should return 0 when total 0', () => {
-      const part = 1;
-      const total = 0;
-
-      const result = utils.getPercentageValue(part, total);
-
-      expect(result).toEqual(0);
-    });
-
-    test('should return 0 when part 0', () => {
-      const part = 0;
-      const total = 1;
-
-      const result = utils.getPercentageValue(part, total);
-
-      expect(result).toEqual(0);
-    });
+    expect(result).toEqual([
+      {
+        reason: 'Reason A',
+        children: [
+          {
+            name: 'Detailed Reason A',
+            value: 1,
+            percent: 50,
+            color: undefined,
+            itemStyle: undefined,
+          },
+          {
+            name: 'Detailed Reason B',
+            value: 1,
+            percent: 50,
+            color: undefined,
+            itemStyle: undefined,
+          },
+        ],
+      },
+      {
+        reason: 'Reason B',
+        children: [
+          {
+            name: 'Detailed Reason B',
+            value: 1,
+            percent: 100,
+            color: undefined,
+            itemStyle: undefined,
+          },
+        ],
+      },
+      {
+        reason: 'Reason C',
+        children: [
+          {
+            name: 'Detailed Reason B',
+            value: 1,
+            percent: 100,
+            color: undefined,
+            itemStyle: undefined,
+          },
+        ],
+      },
+    ]);
   });
 
-  describe('rankReasons', () => {
-    test('should rank reasons', () => {
-      const reasons: ReasonForLeavingRank[] = [
-        {
-          reason: 'Reason A',
-          leavers: 2,
-          percentage: 50,
-          reasonId: 1,
-          rank: undefined,
-          detailedReasonId: 1,
-          detailedReason: 'Detailed Reason A',
-        },
-        {
-          reason: 'Reason B',
-          leavers: 1,
-          percentage: 25,
-          reasonId: 2,
-          rank: undefined,
-          detailedReasonId: 2,
-          detailedReason: 'Detailed Reason B',
-        },
-        {
-          reason: 'Reason C',
-          leavers: 1,
-          percentage: 25,
-          reasonId: 3,
-          rank: undefined,
-          detailedReasonId: 3,
-          detailedReason: 'Detailed Reason C',
-        },
-      ];
+  test('should map reasons to children with colors for existing detailedReasonIds', () => {
+    const reasons: Reason[] = [
+      {
+        reason: 'Reason A',
+        detailedReason: 'Detailed Reason A',
+        impact: ReasonImpact.HIGH,
+        interviewId: 1,
+        reasonId: 1,
+        detailedReasonId: 357,
+      },
+      {
+        reason: 'Reason A',
+        detailedReason: 'Detailed Reason B',
+        impact: ReasonImpact.HIGH,
+        interviewId: 2,
+        reasonId: 1,
+        detailedReasonId: 358,
+      },
+      {
+        reason: 'Reason B',
+        detailedReason: 'Detailed Reason B',
+        impact: ReasonImpact.LOW,
+        interviewId: 3,
+        reasonId: 2,
+        detailedReasonId: 359,
+      },
+    ];
 
-      const result = utils.rankReasons(reasons);
+    const result = utils.mapReasonsToChildren(reasons);
 
-      expect(result).toEqual([
-        {
-          reason: 'Reason A',
-          leavers: 2,
-          percentage: 50,
-          reasonId: 1,
-          rank: 1,
-          detailedReasonId: 1,
-          detailedReason: 'Detailed Reason A',
-        },
-        {
-          reason: 'Reason B',
-          leavers: 1,
-          percentage: 25,
-          reasonId: 2,
-          rank: 2,
-          detailedReasonId: 2,
-          detailedReason: 'Detailed Reason B',
-        },
-        {
-          reason: 'Reason C',
-          leavers: 1,
-          percentage: 25,
-          reasonId: 3,
-          rank: 2,
-          detailedReasonId: 3,
-          detailedReason: 'Detailed Reason C',
-        },
-      ]);
-    });
+    expect(result).toEqual([
+      {
+        reason: 'Reason A',
+        children: [
+          {
+            name: 'Detailed Reason A',
+            value: 1,
+            percent: 50,
+            color: CHART_COLOR_PALETTE.COLORFUL_CHART_4,
+            itemStyle: { color: CHART_COLOR_PALETTE.COLORFUL_CHART_4 },
+          },
+          {
+            name: 'Detailed Reason B',
+            value: 1,
+            percent: 50,
+            color: CHART_COLOR_PALETTE.COLORFUL_CHART_18,
+            itemStyle: { color: CHART_COLOR_PALETTE.COLORFUL_CHART_18 },
+          },
+        ],
+      },
+      {
+        reason: 'Reason B',
+        children: [
+          {
+            name: 'Detailed Reason B',
+            value: 1,
+            percent: 100,
+            color: CHART_COLOR_PALETTE.COLORFUL_CHART_12,
+            itemStyle: { color: CHART_COLOR_PALETTE.COLORFUL_CHART_12 },
+          },
+        ],
+      },
+    ]);
+  });
+});
 
-    test('should return empty array', () => {
-      const reasons: ReasonForLeavingRank[] = [];
+describe('getPercentageValue', () => {
+  test('should get percentage value', () => {
+    const part = 2;
+    const total = 11;
 
-      const result = utils.rankReasons(reasons);
+    const result = utils.getPercentageValue(part, total);
 
-      expect(result).toEqual([]);
-    });
+    expect(result).toEqual(18.2);
+  });
+
+  test('should not add decimal numbers for integer', () => {
+    const part = 1;
+    const total = 1;
+
+    const result = utils.getPercentageValue(part, total);
+
+    expect(result).toEqual(100);
+  });
+
+  test('should return 0 when total 0', () => {
+    const part = 1;
+    const total = 0;
+
+    const result = utils.getPercentageValue(part, total);
+
+    expect(result).toEqual(0);
+  });
+
+  test('should return 0 when part 0', () => {
+    const part = 0;
+    const total = 1;
+
+    const result = utils.getPercentageValue(part, total);
+
+    expect(result).toEqual(0);
+  });
+});
+
+describe('rankReasons', () => {
+  test('should rank reasons', () => {
+    const reasons: ReasonForLeavingRank[] = [
+      {
+        reason: 'Reason A',
+        leavers: 2,
+        percentage: 50,
+        reasonId: 1,
+        rank: undefined,
+        detailedReasonId: 1,
+        detailedReason: 'Detailed Reason A',
+      },
+      {
+        reason: 'Reason B',
+        leavers: 1,
+        percentage: 25,
+        reasonId: 2,
+        rank: undefined,
+        detailedReasonId: 2,
+        detailedReason: 'Detailed Reason B',
+      },
+      {
+        reason: 'Reason C',
+        leavers: 1,
+        percentage: 25,
+        reasonId: 3,
+        rank: undefined,
+        detailedReasonId: 3,
+        detailedReason: 'Detailed Reason C',
+      },
+    ];
+
+    const result = utils.rankReasons(reasons);
+
+    expect(result).toEqual([
+      {
+        reason: 'Reason A',
+        leavers: 2,
+        percentage: 50,
+        reasonId: 1,
+        rank: 1,
+        detailedReasonId: 1,
+        detailedReason: 'Detailed Reason A',
+      },
+      {
+        reason: 'Reason B',
+        leavers: 1,
+        percentage: 25,
+        reasonId: 2,
+        rank: 2,
+        detailedReasonId: 2,
+        detailedReason: 'Detailed Reason B',
+      },
+      {
+        reason: 'Reason C',
+        leavers: 1,
+        percentage: 25,
+        reasonId: 3,
+        rank: 2,
+        detailedReasonId: 3,
+        detailedReason: 'Detailed Reason C',
+      },
+    ]);
+  });
+
+  test('should return empty array', () => {
+    const reasons: ReasonForLeavingRank[] = [];
+
+    const result = utils.rankReasons(reasons);
+
+    expect(result).toEqual([]);
   });
 });

@@ -70,6 +70,8 @@ export class SolidDoughnutChartComponent
     this._data = data;
     if (data) {
       this.setData(data);
+      // Reset item styles to clean up any previous selection states while preserving colors
+      this.resetItemStyles();
     }
   }
 
@@ -90,7 +92,10 @@ export class SolidDoughnutChartComponent
   @Output() selectedReason: EventEmitter<string> = new EventEmitter<string>();
 
   ngOnInit(): void {
-    this.resetItemStyles();
+    // Only reset item styles if data exists
+    if (this.data?.length > 0) {
+      this.resetItemStyles();
+    }
   }
 
   onChartInit(ec: ECharts): void {
@@ -121,15 +126,20 @@ export class SolidDoughnutChartComponent
   }
 
   setSelectedReasons(name: string): void {
+    if (!this.data) {
+      return;
+    }
+
     this.data.forEach((dataPoint) => {
-      dataPoint.itemStyle =
+      const opacity =
         dataPoint.name === name || name === this.selected
-          ? {
-              opacity: this.OPACITY_ACTIVE,
-            }
-          : {
-              opacity: this.OPACITY_INACTIVE,
-            };
+          ? this.OPACITY_ACTIVE
+          : this.OPACITY_INACTIVE;
+
+      dataPoint.itemStyle = {
+        ...dataPoint.itemStyle,
+        opacity,
+      };
     });
   }
 
@@ -212,8 +222,15 @@ export class SolidDoughnutChartComponent
   }
 
   resetItemStyles(): void {
+    if (!this.data) {
+      return;
+    }
+
     this.data.forEach((dataPoint) => {
-      dataPoint.itemStyle = undefined;
+      // Preserve the color while removing other style properties like opacity
+      dataPoint.itemStyle = dataPoint.itemStyle?.color
+        ? { color: dataPoint.itemStyle.color }
+        : undefined;
     });
   }
 }

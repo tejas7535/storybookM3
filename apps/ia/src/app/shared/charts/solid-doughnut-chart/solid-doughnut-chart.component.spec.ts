@@ -47,8 +47,17 @@ describe('SolidDoughnutChartComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    test('should reset item styles', () => {
+    test('should not reset item styles if data does not exist`', () => {
       component.resetItemStyles = jest.fn();
+
+      component.ngOnInit();
+
+      expect(component.resetItemStyles).not.toHaveBeenCalled();
+    });
+
+    test('should reset item styles if data exists', () => {
+      component.resetItemStyles = jest.fn();
+      component._data = [{ value: 23, name: 'First' }];
 
       component.ngOnInit();
 
@@ -477,7 +486,7 @@ describe('SolidDoughnutChartComponent', () => {
   });
 
   describe('resetItemStyles', () => {
-    test('should reset item styles', () => {
+    test('should reset item styles and keep color if defined', () => {
       component._data = [
         { value: 21, itemStyle: { color: 'red' } },
         { value: 45, itemStyle: { color: 'yellow' } },
@@ -486,8 +495,12 @@ describe('SolidDoughnutChartComponent', () => {
 
       component.resetItemStyles();
 
-      expect(component.data[0].itemStyle).toBeUndefined();
-      expect(component.data[1].itemStyle).toBeUndefined();
+      expect(component.data[0].itemStyle).toEqual({
+        color: 'red',
+      });
+      expect(component.data[1].itemStyle).toEqual({
+        color: 'yellow',
+      });
       expect(component.data[2].itemStyle).toBeUndefined();
     });
   });

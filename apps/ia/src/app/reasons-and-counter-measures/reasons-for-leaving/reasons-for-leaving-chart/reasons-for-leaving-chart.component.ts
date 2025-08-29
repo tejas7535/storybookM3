@@ -12,7 +12,7 @@ import { translate } from '@jsverse/transloco';
 import { DoughnutChartData } from '../../../shared/charts/models';
 import { SolidDoughnutChartConfig } from '../../../shared/charts/models/solid-doughnut-chart-config.model';
 import { SolidDoughnutChartComponent } from '../../../shared/charts/solid-doughnut-chart/solid-doughnut-chart.component';
-import { CHART_COLOR_PALETTE, Color } from '../../../shared/models';
+import { Color } from '../../../shared/models';
 import { ReasonForLeavingTab } from '../../models';
 
 @Component({
@@ -40,7 +40,6 @@ export class ReasonsForLeavingChartComponent {
     this.config = {
       ...this.config,
       title: '',
-      color: Object.values(CHART_COLOR_PALETTE),
       side,
     };
   }
