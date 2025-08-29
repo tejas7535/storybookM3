@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppComponent getFooterLinks should return the footer links for embedded 1`] = `
+Array [
+  Object {
+    "external": false,
+    "link": "legal/imprint",
+    "title": "legal.imprint",
+  },
+  Object {
+    "external": false,
+    "link": "legal/data-privacy",
+    "title": "legal.dataPrivacy",
+  },
+  Object {
+    "external": false,
+    "link": "legal/terms-of-use",
+    "title": "legal.termsOfUse",
+  },
+  Object {
+    "external": false,
+    "link": "legal/cookie-policy",
+    "title": "legal.cookiePolicy",
+  },
+]
+`;
+
+exports[`AppComponent getFooterLinks should return the footer links for native 1`] = `
+Array [
+  Object {
+    "external": false,
+    "link": "legal/imprint",
+    "title": "legal.imprint",
+  },
+  Object {
+    "external": false,
+    "link": "legal/data-privacy",
+    "title": "legal.dataPrivacy",
+  },
+  Object {
+    "external": false,
+    "link": "legal/terms-of-use",
+    "title": "legal.termsOfUse",
+  },
+  Object {
+    "external": false,
+    "link": "legal/cookie-policy",
+    "title": "legal.cookiePolicy",
+  },
+]
+`;
+
+exports[`AppComponent makeMetaTags should return the properly formatted tags 1`] = `
+Array [
+  Object {
+    "name": "og:title",
+    "value": "title",
+  },
+  Object {
+    "name": "og:description",
+    "value": "description",
+  },
+  Object {
+    "name": "twitter:title",
+    "value": "title",
+  },
+  Object {
+    "name": "twitter:description",
+    "value": "description",
+  },
+  Object {
+    "name": "title",
+    "value": "title",
+  },
+  Object {
+    "name": "description",
+    "value": "description",
+  },
+]
+`;

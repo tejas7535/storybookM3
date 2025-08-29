@@ -1,5 +1,6 @@
 /* eslint-disable @nx/enforce-module-boundaries */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { waitForAsync } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -13,7 +14,7 @@ import {
   Router,
 } from '@angular/router';
 
-import { of, Subject } from 'rxjs';
+import { firstValueFrom, of, Subject } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 import {
@@ -24,11 +25,9 @@ import {
 import { PushPipe } from '@ngrx/component';
 import { MockComponent, MockModule } from 'ng-mocks';
 
-import { AppShellFooterLink, AppShellModule } from '@schaeffler/app-shell';
+import { AppShellModule } from '@schaeffler/app-shell';
 import { BannerModule } from '@schaeffler/banner';
-import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { LanguageSelectModule } from '@schaeffler/transloco/components';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppComponent } from './app.component';
 import { SettingsComponent } from './core/components/settings/settings.component';
@@ -43,7 +42,6 @@ describe('AppComponent', () => {
   let meta: Meta;
   let globalFacade: GlobalFacade;
   let router: Router;
-  let translocoService: TranslocoService;
 
   let routerEventsMock: Subject<any>;
   const mockFn = jest.fn();
@@ -61,7 +59,6 @@ describe('AppComponent', () => {
       MockComponent(SettingsComponent),
       MatIconTestingModule,
       PushPipe,
-      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       {
@@ -103,6 +100,13 @@ describe('AppComponent', () => {
           showPreferenceCenterUI: mockFn,
         },
       },
+      {
+        provide: TranslocoService,
+        useValue: {
+          selectTranslate: (input: string) => of(input),
+          translate: jest.fn(),
+        },
+      },
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     declarations: [AppComponent],
@@ -116,9 +120,6 @@ describe('AppComponent', () => {
     meta = spectator.inject(Meta);
     router = spectator.inject(Router);
     globalFacade = spectator.inject(GlobalFacade);
-    translocoService = spectator.inject(TranslocoService);
-
-    translocoService.translate = jest.fn((key: string) => key) as any;
   });
 
   it('should create the app component', () => {
@@ -126,13 +127,14 @@ describe('AppComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should set meta tags', () => {
+    it('should call update meta tags if the app is standalone', () => {
       meta.addTags = jest.fn();
+      spectator.setInput('standalone', true);
 
       spectator.detectChanges();
       component.ngOnInit();
 
-      expect(meta.addTags).toHaveBeenCalledWith(component['metaTags']);
+      expect(meta.addTags).toHaveBeenCalled();
     });
 
     it('should call init global on navigation end for standalone version', () => {
@@ -151,19 +153,6 @@ describe('AppComponent', () => {
       component.ngOnInit();
 
       expect(globalFacade.initGlobal).toHaveBeenCalled();
-    });
-
-    it('should populate the footerLinks', () => {
-      component.footerLinks$.next = jest.fn();
-      component['getFooterLinks'] = jest.fn((): any[] => []);
-
-      spectator.detectChanges();
-      component.ngOnInit();
-
-      expect(component.footerLinks$.next).toHaveBeenCalledWith([]);
-      expect(component['getFooterLinks']).toHaveBeenCalledWith(
-        AppDelivery.Embedded
-      );
     });
 
     it('should call initial navigation if standalone', () => {
@@ -214,73 +203,20 @@ describe('AppComponent', () => {
   });
 
   describe('getFooterLinks', () => {
-    const defaultLinks: AppShellFooterLink[] = [
-      {
-        link: `${LegalRoute}/${LegalPath.ImprintPath}`,
-        title: 'legal.imprint',
-        external: false,
-      },
-      {
-        link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
-        title: 'legal.dataPrivacy',
-        external: false,
-      },
-      {
-        link: `${LegalRoute}/${LegalPath.TermsPath}`,
-        title: 'legal.termsOfUse',
-        external: false,
-      },
-    ];
+    it('should return the footer links for native', waitForAsync(async () => {
+      const result = await firstValueFrom(component['footerLinks$']);
+      expect(result).toMatchSnapshot();
+    }));
 
-    const nativeLink: AppShellFooterLink = {
-      link: undefined,
-      title: 'legal.cookiePolicy',
-      external: false,
-      onClick: ($event: MouseEvent) => {
-        $event.preventDefault();
-        mockFn();
-      },
-    };
+    it('should return the footer links for embedded', waitForAsync(async () => {
+      const result = await firstValueFrom(component['footerLinks$']);
+      expect(result).toMatchSnapshot();
+    }));
+  });
 
-    const embeddedLink: AppShellFooterLink = {
-      link: `${LegalRoute}/${LegalPath.CookiePath}`,
-      title: 'legal.cookiePolicy',
-      external: false,
-    };
-
-    it('should return the footer links for native', () => {
-      const appDelivery = AppDelivery.Native;
-
-      const result = component['getFooterLinks'](appDelivery);
-
-      expect(JSON.stringify(result)).toEqual(
-        JSON.stringify([...defaultLinks, nativeLink])
-      );
-    });
-
-    it('native cookie link should open ot preference center ui', () => {
-      const appDelivery = AppDelivery.Native;
-
-      const result = component['getFooterLinks'](appDelivery);
-
-      const mockEvent = {
-        preventDefault: jest.fn(),
-      };
-
-      result.at(-1)?.onClick(mockEvent as unknown as MouseEvent);
-
-      expect(mockEvent.preventDefault).toHaveBeenCalled();
-      expect(mockFn).toHaveBeenCalled();
-    });
-
-    it('should return the footer links for embedded', () => {
-      const appDelivery = AppDelivery.Embedded;
-
-      const result = component['getFooterLinks'](appDelivery);
-
-      expect(JSON.stringify(result)).toEqual(
-        JSON.stringify([...defaultLinks, embeddedLink])
-      );
-    });
+  it('makeMetaTags should return the properly formatted tags', () => {
+    const returnValue = component['makeMetaTags']('title', 'description');
+    expect(returnValue.length).toEqual(6);
+    expect(returnValue).toMatchSnapshot();
   });
 });

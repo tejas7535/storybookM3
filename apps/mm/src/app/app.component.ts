@@ -12,20 +12,17 @@ import { Meta, MetaDefinition } from '@angular/platform-browser';
 import { NavigationEnd, NavigationSkipped, Router } from '@angular/router';
 
 import {
-  BehaviorSubject,
+  combineLatest,
   filter,
-  merge,
+  map,
+  startWith,
   Subject,
-  switchMap,
   take,
   takeUntil,
 } from 'rxjs';
 
-import {
-  LoadedEvent,
-  TranslocoEvents,
-  TranslocoService,
-} from '@jsverse/transloco';
+import { Capacitor } from '@capacitor/core';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
@@ -35,7 +32,6 @@ import { MMSeparator } from './core/services';
 import { OneTrustMobileService } from './core/services/tracking/one-trust-mobile.service';
 import { CalculationSelectionFacade } from './core/store/facades/calculation-selection/calculation-selection.facade';
 import { GlobalFacade } from './core/store/facades/global/global.facade';
-import { AppDelivery } from './shared/models';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -75,60 +71,65 @@ export class AppComponent implements OnInit, OnDestroy {
   public isInitialized$ = this.globalFacade.isInitialized$;
   public destroy$ = new Subject<void>();
 
-  public footerLinks$ = new BehaviorSubject<AppShellFooterLink[]>([]);
+  public footerLinks$ = combineLatest([
+    this.translocoService.selectTranslate('legal.imprint').pipe(
+      map((title) => ({
+        link: `${LegalRoute}/${LegalPath.ImprintPath}`,
+        title,
+        external: false,
+      }))
+    ),
+    this.translocoService.selectTranslate('legal.dataPrivacy').pipe(
+      map((title) => ({
+        link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
+        title,
+        external: false,
+      }))
+    ),
+    this.translocoService.selectTranslate('legal.termsOfUse').pipe(
+      map((title) => ({
+        link: `${LegalRoute}/${LegalPath.TermsPath}`,
+        title,
+        external: false,
+      }))
+    ),
+    this.translocoService.selectTranslate('legal.cookiePolicy').pipe(
+      map((title) => ({
+        link: `${LegalRoute}/${LegalPath.CookiePath}`,
+        title,
+        external: false,
+      })),
+      filter(() => !this.isMobile()),
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      startWith(undefined)
+    ),
+    this.translocoService.selectTranslate('legal.cookiePolicy').pipe(
+      map(
+        (title) =>
+          ({
+            link: 'wrong link',
+            title,
+            external: false,
+            onClick: ($event: MouseEvent) => {
+              $event.preventDefault();
+              this.oneTrustMobileService.showPreferenceCenterUI();
+            },
+          }) as AppShellFooterLink
+      ),
+      filter(() => this.isMobile()),
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      startWith(undefined)
+    ),
+  ]).pipe(
+    map((links) => links.filter(Boolean)) // Filter out any null values
+  );
 
-  public metaTags: MetaDefinition[] = [
-    { name: 'title', content: this.translocoService.translate('meta.title') },
-    {
-      name: 'description',
-      content: this.translocoService.translate('meta.description'),
-    },
-    // Open Graph / Facebook
-    {
-      name: 'og:title',
-      content: this.translocoService.translate('meta.title'),
-    },
-    {
-      name: 'og:description',
-      content: this.translocoService.translate('meta.description'),
-    },
-    // Twitter
-    {
-      name: 'twitter:title',
-      content: this.translocoService.translate('meta.title'),
-    },
-    {
-      name: 'twitter:description',
-      content: this.translocoService.translate('meta.description'),
-    },
-  ];
+  public readonly metaTags$ = combineLatest([
+    this.translocoService.selectTranslate('meta.title'),
+    this.translocoService.selectTranslate('meta.description'),
+  ]).pipe(map(([title, description]) => this.makeMetaTags(title, description)));
 
   public ngOnInit(): void {
-    this.meta.addTags(this.metaTags);
-
-    this.isInitialized$
-      .pipe(
-        filter((isInitialized) => isInitialized),
-        switchMap(() =>
-          merge([
-            this.appDelivery$,
-            this.translocoService.events$.pipe(
-              filter(
-                (event: TranslocoEvents) =>
-                  !(event as LoadedEvent).wasFailure &&
-                  event.type === 'translationLoadSuccess'
-              )
-            ),
-            this.translocoService.langChanges$,
-          ])
-        ),
-        switchMap(() => this.appDelivery$)
-      )
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((appDelivery) => {
-        this.footerLinks$.next(this.getFooterLinks(appDelivery));
-      });
-
     if (this.standalone()) {
       this.router.events
         .pipe(
@@ -143,6 +144,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this.language()
           );
         });
+      this.metaTags$.subscribe((tags) => this.meta.addTags(tags));
     } else {
       this.globalFacade.initGlobal(
         this.standalone(),
@@ -179,42 +181,24 @@ export class AppComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private getFooterLinks(appDelivery: AppDelivery): AppShellFooterLink[] {
-    const footerLinks: AppShellFooterLink[] = [
-      {
-        link: `${LegalRoute}/${LegalPath.ImprintPath}`,
-        title: this.translocoService.translate('legal.imprint'),
-        external: false,
-      },
-      {
-        link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
-        title: this.translocoService.translate('legal.dataPrivacy'),
-        external: false,
-      },
-      {
-        link: `${LegalRoute}/${LegalPath.TermsPath}`,
-        title: this.translocoService.translate('legal.termsOfUse'),
-        external: false,
-      },
-    ];
+  public isMobile() {
+    return Capacitor.isNativePlatform();
+  }
 
-    return [
-      ...footerLinks,
-      appDelivery === AppDelivery.Native
-        ? {
-            link: undefined,
-            title: this.translocoService.translate('legal.cookiePolicy'),
-            external: false,
-            onClick: ($event: MouseEvent) => {
-              $event.preventDefault();
-              this.oneTrustMobileService.showPreferenceCenterUI();
-            },
-          }
-        : {
-            link: `${LegalRoute}/${LegalPath.CookiePath}`,
-            title: this.translocoService.translate('legal.cookiePolicy'),
-            external: false,
-          },
+  private makeMetaTags(title: string, description: string): MetaDefinition[] {
+    const tagFactory = (
+      fprefix: string,
+      ftitle: string,
+      fdescription: string
+    ) => [
+      { name: `${fprefix + (fprefix === '' ? '' : ':')}title`, value: ftitle },
+      {
+        name: `${fprefix + (fprefix === '' ? '' : ':')}description`,
+        value: fdescription,
+      },
     ];
+    const prefixes = ['og', 'twitter', ''];
+
+    return prefixes.flatMap((prefix) => tagFactory(prefix, title, description));
   }
 }
