@@ -1,5 +1,6 @@
 /* eslint-disable no-plusplus */
 
+import { Colors } from '../../constants';
 import { Component, Rect } from '../../core';
 
 export class ColumnLayout extends Component {
@@ -62,12 +63,15 @@ export class ColumnLayout extends Component {
 
 export class RowLayout extends Component {
   private componentWidths: number[] = [];
+  private readonly backgroundColor: string;
 
   public constructor(
     private readonly components: Component[],
-    private readonly spacing: number = 4
+    private readonly spacing: number = 4,
+    backgroundColor: string = Colors.Surface
   ) {
     super();
+    this.backgroundColor = backgroundColor;
   }
 
   public override evaluate(bounds: Rect): [boolean, number] {
@@ -101,6 +105,17 @@ export class RowLayout extends Component {
 
   public override render(): void {
     super.render();
+
+    // Draw background
+    const doc = this.assertDoc();
+    doc.setFillColor(this.backgroundColor);
+    doc.rect(
+      this.bounds.x,
+      this.bounds.y,
+      this.bounds.width,
+      this.bounds.height,
+      'F'
+    );
 
     let currentX = this.bounds.x;
 

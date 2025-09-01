@@ -16,6 +16,8 @@ describe('Layout Components', () => {
       setDrawColor: jest.fn(),
       setLineWidth: jest.fn(),
       line: jest.fn(),
+      setFillColor: jest.fn(),
+      rect: jest.fn(),
       getFont: jest
         .fn()
         .mockReturnValue({ fontName: 'Arial', fontStyle: 'normal' }),
