@@ -60,7 +60,7 @@ export const getMaterialClassOptions = createSelector(
       ? [
           ...dataState.materialClasses,
           MaterialClass.SAP_MATERIAL,
-          MaterialClass.VITESCO,
+          MaterialClass.DS_VITESCO,
           MaterialClass.DS_ESTIMATIONMATRIX,
         ].filter((mc: MaterialClass) => SupportedMaterialClasses.includes(mc))
       : undefined
@@ -150,7 +150,7 @@ export const getVitescoResult = createSelector(
     vitescoMaterialsRows?.startRow === undefined
       ? undefined
       : {
-          data: state.result?.[MaterialClass.VITESCO]?.[
+          data: state.result?.[MaterialClass.DS_VITESCO]?.[
             NavigationLevel.MATERIAL
           ],
           ...vitescoMaterialsRows,

@@ -7,10 +7,10 @@ export enum MaterialClass {
   LUBRICANTS = 'lu',
 
   SAP_MATERIAL = 'sap',
-  VITESCO = 'vitesco',
+  DS_VITESCO = 'vitesco',
   DS_ESTIMATIONMATRIX = 'estimationmatrix',
 }
 
-export const SupportedMaterialClasses = Object.values(MaterialClass).filter(
-  (c) => c !== MaterialClass.VITESCO
+export const SupportedMaterialClasses = Object.values(
+  MaterialClass
 ) as MaterialClass[];

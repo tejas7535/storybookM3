@@ -416,7 +416,17 @@
         "reportValidUntil": "Report valid until",
         "dataQualityRating": "Data Quality Rating",
         "co2UploadFile": "CO₂ Upload File",
-        "co2UploadFileId": "CO₂ Proof Document"
+        "co2UploadFileId": "CO₂ Proof Document",
+        "mlcStatus": "MLC Status",
+        "groupedClassification": "Grouped Classification Node",
+        "classificationNode": "Classification Node",
+        "cxTiR": "TiR",
+        "cxTeR": "TeR",
+        "cxGeR": "GeR",
+        "impactCategory": "Impact Category + Sub-Category",
+        "referenceDb": "Reference Secondary Data DB",
+        "referenceMl": "Reference to ML-Daten",
+        "dataOwner": "Data Owner"
       },
       "confirmDialog": {
         "cancel": "Cancel",

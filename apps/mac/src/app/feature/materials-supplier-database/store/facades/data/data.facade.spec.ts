@@ -150,6 +150,7 @@ describe('DataFacade', () => {
           a: [
             ...mockMaterialClassOptions,
             MaterialClass.SAP_MATERIAL,
+            MaterialClass.DS_VITESCO,
             MaterialClass.DS_ESTIMATIONMATRIX,
           ],
         });

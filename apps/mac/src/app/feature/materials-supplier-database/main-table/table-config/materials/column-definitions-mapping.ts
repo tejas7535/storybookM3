@@ -84,7 +84,7 @@ export const COLUMN_DEFINITIONS_MAPPING: MsdColumnDefinitionsMapping = {
     [MaterialClass.SAP_MATERIAL]: {
       [NavigationLevel.MATERIAL]: SAP_MATERIALS_COLUMN_DEFINITIONS,
     },
-    [MaterialClass.VITESCO]: {
+    [MaterialClass.DS_VITESCO]: {
       [NavigationLevel.MATERIAL]: VITESCO_MATERIALS_COLUMN_DEFINITIONS,
     },
     [MaterialClass.DS_ESTIMATIONMATRIX]: {

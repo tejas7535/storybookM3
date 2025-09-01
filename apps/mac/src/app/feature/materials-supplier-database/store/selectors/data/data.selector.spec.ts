@@ -118,6 +118,7 @@ describe('DataSelectors', () => {
       ).toEqual([
         MaterialClass.STEEL,
         MaterialClass.SAP_MATERIAL,
+        MaterialClass.DS_VITESCO,
         MaterialClass.DS_ESTIMATIONMATRIX,
       ]);
     });
@@ -131,6 +132,7 @@ describe('DataSelectors', () => {
       ).toEqual([
         MaterialClass.STEEL,
         MaterialClass.SAP_MATERIAL,
+        MaterialClass.DS_VITESCO,
         MaterialClass.DS_ESTIMATIONMATRIX,
       ]);
     });
@@ -322,7 +324,7 @@ describe('DataSelectors', () => {
           {
             ...initialState,
             result: {
-              [MaterialClass.VITESCO]: {
+              [MaterialClass.DS_VITESCO]: {
                 materials: [],
               },
             },

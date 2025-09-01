@@ -132,7 +132,7 @@ describe('Data Effects', () => {
       [NavigationLevel.SUPPLIER, fetchManufacturerSuppliers],
       [NavigationLevel.STANDARD, fetchMaterialStandards],
       [NavigationLevel.MATERIAL, undefined, MaterialClass.SAP_MATERIAL],
-      [NavigationLevel.MATERIAL, undefined, MaterialClass.VITESCO],
+      [NavigationLevel.MATERIAL, undefined, MaterialClass.DS_VITESCO],
       [undefined, undefined],
       [NavigationLevel.PRODUCT_CATEGORY_RULES, fetchProductCategoryRules],
     ])(
@@ -337,7 +337,7 @@ describe('Data Effects', () => {
       'should fetch sap materials and return success action on success',
       marbles((m) => {
         msdDataFacade.navigation$ = of({
-          materialClass: MaterialClass.VITESCO,
+          materialClass: MaterialClass.DS_VITESCO,
           navigationLevel: NavigationLevel.MATERIAL,
         });
 

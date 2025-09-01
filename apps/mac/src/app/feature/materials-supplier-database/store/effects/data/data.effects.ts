@@ -41,7 +41,7 @@ export class DataEffects {
         if (
           [
             MaterialClass.SAP_MATERIAL,
-            MaterialClass.VITESCO,
+            MaterialClass.DS_VITESCO,
             MaterialClass.DS_ESTIMATIONMATRIX,
           ].includes(materialClass)
         ) {

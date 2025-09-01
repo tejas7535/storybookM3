@@ -284,7 +284,7 @@ describe('MsdNavigationComponent', () => {
     });
 
     it('should return false if class is vitesco', () => {
-      const result = component['hasNavigationLevels'](MaterialClass.VITESCO);
+      const result = component['hasNavigationLevels'](MaterialClass.DS_VITESCO);
 
       expect(result).toBe(false);
     });

@@ -163,8 +163,8 @@ export const dataReducer = createReducer(
       },
       result: {
         ...state.result,
-        [MaterialClass.VITESCO]: {
-          ...state.result[MaterialClass.VITESCO],
+        [MaterialClass.DS_VITESCO]: {
+          ...state.result[MaterialClass.DS_VITESCO],
           materials: undefined,
         },
       },
@@ -270,8 +270,8 @@ export const dataReducer = createReducer(
       },
       result: {
         ...state.result,
-        [MaterialClass.VITESCO]: {
-          ...state.result[MaterialClass.VITESCO],
+        [MaterialClass.DS_VITESCO]: {
+          ...state.result[MaterialClass.DS_VITESCO],
           materials: data,
         },
       },
@@ -288,8 +288,8 @@ export const dataReducer = createReducer(
       },
       result: {
         ...state.result,
-        [MaterialClass.VITESCO]: {
-          ...state.result[MaterialClass.VITESCO],
+        [MaterialClass.DS_VITESCO]: {
+          ...state.result[MaterialClass.DS_VITESCO],
           materials: undefined,
         },
       },

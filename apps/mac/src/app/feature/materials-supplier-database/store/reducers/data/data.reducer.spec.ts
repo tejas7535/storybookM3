@@ -113,7 +113,7 @@ describe('dataReducer', () => {
             },
             result: {
               ...state.result,
-              [MaterialClass.VITESCO]: {
+              [MaterialClass.DS_VITESCO]: {
                 materials: [],
               },
             },
@@ -129,7 +129,7 @@ describe('dataReducer', () => {
           },
           result: {
             ...initialState.result,
-            [MaterialClass.VITESCO]: {
+            [MaterialClass.DS_VITESCO]: {
               materials: undefined,
             },
           },
@@ -156,8 +156,8 @@ describe('dataReducer', () => {
           },
           result: {
             ...initialState.result,
-            [MaterialClass.VITESCO]: {
-              ...initialState.result[MaterialClass.VITESCO],
+            [MaterialClass.DS_VITESCO]: {
+              ...initialState.result[MaterialClass.DS_VITESCO],
               materials: [],
             },
           },
@@ -181,7 +181,7 @@ describe('dataReducer', () => {
             },
             result: {
               ...state.result,
-              [MaterialClass.VITESCO]: {
+              [MaterialClass.DS_VITESCO]: {
                 materials: [],
               },
             },
@@ -197,7 +197,7 @@ describe('dataReducer', () => {
             retryCount: 2,
           },
           result: {
-            [MaterialClass.VITESCO]: {
+            [MaterialClass.DS_VITESCO]: {
               materials: undefined,
             },
           },
