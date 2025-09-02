@@ -72,7 +72,11 @@
       },
       "attachments": {
         "addAttachmentsButtonLabel": "Add Attachments",
-        "addAttachmentDialogTitle": "Add Attachments"
+        "addAttachmentDialogTitle": "Add Attachments",
+        "accessType": {
+          "CALCULATOR": "visible for Calculator",
+          "CALCULATOR_SALES": "visible for Sales & Calculator"
+        }
       },
       "validation": {
         "notValid": "Enter decimal number",
@@ -95,7 +99,8 @@
     "snackBarMessages": {
       "assignRfq": "You are assigned and the RFQ is set to in Progress",
       "uploadSuccess": "Attachments uploaded successfully",
-      "deleteSuccess": "Attachment deleted"
+      "deleteSuccess": "Attachment deleted",
+      "attachmentAccessUpdateError": "Access to attachments could not be updated. Try again later"
     }
   },
   "rfq4Overview": {

@@ -22,8 +22,12 @@ import {
   RFQ_DETAIL_VIEW_DATA_MOCK,
   RFQ_PRODUCTION_PLANTS,
 } from '../../../../testing/mocks/models/calculator/rfq-4-detail-view/rfq-4-detail-view-data.mock';
+import { AccessibleByEnum } from '../models/accessibly-by.enum';
 import { RecalculateSqvStatus } from '../models/recalculate-sqv-status.enum';
-import { RfqCalculatorAttachment } from '../models/rfq-calculator-attachments.interface';
+import {
+  FileAccessUpdate,
+  RfqCalculatorAttachment,
+} from '../models/rfq-calculator-attachments.interface';
 import { Rfq4DetailViewService } from '../service/rest/rfq-4-detail-view.service';
 import { Rfq4DetailViewStore } from './rfq-4-detail-view.store';
 
@@ -55,6 +59,9 @@ describe('Rfq4DetailViewStore', () => {
     deleteCalculatorAttachment: jest
       .fn()
       .mockReturnValue(of([] as RfqCalculatorAttachment[])),
+    updateCalculatorAttachmentsAccess: jest
+      .fn()
+      .mockReturnValue(of(RFQ_CALCULATOR_ATTACHMENTS_MOCK)),
   };
   const aadUser: ActiveDirectoryUser = {
     firstName: 'firstName',
@@ -492,6 +499,73 @@ describe('Rfq4DetailViewStore', () => {
       ).toHaveBeenCalledWith(attachment);
       expect(store.attachmentsDeleting()).toBeFalsy();
       expect(store.attachments()).toEqual([]);
+    });
+    test('switchAttachmentAccess', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      patchState(unprotected(store), {
+        attachments: RFQ_CALCULATOR_ATTACHMENTS_MOCK,
+      });
+      const fileToUpdate: FileAccessUpdate = {
+        fileName: RFQ_CALCULATOR_ATTACHMENTS_MOCK[0].fileName,
+        accessibleBy: AccessibleByEnum.CALCULATOR_SALES,
+      };
+      store.switchAttachmentAccess(fileToUpdate);
+
+      expect(store.pendingAttachmentAccessUpdates()).toEqual([fileToUpdate]);
+    });
+    test('switchAttachmentAccess should filter files', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      patchState(unprotected(store), {
+        attachments: RFQ_CALCULATOR_ATTACHMENTS_MOCK,
+      });
+      const fileToUpdate: FileAccessUpdate = {
+        fileName: RFQ_CALCULATOR_ATTACHMENTS_MOCK[0].fileName,
+        accessibleBy: RFQ_CALCULATOR_ATTACHMENTS_MOCK[0].accessibleBy,
+      };
+      store.switchAttachmentAccess(fileToUpdate);
+
+      expect(store.pendingAttachmentAccessUpdates().length).toBe(0);
+    });
+    test('updateCalculatorAttachmentsAccess is not called when uploadAccessAttachments is empty', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      patchState(unprotected(store), {
+        rfq4DetailViewData: RFQ_DETAIL_VIEW_DATA_MOCK,
+        pendingAttachmentAccessUpdates: [],
+        attachmentsLoading: true,
+      });
+
+      store.updateCalculatorAttachmentsAccess();
+
+      expect(
+        rfq4DetailViewService.updateCalculatorAttachmentsAccess
+      ).not.toHaveBeenCalled();
+      expect(store.attachments()).toEqual(RFQ_CALCULATOR_ATTACHMENTS_MOCK);
+      expect(store.pendingAttachmentAccessUpdates().length).toBe(0);
+      expect(store.attachmentsLoading()).toBeFalsy();
+    });
+    test('updateCalculatorAttachmentsAccess', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      const rfqId = 12_345;
+      const uploadAccessAttachments: FileAccessUpdate[] = [
+        {
+          fileName: 'test.txt',
+          accessibleBy: AccessibleByEnum.CALCULATOR,
+        },
+      ];
+      patchState(unprotected(store), {
+        rfq4DetailViewData: RFQ_DETAIL_VIEW_DATA_MOCK,
+        pendingAttachmentAccessUpdates: uploadAccessAttachments,
+        attachmentsLoading: true,
+      });
+
+      store.updateCalculatorAttachmentsAccess();
+
+      expect(
+        rfq4DetailViewService.updateCalculatorAttachmentsAccess
+      ).toHaveBeenCalledWith(rfqId, uploadAccessAttachments);
+      expect(store.attachments()).toEqual(RFQ_CALCULATOR_ATTACHMENTS_MOCK);
+      expect(store.pendingAttachmentAccessUpdates().length).toBe(0);
+      expect(store.attachmentsLoading()).toBeFalsy();
     });
   });
 

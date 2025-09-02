@@ -21,7 +21,10 @@ import {
 } from '../../../../../testing/mocks/models/calculator/rfq-4-detail-view/rfq-4-detail-view-data.mock';
 import { AccessibleByEnum } from '../../models/accessibly-by.enum';
 import { CalculatorAttachmentsResponse } from '../../models/calculator-attachments-response.interface';
-import { RfqCalculatorAttachment } from '../../models/rfq-calculator-attachments.interface';
+import {
+  FileAccessUpdate,
+  RfqCalculatorAttachment,
+} from '../../models/rfq-calculator-attachments.interface';
 import { Rfq4DetailViewService } from './rfq-4-detail-view.service';
 import { DetailViewPaths } from './rfq-4-detail-view-paths.enum';
 
@@ -170,6 +173,25 @@ describe('Rfq4DetailViewService', () => {
       service.downloadCalculatorAttachment(attachment).subscribe((result) => {
         expect(result).toEqual('test.jpg');
       });
+    });
+  });
+  describe('updateCalculatorAttachmentsAccess', () => {
+    test('should call updateCalculatorAttachmentsAccess with correct URL and params', () => {
+      const rfqId = 456;
+      const attachments = [
+        {
+          fileName: 'test.txt',
+          accessibleBy: AccessibleByEnum.CALCULATOR,
+        },
+      ] as FileAccessUpdate[];
+
+      service.updateCalculatorAttachmentsAccess(rfqId, attachments).subscribe();
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${rfqId}/${DetailViewPaths.PATH_RFQ4_ATTACHMENTS}`
+      );
+      expect(req.request.method).toBe('PATCH');
+      expect(req.request.body).toEqual(attachments);
     });
   });
 });

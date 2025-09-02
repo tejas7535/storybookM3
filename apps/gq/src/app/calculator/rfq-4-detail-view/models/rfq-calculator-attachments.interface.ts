@@ -6,3 +6,8 @@ export interface RfqCalculatorAttachment extends Attachment {
   accessibleBy: AccessibleByEnum;
   rfqId: number;
 }
+
+export type FileAccessUpdate = Pick<
+  RfqCalculatorAttachment,
+  'fileName' | 'accessibleBy'
+>;

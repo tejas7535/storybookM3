@@ -19,7 +19,10 @@ import { Subject } from 'rxjs';
 
 import { AccessibleByEnum } from '@gq/calculator/rfq-4-detail-view/models/accessibly-by.enum';
 import { RecalculateSqvStatus } from '@gq/calculator/rfq-4-detail-view/models/recalculate-sqv-status.enum';
-import { RfqCalculatorAttachment } from '@gq/calculator/rfq-4-detail-view/models/rfq-calculator-attachments.interface';
+import {
+  FileAccessUpdate,
+  RfqCalculatorAttachment,
+} from '@gq/calculator/rfq-4-detail-view/models/rfq-calculator-attachments.interface';
 import { Rfq4DetailViewStore } from '@gq/calculator/rfq-4-detail-view/store/rfq-4-detail-view.store';
 import { AttachmentsComponent } from '@gq/shared/components/attachments/attachments.component';
 import { AttachmentFilesUploadModalComponent } from '@gq/shared/components/modal/attachment-files-upload-modal/attachment-files-upload-modal.component';
@@ -105,7 +108,11 @@ export class RecalculationAttachmentsComponent implements OnInit {
     attachment: RfqCalculatorAttachment,
     access: AccessibleByEnum
   ): void {
-    attachment.accessibleBy = access;
+    const fileToUpdate: FileAccessUpdate = {
+      fileName: attachment.fileName,
+      accessibleBy: access,
+    };
+    this.store.switchAttachmentAccess(fileToUpdate);
   }
 
   openAddFileDialog(): void {

@@ -62,4 +62,13 @@ export const RFQ4_DETAIL_VIEW_ACTIONS = {
     '[RFQ4 Detail View] Delete Calculator Attachment Success',
   DELETE_CALCULATOR_ATTACHMENT_FAILURE:
     '[RFQ4 Detail View] Delete Calculator Attachment Failure',
+
+  SWITCH_CALCULATOR_ATTACHMENTS_ACCESS:
+    '[RFQ4 Detail View] Switch Calculator Attachments Access',
+  UPDATE_CALCULATOR_ATTACHMENTS_ACCESS:
+    '[RFQ4 Detail View] Update Calculator Attachments Access',
+  UPDATE_CALCULATOR_ATTACHMENTS_ACCESS_SUCCESS:
+    '[RFQ4 Detail View] Update Calculator Attachments Access Success',
+  UPDATE_CALCULATOR_ATTACHMENTS_ACCESS_FAILURE:
+    '[RFQ4 Detail View] Update Calculator Attachments Access Failure',
 };

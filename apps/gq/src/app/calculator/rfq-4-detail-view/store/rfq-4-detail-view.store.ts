@@ -3,7 +3,7 @@ import { computed, effect, inject } from '@angular/core';
 import { FormControlStatus } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { of, pipe, switchMap, tap } from 'rxjs';
+import { EMPTY, of, pipe, switchMap, tap } from 'rxjs';
 
 import { updateState, withDevtools } from '@angular-architects/ngrx-toolkit';
 import { ProductionPlantService } from '@gq/calculator/rfq-4-detail-view/service/rest/production-plant.service';
@@ -37,7 +37,10 @@ import {
   RfqDetailViewCalculationData,
   RfqDetailViewData,
 } from '../models/rfq-4-detail-view-data.interface';
-import { RfqCalculatorAttachment } from '../models/rfq-calculator-attachments.interface';
+import {
+  FileAccessUpdate,
+  RfqCalculatorAttachment,
+} from '../models/rfq-calculator-attachments.interface';
 import { Rfq4DetailViewService } from '../service/rest/rfq-4-detail-view.service';
 import { RFQ4_DETAIL_VIEW_ACTIONS } from './actions.const';
 
@@ -57,6 +60,7 @@ interface Rfq4DetailViewState {
   attachments: RfqCalculatorAttachment[] | null;
   attachmentsLoading: boolean;
   attachmentsDeleting: boolean;
+  pendingAttachmentAccessUpdates: FileAccessUpdate[];
 }
 
 const initialState: Rfq4DetailViewState = {
@@ -75,6 +79,7 @@ const initialState: Rfq4DetailViewState = {
   attachments: null,
   attachmentsLoading: false,
   attachmentsDeleting: false,
+  pendingAttachmentAccessUpdates: [],
 };
 
 export const Rfq4DetailViewStore = signalStore(
@@ -376,6 +381,7 @@ export const Rfq4DetailViewStore = signalStore(
                         'calculator.rfq4DetailView.recalculation.snackBarMessages.saved'
                       );
                       snackBar.open(successMessage);
+                      updateCalculatorAttachmentsAccess();
                     },
                     error: () => {
                       updateState(
@@ -469,6 +475,7 @@ export const Rfq4DetailViewStore = signalStore(
                         'calculator.rfq4DetailView.recalculation.snackBarMessages.confirmed'
                       );
                       snackBar.open(successMessage);
+                      updateCalculatorAttachmentsAccess();
                     },
                     error: () => {
                       updateState(
@@ -721,6 +728,103 @@ export const Rfq4DetailViewStore = signalStore(
         )
       );
 
+      const switchAttachmentAccess = rxMethod<FileAccessUpdate>(
+        pipe(
+          tap((fileToUpdate: FileAccessUpdate) => {
+            let pendingAccessUpdates = [
+              ...store.pendingAttachmentAccessUpdates(),
+              fileToUpdate,
+            ];
+
+            const accessAlreadySet = store
+              .attachments()
+              .find(
+                (at) =>
+                  at.fileName === fileToUpdate.fileName &&
+                  at.accessibleBy === fileToUpdate.accessibleBy
+              );
+
+            if (accessAlreadySet) {
+              pendingAccessUpdates = pendingAccessUpdates.filter(
+                (f) => f.fileName !== fileToUpdate.fileName
+              );
+            }
+
+            updateState(
+              store,
+              RFQ4_DETAIL_VIEW_ACTIONS.SWITCH_CALCULATOR_ATTACHMENTS_ACCESS,
+              {
+                pendingAttachmentAccessUpdates: pendingAccessUpdates,
+              }
+            );
+          })
+        )
+      );
+
+      const updateCalculatorAttachmentsAccess = rxMethod<void>(
+        pipe(
+          tap(() =>
+            updateState(
+              store,
+              RFQ4_DETAIL_VIEW_ACTIONS.UPDATE_CALCULATOR_ATTACHMENTS_ACCESS,
+              {
+                attachmentsLoading: true,
+              }
+            )
+          ),
+          switchMap(() => {
+            const attachmentsToUpdate = store.pendingAttachmentAccessUpdates();
+            if (attachmentsToUpdate.length === 0) {
+              updateState(
+                store,
+                RFQ4_DETAIL_VIEW_ACTIONS.UPDATE_CALCULATOR_ATTACHMENTS_ACCESS_SUCCESS,
+                {
+                  attachmentsLoading: false,
+                  pendingAttachmentAccessUpdates: [],
+                }
+              );
+
+              return EMPTY;
+            }
+
+            return rfq4DetailViewService
+              .updateCalculatorAttachmentsAccess(
+                store.getRfq4ProcessData()?.rfqId,
+                attachmentsToUpdate
+              )
+              .pipe(
+                tapResponse({
+                  next: (attachments: RfqCalculatorAttachment[]) => {
+                    updateState(
+                      store,
+                      RFQ4_DETAIL_VIEW_ACTIONS.UPDATE_CALCULATOR_ATTACHMENTS_ACCESS_SUCCESS,
+                      {
+                        attachments,
+                        attachmentsLoading: false,
+                        pendingAttachmentAccessUpdates: [],
+                      }
+                    );
+                  },
+                  error: () => {
+                    updateState(
+                      store,
+                      RFQ4_DETAIL_VIEW_ACTIONS.UPDATE_CALCULATOR_ATTACHMENTS_ACCESS_FAILURE,
+                      {
+                        attachmentsLoading: false,
+                        pendingAttachmentAccessUpdates: [],
+                      }
+                    );
+                    const successMessage = translate(
+                      'calculator.rfq4DetailView.snackBarMessages.attachmentAccessUpdateError'
+                    );
+                    snackBar.open(successMessage);
+                  },
+                })
+              );
+          })
+        )
+      );
+
       return {
         loadRfq4DetailViewData,
         loadProcessAssignedToAdUser,
@@ -737,6 +841,8 @@ export const Rfq4DetailViewStore = signalStore(
         uploadCalculatorAttachments,
         downloadCalculatorAttachment,
         deleteCalculatorAttachment,
+        switchAttachmentAccess,
+        updateCalculatorAttachmentsAccess,
       };
     }
   ),

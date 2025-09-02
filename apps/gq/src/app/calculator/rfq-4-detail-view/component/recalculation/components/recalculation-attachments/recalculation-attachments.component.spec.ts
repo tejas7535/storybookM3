@@ -35,6 +35,7 @@ describe('RecalculationAttachmentsComponent', () => {
       uploadCalculatorAttachments: jest.fn(),
       deleteCalculatorAttachment: jest.fn(),
       downloadCalculatorAttachment: jest.fn(),
+      switchAttachmentAccess: jest.fn(),
     })
     .build();
 
@@ -77,14 +78,19 @@ describe('RecalculationAttachmentsComponent', () => {
   describe('onAccessChange', () => {
     test('should update accessibleByOptions when access changes', () => {
       const attachment: RfqCalculatorAttachment = {
+        fileName: 'test.txt',
         accessibleBy: AccessibleByEnum.CALCULATOR,
       } as RfqCalculatorAttachment;
       component['onAccessChange'](
         attachment,
         AccessibleByEnum.CALCULATOR_SALES
       );
-      expect(attachment.accessibleBy).toEqual(
-        AccessibleByEnum.CALCULATOR_SALES
+      const fileToUpdate = {
+        fileName: attachment.fileName,
+        accessibleBy: AccessibleByEnum.CALCULATOR_SALES,
+      };
+      expect(component['store'].switchAttachmentAccess).toHaveBeenCalledWith(
+        fileToUpdate
       );
     });
   });

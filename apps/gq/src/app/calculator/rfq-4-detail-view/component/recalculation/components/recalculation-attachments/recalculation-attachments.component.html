@@ -35,7 +35,13 @@
 </ng-container>
 
 <ng-template #accessDropDownTemplate let-attachment="attachment">
-  <div class="w-80">
+  <div
+    class="w-80"
+    *transloco="
+      let t;
+      prefix: 'calculator.rfq4DetailView.recalculation.attachments'
+    "
+  >
     <mat-form-field appearance="outline" class="w-80" subscriptSizing="dynamic">
       <mat-select
         [value]="attachment.accessibleBy"
@@ -43,7 +49,7 @@
       >
         @for (option of accessibleByOptions; track option) {
           <mat-option [value]="option.key">
-            {{ option.value }}
+            {{ t('accessType.' + option.value) }}
           </mat-option>
         }
       </mat-select>

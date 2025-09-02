@@ -72,7 +72,11 @@
       },
       "attachments": {
         "addAttachmentsButtonLabel": "Anhänge hinzufügen",
-        "addAttachmentDialogTitle": "Anhänge hinzufügen"
+        "addAttachmentDialogTitle": "Anhänge hinzufügen",
+        "accessType": {
+          "CALCULATOR": "sichtbar für Kalkulator",
+          "CALCULATOR_SALES": "sichtbar für Vertrieb & Kalkulator"
+        }
       },
       "validation": {
         "notValid": "Gib Dezimalzahl ein",
@@ -95,7 +99,8 @@
     "snackBarMessages": {
       "assignRfq": "Sie sind zugewiesen und der RFQ ist auf 'In Bearbeitung' gesetzt",
       "uploadSuccess": "Anhänge erfolgreich hochgeladen",
-      "deleteSuccess": "Anhang gelöscht"
+      "deleteSuccess": "Anhang gelöscht",
+      "attachmentAccessUpdateError": "Zugriff auf die Anhänge konnte nicht aktualisiert werden. Versuche es später erneut"
     }
   },
   "rfq4Overview": {
