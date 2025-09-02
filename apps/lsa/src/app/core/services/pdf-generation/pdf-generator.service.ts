@@ -29,8 +29,14 @@ import { PipeLength } from '@lsa/shared/constants/tube-length.enum';
 import {
   Accessory,
   Lubricator,
+  MultiUnitValue,
   RecommendationResponse,
 } from '@lsa/shared/models';
+import { Unitset } from '@lsa/shared/models/preferences.model';
+import {
+  celciusToFahrenheit,
+  mlToFlz,
+} from '@lsa/shared/pipes/units/unit-conversion.helper';
 
 import {
   ControlCommands,
@@ -54,6 +60,7 @@ import { LsaFormService } from '../lsa-form.service';
 import { PriceAvailabilityService } from '../price-availability.service';
 import { RestService } from '../rest.service';
 import { ResultInputsService } from '../result-inputs.service';
+import { UnitService } from '../unit.service';
 import {
   chooseSelectedProducts,
   makeProductGroups,
@@ -117,8 +124,11 @@ export class PDFGeneratorService {
       this.convertPipeLengthString(form.lubricationPoints.pipeLength)
     ),
     map((pipeLengthTranslation) => {
+      const unitset = this.restService.unitset();
+      const unitSuffix = unitset === Unitset.SI ? '' : 'Imperial';
       const form = this.formService.getRecommendationForm().getRawValue();
       const { lubricationPoints, lubricant, application } = form;
+
       const labelValues: LabelValues[] = [
         {
           label: this.translocoService.translate('inputs.lubricationPoints'),
@@ -132,9 +142,12 @@ export class PDFGeneratorService {
             }
           ),
           value: this.translocoService.translate(
-            'inputs.relubricationQuantity.value',
+            `inputs.relubricationQuantity.value${unitSuffix}`,
             {
-              quantity: lubricationPoints.lubricationQty,
+              quantity:
+                unitset === Unitset.SI
+                  ? lubricationPoints.lubricationQty
+                  : mlToFlz(lubricationPoints.lubricationQty).toFixed(2),
               interval: this.translocoService.translate(
                 `recommendation.lubricationPoints.${lubricationPoints.lubricationInterval}`
               ),
@@ -157,10 +170,19 @@ export class PDFGeneratorService {
         },
         {
           label: this.translocoService.translate('inputs.temperature.title'),
-          value: this.translocoService.translate('inputs.temperature.value', {
-            min: application.temperature.min,
-            max: application.temperature.max,
-          }),
+          value: this.translocoService.translate(
+            `inputs.temperature.value${unitSuffix}`,
+            {
+              min:
+                unitset === Unitset.SI
+                  ? application.temperature.min
+                  : celciusToFahrenheit(application.temperature.min),
+              max:
+                unitset === Unitset.SI
+                  ? application.temperature.max
+                  : celciusToFahrenheit(application.temperature.max),
+            }
+          ),
         },
         {
           label: this.translocoService.translate('inputs.powerSupplyTitle'),
@@ -421,7 +443,8 @@ export class PDFGeneratorService {
     private readonly resultInputsService: ResultInputsService,
     private readonly priceService: PriceAvailabilityService,
     private readonly addToCartService: LSACartService,
-    private readonly localeService: TranslocoLocaleService
+    private readonly localeService: TranslocoLocaleService,
+    private readonly unitService: UnitService
   ) {
     this.pdfFile.subscribe((doc) => {
       doc.generate();
@@ -458,25 +481,33 @@ export class PDFGeneratorService {
 
   private extractDetailsTable(lubricator: Lubricator): string[][] {
     const baseString = 'recommendation.result';
+    const unit = this.restService.unitset();
 
     return [
       [
         this.translocoService.translate(`${baseString}.func_principle`),
-        lubricator.technicalAttributes['func_principle'],
+        lubricator.technicalAttributes['func_principle'] as string,
       ],
       [
         this.translocoService.translate(`${baseString}.dimensions`),
-        lubricator.technicalAttributes['dimensions'],
+        this.unitService.pickUnitset(
+          lubricator.technicalAttributes['dimensions'] as MultiUnitValue,
+          unit
+        ),
       ],
       [
         this.translocoService.translate(`${baseString}.volume`),
-        !lubricator.volume.includes('ml') && !lubricator.volume.includes('cm³')
-          ? `${lubricator.volume} ml`
-          : lubricator.volume,
+        this.unitService.pickUnitset(
+          lubricator.technicalAttributes['volume'] as MultiUnitValue,
+          unit
+        ),
       ],
       [
-        this.translocoService.translate(`${baseString}.maxOperatingPressure`),
-        `${lubricator.maxOperatingPressure} bar`,
+        this.translocoService.translate(`${baseString}.pressure`),
+        this.unitService.pickUnitset(
+          lubricator.technicalAttributes['pressure'] as MultiUnitValue,
+          unit
+        ),
       ],
       [
         this.translocoService.translate(`${baseString}.voltage`),
@@ -484,13 +515,19 @@ export class PDFGeneratorService {
       ],
       [
         this.translocoService.translate(`${baseString}.medium_general`),
-        lubricator.technicalAttributes['medium_general'],
+        lubricator.technicalAttributes['medium_general'] as string,
       ],
       [
         this.translocoService.translate(`${baseString}.tempRange`),
         this.translocoService.translate(`${baseString}.tempRangeValues`, {
-          min: lubricator.minTemp,
-          max: lubricator.maxTemp,
+          min: this.unitService.pickUnitset(
+            lubricator.technicalAttributes['temp_min'] as any as MultiUnitValue,
+            unit
+          ),
+          max: this.unitService.pickUnitset(
+            lubricator.technicalAttributes['temp_max'] as any as MultiUnitValue,
+            unit
+          ),
         }),
       ],
       [
@@ -499,13 +536,16 @@ export class PDFGeneratorService {
       ],
       [
         this.translocoService.translate(`${baseString}.mounting_position`),
-        lubricator.technicalAttributes['mounting_position'],
+        lubricator.technicalAttributes['mounting_position'] as string,
       ],
     ];
   }
 
   private convertPipeLengthString(length: PipeLength) {
-    return this.resultInputsService.getPipeLengthTranslation(length);
+    return this.resultInputsService.getPipeLengthTranslation(
+      length,
+      this.restService.unitset()
+    );
   }
 
   private getPowerSupplyTranslation(psuOption: PowerSupply) {

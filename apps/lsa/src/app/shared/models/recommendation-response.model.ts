@@ -20,6 +20,11 @@ export interface CalculationInfo {
   titleId: string;
   description: string;
 }
+export interface MultiUnitValue {
+  type: 'convertedDimension';
+  FPS: string;
+  SI: string;
+}
 
 export interface Lubricator {
   matNr: string;
@@ -38,7 +43,7 @@ export interface Lubricator {
   pim_id: string;
   productImageUrl: string;
   bundle?: Accessory[];
-  technicalAttributes: { [key: string]: string };
+  technicalAttributes: { [key: string]: string | MultiUnitValue };
 }
 
 export interface Accessory {

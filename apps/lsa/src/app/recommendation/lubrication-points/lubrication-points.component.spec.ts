@@ -1,6 +1,14 @@
+import { signal } from '@angular/core';
+
 import { TranslocoModule } from '@jsverse/transloco';
+import { RestService } from '@lsa/core/services/rest.service';
+import { Unitset } from '@lsa/shared/models/preferences.model';
 import { mockLubricationPointsForm } from '@lsa/testing/mocks/form.mock';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -18,6 +26,11 @@ describe('LubricationPointsComponent', () => {
   const createComponent = createComponentFactory({
     component: LubricationPointsComponent,
     imports: [provideTranslocoTestingModule({ en: {} })],
+    providers: [
+      mockProvider(RestService, {
+        unitset: signal(Unitset.SI),
+      }),
+    ],
     detectChanges: false,
   });
 

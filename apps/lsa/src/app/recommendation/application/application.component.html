@@ -9,70 +9,17 @@
     </span>
 
     <div class="flex flex-col w-full md:w-[35rem]">
-      <div class="flex text-on-surface-variant">
-        <div class="flex flex-col">
-          <p>{{ minTemperature }}°C</p>
-          <mat-divider class="w-3 h-3" [vertical]="true"></mat-divider>
-        </div>
-        <div
-          class="hidden sm:flex flex-col sm:ml-[8%] min-[720px]:ml-[11%] md:ml-[2.6rem]"
-        >
-          <p>0°C</p>
-          <mat-divider class="w-3 h-3" [vertical]="true">></mat-divider>
-        </div>
-        <div class="flex flex-col ml-auto mr-4 md:mr-4">
-          <p>{{ maxTemperature }}°C</p>
-          <mat-divider class="w-3 h-3" [vertical]="true"></mat-divider>
-        </div>
-      </div>
       <div class="flex items-center">
-        <mat-slider
-          discrete
-          thumbLabel
-          class="flex-1 ml-0"
-          [min]="minTemperature"
-          [max]="maxTemperature"
-          autofocus
-        >
-          <input
-            [(value)]="applicationForm.controls.temperature.value.min"
-            matSliderStartThumb
-          />
-          <input
-            [(value)]="applicationForm.controls.temperature.value.max"
-            matSliderEndThumb
-          />
-        </mat-slider>
-        <mat-icon class="cursor-pointer text-on-surface-variant"
-          >history</mat-icon
-        >
-      </div>
-
-      <div class="flex justify-between">
-        <mat-form-field appearance="outline" class="w-24">
-          <mat-label>{{ t('labels.min') }}</mat-label>
-          <input
-            matInput
-            type="number"
-            [min]="minTemperature"
-            [max]="applicationForm.controls.temperature.value.max"
-            [(ngModel)]="applicationForm.controls.temperature.value.min"
-            (change)="onMinTemperatureChange($event)"
-          />
-          <div class="relative" matSuffix>°C</div>
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="w-24 mr-7">
-          <mat-label>{{ t('labels.max') }}</mat-label>
-          <input
-            matInput
-            type="number"
-            [min]="applicationForm.controls.temperature.value.min"
-            [max]="maxTemperature"
-            [(ngModel)]="applicationForm.controls.temperature.value.max"
-            (change)="onMaxTemperatureChange($event)"
-          />
-          <div class="relative" matSuffix>°C</div>
-        </mat-form-field>
+        <lsa-temperature-input
+          class="w-full"
+          [minLimit]="-15"
+          [maxLimit]="70"
+          [marks]="[-15, 0, 70]"
+          [initialMin]="applicationForm.controls.temperature.value.min"
+          [initialMax]="applicationForm.controls.temperature.value.max"
+          [inputFormat]="unitset$()"
+          (update)="handleTemperatureUpdate($event)"
+        />
       </div>
     </div>
   </div>

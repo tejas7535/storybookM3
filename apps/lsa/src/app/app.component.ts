@@ -7,6 +7,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 import { Subject, takeUntil } from 'rxjs';
 
@@ -25,6 +26,7 @@ import { RestService } from './core/services/rest.service';
 import { StaticStorageService } from './core/services/static-storage';
 import { FALLBACK_LANGUAGE } from './shared/constants/language';
 import { UserTier } from './shared/constants/user-tier.enum';
+import { Unitset } from './shared/models/preferences.model';
 import { AvailabilityRequestEvent } from './shared/models/price-availibility.model';
 
 @Component({
@@ -37,6 +39,8 @@ export class AppComponent implements OnInit, OnDestroy {
   @Output() availabilityRequest = new EventEmitter<AvailabilityRequestEvent>();
 
   @Output() addToCart = new EventEmitter<AddToCartEvent>();
+
+  protected unitsetSelectionControl = new FormControl<Unitset>(Unitset.SI);
 
   private _language: string | undefined;
   private readonly destroyed$ = new Subject<void>();
@@ -67,7 +71,11 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe((event) => this.addToCart.emit(event));
     this.fetchGreases();
-
+    this.unitsetSelectionControl.valueChanges
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((value) => {
+        this.restService.setUnitset(value);
+      });
     this.staticStorageService.displayMaintenanceMessages();
   }
 

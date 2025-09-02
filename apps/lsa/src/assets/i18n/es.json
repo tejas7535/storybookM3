@@ -85,7 +85,7 @@
       "tempRange": "Rango de temperatura",
       "tempRangeValues": "De {{min}} °C a {{max}} °C",
       "voltage": "Tensión de funcionamiento",
-      "dimensions": "Dimensiones (mm)",
+      "dimensions": "Dimensiones",
       "yes": "Sí",
       "no": "No",
       "heading": "Lista de piezas para {{ designation }}",
@@ -152,7 +152,8 @@
       "pdf": {
         "title": "Informe - Asistente de selección de lubricadores",
         "selection": "Su lubricador seleccionado"
-      }
+      },
+      "conversionDisclaimer": "Las medidas técnicas de este producto proceden del sistema métrico, la conversión al sistema imperial se realiza sin garantía."
     }
   },
   "tooltips": {

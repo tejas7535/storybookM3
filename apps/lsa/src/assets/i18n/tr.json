@@ -66,7 +66,7 @@
       "recommended": "önerilen",
       "schaefflerId": "Schaeffler Kimliği",
       "outputDiameter": "Çıkış çapı",
-      "maxOperatingPressure": "Çalışma basıncı",
+      "pressure": "Çalışma basıncı",
       "noOfOutlets": "Çıkış sayısı",
       "maxTemp": "Maksimum sıcaklık",
       "minTemp": "Minimum sıcaklık",
@@ -85,7 +85,7 @@
       "tempRange": "Sıcaklık aralığı",
       "tempRangeValues": "{{min}} °C - {{max}} °C",
       "voltage": "Çalışma voltajı",
-      "dimensions": "Boyutlar (mm)",
+      "dimensions": "Boyutlar",
       "yes": "Evet",
       "no": "Hayır",
       "heading": "{{ designation }} için parça listesi",
@@ -152,7 +152,8 @@
       "pdf": {
         "title": "Rapor - Yağlayıcı Seçim Yardımcısı",
         "selection": "Seçilen yağlayıcınız"
-      }
+      },
+      "conversionDisclaimer": "Bu ürün için teknik ölçüler metrik sistemden alınmıştır, emperyal sisteme dönüşümü garanti dışındadır."
     }
   },
   "tooltips": {

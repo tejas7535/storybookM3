@@ -66,7 +66,7 @@
       "recommended": "doporučeno",
       "schaefflerId": "Schaeffler ID",
       "outputDiameter": "Výstupní průměr",
-      "maxOperatingPressure": "Provozní tlak",
+      "pressure": "Provozní tlak",
       "noOfOutlets": "Počet výstupů",
       "maxTemp": "Maximální teplota",
       "minTemp": "Minimální teplota",
@@ -85,7 +85,7 @@
       "tempRange": "Teplotní rozsah",
       "tempRangeValues": "{{min}} až {{max}} °C",
       "voltage": "Provozní napětí",
-      "dimensions": "Rozměry (mm)",
+      "dimensions": "Rozměry",
       "yes": "Ano",
       "no": "Ne",
       "heading": "Seznam dílů pro {{ designation }}",
@@ -152,7 +152,8 @@
       "pdf": {
         "title": "Zpráva - Asistent výběru mazacího zařízení",
         "selection": "Vámi vybrané mazací zařízení"
-      }
+      },
+      "conversionDisclaimer": "Technické rozměry tohoto produktu jsou převzaty z metrického systému, převod do imperiálních jednotek je bez záruky."
     }
   },
   "tooltips": {

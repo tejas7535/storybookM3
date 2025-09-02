@@ -1,3 +1,5 @@
+import { MultiUnitValue } from './recommendation-response.model';
+
 export interface RecommendationLubricatorHeaderData {
   isRecommended: boolean;
   productImageUrl: string;
@@ -9,8 +11,9 @@ export interface RecommendationLubricatorHeaderData {
 
 export interface RecommendationTableRow {
   field: string;
-  minimum?: string;
-  recommended?: string;
+  minimum?: string | MultiUnitValue;
+  recommended?: string | MultiUnitValue;
+  converted?: boolean;
 }
 
 export interface RecommendationTableData {

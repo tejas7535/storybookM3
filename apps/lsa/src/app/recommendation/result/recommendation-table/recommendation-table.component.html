@@ -1,10 +1,10 @@
 <ng-container *transloco="let t; read: 'recommendation.result'">
-  @if (data.headers?.minimum || data.headers?.recommended) {
+  @if (data().headers?.minimum || data().headers?.recommended) {
     <div class="md:hidden">
       <lsa-recommendation-selection-mobile
-        [hasMinimumData]="!!data.headers?.minimum"
-        [hasRecommendedData]="!!data.headers?.recommended"
-        [isRecommendedSelected]="isRecommendedSelected"
+        [hasMinimumData]="!!data().headers?.minimum"
+        [hasRecommendedData]="!!data().headers?.recommended"
+        [isRecommendedSelected]="isRecommendedSelected()"
         (headerSelected)="onHeaderSelectionChange($event)"
       >
       </lsa-recommendation-selection-mobile>
@@ -12,7 +12,11 @@
   }
 
   <div class="border border-primary overflow-hidden rounded-lg md:border-none">
-    <table class="recommendation-table" mat-table [dataSource]="data.rows">
+    <table
+      class="recommendation-table bg-surface-variant"
+      mat-table
+      [dataSource]="data().rows"
+    >
       <ng-container matColumnDef="field">
         <th
           mat-header-cell
@@ -24,15 +28,17 @@
           *matCellDef="let element; let isEven = even"
           class="border-none text-title-small text-low-emphasis sm:whitespace-nowrap"
           [ngClass]="{
-            'bg-medias-grey-background': isEven
+            'bg-medias-grey-background': isEven,
           }"
         >
-          {{ t(element.field) }}
+          <span class="text-medium-emphasis">
+            {{ t(element.field) }}
+          </span>
         </td>
       </ng-container>
 
       <mat-radio-group>
-        @if (data.headers.minimum) {
+        @if (data().headers.minimum) {
           <ng-container matColumnDef="minimum">
             <th
               mat-header-cell
@@ -40,15 +46,15 @@
               [attr.colspan]="headerColsSpan()"
               class="border-none w-56 relative min-h-min h-full p-0"
               [ngClass]="{
-                'hidden md:table-cell': isRecommendedSelected
+                'hidden md:table-cell': isRecommendedSelected,
               }"
             >
               <div class="relative top-0 left-0 w-full h-80 flex items-stretch">
                 <lsa-lubricator-header
                   class="w-full"
-                  [headerData]="data.headers.minimum"
+                  [headerData]="data().headers.minimum"
                   [selected]="!isRecommendedSelected"
-                  [isLastColumn]="!data.headers.recommended"
+                  [isLastColumn]="!data().headers.recommended"
                   [selectValue]="'minimum'"
                   (headerSelected)="onHeaderSelectionChange($event)"
                 ></lsa-lubricator-header>
@@ -60,23 +66,23 @@
               class="!border-none relative md:table-cell"
               [ngClass]="{
                 'bg-medias-grey-background': isEven,
-                'hidden md:table-cell': isRecommendedSelected
+                'hidden md:table-cell': isRecommendedSelected,
               }"
             >
               <lsa-recommendation-table-cell
                 [border]="true"
                 [selected]="!isRecommendedSelected"
                 [isLastRow]="isLast"
-                [isLastColumn]="!data.headers.recommended"
+                [isLastColumn]="!data().headers.recommended"
               >
-                <span>
+                <span [ngClass]="{ 'text-[#1c98b5]': element.converted }">
                   {{ element.minimum }}
                 </span>
               </lsa-recommendation-table-cell>
             </td>
           </ng-container>
         }
-        @if (data.headers.recommended) {
+        @if (data().headers.recommended) {
           <ng-container matColumnDef="recommended">
             <th
               mat-header-cell
@@ -84,7 +90,7 @@
               [attr.colspan]="headerColsSpan()"
               class="border-none w-56 relative h-80 p-0"
               [ngClass]="{
-                'hidden md:table-cell': !isRecommendedSelected
+                'hidden md:table-cell': !isRecommendedSelected,
               }"
             >
               <div
@@ -92,8 +98,8 @@
               >
                 <lsa-lubricator-header
                   class="w-full"
-                  [headerData]="data.headers.recommended"
-                  [selected]="isRecommendedSelected"
+                  [headerData]="data().headers.recommended"
+                  [selected]="isRecommendedSelected()"
                   [isLastColumn]="true"
                   [selectValue]="'recommended'"
                   (headerSelected)="onHeaderSelectionChange($event)"
@@ -106,16 +112,18 @@
               class="!border-none relative"
               [ngClass]="{
                 'bg-medias-grey-background': isEven,
-                'hidden md:table-cell': !isRecommendedSelected
+                'hidden md:table-cell': !isRecommendedSelected,
               }"
             >
               <lsa-recommendation-table-cell
                 [border]="true"
-                [selected]="isRecommendedSelected"
+                [selected]="isRecommendedSelected()"
                 [isLastRow]="isLast"
                 [isLastColumn]="true"
               >
-                {{ element.recommended }}
+                <span [ngClass]="{ 'text-[#1c98b5]': element.converted }">
+                  {{ element.recommended }}
+                </span>
               </lsa-recommendation-table-cell>
             </td>
           </ng-container>
@@ -134,5 +142,10 @@
       ></tr>
     </table>
   </div>
+  @if (restService.unitset() === 'UNITSET_FPS') {
+    <div class="pt-2">
+      <schaeffler-info-banner [infoText]="t('conversionDisclaimer')" />
+    </div>
+  }
   <lsa-legal-disclaimer class="flex mt-4"></lsa-legal-disclaimer>
 </ng-container>

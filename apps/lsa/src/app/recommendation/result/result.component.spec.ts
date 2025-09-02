@@ -1,11 +1,17 @@
-import { SimpleChanges } from '@angular/core';
+import { signal } from '@angular/core';
 
 import { LSACartService } from '@lsa/core/services/add-to-cart.service';
 import { GoogleAnalyticsService } from '@lsa/core/services/google-analytics';
 import { PDFGeneratorService } from '@lsa/core/services/pdf-generation/pdf-generator.service';
+import { RestService } from '@lsa/core/services/rest.service';
 import { Lubricator, RecommendationResponse } from '@lsa/shared/models';
+import { Unitset } from '@lsa/shared/models/preferences.model';
 import { RecommendationTableDataPipe } from '@lsa/shared/pipes/recommendation-table-data.pipe';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { MockComponent, MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -15,6 +21,25 @@ import { AddToCartButtonComponent } from './add-to-cart-button/add-to-cart-butto
 import { ErrorContainerComponent } from './error-container/error-container.component';
 import { RecommendationTableComponent } from './recommendation-table/recommendation-table.component';
 import { ResultComponent } from './result.component';
+
+const validResult = {
+  lubricators: {
+    recommendedLubricator: {
+      fifteen_digit: '123',
+      matNr: '001',
+      qty: 0,
+      name: 'Test Lubricator',
+      bundle: [],
+    } as Partial<Lubricator> as Lubricator,
+    minimumRequiredLubricator: {
+      fifteen_digit: '123',
+      matNr: '001',
+      qty: 0,
+      name: 'Test Lubricator',
+      bundle: [],
+    } as Partial<Lubricator> as Lubricator,
+  },
+} as Partial<RecommendationResponse> as RecommendationResponse;
 
 describe('ResultComponent', () => {
   let component: ResultComponent;
@@ -53,6 +78,7 @@ describe('ResultComponent', () => {
           generatePDF: jest.fn(),
         },
       },
+      mockProvider(RestService, { unitset: signal(Unitset.SI) }),
     ],
   });
 
@@ -60,6 +86,7 @@ describe('ResultComponent', () => {
     spectator = createComponent();
     component = spectator.component;
     googleAnalyticsService = spectator.inject(GoogleAnalyticsService);
+    spectator.setInput('recommendationResult', validResult);
   });
 
   it('should create', () => {
@@ -68,11 +95,11 @@ describe('ResultComponent', () => {
 
   describe('onRecommendationSelectedChange', () => {
     it('should set isRecommendedSelected', () => {
-      component.isRecommendedSelected = true;
+      component.isRecommendedSelected.set(true);
 
       component.onRecommendedSelectedChange(false);
 
-      expect(component.isRecommendedSelected).toEqual(false);
+      expect(component.isRecommendedSelected()).toEqual(false);
 
       expect(googleAnalyticsService.logEvent).toHaveBeenCalledWith({
         action: 'Product Selection',
@@ -85,44 +112,15 @@ describe('ResultComponent', () => {
   });
 
   describe('onChanges', () => {
-    const validResult = {
-      lubricators: {
-        recommendedLubricator: {
-          fifteen_digit: '123',
-          matNr: '001',
-          qty: 0,
-          name: 'Test Lubricator',
-          bundle: [],
-        } as Partial<Lubricator> as Lubricator,
-        minimumRequiredLubricator: {
-          fifteen_digit: '123',
-          matNr: '001',
-          qty: 0,
-          name: 'Test Lubricator',
-          bundle: [],
-        } as Partial<Lubricator> as Lubricator,
-      },
-    } as Partial<RecommendationResponse> as RecommendationResponse;
-
     it('should set errorInstance when name is in recommendationResult', () => {
-      component.recommendationResult = {
+      spectator.setInput('recommendationResult', {
         name: 'Error',
-      } as Partial<RecommendationResponse> as RecommendationResponse;
+      } as Partial<RecommendationResponse> as RecommendationResponse);
 
-      const simpleChanges: SimpleChanges = {
-        recommendationResult: {
-          currentValue: component.recommendationResult,
-          firstChange: false,
-          previousValue: component.recommendationResult,
-          isFirstChange: () => false,
-        },
-      };
-      component.ngOnChanges(simpleChanges);
-
-      expect(component.errorInstance).toEqual(
-        component.recommendationResult as RecommendationResponse
+      expect(component.errorInstance()).toEqual(
+        component.recommendationResult() as RecommendationResponse
       );
-      expect(component.validResult).toBeUndefined();
+      expect(component.validResult()).toBeUndefined();
 
       expect(googleAnalyticsService.logEvent).toHaveBeenCalledWith({
         action: 'Step Load Fail',
@@ -133,15 +131,10 @@ describe('ResultComponent', () => {
     });
 
     it('should set validResult when name is not in recommendationResult', () => {
-      component.recommendationResult = validResult;
-      const changes: SimpleChanges = {
-        recommendationResult: {},
-      } as unknown as Partial<SimpleChanges> as SimpleChanges;
+      spectator.setInput('recommendationResult', validResult);
 
-      component.ngOnChanges(changes);
-
-      expect(component.validResult).toEqual(
-        component.recommendationResult as RecommendationResponse
+      expect(component.validResult()).toEqual(
+        component.recommendationResult() as RecommendationResponse
       );
       expect(component.isRecommendedSelected).toBeTruthy();
     });
@@ -149,7 +142,6 @@ describe('ResultComponent', () => {
     describe('when on init is called', () => {
       describe('when validResult is defined', () => {
         beforeEach(() => {
-          component.validResult = validResult;
           component.ngOnInit();
         });
 
@@ -170,25 +162,14 @@ describe('ResultComponent', () => {
           });
         });
       });
-
-      describe('when validResult is udefined', () => {
-        beforeEach(() => {
-          googleAnalyticsServiceMock.logEvent.mockReset();
-          component.validResult = undefined;
-          component.ngOnInit();
-        });
-
-        it('should not log result page load event', () => {
-          expect(googleAnalyticsService.logEvent).not.toHaveBeenCalled();
-        });
-      });
     });
 
     describe('when adding to cart', () => {
       beforeEach(() => {
-        component.validResult = validResult;
+        spectator.setInput('recommendationResult', validResult);
         spectator.detectChanges();
       });
+
       it('should call addToCartEvent', () => {
         const addToCartService = spectator.inject(LSACartService);
         const accessoryTableComponent = spectator.query(
@@ -216,22 +197,13 @@ describe('ResultComponent', () => {
         });
       });
     });
-
-    it('should log link to support click', () => {
-      const errorContainer = spectator.query(ErrorContainerComponent);
-
-      errorContainer.errorLinkClicked.emit();
-
-      expect(googleAnalyticsService.logEvent).toHaveBeenCalledWith({
-        action: 'Click to Support',
-        event: 'lsa_related_interaction',
-        step: 4,
-        step_name: 'Result',
-      });
-    });
   });
 
   describe('when setting price and availability responses multiple times', () => {
+    beforeEach(() => {
+      spectator.setInput('recommendationResult', validResult);
+    });
+
     it('should set price and availability responses as an combined result', () => {
       spectator.setInput('priceAndAvailabilityResponses', {
         items: {

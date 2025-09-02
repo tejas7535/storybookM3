@@ -1,10 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   Input,
   OnDestroy,
   OnInit,
+  signal,
 } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
@@ -19,6 +22,7 @@ import {
 } from 'rxjs';
 
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
+import { RestService } from '@lsa/core/services/rest.service';
 import { InfoTooltipComponent } from '@lsa/shared/components/info-tooltip/info-tooltip.component';
 import { RadioButtonGroupComponent } from '@lsa/shared/components/radio-button-group/radio-button-group.component';
 import { RadioOptionContentDirective } from '@lsa/shared/components/radio-button-group/radio-option-content.directive';
@@ -29,6 +33,9 @@ import {
 } from '@lsa/shared/constants';
 import { PipeLength } from '@lsa/shared/constants/tube-length.enum';
 import { LubricationPointsForm } from '@lsa/shared/models';
+import { Unitset } from '@lsa/shared/models/preferences.model';
+import { LsaLengthPipe } from '@lsa/shared/pipes/units/length.pipe';
+import { mlToFlz } from '@lsa/shared/pipes/units/unit-conversion.helper';
 
 const translatePath = 'recommendation.lubricationPoints';
 const PIPE_LENGTH_PATH = `${translatePath}.pipeLengthOptions`;
@@ -77,7 +84,7 @@ export class LubricationPointsComponent implements OnInit, OnDestroy {
     10, 25, 50, 60, 100, 125,
   ];
 
-  public pipeLengthOptions: { value: PipeLength; name: string }[] = [];
+  public pipeLengthOptions = signal<{ value: PipeLength; name: string }[]>([]);
 
   public lubricationIntervalOptions: {
     value: RelubricationInterval;
@@ -87,17 +94,29 @@ export class LubricationPointsComponent implements OnInit, OnDestroy {
 
   public optimeOptions: { value: Optime; name: string }[] = [];
 
-  private readonly destroyed$ = new Subject<void>();
+  protected readonly restService = inject(RestService);
+  protected readonly unitset$: Observable<Unitset>;
+  protected readonly lengthPipe = inject(LsaLengthPipe);
 
-  constructor(private readonly translocoService: TranslocoService) {}
+  private readonly destroyed$ = new Subject<void>();
+  private readonly translocoService = inject(TranslocoService);
+
+  constructor() {
+    this.unitset$ = toObservable(this.restService.unitset);
+  }
 
   ngOnInit(): void {
     this.fetchLubricationPointsOptions();
+    this.handlePipeLengths();
   }
 
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
+  }
+
+  protected convertMlToFloz(ml: number) {
+    return mlToFlz(ml).toFixed(1);
   }
 
   /**
@@ -107,79 +126,99 @@ export class LubricationPointsComponent implements OnInit, OnDestroy {
   private fetchLubricationPointsOptions(): void {
     combineLatest([
       this.getOptimeOptions(),
-      this.getPipeLengthOptions(),
       this.getLubricationIntervalOptions(),
     ])
       .pipe(takeUntil(this.destroyed$))
-      .subscribe(([optimeOptions, pipeOptions, lubricationOptions]) => {
+      .subscribe(([optimeOptions, lubricationOptions]) => {
         this.optimeOptions = optimeOptions;
-        this.pipeLengthOptions = pipeOptions;
         this.lubricationIntervalOptions = lubricationOptions;
       });
   }
 
-  private getPipeLengthOptions(): Observable<
-    { value: PipeLength; name: string }[]
-  > {
-    return combineLatest([
-      this.translocoService.selectTranslate(
-        `${PIPE_LENGTH_PATH}.directMontage`
-      ),
-      this.translocoService.selectTranslate(`${PIPE_LENGTH_PATH}.lessThan`, {
-        value: 0.5,
-      }),
-      this.translocoService.selectTranslate(`${PIPE_LENGTH_PATH}.lessThan`, {
-        value: 1,
-      }),
-      this.translocoService.selectTranslate(`${PIPE_LENGTH_PATH}.between`, {
-        from: 1,
-        to: 3,
-      }),
-      this.translocoService.selectTranslate(`${PIPE_LENGTH_PATH}.between`, {
-        from: 3,
-        to: 5,
-      }),
-      this.translocoService.selectTranslate(`${PIPE_LENGTH_PATH}.between`, {
-        from: 5,
-        to: 10,
-      }),
-    ]).pipe(
-      map(
-        ([
-          directMontage,
-          lessThanHalfMeter,
-          lessThanMeter,
-          oneToThreeMeter,
-          threeToFiveMeter,
-          fiveToTenMeter,
-        ]) => [
-          {
-            value: PipeLength.Direct,
-            name: directMontage,
-          },
-          {
-            value: PipeLength.HalfMeter,
-            name: lessThanHalfMeter,
-          },
-          {
-            value: PipeLength.Meter,
-            name: lessThanMeter,
-          },
-          {
-            value: PipeLength.OneToThreeMeter,
-            name: oneToThreeMeter,
-          },
-          {
-            value: PipeLength.ThreeToFiveMeter,
-            name: threeToFiveMeter,
-          },
-          {
-            value: PipeLength.FiveTotenMeter,
-            name: fiveToTenMeter,
-          },
-        ]
+  private handlePipeLengths(): void {
+    this.unitset$
+      .pipe(
+        takeUntil(this.destroyed$),
+        switchMap((unitset) => {
+          const unitSuffix = unitset === Unitset.SI ? '' : 'Imperial';
+
+          return combineLatest([
+            this.translocoService.selectTranslate(
+              `${PIPE_LENGTH_PATH}.directMontage`
+            ),
+            this.translocoService.selectTranslate(
+              `${PIPE_LENGTH_PATH}.lessThan${unitSuffix}`,
+              {
+                value: this.lengthPipe.transform(0.5, unitset),
+              }
+            ),
+            this.translocoService.selectTranslate(
+              `${PIPE_LENGTH_PATH}.lessThan${unitSuffix}`,
+              {
+                value: this.lengthPipe.transform(1, unitset),
+              }
+            ),
+            this.translocoService.selectTranslate(
+              `${PIPE_LENGTH_PATH}.between${unitSuffix}`,
+              {
+                from: this.lengthPipe.transform(1, unitset),
+                to: this.lengthPipe.transform(3, unitset),
+              }
+            ),
+            this.translocoService.selectTranslate(
+              `${PIPE_LENGTH_PATH}.between${unitSuffix}`,
+              {
+                from: this.lengthPipe.transform(3, unitset),
+                to: this.lengthPipe.transform(5, unitset),
+              }
+            ),
+            this.translocoService.selectTranslate(
+              `${PIPE_LENGTH_PATH}.between${unitSuffix}`,
+              {
+                from: this.lengthPipe.transform(5, unitset),
+                to: this.lengthPipe.transform(10, unitset),
+              }
+            ),
+          ]);
+        }),
+        map(
+          ([
+            directMontage,
+            lessThanHalfMeter,
+            lessThanMeter,
+            oneToThreeMeter,
+            threeToFiveMeter,
+            fiveToTenMeter,
+          ]) => [
+            {
+              value: PipeLength.Direct,
+              name: directMontage,
+            },
+            {
+              value: PipeLength.HalfMeter,
+              name: lessThanHalfMeter,
+            },
+            {
+              value: PipeLength.Meter,
+              name: lessThanMeter,
+            },
+            {
+              value: PipeLength.OneToThreeMeter,
+              name: oneToThreeMeter,
+            },
+            {
+              value: PipeLength.ThreeToFiveMeter,
+              name: threeToFiveMeter,
+            },
+            {
+              value: PipeLength.FiveTotenMeter,
+              name: fiveToTenMeter,
+            },
+          ]
+        ),
+        takeUntil(this.destroyed$)
       )
-    );
+      .subscribe((options) => this.pipeLengthOptions.set(options));
   }
 
   private getLubricationIntervalOptions(): Observable<

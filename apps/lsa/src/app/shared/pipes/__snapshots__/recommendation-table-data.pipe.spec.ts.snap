@@ -33,13 +33,29 @@ Object {
     },
     Object {
       "field": "volume",
-      "minimum": undefined,
-      "recommended": undefined,
+      "minimum": Object {
+        "FPS": "1",
+        "SI": "1",
+        "type": "convertedDimension",
+      },
+      "recommended": Object {
+        "FPS": "1",
+        "SI": "1",
+        "type": "convertedDimension",
+      },
     },
     Object {
-      "field": "maxOperatingPressure",
-      "minimum": undefined,
-      "recommended": undefined,
+      "field": "pressure",
+      "minimum": Object {
+        "FPS": "1",
+        "SI": "1",
+        "type": "convertedDimension",
+      },
+      "recommended": Object {
+        "FPS": "1",
+        "SI": "1",
+        "type": "convertedDimension",
+      },
     },
     Object {
       "field": "voltage",
@@ -53,8 +69,16 @@ Object {
     },
     Object {
       "field": "tempRange",
-      "minimum": "recommendation.result.tempRangeValues",
-      "recommended": "recommendation.result.tempRangeValues",
+      "minimum": Object {
+        "FPS": "recommendation.result.tempRangeValues",
+        "SI": "recommendation.result.tempRangeValues",
+        "type": "convertedDimension",
+      },
+      "recommended": Object {
+        "FPS": "recommendation.result.tempRangeValues",
+        "SI": "recommendation.result.tempRangeValues",
+        "type": "convertedDimension",
+      },
     },
     Object {
       "field": "noOfOutlets",
@@ -101,13 +125,29 @@ Object {
     },
     Object {
       "field": "volume",
-      "minimum": undefined,
-      "recommended": undefined,
+      "minimum": Object {
+        "FPS": "1",
+        "SI": "1",
+        "type": "convertedDimension",
+      },
+      "recommended": Object {
+        "FPS": "1",
+        "SI": "1",
+        "type": "convertedDimension",
+      },
     },
     Object {
-      "field": "maxOperatingPressure",
-      "minimum": undefined,
-      "recommended": undefined,
+      "field": "pressure",
+      "minimum": Object {
+        "FPS": "1",
+        "SI": "1",
+        "type": "convertedDimension",
+      },
+      "recommended": Object {
+        "FPS": "1",
+        "SI": "1",
+        "type": "convertedDimension",
+      },
     },
     Object {
       "field": "voltage",
@@ -121,8 +161,16 @@ Object {
     },
     Object {
       "field": "tempRange",
-      "minimum": "recommendation.result.tempRangeValues",
-      "recommended": "recommendation.result.tempRangeValues",
+      "minimum": Object {
+        "FPS": "recommendation.result.tempRangeValues",
+        "SI": "recommendation.result.tempRangeValues",
+        "type": "convertedDimension",
+      },
+      "recommended": Object {
+        "FPS": "recommendation.result.tempRangeValues",
+        "SI": "recommendation.result.tempRangeValues",
+        "type": "convertedDimension",
+      },
     },
     Object {
       "field": "noOfOutlets",
@@ -166,7 +214,7 @@ Object {
       "recommended": undefined,
     },
     Object {
-      "field": "maxOperatingPressure",
+      "field": "pressure",
       "minimum": undefined,
       "recommended": undefined,
     },

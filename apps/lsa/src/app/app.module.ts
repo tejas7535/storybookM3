@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApplicationRef, DoBootstrap, Injector, NgModule } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDividerModule } from '@angular/material/divider';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -123,6 +125,8 @@ export const APP_ROOT = 'lubricator-selection-assistant';
     RecommendationContainerComponent,
     BannerModule,
     FeedbackBannerComponent,
+    MatButtonToggleModule,
+    ReactiveFormsModule,
   ],
 })
 export class AppModule implements DoBootstrap {

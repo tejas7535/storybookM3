@@ -66,7 +66,7 @@
       "recommended": "แนะนำ",
       "schaefflerId": "Schaeffler ID",
       "outputDiameter": "เส้นผ่านศูนย์กลางเอาต์พุต",
-      "maxOperatingPressure": "แรงดันในการทำงาน",
+      "pressure": "แรงดันในการทำงาน",
       "noOfOutlets": "จำนวนช่องขาออก",
       "maxTemp": "อุณหภูมิสูงสุด",
       "minTemp": "อุณหภูมิขั้นต่ำ",
@@ -85,7 +85,7 @@
       "tempRange": "ช่วงอุณหภูมิ",
       "tempRangeValues": "{{min}} °C ถึง {{max}} °C",
       "voltage": "แรงดันไฟฟ้าในการทำงาน",
-      "dimensions": "ขนาด (มม.)",
+      "dimensions": "ขนาด",
       "yes": "ใช่",
       "no": "ไม่",
       "heading": "รายการอะไหล่สำหรับ {{ designation }}",
@@ -152,7 +152,8 @@
       "pdf": {
         "title": "รายงาน - ผู้ช่วยเลือกสารหล่อลื่น",
         "selection": "สารหล่อลื่นที่คุณเลือก"
-      }
+      },
+      "conversionDisclaimer": "มิติข้อมูลทางเทคนิคสำหรับผลิตภัณฑ์นี้นำมาจากระบบเมตริก การแปลงเป็นระบบอิมพีเรียลไม่มีการรับประกัน"
     }
   },
   "tooltips": {

@@ -31,14 +31,14 @@ describe('LegalDisclaimerComponent', () => {
     expect(spectator.component).toBeTruthy();
   });
 
-  it('should display full disclaimer initially', () => {
+  it('should display full disclaimer after expanding initially', () => {
+    spectator.detectChanges();
+    spectator.component.toggleDisclaimerLength();
     spectator.detectChanges();
     expect(spectator.query('.disclaimer-block')).toHaveText(disclaimerText);
   });
 
   it('should toggle disclaimer length', () => {
-    spectator.detectChanges();
-    spectator.component.toggleDisclaimerLength();
     spectator.detectChanges();
     expect(spectator.component.showFullText).toBe(false);
 
@@ -47,16 +47,16 @@ describe('LegalDisclaimerComponent', () => {
     );
   });
 
-  it('should display "Show Less" initially', () => {
+  it('should display "Show More" initially', () => {
     spectator.detectChanges();
 
-    expect(spectator.query('button')).toHaveText('disclaimer.showLess');
+    expect(spectator.query('button')).toHaveText('disclaimer.showMore');
   });
 
-  it('should display "Show More" after toggling', () => {
+  it('should display "Show Less" after toggling', () => {
     spectator.detectChanges();
     spectator.component.toggleDisclaimerLength();
     spectator.detectChanges();
-    expect(spectator.query('button')).toHaveText('disclaimer.showMore');
+    expect(spectator.query('button')).toHaveText('disclaimer.showLess');
   });
 });

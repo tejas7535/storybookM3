@@ -1,4 +1,4 @@
-import { combineLatest, of, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, combineLatest, of, ReplaySubject } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 import { LubricantType, Optime } from '@lsa/shared/constants';
@@ -8,6 +8,7 @@ import {
   RecommendationFormValue,
   RecommendationResponse,
 } from '@lsa/shared/models';
+import { Unitset } from '@lsa/shared/models/preferences.model';
 import { ResultInputModel } from '@lsa/shared/models/result-inputs.model';
 import {
   mockApplicationInput,
@@ -46,6 +47,7 @@ describe('ResultInputsService', () => {
 
   beforeEach(() => {
     spectator = createService();
+    spectator.service.unit = new BehaviorSubject(Unitset.SI);
     const translocoService = spectator.inject(TranslocoService);
     translocoService.selectTranslate = jest.fn((key: string) =>
       of(`translated: ${key}`)

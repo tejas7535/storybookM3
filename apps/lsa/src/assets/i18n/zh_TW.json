@@ -66,7 +66,7 @@
       "recommended": "建議",
       "schaefflerId": "Schaeffler ID",
       "outputDiameter": "輸出直徑",
-      "maxOperatingPressure": "操作壓力",
+      "pressure": "操作壓力",
       "noOfOutlets": "網點數量",
       "maxTemp": "最高溫度",
       "minTemp": "最低溫度",
@@ -85,7 +85,7 @@
       "tempRange": "溫度範圍",
       "tempRangeValues": "{{min}} °C 至 {{max}} °C",
       "voltage": "操作電壓",
-      "dimensions": "尺寸（mm）",
+      "dimensions": "尺寸",
       "yes": "是",
       "no": "否",
       "heading": "{{ designation }} 的零件清單",
@@ -152,7 +152,8 @@
       "pdf": {
         "title": "報告 - 潤滑劑選擇助手",
         "selection": "您選擇的潤滑劑"
-      }
+      },
+      "conversionDisclaimer": "本產品的科技尺寸取自法定標準制，不保證轉換為十進位的度量衡制度。"
     }
   },
   "tooltips": {

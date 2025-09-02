@@ -1,3 +1,5 @@
+import { signal } from '@angular/core';
+
 import { BehaviorSubject, of, throwError } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
@@ -9,6 +11,7 @@ import {
   Lubricator,
   RecommendationResponse,
 } from '@lsa/shared/models';
+import { Unitset } from '@lsa/shared/models/preferences.model';
 import { MediasCallbackResponse } from '@lsa/shared/models/price-availibility.model';
 import {
   createServiceFactory,
@@ -58,7 +61,16 @@ const MOCK_LUBRICATOR: Lubricator = {
   ] as Accessory[],
   technicalAttributes: {
     func_principle: 'Piston Pump',
-    dimensions: '20x20x20mm',
+    dimensions: {
+      FPS: '20x20x20mm',
+      SI: '30x30x30 inches',
+      type: 'convertedValue',
+    },
+    volume: {
+      FPS: 'imperial volume',
+      SI: 'metric volume',
+      type: 'convertedValue',
+    },
     voltage: '30v',
     medium_general: 'Grease',
     mounting_position: 'Arbitrary',
@@ -92,6 +104,7 @@ describe('PDFGeneratorService', () => {
         recommendation$: new BehaviorSubject<RecommendationResponse>(
           MOCK_RECOMMENDATION_RESPONSE
         ),
+        unitset: signal(Unitset.SI),
       }),
       mockProvider(ImageResolverService, {
         fetchImages: jest.fn((i) => of(i)),
@@ -266,22 +279,5 @@ describe('PDFGeneratorService', () => {
     expect(service['translocoService'].translate).toHaveBeenCalled();
     expect(service['localeService'].localizeDate).toHaveBeenCalled();
     expect(returnValue).toEqual('PDF_TITLE_-_1.1.1970.pdf');
-  });
-
-  describe('extractDetailsTable', () => {
-    it('should not append ml if the volume already has a unit', () => {
-      expect(
-        service['extractDetailsTable']({
-          ...MOCK_LUBRICATOR,
-          volume: '100 cm³',
-        })
-      ).toMatchSnapshot();
-    });
-
-    it('should append ml if the volume already does not have a unit', () => {
-      expect(
-        service['extractDetailsTable']({ ...MOCK_LUBRICATOR, volume: '100' })
-      ).toMatchSnapshot();
-    });
   });
 });

@@ -1,13 +1,13 @@
 <ng-container *transloco="let t; read: 'recommendation.result'">
-  @if (validResult) {
-    @for (notice of validResult.notices; track notice.titleId) {
+  @if (validResult()) {
+    @for (notice of validResult().notices; track notice.titleId) {
       <div
         class="rounded-md border-info bg-info-container text-on-info-container px-4 py-2"
       >
         {{ t(notice.titleId) }}
       </div>
     }
-    @for (warning of validResult.warnings; track warning.titleId) {
+    @for (warning of validResult().warnings; track warning.titleId) {
       <div
         class="rounded-md border-warning bg-warning-container text-on-warning-container px-4 py-2"
       >
@@ -19,7 +19,11 @@
     >
       <div class="flex flex-col gap-4 xl:mr-auto">
         <lsa-recommendation-table
-          [data]="validResult.lubricators | lsaRecommendationTableData"
+          [data]="
+            validResult().lubricators
+              | lsaRecommendationTableData: unitset()
+              | lsaUnitsetTable: unitset()
+          "
           (recommendedSelectedChange)="onRecommendedSelectedChange($event)"
         ></lsa-recommendation-table>
         <!-- Nested Content goes here -->
@@ -32,9 +36,9 @@
           <h2 class="text-title-small">
             {{
               t('heading', {
-                designation: isRecommendedSelected
-                  ? validResult.lubricators.recommendedLubricator.name
-                  : validResult.lubricators.minimumRequiredLubricator.name,
+                designation: isRecommendedSelected()
+                  ? validResult().lubricators.recommendedLubricator.name
+                  : validResult().lubricators.minimumRequiredLubricator.name,
               })
             }}
           </h2>
@@ -57,16 +61,18 @@
             </div>
           }
         </div>
+
         <lsa-accessory-table
           [accessories]="
-            isRecommendedSelected
-              ? validResult.lubricators.recommendedLubricator.bundle
-              : validResult.lubricators.minimumRequiredLubricator.bundle
+            isRecommendedSelected()
+              ? validResult().lubricators.recommendedLubricator.bundle
+              : validResult().lubricators.minimumRequiredLubricator.bundle
           "
           [isBusinessUser]="userTier === businessUserTier"
-          [classPriorities]="validResult.classes"
+          [classPriorities]="validResult().classes"
           [priceAndAvailabilityResponses]="pricesAndAvailability"
         />
+
         <div
           class="w-full flex flex-col md:flex-row justify-end space-y-2 md:space-y-0 md:space-x-4 mt-4"
         >
@@ -88,7 +94,7 @@
     </div>
   } @else {
     <lsa-error-container
-      [response]="errorInstance"
+      [response]="errorInstance()"
       (errorLinkClicked)="onSupportLinkClick()"
     />
   }

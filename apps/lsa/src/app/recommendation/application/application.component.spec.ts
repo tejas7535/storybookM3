@@ -1,13 +1,20 @@
+import { signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSlider, MatSliderRangeThumb } from '@angular/material/slider';
 
 import { of } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
+import { RestService } from '@lsa/core/services/rest.service';
 import { RadioButtonGroupComponent } from '@lsa/shared/components/radio-button-group/radio-button-group.component';
 import { PowerSupply } from '@lsa/shared/constants/power-supply.enum';
+import { Unitset } from '@lsa/shared/models/preferences.model';
 import { mockApplicationForm } from '@lsa/testing/mocks/form.mock';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { MockComponent } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -22,6 +29,11 @@ describe('ApplicationComponent', () => {
   const createComponent = createComponentFactory({
     component: ApplicationComponent,
     imports: [provideTranslocoTestingModule({ en: {} }), ReactiveFormsModule],
+    providers: [
+      mockProvider(RestService, {
+        unitset: signal(Unitset.SI),
+      }),
+    ],
     declarations: [MockComponent(RadioButtonGroupComponent)],
     detectChanges: false,
   });
@@ -91,68 +103,6 @@ describe('ApplicationComponent', () => {
       expect(rangeThumbs.length).toBe(2);
       expect(rangeThumbs[0].value).toBe(5);
       expect(rangeThumbs[1].value).toBe(15);
-    });
-
-    describe('when changing temperature with minimum input', () => {
-      const maxValue = 35;
-      beforeEach(() => {
-        spectator.component.applicationForm.get('temperature').value.max =
-          maxValue;
-      });
-      it('should handle min temperature change correctly', () => {
-        const event = { target: { value: '5' } } as unknown as Event;
-        spectator.component.onMinTemperatureChange(event);
-        expect(
-          spectator.component.applicationForm.get('temperature').value.min
-        ).toBe(5);
-      });
-
-      it('should set minimum temperature to lowest possible if exceeds scale', () => {
-        const eventBelowMin = { target: { value: '-20' } } as unknown as Event;
-        spectator.component.onMinTemperatureChange(eventBelowMin);
-        expect(
-          spectator.component.applicationForm.get('temperature').value.min
-        ).toBe(-15);
-      });
-
-      it('should keep minim temperature lower or equal to maximum temperature which is selected', () => {
-        const eventAboveMax = { target: { value: '150' } } as unknown as Event;
-        spectator.component.onMinTemperatureChange(eventAboveMax);
-        expect(
-          spectator.component.applicationForm.get('temperature').value.min
-        ).toBe(maxValue);
-      });
-    });
-
-    describe('when changing temperature with maxinum input', () => {
-      const minValue = 15;
-      beforeEach(() => {
-        spectator.component.applicationForm.get('temperature').value.min =
-          minValue;
-      });
-      it('should handle max temperature change correctly', () => {
-        const event = { target: { value: '50' } } as unknown as Event;
-        spectator.component.onMaxTemperatureChange(event);
-        expect(
-          spectator.component.applicationForm.get('temperature').value.max
-        ).toBe(50);
-      });
-
-      it('should set max temperature to highest possible if exceeds scale', () => {
-        const eventAboveMax = { target: { value: '150' } } as unknown as Event;
-        spectator.component.onMaxTemperatureChange(eventAboveMax);
-        expect(
-          spectator.component.applicationForm.get('temperature').value.max
-        ).toBe(70);
-      });
-
-      it('should set max temperature above selected min temperature', () => {
-        const eventBelowMin = { target: { value: '-5' } } as unknown as Event;
-        spectator.component.onMaxTemperatureChange(eventBelowMin);
-        expect(
-          spectator.component.applicationForm.get('temperature').value.max
-        ).toBe(minValue);
-      });
     });
   });
 });

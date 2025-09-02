@@ -14,6 +14,10 @@
       "title": "Result"
     }
   },
+  "unitset": {
+    "si": "Metric",
+    "fps": "Imperial"
+  },
   "recommendation": {
     "lubricationPoints": {
       "questionLubricationPoints": "How many lubrication points would you like to lubricate?",
@@ -23,6 +27,7 @@
       "month": "month",
       "day": "day",
       "lubricationQuantityValue": "< {{ value }} cm³",
+      "lubricationQuantityValueImperial": "< {{ value }} floz",
       "lubricationQuantity": "Relubrication quantity",
       "questionOptime": "Do you want to integrate OPTIME in your lubrication system?",
       "optime": {
@@ -34,7 +39,9 @@
       "pipeLengthOptions": {
         "directMontage": "Direct mounting",
         "lessThan": "< {{value}} m",
-        "between": "{{from}} - {{to}} m"
+        "lessThanImperial": "< {{value}}",
+        "between": "{{from}} - {{to}} m",
+        "betweenImperial": "{{from}} - {{to}}"
       }
     },
     "lubrication": {
@@ -66,7 +73,7 @@
       "recommended": "recommended",
       "schaefflerId": "Schaeffler ID",
       "outputDiameter": "Output diameter",
-      "maxOperatingPressure": "Operating pressure",
+      "pressure": "Operating pressure",
       "noOfOutlets": "Number of outlets",
       "maxTemp": "Maximum temperature",
       "minTemp": "Minimum temperature",
@@ -77,9 +84,9 @@
       "isOptime": "OPTIME",
       "smallerEqual": "≤",
       "tempRange": "Temperature range",
-      "tempRangeValues": "{{min}} °C to {{max}} °C",
+      "tempRangeValues": "{{min}} to {{max}}",
       "voltage": "Operating voltage",
-      "dimensions": "Dimensions (mm)",
+      "dimensions": "Dimensions",
       "meter": "m",
       "centimeter": "cm",
       "cubiccentimeter": "cm³",
@@ -153,7 +160,8 @@
       "pdf": {
         "title": "Report - Lubricator Selection Assistant",
         "selection": "Your selected lubricator"
-      }
+      },
+      "conversionDisclaimer": "The technical dimensions for this product are taken from the metric system, conversion to the imperial system is without guarantee."
     }
   },
   "tooltips": {
@@ -173,11 +181,13 @@
     "title": "Your inputs",
     "relubricationQuantity": {
       "title": "Relubrication quantity per point",
-      "value": "< {{quantity}} cm³ per {{interval}}"
+      "value": "< {{quantity}} cm³ per {{interval}}",
+      "valueImperial": "< {{quantity}} floz per {{interval}}"
     },
     "temperature": {
       "title": "Ambient temperature",
-      "value": "{{min}} °C to {{max}} °C"
+      "value": "{{min}} °C to {{max}} °C",
+      "valueImperial": "{{min}} °F to {{max}} °F"
     },
     "lubricationPoints": "No. of lubrication points",
     "maxPipeLengthTitle": "Max. length of lubrication line",

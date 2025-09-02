@@ -1,6 +1,7 @@
 import { mockResponse } from '@lsa/testing/mocks/recommendation.mock';
 
 import { Lubricator } from '../models';
+import { Unitset } from '../models/preferences.model';
 import { RecommendationTableDataPipe } from './recommendation-table-data.pipe';
 
 jest.mock('@jsverse/transloco', () => ({
@@ -29,44 +30,50 @@ describe('RecommendationTableDataPipe', () => {
     });
 
     it('should create the data object', () => {
-      const result = pipe.transform(mockResponse.lubricators);
+      const result = pipe.transform(mockResponse.lubricators, Unitset.SI);
 
       expect(result).toMatchSnapshot();
       expect(pipe['getFieldValue']).toHaveBeenCalledWith(
-        'volume',
+        'noOfOutlets',
         mockResponse.lubricators.minimumRequiredLubricator
       );
       expect(pipe['getFieldValue']).toHaveBeenCalledWith(
-        'volume',
+        'isOptime',
         mockResponse.lubricators.recommendedLubricator
       );
     });
 
     it('should create the data object with identical lubricators', () => {
-      const result = pipe.transform({
-        minimumRequiredLubricator:
-          mockResponse.lubricators.minimumRequiredLubricator,
-        recommendedLubricator:
-          mockResponse.lubricators.minimumRequiredLubricator,
-      });
+      const result = pipe.transform(
+        {
+          minimumRequiredLubricator:
+            mockResponse.lubricators.minimumRequiredLubricator,
+          recommendedLubricator:
+            mockResponse.lubricators.minimumRequiredLubricator,
+        },
+        Unitset.SI
+      );
 
       expect(result).toMatchSnapshot();
       expect(pipe['getFieldValue']).toHaveBeenCalledWith(
-        'volume',
+        'noOfOutlets',
         mockResponse.lubricators.minimumRequiredLubricator
       );
       expect(pipe['getFieldValue']).toHaveBeenCalledWith(
-        'volume',
+        'isOptime',
         mockResponse.lubricators.minimumRequiredLubricator
       );
     });
 
     it('should create the data object without lubricators', () => {
-      const result = pipe.transform({});
+      const result = pipe.transform({}, Unitset.SI);
 
       expect(result).toMatchSnapshot();
-      expect(pipe['getFieldValue']).toHaveBeenCalledWith('volume', undefined);
-      expect(pipe['getFieldValue']).toHaveBeenCalledWith('volume', undefined);
+      expect(pipe['getFieldValue']).toHaveBeenCalledWith(
+        'noOfOutlets',
+        undefined
+      );
+      expect(pipe['getFieldValue']).toHaveBeenCalledWith('isOptime', undefined);
     });
   });
 

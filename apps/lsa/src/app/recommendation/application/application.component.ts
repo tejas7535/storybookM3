@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  Signal,
+} from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,11 +15,15 @@ import { MatSliderModule } from '@angular/material/slider';
 import { combineLatest, map, Observable } from 'rxjs';
 
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
+import { RestService } from '@lsa/core/services/rest.service';
 import { InfoTooltipComponent } from '@lsa/shared/components/info-tooltip/info-tooltip.component';
 import { RadioButtonGroupComponent } from '@lsa/shared/components/radio-button-group/radio-button-group.component';
 import { PowerSupply } from '@lsa/shared/constants';
 import { ApplicationForm } from '@lsa/shared/models';
+import { Unitset } from '@lsa/shared/models/preferences.model';
 import { PushPipe } from '@ngrx/component';
+
+import { TemperatureInputComponent } from './temperature-input/temperature-input.component';
 
 const translatePath = 'recommendation.application';
 
@@ -32,6 +42,8 @@ const translatePath = 'recommendation.application';
     FormsModule,
     InfoTooltipComponent,
     PushPipe,
+    CommonModule,
+    TemperatureInputComponent,
   ],
   templateUrl: './application.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,7 +55,15 @@ export class ApplicationComponent {
   public readonly minTemperature = -15;
   public readonly maxTemperature = 70;
 
-  constructor(private readonly translocoService: TranslocoService) {}
+  public unitset = Unitset.SI;
+  public unitset$ = this.restService.unitset;
+
+  protected formUpdateSignal: Signal<Partial<ApplicationForm>>;
+
+  constructor(
+    private readonly translocoService: TranslocoService,
+    private readonly restService: RestService
+  ) {}
 
   public get powerSupplyRadioOptions(): Observable<
     { value: PowerSupply; name: string }[]
@@ -76,40 +96,11 @@ export class ApplicationComponent {
     );
   }
 
-  onMinTemperatureChange(event: Event) {
-    let value = this.getInputValue(event);
-    const temperature = this.applicationForm.get('temperature');
-
-    const maxValue = temperature.value.max;
-
-    value = value < this.minTemperature ? this.minTemperature : value;
-    value = value > maxValue ? maxValue : value;
-
-    this.setInputValue(event, value);
-    temperature.value.min = value;
-  }
-
-  onMaxTemperatureChange(event: Event) {
-    let value = this.getInputValue(event);
-    const temperature = this.applicationForm.get('temperature');
-
-    const minValue = temperature.value.min;
-
-    value = value > this.maxTemperature ? this.maxTemperature : value;
-    value = value < minValue ? minValue : value;
-
-    this.setInputValue(event, value);
-    temperature.value.max = value;
-  }
-
-  private getInputValue(event: Event): number {
-    const inputElement = event.target as HTMLInputElement;
-
-    return Number.parseFloat(inputElement.value);
-  }
-
-  private setInputValue(event: Event, value: number): void {
-    const inputElement = event.target as HTMLInputElement;
-    inputElement.value = value.toString();
+  protected handleTemperatureUpdate(bounds: { min: number; max: number }) {
+    this.applicationForm.controls.temperature.patchValue({
+      min: bounds.min,
+      max: bounds.max,
+      title: this.applicationForm.controls.temperature.value.title,
+    });
   }
 }

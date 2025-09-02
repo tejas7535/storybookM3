@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 
-import { combineLatest, map, Observable, of } from 'rxjs';
+import { combineLatest, map, Observable, of, switchMap } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 import { LubricantType, PowerSupply } from '@lsa/shared/constants';
@@ -11,10 +12,14 @@ import {
   RecommendationFormValue,
   RecommendationResponse,
 } from '@lsa/shared/models';
+import { Unitset } from '@lsa/shared/models/preferences.model';
 import {
   LubricationInput,
   ResultInputModel,
 } from '@lsa/shared/models/result-inputs.model';
+import { LsaLengthPipe } from '@lsa/shared/pipes/units/length.pipe';
+import { LsaTemperaturePipe } from '@lsa/shared/pipes/units/temperature.pipe';
+import { mlToFlz } from '@lsa/shared/pipes/units/unit-conversion.helper';
 
 import { RestService } from './rest.service';
 
@@ -22,6 +27,7 @@ const TRANSLATIONS = {
   applicationTitle: 'pages.application.title',
   temperatureTitle: 'inputs.temperature.title',
   temperatureValue: 'inputs.temperature.value',
+  temperatureValueImperial: 'inputs.temperature.valueImperial',
   powerSupplyTitle: 'inputs.powerSupplyTitle',
   maxPipeLength: 'inputs.maxPipeLengthTitle',
   optimeTitle: 'inputs.optimeTitle',
@@ -33,6 +39,8 @@ const TRANSLATIONS = {
   lubricationPointsOptime: 'recommendation.lubricationPoints.optime',
   relubricationQuantityTitle: 'inputs.relubricationQuantity.title',
   relubricationQuantityValue: 'inputs.relubricationQuantity.value',
+  relubricationQuantityValueImerpial:
+    'inputs.relubricationQuantity.valueImperial',
   powerExternalOption: 'recommendation.application.powerOptions.external',
   powerBatteryOption: 'recommendation.application.powerOptions.battery',
   powerNoPreferenceOption:
@@ -45,10 +53,16 @@ const PIPE_LENGTH_PATH = 'recommendation.lubricationPoints.pipeLengthOptions';
   providedIn: 'root',
 })
 export class ResultInputsService {
+  unit: Observable<Unitset>;
+
   constructor(
     private readonly translocoService: TranslocoService,
-    private readonly restService: RestService
-  ) {}
+    private readonly restService: RestService,
+    private readonly lengthPipe: LsaLengthPipe,
+    private readonly temperaturePipe: LsaTemperaturePipe
+  ) {
+    this.unit = toObservable(this.restService.unitset);
+  }
 
   public getResultInputs(form: RecommendationFormValue): ResultInputModel {
     return {
@@ -72,28 +86,37 @@ export class ResultInputsService {
     };
   }
 
-  public getPipeLengthTranslation(pipeLength: PipeLength): Observable<string> {
+  public getPipeLengthTranslation(
+    pipeLength: PipeLength,
+    unitset = Unitset.SI
+  ): Observable<string> {
+    const unitsetSuffix = unitset === Unitset.SI ? '' : 'Imperial';
+
     switch (pipeLength) {
       case PipeLength.Direct:
         return this.translate(`${PIPE_LENGTH_PATH}.directMontage`);
       case PipeLength.HalfMeter:
-        return this.translate(`${PIPE_LENGTH_PATH}.lessThan`, { value: 0.5 });
+        return this.translate(`${PIPE_LENGTH_PATH}.lessThan${unitsetSuffix}`, {
+          value: this.lengthPipe.transform(0.5, unitset),
+        });
       case PipeLength.Meter:
-        return this.translate(`${PIPE_LENGTH_PATH}.lessThan`, { value: 1 });
+        return this.translate(`${PIPE_LENGTH_PATH}.lessThan${unitsetSuffix}`, {
+          value: this.lengthPipe.transform(1, unitset),
+        });
       case PipeLength.OneToThreeMeter:
-        return this.translate(`${PIPE_LENGTH_PATH}.between`, {
-          from: 1,
-          to: 3,
+        return this.translate(`${PIPE_LENGTH_PATH}.between${unitsetSuffix}`, {
+          from: this.lengthPipe.transform(1, unitset),
+          to: this.lengthPipe.transform(3, unitset),
         });
       case PipeLength.ThreeToFiveMeter:
-        return this.translate(`${PIPE_LENGTH_PATH}.between`, {
-          from: 3,
-          to: 5,
+        return this.translate(`${PIPE_LENGTH_PATH}.between${unitsetSuffix}`, {
+          from: this.lengthPipe.transform(3, unitset),
+          to: this.lengthPipe.transform(5, unitset),
         });
       case PipeLength.FiveTotenMeter:
-        return this.translate(`${PIPE_LENGTH_PATH}.between`, {
-          from: 5,
-          to: 10,
+        return this.translate(`${PIPE_LENGTH_PATH}.between${unitsetSuffix}`, {
+          from: this.lengthPipe.transform(5, unitset),
+          to: this.lengthPipe.transform(10, unitset),
         });
       default:
         return of('unknown');
@@ -111,69 +134,81 @@ export class ResultInputsService {
       optime,
     } = form.lubricationPoints;
 
-    return combineLatest([
-      this.translate(TRANSLATIONS.numberLubricationPoints),
-      this.translate(TRANSLATIONS.relubricationQuantityTitle),
-      this.translate(
-        `${TRANSLATIONS.lubricationPointsInterval}.${lubricationInterval}`
-      ),
-      this.translate(TRANSLATIONS.maxPipeLength),
-      this.getPipeLengthTranslation(pipeLength),
-      this.translate(TRANSLATIONS.optimeTitle),
-      this.translate(`${TRANSLATIONS.lubricationPointsOptime}.${optime}`),
-      this.restService.recommendation$,
-    ]).pipe(
-      map(
-        ([
-          lubricationPointsTitle,
-          relubricationQuantityTitle,
-          relubricationIntervalValue,
-          maxPipeLengthTitle,
-          pipeLengthTranslation,
-          optimeTitle,
-          optimeValue,
-          recommendations,
-        ]) => {
-          const recommendationResult = this.isErrorResponse(recommendations)
-            ? undefined
-            : recommendations.input;
+    return this.unit.pipe(
+      switchMap((unitset) =>
+        combineLatest([
+          this.translate(TRANSLATIONS.numberLubricationPoints),
+          this.translate(TRANSLATIONS.relubricationQuantityTitle),
+          this.translate(
+            `${TRANSLATIONS.lubricationPointsInterval}.${lubricationInterval}`
+          ),
+          this.translate(TRANSLATIONS.maxPipeLength),
+          this.getPipeLengthTranslation(pipeLength, unitset),
+          this.translate(TRANSLATIONS.optimeTitle),
+          this.translate(`${TRANSLATIONS.lubricationPointsOptime}.${optime}`),
+          this.restService.recommendation$,
+          this.unit,
+        ]).pipe(
+          map(
+            ([
+              lubricationPointsTitle,
+              relubricationQuantityTitle,
+              relubricationIntervalValue,
+              maxPipeLengthTitle,
+              pipeLengthTranslation,
+              optimeTitle,
+              optimeValue,
+              recommendations,
+              selectedUnitset,
+            ]) => {
+              const recommendationResult = this.isErrorResponse(recommendations)
+                ? undefined
+                : recommendations.input;
 
-          let remoteOptimeValue;
+              let remoteOptimeValue;
 
-          if (recommendationResult) {
-            remoteOptimeValue = this.translocoService.translate(
-              `${TRANSLATIONS.lubricationPointsOptime}.${recommendationResult.optime}`
-            );
-          }
+              if (recommendationResult) {
+                remoteOptimeValue = this.translocoService.translate(
+                  `${TRANSLATIONS.lubricationPointsOptime}.${recommendationResult.optime}`
+                );
+              }
 
-          const relubricationQuantityValue = this.translocoService.translate(
-            TRANSLATIONS.relubricationQuantityValue,
-            {
-              quantity: lubricationQty,
-              interval: relubricationIntervalValue,
+              const relubricationQuantityValue =
+                this.translocoService.translate(
+                  unitset === Unitset.SI
+                    ? TRANSLATIONS.relubricationQuantityValue
+                    : TRANSLATIONS.relubricationQuantityValueImerpial,
+                  {
+                    quantity:
+                      selectedUnitset === Unitset.SI
+                        ? lubricationQty
+                        : mlToFlz(lubricationQty).toFixed(2),
+                    interval: relubricationIntervalValue,
+                  }
+                );
+
+              return [
+                {
+                  title: lubricationPointsTitle,
+                  value: lubricationPoints,
+                },
+                {
+                  title: relubricationQuantityTitle,
+                  value: relubricationQuantityValue,
+                },
+                {
+                  title: maxPipeLengthTitle,
+                  value: pipeLengthTranslation,
+                },
+                {
+                  title: optimeTitle,
+                  value: optimeValue,
+                  remoteValue: remoteOptimeValue || optimeValue,
+                },
+              ];
             }
-          );
-
-          return [
-            {
-              title: lubricationPointsTitle,
-              value: lubricationPoints,
-            },
-            {
-              title: relubricationQuantityTitle,
-              value: relubricationQuantityValue,
-            },
-            {
-              title: maxPipeLengthTitle,
-              value: pipeLengthTranslation,
-            },
-            {
-              title: optimeTitle,
-              value: optimeValue,
-              remoteValue: remoteOptimeValue || optimeValue,
-            },
-          ];
-        }
+          )
+        )
       )
     );
   }
@@ -218,29 +253,41 @@ export class ResultInputsService {
     const { application } = form;
     const { temperature, battery } = application;
 
-    return combineLatest([
-      this.translate(TRANSLATIONS.temperatureTitle),
-      this.translate(TRANSLATIONS.temperatureValue, {
-        min: temperature.min,
-        max: temperature.max,
-      }),
-      this.translate(TRANSLATIONS.powerSupplyTitle),
-      this.getPowerSupplyRadioOptions().pipe(
-        map(
-          (options) => options.find((option) => option.value === battery)?.name
+    return this.unit.pipe(
+      switchMap((unit) =>
+        combineLatest([
+          this.translate(TRANSLATIONS.temperatureTitle),
+          this.translate(
+            unit === Unitset.SI
+              ? TRANSLATIONS.temperatureValue
+              : TRANSLATIONS.temperatureValueImperial,
+            {
+              min: this.temperaturePipe.transform(temperature.min, unit),
+              max: this.temperaturePipe.transform(temperature.max, unit),
+            }
+          ),
+          this.translate(TRANSLATIONS.powerSupplyTitle),
+          this.getPowerSupplyRadioOptions().pipe(
+            map(
+              (options) =>
+                options.find((option) => option.value === battery)?.name
+            )
+          ),
+        ]).pipe(
+          map(
+            ([temperatureTitle, temperatureValue, powerTitle, powerValue]) => [
+              {
+                title: temperatureTitle,
+                value: temperatureValue,
+              },
+              {
+                title: powerTitle,
+                value: powerValue,
+              },
+            ]
+          )
         )
-      ),
-    ]).pipe(
-      map(([temperatureTitle, temperatureValue, powerTitle, powerValue]) => [
-        {
-          title: temperatureTitle,
-          value: temperatureValue,
-        },
-        {
-          title: powerTitle,
-          value: powerValue,
-        },
-      ])
+      )
     );
   }
 

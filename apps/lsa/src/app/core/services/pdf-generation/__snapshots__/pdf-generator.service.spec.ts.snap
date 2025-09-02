@@ -1,87 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PDFGeneratorService extractDetailsTable should append ml if the volume already does not have a unit 1`] = `
-Array [
-  Array [
-    undefined,
-    "Piston Pump",
-  ],
-  Array [
-    undefined,
-    "20x20x20mm",
-  ],
-  Array [
-    undefined,
-    "100 ml",
-  ],
-  Array [
-    undefined,
-    "100 bar",
-  ],
-  Array [
-    undefined,
-    "30v",
-  ],
-  Array [
-    undefined,
-    "Grease",
-  ],
-  Array [
-    undefined,
-    undefined,
-  ],
-  Array [
-    undefined,
-    "2",
-  ],
-  Array [
-    undefined,
-    "Arbitrary",
-  ],
-]
-`;
-
-exports[`PDFGeneratorService extractDetailsTable should not append ml if the volume already has a unit 1`] = `
-Array [
-  Array [
-    undefined,
-    "Piston Pump",
-  ],
-  Array [
-    undefined,
-    "20x20x20mm",
-  ],
-  Array [
-    undefined,
-    "100 cm³",
-  ],
-  Array [
-    undefined,
-    "100 bar",
-  ],
-  Array [
-    undefined,
-    "30v",
-  ],
-  Array [
-    undefined,
-    "Grease",
-  ],
-  Array [
-    undefined,
-    undefined,
-  ],
-  Array [
-    undefined,
-    "2",
-  ],
-  Array [
-    undefined,
-    "Arbitrary",
-  ],
-]
-`;
-
 exports[`PDFGeneratorService productGroups should format the groups for proper filtering in pdf 1`] = `
 Object {
   "bundle": Array [
@@ -110,11 +28,20 @@ Object {
   "noOfOutlets": 2,
   "outputDiameter": 1,
   "technicalAttributes": Object {
-    "dimensions": "20x20x20mm",
+    "dimensions": Object {
+      "FPS": "20x20x20mm",
+      "SI": "30x30x30 inches",
+      "type": "convertedValue",
+    },
     "func_principle": "Piston Pump",
     "medium_general": "Grease",
     "mounting_position": "Arbitrary",
     "voltage": "30v",
+    "volume": Object {
+      "FPS": "imperial volume",
+      "SI": "metric volume",
+      "type": "convertedValue",
+    },
   },
   "volume": "250 ml",
 }
@@ -148,11 +75,20 @@ Object {
   "noOfOutlets": 2,
   "outputDiameter": 1,
   "technicalAttributes": Object {
-    "dimensions": "20x20x20mm",
+    "dimensions": Object {
+      "FPS": "20x20x20mm",
+      "SI": "30x30x30 inches",
+      "type": "convertedValue",
+    },
     "func_principle": "Piston Pump",
     "medium_general": "Grease",
     "mounting_position": "Arbitrary",
     "voltage": "30v",
+    "volume": Object {
+      "FPS": "imperial volume",
+      "SI": "metric volume",
+      "type": "convertedValue",
+    },
   },
   "volume": "250 ml",
 }
@@ -209,11 +145,20 @@ Object {
   "noOfOutlets": 2,
   "outputDiameter": 1,
   "technicalAttributes": Object {
-    "dimensions": "20x20x20mm",
+    "dimensions": Object {
+      "FPS": "20x20x20mm",
+      "SI": "30x30x30 inches",
+      "type": "convertedValue",
+    },
     "func_principle": "Piston Pump",
     "medium_general": "Grease",
     "mounting_position": "Arbitrary",
     "voltage": "30v",
+    "volume": Object {
+      "FPS": "imperial volume",
+      "SI": "metric volume",
+      "type": "convertedValue",
+    },
   },
   "volume": "250 ml",
 }
@@ -247,11 +192,20 @@ Object {
   "noOfOutlets": 2,
   "outputDiameter": 1,
   "technicalAttributes": Object {
-    "dimensions": "20x20x20mm",
+    "dimensions": Object {
+      "FPS": "20x20x20mm",
+      "SI": "30x30x30 inches",
+      "type": "convertedValue",
+    },
     "func_principle": "Piston Pump",
     "medium_general": "Grease",
     "mounting_position": "Arbitrary",
     "voltage": "30v",
+    "volume": Object {
+      "FPS": "imperial volume",
+      "SI": "metric volume",
+      "type": "convertedValue",
+    },
   },
   "volume": "250 ml",
 }
@@ -269,7 +223,7 @@ Array [
         "designation": "Acc #2",
         "group": "Lubricators",
         "id": "32",
-        "imageUrl": "/assets/images/placeholder.png",
+        "imageUrl": "",
         "pimid": "32",
         "price": 1,
         "quantity": 5,
@@ -308,11 +262,20 @@ Object {
   "noOfOutlets": 2,
   "outputDiameter": 1,
   "technicalAttributes": Object {
-    "dimensions": "20x20x20mm",
+    "dimensions": Object {
+      "FPS": "20x20x20mm",
+      "SI": "30x30x30 inches",
+      "type": "convertedValue",
+    },
     "func_principle": "Piston Pump",
     "medium_general": "Grease",
     "mounting_position": "Arbitrary",
     "voltage": "30v",
+    "volume": Object {
+      "FPS": "imperial volume",
+      "SI": "metric volume",
+      "type": "convertedValue",
+    },
   },
   "volume": "250 ml",
 }
@@ -346,11 +309,20 @@ Object {
   "noOfOutlets": 2,
   "outputDiameter": 1,
   "technicalAttributes": Object {
-    "dimensions": "20x20x20mm",
+    "dimensions": Object {
+      "FPS": "20x20x20mm",
+      "SI": "30x30x30 inches",
+      "type": "convertedValue",
+    },
     "func_principle": "Piston Pump",
     "medium_general": "Grease",
     "mounting_position": "Arbitrary",
     "voltage": "30v",
+    "volume": Object {
+      "FPS": "imperial volume",
+      "SI": "metric volume",
+      "type": "convertedValue",
+    },
   },
   "volume": "250 ml",
 }
@@ -407,11 +379,20 @@ Object {
   "noOfOutlets": 2,
   "outputDiameter": 1,
   "technicalAttributes": Object {
-    "dimensions": "20x20x20mm",
+    "dimensions": Object {
+      "FPS": "20x20x20mm",
+      "SI": "30x30x30 inches",
+      "type": "convertedValue",
+    },
     "func_principle": "Piston Pump",
     "medium_general": "Grease",
     "mounting_position": "Arbitrary",
     "voltage": "30v",
+    "volume": Object {
+      "FPS": "imperial volume",
+      "SI": "metric volume",
+      "type": "convertedValue",
+    },
   },
   "volume": "250 ml",
 }
@@ -445,11 +426,20 @@ Object {
   "noOfOutlets": 2,
   "outputDiameter": 1,
   "technicalAttributes": Object {
-    "dimensions": "20x20x20mm",
+    "dimensions": Object {
+      "FPS": "20x20x20mm",
+      "SI": "30x30x30 inches",
+      "type": "convertedValue",
+    },
     "func_principle": "Piston Pump",
     "medium_general": "Grease",
     "mounting_position": "Arbitrary",
     "voltage": "30v",
+    "volume": Object {
+      "FPS": "imperial volume",
+      "SI": "metric volume",
+      "type": "convertedValue",
+    },
   },
   "volume": "250 ml",
 }
@@ -483,11 +473,20 @@ Object {
   "noOfOutlets": 2,
   "outputDiameter": 1,
   "technicalAttributes": Object {
-    "dimensions": "20x20x20mm",
+    "dimensions": Object {
+      "FPS": "20x20x20mm",
+      "SI": "30x30x30 inches",
+      "type": "convertedValue",
+    },
     "func_principle": "Piston Pump",
     "medium_general": "Grease",
     "mounting_position": "Arbitrary",
     "voltage": "30v",
+    "volume": Object {
+      "FPS": "imperial volume",
+      "SI": "metric volume",
+      "type": "convertedValue",
+    },
   },
   "volume": "250 ml",
 }

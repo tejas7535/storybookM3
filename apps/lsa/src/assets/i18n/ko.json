@@ -66,7 +66,7 @@
       "recommended": "권장",
       "schaefflerId": "Schaeffler ID",
       "outputDiameter": "출력 직경",
-      "maxOperatingPressure": "작동 압력",
+      "pressure": "작동 압력",
       "noOfOutlets": "토출구 수",
       "maxTemp": "최대 온도",
       "minTemp": "최소 온도",
@@ -85,7 +85,7 @@
       "tempRange": "온도 범위",
       "tempRangeValues": "{{min}}~{{max}}°C",
       "voltage": "작동 전압",
-      "dimensions": "치수(mm)",
+      "dimensions": "치수",
       "yes": "예",
       "no": "아니요",
       "heading": "{{ designation }}용 부품 목록",
@@ -152,7 +152,8 @@
       "pdf": {
         "title": "보고서 - 윤활제 선택 도우미",
         "selection": "선택한 윤활제"
-      }
+      },
+      "conversionDisclaimer": "이 제품의 기술 치수는 미터법에서 가져왔으며 영국식 시스템으로의 변환은 보장되지 않습니다."
     }
   },
   "tooltips": {

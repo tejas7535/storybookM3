@@ -8,10 +8,12 @@ import {
 
 import {
   Lubricator,
+  MultiUnitValue,
   RecommendationLubricatorHeaderData,
   RecommendationTableData,
   RecommendationTableRow,
 } from '../models';
+import { Unitset } from '../models/preferences.model';
 
 interface LubricatorsParameter {
   recommendedLubricator?: Lubricator;
@@ -22,9 +24,13 @@ interface LubricatorsParameter {
   name: 'lsaRecommendationTableData',
 })
 export class RecommendationTableDataPipe implements PipeTransform {
-  public transform(lubricators: LubricatorsParameter): RecommendationTableData {
+  public transform(
+    lubricators: LubricatorsParameter,
+    unitset: Unitset
+  ): RecommendationTableData {
     let recommended: RecommendationLubricatorHeaderData;
     let minimum: RecommendationLubricatorHeaderData;
+
     if (lubricators.recommendedLubricator) {
       recommended = {
         isRecommended: true,
@@ -69,10 +75,14 @@ export class RecommendationTableDataPipe implements PipeTransform {
 
         if (config.type === 'technical') {
           return this.pickTechnicalAttribute(config.fieldName, lubricators);
-        } else if (config.type === 'composite') {
+        } else if (
+          config.type === 'composite' ||
+          config.type === 'localized_composite'
+        ) {
           return this.customFieldDef(
             config.fieldName,
             lubricators,
+            unitset,
             config.formatFunction
           );
         }
@@ -93,15 +103,20 @@ export class RecommendationTableDataPipe implements PipeTransform {
   private customFieldDef(
     field: string,
     lubricators: LubricatorsParameter,
-    format: (element: Lubricator, lub: LubricatorType) => string
+    unitset: Unitset,
+    format: (
+      element: Lubricator,
+      lub: LubricatorType,
+      unitset: Unitset
+    ) => string | MultiUnitValue
   ): RecommendationTableRow {
     return {
       field,
       minimum: lubricators.minimumRequiredLubricator
-        ? format(lubricators.minimumRequiredLubricator, 'minimum')
+        ? format(lubricators.minimumRequiredLubricator, 'minimum', unitset)
         : undefined,
       recommended: lubricators.recommendedLubricator
-        ? format(lubricators.recommendedLubricator, 'recommended')
+        ? format(lubricators.recommendedLubricator, 'recommended', unitset)
         : undefined,
     } as RecommendationTableRow;
   }

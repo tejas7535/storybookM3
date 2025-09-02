@@ -3,11 +3,11 @@
   [ngClass]="{ 'pr-0': isLastColumn }"
 >
   <div
-    class="p-1 sm:p-2 h-full text-body-medium text-medium-emphasis flex flex-row items-center justify-start"
+    class="p-1 sm:p-2 h-full text-body-medium text-on-surface-variant flex flex-row items-center justify-start"
     [ngClass]="{
       'border-none md:border-solid border-x border-border': border,
       'border-primary': selected,
-      'border-b rounded-b-lg': isLastRow
+      'border-b rounded-b-lg': isLastRow,
     }"
   >
     <ng-content></ng-content>

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 import {
   catchError,
@@ -18,6 +18,7 @@ import {
   RecommendationResponse,
 } from '@lsa/shared/models';
 import { GreaseRequest } from '@lsa/shared/models/grease-request.model';
+import { Unitset } from '@lsa/shared/models/preferences.model';
 
 // The fake delay is used to make sure the user sees the spinner when updating
 // the result page and can be confident the result is up to date
@@ -33,7 +34,9 @@ export class RestService {
   >(1);
 
   public readonly recommendationLoading$$ = new Subject<boolean>();
-
+  protected readonly unitset$ = signal(Unitset.SI);
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public readonly unitset = this.unitset$.asReadonly();
   private readonly BASE_URL = environment.lsaApiBaseUrl;
 
   constructor(private readonly http: HttpClient) {}
@@ -82,5 +85,9 @@ export class RestService {
           }, FAKE_DELAY);
         },
       });
+  }
+
+  public setUnitset(unitset: Unitset) {
+    this.unitset$.set(unitset);
   }
 }

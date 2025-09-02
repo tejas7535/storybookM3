@@ -24,6 +24,26 @@ export const mockResponse: RecommendationResponse = {
         'https://cdn.schaeffler-ecommerce.com/cdn/00171550_d.png',
       technicalAttributes: {
         funcPrinciple: 'gas powered',
+        volume: {
+          FPS: '1',
+          SI: '1',
+          type: 'convertedDimension',
+        },
+        temp_min: {
+          FPS: '1',
+          SI: '1',
+          type: 'convertedDimension',
+        },
+        temp_max: {
+          FPS: '1',
+          SI: '1',
+          type: 'convertedDimension',
+        },
+        pressure: {
+          FPS: '1',
+          SI: '1',
+          type: 'convertedDimension',
+        },
       },
     },
     recommendedLubricator: {
@@ -46,6 +66,26 @@ export const mockResponse: RecommendationResponse = {
         'https://cdn.schaeffler-ecommerce.com/cdn/00171550_d.png',
       technicalAttributes: {
         funcPrinciple: 'gas powered',
+        volume: {
+          FPS: '1',
+          SI: '1',
+          type: 'convertedDimension',
+        },
+        temp_min: {
+          FPS: '1',
+          SI: '1',
+          type: 'convertedDimension',
+        },
+        temp_max: {
+          FPS: '1',
+          SI: '1',
+          type: 'convertedDimension',
+        },
+        pressure: {
+          FPS: '1',
+          SI: '1',
+          type: 'convertedDimension',
+        },
       },
     },
   },

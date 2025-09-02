@@ -1,0 +1,80 @@
+<div
+  class="flex flex-col items-center w-full"
+  *transloco="let t; read: 'recommendation.application'"
+>
+  <div class="flex flex-col w-full">
+    <div
+      class="flex flex-row w-full mx-2 relative h-auto text-on-surface-variant"
+    >
+      @for (
+        mark of markPositions();
+        track mark.temperature;
+        let isFirst = $first, isLast = $last
+      ) {
+        <div
+          class="flex flex-col items-center invisible select-none pointer-events-none"
+        >
+          <span>{{ mark.temperature }} {{ mark.symbol }}</span>
+          <mat-divider class="h-3" [vertical]="true"></mat-divider>
+        </div>
+
+        <div
+          class="absolute flex flex-col items-center -translate-x-1/2 w-auto"
+          [style.margin-left.%]="mark.offset"
+          [ngClass]="{}"
+        >
+          <span class="whitespace-nowrap"
+            >{{ mark.temperature }} {{ mark.symbol }}
+          </span>
+          <mat-divider class="h-3" [vertical]="true"></mat-divider>
+        </div>
+      }
+    </div>
+
+    <mat-slider
+      discrete
+      thumbLabel
+      [min]="minLimit() | lsaTemperaturePipe: inputFormat()"
+      [max]="maxLimit() | lsaTemperaturePipe: inputFormat()"
+      autofocus
+      class="w-full"
+    >
+      <input
+        matSliderStartThumb
+        [ngModel]="bounds.controls.min.value"
+        (ngModelChange)="bounds.controls.min.setValue($event)"
+      />
+
+      <input
+        matSliderEndThumb
+        [ngModel]="bounds.controls.max.value"
+        (ngModelChange)="bounds.controls.max.setValue($event)"
+      />
+    </mat-slider>
+  </div>
+  <div class="flex flex-row justify-between w-full">
+    <mat-form-field appearance="outline" class="w-24">
+      <mat-label>{{ t('labels.min') }}</mat-label>
+      <input
+        matInput
+        type="number"
+        [min]="minLimit() | lsaTemperaturePipe: inputFormat()"
+        [max]="bounds.controls.max.value"
+        [formControl]="bounds.controls.min"
+      />
+      <div class="relative" matSuffix>{{ temperatureSign() }}</div>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-24">
+      <mat-label>{{ t('labels.max') }}</mat-label>
+      <input
+        matInput
+        type="number"
+        [min]="bounds.controls.min.value"
+        [max]="maxLimit() | lsaTemperaturePipe: inputFormat()"
+        [formControl]="bounds.controls.max"
+      />
+      <div class="relative" matSuffix>{{ temperatureSign() }}</div>
+    </mat-form-field>
+  </div>
+</div>

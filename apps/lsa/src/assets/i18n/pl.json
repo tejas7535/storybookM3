@@ -66,7 +66,7 @@
       "recommended": "zalecane",
       "schaefflerId": "Schaeffler ID",
       "outputDiameter": "Średnica zewnętrzna",
-      "maxOperatingPressure": "Ciśnienie robocze",
+      "pressure": "Ciśnienie robocze",
       "noOfOutlets": "Liczba wylotów",
       "maxTemp": "Maksymalna temperatura",
       "minTemp": "Minimalna temperatura",
@@ -85,7 +85,7 @@
       "tempRange": "Zakres temperatur",
       "tempRangeValues": "{{min}}–{{max}}°C",
       "voltage": "Napięcie robocze",
-      "dimensions": "Wymiary (mm)",
+      "dimensions": "Wymiary",
       "yes": "Tak",
       "no": "Nie",
       "heading": "Lista części produktu {{ designation }}",
@@ -152,7 +152,8 @@
       "pdf": {
         "title": "Raport - Asystent wyboru smarów",
         "selection": "Wybrany przez Ciebie smar"
-      }
+      },
+      "conversionDisclaimer": "Wymiary techniczne tego produktu są pobierane z systemu metrycznego bez gwarancji poprawności wyników przeliczenia na system calowy."
     }
   },
   "tooltips": {

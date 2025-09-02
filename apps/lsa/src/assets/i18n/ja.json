@@ -66,7 +66,7 @@
       "recommended": "推奨",
       "schaefflerId": "Schaeffler ID",
       "outputDiameter": "出力直径",
-      "maxOperatingPressure": "使用圧力",
+      "pressure": "使用圧力",
       "noOfOutlets": "吐出口の数",
       "maxTemp": "最高温度",
       "minTemp": "最低温度",
@@ -85,7 +85,7 @@
       "tempRange": "温度範囲",
       "tempRangeValues": "{{min}}℃～{{max}}℃",
       "voltage": "動作電圧",
-      "dimensions": "寸法（mm）",
+      "dimensions": "寸法",
       "yes": "はい",
       "no": "いいえ",
       "heading": "{{ designation }} の部品リスト",
@@ -152,7 +152,8 @@
       "pdf": {
         "title": "レポート - 潤滑剤選択アシスタント",
         "selection": "選択された潤滑剤"
-      }
+      },
+      "conversionDisclaimer": "この製品の技術的寸法はメートル法から取得されているため、インペリアル法への変換は保証されません。"
     }
   },
   "tooltips": {

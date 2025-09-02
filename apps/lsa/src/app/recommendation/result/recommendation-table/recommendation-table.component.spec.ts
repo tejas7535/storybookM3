@@ -1,5 +1,13 @@
+import { signal } from '@angular/core';
+
+import { RestService } from '@lsa/core/services/rest.service';
 import { RecommendationTableData } from '@lsa/shared/models';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { Unitset } from '@lsa/shared/models/preferences.model';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -12,6 +20,11 @@ describe('RecommendationTableComponent', () => {
   const createComponent = createComponentFactory({
     component: RecommendationTableComponent,
     imports: [provideTranslocoTestingModule({ en: {} })],
+    providers: [
+      mockProvider(RestService, {
+        unitset: signal(Unitset.SI),
+      }),
+    ],
     detectChanges: false,
     shallow: true,
   });
@@ -74,49 +87,34 @@ describe('RecommendationTableComponent', () => {
     });
   });
 
-  describe('ngAfterViewInit', () => {
-    it('should set isRecommendedSelected to true', () => {
+  describe('isRecommended', () => {
+    it('should be set to true if the result has a recommendation', () => {
       const data = {
         headers: { recommended: {} },
         rows: [],
       } as RecommendationTableData;
+
       spectator.setInput('data', data);
-      component.isRecommendedSelected = false;
-
-      component.ngAfterViewInit();
-
-      expect(component.isRecommendedSelected).toEqual(true);
+      expect(component.isRecommendedSelected()).toEqual(true);
     });
 
-    it('should set isRecommendedSelected to false', () => {
+    it('should be false if no recommendation is available', () => {
       const data = {
-        headers: {},
+        headers: { minimum: {} },
         rows: [],
       } as RecommendationTableData;
       spectator.setInput('data', data);
-      component.isRecommendedSelected = true;
-
-      component.ngAfterViewInit();
-
-      expect(component.isRecommendedSelected).toEqual(false);
+      expect(component.isRecommendedSelected()).toEqual(false);
     });
   });
 
-  describe('onHeaderSelectionChange', () => {
-    beforeEach(() => {
-      spectator.detectChanges();
-    });
-
-    it('should set isRecommendedSelected and emit the event', () => {
-      component.isRecommendedSelected = true;
-      component.recommendedSelectedChange.emit = jest.fn();
-
-      component.onHeaderSelectionChange({ isRecommended: false });
-
-      expect(component.isRecommendedSelected).toEqual(false);
-      expect(component.recommendedSelectedChange.emit).toHaveBeenCalledWith(
-        false
-      );
-    });
+  it('all changes to the isRecommendedSelected should trigger an event emission', () => {
+    const outputSpy = jest.spyOn(
+      component['recommendedSelectedChange'],
+      'emit'
+    );
+    component['isRecommendedSelected'].set(true);
+    spectator.detectChanges();
+    expect(outputSpy).toHaveBeenCalledWith(true);
   });
 });

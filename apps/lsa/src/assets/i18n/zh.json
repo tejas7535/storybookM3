@@ -66,7 +66,7 @@
       "recommended": "推荐",
       "schaefflerId": "Schaeffler ID",
       "outputDiameter": "输出直径",
-      "maxOperatingPressure": "工作压力",
+      "pressure": "工作压力",
       "noOfOutlets": "注脂器出口数量",
       "maxTemp": "最高温度",
       "minTemp": "最低温度",
@@ -85,7 +85,7 @@
       "tempRange": "温度范围",
       "tempRangeValues": "{{min}} °C 至 {{max}} °C",
       "voltage": "工作电压",
-      "dimensions": "尺寸 (mm)",
+      "dimensions": "尺寸",
       "yes": "是",
       "no": "否",
       "heading": "{{ designation }} 的零件列表",
@@ -152,7 +152,8 @@
       "pdf": {
         "title": "报告 - 润滑剂选择助手",
         "selection": "您选择的润滑剂"
-      }
+      },
+      "conversionDisclaimer": "本产品的技术尺寸取自法定标准制，不保证转换为十进制的度量衡制度。"
     }
   },
   "tooltips": {

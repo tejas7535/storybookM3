@@ -1,11 +1,12 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   Component,
-  EventEmitter,
-  Input,
-  Output,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatRadioModule } from '@angular/material/radio';
@@ -14,8 +15,11 @@ import { MatTableModule } from '@angular/material/table';
 import { map } from 'rxjs';
 
 import { TranslocoModule } from '@jsverse/transloco';
+import { RestService } from '@lsa/core/services/rest.service';
 import { TAILWIND_SCREENS } from '@lsa/shared/constants';
 import { RecommendationTableData } from '@lsa/shared/models';
+
+import { InfoBannerComponent } from '@schaeffler/feedback-banner';
 
 import { LegalDisclaimerComponent } from '../legal-disclaimer/legal-disclaimer.component';
 import { RecommendationSelectionMobileComponent } from '../recommendation-selection-mobile/recommendation-selection-mobile';
@@ -33,41 +37,52 @@ import { RecommendationTableCellComponent } from './recommendation-table-cell/re
     RecommendationSelectionMobileComponent,
     MatRadioModule,
     LegalDisclaimerComponent,
+    InfoBannerComponent,
   ],
   templateUrl: './recommendation-table.component.html',
 })
-export class RecommendationTableComponent implements AfterViewInit {
-  @Input() data!: RecommendationTableData;
-  @Output() recommendedSelectedChange = new EventEmitter<boolean>();
+export class RecommendationTableComponent {
+  public readonly data = input<RecommendationTableData>();
+  public recommendedSelectedChange = output<boolean>();
 
-  headerColsSpan = toSignal(
+  public isRecommendedSelected = signal(false);
+
+  protected readonly breakpointObserver = inject(BreakpointObserver);
+  protected readonly restService = inject(RestService);
+
+  protected headerColsSpan = toSignal(
     this.breakpointObserver
       .observe([`(min-width: ${TAILWIND_SCREENS.MD})`])
       .pipe(map((state) => (state.matches ? 1 : 2)))
   );
 
-  isRecommendedSelected = false;
-
-  constructor(private readonly breakpointObserver: BreakpointObserver) {}
+  constructor() {
+    effect(() => {
+      const shouldPreselectRecommendation = !!(
+        this.data()?.headers.recommended ?? false
+      );
+      this.isRecommendedSelected.set(shouldPreselectRecommendation);
+    });
+    effect(() => {
+      const isRecommendationSelected = this.isRecommendedSelected();
+      this.recommendedSelectedChange.emit(isRecommendationSelected);
+    });
+  }
 
   get displayedColumns(): string[] {
     const columns = ['field'];
-    if (this.data.headers.minimum) {
+    if (this.data().headers.minimum) {
       columns.push('minimum');
     }
-    if (this.data.headers.recommended) {
+    if (this.data().headers.recommended) {
       columns.push('recommended');
     }
 
     return columns;
   }
 
-  ngAfterViewInit(): void {
-    this.isRecommendedSelected = !!(this.data?.headers.recommended ?? false);
-  }
-
   onHeaderSelectionChange({ isRecommended }: { isRecommended: boolean }): void {
-    this.isRecommendedSelected = isRecommended;
-    this.recommendedSelectedChange.emit(isRecommended);
+    this.isRecommendedSelected.set(isRecommended);
+    this.recommendedSelectedChange.emit(this.isRecommendedSelected());
   }
 }

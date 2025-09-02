@@ -3,11 +3,23 @@
   class="flex min-h-screen w-screen max-w-full justify-center bg-white"
 >
   <div class="w-screen md:m-5">
-    <h1
-      class="font-normal text-title-large sm:text-headline-small text-on-surface-variant mb-3"
-    >
-      {{ t('appTitle') }}
-    </h1>
+    <div class="flex flex-col md:flex-row py-2 items-center">
+      <h1
+        class="font-normal mb-0 text-title-large sm:text-headline-small text-on-surface-variant"
+      >
+        {{ t('appTitle') }}
+      </h1>
+      <div class="mr-0 ml-auto">
+        <mat-button-toggle-group [formControl]="unitsetSelectionControl">
+          <mat-button-toggle value="UNITSET_SI">{{
+            t('unitset.si')
+          }}</mat-button-toggle>
+          <mat-button-toggle value="UNITSET_FPS">{{
+            t('unitset.fps')
+          }}</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
     <mat-divider class="mb-3 sm:mb-9"></mat-divider>
     <schaeffler-banner></schaeffler-banner>
     <lsa-recommendation-container></lsa-recommendation-container>

@@ -66,7 +66,7 @@
       "recommended": "đề xuất",
       "schaefflerId": "Schaeffler ID",
       "outputDiameter": "Đường kính bên ngoài",
-      "maxOperatingPressure": "Áp suất hoạt động",
+      "pressure": "Áp suất hoạt động",
       "noOfOutlets": "Số lượng ống xả",
       "maxTemp": "Nhiệt độ tối đa",
       "minTemp": "Nhiệt độ tối thiểu",
@@ -85,7 +85,7 @@
       "tempRange": "Dãy nhiệt độ",
       "tempRangeValues": "{{min}} °C đến {{max}} °C",
       "voltage": "Điện áp hoạt động",
-      "dimensions": "Kích thước (mm)",
+      "dimensions": "Kích thước",
       "yes": "Có",
       "no": "Không",
       "heading": "Bản kê chi tiết cho {{ designation }}",
@@ -152,7 +152,8 @@
       "pdf": {
         "title": "Báo cáo - Trợ lý lựa chọn chất bôi trơn",
         "selection": "Chất bôi trơn bạn đã chọn"
-      }
+      },
+      "conversionDisclaimer": "Các kích thước kỹ thuật của sản phẩm này được lấy từ hệ mét, việc chuyển đổi sang hệ Anh là không có đảm bảo."
     }
   },
   "tooltips": {

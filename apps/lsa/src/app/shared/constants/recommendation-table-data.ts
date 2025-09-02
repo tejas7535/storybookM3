@@ -1,8 +1,15 @@
 import { translate } from '@jsverse/transloco';
 
-import { Lubricator } from '../models';
+import { Lubricator, MultiUnitValue } from '../models';
+import { Unitset } from '../models/preferences.model';
 
 export type LubricatorType = 'minimum' | 'recommended';
+
+type CompositeFormatFn<T> = (
+  device: Lubricator,
+  which: LubricatorType,
+  unitset: Unitset
+) => T;
 
 export type RecommendationTableRowConfiguration =
   | {
@@ -12,7 +19,12 @@ export type RecommendationTableRowConfiguration =
   | {
       type: 'composite';
       fieldName: string;
-      formatFunction: (device: Lubricator, which: LubricatorType) => string;
+      formatFunction: CompositeFormatFn<string>;
+    }
+  | {
+      type: 'localized_composite';
+      fieldName: string;
+      formatFunction: CompositeFormatFn<MultiUnitValue>;
     }
   | keyof Lubricator;
 
@@ -28,8 +40,14 @@ export const recommendationTableConfiguration: RecommendationTableConfiguration 
       type: 'technical',
       fieldName: 'dimensions',
     },
-    'volume',
-    'maxOperatingPressure',
+    {
+      type: 'technical',
+      fieldName: 'volume',
+    },
+    {
+      type: 'technical',
+      fieldName: 'pressure',
+    },
     {
       type: 'technical',
       fieldName: 'voltage',
@@ -39,13 +57,39 @@ export const recommendationTableConfiguration: RecommendationTableConfiguration 
       fieldName: 'medium_general',
     },
     {
-      type: 'composite',
+      type: 'localized_composite',
       fieldName: 'tempRange',
-      formatFunction: (lub: Lubricator) =>
-        translate(`recommendation.result.tempRangeValues`, {
-          min: lub.minTemp,
-          max: lub.maxTemp,
-        }),
+      formatFunction: (lubricator: Lubricator, _type: string) => {
+        const minMetric = (
+          lubricator.technicalAttributes.temp_min as MultiUnitValue
+        )['SI'];
+        const maxMetric = (
+          lubricator.technicalAttributes.temp_max as MultiUnitValue
+        )['SI'];
+        const SI = translate(`recommendation.result.tempRangeValues`, {
+          min: minMetric,
+          max: maxMetric,
+          unit: '°C',
+        });
+
+        const minFPS = (
+          lubricator.technicalAttributes.temp_min as MultiUnitValue
+        )['FPS'];
+        const maxFPS = (
+          lubricator.technicalAttributes.temp_max as MultiUnitValue
+        )['FPS'];
+        const FPS = translate(`recommendation.result.tempRangeValues`, {
+          min: minFPS,
+          max: maxFPS,
+          unit: '°F',
+        });
+
+        return {
+          type: 'convertedDimension',
+          FPS,
+          SI,
+        };
+      },
     },
     'noOfOutlets',
     {

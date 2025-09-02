@@ -39,9 +39,21 @@
                 lubricationQuantity of lubricationQuantityOptions;
                 track lubricationQuantity
               ) {
-                <mat-option [value]="lubricationQuantity">{{
-                  t('lubricationQuantityValue', { value: lubricationQuantity })
-                }}</mat-option>
+                <mat-option [value]="lubricationQuantity">
+                  @if (restService.unitset() === 'UNITSET_SI') {
+                    {{
+                      t('lubricationQuantityValue', {
+                        value: lubricationQuantity,
+                      })
+                    }}
+                  } @else {
+                    {{
+                      t('lubricationQuantityValueImperial', {
+                        value: convertMlToFloz(lubricationQuantity),
+                      })
+                    }}
+                  }
+                </mat-option>
               }
             </mat-select>
           </mat-form-field>
@@ -57,7 +69,7 @@
       {{ t('questionPipeLength') }}
     </span>
     <lsa-radio-button-group
-      [options]="pipeLengthOptions"
+      [options]="pipeLengthOptions()"
       [control]="lubricationPointsForm.controls.pipeLength"
     ></lsa-radio-button-group>
   </div>

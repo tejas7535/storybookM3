@@ -1,9 +1,13 @@
 import {
   Component,
+  computed,
+  effect,
+  inject,
   Input,
-  OnChanges,
+  input,
   OnInit,
-  SimpleChanges,
+  signal,
+  untracked,
   ViewChild,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,6 +28,7 @@ import {
 } from '@lsa/core/services/google-analytics';
 import { LsaFormService } from '@lsa/core/services/lsa-form.service';
 import { PDFGeneratorService } from '@lsa/core/services/pdf-generation/pdf-generator.service';
+import { RestService } from '@lsa/core/services/rest.service';
 import { environment } from '@lsa/environments/environment';
 import { UserTier } from '@lsa/shared/constants/user-tier.enum';
 import {
@@ -33,6 +38,7 @@ import {
 } from '@lsa/shared/models';
 import { MediasCallbackResponse } from '@lsa/shared/models/price-availibility.model';
 import { RecommendationTableDataPipe } from '@lsa/shared/pipes/recommendation-table-data.pipe';
+import { TableUnitsetPipe } from '@lsa/shared/pipes/table-unitset.pipe';
 import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -58,32 +64,77 @@ import { RecommendationTableComponent } from './recommendation-table/recommendat
     ErrorContainerComponent,
     MatProgressSpinnerModule,
     PushPipe,
+    TableUnitsetPipe,
   ],
   templateUrl: './result.component.html',
 })
-export class ResultComponent implements OnChanges, OnInit {
-  @Input() recommendationResult: RecommendationResponse | ErrorResponse;
-
+export class ResultComponent implements OnInit {
   @ViewChild(AccessoryTableComponent)
   accessoryTableComponent: AccessoryTableComponent;
 
+  public readonly recommendationResult = input<
+    RecommendationResponse | ErrorResponse
+  >();
   public readonly businessUserTier = UserTier.Business;
   public readonly showPDFDownload = environment.enablePDFDownload;
+  public isRecommendedSelected = signal(false);
 
-  isRecommendedSelected = true;
-  validResult?: RecommendationResponse;
-  errorInstance: ErrorResponse;
   userTier: UserTier;
 
   public pricesAndAvailability: MediasCallbackResponse['items'];
+
+  public restService = inject(RestService);
+
+  public readonly errorInstance = computed<ErrorResponse | undefined>(() => {
+    if (this.recommendationResult() && 'name' in this.recommendationResult()) {
+      // TODO: Build error handling logic
+      this.logResultPageLoadFailEvent();
+
+      return this.recommendationResult() as ErrorResponse;
+    }
+
+    // eslint-disable-next-line unicorn/no-useless-undefined
+    return undefined;
+  });
+
+  public readonly validResult = computed(() => {
+    if (
+      this.recommendationResult() &&
+      !('name' in this.recommendationResult())
+    ) {
+      const result = this.recommendationResult() as RecommendationResponse;
+      untracked(() => {
+        this.isRecommendedSelected.set(
+          !!result.lubricators?.recommendedLubricator
+        );
+      });
+
+      return result;
+    }
+
+    // eslint-disable-next-line unicorn/no-useless-undefined
+    return undefined;
+  });
+
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  protected unitset = this.restService.unitset;
+
+  private readonly pdfService = inject(PDFGeneratorService);
+  private readonly addToCartService = inject(LSACartService);
+  private readonly formService = inject(LsaFormService);
+  private readonly googleAnalyticsService = inject(GoogleAnalyticsService);
+
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   public pdfGenerating$$ = this.pdfService.loading$$;
 
-  constructor(
-    private readonly addToCartService: LSACartService,
-    private readonly formService: LsaFormService,
-    private readonly googleAnalyticsService: GoogleAnalyticsService,
-    private readonly pdfService: PDFGeneratorService
-  ) {}
+  constructor() {
+    effect(() => {
+      const validResult = this.validResult();
+      if (validResult) {
+        this.logResultPageLoadEvent();
+      }
+    });
+  }
 
   @Input()
   set priceAndAvailabilityResponses(value: MediasCallbackResponse) {
@@ -94,32 +145,12 @@ export class ResultComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(): void {
-    if (this.validResult) {
-      this.logResultPageLoadEvent();
-    }
-
     this.userTier = this.addToCartService.getUserTier();
   }
 
   onRecommendedSelectedChange(isRecommendedSelected: boolean): void {
-    this.isRecommendedSelected = isRecommendedSelected;
+    this.isRecommendedSelected.set(isRecommendedSelected);
     this.logProductSelectionEvent(isRecommendedSelected);
-  }
-
-  ngOnChanges(_changes: SimpleChanges): void {
-    if (_changes.recommendationResult) {
-      if ('name' in this.recommendationResult) {
-        // TODO: Build error handling logic
-        this.errorInstance = this.recommendationResult as ErrorResponse;
-        this.validResult = undefined;
-        this.logResultPageLoadFailEvent();
-      } else {
-        this.isRecommendedSelected =
-          !!this.recommendationResult.lubricators.recommendedLubricator;
-        this.validResult = this.recommendationResult as RecommendationResponse;
-        this.errorInstance = undefined;
-      }
-    }
   }
 
   onAddToCart(): void {
@@ -145,7 +176,7 @@ export class ResultComponent implements OnChanges, OnInit {
   }
 
   protected handlePDFDownload() {
-    this.pdfService.generatePDF(this.isRecommendedSelected);
+    this.pdfService.generatePDF(this.isRecommendedSelected());
   }
 
   private logAddToCartEvent(): void {
@@ -162,7 +193,7 @@ export class ResultComponent implements OnChanges, OnInit {
       ...this.getResultBaseEvent(),
       action: 'Add to Cart',
       selected_product_quantity: 1,
-      selected_product_type: this.getProductType(this.isRecommendedSelected),
+      selected_product_type: this.getProductType(this.isRecommendedSelected()),
       product_parts,
     };
 
@@ -191,7 +222,7 @@ export class ResultComponent implements OnChanges, OnInit {
 
   private logResultPageLoadEvent(): void {
     const { minimumRequiredLubricator, recommendedLubricator } =
-      this.validResult.lubricators;
+      this.validResult().lubricators;
 
     const recommendedId = recommendedLubricator
       ? recommendedLubricator.matNr

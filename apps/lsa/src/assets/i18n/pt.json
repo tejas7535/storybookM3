@@ -66,7 +66,7 @@
       "recommended": "recomendado",
       "schaefflerId": "ID da Schaeffler",
       "outputDiameter": "Diâmetro de saída",
-      "maxOperatingPressure": "Pressão de funcionamento",
+      "pressure": "Pressão de funcionamento",
       "noOfOutlets": "Número de saídas",
       "maxTemp": "Temperatura máxima",
       "minTemp": "Temperatura mínima",
@@ -85,7 +85,7 @@
       "tempRange": "Intervalo de temperatura",
       "tempRangeValues": "{{min}} °C a {{max}} °C",
       "voltage": "Tensão de funcionamento",
-      "dimensions": "Dimensões (mm)",
+      "dimensions": "Dimensões",
       "yes": "Sim",
       "no": "Não",
       "heading": "Lista de peças para {{designation}}",
@@ -152,7 +152,8 @@
       "pdf": {
         "title": "Relatório - Assistente de Seleção de Lubrificadores",
         "selection": "Seu lubrificador selecionado"
-      }
+      },
+      "conversionDisclaimer": "As medidas técnicas deste produto procedem do sistema métrico; a conversão ao outro sistema dimensional realiza-se sem garantia."
     }
   },
   "tooltips": {

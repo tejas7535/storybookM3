@@ -14,6 +14,10 @@
       "title": "Ergebnis"
     }
   },
+  "unitset": {
+    "si": "Metrisch",
+    "fps": "Imperiell"
+  },
   "recommendation": {
     "lubricationPoints": {
       "questionLubricationPoints": "Wie viele Schmierpunkte möchten Sie schmieren?",
@@ -66,7 +70,7 @@
       "recommended": "Empfohlen",
       "schaefflerId": "Schaeffler ID",
       "outputDiameter": "Ausgangsdurchmesser",
-      "maxOperatingPressure": "Betriebsdruck",
+      "pressure": "Betriebsdruck",
       "noOfOutlets": "Schmierpunktanzahl",
       "maxTemp": "Maximale Temperatur",
       "minTemp": "Minimale Temperatur",
@@ -77,9 +81,9 @@
       "isOptime": "OPTIME",
       "smallerEqual": "≤",
       "tempRange": "Temperaturbereich",
-      "tempRangeValues": "{{min}} °C bis {{max}} °C",
+      "tempRangeValues": "{{min}} bis {{max}}",
       "voltage": "Betriebsspannung",
-      "dimensions": "Abmessungen (mm)",
+      "dimensions": "Abmessungen",
       "meter": "m",
       "centimeter": "cm",
       "cubiccentimeter": "cm³",
@@ -153,7 +157,8 @@
       "pdf": {
         "title": "Ergebnis - Schmierstoffgeber-Auswahlassistent",
         "selection": "Ihr ausgewählter Schmierstoffgeber"
-      }
+      },
+      "conversionDisclaimer": "Die technischen Maße für dieses Produkt entstammen dem metrischen System, die Umrechnung in das imperiale System erfolgt ohne Gewähr."
     }
   },
   "tooltips": {
