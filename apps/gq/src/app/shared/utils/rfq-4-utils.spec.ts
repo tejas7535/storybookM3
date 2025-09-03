@@ -4,7 +4,7 @@ import { isRfq4ProcessNotOpen } from './rfq-4-utils';
 
 describe('Rfq4Utils', () => {
   describe('isRfq4ProcessOngoingForQuotationDetail', () => {
-    test('should return true if sqvCheckStatus is IN_PROGRESS', () => {
+    test('should return true if rfq4Status is IN_PROGRESS', () => {
       const result = isRfq4ProcessNotOpen({
         rfq4: {
           rfq4Status: Rfq4Status.IN_PROGRESS,
@@ -13,7 +13,7 @@ describe('Rfq4Utils', () => {
 
       expect(result).toBe(true);
     });
-    test('should return false if sqvCheckStatus is OPEN', () => {
+    test('should return false if rfq4Status is OPEN', () => {
       const result = isRfq4ProcessNotOpen({
         rfq4: {
           rfq4Status: Rfq4Status.OPEN,
@@ -23,7 +23,7 @@ describe('Rfq4Utils', () => {
       expect(result).toBeFalsy();
     });
 
-    test('should return true if sqvCheckStatus is CONFIRMED', () => {
+    test('should return true if rfq4Status is CONFIRMED', () => {
       const result = isRfq4ProcessNotOpen({
         rfq4: {
           rfq4Status: Rfq4Status.CONFIRMED,
@@ -33,7 +33,7 @@ describe('Rfq4Utils', () => {
       expect(result).toBeTruthy();
     });
 
-    test('should return true if sqvCheckStatus is REOPEN', () => {
+    test('should return true if rfq4Status is REOPEN', () => {
       const result = isRfq4ProcessNotOpen({
         rfq4: {
           rfq4Status: Rfq4Status.REOPEN,
@@ -43,7 +43,7 @@ describe('Rfq4Utils', () => {
       expect(result).toBeTruthy();
     });
 
-    test('should return true if sqvCheckStatus is CANCEL', () => {
+    test('should return true if rfq4Status is CANCEL', () => {
       const result = isRfq4ProcessNotOpen({
         rfq4: {
           rfq4Status: Rfq4Status.CANCELLED,
@@ -52,9 +52,12 @@ describe('Rfq4Utils', () => {
 
       expect(result).toBeTruthy();
     });
-    test('should return false if detailsCosts is null', () => {
+
+    test('should return true if rfq4Status does not exist', () => {
       const result = isRfq4ProcessNotOpen({
-        rfq4: null,
+        rfq4: {
+          rfq4Status: null,
+        },
       } as QuotationDetail);
 
       expect(result).toBeFalsy();
