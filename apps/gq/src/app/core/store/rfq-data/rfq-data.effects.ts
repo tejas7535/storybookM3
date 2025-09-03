@@ -4,6 +4,7 @@ import { catchError, map, mergeMap, of } from 'rxjs';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { SqvCheckSource } from '@gq/shared/models/quotation-detail/cost';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
@@ -45,7 +46,10 @@ export class RfqDataEffects {
       ]),
       map(([_action, quotationDetail, sapId]) => {
         // when rfqData is present fetch data from backend otherwise reset the state
-        return quotationDetail?.rfqData
+        // only check for latest rfq if it is from sap rfq data table and not from the rfq4 process  (https://jira.schaeffler.com/browse/GQUOTE-6521)
+        return sapId &&
+          quotationDetail?.rfqData &&
+          quotationDetail.rfqData.sqvSource === SqvCheckSource.RFQ_SQV
           ? RfqDataActions.getRfqData({
               sapId,
               quotationItemId: quotationDetail.quotationItemId,

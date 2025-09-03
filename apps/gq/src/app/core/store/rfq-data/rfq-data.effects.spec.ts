@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { Quotation, RfqData } from '@gq/shared/models';
+import { SqvCheckSource } from '@gq/shared/models/quotation-detail/cost';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
@@ -15,6 +16,7 @@ import { marbles } from 'rxjs-marbles';
 
 import { QUOTATION_MOCK } from '../../../../testing/mocks/models/quotation';
 import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
+import { QUOTATION_RFQ_DATA_MOCK } from '../../../../testing/mocks/models/quotation-detail/rfq-data/quotation-rfq-data-mock';
 import { RfqDataActions } from './rfq-data.actions';
 import { RfqDataEffects } from './rfq-data.effects';
 import { initialState } from './rfq-data.reducer';
@@ -116,6 +118,13 @@ describe('RfqDataEffects', () => {
         action = ActiveCaseActions.getQuotationSuccess({
           item: {} as Quotation,
         });
+        effects['activeCaseFacade'].selectedQuotationDetail$ = of({
+          ...QUOTATION_DETAIL_MOCK,
+          rfqData: {
+            ...QUOTATION_RFQ_DATA_MOCK,
+            sqvSource: SqvCheckSource.RFQ_SQV,
+          },
+        });
 
         actions$ = m.hot('-a', { a: action });
 
@@ -129,28 +138,46 @@ describe('RfqDataEffects', () => {
         m.expect(effects.triggerLoadRfqData$).toBeObservable(expected);
       })
     );
-    test('should dispatch resetRfqData action when quotation is undefined', () => {
-      action = ActiveCaseActions.getQuotationSuccess({
-        item: undefined,
-      });
 
-      actions$ = of(action);
+    test(
+      'should dispatch resetRfqData action when quotation.rfqData is undefined',
+      marbles((m) => {
+        action = ActiveCaseActions.getQuotationSuccess({
+          item: undefined as unknown as Quotation,
+        });
+        effects['activeCaseFacade'].selectedQuotationDetail$ = of({
+          ...QUOTATION_DETAIL_MOCK,
+          rfqData: undefined,
+        });
 
-      effects.triggerLoadRfqData$.subscribe((result) => {
-        expect(result).toEqual(RfqDataActions.resetRfqData());
-      });
-    });
+        actions$ = m.hot('-a', { a: action });
 
-    test('should dispatch resetRfqData action when quotation.rfqData is undefined', () => {
-      action = ActiveCaseActions.getQuotationSuccess({
-        item: { rfqData: undefined } as unknown as Quotation,
-      });
+        const expected$ = m.cold('-b', { b: RfqDataActions.resetRfqData() });
 
-      actions$ = of(action);
+        m.expect(effects.triggerLoadRfqData$).toBeObservable(expected$);
+      })
+    );
 
-      effects.triggerLoadRfqData$.subscribe((result) => {
-        expect(result).toEqual(RfqDataActions.resetRfqData());
-      });
-    });
+    test(
+      'should dispatch resetRfqData action when rfqData sqv source is gq',
+      marbles((m) => {
+        action = ActiveCaseActions.getQuotationSuccess({
+          item: {} as unknown as Quotation,
+        });
+        effects['activeCaseFacade'].selectedQuotationDetail$ = of({
+          ...QUOTATION_DETAIL_MOCK,
+          rfqData: {
+            ...QUOTATION_RFQ_DATA_MOCK,
+            sqvSource: SqvCheckSource.RFQ_GQ,
+          },
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const expected$ = m.cold('-b', { b: RfqDataActions.resetRfqData() });
+
+        m.expect(effects.triggerLoadRfqData$).toBeObservable(expected$);
+      })
+    );
   });
 });

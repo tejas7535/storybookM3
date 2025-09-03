@@ -3,27 +3,29 @@
     <div class="mt-4">
       <gq-kpi-status-card [title]="t('title')">
         <span class="absolute right-4 top-5">
-          @if (rfqDataUpdateAvl) {
-            <mat-icon
-              (click)="updateRfqData()"
-              class="!w-4 !h-4 !text-[16px]"
-              [ngClass]="
-                refreshEnabled
-                  ? 'text-on-surface-variant cursor-pointer hover:text-approval-status-green'
-                  : 'text-on-surface opacity-[0.38]'
-              "
-              [matTooltip]="refreshButtonTooltipText"
-              data-cy="refresh-icon"
-            >
-              refresh</mat-icon
-            >
-          } @else {
-            <mat-icon
-              class="!w-4 !h-4 !text-[16px] text-primary"
-              [matTooltip]="t('rfqDataUpToDate')"
-              data-cy="check-icon"
-              >check_circle</mat-icon
-            >
+          @if (rfqData.sqvSource === sqvCheckSourceEnum.RFQ_SQV) {
+            @if (rfqDataUpdateAvl) {
+              <mat-icon
+                (click)="updateRfqData()"
+                class="!w-4 !h-4 !text-[16px]"
+                [ngClass]="
+                  refreshEnabled
+                    ? 'text-on-surface-variant cursor-pointer hover:text-approval-status-green'
+                    : 'text-on-surface opacity-[0.38]'
+                "
+                [matTooltip]="refreshButtonTooltipText"
+                data-cy="refresh-icon"
+              >
+                refresh</mat-icon
+              >
+            } @else {
+              <mat-icon
+                class="!w-4 !h-4 !text-[16px] text-primary"
+                [matTooltip]="t('rfqDataUpToDate')"
+                data-cy="check-icon"
+                >check_circle</mat-icon
+              >
+            }
           }
         </span>
         <gq-label-text>
