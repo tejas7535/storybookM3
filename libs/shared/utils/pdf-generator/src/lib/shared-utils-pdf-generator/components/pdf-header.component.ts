@@ -25,6 +25,7 @@ export interface PDFHeaderProps {
   };
   format?: Partial<FormatProps>;
   heading?: string;
+  customLogo?: string;
 }
 
 const QR_CODE_SIZE = 25;
@@ -60,6 +61,7 @@ export class PDFHeader extends Component {
   private readonly titleFormat: FontOptions;
   private readonly dateFontFormat: FontOptions;
   private readonly linkTextFormat: FontOptions;
+  private readonly selectedLogo: string;
 
   public constructor(props: PDFHeaderProps) {
     super();
@@ -90,7 +92,7 @@ export class PDFHeader extends Component {
       this.headerLinkText = props.headerLink.linkText;
       this.includeQR = !!props.headerLink.showQRCode;
     }
-
+    this.selectedLogo = props.customLogo ?? LOGO;
     this.heading = props?.heading;
   }
 
@@ -114,9 +116,13 @@ export class PDFHeader extends Component {
 
     pdf.setFont('Noto');
     if (!this.includeQR) {
-      const logoWidth = this.scaleImage(LOGO, undefined, LOGO_HEIGHT)[0];
+      const logoWidth = this.scaleImage(
+        this.selectedLogo,
+        undefined,
+        LOGO_HEIGHT
+      )[0];
       this.image(
-        LOGO,
+        this.selectedLogo,
         this.bounds.BottomRight.x - logoWidth,
         this.bounds.y,
         undefined,
@@ -137,7 +143,7 @@ export class PDFHeader extends Component {
       );
 
       this.image(
-        LOGO,
+        this.selectedLogo,
         this.bounds.x,
         this.bounds.y + QR_CODE_SIZE / 2 - LOGO_HEIGHT / 2,
         undefined,

@@ -4,15 +4,13 @@ import { Colors } from '../../constants';
 import { Component, Rect } from '../../core';
 
 export class ColumnLayout extends Component {
-  private readonly topMargin: number;
-
   public constructor(
     private readonly components: Component[],
     private readonly spacing: number = 4,
-    topMargin: number = 0
+    private readonly topMargin: number = 0,
+    private readonly bottomMargin: number = 0
   ) {
     super();
-    this.topMargin = topMargin;
   }
 
   public override evaluate(bounds: Rect): [boolean, number] {
@@ -37,6 +35,9 @@ export class ColumnLayout extends Component {
       totalHeight += height + firstComponentSpacing;
       currentY += height + this.spacing;
     }
+
+    // Add bottom margin to total height
+    totalHeight += this.bottomMargin;
 
     return [true, totalHeight];
   }

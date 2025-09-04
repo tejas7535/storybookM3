@@ -5,341 +5,73 @@ Object {
   "messageItems": Array [
     Object {
       "items": Array [
-        "",
+        " ",
         "Very high kappa values and corresponding friction losses occur at the present operating speed for the following lubricating greases:",
         "  · Arcanol LOAD1000",
         "  · Arcanol TEMP200",
-        "",
+        " ",
       ],
       "title": "errors",
     },
     Object {
       "items": Array [
-        "",
+        " ",
         "Relubrication should be carried out once a year.",
-        "Arcanol Clean M, Arcanol MOTION 2, Arcanol MULTITOP, Arcanol MULTI2, Arcanol MULTI3, Arcanol LOAD150, Arcanol LOAD220, Arcanol LOAD400, Arcanol LOAD460, Arcanol TEMP90, Arcanol TEMP110, Arcanol TEMP120, Arcanol SPEED 2,6, Arcanol VIB3, Arcanol FOOD2",
-        "",
+        "  · Arcanol Clean M",
+        "  · Arcanol MOTION 2",
+        "  · Arcanol MULTITOP",
+        "  · Arcanol MULTI2",
+        "  · Arcanol MULTI3",
+        "  · Arcanol LOAD150",
+        "  · Arcanol LOAD220",
+        "  · Arcanol LOAD400",
+        "  · Arcanol LOAD460",
+        "  · Arcanol TEMP90",
+        "  · Arcanol TEMP110",
+        "  · Arcanol TEMP120",
+        "  · Arcanol SPEED 2,6",
+        "  · Arcanol VIB3",
+        "  · Arcanol FOOD2",
+        " ",
         "Where a grease service life >3 years is required, this should be agreed in consultation with the lubricant manufacturer.",
-        "Arcanol Clean M, Arcanol MOTION 2, Arcanol MULTITOP, Arcanol MULTI2, Arcanol MULTI3, Arcanol LOAD150, Arcanol LOAD220, Arcanol LOAD400, Arcanol LOAD460, Arcanol TEMP90, Arcanol TEMP110, Arcanol TEMP120, Arcanol SPEED 2,6, Arcanol VIB3, Arcanol FOOD2",
-        "",
+        "  · Arcanol Clean M",
+        "  · Arcanol MOTION 2",
+        "  · Arcanol MULTITOP",
+        "  · Arcanol MULTI2",
+        "  · Arcanol MULTI3",
+        "  · Arcanol LOAD150",
+        "  · Arcanol LOAD220",
+        "  · Arcanol LOAD400",
+        "  · Arcanol LOAD460",
+        "  · Arcanol TEMP90",
+        "  · Arcanol TEMP110",
+        "  · Arcanol TEMP120",
+        "  · Arcanol SPEED 2,6",
+        "  · Arcanol VIB3",
+        "  · Arcanol FOOD2",
+        " ",
         "Calculation finished. The results for the permissible greases are in the result file.",
-        "",
+        " ",
       ],
       "title": "warnings",
     },
     Object {
       "items": Array [
-        "",
+        " ",
         "Calculation of the grease service life and the relubrication interval corresponds to the catalog method. The internal geometry and the internal load distribution are not taken into consideration in the calculation. For appropriate grease selection, the employees of the Schaeffler Group have access to the Grease Configurator. If the axis of rotation is vertical, the supply of lubricant to the contact must be checked. Please consult the experts in the Lubrication Technology department.",
-        "",
+        " ",
         "A complete plausibility check of the loads is not implemented. Load conditions like minimal load, maximum permissible load as well as suitability of the load situation for the selected bearing are not checked.",
-        "",
+        " ",
         "In the Grease App, fatigue life is not considered or calculated. Please check this separately.",
-        "",
+        " ",
         "When calculating the amount of lubricant, only the volume of the bearing is taken into account, while the free space of the surrounding construction is not considered.",
-        "",
+        " ",
         "The specified grease quantities are only guide values, which may be deviated from based on practical experience. In case of questions, please contact the Schaeffler engineering service.",
-        "",
+        " ",
       ],
       "title": "notes",
     },
   ],
   "sectionTitle": "calculationResult.errorsWarningsNotes",
-}
-`;
-
-exports[`GreaseReportDataGeneratorService prepare report result data for not autolubrciated configuration should exclude concept1 information from result 1`] = `
-Object {
-  "sectionTitle": "calculationResult.resultsDefault",
-  "tableItems": Array [
-    Object {
-      "concept1": undefined,
-      "isRecommended": false,
-      "items": Array [
-        Object {
-          "itemTitle": "calculationResult.initialGreaseQuantity",
-          "items": Array [
-            "100 g/100 g",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.viscosityRatio",
-          "items": Array [
-            "0.8",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.additiveRequired",
-          "items": Array [
-            "0 (suitable)",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.lowFriction",
-          "items": Array [
-            "0 (suitable)",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.suitableForVibrations",
-          "items": Array [
-            "0 (suitable)",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.supportForSeals",
-          "items": Array [
-            "0 (suitable)",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.effectiveEpAdditivation",
-          "items": Array [
-            "0 (suitable)",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationQuantityPer1000OperatingHours",
-          "items": Array [
-            "50 g/hours",
-            "50 g/hours",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer365Days",
-          "items": Array [
-            "200 g/365 days",
-            "200 g/365 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer30Days",
-          "items": Array [
-            "20 g/30 days",
-            "20 g/30 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.CONCEPT1",
-          "items": Array [
-            "undefined",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.maximumManualRelubricationPerInterval",
-          "items": Array [
-            "100 g",
-            "100 g",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationInterval",
-          "items": Array [
-            "30 days",
-            "30 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer7Days",
-          "items": Array [
-            "10 g/7 days",
-            "10 g/7 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.greaseServiceLife",
-          "items": Array [
-            "~ 100 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.baseOilViscosityAt40",
-          "items": Array [
-            "100 mm²/s",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.lowerTemperatureLimit",
-          "items": Array [
-            "-20 °C",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.upperTemperatureLimit",
-          "items": Array [
-            "120 °C",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.density",
-          "items": Array [
-            "0.9 g/cm³",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.h1Registration",
-          "items": Array [
-            "0 (suitable)",
-          ],
-        },
-      ],
-      "subTitle": "Mineral oil",
-      "title": "Arcanol MULTI2",
-    },
-  ],
-}
-`;
-
-exports[`GreaseReportDataGeneratorService prepare report result data should return formatted data 1`] = `
-Object {
-  "sectionTitle": "calculationResult.resultsDefault",
-  "tableItems": Array [
-    Object {
-      "concept1": Object {
-        "concept125ml": Object {
-          "conceptTitle": "calculationResult.concept1settings.concept1Size",
-          "notes": "",
-          "settingArrow": "calculationResult.concept1settings.setArrowSetting",
-        },
-        "concept60ml": Object {
-          "conceptTitle": "calculationResult.concept1settings.concept1Size",
-          "notes": "",
-          "settingArrow": "calculationResult.concept1settings.setArrowSetting",
-        },
-        "title": "calculationResult.concept1",
-      },
-      "isRecommended": false,
-      "items": Array [
-        Object {
-          "itemTitle": "calculationResult.initialGreaseQuantity",
-          "items": Array [
-            "100 g/100 g",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.viscosityRatio",
-          "items": Array [
-            "0.8",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.additiveRequired",
-          "items": Array [
-            "0 (suitable)",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.lowFriction",
-          "items": Array [
-            "0 (suitable)",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.suitableForVibrations",
-          "items": Array [
-            "0 (suitable)",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.supportForSeals",
-          "items": Array [
-            "0 (suitable)",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.effectiveEpAdditivation",
-          "items": Array [
-            "0 (suitable)",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationQuantityPer1000OperatingHours",
-          "items": Array [
-            "50 g/hours",
-            "50 g/hours",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer365Days",
-          "items": Array [
-            "200 g/365 days",
-            "200 g/365 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer30Days",
-          "items": Array [
-            "20 g/30 days",
-            "20 g/30 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.CONCEPT1",
-          "items": Array [
-            "undefined",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.maximumManualRelubricationPerInterval",
-          "items": Array [
-            "100 g",
-            "100 g",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationInterval",
-          "items": Array [
-            "30 days",
-            "30 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.relubricationPer7Days",
-          "items": Array [
-            "10 g/7 days",
-            "10 g/7 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.greaseServiceLife",
-          "items": Array [
-            "~ 100 days",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.baseOilViscosityAt40",
-          "items": Array [
-            "100 mm²/s",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.lowerTemperatureLimit",
-          "items": Array [
-            "-20 °C",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.upperTemperatureLimit",
-          "items": Array [
-            "120 °C",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.density",
-          "items": Array [
-            "0.9 g/cm³",
-          ],
-        },
-        Object {
-          "itemTitle": "calculationResult.h1Registration",
-          "items": Array [
-            "0 (suitable)",
-          ],
-        },
-      ],
-      "subTitle": "Mineral oil",
-      "title": "Arcanol MULTI2",
-    },
-  ],
 }
 `;

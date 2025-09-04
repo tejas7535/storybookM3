@@ -23,7 +23,47 @@ export interface GreasePdfResultTable {
   isRecommended?: boolean;
 }
 
-export interface GreasePdfResult {
+export const enum BadgeStyle {
+  Primary = 'primary',
+  Error = 'error',
+  Success = 'success',
+  Warning = 'warning',
+  Recommended = 'recommended',
+  Miscible = 'miscible',
+}
+
+export interface PDFGreaseResultSectionItem {
+  title: string;
+  value: string;
+  secondaryValue?: string;
+  badgeClass?: BadgeStyle;
+  concept1Data?: PDFConceptInfo;
+}
+
+export interface PDFConceptInfo {
+  emptyDuration: string;
+  arrowSetting: string;
+  duration: number;
+  arrowImage?: string;
+}
+export interface PDFGreaseResultSection {
   sectionTitle: string;
-  tableItems: GreasePdfResultTable[];
+  values: PDFGreaseResultSectionItem[];
+  concept1?: boolean;
+}
+
+export interface PDFPartnerVersionHeaderInfo {
+  title: string;
+  schaefflerLogo: string;
+}
+
+export interface PDFGreaseReportResult {
+  sections: PDFGreaseResultSection[];
+  isSufficient: boolean;
+  mainTitle: string;
+  subTitle: string;
+  qrCode: string;
+  recommended?: string;
+  miscible?: string;
+  partnerVersionInfo?: PDFPartnerVersionHeaderInfo;
 }

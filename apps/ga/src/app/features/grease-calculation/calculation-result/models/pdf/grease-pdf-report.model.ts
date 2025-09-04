@@ -7,6 +7,5 @@ export interface GreasePdfReportModel {
   data: GreaseReportSubordinate[];
   results: GreaseResult[];
   legalNote: string;
-  automaticLubrication: boolean;
   versions?: string;
 }

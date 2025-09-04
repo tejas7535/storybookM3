@@ -26,11 +26,7 @@ import { CalculationParametersService } from '../calculation-parameters/services
 import { CalculationResultComponent } from './calculation-result.component';
 import { CalculationResultRoutingModule } from './calculation-result-routing.module';
 import { GreaseReportComponent } from './components/grease-report';
-import {
-  GreaseReportDataGeneratorService,
-  GreaseReportPdfGeneratorService,
-} from './services';
-import { FontsLoaderService } from './services/pdf/fonts-loader.service';
+import { GreaseReportDataGeneratorService } from './services';
 import { GreaseReportPdfFileSaveService } from './services/pdf/grease-report-pdf-file-save.service';
 
 @NgModule({
@@ -66,9 +62,9 @@ import { GreaseReportPdfFileSaveService } from './services/pdf/grease-report-pdf
   providers: [
     CalculationParametersService,
     GreaseReportDataGeneratorService,
-    GreaseReportPdfGeneratorService,
+
     GreaseReportPdfFileSaveService,
-    FontsLoaderService,
+
     provideTranslocoLocale(),
     {
       provide: ENV,

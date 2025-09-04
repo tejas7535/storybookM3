@@ -1,35 +1,44 @@
 /* eslint-disable max-lines */
 import { inject, Injectable } from '@angular/core';
 
+import { firstValueFrom } from 'rxjs';
+
 import { HashMap, TranslocoService } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
+import { ImageResolverService } from '@schaeffler/pdf-generator';
+
+import { PartnerVersion } from '@ga/shared/models';
+import { QrCodeService } from '@ga/shared/services';
+
+import { getKappaBadgeColorClass } from '../helpers/grease-helpers';
 import {
-  GreasePdfConcept1Result,
+  BadgeStyle,
   GreasePdfInput,
   GreasePdfInputTable,
   GreasePdfMessage,
   GreasePdfMessageItem,
-  GreasePdfResult,
-  GreasePdfResultItem,
-  GreasePdfResultTable,
   GreaseReportSubordinate,
   GreaseReportSubordinateTitle,
   GreaseResult,
   GreaseResultDataItem,
   GreaseResultItem,
+  PDFGreaseReportResult,
+  PDFGreaseResultSection,
+  PDFGreaseResultSectionItem,
+  PDFPartnerVersionHeaderInfo,
 } from '../models';
 import { ListItemsWrapperService } from './pdf/list-items-wrapper.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class GreaseReportDataGeneratorService {
   private readonly localeService = inject(TranslocoLocaleService);
   private readonly translocoService = inject(TranslocoService);
   private readonly listItemsWrapperService = inject(ListItemsWrapperService);
-
-  public getDisclaimerTitle(): string {
-    return this.translocoService.translate(`legal.disclaimer`);
-  }
+  private readonly imageResolverService = inject(ImageResolverService);
+  private readonly qrCodeService = inject(QrCodeService);
 
   public prepareReportInputData(
     greaseReportData: GreaseReportSubordinate[]
@@ -40,13 +49,297 @@ export class GreaseReportDataGeneratorService {
     return this.mapToTableModel(greaseReportSubordinate);
   }
 
-  public prepareReportResultData(
+  public async prepareReportResultData(
     greaseResults: GreaseResult[],
-    automaticLubrication: boolean
-  ): GreasePdfResult {
-    const result = this.mapToResultModel(greaseResults, automaticLubrication);
+    partnerVersion: `${PartnerVersion}`
+  ): Promise<PDFGreaseReportResult[]> {
+    const filterSectionValues = (
+      section: PDFGreaseResultSection | undefined
+    ): PDFGreaseResultSection | undefined => {
+      if (!section) {
+        return section;
+      }
 
-    return result;
+      return {
+        ...section,
+        values: Array.isArray(section.values)
+          ? section.values.filter(Boolean)
+          : section.values,
+      };
+    };
+
+    const results = await Promise.all(
+      greaseResults.map(async (greaseResult) => {
+        let qrCode = '';
+        try {
+          qrCode = await this.qrCodeService.generateGreaseQrCode(
+            greaseResult.mainTitle,
+            partnerVersion as PartnerVersion
+          );
+        } catch (error) {
+          console.error(
+            `Failed to generate QR code for ${greaseResult.mainTitle}:`,
+            error
+          );
+        }
+
+        const partnerVersionInfo =
+          await this.getPartnerVersionHeaderInfo(partnerVersion);
+
+        return {
+          sections: [
+            filterSectionValues({
+              sectionTitle: this.getTranslatedTitle('initialLubrication'),
+              values: [
+                this.getResultSectionItemWithInlineValues(
+                  greaseResult.initialLubrication.initialGreaseQuantity
+                ),
+              ],
+            }),
+            filterSectionValues(this.getPerformanceSection(greaseResult)),
+            filterSectionValues(
+              await this.getRelubricationSection(greaseResult)
+            ),
+            filterSectionValues(this.getGreaseSelectionSection(greaseResult)),
+          ],
+          isPreferred: greaseResult.isPreferred,
+          isSufficient: greaseResult.isSufficient,
+          mainTitle: greaseResult.mainTitle,
+          subTitle: greaseResult.subTitle ?? '',
+          qrCode,
+          recommended: greaseResult?.isRecommended
+            ? this.getTranslatedTitle('recommendedChip')
+            : undefined,
+          miscible: greaseResult?.isMiscible
+            ? this.getTranslatedTitle('miscibleChip')
+            : undefined,
+          partnerVersionInfo,
+        };
+      })
+    );
+
+    return results;
+  }
+
+  private async getPartnerVersionHeaderInfo(
+    partnerVersion: `${PartnerVersion}`
+  ): Promise<PDFPartnerVersionHeaderInfo | undefined> {
+    if (partnerVersion) {
+      return {
+        title: this.getTranslatedTitle('poweredBy'),
+        schaefflerLogo: await firstValueFrom(
+          this.imageResolverService.readImageFromAssets(
+            '/assets/images/schaeffler-logo.png'
+          )
+        ),
+      };
+    }
+
+    return undefined;
+  }
+
+  private getPerformanceSection(
+    greaseResult: GreaseResult
+  ): PDFGreaseResultSection {
+    return {
+      sectionTitle: this.getTranslatedTitle('performance'),
+      values: [
+        this.getViscosityRatioKapa(greaseResult.performance.viscosityRatio),
+        this.getStringResultSectionItem(
+          greaseResult.performance.additiveRequired
+        ),
+        this.getStringResultSectionItem(
+          greaseResult.performance.effectiveEpAdditivation
+        ),
+        this.getStringResultSectionItem(greaseResult.performance.lowFriction),
+        this.getStringResultSectionItem(
+          greaseResult.performance.suitableForVibrations
+        ),
+        this.getStringResultSectionItem(
+          greaseResult.performance.supportForSeals
+        ),
+      ],
+    };
+  }
+
+  private async getRelubricationSection(
+    greaseResult: GreaseResult
+  ): Promise<PDFGreaseResultSection> {
+    return {
+      sectionTitle: this.getTranslatedTitle('relubrication'),
+      values: [
+        this.getResultSectionItem(
+          greaseResult.relubrication.relubricationQuantityPer1000OperatingHours
+        ),
+        this.getResultSectionItem(
+          greaseResult.relubrication.relubricationPer365Days
+        ),
+        this.getResultSectionItem(
+          greaseResult.relubrication.relubricationPer30Days
+        ),
+        this.getResultSectionItem(
+          greaseResult.relubrication.relubricationPer7Days
+        ),
+        await this.getConcept1Item(greaseResult.relubrication.concept1),
+        this.getResultSectionItem(
+          greaseResult.relubrication.maximumManualRelubricationPerInterval
+        ),
+        this.getResultSectionItem(
+          greaseResult.relubrication.relubricationInterval
+        ),
+      ],
+    };
+  }
+
+  private getViscosityRatioKapa(
+    item: GreaseResultItem<number>
+  ): PDFGreaseResultSectionItem {
+    const resultItem = this.getResultSectionItem(item);
+
+    if (resultItem) {
+      const badgeClass = getKappaBadgeColorClass(resultItem.value);
+      if (badgeClass.includes('success')) {
+        resultItem.badgeClass = BadgeStyle.Success;
+      } else if (badgeClass.includes('error')) {
+        resultItem.badgeClass = BadgeStyle.Error;
+      }
+    }
+
+    return resultItem;
+  }
+
+  private async getConcept1Item(
+    item: GreaseResultDataItem
+  ): Promise<PDFGreaseResultSectionItem> {
+    let cartridge;
+    const data = item.custom?.data;
+    let badgeClass: BadgeStyle = BadgeStyle.Success;
+    let unloadInfo = '';
+    let arrowSetting = '';
+    let duration;
+
+    const key = 'concept1settings';
+
+    if (data.c1_60) {
+      duration = data.c1_60;
+      cartridge = this.getTranslatedTitle(`${key}.ml`, { ml: '60' });
+    } else if (data.c1_125) {
+      duration = data.c1_125;
+      cartridge = this.getTranslatedTitle(`${key}.ml`, {
+        ml: '125',
+      });
+    } else {
+      cartridge = this.getTranslatedTitle(`${key}.${data.label}`);
+      badgeClass = BadgeStyle.Warning;
+    }
+
+    if (duration) {
+      unloadInfo = this.getTranslatedTitle(`${key}.emptyDuration`, {
+        duration,
+      });
+
+      arrowSetting = this.getTranslatedTitle(`${key}.arrowSetting`, {
+        setting: duration,
+      });
+    }
+
+    const image = await this.getImage(duration);
+
+    return {
+      title: this.getTranslatedTitle(item.title),
+      value: cartridge,
+      badgeClass,
+      concept1Data: {
+        emptyDuration: unloadInfo,
+        duration,
+        arrowSetting,
+        arrowImage: image,
+      },
+    };
+  }
+
+  private async getImage(duration: number): Promise<string> {
+    const path = '/assets/images/pdf/setting_';
+    const imagePath = duration
+      ? `${path}${duration}.png`
+      : `${path}disabled.png`;
+
+    const image = await firstValueFrom(
+      this.imageResolverService.readImageFromAssets(imagePath)
+    );
+
+    return image;
+  }
+
+  private getResultSectionItem(
+    item: GreaseResultItem<number>
+  ): PDFGreaseResultSectionItem {
+    if (!item) {
+      return undefined;
+    }
+
+    return {
+      title: this.getTranslatedTitle(item.title),
+      value: this.getValue(item),
+      secondaryValue: item?.secondaryValue
+        ? this.getSecondaryValue(item)
+        : undefined,
+    };
+  }
+
+  private getStringResultSectionItem(
+    item: GreaseResultItem<string>
+  ): PDFGreaseResultSectionItem {
+    if (!item) {
+      return undefined;
+    }
+
+    const value = item?.value ?? '';
+
+    return {
+      title: this.getTranslatedTitle(item.title),
+      value,
+    };
+  }
+
+  private getResultSectionItemWithInlineValues(
+    item: GreaseResultItem<number>
+  ): PDFGreaseResultSectionItem {
+    if (!item) {
+      return undefined;
+    }
+
+    return {
+      title: this.getTranslatedTitle(item.title),
+      value: `${this.getValue(item)} | ${this.getSecondaryValue(item)}`,
+    };
+  }
+
+  private getGreaseSelectionSection(
+    greaseResult: GreaseResult
+  ): PDFGreaseResultSection {
+    return {
+      sectionTitle: this.getTranslatedTitle('greaseSelection'),
+      values: [
+        this.getResultSectionItem(
+          greaseResult.greaseSelection.greaseServiceLife
+        ),
+        this.getResultSectionItem(
+          greaseResult.greaseSelection.baseOilViscosityAt40
+        ),
+
+        this.getResultSectionItem(
+          greaseResult.greaseSelection.lowerTemperatureLimit
+        ),
+        this.getResultSectionItem(
+          greaseResult.greaseSelection.upperTemperatureLimit
+        ),
+        this.getResultSectionItem(greaseResult.greaseSelection.density),
+        this.getStringResultSectionItem(
+          greaseResult.greaseSelection.h1Registration
+        ),
+      ],
+    };
   }
 
   public prepareReportErrorsAndWarningsData(
@@ -81,144 +374,27 @@ export class GreaseReportDataGeneratorService {
     };
   }
 
-  private mapToResultModel(
-    greaseResults: GreaseResult[],
-    automaticLubrication: boolean
-  ): GreasePdfResult {
-    let title = '';
-    let tableItems: GreasePdfResultTable[] = [];
+  private readonly getValue = (item: GreaseResultItem<number>): string => {
+    const unit = item?.unit || '';
+    const value = item?.value ?? '';
 
-    if (greaseResults) {
-      tableItems = greaseResults.map((result) => ({
-        title: result.mainTitle,
-        subTitle: result.subTitle ?? '',
-        isRecommended: result.isRecommended,
+    return `${this.localeService.localizeNumber(value, 'decimal')} ${unit}`;
+  };
 
-        items: this.extractItemsFromGreaseResultData(result),
-        concept1: automaticLubrication
-          ? this.extractConcept1Result(result.relubrication.concept1)
-          : undefined,
-      }));
+  private readonly getSecondaryValue = (
+    item: GreaseResultItem<number>
+  ): string => {
+    const unit = item?.secondaryUnit || '';
+    const value = item?.secondaryValue ?? '';
 
-      title = this.getTranslatedTitle('resultsDefault', {
-        amount: tableItems.length,
-        complete: tableItems.length,
-      });
-    }
-
-    return {
-      sectionTitle: title,
-      tableItems,
-    };
-  }
-
-  private extractItemsFromGreaseResultData(
-    result: GreaseResult
-  ): GreasePdfResultItem[] {
-    if (!result) {
-      return [];
-    }
-
-    return [
-      ...Object.values(result.initialLubrication),
-      ...Object.values(result.performance),
-      ...Object.values(result.relubrication).filter(
-        (item) => item.title !== 'concept1'
-      ),
-      ...Object.values(result.greaseSelection),
-    ]
-      .filter(Boolean)
-      .map((item: GreaseResultItem) => {
-        const title: string = item.title;
-
-        return {
-          itemTitle: this.getTranslatedTitle(title),
-          items: this.encodeTextAndSplitOnNewLine(item, title),
-        };
-      })
-      .filter((dataSource) => dataSource !== undefined);
-  }
-
-  private extractConcept1Result(
-    item: GreaseResultDataItem
-  ): GreasePdfConcept1Result | undefined {
-    if (!item) {
-      return undefined;
-    }
-
-    return {
-      title: this.getTranslatedTitle('concept1'),
-      concept60ml: {
-        conceptTitle: this.getTranslatedTitle('concept1settings.concept1Size', {
-          size: 60,
-        }),
-        settingArrow: item.custom?.data?.c1_60
-          ? this.getTranslatedTitle('concept1settings.setArrowSetting', {
-              setting: item.custom.data.c1_60,
-            })
-          : '',
-        notes: this.getNoteFor60ml(item.custom?.data),
-      },
-      concept125ml: {
-        conceptTitle: this.getTranslatedTitle('concept1settings.concept1Size', {
-          size: 125,
-        }),
-        settingArrow: item.custom?.data?.c1_125
-          ? this.getTranslatedTitle('concept1settings.setArrowSetting', {
-              setting: item.custom.data.c1_125,
-            })
-          : '',
-        notes: this.getNoteFor125ml(item.custom?.data),
-      },
-    };
-  }
-
-  private getNoteFor60ml(data: any): string {
-    if (this.isGreasingSettingNotAvailable(data)) {
-      return data.hint;
-    }
-
-    return data?.hint_60 ?? '';
-  }
-
-  private getNoteFor125ml(data: any): string {
-    if (this.isGreasingSettingNotAvailable(data)) {
-      return data.hint;
-    }
-
-    return data?.hint_125 ?? '';
-  }
-
-  private isGreasingSettingNotAvailable(data: any): boolean {
-    return !data?.c1_60 && !data?.c1_125;
-  }
+    return `${this.localeService.localizeNumber(value, 'decimal')} ${unit}`;
+  };
 
   private getTranslatedTitle(translationKey: string, params?: HashMap): string {
     return this.translocoService.translate(
       `calculationResult.${translationKey}`,
       params
     );
-  }
-
-  private encodeTextAndSplitOnNewLine(
-    item: GreaseResultItem,
-    dataSourceTitle: string
-  ): string[] {
-    let result: string[] = [];
-
-    result.push(`${item.prefix || ''} ${item.value} ${item.unit || ''}`.trim());
-
-    if (item.secondaryValue) {
-      result.push(
-        `${item.secondaryPrefix || ''} ${item.secondaryValue} ${item.secondaryUnit || ''}`.trim()
-      );
-    }
-
-    if (dataSourceTitle === 'initialGreaseQuantity') {
-      result = [result.join('/')];
-    }
-
-    return result;
   }
 
   private extractMessagesFromData(
@@ -265,7 +441,7 @@ export class GreaseReportDataGeneratorService {
   ): string[][] {
     return subOrdinates.map((subOrdinate) => [
       this.getLabel(subOrdinate),
-      this.getValue(subOrdinate),
+      this.getOldWayValue(subOrdinate),
     ]);
   }
 
@@ -274,7 +450,7 @@ export class GreaseReportDataGeneratorService {
       subordinate
     )}`;
 
-  private readonly getValue = (
+  private readonly getOldWayValue = (
     subordinate?: GreaseReportSubordinate
   ): string => {
     const unit = this.getUnit(subordinate);

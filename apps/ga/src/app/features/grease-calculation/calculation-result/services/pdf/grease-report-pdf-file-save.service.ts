@@ -7,12 +7,18 @@ import { Share, ShareResult } from '@capacitor/share';
 import { FileOpener } from '@capacitor-community/file-opener';
 import jsPDF from 'jspdf';
 
-@Injectable()
+import { PDFDocument } from '@schaeffler/pdf-generator';
+
+@Injectable({
+  providedIn: 'root',
+})
 export class GreaseReportPdfFileSaveService {
   public async saveAndOpenFile(
-    doc: jsPDF,
+    pdfDocument: PDFDocument,
     fileName: string
   ): Promise<ShareResult | void> {
+    const doc = pdfDocument.pdfDoc;
+
     if (Capacitor.isNativePlatform()) {
       if (Capacitor.getPlatform() === 'ios') {
         try {

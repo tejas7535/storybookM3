@@ -10,7 +10,6 @@ export * from './grease-result.mock';
 export * from './measurement-units.mock';
 export * from './pdf/grease-pdf-input.mock';
 export * from './pdf/grease-pdf-message.mock';
-export * from './pdf/grease-pdf-result.mock';
 export * from './preferred-grease.mock';
 export * from './properties.mock';
 export * from './range-filter.mock';

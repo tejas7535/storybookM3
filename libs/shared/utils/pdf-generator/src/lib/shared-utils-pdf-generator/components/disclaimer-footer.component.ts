@@ -85,8 +85,9 @@ export class DisclaimerFooter extends Component {
 
     const pageText = this.pageFormatFn(ctx.pageNumber, ctx.totalPages);
     const pageTextDimen = this.getTextDimensions(pageText);
+    const leftMargin = 3; // Small padding from the left edge of disclaimer
     this.text(
-      this.bounds.BottomRight.x - pageTextDimen.w,
+      this.bounds.BottomRight.x - pageTextDimen.w + leftMargin,
       this.bounds.BottomRight.y - pageTextDimen.h,
       pageText,
       {

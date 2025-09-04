@@ -35,8 +35,8 @@ import { PartnerVersion } from '@ga/shared/models';
 import { ApplicationScenario } from '../calculation-parameters/constants/application-scenarios.model';
 import { GreaseCalculationPath } from '../grease-calculation-path.enum';
 import { CalculationResultComponent } from './calculation-result.component';
-import { GreaseReportPdfGeneratorService } from './services';
 import { GreasePDFSelectionService } from './services/grease-pdf-select.service';
+import { PdfGenerationService } from './services/pdf/pdf-generation.service';
 
 describe('CalculationResultComponent', () => {
   let component: CalculationResultComponent;
@@ -76,7 +76,7 @@ describe('CalculationResultComponent', () => {
       },
 
       mockProvider(SettingsFacade),
-      mockProvider(GreaseReportPdfGeneratorService),
+      mockProvider(PdfGenerationService),
       { provide: ENV, useValue: { ...getEnv(), production: false } },
       {
         provide: CalculationParametersFacade,
@@ -169,10 +169,7 @@ describe('CalculationResultComponent', () => {
         writable: false,
       });
 
-      spy = jest.spyOn(
-        component['greaseReportGeneratorService'],
-        'generateReport'
-      );
+      spy = jest.spyOn(component['pdfGenerationService'], 'generatePdf');
     });
 
     it('should generate pdf report with all contents', waitForAsync(async () => {
@@ -183,7 +180,6 @@ describe('CalculationResultComponent', () => {
         reportTitle: 'de.calculationResult.title.main bearing 123',
         results: [],
         sectionSubTitle: 'de.calculationResult.title.247hint',
-        automaticLubrication: true,
         versions: undefined,
       });
     }));

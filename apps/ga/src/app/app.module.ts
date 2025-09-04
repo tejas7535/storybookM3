@@ -25,7 +25,13 @@ import {
   STORAGE_PERIOD,
   TERMS_OF_USE,
 } from '@schaeffler/legal-pages';
+import {
+  DEFAULT_FONT,
+  FONT_ASSET_PATH,
+  LANGUAGE_FONT_MAPPINGS,
+} from '@schaeffler/pdf-generator';
 
+import { environment } from '@ga/environments/environment';
 import { ENV, getEnv } from '@ga/environments/environments.provider';
 
 import { AppComponent } from './app.component';
@@ -145,6 +151,42 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
     {
       provide: LocationStrategy,
       useClass: StaticLocationStrategy,
+    },
+    {
+      provide: FONT_ASSET_PATH,
+      useValue: `${environment.assetsPath}/fonts`,
+    },
+    {
+      provide: DEFAULT_FONT,
+      useValue: [
+        {
+          fontName: 'Noto',
+          fontStyle: 'normal',
+          fileName: 'NotoSans-Regular.ttf',
+        },
+        {
+          fontName: 'Noto',
+          fontStyle: 'bold',
+          fileName: 'NotoSans-Bold.ttf',
+        },
+      ],
+    },
+    {
+      provide: LANGUAGE_FONT_MAPPINGS,
+      useValue: {
+        zh: [
+          {
+            fontName: 'Noto',
+            fontStyle: 'normal',
+            fileName: 'NotoSansSC-Regular.ttf',
+          },
+          {
+            fontName: 'Noto',
+            fontStyle: 'bold',
+            fileName: 'NotoSansSC-Bold.ttf',
+          },
+        ],
+      },
     },
   ],
 })

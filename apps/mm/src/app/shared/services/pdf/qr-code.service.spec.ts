@@ -5,6 +5,7 @@ import { Colors } from '@schaeffler/pdf-generator';
 
 import { QRCodeOptions, QrCodeService } from './qr-code.service';
 
+// Mock the entire qrcode module to prevent any real calls
 jest.mock('qrcode', () => ({
   toDataURL: jest.fn(),
 }));
@@ -22,6 +23,7 @@ describe('QrCodeService', () => {
     spectator = createService();
     service = spectator.service;
 
+    // Mock console.error to prevent cluttering test output
     originalConsoleError = console.error;
     console.error = jest.fn();
 
@@ -29,12 +31,18 @@ describe('QrCodeService', () => {
   });
 
   afterEach(() => {
+    // Restore original console.error
     console.error = originalConsoleError;
     jest.clearAllMocks();
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  // Ensure QRCode is properly mocked and doesn't make real calls
+  it('should have QRCode.toDataURL properly mocked', () => {
+    expect(jest.isMockFunction(QRCode.toDataURL)).toBe(true);
   });
 
   describe('generateQrCodeAsBase64', () => {
@@ -123,16 +131,28 @@ describe('QrCodeService', () => {
 
     it('should throw an error when QR code generation fails', async () => {
       const errorMessage = 'Failed to generate QR code';
-      (QRCode.toDataURL as jest.Mock).mockRejectedValue(
-        new Error(errorMessage)
-      );
+      const mockError = new Error(errorMessage);
+
+      // Ensure the mock rejects with our specific error
+      (QRCode.toDataURL as jest.Mock).mockRejectedValue(mockError);
 
       await expect(
         service.generateQrCodeAsBase64(mockQrData, mockQrName)
-      ).rejects.toThrow(Error);
+      ).rejects.toThrow(errorMessage);
 
-      expect(QRCode.toDataURL).toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalled();
+      expect(QRCode.toDataURL).toHaveBeenCalledWith(mockQrData, {
+        errorCorrectionLevel: 'M',
+        width: 200,
+        margin: 4,
+        color: {
+          dark: '#000000',
+          light: Colors.Surface,
+        },
+      });
+      expect(console.error).toHaveBeenCalledWith(
+        `Error generating QR code for ${mockQrName}:`,
+        mockError
+      );
     });
   });
 

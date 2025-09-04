@@ -19,6 +19,10 @@ export enum Colors {
   WarningContainer = '#fef7dd',
   OnWarningContainer = '#814e00',
 
+  Category2 = '#4c3876',
+  Category2Container = '#dfdae7',
+  OnCategory2Container = '#5d194f',
+
   TextHighEmphasis = '#343434',
   TextMediumEmphasis = '#646464',
   TextLowEmphasis = '#34343400', // might not work as jsPDF had problems with opacity values in hex

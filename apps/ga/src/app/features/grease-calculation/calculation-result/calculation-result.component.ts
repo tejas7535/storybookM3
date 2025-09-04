@@ -33,7 +33,7 @@ import { ReportUrls } from '@ga/shared/models';
 import { ApplicationScenario } from '../calculation-parameters/constants/application-scenarios.model';
 import { GreaseReportComponent } from './components/grease-report';
 import { GreasePDFSelectionService } from './services/grease-pdf-select.service';
-import { GreaseReportPdfGeneratorService } from './services/pdf/grease-report-pdf-generator.service';
+import { PdfGenerationService } from './services/pdf/pdf-generation.service';
 
 @Component({
   selector: 'ga-calculation-result',
@@ -48,9 +48,9 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
   private readonly calculationParametersFacade = inject(
     CalculationParametersFacade
   );
-  private readonly greaseReportGeneratorService = inject(
-    GreaseReportPdfGeneratorService
-  );
+
+  private readonly pdfGenerationService = inject(PdfGenerationService);
+
   private readonly appInsightsService = inject(ApplicationInsightsService);
   private readonly pdfSelectionService = inject(GreasePDFSelectionService);
 
@@ -168,7 +168,7 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
       );
 
     const versions = await firstValueFrom(this.bearinxVersions$);
-    this.greaseReportGeneratorService.generateReport({
+    this.pdfGenerationService.generatePdf({
       reportTitle,
       sectionSubTitle: hint,
       data: [
@@ -177,9 +177,9 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
       ],
       results: selectedGreaseResults,
       legalNote: this.greaseReport().legalNote(),
-      automaticLubrication: this.greaseReport().automaticLubrication(),
       versions,
     });
+
     this.appInsightsService.logEvent(TRACKING_PDF_DOWNLOAD, {
       selectedBearing,
     });
