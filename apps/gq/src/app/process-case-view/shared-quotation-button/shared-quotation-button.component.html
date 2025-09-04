@@ -5,7 +5,7 @@
         mat-icon-button
         class="!bg-surface-container-highest !text-on-surface-variant"
         (click)="onSave()"
-        [attr.data-cy]="'save-button'"
+        [attr.data-cy]="'shared-quotation-button_save-button'"
       >
         <mat-icon svgIcon="keep" class="mb-1">keep</mat-icon>
       </button>
@@ -15,7 +15,7 @@
         *ngrxLet="sharedQuotation$ as sq"
         class="!bg-secondary-container !text-on-secondary-container"
         (click)="onDelete(sq.id)"
-        [attr.data-cy]="'delete-button'"
+        [attr.data-cy]="'shared-quotation-button_delete-button'"
       >
         <mat-icon svgIcon="keep_off" class="mb-1">keep_off</mat-icon>
       </button>
