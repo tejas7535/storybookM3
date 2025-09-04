@@ -15,7 +15,7 @@
       class="ag-theme-material h-full"
       [columnDefs]="columnDefs$ | ngrxPush"
       [defaultColDef]="defaultColumnDefs"
-      [rowData]="rowData"
+      [rowData]="rowData()"
       [context]="tableContext"
       (columnMoved)="onColumnChange($event)"
       (sortChanged)="onColumnChange($event)"

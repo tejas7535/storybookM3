@@ -6,7 +6,11 @@ import {
 } from '@gq/shared/ag-grid/constants/filters';
 import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
 import { translate } from '@jsverse/transloco';
-import { ColDef } from 'ag-grid-enterprise';
+import {
+  ColDef,
+  ValueFormatterParams,
+  ValueGetterParams,
+} from 'ag-grid-enterprise';
 
 @Injectable({
   providedIn: 'root',
@@ -16,14 +20,21 @@ export class ColumnDefService {
 
   COLUMN_DEFS: ColDef[] = [
     {
-      headerName: translate('transactionView.transactions.table.customerId'),
-      field: 'customerId',
-      filterParams: FILTER_PARAMS,
-    },
-    {
       headerName: translate('transactionView.transactions.table.customerName'),
       field: 'customerName',
       filterParams: FILTER_PARAMS,
+    },
+    {
+      headerName: translate(
+        'transactionView.transactions.table.endsectorCustomer'
+      ),
+      field: 'endsectorCustomer',
+      filterParams: FILTER_PARAMS,
+      valueFormatter: ColumnUtilityService.hashTransform,
+      valueGetter: (params: ValueGetterParams) =>
+        ColumnUtilityService.hashTransform({
+          value: params.data.endsectorCustomer,
+        } as ValueFormatterParams),
     },
     {
       headerName: translate(
@@ -95,9 +106,41 @@ export class ColumnDefService {
       filterParams: FILTER_PARAMS,
     },
     {
+      headerName: translate('transactionView.transactions.table.customerId'),
+      field: 'customerId',
+      filterParams: FILTER_PARAMS,
+    },
+    {
+      headerName: translate(
+        'transactionView.transactions.table.endsectorCustomerNumber'
+      ),
+      field: 'endsectorCustomerNumber',
+      filterParams: FILTER_PARAMS,
+      width: 270,
+      valueFormatter: ColumnUtilityService.hashTransform,
+      valueGetter: (params: ValueGetterParams) =>
+        ColumnUtilityService.hashTransform({
+          value: params.data.endsectorCustomerNumber,
+        } as ValueFormatterParams),
+    },
+    {
+      headerName: translate(
+        'transactionView.transactions.table.endSectorSubSector'
+      ),
+      field: 'endSectorSubSector',
+      filterParams: FILTER_PARAMS,
+      width: 270,
+      valueFormatter: ColumnUtilityService.hashTransform,
+      valueGetter: (params: ValueGetterParams) =>
+        ColumnUtilityService.hashTransform({
+          value: params.data.endSectorSubSector,
+        } as ValueFormatterParams),
+    },
+    {
       headerName: translate('transactionView.transactions.table.competitor'),
       field: 'competitor',
       filterParams: FILTER_PARAMS,
+      valueFormatter: ColumnUtilityService.basicTransform,
     },
     {
       headerName: translate(
@@ -105,6 +148,7 @@ export class ColumnDefService {
       ),
       field: 'relativeCompetitorPrice',
       filterParams: FILTER_PARAMS,
+      valueFormatter: ColumnUtilityService.basicTransform,
     },
   ];
 }

@@ -28,4 +28,7 @@ export const EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK: ExtendedComparableLink
     sectorManagement: 'PT',
     competitor: 'competitor',
     relativeCompetitorPrice: 'relative competitor price',
+    endsectorCustomerNumber: 'endsectorCustomerNumber',
+    endsectorCustomer: 'endsectorCustomer',
+    endSectorSubSector: 'endSectorSubSector',
   };

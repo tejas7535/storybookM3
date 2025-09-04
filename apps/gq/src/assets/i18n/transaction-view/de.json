@@ -13,7 +13,7 @@
       "materialDescription": "Materialbeschreibung",
       "price": "Nettopreis",
       "quantity": "Menge",
-      "profitMargin": "GPI (%)",
+      "profitMargin": "GPI % (KHK)",
       "salesIndication": "Datenquelle",
       "salesIndicationValue": {
         "invoice": "Faktura",
@@ -25,9 +25,12 @@
       "customerId": "Kundennummer",
       "netSalesClassification": "Kundenklassifizierung",
       "region": "Kundenregion",
-      "sectorManagement": "Sector-Management",
+      "sectorManagement": "Sektormanagement",
       "competitor": "Wettbewerber",
-      "relativeCompetitorPrice": "Verlässlichkeit Wettbewerber-Preis"
+      "relativeCompetitorPrice": "Verlässlichkeit Wettbewerbspreis",
+      "endsectorCustomerNumber": "Endsektor / Kundennummer",
+      "endsectorCustomer": "Endsektor / Endkunde",
+      "endSectorSubSector": "Endsektor / Teilbranche"
     },
     "info-hover": "Vergleichbare Transaktionen mit negativem GPI (%) werden bei der Kalkulation der Guided Quoting Preisempfehlung nicht berücksichtigt. Deshalb werden diese Transaktionen nicht im Graph angezeigt, sind jedoch in der Tabelle verfügbar."
   },

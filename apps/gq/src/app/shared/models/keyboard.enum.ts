@@ -10,4 +10,5 @@ export enum Keyboard {
   CONTROL = 'Control',
   ENTER = 'Enter',
   TAB = 'Tab',
+  HASH = '#',
 }

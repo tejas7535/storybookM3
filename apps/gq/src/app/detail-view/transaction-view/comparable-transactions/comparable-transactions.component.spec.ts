@@ -2,6 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
 import { UserRoles } from '@gq/shared/constants';
+import { Keyboard } from '@gq/shared/models/keyboard.enum';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -14,6 +15,7 @@ import { MockModule, MockProvider } from 'ng-mocks';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../testing/mocks';
 import { ComparableTransactionsComponent } from './comparable-transactions.component';
 import { ColumnDefService } from './config';
 
@@ -174,6 +176,7 @@ describe('ComparableTransactionsComponent', () => {
         },
       });
 
+      spectator.setInput('rowData', [COMPARABLE_LINKED_TRANSACTION_MOCK]);
       spectator.detectChanges();
 
       let result;
@@ -197,6 +200,7 @@ describe('ComparableTransactionsComponent', () => {
         },
       });
 
+      spectator.setInput('rowData', [COMPARABLE_LINKED_TRANSACTION_MOCK]);
       spectator.detectChanges();
 
       let result;
@@ -209,6 +213,135 @@ describe('ComparableTransactionsComponent', () => {
       expect(result).toEqual(
         columnDefService.COLUMN_DEFS.filter(
           (col) => col.field !== 'profitMargin'
+        )
+      );
+    });
+
+    test('should NOT return endsectorCustomer when there is no value for this field', () => {
+      store.setState({
+        'azure-auth': {
+          accountInfo: {
+            idTokenClaims: {
+              roles: [UserRoles.BASIC, UserRoles.COST_GPC],
+            },
+          },
+        },
+      });
+
+      spectator.setInput('rowData', [
+        { ...COMPARABLE_LINKED_TRANSACTION_MOCK, endsectorCustomer: undefined },
+      ]);
+      spectator.detectChanges();
+
+      let result;
+      spectator.component.columnDefs$.subscribe((colDefs) => {
+        result = colDefs;
+      });
+
+      spectator.detectChanges();
+
+      expect(result).toEqual(
+        columnDefService.COLUMN_DEFS.filter(
+          (col) => col.field !== 'endsectorCustomer'
+        )
+      );
+    });
+
+    test('should NOT return endsectorCustomerNumber when there is no value for this field', () => {
+      store.setState({
+        'azure-auth': {
+          accountInfo: {
+            idTokenClaims: {
+              roles: [UserRoles.BASIC, UserRoles.COST_GPC],
+            },
+          },
+        },
+      });
+
+      spectator.setInput('rowData', [
+        {
+          ...COMPARABLE_LINKED_TRANSACTION_MOCK,
+          endsectorCustomerNumber: undefined,
+        },
+      ]);
+      spectator.detectChanges();
+
+      let result;
+      spectator.component.columnDefs$.subscribe((colDefs) => {
+        result = colDefs;
+      });
+
+      spectator.detectChanges();
+
+      expect(result).toEqual(
+        columnDefService.COLUMN_DEFS.filter(
+          (col) => col.field !== 'endsectorCustomerNumber'
+        )
+      );
+    });
+
+    test('should NOT return endSectorSubSector when there is no value for this field', () => {
+      store.setState({
+        'azure-auth': {
+          accountInfo: {
+            idTokenClaims: {
+              roles: [UserRoles.BASIC, UserRoles.COST_GPC],
+            },
+          },
+        },
+      });
+
+      spectator.setInput('rowData', [
+        {
+          ...COMPARABLE_LINKED_TRANSACTION_MOCK,
+          endSectorSubSector: null,
+        },
+      ]);
+      spectator.detectChanges();
+
+      let result;
+      spectator.component.columnDefs$.subscribe((colDefs) => {
+        result = colDefs;
+      });
+
+      spectator.detectChanges();
+
+      expect(result).toEqual(
+        columnDefService.COLUMN_DEFS.filter(
+          (col) => col.field !== 'endSectorSubSector'
+        )
+      );
+    });
+
+    test('should NOT return endSectorSubSector when value is hash (#)', () => {
+      store.setState({
+        'azure-auth': {
+          accountInfo: {
+            idTokenClaims: {
+              roles: [UserRoles.BASIC, UserRoles.COST_GPC],
+            },
+          },
+        },
+      });
+
+      spectator.setInput('rowData', [
+        {
+          ...COMPARABLE_LINKED_TRANSACTION_MOCK,
+          endSectorSubSector: Keyboard.HASH,
+        },
+      ]);
+      spectator.detectChanges();
+
+      let result;
+      spectator.component.columnDefs$.subscribe((colDefs) => {
+        result = colDefs;
+      });
+
+      spectator.detectChanges();
+
+      expect(result).toEqual(
+        columnDefService.COLUMN_DEFS.filter(
+          (col) => col.field !== 'endSectorSubSector'
         )
       );
     });

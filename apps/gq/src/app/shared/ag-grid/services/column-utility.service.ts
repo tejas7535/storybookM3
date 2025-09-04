@@ -239,6 +239,13 @@ export class ColumnUtilityService {
   static blankTransform(data: ValueFormatterParams): string {
     return data.value || '';
   }
+  static hashTransform(data: ValueFormatterParams): string {
+    if (data?.value === Keyboard.HASH) {
+      return Keyboard.DASH;
+    }
+
+    return ColumnUtilityService.basicTransform(data);
+  }
 
   static idFormatter(data: any): string {
     const pipe = new GqQuotationPipe();

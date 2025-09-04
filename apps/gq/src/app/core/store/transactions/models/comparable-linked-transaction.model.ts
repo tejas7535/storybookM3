@@ -19,4 +19,7 @@ export interface ComparableLinkedTransaction {
   sectorManagement: string;
   competitor: string;
   relativeCompetitorPrice: string;
+  endsectorCustomerNumber: string;
+  endsectorCustomer: string;
+  endSectorSubSector: string;
 }

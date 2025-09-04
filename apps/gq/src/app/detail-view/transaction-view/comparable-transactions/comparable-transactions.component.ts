@@ -4,9 +4,11 @@ import {
   EventEmitter,
   inject,
   Input,
+  input,
   OnInit,
   Output,
 } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 import { combineLatest, map, Observable, of } from 'rxjs';
 
@@ -17,7 +19,7 @@ import { BaseAgGridComponent } from '@gq/shared/ag-grid/base-component/base-ag-g
 import { AgGridLocale } from '@gq/shared/ag-grid/models/ag-grid-locale.interface';
 import { InfoIconComponent } from '@gq/shared/components/info-icon/info-icon.component';
 import { basicTableStyle } from '@gq/shared/constants';
-import { Quotation } from '@gq/shared/models';
+import { Keyboard, Quotation } from '@gq/shared/models';
 import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
@@ -34,6 +36,17 @@ import { DEFAULT_COLUMN_DEFS } from './config';
 import { ColumnDefService } from './config/column-def.service';
 import { COMPONENTS } from './config/components';
 import { ROW_SELECTION } from './config/row-selection.config';
+
+type EndSectorCustomerField =
+  | 'endsectorCustomer'
+  | 'endsectorCustomerNumber'
+  | 'endSectorSubSector';
+
+const HIDDEN_FIELDS: Set<EndSectorCustomerField> = new Set([
+  'endsectorCustomer',
+  'endsectorCustomerNumber',
+  'endSectorSubSector',
+]);
 
 @Component({
   selector: 'gq-comparable-transactions',
@@ -58,7 +71,7 @@ export class ComparableTransactionsComponent
   extends BaseAgGridComponent
   implements OnInit
 {
-  @Input() rowData: ComparableLinkedTransaction[];
+  rowData = input<ComparableLinkedTransaction[]>([]);
   @Input() set currency(currency: string) {
     this.tableContext.quotation.currency = currency;
   }
@@ -69,6 +82,7 @@ export class ComparableTransactionsComponent
   private readonly columnDefService: ColumnDefService =
     inject(ColumnDefService);
   private readonly store: Store = inject(Store);
+  private readonly rowData$ = toObservable(this.rowData);
 
   defaultColumnDefs = DEFAULT_COLUMN_DEFS;
   localeText$: Observable<AgGridLocale>;
@@ -86,11 +100,25 @@ export class ComparableTransactionsComponent
     this.columnDefs$ = combineLatest([
       of(this.columnDefService.COLUMN_DEFS),
       this.store.pipe(userHasGPCRole),
+      this.rowData$,
     ]).pipe(
-      map(([colDefs, hasGPCRole]: [ColDef[], boolean]) =>
-        hasGPCRole
-          ? colDefs
-          : colDefs.filter((colDef) => colDef.field !== 'profitMargin')
+      map(
+        ([colDefs, hasGPCRole, rowData]: [
+          ColDef[],
+          boolean,
+          ComparableLinkedTransaction[],
+        ]) => {
+          const filteredColDefs = hasGPCRole
+            ? colDefs
+            : colDefs.filter((colDef) => colDef.field !== 'profitMargin');
+
+          // https://jira.schaeffler.com/browse/GQUOTE-6260
+          // According to story if all displayed transactions have empty values for the columns than hide columns
+
+          return filteredColDefs.filter(
+            (colDef) => !this.shouldHideEndSectorCustomer(colDef.field, rowData)
+          );
+        }
       )
     );
   }
@@ -105,5 +133,25 @@ export class ComparableTransactionsComponent
 
   onFilterChanged(event: FilterChangedEvent) {
     this.filterChanged.emit(event);
+  }
+
+  private shouldHideEndSectorCustomer(
+    colField: string,
+    rowData: ComparableLinkedTransaction[]
+  ): boolean {
+    const field = colField as EndSectorCustomerField;
+    const isHiddenField = HIDDEN_FIELDS.has(field);
+    const isUndefinedForAll =
+      isHiddenField &&
+      rowData.length > 0 &&
+      rowData.every((transaction) => {
+        const value = transaction[field];
+
+        return value === undefined || value === null || value === Keyboard.HASH;
+      });
+
+    // Keep the column if not a hidden field,
+    // or if it is a hidden field but not undefined for all transactions
+    return isUndefinedForAll;
   }
 }
