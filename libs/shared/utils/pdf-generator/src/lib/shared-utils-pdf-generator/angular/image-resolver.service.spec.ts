@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/number-literal-case */
 import { provideHttpClient } from '@angular/common/http';
 import {
   HttpTestingController,
@@ -328,6 +329,334 @@ describe('ImageResolverService', () => {
       const result = await promise;
 
       expect(result).toBe('');
+    });
+  });
+
+  describe('16-bit PNG handling', () => {
+    // Mock 16-bit PNG header data (simplified for testing)
+    const create16BitPngBase64 = (): string => {
+      // PNG signature + IHDR chunk with 16-bit depth
+      const bytes = new Uint8Array([
+        0x89,
+        0x50,
+        0x4e,
+        0x47,
+        0x0d,
+        0x0a,
+        0x1a,
+        0x0a, // PNG signature
+        0x00,
+        0x00,
+        0x00,
+        0x0d, // IHDR length
+        0x49,
+        0x48,
+        0x44,
+        0x52, // IHDR
+        0x00,
+        0x00,
+        0x00,
+        0x10, // width (16)
+        0x00,
+        0x00,
+        0x00,
+        0x10, // height (16)
+        0x10, // bit depth (16)
+        0x02, // color type
+        0x00,
+        0x00,
+        0x00, // compression, filter, interlace
+      ]);
+
+      const binaryString = Array.from(bytes, (byte) =>
+        String.fromCodePoint(byte)
+      ).join('');
+
+      return `data:image/png;base64,${btoa(binaryString)}`;
+    };
+
+    const create8BitPngBase64 = (): string => {
+      // PNG signature + IHDR chunk with 8-bit depth
+      const bytes = new Uint8Array([
+        0x89,
+        0x50,
+        0x4e,
+        0x47,
+        0x0d,
+        0x0a,
+        0x1a,
+        0x0a, // PNG signature
+        0x00,
+        0x00,
+        0x00,
+        0x0d, // IHDR length
+        0x49,
+        0x48,
+        0x44,
+        0x52, // IHDR
+        0x00,
+        0x00,
+        0x00,
+        0x10, // width (16)
+        0x00,
+        0x00,
+        0x00,
+        0x10, // height (16)
+        0x08, // bit depth (8)
+        0x02, // color type
+        0x00,
+        0x00,
+        0x00, // compression, filter, interlace
+      ]);
+
+      const binaryString = Array.from(bytes, (byte) =>
+        String.fromCodePoint(byte)
+      ).join('');
+
+      return `data:image/png;base64,${btoa(binaryString)}`;
+    };
+
+    describe('is16BitPng (private method)', () => {
+      it('should detect 16-bit PNG', () => {
+        const mock16BitPng = create16BitPngBase64();
+        const is16BitPngMethod = (service as any).is16BitPng.bind(service);
+
+        const result = is16BitPngMethod(mock16BitPng);
+
+        expect(result).toBe(true);
+      });
+
+      it('should detect 8-bit PNG as not 16-bit', () => {
+        const mock8BitPng = create8BitPngBase64();
+        const is16BitPngMethod = (service as any).is16BitPng.bind(service);
+
+        const result = is16BitPngMethod(mock8BitPng);
+
+        expect(result).toBe(false);
+      });
+
+      it('should return false for non-PNG images', () => {
+        const jpegBase64 = 'data:image/jpeg;base64,somedata';
+        const is16BitPngMethod = (service as any).is16BitPng.bind(service);
+
+        const result = is16BitPngMethod(jpegBase64);
+
+        expect(result).toBe(false);
+      });
+
+      it('should handle malformed data gracefully', () => {
+        const malformedData = 'data:image/png;base64,invaliddata';
+        const is16BitPngMethod = (service as any).is16BitPng.bind(service);
+
+        const result = is16BitPngMethod(malformedData);
+
+        expect(result).toBe(false);
+      });
+    });
+
+    describe('convertTo8BitPng (private method)', () => {
+      it('should convert 16-bit PNG to 8-bit using canvas', async () => {
+        const mock16BitPng = create16BitPngBase64();
+        const mockConvertedPng = create8BitPngBase64();
+
+        // Mock canvas and image
+        const mockCanvas = {
+          width: 0,
+          height: 0,
+          toDataURL: jest.fn().mockReturnValue(mockConvertedPng),
+          getContext: jest.fn().mockReturnValue({
+            drawImage: jest.fn(),
+          }),
+        };
+
+        const mockImage = {
+          width: 16,
+          height: 16,
+          src: '',
+          addEventListener: jest.fn(),
+        };
+
+        jest
+          .spyOn(document, 'createElement')
+          .mockReturnValue(mockCanvas as any);
+        jest.spyOn(window, 'Image').mockImplementation(() => mockImage as any);
+
+        const convertTo8BitPngMethod = (service as any).convertTo8BitPng.bind(
+          service
+        );
+        const promise = convertTo8BitPngMethod(mock16BitPng);
+
+        // Simulate image load
+        setTimeout(() => {
+          const loadCallback = mockImage.addEventListener.mock.calls.find(
+            (call) => call[0] === 'load'
+          )?.[1];
+          if (loadCallback) {
+            loadCallback();
+          }
+        }, 0);
+
+        const result = await promise;
+
+        expect(result).toBe(mockConvertedPng);
+        expect(mockCanvas.width).toBe(16);
+        expect(mockCanvas.height).toBe(16);
+        expect(mockCanvas.toDataURL).toHaveBeenCalledWith('image/png');
+      });
+
+      it('should handle canvas context creation failure', async () => {
+        const mock16BitPng = create16BitPngBase64();
+
+        const mockCanvas = {
+          // eslint-disable-next-line unicorn/no-null
+          getContext: jest.fn().mockReturnValue(null),
+        };
+
+        const mockImage = {
+          addEventListener: jest.fn(),
+        };
+
+        jest
+          .spyOn(document, 'createElement')
+          .mockReturnValue(mockCanvas as any);
+        jest.spyOn(window, 'Image').mockImplementation(() => mockImage as any);
+
+        const convertTo8BitPngMethod = (service as any).convertTo8BitPng.bind(
+          service
+        );
+        const promise = convertTo8BitPngMethod(mock16BitPng);
+
+        // Simulate image load
+        setTimeout(() => {
+          const loadCallback = mockImage.addEventListener.mock.calls.find(
+            (call) => call[0] === 'load'
+          )?.[1];
+          if (loadCallback) {
+            loadCallback();
+          }
+        }, 0);
+
+        await expect(promise).rejects.toThrow('Could not get canvas context');
+      });
+
+      it('should handle image load error', async () => {
+        const mock16BitPng = create16BitPngBase64();
+
+        const mockImage = {
+          addEventListener: jest.fn(),
+        };
+
+        jest.spyOn(window, 'Image').mockImplementation(() => mockImage as any);
+
+        const convertTo8BitPngMethod = (service as any).convertTo8BitPng.bind(
+          service
+        );
+        const promise = convertTo8BitPngMethod(mock16BitPng);
+
+        // Simulate image error
+        setTimeout(() => {
+          const errorCallback = mockImage.addEventListener.mock.calls.find(
+            (call) => call[0] === 'error'
+          )?.[1];
+          if (errorCallback) {
+            errorCallback();
+          }
+        }, 0);
+
+        await expect(promise).rejects.toThrow(
+          'Failed to load image for conversion'
+        );
+      });
+    });
+
+    describe('processImageData (private method)', () => {
+      it('should process 16-bit PNG and convert to 8-bit', async () => {
+        const mock16BitPng = create16BitPngBase64();
+        const mockConvertedPng = create8BitPngBase64();
+
+        // Mock the conversion method
+        const convertTo8BitPngSpy = jest
+          .spyOn(service as any, 'convertTo8BitPng')
+          .mockResolvedValue(mockConvertedPng);
+
+        const processImageDataMethod = (service as any).processImageData.bind(
+          service
+        );
+        const promise = firstValueFrom(processImageDataMethod(mock16BitPng));
+
+        const result = await promise;
+
+        expect(result).toBe(mockConvertedPng);
+        expect(convertTo8BitPngSpy).toHaveBeenCalledWith(mock16BitPng);
+
+        convertTo8BitPngSpy.mockRestore();
+      });
+
+      it('should pass through 8-bit PNG without conversion', async () => {
+        const mock8BitPng = create8BitPngBase64();
+
+        const convertTo8BitPngSpy = jest
+          .spyOn(service as any, 'convertTo8BitPng')
+          .mockResolvedValue('should not be called');
+
+        const processImageDataMethod = (service as any).processImageData.bind(
+          service
+        );
+        const promise = firstValueFrom(processImageDataMethod(mock8BitPng));
+
+        const result = await promise;
+
+        expect(result).toBe(mock8BitPng);
+        expect(convertTo8BitPngSpy).not.toHaveBeenCalled();
+
+        convertTo8BitPngSpy.mockRestore();
+      });
+
+      it('should pass through non-PNG images without processing', async () => {
+        const jpegBase64 = 'data:image/jpeg;base64,somedata';
+
+        const convertTo8BitPngSpy = jest
+          .spyOn(service as any, 'convertTo8BitPng')
+          .mockResolvedValue('should not be called');
+
+        const processImageDataMethod = (service as any).processImageData.bind(
+          service
+        );
+        const promise = firstValueFrom(processImageDataMethod(jpegBase64));
+
+        const result = await promise;
+
+        expect(result).toBe(jpegBase64);
+        expect(convertTo8BitPngSpy).not.toHaveBeenCalled();
+
+        convertTo8BitPngSpy.mockRestore();
+      });
+
+      it('should fallback to original data if conversion fails', async () => {
+        const mock16BitPng = create16BitPngBase64();
+
+        const convertTo8BitPngSpy = jest
+          .spyOn(service as any, 'convertTo8BitPng')
+          .mockRejectedValue(new Error('Conversion failed'));
+
+        const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
+
+        const processImageDataMethod = (service as any).processImageData.bind(
+          service
+        );
+        const promise = firstValueFrom(processImageDataMethod(mock16BitPng));
+
+        const result = await promise;
+
+        expect(result).toBe(mock16BitPng);
+        expect(consoleWarnSpy).toHaveBeenCalledWith(
+          'Failed to convert 16-bit PNG to 8-bit, using original:',
+          expect.any(Error)
+        );
+
+        convertTo8BitPngSpy.mockRestore();
+        consoleWarnSpy.mockRestore();
+      });
     });
   });
 });
