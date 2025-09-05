@@ -1,31 +1,27 @@
 import {
+  CardConfigOptions,
+  CardContent,
   Colors,
+  ColumnLayout,
   Component,
+  DEFAULT_DESC_OPTIONS,
+  DEFAULT_LINK_OPTIONS,
+  DEFAULT_TITLE_OPTIONS,
   FontOptions,
+  Link,
   Rect,
+  RowLayout,
+  SPACING,
+  TextBlock,
+  TwoColumnLayout,
 } from '@schaeffler/pdf-generator';
 
-import { Link } from '../base-components/base-component';
 import {
   BadgeBlock,
   BadgeConfig,
   ImageBlock,
   QrCodeLinkBlock,
-  TextBlock,
 } from '../building-blocks';
-import {
-  ColumnLayout,
-  RowLayout,
-  TwoColumnLayout,
-} from '../layout/layout-components';
-import {
-  CardConfigOptions,
-  CardContent,
-  DEFAULT_DESC_OPTIONS,
-  DEFAULT_LINK_OPTIONS,
-  DEFAULT_TITLE_OPTIONS,
-  SPACING,
-} from './card-content';
 
 export type MountingToolBadgePosition = 'top-right' | 'above-title';
 

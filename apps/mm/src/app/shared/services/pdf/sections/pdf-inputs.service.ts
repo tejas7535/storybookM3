@@ -2,12 +2,14 @@ import { computed, inject, Injectable } from '@angular/core';
 
 import { TranslocoService } from '@jsverse/transloco';
 
-import { Component } from '@schaeffler/pdf-generator';
+import {
+  Component,
+  PdfComponentFactory,
+  PdfLayoutService,
+  PdfTableFactory,
+} from '@schaeffler/pdf-generator';
 
 import { ResultDataService } from '../../result-data.service';
-import { PdfComponentFactory } from '../factories/pdf-component-factory.service';
-import { PdfTableFactory } from '../factories/pdf-table-factory.service';
-import { PdfLayoutService } from '../pdf-layout.service';
 
 @Injectable()
 export class PdfInputsService {

@@ -1,14 +1,16 @@
 import { TranslocoService } from '@jsverse/transloco';
-import { TwoColumnPageLayout } from '@mm/shared/components/pdf/layout/two-columns-page-layout';
-import { TableWithHeader } from '@mm/shared/components/pdf/pdf-table-with-header/table-with-header';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { Component } from '@schaeffler/pdf-generator';
+import {
+  Component,
+  PdfComponentFactory,
+  PdfLayoutService,
+  PdfTableFactory,
+  TableWithHeader,
+  TwoColumnPageLayout,
+} from '@schaeffler/pdf-generator';
 
 import { ResultDataService } from '../../result-data.service';
-import { PdfComponentFactory } from '../factories/pdf-component-factory.service';
-import { PdfTableFactory } from '../factories/pdf-table-factory.service';
-import { PdfLayoutService } from '../pdf-layout.service';
 import { PdfInputsService } from './pdf-inputs.service';
 
 describe('PdfInputsService', () => {

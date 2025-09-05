@@ -3,9 +3,13 @@ import { inject, Injectable, signal } from '@angular/core';
 
 import { TranslocoService } from '@jsverse/transloco';
 
-import { Link } from '../../components/pdf/base-components/base-component';
+import {
+  Link,
+  QrCodeService,
+  QRErrorCorrectionLevel,
+} from '@schaeffler/pdf-generator';
+
 import { ResultDataService } from '../result-data.service';
-import { QrCodeService } from './qr-code.service';
 
 export interface QrCodeData {
   /** URL or text to encode in the QR code */
@@ -17,8 +21,7 @@ export interface QrCodeData {
   /** Optional width in pixels */
   width?: number;
 
-  /** Optional error correction level */
-  errorCorrectionLevel?: 'L' | 'M' | 'Q' | 'H';
+  errorCorrectionLevel?: QRErrorCorrectionLevel;
 }
 
 @Injectable()
@@ -109,6 +112,6 @@ export class PdfProductQrLinkService {
       'reportResult.mediasBaseUrl'
     );
 
-    return `${baseUrl}/p/${productId}?utm_source=mounting-manager`;
+    return `${baseUrl}/p/${productId}?utm_source=mounting-manager&utm_medium=pdf`;
   }
 }

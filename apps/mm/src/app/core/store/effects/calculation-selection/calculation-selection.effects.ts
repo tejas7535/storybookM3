@@ -59,7 +59,6 @@ export class CalculationSelectionEffects {
         ]),
         map(([{ isBackNavigation }, currentStep]) => {
           if (!isBackNavigation) {
-            console.warn('waaaaaa');
             history.pushState({ step: currentStep }, '', window.location.href);
           }
         })

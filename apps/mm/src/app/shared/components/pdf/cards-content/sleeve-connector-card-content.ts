@@ -1,21 +1,21 @@
 import {
-  Colors,
-  Component,
-  FontOptions,
-  Rect,
-} from '@schaeffler/pdf-generator';
-
-import { Link } from '../base-components/base-component';
-import { QrCodeLinkBlock, TextBlock } from '../building-blocks';
-import { ColumnLayout, TwoColumnLayout } from '../layout/layout-components';
-import {
   CardConfigOptions,
   CardContent,
+  Colors,
+  ColumnLayout,
+  Component,
   DEFAULT_LINK_OPTIONS,
   DEFAULT_TITLE_OPTIONS,
   FONT_SIZES,
+  FontOptions,
+  Link,
+  Rect,
   SPACING,
-} from './card-content';
+  TextBlock,
+  TwoColumnLayout,
+} from '@schaeffler/pdf-generator';
+
+import { QrCodeLinkBlock } from '../building-blocks';
 
 export interface SleeveConnectorCardContentOptions extends CardConfigOptions {
   leftColumnWidth?: number;

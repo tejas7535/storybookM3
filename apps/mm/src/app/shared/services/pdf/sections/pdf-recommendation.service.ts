@@ -3,10 +3,9 @@ import { inject, Injectable } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 import { ListStyle } from '@mm/shared/components/pdf/string-list/string-list';
 
-import { Component } from '@schaeffler/pdf-generator';
+import { Component, PdfComponentFactory } from '@schaeffler/pdf-generator';
 
 import { ResultDataService } from '../../result-data.service';
-import { PdfComponentFactory } from '../factories/pdf-component-factory.service';
 
 @Injectable()
 export class PdfRecommendationService {

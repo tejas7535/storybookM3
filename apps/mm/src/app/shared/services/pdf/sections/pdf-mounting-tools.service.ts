@@ -3,13 +3,15 @@ import { inject, Injectable } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 import { ConditionalPageBreak } from '@mm/shared/components/pdf/conditional-page-break/conditional-page-break';
 
-import { Component } from '@schaeffler/pdf-generator';
+import {
+  Component,
+  PdfComponentFactory,
+  PdfLayoutService,
+} from '@schaeffler/pdf-generator';
 
 import { ResultDataService } from '../../result-data.service';
 import { PdfCardFactory } from '../factories/pdf-card-factory.service';
-import { PdfComponentFactory } from '../factories/pdf-component-factory.service';
 import { PdfImagesProviderService } from '../pdf-images-provider.service';
-import { PdfLayoutService } from '../pdf-layout.service';
 
 @Injectable()
 export class PdfMountingToolsService {

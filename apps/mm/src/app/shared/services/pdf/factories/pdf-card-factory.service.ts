@@ -5,19 +5,20 @@ import {
   PumpItem,
   ResultItem,
 } from '@mm/core/store/models/calculation-result-state.model';
-import { Link } from '@mm/shared/components/pdf/base-components';
 import {
   BadgeConfig,
   BadgePosition,
 } from '@mm/shared/components/pdf/building-blocks';
 import { MountingToolCardContent } from '@mm/shared/components/pdf/cards-content';
 import { SleeveConnectorCardContent } from '@mm/shared/components/pdf/cards-content/sleeve-connector-card-content';
-import { PdfCardComponent } from '@mm/shared/components/pdf/pdf-card/pdf-card';
 import { PdfProductQrLinkService } from '@mm/shared/services/pdf/pdf-product-qr-link.service';
 
-import { Component } from '@schaeffler/pdf-generator';
-
-import { PdfComponentFactory } from './pdf-component-factory.service';
+import {
+  Component,
+  Link,
+  PdfCardComponent,
+  PdfComponentFactory,
+} from '@schaeffler/pdf-generator';
 
 /**
  * Factory service for creating PDF card components used in the application.

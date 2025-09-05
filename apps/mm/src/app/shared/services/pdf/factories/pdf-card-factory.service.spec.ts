@@ -4,12 +4,15 @@ import {
   ResultItem,
 } from '@mm/core/store/models/calculation-result-state.model';
 import { BadgeConfig } from '@mm/shared/components/pdf/building-blocks';
-import { PdfCardComponent } from '@mm/shared/components/pdf/pdf-card/pdf-card';
 import { PdfProductQrLinkService } from '@mm/shared/services/pdf/pdf-product-qr-link.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
+import {
+  PdfCardComponent,
+  PdfComponentFactory,
+} from '@schaeffler/pdf-generator';
+
 import { PdfCardFactory } from './pdf-card-factory.service';
-import { PdfComponentFactory } from './pdf-component-factory.service';
 
 jest.mock('@mm/shared/components/pdf/cards-content', () => ({
   MountingToolCardContent: jest

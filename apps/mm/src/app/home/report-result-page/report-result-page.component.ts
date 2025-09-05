@@ -20,21 +20,19 @@ import { ResultTypeConfig } from '@mm/core/store/models/calculation-result-state
 import { QualtricsInfoBannerComponent } from '@mm/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import {
   PdfCardFactory,
-  PdfComponentFactory,
   PdfGenerationService,
   PdfImagesProviderService,
   PdfInputsService,
-  PdfLayoutService,
   PdfMountingToolsService,
   PdfProductQrLinkService,
   PdfRecommendationService,
   PdfResultsService,
-  PdfTableFactory,
 } from '@mm/shared/services/pdf';
 import { PdfFileSaveService } from '@mm/shared/services/pdf/pdf-file-save.service';
-import { QrCodeService } from '@mm/shared/services/pdf/qr-code.service';
 import { ResultDataService } from '@mm/shared/services/result-data.service';
+import * as QRCode from 'qrcode';
 
+import { QR_CODE_LIB, QrCodeService } from '@schaeffler/pdf-generator';
 import { ResultReportComponent } from '@schaeffler/result-report';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -70,16 +68,15 @@ import { SleeveConnectorComponent } from './sleeve-connector/sleeve-connector.co
     PdfGenerationService,
     PdfInputsService,
     PdfCardFactory,
-    PdfComponentFactory,
-    PdfLayoutService,
     PdfMountingToolsService,
-    PdfTableFactory,
     PdfRecommendationService,
     PdfResultsService,
     PdfImagesProviderService,
     PdfProductQrLinkService,
-    QrCodeService,
+
     PdfFileSaveService,
+    QrCodeService,
+    { provide: QR_CODE_LIB, useValue: QRCode },
   ],
 })
 export class ReportResultPageComponent {

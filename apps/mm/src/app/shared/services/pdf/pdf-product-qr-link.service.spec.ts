@@ -1,13 +1,13 @@
 import { TranslocoService } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { Link } from '../../components/pdf/base-components/base-component';
+import { Link, QrCodeService } from '@schaeffler/pdf-generator';
+
 import { ResultDataService } from '../result-data.service';
 import {
   PdfProductQrLinkService,
   QrCodeData,
 } from './pdf-product-qr-link.service';
-import { QrCodeService } from './qr-code.service';
 
 describe('PdfProductQrLinkService', () => {
   let spectator: SpectatorService<PdfProductQrLinkService>;
@@ -139,12 +139,12 @@ describe('PdfProductQrLinkService', () => {
 
       expect(mockQrCodeService.generateMultipleQrCodes).toHaveBeenCalledWith([
         {
-          data: 'https://example.com/p/product1?utm_source=mounting-manager',
+          data: 'https://example.com/p/product1?utm_source=mounting-manager&utm_medium=pdf',
           name: 'product1',
           options: { width: 100, errorCorrectionLevel: 'M' },
         },
         {
-          data: 'https://example.com/p/product2?utm_source=mounting-manager',
+          data: 'https://example.com/p/product2?utm_source=mounting-manager&utm_medium=pdf',
           name: 'product2',
           options: { width: 100, errorCorrectionLevel: 'M' },
         },
