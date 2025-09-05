@@ -84,6 +84,7 @@ export interface CMPEntry {
   gkamNumber?: string;
   customerNumber?: string;
   materialNumber?: string;
+  same13DigitCount?: number;
   materialClassification?: MaterialClassification;
   sector?: string;
   productionSegment?: string;
@@ -102,6 +103,7 @@ export interface CMPEntry {
   stochasticType?: string;
   productLine?: string;
   productLineText?: string;
+  deliveryCount18Months?: number;
   deliveryQuantity18Months?: number;
   orderQuantity?: number;
   successorMaterial?: string;

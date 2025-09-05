@@ -247,5 +247,19 @@ export function columnDefinitions(
       valueFormatter: agGridLocalizationService.numberFormatter,
       filter: 'agNumberColumnFilter',
     },
+    {
+      colId: 'deliveryCount18Months',
+      visible: true,
+      alwaysVisible: false,
+      valueFormatter: agGridLocalizationService.numberFormatter,
+      filter: 'agNumberColumnFilter',
+    },
+    {
+      colId: 'same13DigitCount',
+      visible: true,
+      alwaysVisible: false,
+      valueFormatter: agGridLocalizationService.numberFormatter,
+      filter: 'agNumberColumnFilter',
+    },
   ];
 }
