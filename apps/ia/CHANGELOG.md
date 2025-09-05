@@ -1,4 +1,11 @@
 # Release Notes of Insight Attrition
+## [1.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.5.1...ia-v1.6.0) (2025-09-05)
+
+
+### Features
+
+* **ia:** use same colors for reasons chart (IA-1597) ([#7515](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7515)) ([5ecc192](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5ecc1928a27583560204998c9ea63510cdc4db62))
+
 ## [1.5.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.5.0...ia-v1.5.1) (2025-08-05)
 
 
