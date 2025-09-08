@@ -10,6 +10,7 @@ interface FormatProps {
   title: FontOptions;
   linkText: FontOptions;
   date: FontOptions;
+  headingDescription: FontOptions;
 }
 
 export interface PDFHeaderProps {
@@ -26,6 +27,7 @@ export interface PDFHeaderProps {
   format?: Partial<FormatProps>;
   heading?: string;
   customLogo?: string;
+  headingDescription?: string;
 }
 
 const QR_CODE_SIZE = 25;
@@ -47,6 +49,10 @@ const Defaults: FormatProps = {
     fontFamily: 'Noto',
     fontSize: 8,
   },
+  headingDescription: {
+    fontFamily: 'Noto',
+    fontSize: 8,
+  },
 };
 
 export class PDFHeader extends Component {
@@ -62,6 +68,7 @@ export class PDFHeader extends Component {
   private readonly dateFontFormat: FontOptions;
   private readonly linkTextFormat: FontOptions;
   private readonly selectedLogo: string;
+  private readonly headingDescription?: string;
 
   public constructor(props: PDFHeaderProps) {
     super();
@@ -94,6 +101,7 @@ export class PDFHeader extends Component {
     }
     this.selectedLogo = props.customLogo ?? LOGO;
     this.heading = props?.heading;
+    this.headingDescription = props?.headingDescription;
   }
 
   public override evaluate(
@@ -197,9 +205,26 @@ export class PDFHeader extends Component {
         ? this.bounds.y + QR_CODE_SIZE + VERTICAL_MARGIN
         : this.bounds.y + LOGO_HEIGHT + VERTICAL_MARGIN;
 
-      this.text(this.bounds.x, yPosition + headingDimensions.h, this.heading, {
+      const baselineY = yPosition + headingDimensions.h;
+
+      this.text(this.bounds.x, baselineY, this.heading, {
         fontOptions: this.titleFormat,
       });
+
+      if (this.headingDescription) {
+        const descriptionDimensions = this.getTextDimensions(
+          this.headingDescription,
+          { ...Defaults.headingDescription }
+        );
+
+        const descriptionY = baselineY + descriptionDimensions.h - 1;
+        this.text(
+          this.bounds.x + headingDimensions.w + 6,
+          descriptionY,
+          this.headingDescription,
+          { fontOptions: Defaults.headingDescription }
+        );
+      }
     }
   }
 

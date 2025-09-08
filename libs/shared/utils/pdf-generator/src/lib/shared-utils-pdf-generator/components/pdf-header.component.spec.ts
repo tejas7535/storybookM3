@@ -77,6 +77,7 @@ describe('PDFHeader', () => {
           linkText: { fontSize: 9 },
         },
         heading: 'Custom Heading',
+        headingDescription: 'This is a description',
       };
 
       const customComponent = new PDFHeader(customProps);
@@ -87,9 +88,27 @@ describe('PDFHeader', () => {
       expect((customComponent as any).headerLinkText).toBe('Visit Site');
       expect((customComponent as any).includeQR).toBe(true);
       expect((customComponent as any).heading).toBe('Custom Heading');
+      expect((customComponent as any).headingDescription).toBe(
+        'This is a description'
+      );
       expect((customComponent as any).titleFormat.fontSize).toBe(16);
       expect((customComponent as any).dateFontFormat.fontSize).toBe(12);
       expect((customComponent as any).linkTextFormat.fontSize).toBe(9);
+    });
+
+    it('should create an instance with heading description only when heading is provided', () => {
+      const propsWithDescriptionOnly: PDFHeaderProps = {
+        reportTitle: 'Test Report',
+        headingDescription: 'Description without heading',
+      };
+
+      const componentWithDescriptionOnly = new PDFHeader(
+        propsWithDescriptionOnly
+      );
+      expect((componentWithDescriptionOnly as any).headingDescription).toBe(
+        'Description without heading'
+      );
+      expect((componentWithDescriptionOnly as any).heading).toBeUndefined();
     });
 
     it('should use default title when none provided', () => {
@@ -323,6 +342,166 @@ describe('PDFHeader', () => {
         bounds.x,
         expect.any(Number),
         'Section Heading',
+        expect.objectContaining({
+          fontOptions: expect.any(Object),
+        })
+      );
+    });
+
+    it('should render heading description when both heading and description are provided', () => {
+      const propsWithHeadingAndDescription: PDFHeaderProps = {
+        reportTitle: 'Test Report',
+        heading: 'Section Heading',
+        headingDescription: 'Additional description text',
+      };
+
+      const componentWithHeadingAndDescription = new PDFHeader(
+        propsWithHeadingAndDescription
+      );
+      componentWithHeadingAndDescription.setDocument(mockPdfDoc);
+
+      jest
+        .spyOn(componentWithHeadingAndDescription as any, 'getTextDimensions')
+        .mockReturnValue({ w: 80, h: 12 });
+      jest
+        .spyOn(componentWithHeadingAndDescription as any, 'scaleImage')
+        .mockReturnValue([30, 4]);
+      jest
+        .spyOn(componentWithHeadingAndDescription as any, 'image')
+        .mockImplementation(() => {});
+      const textSpy = jest
+        .spyOn(componentWithHeadingAndDescription as any, 'text')
+        .mockImplementation(() => {});
+      jest
+        .spyOn(componentWithHeadingAndDescription as any, 'hcenter')
+        .mockReturnValue(100);
+      jest
+        .spyOn(componentWithHeadingAndDescription as any, 'vcenter')
+        .mockReturnValue(50);
+      jest
+        .spyOn(componentWithHeadingAndDescription as any, 'assertDoc')
+        .mockReturnValue(mockPdfDoc.pdfDoc);
+
+      const bounds = new Rect(10, 20, 400, 100);
+      componentWithHeadingAndDescription.setBounds(bounds);
+      componentWithHeadingAndDescription.evaluate(bounds);
+      componentWithHeadingAndDescription.render();
+
+      // Verify heading is rendered
+      expect(textSpy).toHaveBeenCalledWith(
+        bounds.x,
+        expect.any(Number),
+        'Section Heading',
+        expect.objectContaining({
+          fontOptions: expect.any(Object),
+        })
+      );
+
+      // Verify heading description is rendered with correct positioning
+      expect(textSpy).toHaveBeenCalledWith(
+        bounds.x + 80 + 6, // heading width + offset
+        expect.any(Number),
+        'Additional description text',
+        expect.objectContaining({
+          fontOptions: expect.objectContaining({
+            fontFamily: 'Noto',
+            fontSize: 8,
+          }),
+        })
+      );
+    });
+
+    it('should not render heading description when only description is provided without heading', () => {
+      const propsWithDescriptionOnly: PDFHeaderProps = {
+        reportTitle: 'Test Report',
+        headingDescription: 'Description without heading',
+      };
+
+      const componentWithDescriptionOnly = new PDFHeader(
+        propsWithDescriptionOnly
+      );
+      componentWithDescriptionOnly.setDocument(mockPdfDoc);
+
+      jest
+        .spyOn(componentWithDescriptionOnly as any, 'getTextDimensions')
+        .mockReturnValue({ w: 80, h: 12 });
+      jest
+        .spyOn(componentWithDescriptionOnly as any, 'scaleImage')
+        .mockReturnValue([30, 4]);
+      jest
+        .spyOn(componentWithDescriptionOnly as any, 'image')
+        .mockImplementation(() => {});
+      const textSpy = jest
+        .spyOn(componentWithDescriptionOnly as any, 'text')
+        .mockImplementation(() => {});
+      jest
+        .spyOn(componentWithDescriptionOnly as any, 'hcenter')
+        .mockReturnValue(100);
+      jest
+        .spyOn(componentWithDescriptionOnly as any, 'vcenter')
+        .mockReturnValue(50);
+      jest
+        .spyOn(componentWithDescriptionOnly as any, 'assertDoc')
+        .mockReturnValue(mockPdfDoc.pdfDoc);
+
+      const bounds = new Rect(10, 20, 400, 100);
+      componentWithDescriptionOnly.setBounds(bounds);
+      componentWithDescriptionOnly.evaluate(bounds);
+      componentWithDescriptionOnly.render();
+
+      // Verify that description text is not rendered when there's no heading
+      expect(textSpy).not.toHaveBeenCalledWith(
+        expect.any(Number),
+        expect.any(Number),
+        'Description without heading',
+        expect.any(Object)
+      );
+    });
+
+    it('should position heading description correctly relative to heading text', () => {
+      const propsWithHeadingAndDescription: PDFHeaderProps = {
+        reportTitle: 'Test Report',
+        heading: 'Short',
+        headingDescription: 'Long description text',
+      };
+
+      const componentWithHeadingAndDescription = new PDFHeader(
+        propsWithHeadingAndDescription
+      );
+      componentWithHeadingAndDescription.setDocument(mockPdfDoc);
+
+      jest
+        .spyOn(componentWithHeadingAndDescription as any, 'getTextDimensions')
+        .mockReturnValue({ w: 40, h: 12 });
+      jest
+        .spyOn(componentWithHeadingAndDescription as any, 'scaleImage')
+        .mockReturnValue([30, 4]);
+      jest
+        .spyOn(componentWithHeadingAndDescription as any, 'image')
+        .mockImplementation(() => {});
+      const textSpy = jest
+        .spyOn(componentWithHeadingAndDescription as any, 'text')
+        .mockImplementation(() => {});
+      jest
+        .spyOn(componentWithHeadingAndDescription as any, 'hcenter')
+        .mockReturnValue(100);
+      jest
+        .spyOn(componentWithHeadingAndDescription as any, 'vcenter')
+        .mockReturnValue(50);
+      jest
+        .spyOn(componentWithHeadingAndDescription as any, 'assertDoc')
+        .mockReturnValue(mockPdfDoc.pdfDoc);
+
+      const bounds = new Rect(10, 20, 400, 100);
+      componentWithHeadingAndDescription.setBounds(bounds);
+      componentWithHeadingAndDescription.evaluate(bounds);
+      componentWithHeadingAndDescription.render();
+
+      // Verify heading description is positioned with correct x-coordinate
+      expect(textSpy).toHaveBeenCalledWith(
+        bounds.x + 40 + 6, // heading width (40) + offset (6)
+        expect.any(Number),
+        'Long description text',
         expect.objectContaining({
           fontOptions: expect.any(Object),
         })

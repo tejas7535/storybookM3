@@ -185,7 +185,7 @@ describe('DisclaimerFooter', () => {
         }
       );
 
-      expect((component as any).text).toHaveBeenCalledWith(63, 310, '2 / 5', {
+      expect((component as any).text).toHaveBeenCalledWith(64, 310, '2 / 5', {
         fontOptions: {
           fontFamily: 'Noto',
           fontSize: 10,
