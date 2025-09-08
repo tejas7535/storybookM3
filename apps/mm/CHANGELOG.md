@@ -1,4 +1,11 @@
 # Release Notes of Mounting Manager
+## [1.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v1.0.0...mm-v1.0.1) (2025-09-08)
+
+
+### Bug Fixes
+
+* **mm:** fix style and standalone detection for medias ([#7566](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7566)) ([a0968a3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a0968a36d6137a016e99a53b126f2dd4bbe8187b))
+
 ## [1.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.5.1...mm-v1.0.0) (2025-09-08)
 
 
