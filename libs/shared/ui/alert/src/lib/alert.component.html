@@ -20,7 +20,11 @@
 
   @if (actionText()) {
     <div class="ml-auto">
-      <button mat-stroked-button (click)="onButtonClick()">
+      <button
+        mat-stroked-button
+        class="whitespace-nowrap"
+        (click)="onButtonClick()"
+      >
         {{ actionText() }}
       </button>
     </div>
