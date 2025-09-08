@@ -1,4 +1,50 @@
 # Release Notes of Mounting Manager
+## [1.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.5.1...mm-v1.0.0) (2025-09-08)
+
+
+### Features
+
+* **cdba:** compare screen 2.0 ([#6244](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6244)) ([3d6448f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3d6448fae99c4f18de2c17c3d3e706fd34ced916))
+* **ga:** add button translations ([82dda2c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/82dda2c58cdc3b0e55b738137c8065b891910ebe))
+* **ga:** refactor pdf report in ga (UFTABI-9193) ([#7509](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7509)) ([2261286](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2261286281bfa3fb6fd9f424afb86d73c7d7f310))
+* **mm:**  add devices and mounting steps (UFTABI-8039) ([#6525](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6525)) ([d2df6a2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d2df6a27499bfefe1f0db93a5a4528b696c99058))
+* **mm:**  adjust mm with new api implementation (UFTABI-8754) ([#7167](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7167)) ([3417471](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3417471cb42f908ef0223f1d1d208b0163821984))
+* **mm:**  improve mm app flow ( UFATBI-8413) ([#7196](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7196)) ([015b06b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/015b06b66f0b437877bc00897845121f23eff3c5))
+* **mm:** add bearinx versions ([#7074](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7074)) ([8c67f0c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8c67f0ca6408d641a418ea521ddffed3e261ec38))
+* **mm:** add ga tracking in mm (UFTABI-8712)  ([#7208](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7208)) ([553d478](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/553d47807699fc6093d3fa51d4591d36e6c5325b))
+* **mm:** add image component for product images - UFTABI-8756 ([#7183](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7183)) ([6af109b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6af109b9b4d2cdf40e34ac0ab54cb2b129f1272a))
+* **mm:** add internal detection to mounting manager - UFTABI-8056 ([#6553](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6553)) ([73e368f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/73e368f98732743ee82f9e5315828be386b1f910))
+* **mm:** add pdf report implementation (UFTABI-8091)  ([#7264](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7264)) ([0921623](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0921623ec175bd9bf3e52cf2c8aa06686311f6d4))
+* **mm:** add project dependencies required for pdf (UFTABI-8091) ([#7293](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7293)) ([052b6c9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/052b6c92bd3ef1c175b444a91c8762f413c21c57))
+* **mm:** add step navigation to history ([#7402](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7402)) ([a8c17c5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a8c17c56a6d80bd66d53711ba00e0f9f06dceee3))
+* **mm:** apply UI adjustments (UFTABI -8413)  ([#7205](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7205)) ([2b1ce77](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2b1ce7762c14d61f8441b9109d3e03c6075affb0))
+* **mm:** extend report with additional data  (UFTABI-8824) ([#7184](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7184)) ([db0b866](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/db0b8666cc2eb2e57b13ccf365f7487c27346073))
+* **mm:** fix alt image and remove unused import (UFTABI-8413) ([#7195](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7195)) ([763f3e0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/763f3e03ee11ee0de6eaf39b8c8246e6c10005a7))
+* **mm:** fix images load on the second time page visit (UFTABI-8091) ([#7302](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7302)) ([fb14c4c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fb14c4c2ad083ef5f5ba53df59185006d7fd2bc1))
+* **mm:** fixed clipped settings ([#6601](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6601)) ([587d498](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/587d4989a3a183ab71d7e2bf5db3c66fad9bec5a))
+* **mm:** migrate mm app to m3 styles ([47a9404](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/47a940423414d035573cfaba7e24e25c1ea6cd4a))
+* **mm:** migrate to webcomponent ([#7314](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7314)) ([ded6a0a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ded6a0a8d76bfa0e43186cc66c86259ab2cce055))
+* **mm:** remove dynamic forms from mm ( UFTABI-8236 ) ([#6873](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6873)) ([7444bbb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7444bbba9d0d261c8cb5773fc607824e94b78efe))
+* **mm:** update app preview image - UFTABI-8042 ([#6521](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6521)) ([e29770b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e29770bed0a81dcffbc8f54d14e0645db88a00b7))
+* **mm:** update legacy color in mm ([#6541](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6541)) ([dd08716](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/dd08716a4cc5fc29ee0b042ec1a79ad6ebea7ec1))
+* **mm:** update mounting manager q api url ([#7266](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7266)) ([525b5b8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/525b5b8397dd543d4a0f3088ac99974965e74fc8))
+* **mm:** update version url (UFTABI-8615) ([#7190](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7190)) ([7c81104](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7c811042219274d1c771a41ec01260711d5e81bc))
+* **mm:** use shared lib components (UFTABI-9226) ([#7539](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7539)) ([251dd5b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/251dd5b103ce101b4ff254bca8ac32a208bb4a71))
+
+
+### Bug Fixes
+
+* **mm:** add delay to component load ([#7476](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7476)) ([ca16d9f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ca16d9f1c481edaa1a6d7d5b84b40539b1e5ea76))
+* **mm:** add optimizations to build configs ([#7316](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7316)) ([c01e31f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c01e31f2ddeec5c6abe4d853842a1afd14094bd8))
+* **mm:** drop binning implementation for designation requests ([#7259](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7259)) ([c1532a4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c1532a43e7dd4190f61698dca252883a831b5e3d))
+* **mm:** fix footer link translations - UFTABI-9140 ([#7519](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7519)) ([94fc016](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/94fc01609175d435c58d6b60ba704165de5e7361))
+* **mm:** fix icon font family ([#7480](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7480)) ([ff2b3f9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ff2b3f9cc21e14f71d0afe430e912bec4e827c1a))
+* **mm:** fix internal user detection (UFTABI-8892) ([#7306](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7306)) ([baaab72](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/baaab7208d43d0cf71fec175cc05032299d3e3fa))
+* **mm:** fix locale and steps in medias ([#7479](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7479)) ([041fa78](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/041fa784cd94e1e92f71686edf3625ead8e167ec))
+* **mm:** remove routing for non standalone version ([#7319](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7319)) ([142030e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/142030eaa881b6acfc8fd9ac3d62162311f54298))
+* **mm:** remove scrolling for mm in medias ([#7499](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7499)) ([c0d0c30](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c0d0c30a4fd860a5f0f638a0bf984a14e86ecad0))
+* **mm:** use dev env for Q ([#7481](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7481)) ([a849324](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a849324f7d69a946dc772d31f779886c4147d112))
+
 ## [0.5.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.5.0...mm-v0.5.1) (2024-09-04)
 
 
