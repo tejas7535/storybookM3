@@ -32,7 +32,7 @@ export const initGlobal$ = createEffect(
 
         const actions: Action[] = [
           GlobalActions.setIsStandalone({
-            isStandalone: isStandalone ?? true,
+            isStandalone: isStandalone ? true : false,
           }),
           GlobalActions.setAppDelivery({ appDelivery }),
           GlobalActions.determineInternalUser(),

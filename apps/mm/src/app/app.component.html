@@ -43,6 +43,8 @@
     >
       <div
         class="flex-1 bg-surface-container-lowest container mx-auto max-w-screen-xl"
+        [class.!max-w-full]="!isStandalone()"
+        [class.p-0]="!isStandalone()"
       >
         @if (standalone()) {
           <router-outlet></router-outlet>

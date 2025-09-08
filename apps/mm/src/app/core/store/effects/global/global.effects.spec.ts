@@ -71,7 +71,7 @@ describe('Global Effects', () => {
         });
 
         const expected = m.cold('-(bcdef)', {
-          b: GlobalActions.setIsStandalone({ isStandalone: true }),
+          b: GlobalActions.setIsStandalone({ isStandalone: false }),
           c: GlobalActions.setAppDelivery({
             appDelivery: 'Standalone' as AppDelivery,
           }),
@@ -127,7 +127,7 @@ describe('Global Effects', () => {
 
   describe('setIsInternalUser$', () => {
     it(
-      'should dispatch setIsInternalUser action',
+      'should call addCustomPropertyToTelemetryData with correct parameters',
       marbles((m) => {
         const appInsightsMock = {
           addCustomPropertyToTelemetryData: jest.fn(),
@@ -137,16 +137,13 @@ describe('Global Effects', () => {
           a: GlobalActions.setIsInternalUser({ isInternalUser: true }),
         });
 
-        const expected = m.cold('(b)', {
-          b: GlobalActions.setIsInternalUser({ isInternalUser: true }),
-        });
-
         const result = GlobalEffects.setIsInternalUser$(
           actions$,
           appInsightsMock
         );
 
-        m.expect(result).toBeObservable(expected);
+        // Since this effect has dispatch: false, we need to subscribe to trigger the tap
+        result.subscribe();
         m.flush();
 
         expect(
