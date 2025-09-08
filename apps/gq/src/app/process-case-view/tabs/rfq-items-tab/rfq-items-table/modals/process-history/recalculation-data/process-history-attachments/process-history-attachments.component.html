@@ -1,0 +1,33 @@
+<div class="flex flex-col">
+  <span class="text-body-small text-on-surface opacity-[0.38]">{{
+    caption()
+  }}</span>
+
+  @if (!(attachmentLoading$ | ngrxPush)) {
+    <div class="flex flex-col gap-2">
+      @for (attachment of attachments(); track $index) {
+        <div
+          class="flex flex-col whitespace-nowrap overflow-hidden text-ellipsis flex-1"
+        >
+          <span
+            class="hover:text-primary hover:underline hover:cursor-pointer whitespace-nowrap overflow-hidden text-title-medium text-on-surface-variant"
+            (click)="downloadAttachment(attachment)"
+          >
+            {{ attachment.fileName }}
+          </span>
+        </div>
+      } @empty {
+        <span class="text-title-medium text-on-surface-variant">-</span>
+      }
+    </div>
+  } @else {
+    <div>
+      <schaeffler-loading-spinner
+        class="w-full"
+        [relative]="true"
+        [diameter]="40"
+        [strokeWidth]="4"
+      ></schaeffler-loading-spinner>
+    </div>
+  }
+</div>

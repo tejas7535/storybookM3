@@ -28,6 +28,7 @@ import {
   FileAccessUpdate,
   RfqCalculatorAttachment,
 } from '../models/rfq-calculator-attachments.interface';
+import { Rfq4AttachmentsService } from '../service/rest/rfq-4-attachments.service';
 import { Rfq4DetailViewService } from '../service/rest/rfq-4-detail-view.service';
 import { Rfq4DetailViewStore } from './rfq-4-detail-view.store';
 
@@ -49,6 +50,8 @@ describe('Rfq4DetailViewStore', () => {
     confirmRfq4CalculationData: jest
       .fn()
       .mockReturnValue(of(CONFIRM_RFQ_RESPONSE_MOCK)),
+  };
+  const rfq4AttachmentsService = {
     getCalculatorAttachments: jest
       .fn()
       .mockReturnValue(of(RFQ_CALCULATOR_ATTACHMENTS_MOCK)),
@@ -104,6 +107,7 @@ describe('Rfq4DetailViewStore', () => {
           },
         }),
         { provide: Rfq4DetailViewService, useValue: rfq4DetailViewService },
+        { provide: Rfq4AttachmentsService, useValue: rfq4AttachmentsService },
         {
           provide: MicrosoftGraphMapperService,
           useValue: microsoftGraphMapperService,
@@ -484,7 +488,7 @@ describe('Rfq4DetailViewStore', () => {
       store.getCalculatorAttachments(rfqId);
 
       expect(
-        rfq4DetailViewService.getCalculatorAttachments
+        rfq4AttachmentsService.getCalculatorAttachments
       ).toHaveBeenCalledWith(rfqId);
       expect(store.attachmentsLoading()).toBeFalsy();
       expect(store.attachments()).toEqual(RFQ_CALCULATOR_ATTACHMENTS_MOCK);
@@ -498,7 +502,7 @@ describe('Rfq4DetailViewStore', () => {
       store.uploadCalculatorAttachments(files);
 
       expect(
-        rfq4DetailViewService.uploadCalculatorAttachments
+        rfq4AttachmentsService.uploadCalculatorAttachments
       ).toHaveBeenCalledWith(files, rfqId);
       expect(store.attachmentsLoading()).toBeFalsy();
       expect(store.attachments()).toEqual(RFQ_CALCULATOR_ATTACHMENTS_MOCK);
@@ -510,7 +514,7 @@ describe('Rfq4DetailViewStore', () => {
       store.downloadCalculatorAttachment(attachment);
 
       expect(
-        rfq4DetailViewService.downloadCalculatorAttachment
+        rfq4AttachmentsService.downloadCalculatorAttachment
       ).toHaveBeenCalledWith(attachment);
     });
     test('deleteCalculatorAttachment', () => {
@@ -519,7 +523,7 @@ describe('Rfq4DetailViewStore', () => {
 
       store.deleteCalculatorAttachment(attachment);
       expect(
-        rfq4DetailViewService.deleteCalculatorAttachment
+        rfq4AttachmentsService.deleteCalculatorAttachment
       ).toHaveBeenCalledWith(attachment);
       expect(store.attachmentsDeleting()).toBeFalsy();
       expect(store.attachments()).toEqual([]);
@@ -561,7 +565,7 @@ describe('Rfq4DetailViewStore', () => {
       store.updateCalculatorAttachmentsAccess();
 
       expect(
-        rfq4DetailViewService.updateCalculatorAttachmentsAccess
+        rfq4AttachmentsService.updateCalculatorAttachmentsAccess
       ).not.toHaveBeenCalled();
       expect(store.attachments()).toEqual(RFQ_CALCULATOR_ATTACHMENTS_MOCK);
       expect(store.pendingAttachmentAccessUpdates().length).toBe(0);
@@ -585,7 +589,7 @@ describe('Rfq4DetailViewStore', () => {
       store.updateCalculatorAttachmentsAccess();
 
       expect(
-        rfq4DetailViewService.updateCalculatorAttachmentsAccess
+        rfq4AttachmentsService.updateCalculatorAttachmentsAccess
       ).toHaveBeenCalledWith(rfqId, uploadAccessAttachments);
       expect(store.attachments()).toEqual(RFQ_CALCULATOR_ATTACHMENTS_MOCK);
       expect(store.pendingAttachmentAccessUpdates().length).toBe(0);
@@ -615,7 +619,7 @@ describe('Rfq4DetailViewStore', () => {
       TestBed.flushEffects();
       // Verify the rxMethod was triggered with the correct argument
       expect(
-        rfq4DetailViewService.getCalculatorAttachments
+        rfq4AttachmentsService.getCalculatorAttachments
       ).toHaveBeenCalledWith(routerRfqId);
       expect(store.rfq4DetailViewDataLoading()).toBeFalsy();
     });

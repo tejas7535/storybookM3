@@ -1,9 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { catchError, filter, map, of, switchMap, tap } from 'rxjs';
 
+import { Rfq4AttachmentsService } from '@gq/calculator/rfq-4-detail-view/service/rest/rfq-4-attachments.service';
 import { ActiveDirectoryUser } from '@gq/shared/models';
+import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
 import { MicrosoftGraphMapperService } from '@gq/shared/services/rest/microsoft-graph-mapper/microsoft-graph-mapper.service';
 import { RfqProcessResponse } from '@gq/shared/services/rest/rfq4/models/rfq-process-response.interface';
 import { Rfq4Service } from '@gq/shared/services/rest/rfq4/rfq-4.service';
@@ -26,6 +28,7 @@ export class Rfq4ProcessEffects {
   private readonly actions = inject(Actions);
   private readonly store = inject(Store);
   private readonly rfq4Service = inject(Rfq4Service);
+  private readonly rfq4AttachmentsService = inject(Rfq4AttachmentsService);
   private readonly msGraphMapperService = inject(MicrosoftGraphMapperService);
   private readonly snackBar = inject(MatSnackBar);
 
@@ -217,6 +220,66 @@ export class Rfq4ProcessEffects {
             of(Rfq4ProcessActions.getProcessHistoryError({ error }))
           )
         );
+      })
+    );
+  });
+
+  triggerGetProcessAttachments$ = createEffect(() => {
+    return this.actions.pipe(
+      ofType(Rfq4ProcessActions.getProcessHistorySuccess),
+      filter(
+        (history) =>
+          history.processHistory?.rfq4Status === Rfq4Status.CONFIRMED &&
+          history.processHistory?.rfqId !== null
+      ),
+      switchMap((history) =>
+        of(
+          Rfq4ProcessActions.getProcessAttachments({
+            rfqId: history.processHistory?.rfqId,
+          })
+        )
+      )
+    );
+  });
+
+  getProcessAttachments$ = createEffect(() => {
+    return this.actions.pipe(
+      ofType(Rfq4ProcessActions.getProcessAttachments),
+      switchMap((action) => {
+        return this.rfq4AttachmentsService
+          .getCalculatorAttachments(action.rfqId)
+          .pipe(
+            map((attachments) =>
+              Rfq4ProcessActions.getProcessAttachmentsSuccess({
+                attachments,
+              })
+            ),
+            catchError((error) =>
+              of(Rfq4ProcessActions.getProcessAttachmentsError({ error }))
+            )
+          );
+      })
+    );
+  });
+
+  downloadAttachment$ = createEffect(() => {
+    return this.actions.pipe(
+      ofType(Rfq4ProcessActions.downloadAttachment),
+      switchMap((action) => {
+        return this.rfq4AttachmentsService
+          .downloadCalculatorAttachment(action.attachment)
+          .pipe(
+            map((fileName: string) => {
+              return Rfq4ProcessActions.downloadAttachmentSuccess({ fileName });
+            }),
+            catchError((error) =>
+              of(
+                Rfq4ProcessActions.downloadAttachmentFailure({
+                  errorMessage: error,
+                })
+              )
+            )
+          );
       })
     );
   });

@@ -3,8 +3,10 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
 
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
+import { RfqCalculatorAttachment } from '@gq/calculator/rfq-4-detail-view/models/rfq-calculator-attachments.interface';
+import { Rfq4AttachmentsService } from '@gq/calculator/rfq-4-detail-view/service/rest/rfq-4-attachments.service';
 import { ActiveDirectoryUser, QuotationDetail } from '@gq/shared/models';
 import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
 import { MicrosoftGraphMapperService } from '@gq/shared/services/rest/microsoft-graph-mapper/microsoft-graph-mapper.service';
@@ -16,6 +18,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import { RFQ_CALCULATOR_ATTACHMENTS_MOCK } from '../../../../testing/mocks/models/calculator/rfq-4-detail-view/rfq-4-detail-view-data.mock';
 import { RFQ_4_PROCESS_HISTORY_MOCK } from '../../../../testing/mocks/models/calculator/rfq-4-overview/rfq-4-overview-data-mock';
 import * as mailConsts from './consts/maintainer-mail.consts';
 import { RfqProcessHistory } from './model/process-history.model';
@@ -29,6 +32,7 @@ describe('Rfq4Effects', () => {
   let actions$: any;
   let effects: Rfq4ProcessEffects;
   let rfq4Service: Rfq4Service;
+  let rfq4AttachmentsService: Rfq4AttachmentsService;
   let msGraphMapperService: MicrosoftGraphMapperService;
   let snackBar: MatSnackBar;
   let store: any;
@@ -51,6 +55,7 @@ describe('Rfq4Effects', () => {
     effects = spectator.inject(Rfq4ProcessEffects);
 
     rfq4Service = spectator.inject(Rfq4Service);
+    rfq4AttachmentsService = spectator.inject(Rfq4AttachmentsService);
     msGraphMapperService = spectator.inject(MicrosoftGraphMapperService);
     store = spectator.inject(MockStore);
     snackBar = spectator.inject(MatSnackBar);
@@ -58,6 +63,7 @@ describe('Rfq4Effects', () => {
   test('should be created', () => {
     expect(effects).toBeTruthy();
     expect(rfq4Service).toBeTruthy();
+    expect(rfq4AttachmentsService).toBeTruthy();
     expect(snackBar).toBeTruthy();
     expect(store).toBeTruthy();
     expect(errorMessage).toBeTruthy();
@@ -532,6 +538,155 @@ describe('Rfq4Effects', () => {
 
         m.expect(effects.getProcessHistoryData$).toBeObservable(expected);
         m.flush();
+      })
+    );
+  });
+
+  describe('triggerGetProcessAttachments$', () => {
+    test(
+      'should dispatch getProcessAttachments when status is CONFIRMED and rfqId is not null',
+      marbles((m) => {
+        const mockProcessHistory = {
+          rfq4Status: Rfq4Status.CONFIRMED,
+          rfqId: 1234,
+        } as any;
+        action = Rfq4ProcessActions.getProcessHistorySuccess({
+          processHistory: mockProcessHistory,
+        });
+        const expectedAction = Rfq4ProcessActions.getProcessAttachments({
+          rfqId: 1234,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: expectedAction });
+
+        m.expect(effects.triggerGetProcessAttachments$).toBeObservable(
+          expected
+        );
+        m.flush();
+      })
+    );
+
+    test(
+      'should not dispatch getProcessAttachments when status is not CONFIRMED',
+      marbles((m) => {
+        const mockProcessHistory = {
+          rfq4Status: Rfq4Status.IN_PROGRESS,
+          rfqId: 1234,
+        } as any;
+        action = Rfq4ProcessActions.getProcessHistorySuccess({
+          processHistory: mockProcessHistory,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('---');
+
+        m.expect(effects.triggerGetProcessAttachments$).toBeObservable(
+          expected
+        );
+      })
+    );
+  });
+
+  describe('getProcessAttachments$', () => {
+    test(
+      'should call getProcessAttachments and return success action',
+      marbles((m) => {
+        const rfqId = 1234;
+        action = Rfq4ProcessActions.getProcessAttachments({ rfqId });
+
+        const mockResponse: RfqCalculatorAttachment[] =
+          RFQ_CALCULATOR_ATTACHMENTS_MOCK;
+
+        const expectedAction = Rfq4ProcessActions.getProcessAttachmentsSuccess({
+          attachments: mockResponse,
+        });
+        rfq4AttachmentsService.getCalculatorAttachments = jest
+          .fn()
+          .mockReturnValue(of(mockResponse));
+
+        actions$ = of(action);
+
+        m.expect(effects.getProcessAttachments$).toBeObservable(
+          m.cold('(a|)', {
+            a: expectedAction,
+          })
+        );
+      })
+    );
+
+    test(
+      'should call getProcessAttachments and return error action',
+      marbles((m) => {
+        const rfqId = 1234;
+        action = Rfq4ProcessActions.getProcessAttachments({ rfqId });
+        rfq4AttachmentsService.getCalculatorAttachments = jest.fn(
+          () => response
+        );
+        const result = Rfq4ProcessActions.getProcessAttachmentsError({
+          error: errorMessage,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.getProcessAttachments$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('downloadAttachment$', () => {
+    test(
+      'should return downloadAttachmentSuccess when REST call is successful',
+      marbles((m) => {
+        const attachment: RfqCalculatorAttachment =
+          RFQ_CALCULATOR_ATTACHMENTS_MOCK[0];
+
+        action = Rfq4ProcessActions.downloadAttachment({ attachment }); // Trigger the effect
+        const downloadCalculatorAttachmentSpy = jest.spyOn(
+          rfq4AttachmentsService,
+          'downloadCalculatorAttachment'
+        );
+        const expectedAction = Rfq4ProcessActions.downloadAttachmentSuccess({
+          fileName: 'file.txt',
+        });
+
+        downloadCalculatorAttachmentSpy.mockReturnValue(of('file.txt'));
+
+        actions$ = m.hot('-a', { a: action });
+
+        const result = effects.downloadAttachment$;
+
+        m.expect(result).toBeObservable('-c', { c: expectedAction });
+      })
+    );
+
+    test(
+      'should return downloadAttachmentError when REST call fails',
+      marbles((m) => {
+        const attachment: RfqCalculatorAttachment =
+          RFQ_CALCULATOR_ATTACHMENTS_MOCK[0];
+
+        action = Rfq4ProcessActions.downloadAttachment({ attachment });
+        const downloadCalculatorAttachmentSpy = jest.spyOn(
+          rfq4AttachmentsService,
+          'downloadCalculatorAttachment'
+        );
+        const expectedAction = Rfq4ProcessActions.downloadAttachmentFailure({
+          errorMessage,
+        });
+
+        downloadCalculatorAttachmentSpy.mockReturnValue(
+          throwError(() => errorMessage)
+        );
+
+        actions$ = m.hot('-a', { a: action });
+
+        const result = effects.downloadAttachment$;
+
+        m.expect(result).toBeObservable('-c', { c: expectedAction });
       })
     );
   });

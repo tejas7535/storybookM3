@@ -255,7 +255,8 @@
             "cancelReason": "Reason",
             "cancelledByCustomer": "Cancelled by Customer",
             "cancelledBySchaeffler": "Cancelled by Schaeffler",
-            "rfq4Status": "{rfq4Status,select,OPEN{Open}REOPEN{Reopen}IN_PROGRESS{In Progress}CONFIRMED{Confirmed}CANCELLED{Cancelled} other{}}"
+            "rfq4Status": "{rfq4Status,select,OPEN{Open}REOPEN{Reopen}IN_PROGRESS{In Progress}CONFIRMED{Confirmed}CANCELLED{Cancelled} other{}}",
+            "attachments": "Attachments"
           },
           "closeButton": "Close",
           "cancelButton": "Cancel Process",

@@ -67,7 +67,8 @@ export class RecalculationAttachmentsComponent implements OnInit {
     this.store.isLoggedUserAssignedToRfq()
   );
 
-  readonly canUploadOrDeleteAttachments = computed(
+  // Check if the user can upload or delete attachments and change attachments access type
+  readonly canHandleAttachments = computed(
     () =>
       this.recalculationStatus() === RecalculateSqvStatus.IN_PROGRESS &&
       this.isLoggedUserAssignedToRfq()

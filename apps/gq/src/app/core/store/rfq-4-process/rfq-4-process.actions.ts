@@ -1,3 +1,4 @@
+import { RfqCalculatorAttachment } from '@gq/calculator/rfq-4-detail-view/models/rfq-calculator-attachments.interface';
 import { CancellationReason } from '@gq/process-case-view/tabs/rfq-items-tab/rfq-items-table/modals/cancel-process/cancel-process.component';
 import { ActiveDirectoryUser, QuotationDetail } from '@gq/shared/models';
 import { RfqProcessResponse } from '@gq/shared/services/rest/rfq4/models/rfq-process-response.interface';
@@ -75,5 +76,13 @@ export const Rfq4ProcessActions = createActionGroup({
     'get process history error': props<{
       error: string;
     }>(),
+    'get process attachments': props<{ rfqId: number }>(),
+    'get process attachments success': props<{
+      attachments: RfqCalculatorAttachment[];
+    }>(),
+    'get process attachments error': props<{ error: string }>(),
+    'download attachment': props<{ attachment: RfqCalculatorAttachment }>(),
+    'download attachment failure': props<{ errorMessage: string }>(),
+    'download attachment success': props<{ fileName: string }>(),
   },
 });

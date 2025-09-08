@@ -7,6 +7,7 @@ import { createSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import { RFQ_CALCULATOR_ATTACHMENTS_MOCK } from '../../../../testing/mocks/models/calculator/rfq-4-detail-view/rfq-4-detail-view-data.mock';
 import { RFQ_4_PROCESS_HISTORY_MOCK } from '../../../../testing/mocks/models/calculator/rfq-4-overview/rfq-4-overview-data-mock';
 import { QUOTATION_DETAIL_RFQ4 } from '../../../../testing/mocks/models/quotation-detail/rfq/quotation-detail-rfq4.mock';
 import * as fromSelectors from '../active-case/active-case.selectors';
@@ -148,6 +149,18 @@ describe('rfq4ProcessFacade', () => {
         m.expect(facade.processHistory$).toBeObservable(expected);
       })
     );
+
+    test(
+      'processAttachments$',
+      marbles((m) => {
+        const expected = m.cold('a', { a: RFQ_CALCULATOR_ATTACHMENTS_MOCK });
+        mockStore.overrideSelector(
+          rfq4ProcessFeature.selectProcessAttachments,
+          RFQ_CALCULATOR_ATTACHMENTS_MOCK
+        );
+        m.expect(facade.processAttachments$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('methods', () => {
@@ -255,6 +268,16 @@ describe('rfq4ProcessFacade', () => {
         const action = Rfq4ProcessActions.getProcessHistory({ gqPositionId });
         const spy = jest.spyOn(mockStore, 'dispatch');
         facade.getProcessHistory(gqPositionId);
+        expect(spy).toHaveBeenCalledWith(action);
+      });
+    });
+
+    describe('downloadAttachment', () => {
+      test('should dispatch downloadAttachment action', () => {
+        const attachment = RFQ_CALCULATOR_ATTACHMENTS_MOCK[0];
+        const action = Rfq4ProcessActions.downloadAttachment({ attachment });
+        const spy = jest.spyOn(mockStore, 'dispatch');
+        facade.downloadAttachment(attachment);
         expect(spy).toHaveBeenCalledWith(action);
       });
     });

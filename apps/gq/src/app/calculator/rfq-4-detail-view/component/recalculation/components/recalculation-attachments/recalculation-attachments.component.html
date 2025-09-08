@@ -7,9 +7,7 @@
   <div class="flex flex-col items-start gap-1 pb-4">
     <button
       mat-button
-      [disabled]="
-        !this.isLoggedUserAssignedToRfq() || !canUploadOrDeleteAttachments()
-      "
+      [disabled]="!canHandleAttachments()"
       (click)="openAddFileDialog()"
     >
       {{ t('addAttachmentsButtonLabel') }}<mat-icon>add</mat-icon>
@@ -24,7 +22,7 @@
       <gq-attachments
         class="w-full"
         [attachments]="attachments()"
-        [deleteButtonEnabled]="canUploadOrDeleteAttachments()"
+        [deleteButtonEnabled]="canHandleAttachments()"
         [additionContentTemplate]="accessDropDownTemplate"
         (downloadClicked)="downloadAttachment($event)"
         (deleteClicked)="openConfirmDeleteAttachmentDialog($event)"
@@ -46,6 +44,7 @@
       <mat-select
         [value]="attachment.accessibleBy"
         (selectionChange)="onAccessChange(attachment, $event.value)"
+        [disabled]="!canHandleAttachments()"
       >
         @for (option of accessibleByOptions; track option) {
           <mat-option [value]="option.key">

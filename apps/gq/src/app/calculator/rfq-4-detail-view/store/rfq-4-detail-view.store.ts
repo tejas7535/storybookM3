@@ -41,6 +41,7 @@ import {
   FileAccessUpdate,
   RfqCalculatorAttachment,
 } from '../models/rfq-calculator-attachments.interface';
+import { Rfq4AttachmentsService } from '../service/rest/rfq-4-attachments.service';
 import { Rfq4DetailViewService } from '../service/rest/rfq-4-detail-view.service';
 import { RFQ4_DETAIL_VIEW_ACTIONS } from './actions.const';
 
@@ -163,6 +164,7 @@ export const Rfq4DetailViewStore = signalStore(
   })),
   withProps(() => ({
     rfq4DetailViewService: inject(Rfq4DetailViewService),
+    rfq4AttachmentsService: inject(Rfq4AttachmentsService),
     msGraphMapperService: inject(MicrosoftGraphMapperService),
     productionPlantService: inject(ProductionPlantService),
     currencyService: inject(CurrencyService),
@@ -171,6 +173,7 @@ export const Rfq4DetailViewStore = signalStore(
   withMethods(
     ({
       rfq4DetailViewService,
+      rfq4AttachmentsService,
       msGraphMapperService,
       productionPlantService,
       currencyService,
@@ -673,7 +676,7 @@ export const Rfq4DetailViewStore = signalStore(
             )
           ),
           switchMap((rfqId: number) =>
-            rfq4DetailViewService.getCalculatorAttachments(rfqId).pipe(
+            rfq4AttachmentsService.getCalculatorAttachments(rfqId).pipe(
               tapResponse({
                 next: (attachments: RfqCalculatorAttachment[]) => {
                   updateState(
@@ -704,7 +707,7 @@ export const Rfq4DetailViewStore = signalStore(
             )
           ),
           switchMap((files: File[]) =>
-            rfq4DetailViewService
+            rfq4AttachmentsService
               .uploadCalculatorAttachments(
                 files,
                 store.getRfq4ProcessData().rfqId
@@ -737,7 +740,7 @@ export const Rfq4DetailViewStore = signalStore(
       const downloadCalculatorAttachment = rxMethod<RfqCalculatorAttachment>(
         pipe(
           switchMap((attachment: RfqCalculatorAttachment) =>
-            rfq4DetailViewService.downloadCalculatorAttachment(attachment)
+            rfq4AttachmentsService.downloadCalculatorAttachment(attachment)
           )
         )
       );
@@ -752,7 +755,7 @@ export const Rfq4DetailViewStore = signalStore(
             )
           ),
           switchMap((attachment: RfqCalculatorAttachment) =>
-            rfq4DetailViewService.deleteCalculatorAttachment(attachment).pipe(
+            rfq4AttachmentsService.deleteCalculatorAttachment(attachment).pipe(
               tapResponse({
                 next: (attachments: RfqCalculatorAttachment[]) => {
                   updateState(
@@ -839,7 +842,7 @@ export const Rfq4DetailViewStore = signalStore(
               return EMPTY;
             }
 
-            return rfq4DetailViewService
+            return rfq4AttachmentsService
               .updateCalculatorAttachmentsAccess(
                 store.getRfq4ProcessData()?.rfqId,
                 attachmentsToUpdate

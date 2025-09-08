@@ -14,6 +14,7 @@ import { LetDirective } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { ProcessHistoryAttachmentsComponent } from './process-history-attachments/process-history-attachments.component';
 import { RecalculationDataItemComponent } from './recalculation-data-item/recalculation-data-item.component';
 
 @Component({
@@ -23,6 +24,7 @@ import { RecalculationDataItemComponent } from './recalculation-data-item/recalc
     CommonModule,
     SharedTranslocoModule,
     RecalculationDataItemComponent,
+    ProcessHistoryAttachmentsComponent,
     SharedPipesModule,
     LetDirective,
     InfoBannerComponent,

@@ -1,6 +1,8 @@
+import { RfqCalculatorAttachment } from '@gq/calculator/rfq-4-detail-view/models/rfq-calculator-attachments.interface';
 import { QuotationDetail } from '@gq/shared/models';
 import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
 
+import { RFQ_CALCULATOR_ATTACHMENTS_MOCK } from '../../../../testing/mocks/models/calculator/rfq-4-detail-view/rfq-4-detail-view-data.mock';
 import { RFQ_4_PROCESS_HISTORY_MOCK } from '../../../../testing/mocks/models/calculator/rfq-4-overview/rfq-4-overview-data-mock';
 import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { ACTIVE_CASE_STATE_MOCK } from '../../../../testing/mocks/state/active-case-state.mock';
@@ -21,6 +23,8 @@ describe('rfq4ProcessFeature.reducer', () => {
     sapMaintainers: [],
     sapMaintainersLoading: false,
     processHistory: null,
+    processAttachments: [],
+    processAttachmentsLoading: false,
   };
 
   const gqPositionId = '1245';
@@ -403,6 +407,42 @@ describe('rfq4ProcessFeature.reducer', () => {
       expect(state.processLoading).toEqual(ProcessLoading.NONE);
       expect(state.gqPositionId).toBeUndefined();
       expect(state.processHistory).toBeNull();
+    });
+  });
+
+  describe('getProcessAttachments', () => {
+    test('should set processLoading to PROCESS_ATTACHMENTS', () => {
+      const action = Rfq4ProcessActions.getProcessAttachments({
+        rfqId: 1234,
+      });
+      const state = rfq4ProcessFeature.reducer(rfq4ProcessesMock, action);
+      expect(state.processAttachmentsLoading).toBeTruthy();
+    });
+    test('should set processLoading to NONE on getProcessAttachmentsSuccess', () => {
+      const fakeState = {
+        ...rfq4ProcessesMock,
+        processAttachments: [] as RfqCalculatorAttachment[],
+        processAttachmentsLoading: true,
+      };
+      const action = Rfq4ProcessActions.getProcessAttachmentsSuccess({
+        attachments: RFQ_CALCULATOR_ATTACHMENTS_MOCK,
+      });
+      const state = rfq4ProcessFeature.reducer(fakeState, action);
+      expect(state.processAttachmentsLoading).toBeFalsy();
+      expect(state.processAttachments).toEqual(RFQ_CALCULATOR_ATTACHMENTS_MOCK);
+    });
+    test('should set processLoading to NONE on getProcessAttachmentsError', () => {
+      const fakeState = {
+        ...rfq4ProcessesMock,
+        processAttachments: [] as RfqCalculatorAttachment[],
+        processAttachmentsLoading: true,
+      };
+      const action = Rfq4ProcessActions.getProcessAttachmentsError({
+        error: 'Error',
+      });
+      const state = rfq4ProcessFeature.reducer(fakeState, action);
+      expect(state.processAttachmentsLoading).toBeFalsy();
+      expect(state.processAttachments.length).toBe(0);
     });
   });
 

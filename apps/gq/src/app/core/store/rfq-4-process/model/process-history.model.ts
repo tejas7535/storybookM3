@@ -4,6 +4,7 @@ import { CancellationReason } from '@gq/process-case-view/tabs/rfq-items-tab/rfq
 import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
 
 export interface RfqProcessHistory {
+  rfqId: number;
   gqPositionId: string;
   recalculationStatus: RecalculateSqvStatus;
   rfq4Status: Rfq4Status;

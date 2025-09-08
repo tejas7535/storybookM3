@@ -1,3 +1,4 @@
+import { RfqCalculatorAttachment } from '@gq/calculator/rfq-4-detail-view/models/rfq-calculator-attachments.interface';
 import { QuotationDetail } from '@gq/shared/models';
 import { ActiveDirectoryUser } from '@gq/shared/models/user.model';
 import {
@@ -31,6 +32,8 @@ export interface Rfq4ProcessState {
   sapMaintainersLoading: boolean;
   sapMaintainers: ActiveDirectoryUser[];
   processHistory: RfqProcessHistory | null;
+  processAttachments: RfqCalculatorAttachment[];
+  processAttachmentsLoading: boolean;
 }
 
 export const initialState: Rfq4ProcessState = {
@@ -41,6 +44,8 @@ export const initialState: Rfq4ProcessState = {
   sapMaintainers: [],
   sapMaintainersLoading: false,
   processHistory: null,
+  processAttachments: [],
+  processAttachmentsLoading: false,
 };
 
 export const rfq4ProcessFeature = createFeature({
@@ -240,6 +245,29 @@ export const rfq4ProcessFeature = createFeature({
         gqPositionId: undefined,
         processHistory: null,
         processLoading: ProcessLoading.NONE,
+      })
+    ),
+    on(
+      Rfq4ProcessActions.getProcessAttachments,
+      (state): Rfq4ProcessState => ({
+        ...state,
+        processAttachmentsLoading: true,
+      })
+    ),
+    on(
+      Rfq4ProcessActions.getProcessAttachmentsSuccess,
+      (state, { attachments }): Rfq4ProcessState => ({
+        ...state,
+        processAttachments: attachments,
+        processAttachmentsLoading: false,
+      })
+    ),
+    on(
+      Rfq4ProcessActions.getProcessAttachmentsError,
+      (state): Rfq4ProcessState => ({
+        ...state,
+        processAttachments: [],
+        processAttachmentsLoading: false,
       })
     )
   ),

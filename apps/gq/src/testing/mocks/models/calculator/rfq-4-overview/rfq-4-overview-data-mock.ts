@@ -42,6 +42,7 @@ export const RFQ_4_VIEW_OPEN_TOGGLE_ITEMS_MOCK: RfqRequest[] = [
 ];
 
 export const RFQ_4_PROCESS_HISTORY_MOCK: RfqProcessHistory = {
+  rfqId: 1234,
   gqPositionId: '123456',
   recalculationStatus: RecalculateSqvStatus.CANCELLED,
   rfq4Status: Rfq4Status.CANCELLED,

@@ -255,7 +255,8 @@
             "cancelReason": "Absagegrund",
             "cancelledByCustomer": "Absage vom Kunden",
             "cancelledBySchaeffler": "Absage von Schaeffler",
-            "rfq4Status": "{rfq4Status,select,OPEN{Offen}REOPEN{Wiedereröffnet}IN_PROGRESS{In Bearbeitung}CONFIRMED{Bestätigt}CANCELLED{Abgesagt} other{}}"
+            "rfq4Status": "{rfq4Status,select,OPEN{Offen}REOPEN{Wiedereröffnet}IN_PROGRESS{In Bearbeitung}CONFIRMED{Bestätigt}CANCELLED{Abgesagt} other{}}",
+            "attachments": "Anhänge"
           },
           "closeButton": "Schließen",
           "cancelButton": "Prozess Abbrechen",

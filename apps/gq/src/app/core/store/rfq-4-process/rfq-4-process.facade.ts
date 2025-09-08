@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { RfqCalculatorAttachment } from '@gq/calculator/rfq-4-detail-view/models/rfq-calculator-attachments.interface';
 import { CancellationReason } from '@gq/process-case-view/tabs/rfq-items-tab/rfq-items-table/modals/cancel-process/cancel-process.component';
 import { ActiveDirectoryUser, QuotationDetail } from '@gq/shared/models';
 import { QuotationDetailRfq4 } from '@gq/shared/models/quotation-detail/rfq/quotation-detail-rfq4.interface';
@@ -52,6 +53,12 @@ export class Rfq4ProcessFacade {
   );
   processHistory$: Observable<RfqProcessHistory | null> = this.store.select(
     rfq4ProcessFeature.selectProcessHistory
+  );
+  processAttachments$: Observable<RfqCalculatorAttachment[]> =
+    this.store.select(rfq4ProcessFeature.selectProcessAttachments);
+
+  attachmentLoading$: Observable<boolean> = this.store.select(
+    rfq4ProcessFeature.selectProcessAttachmentsLoading
   );
 
   // ########################################################
@@ -118,5 +125,9 @@ export class Rfq4ProcessFacade {
 
   getProcessHistory(gqPositionId: string) {
     this.store.dispatch(Rfq4ProcessActions.getProcessHistory({ gqPositionId }));
+  }
+
+  downloadAttachment(attachment: RfqCalculatorAttachment) {
+    this.store.dispatch(Rfq4ProcessActions.downloadAttachment({ attachment }));
   }
 }
