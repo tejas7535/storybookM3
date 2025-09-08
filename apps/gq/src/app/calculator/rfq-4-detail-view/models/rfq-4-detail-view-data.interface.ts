@@ -50,6 +50,8 @@ export interface CalculatorRfq4ProcessData {
   assignedUserId: string;
   sqv: number;
   processProductionPlant: string;
+  confirmedByUserId?: string;
+  confirmedOn?: string;
 }
 
 export interface ProductionPlantData {
@@ -83,4 +85,6 @@ export interface RfqDetailViewCalculationData {
 export interface ConfirmRfqResponse {
   rfq4RecalculationData: RfqDetailViewCalculationData;
   calculatorRequestRecalculationStatus: RecalculateSqvStatus;
+  confirmedByUserId?: string;
+  confirmedOn?: string;
 }

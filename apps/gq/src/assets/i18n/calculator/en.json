@@ -27,6 +27,13 @@
       "rfqStartedBy": "Process Started By",
       "rfqStartedOn": "Process Started"
     },
+    "rfqInformation": {
+      "title": "RFQ Information",
+      "rfqTypeLabel": "RFQ Type",
+      "rfqTypeValue": "Type 4",
+      "rfqConfirmedOn": "Confirmed On",
+      "rfqConfirmedBy": "Confirmed By"
+    },
     "recalculation": {
       "title": "Recalculation",
       "mandatoryInputHint": "*Mandatory Input",

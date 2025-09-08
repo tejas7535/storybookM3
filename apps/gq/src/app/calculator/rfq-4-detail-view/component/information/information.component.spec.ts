@@ -16,6 +16,7 @@ import { Rfq4DetailViewStore } from '../../store/rfq-4-detail-view.store';
 import { HeaderInformationComponent } from './header-information/header-information.component';
 import { InformationComponent } from './information.component';
 import { PositionInformationComponent } from './position-information/position-information.component';
+import { RfqInformationComponent } from './rfq-information/rfq-information.component';
 
 describe('InformationComponent', () => {
   let component: InformationComponent;
@@ -24,7 +25,11 @@ describe('InformationComponent', () => {
   const createComponent = createComponentFactory({
     component: InformationComponent,
     imports: [
-      MockComponents(PositionInformationComponent, HeaderInformationComponent),
+      MockComponents(
+        PositionInformationComponent,
+        HeaderInformationComponent,
+        RfqInformationComponent
+      ),
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

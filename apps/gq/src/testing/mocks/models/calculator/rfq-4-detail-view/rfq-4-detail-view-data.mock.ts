@@ -59,6 +59,8 @@ export const CALCULATOR_RFQ_4_PROCESS_DATA_MOCK: CalculatorRfq4ProcessData = {
   assignedUserId: 'Test Assigned User',
   sqv: 10,
   processProductionPlant: '0072',
+  confirmedByUserId: 'anyUserId',
+  confirmedOn: '2025-01-01',
 };
 
 export const RFQ_DETAIL_VIEW_CALCULATION_DATA_MOCK: RfqDetailViewCalculationData =

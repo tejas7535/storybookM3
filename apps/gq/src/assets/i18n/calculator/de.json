@@ -27,6 +27,13 @@
       "rfqStartedBy": "Gestartet von",
       "rfqStartedOn": "Gestartet am"
     },
+    "rfqInformation": {
+      "title": "RFQ Informationen",
+      "rfqTypeLabel": "RFQ Typ",
+      "rfqTypeValue": "Typ 4",
+      "rfqConfirmedOn": "Bestätigt am",
+      "rfqConfirmedBy": "Bestätigt von"
+    },
     "recalculation": {
       "title": "Rekalkulation",
       "saveButton": "Speichern",

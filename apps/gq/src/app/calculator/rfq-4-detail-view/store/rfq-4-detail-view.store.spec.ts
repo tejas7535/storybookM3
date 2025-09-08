@@ -195,6 +195,17 @@ describe('Rfq4DetailViewStore', () => {
         CALCULATOR_RFQ_4_PROCESS_DATA_MOCK.assignedUserId
       );
     });
+    test('getConfirmedByUserId', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      patchState(unprotected(store), {
+        rfq4DetailViewData: RFQ_DETAIL_VIEW_DATA_MOCK,
+      });
+
+      const confirmedByUserId = store.getConfirmedByUserId();
+      expect(confirmedByUserId).toEqual(
+        CALCULATOR_RFQ_4_PROCESS_DATA_MOCK.confirmedByUserId
+      );
+    });
     test('getRecalculationStatus', () => {
       const store = TestBed.inject(Rfq4DetailViewStore);
       patchState(unprotected(store), {
@@ -364,7 +375,20 @@ describe('Rfq4DetailViewStore', () => {
       expect(store.processAssignedToAdUserLoading()).toBeFalsy();
       expect(store.processAssignedToAdUser()).toEqual(aadUser);
     });
+    test('loadRfqConfirmedByAdUser', () => {
+      const store = TestBed.inject(Rfq4DetailViewStore);
+      const userId = 'userId';
 
+      store.loadRfqConfirmedByAdUser({
+        userId,
+      });
+
+      expect(
+        microsoftGraphMapperService.getActiveDirectoryUserByUserId
+      ).toHaveBeenCalledWith(userId);
+      expect(store.processConfirmedByAdUserLoading()).toBeFalsy();
+      expect(store.processConfirmedByAdUser()).toEqual(aadUser);
+    });
     test('assignRfq', () => {
       const store = TestBed.inject(Rfq4DetailViewStore);
 

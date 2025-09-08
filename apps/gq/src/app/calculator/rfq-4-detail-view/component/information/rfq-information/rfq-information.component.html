@@ -1,0 +1,20 @@
+<ng-container
+  *transloco="let t; prefix: 'calculator.rfq4DetailView.rfqInformation'"
+>
+  @if (rfq4ProcessData() && rfq4ProcessData().confirmedOn) {
+    <gq-kpi-status-card [title]="t('title')">
+      <gq-label-text>
+        <span label>{{ t('rfqTypeLabel') }}</span>
+        <span text>{{ t('rfqTypeValue') }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('rfqConfirmedOn') }}</span>
+        <span text>{{ rfq4ProcessData().confirmedOn | translocoDate }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('rfqConfirmedBy') }}</span>
+        <span text>{{ processConfirmedByAdUser() | userDisplay: true }}</span>
+      </gq-label-text>
+    </gq-kpi-status-card>
+  }
+</ng-container>

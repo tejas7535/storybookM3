@@ -14,6 +14,11 @@ export const RFQ4_DETAIL_VIEW_ACTIONS = {
     '[RFQ4 Detail View] Load Started By AD User Success',
   LOAD_STARTED_BY_AD_USER_FAILURE:
     '[RFQ4 Detail View] Load Started By AD User Failure',
+  LOAD_CONFIRMED_BY_AD_USER: '[RFQ4 Detail View] Load Confirmed By AD User',
+  LOAD_CONFIRMED_BY_AD_USER_SUCCESS:
+    '[RFQ4 Detail View] Load Confirmed By AD User Success',
+  LOAD_CONFIRMED_BY_AD_USER_FAILURE:
+    '[RFQ4 Detail View] Load Confirmed By AD User Failure',
   LOAD_PRODUCTION_PLANTS: '[RFQ4 Detail View] Load Production Plants',
   LOAD_PRODUCTION_PLANTS_SUCCESS:
     '[RFQ4 Detail View] Load Production Plants Success',

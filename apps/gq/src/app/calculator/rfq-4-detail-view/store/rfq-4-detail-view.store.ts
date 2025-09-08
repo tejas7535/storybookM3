@@ -51,6 +51,8 @@ interface Rfq4DetailViewState {
   processStartedByAdUserLoading: boolean;
   processAssignedToAdUser: ActiveDirectoryUser;
   processAssignedToAdUserLoading: boolean;
+  processConfirmedByAdUser: ActiveDirectoryUser;
+  processConfirmedByAdUserLoading: boolean;
   productionPlantData: ProductionPlantData | null;
   rfq4RecalculationDataStatus: FormControlStatus;
   confirmRecalculationTriggered: boolean;
@@ -70,6 +72,8 @@ const initialState: Rfq4DetailViewState = {
   processStartedByAdUserLoading: false,
   processAssignedToAdUser: undefined,
   processAssignedToAdUserLoading: false,
+  processConfirmedByAdUser: undefined,
+  processConfirmedByAdUserLoading: false,
   productionPlantData: null,
   rfq4RecalculationDataStatus: null,
   confirmRecalculationTriggered: false,
@@ -113,6 +117,10 @@ export const Rfq4DetailViewStore = signalStore(
     ),
     getAssignedUserId: computed(
       (): string => store.rfq4DetailViewData()?.rfq4ProcessData.assignedUserId
+    ),
+    getConfirmedByUserId: computed(
+      (): string =>
+        store.rfq4DetailViewData()?.rfq4ProcessData.confirmedByUserId
     ),
     getProductStructureUrl: computed(
       (): string =>
@@ -242,6 +250,48 @@ export const Rfq4DetailViewStore = signalStore(
                       store,
                       RFQ4_DETAIL_VIEW_ACTIONS.LOAD_STARTED_BY_AD_USER_FAILURE,
                       { processStartedByAdUserLoading: false }
+                    ),
+                })
+              )
+          )
+        )
+      );
+
+      const loadRfqConfirmedByAdUser = rxMethod<{
+        userId: string;
+      }>(
+        pipe(
+          tap(() =>
+            updateState(
+              store,
+              RFQ4_DETAIL_VIEW_ACTIONS.LOAD_CONFIRMED_BY_AD_USER,
+              {
+                processConfirmedByAdUserLoading: true,
+              }
+            )
+          ),
+          switchMap((obj: { userId: string }) =>
+            msGraphMapperService
+              .getActiveDirectoryUserByUserId(obj.userId)
+              .pipe(
+                tapResponse({
+                  next: (user) => {
+                    updateState(
+                      store,
+                      RFQ4_DETAIL_VIEW_ACTIONS.LOAD_CONFIRMED_BY_AD_USER_SUCCESS,
+                      {
+                        processConfirmedByAdUser: user,
+                      },
+                      {
+                        processConfirmedByAdUserLoading: false,
+                      }
+                    );
+                  },
+                  error: () =>
+                    updateState(
+                      store,
+                      RFQ4_DETAIL_VIEW_ACTIONS.LOAD_CONFIRMED_BY_AD_USER_FAILURE,
+                      { processConfirmedByAdUserLoading: false }
                     ),
                 })
               )
@@ -463,6 +513,8 @@ export const Rfq4DetailViewStore = signalStore(
                               ...store.rfq4DetailViewData().rfq4ProcessData,
                               calculatorRequestRecalculationStatus:
                                 response.calculatorRequestRecalculationStatus,
+                              confirmedByUserId: response.confirmedByUserId,
+                              confirmedOn: response.confirmedOn,
                             },
                             rfq4RecalculationData:
                               response.rfq4RecalculationData,
@@ -829,6 +881,7 @@ export const Rfq4DetailViewStore = signalStore(
         loadRfq4DetailViewData,
         loadProcessAssignedToAdUser,
         loadProcessStartedByAdUser,
+        loadRfqConfirmedByAdUser,
         assignRfq,
         loadProductionPlants,
         saveRfq4DetailViewCalculationData,
@@ -885,6 +938,15 @@ export const Rfq4DetailViewStore = signalStore(
         if (assigneeId) {
           store.loadProcessAssignedToAdUser({
             userId: assigneeId,
+          });
+        }
+      });
+
+      effect(() => {
+        const confirmedByUserId = store.getConfirmedByUserId();
+        if (confirmedByUserId) {
+          store.loadRfqConfirmedByAdUser({
+            userId: confirmedByUserId,
           });
         }
       });
