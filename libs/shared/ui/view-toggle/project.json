@@ -33,6 +33,7 @@
       "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
+          "outputs": ["{workspaceRoot}/eslint/{projectRoot}"],
           "format": "json",
           "outputFile": "eslint/libs/shared/ui/view-toggle/eslint.json",
           "force": true

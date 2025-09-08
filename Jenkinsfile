@@ -343,6 +343,23 @@ boolean artifactoryFileCanBeRemoved(artifactoryFile) {
     return !artifactoryFile.folder && !artifactoryFile.uri.contains('release/') && !artifactoryFile.uri.contains('latest.zip') && !artifactoryFile.uri.contains('next.zip')
 }
 
+void cleanWorkspace(){
+    cache(caches: [
+            arbitraryFileCache(
+                path: ".nx",
+                cacheName: "nx",
+                includes: "**/*",
+                compressionMethod: 'TARGZ_BEST_SPEED'
+            )
+        ], skipRestore: true
+    ) {
+        echo "Save Nx Cache"
+    }
+
+    sh 'chmod -R 777 .' // set rights so that the cleanup job can do its work
+    cleanWs(deleteDirs: true, disableDeferredWipeout: true)
+}
+
 /****************************************************************/
 pipeline {
     agent {
@@ -350,13 +367,12 @@ pipeline {
             image 'artifactory.schaeffler.com/docker/adp/jenkinsbaseimage:2'
             label 'monorepo-docker'
             alwaysPull true
-            args '-u root:root -v cache:/tmp/.cache -v $PROJECT_NAME:/tmp/.project-cache  -v $PROJECT_NAME-angular:$WORKSPACE/.angular/cache -v /var/run/docker.sock:/var/run/docker.sock -e https_proxy -e http_proxy -e no_proxy'
+            args '-u root:root -v /var/run/docker.sock:/var/run/docker.sock -e https_proxy -e http_proxy -e no_proxy'
         }
     }
 
     environment {
         CYPRESS_CACHE_FOLDER = '/tmp/.cache/Cypress'
-        NX_CACHE_DIRECTORY = '/tmp/.project-cache/nx-cache'
         PNPM_HOME = '/tmp/.cache/pnpm'
         // Sometimes the cache is rejected. Can also be fixed by `npx nx reset` https://nx.dev/recipes/troubleshooting/unknown-local-cache#you-share-cache-with-another-machine-using-a-network-drive
         NX_REJECT_UNKNOWN_LOCAL_CACHE = 0
@@ -369,6 +385,16 @@ pipeline {
         timestamps()
         ansiColor('xterm')
         office365ConnectorWebhooks([[name: 'Jenkins', notifyAborted: true, notifyBackToNormal: true, notifyFailure: true, notifyNotBuilt: true, notifyRepeatedFailure: true, notifySuccess: true, notifyUnstable: true, url: 'https://worksite.webhook.office.com/webhookb2/a8039948-cbd2-4239-ba69-edbeefadeea2@67416604-6509-4014-9859-45e709f53d3f/IncomingWebhook/f20462c8f2bd4a4292cb28af1f2b08a9/4d574df3-1fa0-4252-86e6-784d5e165a8b']])
+        cache(
+            caches: [
+                arbitraryFileCache(
+                    path: ".nx",
+                    cacheName: "nx",
+                    includes: "**/*",
+                    compressionMethod: 'TAR'
+                )
+            ], skipSave: true
+        )
     }
 
     triggers {
@@ -473,8 +499,7 @@ pipeline {
             ]
         )
     }
-
-    stages {
+    stages {      
         stage('Preparation') {
             steps {
                 echo 'Preparation of some variables'
@@ -637,7 +662,17 @@ pipeline {
                 echo 'Run Sonar Scan'
                 script {
                     withCredentials([string(credentialsId: 'SONARQUBE_TOKEN', variable: 'SONAR_TOKEN')]) {
-                        sh "NX_SONAR_TOKEN=${SONAR_TOKEN} pnpm nx affected --base=${buildBase} --target sonar  --parallel=3"
+                        cache(caches: [
+                                arbitraryFileCache(
+                                    path: ".scannerwork",
+                                    cacheName: "sonarqube",
+                                    includes: "**/*",
+                                    compressionMethod: 'TAR'
+                                )
+                            ]
+                        ) {
+                            sh "NX_SONAR_TOKEN=${SONAR_TOKEN} pnpm nx affected --base=${buildBase} --target sonar  --parallel=3"
+                        }
                     }
                 }
             }
@@ -823,7 +858,7 @@ pipeline {
 
                     if (isAppRelease || isPreRelease || isHotfixRelease || isValidHotfixBranchRun()) {
                         sh "pnpm nx run ${env.RELEASE_SCOPE}:transloco-optimize"
-                    }
+                    }                    
                 }
             }
         }
@@ -1036,13 +1071,11 @@ pipeline {
                 }
             }
         }
-}
+    }
 
     post {
         always {
-            // perform general clean up
-            sh 'chmod -R 777 .' // set rights so that the cleanup job can do its work
-            cleanWs(deleteDirs: true, disableDeferredWipeout: true)
+            cleanWorkspace()
         }
     }
 }

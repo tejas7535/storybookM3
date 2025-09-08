@@ -24,6 +24,7 @@
       "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
+          "outputs": ["{workspaceRoot}/eslint/{projectRoot}"],
           "format": "checkstyle",
           "outputFile": "checkstyle/apps/mm-e2e/checkstyle.xml",
           "force": true

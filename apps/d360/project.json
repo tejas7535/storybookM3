@@ -132,6 +132,7 @@
       "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
+          "outputs": ["{workspaceRoot}/eslint/{projectRoot}"],
           "format": "json",
           "outputFile": "eslint/apps/d360/eslint.json",
           "force": true

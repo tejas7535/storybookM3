@@ -27,6 +27,7 @@
       "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
+          "outputs": ["{workspaceRoot}/eslint/{projectRoot}"],
           "format": "json",
           "outputFile": "eslint/libs/shared/ui/roles-and-rights/eslint.json",
           "force": true

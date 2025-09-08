@@ -9,6 +9,7 @@
       "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
+          "outputs": ["{workspaceRoot}/eslint/{projectRoot}"],
           "format": "json",
           "outputFile": "eslint/libs/shared/cypress-utils/eslint.json",
           "force": true
