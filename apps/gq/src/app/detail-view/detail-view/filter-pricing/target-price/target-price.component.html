@@ -9,11 +9,14 @@
   >
     <div content class="flex w-full flex-col flex-wrap sm:flex-row">
       <div class="min-w-[8rem] max-w-[25%] grow pt-2">
-        <div class="text-body-medium text-on-surface-variant mb-1">
+        <div
+          class="text-body-medium text-on-surface-variant mb-1"
+          data-cy="target-price-label"
+        >
           {{ t('priceLabel') }}:
         </div>
         <div class="flex-1">
-          <span class="font-bold">{{
+          <span class="font-bold" data-cy="target-price-value">{{
             quotationDetail?.targetPrice | numberCurrency: currency
           }}</span>
           @if (isQuotationActive$ | ngrxPush) {
@@ -26,33 +29,51 @@
         </div>
       </div>
       <div class="min-w-[8rem] pt-2">
-        <div class="text-body-medium text-on-surface-variant mb-1">
+        <div
+          class="text-body-medium text-on-surface-variant mb-1"
+          data-cy="gpi-label"
+        >
           {{ t('gpi') }}:
         </div>
         <div>
-          <span class="font-bold">{{ gpi | percentage: false }}</span>
+          <span class="font-bold" data-cy="gpi-value">{{
+            gpi | percentage: false
+          }}</span>
         </div>
       </div>
       <div class="min-w-[8rem] pt-2">
-        <div class="text-body-medium text-on-surface-variant mb-1">
+        <div
+          class="text-body-medium text-on-surface-variant mb-1"
+          data-cy="gpm-label"
+        >
           {{ t('gpm') }}:
         </div>
         <div>
-          <span class="font-bold">{{ gpm | percentage: false }}</span>
+          <span class="font-bold" data-cy="gpm-value">{{
+            gpm | percentage: false
+          }}</span>
         </div>
       </div>
       @if (gpmRfq) {
         <div class="min-w-[8rem] pt-2">
-          <div class="text-body-medium text-on-surface-variant mb-1">
+          <div
+            class="text-body-medium text-on-surface-variant mb-1"
+            data-cy="rfq-gpm-label"
+          >
             {{ t('gpmRfq) }}:
           </div>
           <div>
-            <span class="font-bold">{{ gpmRfq | percentage: false }}</span>
+            <span class="font-bold" data-cy="rfq-gpm-value">{{
+              gpmRfq | percentage: false
+            }}</span>
           </div>
         </div>
       }
       <div class="min-w-[8rem] pt-2">
-        <div class="text-body-medium text-on-surface-variant mb-1">
+        <div
+          class="text-body-medium text-on-surface-variant mb-1"
+          data-cy="quantity-label"
+        >
           {{ t('quantity') }}:
         </div>
         <gq-quantity-display
@@ -60,21 +81,27 @@
         ></gq-quantity-display>
       </div>
       <div class="min-w-[8rem] pt-2">
-        <div class="text-body-medium text-on-surface-variant mb-1">
+        <div
+          class="text-body-medium text-on-surface-variant mb-1"
+          data-cy="price-unit-label"
+        >
           {{ t('priceUnit') }}:
         </div>
         <div>
-          <span class="font-bold">{{
+          <span class="font-bold" data-cy="price-unit-value">{{
             quotationDetail?.leadingPriceUnit | number
           }}</span>
         </div>
       </div>
       <div class="min-w-[14rem] pt-2">
-        <div class="text-body-medium text-on-surface-variant mb-1">
+        <div
+          class="text-body-medium text-on-surface-variant mb-1"
+          data-cy="target-price-source-label"
+        >
           {{ t('targetPriceSource') }}:
         </div>
         <div class="flex-1">
-          <span class="font-bold">{{
+          <span class="font-bold" data-cy="target-price-source-value">{{
             quotationDetail?.targetPriceSource | targetPriceSource
           }}</span>
           @if (isQuotationActive$ | ngrxPush) {
