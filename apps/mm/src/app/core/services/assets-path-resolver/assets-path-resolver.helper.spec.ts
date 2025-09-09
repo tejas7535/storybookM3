@@ -1,6 +1,6 @@
 import { Capacitor } from '@capacitor/core';
 
-import { getAssetsPath } from './assets-path-resolver.helper';
+import { getMMAssetsPath } from './assets-path-resolver.helper';
 
 const isNativePlatformMock = jest.fn();
 Capacitor.isNativePlatform = isNativePlatformMock;
@@ -15,7 +15,7 @@ describe('Assets Path Resolver Helper', () => {
     });
 
     it('should return the correct path for a given asset', () => {
-      const assetPath = getAssetsPath();
+      const assetPath = getMMAssetsPath();
       expect(assetPath).toEqual('/assets');
     });
   });
@@ -31,7 +31,7 @@ describe('Assets Path Resolver Helper', () => {
       });
 
       it('should return the correct path for a given asset', () => {
-        const assetPath = getAssetsPath();
+        const assetPath = getMMAssetsPath();
         expect(assetPath).toEqual('capacitor://localhost/assets');
       });
     });
@@ -42,7 +42,7 @@ describe('Assets Path Resolver Helper', () => {
       });
 
       it('should return the correct path for a given asset', () => {
-        const assetPath = getAssetsPath();
+        const assetPath = getMMAssetsPath();
         expect(assetPath).toEqual('https://localhost/assets');
       });
     });

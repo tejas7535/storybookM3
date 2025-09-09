@@ -34,11 +34,11 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { environment } from '../../environments/environment';
 import { HttpLocaleInterceptor } from '../shared/interceptors/http-locale.interceptor';
 import { detectAppDelivery } from './helpers/settings-helpers';
-import { getAssetsPath } from './services/assets-path-resolver/assets-path-resolver.helper';
+import { getMMAssetsPath } from './services/assets-path-resolver/assets-path-resolver.helper';
 import { ConsentValues } from './services/tracking/one-trust.interface';
 import { OneTrustMobileService } from './services/tracking/one-trust-mobile.service';
 
-const assetsPath = getAssetsPath();
+const assetsPath = getMMAssetsPath();
 
 export class DynamicLocaleId extends String {
   public constructor(protected translocoService: TranslocoService) {

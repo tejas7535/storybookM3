@@ -1,14 +1,15 @@
 import { Capacitor } from '@capacitor/core';
 import { environment } from '@mm/environments/environment';
 
-export const getAssetsPath = () => {
-  if (Capacitor.isNativePlatform()) {
-    if (Capacitor.getPlatform() === 'ios') {
-      return 'capacitor://localhost/assets';
-    } else if (Capacitor.getPlatform() === 'android') {
-      return 'https://localhost/assets';
-    }
-  }
+import {
+  EMAPlatform,
+  getAssetsPath,
+} from '@schaeffler/engineering-apps-behaviors/utils';
 
-  return environment.assetsPath;
+export const getMMAssetsPath = () => {
+  const platform: EMAPlatform | undefined = Capacitor.isNativePlatform()
+    ? (Capacitor.getPlatform() as EMAPlatform)
+    : undefined;
+
+  return getAssetsPath(environment.assetsPath, platform);
 };

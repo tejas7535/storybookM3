@@ -8,7 +8,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslocoService } from '@jsverse/transloco';
-import { environment } from '@mm/environments/environment';
 import { PushPipe } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
@@ -29,6 +28,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SettingsComponent } from './core/components/settings/settings.component';
 import { CoreModule } from './core/core.module';
+import { getMMAssetsPath } from './core/services/assets-path-resolver/assets-path-resolver.helper';
 import { StoreModule } from './core/store/store.module';
 import { HomeComponent } from './home/home.component';
 import { responsiblePerson } from './shared/constants/legal-constants';
@@ -46,6 +46,8 @@ export function DynamicThirdPartyUsage(translocoService: TranslocoService) {
 }
 
 export const APP_ROOT = 'mounting-manager';
+
+const assetsPath = getMMAssetsPath();
 
 @NgModule({
   declarations: [AppComponent],
@@ -86,7 +88,7 @@ export const APP_ROOT = 'mounting-manager';
     },
     {
       provide: FONT_ASSET_PATH,
-      useValue: `${environment.assetsPath}/fonts`,
+      useValue: `${assetsPath}/fonts`,
     },
     {
       provide: DEFAULT_FONT,

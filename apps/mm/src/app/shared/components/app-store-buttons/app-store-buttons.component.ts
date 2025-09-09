@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
 
-import { getAssetsPath } from '@mm/core/services/assets-path-resolver/assets-path-resolver.helper';
+import { getMMAssetsPath } from '@mm/core/services/assets-path-resolver/assets-path-resolver.helper';
 
 @Component({
   selector: 'mm-app-store-buttons',
@@ -11,7 +11,7 @@ export class AppStoreButtonsComponent {
 
   public appStoreClick = output<string>();
 
-  public assetsPath = getAssetsPath();
+  public assetsPath = getMMAssetsPath();
 
   public onAppStoreClick(storeName: string): void {
     this.appStoreClick.emit(storeName);
