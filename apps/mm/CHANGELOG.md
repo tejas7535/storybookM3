@@ -1,4 +1,11 @@
 # Release Notes of Mounting Manager
+## [1.0.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v1.0.1...mm-v1.0.2) (2025-09-09)
+
+
+### Bug Fixes
+
+* **mm:** update assets path  ([#7569](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7569)) ([511a389](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/511a389ca5959f1b59bc54f309b4764ce0773075))
+
 ## [1.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v1.0.0...mm-v1.0.1) (2025-09-08)
 
 
