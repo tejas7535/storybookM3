@@ -12,7 +12,6 @@ import { ThresholdsRequiredForAlertType } from './alert-rule-edit-single-modal/a
 import {
   checkAlertRuleData,
   getSpecialParseFunctions,
-  keyFieldCheckAlertRule,
   mandatoryFieldCheckAlertRule,
   thresholdRequirementCheckAlertRule,
 } from './alert-rule-logic-helper';
@@ -234,41 +233,6 @@ describe('AlertRuleLogicHelper', () => {
     });
   });
 
-  describe('keyFieldCheckAlertRule', () => {
-    it('should return an error if all key fields are empty', () => {
-      const testRule: AlertRule = getTestRule({
-        salesArea: null,
-        salesOrg: null,
-        customerNumber: null,
-        sectorManagement: null,
-        demandPlannerId: null,
-        gkamNumber: null,
-      });
-
-      const errors = keyFieldCheckAlertRule(testRule);
-
-      expect(errors.length).toBe(1);
-      expect(errors[0].errorMessage).toContain(
-        'generic.validation.at_least_one_of'
-      );
-    });
-
-    it('should not return an error if at least one key field is filled', () => {
-      const testRule: AlertRule = getTestRule({
-        salesArea: 'DACH',
-        salesOrg: null,
-        customerNumber: null,
-        sectorManagement: null,
-        demandPlannerId: null,
-        gkamNumber: null,
-      });
-
-      const errors = keyFieldCheckAlertRule(testRule);
-
-      expect(errors.length).toBe(0);
-    });
-  });
-
   describe('thresholdRequirementCheckAlertRule', () => {
     it('should return an error if a required threshold is missing', () => {
       const testRule: AlertRule = getTestRule({
@@ -394,46 +358,25 @@ describe('AlertRuleLogicHelper', () => {
       const result = getSpecialParseFunctions({
         alertTypes: mockOptions,
         regionOptions: mockOptions,
-        salesAreaOptions: mockOptions,
-        salesOrgOptions: mockOptions,
-        sectorManagementOptions: mockOptions,
-        demandPlannerOptions: mockOptions,
-        gkamOptions: mockOptions,
-        productLineOptions: mockOptions,
         intervalOpts: mockOptions,
         whenOpts: mockOptions,
-        materialClassification: mockOptions,
       });
 
-      expect(result.size).toBe(13);
+      expect(result.size).toBe(6);
       expect(result.get('type')).toBeDefined();
       expect(result.get('region')).toBeDefined();
-      expect(result.get('salesArea')).toBeDefined();
-      expect(result.get('salesOrg')).toBeDefined();
-      expect(result.get('sectorManagement')).toBeDefined();
-      expect(result.get('demandPlannerId')).toBeDefined();
-      expect(result.get('gkamNumber')).toBeDefined();
-      expect(result.get('productLine')).toBeDefined();
       expect(result.get('execInterval')).toBeDefined();
       expect(result.get('execDay')).toBeDefined();
       expect(result.get('startDate')).toBeDefined();
       expect(result.get('endDate')).toBeDefined();
-      expect(result.get('materialClassification')).toBeDefined();
     });
 
     it('should parse selectable values correctly', () => {
       const result = getSpecialParseFunctions({
         alertTypes: mockOptions,
         regionOptions: mockOptions,
-        salesAreaOptions: mockOptions,
-        salesOrgOptions: mockOptions,
-        sectorManagementOptions: mockOptions,
-        demandPlannerOptions: mockOptions,
-        gkamOptions: mockOptions,
-        productLineOptions: mockOptions,
         intervalOpts: mockOptions,
         whenOpts: mockOptions,
-        materialClassification: mockOptions,
       });
 
       const parseFunction = result.get('type');
@@ -452,15 +395,8 @@ describe('AlertRuleLogicHelper', () => {
       const result = getSpecialParseFunctions({
         alertTypes: mockOptions,
         regionOptions: mockOptions,
-        salesAreaOptions: mockOptions,
-        salesOrgOptions: mockOptions,
-        sectorManagementOptions: mockOptions,
-        demandPlannerOptions: mockOptions,
-        gkamOptions: mockOptions,
-        productLineOptions: mockOptions,
         intervalOpts: mockOptions,
         whenOpts: mockOptions,
-        materialClassification: mockOptions,
       });
 
       let parseFunction = result.get('startDate');

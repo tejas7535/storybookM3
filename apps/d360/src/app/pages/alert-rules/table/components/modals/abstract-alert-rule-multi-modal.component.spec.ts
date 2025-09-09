@@ -165,16 +165,8 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
             },
             type: 'type1',
             region: 'region1',
-            salesArea: 'salesArea1',
-            salesOrg: 'salesOrg1',
             customerNumber: 'customerNumber1',
             materialNumber: 'materialNumber1',
-            materialClassification: 'materialClassification1',
-            sectorManagement: 'sectorManagement1',
-            demandPlannerId: 'demandPlannerId1',
-            productionLine: 'productionLine1',
-            productLine: 'productLine1',
-            gkamNumber: 'gkamNumber1',
           },
         ],
       } as any;
@@ -186,17 +178,8 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
           dataIdentifier: {
             type: 'type1',
             region: 'region1',
-            salesArea: 'salesArea1',
-            salesOrg: 'salesOrg1',
             customerNumber: 'customerNumber1',
             materialNumber: 'materialNumber1',
-            materialClassification: 'materialClassification1',
-            sectorManagement: 'sectorManagement1',
-            demandPlannerId: 'demandPlannerId1',
-            productionLine: 'productionLine1',
-            productLine: 'productLine1',
-            gkamNumber: 'gkamNumber1',
-            demandPlanner: 'demandPlannerId1',
           },
           errorMessage: 'sap_message.error',
         },
@@ -215,16 +198,8 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
             },
             type: 'type1',
             region: 'region1',
-            salesArea: 'salesArea1',
-            salesOrg: 'salesOrg1',
             customerNumber: 'customerNumber1',
             materialNumber: 'materialNumber1',
-            materialClassification: 'materialClassification1',
-            sectorManagement: 'sectorManagement1',
-            demandPlannerId: 'demandPlannerId1',
-            productionLine: 'productionLine1',
-            productLine: 'productLine1',
-            gkamNumber: 'gkamNumber1',
           },
           {
             result: {
@@ -233,16 +208,8 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
             },
             type: 'type2',
             region: 'region2',
-            salesArea: 'salesArea2',
-            salesOrg: 'salesOrg2',
             customerNumber: 'customerNumber2',
             materialNumber: 'materialNumber2',
-            materialClassification: 'materialClassification2',
-            sectorManagement: 'sectorManagement2',
-            demandPlannerId: 'demandPlannerId2',
-            productionLine: 'productionLine2',
-            productLine: 'productLine2',
-            gkamNumber: 'gkamNumber2',
           },
         ],
       } as any;
@@ -254,17 +221,8 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
           dataIdentifier: {
             type: 'type1',
             region: 'region1',
-            salesArea: 'salesArea1',
-            salesOrg: 'salesOrg1',
             customerNumber: 'customerNumber1',
             materialNumber: 'materialNumber1',
-            materialClassification: 'materialClassification1',
-            sectorManagement: 'sectorManagement1',
-            demandPlannerId: 'demandPlannerId1',
-            productionLine: 'productionLine1',
-            productLine: 'productLine1',
-            gkamNumber: 'gkamNumber1',
-            demandPlanner: 'demandPlannerId1',
           },
           errorMessage: 'sap_message.error',
         },
@@ -272,17 +230,8 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
           dataIdentifier: {
             type: 'type2',
             region: 'region2',
-            salesArea: 'salesArea2',
-            salesOrg: 'salesOrg2',
             customerNumber: 'customerNumber2',
             materialNumber: 'materialNumber2',
-            materialClassification: 'materialClassification2',
-            sectorManagement: 'sectorManagement2',
-            demandPlannerId: 'demandPlannerId2',
-            productionLine: 'productionLine2',
-            productLine: 'productLine2',
-            gkamNumber: 'gkamNumber2',
-            demandPlanner: 'demandPlannerId2',
           },
           errorMessage: 'sap_message.error',
         },
@@ -506,16 +455,9 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
     beforeEach(() => {
       options = {
         alertType: [{ text: 'Type1' }, { text: 'Type2' }],
-        demandPlanner: [{ text: 'Planner1' }, { text: 'Planner2' }],
         execDay: [{ text: 'Monday' }, { text: 'Tuesday' }],
-        gkam: [{ text: 'GKAM1' }, { text: 'GKAM2' }],
         interval: [{ text: 'Weekly' }, { text: 'Monthly' }],
-        productLine: [{ text: 'Line1' }, { text: 'Line2' }],
         region: [{ text: 'Region1' }, { text: 'Region2' }],
-        salesArea: [{ text: 'Area1' }, { text: 'Area2' }],
-        salesOrg: [{ text: 'Org1' }, { text: 'Org2' }],
-        sectorManagement: [{ text: 'Sector1' }, { text: 'Sector2' }],
-        materialClassification: [{ text: 'Class1' }, { text: 'Class2' }],
       };
     });
 
@@ -542,16 +484,9 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
 
       const columns = component['getMultiAlertRuleModalColumns']({
         alertType: mockOptions,
-        demandPlanner: [],
         execDay: [],
-        gkam: [],
         interval: [],
-        productLine: [],
         region: [],
-        salesArea: [],
-        salesOrg: [],
-        sectorManagement: [],
-        materialClassification: [],
       });
 
       const typeColumn = columns.find((col) => col.field === mockField);
@@ -633,17 +568,6 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
       expect(startDateColumn?.validationFn).toBe(
         ValidationHelper.validateDateFormatAndGreaterEqualThanToday
       );
-    });
-
-    it('should handle columns without selectable options correctly', () => {
-      const columns = component['getMultiAlertRuleModalColumns'](options);
-
-      const productionLineColumn = columns.find(
-        (col) => col.field === 'productionLine'
-      );
-      expect(productionLineColumn).toBeDefined();
-      expect(productionLineColumn?.editable).toBe(true);
-      expect(productionLineColumn?.cellRenderer).toBeUndefined();
     });
 
     describe('for AlertRuleEditMultiModalComponent (modalMode = "save")', () => {

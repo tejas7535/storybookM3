@@ -28,32 +28,11 @@ const mandatoryFieldsAlertRule: (keyof Partial<AlertRule>)[] = [
   'endDate',
 ] as const;
 
-const keyFieldsAlertRule: (keyof Partial<AlertRule>)[] = [
-  'salesArea',
-  'salesOrg',
-  'customerNumber',
-  'sectorManagement',
-  'demandPlannerId',
-  'gkamNumber',
-] as const;
-
-// Use functions to avoid calling the translation function while the languages are not ready
-// and to ensure no typos in the keys
-const keyFieldTranslations = [
-  () => translate('alert_rules.edit_modal.label.sales_area'),
-  () => translate('alert_rules.edit_modal.label.sales_org'),
-  () => translate('alert_rules.edit_modal.label.customer'),
-  () => translate('alert_rules.edit_modal.label.sector_management'),
-  () => translate('alert_rules.edit_modal.label.demandPlannerId'),
-  () => translate('alert_rules.edit_modal.label.gkamNumber'),
-];
-
 /**
  * Validates the provided alert rule data and returns a list of error messages if any issues are found.
  *
  * The function performs the following checks:
  * - Ensures mandatory fields are present in the alert rule.
- * - Validates key fields in the alert rule.
  * - Checks if the thresholds in the alert rule meet the requirements for the specified alert type.
  * - Verifies that the `execDay` value is valid for the given `execInterval`.
  *
@@ -71,10 +50,7 @@ export function checkAlertRuleData(
 ): ErrorMessage<AlertRule>[] {
   const errors: ErrorMessage<AlertRule>[] = [];
 
-  errors.push(
-    ...mandatoryFieldCheckAlertRule(alertRule),
-    ...keyFieldCheckAlertRule(alertRule)
-  );
+  errors.push(...mandatoryFieldCheckAlertRule(alertRule));
 
   const correctThresholdRequirement = thresholdRequirements.find(
     (thresholdRequirement) => thresholdRequirement.alertType === alertRule.type
@@ -126,29 +102,6 @@ export function mandatoryFieldCheckAlertRule(
   return errors;
 }
 
-export function keyFieldCheckAlertRule(
-  alertRule: AlertRule
-): ErrorMessage<AlertRule>[] {
-  const errors: ErrorMessage<AlertRule>[] = [];
-
-  const keyFieldContent = keyFieldsAlertRule.map(
-    (keyField) => alertRule[keyField]
-  );
-  if (keyFieldContent.every((keyfieldContentValue) => !keyfieldContentValue)) {
-    // Use an error without specificField to mark the whole row as error
-    errors.push({
-      dataIdentifier: alertRule,
-      errorMessage: translate('generic.validation.at_least_one_of', {
-        fieldlist: keyFieldTranslations
-          .map((transFunc) => transFunc())
-          .join(', '),
-      }),
-    });
-  }
-
-  return errors;
-}
-
 export function thresholdRequirementCheckAlertRule(
   threshold: 'threshold1' | 'threshold2' | 'threshold3',
   alertRule: AlertRule,
@@ -168,50 +121,26 @@ export function thresholdRequirementCheckAlertRule(
 export function getSpecialParseFunctions({
   alertTypes,
   regionOptions,
-  salesAreaOptions,
-  salesOrgOptions,
-  sectorManagementOptions,
-  demandPlannerOptions,
-  gkamOptions,
-  productLineOptions,
   intervalOpts,
   whenOpts,
-  materialClassification,
 }: {
   alertTypes: OptionsLoadingResult;
   regionOptions: OptionsLoadingResult;
-  salesAreaOptions: OptionsLoadingResult;
-  salesOrgOptions: OptionsLoadingResult;
-  sectorManagementOptions: OptionsLoadingResult;
-  demandPlannerOptions: OptionsLoadingResult;
-  gkamOptions: OptionsLoadingResult;
-  productLineOptions: OptionsLoadingResult;
   intervalOpts: OptionsLoadingResult;
   whenOpts: OptionsLoadingResult;
-  materialClassification: OptionsLoadingResult;
 }): Map<keyof AlertRule, (value: string) => string> {
   return new Map([
     ['type', parseSelectableValueIfPossible(alertTypes.options)],
     ['region', parseSelectableValueIfPossible(regionOptions.options)],
-    ['salesArea', parseSelectableValueIfPossible(salesAreaOptions.options)],
-    ['salesOrg', parseSelectableValueIfPossible(salesOrgOptions.options)],
-    [
-      'sectorManagement',
-      parseSelectableValueIfPossible(sectorManagementOptions.options),
-    ],
-    [
-      'demandPlannerId',
-      parseSelectableValueIfPossible(demandPlannerOptions.options),
-    ],
-    ['gkamNumber', parseSelectableValueIfPossible(gkamOptions.options)],
-    ['productLine', parseSelectableValueIfPossible(productLineOptions.options)],
     ['execInterval', parseSelectableValueIfPossible(intervalOpts.options)],
     ['execDay', parseSelectableValueIfPossible(whenOpts.options)],
     [
-      'materialClassification',
-      parseSelectableValueIfPossible(materialClassification.options),
+      'startDate',
+      (value: string) => (value?.trim() ? parseDateIfPossible(value) : value),
     ],
-    ['startDate', (value: string) => parseDateIfPossible(value)],
-    ['endDate', (value: string) => parseDateIfPossible(value)],
+    [
+      'endDate',
+      (value: string) => (value?.trim() ? parseDateIfPossible(value) : value),
+    ],
   ]);
 }

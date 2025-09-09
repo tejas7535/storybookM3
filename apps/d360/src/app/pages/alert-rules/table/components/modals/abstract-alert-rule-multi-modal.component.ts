@@ -112,14 +112,6 @@ export abstract class AbstractAlertRuleMultiModalComponent
       interval: this.optionsService.get('interval').options,
       execDay: this.optionsService.get('execDay').options,
       region: this.optionsService.get('region').options,
-      demandPlanner: this.optionsService.get('demandPlanners').options,
-      sectorManagement: this.optionsService.get('sectorMgmt').options,
-      salesOrg: this.optionsService.get('salesOrg').options,
-      salesArea: this.optionsService.get('salesArea').options,
-      productLine: this.optionsService.get('productLine').options,
-      gkam: this.optionsService.get('gkam').options,
-      materialClassification: this.optionsService.get('materialClassification')
-        .options,
     });
   }
 
@@ -163,17 +155,8 @@ export abstract class AbstractAlertRuleMultiModalComponent
             // Ignore ID here because it will be changed for new Alert Rules
             type: response.type,
             region: response.region,
-            salesArea: response.salesArea,
-            salesOrg: response.salesOrg,
             customerNumber: response.customerNumber,
             materialNumber: response.materialNumber,
-            materialClassification: response.materialClassification,
-            sectorManagement: response.sectorManagement,
-            demandPlannerId: response.demandPlannerId,
-            productionLine: response.productionLine,
-            productLine: response.productLine,
-            gkamNumber: response.gkamNumber,
-            demandPlanner: response.demandPlannerId,
           },
           errorMessage: errorsFromSAPtoMessage(response.result),
         });
@@ -243,15 +226,8 @@ export abstract class AbstractAlertRuleMultiModalComponent
   > = getSpecialParseFunctions({
     alertTypes: this.optionsService.get('alertTypesForRuleEditor'),
     regionOptions: this.optionsService.get('region'),
-    salesAreaOptions: this.optionsService.get('salesArea'),
-    salesOrgOptions: this.optionsService.get('salesOrg'),
-    sectorManagementOptions: this.optionsService.get('sectorMgmt'),
-    demandPlannerOptions: this.optionsService.get('demandPlanners'),
-    gkamOptions: this.optionsService.get('gkam'),
-    productLineOptions: this.optionsService.get('productLine'),
     intervalOpts: this.optionsService.get('interval'),
     whenOpts: this.optionsService.get('execDay'),
-    materialClassification: this.optionsService.get('materialClassification'),
   });
 
   /**
@@ -259,32 +235,18 @@ export abstract class AbstractAlertRuleMultiModalComponent
    *
    * @param {{
    *     alertType: SelectableValue[];
-   *     demandPlanner: SelectableValue[];
    *     execDay: SelectableValue[];
-   *     gkam: SelectableValue[];
    *     interval: SelectableValue[];
-   *     productLine: SelectableValue[];
    *     region: SelectableValue[];
-   *     salesArea: SelectableValue[];
-   *     salesOrg: SelectableValue[];
-   *     sectorManagement: SelectableValue[];
-   *     materialClassification: SelectableValue[];
    *   }} options
    * @return {ColumnForUploadTable<AlertRule>[]}
    * @memberof AbstractAlertRuleMultiModalComponent
    */
   protected getMultiAlertRuleModalColumns(options: {
     alertType: SelectableValue[];
-    demandPlanner: SelectableValue[];
     execDay: SelectableValue[];
-    gkam: SelectableValue[];
     interval: SelectableValue[];
-    productLine: SelectableValue[];
     region: SelectableValue[];
-    salesArea: SelectableValue[];
-    salesOrg: SelectableValue[];
-    sectorManagement: SelectableValue[];
-    materialClassification: SelectableValue[];
   }): ColumnForUploadTable<AlertRule>[] {
     const getColDef = ({
       headerName,
@@ -330,31 +292,6 @@ export abstract class AbstractAlertRuleMultiModalComponent
         headerName: 'region',
         options: options.region,
       }),
-      getColDef({
-        field: 'salesArea',
-        headerName: 'sales_area',
-        options: options.salesArea,
-      }),
-      getColDef({
-        field: 'salesOrg',
-        headerName: 'sales_org',
-        options: options.salesOrg,
-      }),
-      getColDef({
-        field: 'sectorManagement',
-        headerName: 'sector_management',
-        options: options.sectorManagement,
-      }),
-      getColDef({
-        field: 'demandPlannerId',
-        headerName: 'demandPlannerId',
-        options: options.demandPlanner,
-      }),
-      getColDef({
-        field: 'gkamNumber',
-        headerName: 'gkamNumber',
-        options: options.gkam,
-      }),
       {
         field: 'customerNumber',
         headerName: translate('alert_rules.multi_modal.customer'),
@@ -362,21 +299,6 @@ export abstract class AbstractAlertRuleMultiModalComponent
         validationFn: ValidationHelper.condenseErrorsFromValidation(
           validateCustomerNumber
         ),
-      },
-      getColDef({
-        field: 'materialClassification',
-        headerName: 'materialClassification',
-        options: options.materialClassification,
-      }),
-      getColDef({
-        field: 'productLine',
-        headerName: 'product_line',
-        options: options.productLine,
-      }),
-      {
-        field: 'productionLine',
-        headerName: translate('alert_rules.edit_modal.label.production_line'),
-        editable: true,
       },
       {
         field: 'materialNumber',
