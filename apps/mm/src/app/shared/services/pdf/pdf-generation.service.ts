@@ -5,10 +5,10 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { switchMap } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
-import { ConditionalPageBreak } from '@mm/shared/components/pdf/conditional-page-break/conditional-page-break';
 
 import {
   Colors,
+  ConditionalPageBreak,
   ControlCommands,
   DisclaimerFooter,
   FontConfig,

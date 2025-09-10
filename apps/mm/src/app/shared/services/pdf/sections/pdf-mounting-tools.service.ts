@@ -1,10 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 
 import { TranslocoService } from '@jsverse/transloco';
-import { ConditionalPageBreak } from '@mm/shared/components/pdf/conditional-page-break/conditional-page-break';
 
 import {
   Component,
+  ConditionalPageBreak,
   PdfComponentFactory,
   PdfLayoutService,
 } from '@schaeffler/pdf-generator';
