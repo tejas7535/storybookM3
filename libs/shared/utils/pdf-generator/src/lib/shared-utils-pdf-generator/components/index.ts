@@ -1,5 +1,6 @@
 export * from './building-blocks';
 export * from './chip';
+export * from './conditional-page-break/conditional-page-break';
 export * from './disclaimer-footer.component';
 export * from './heading.component';
 export * from './label-grid';
