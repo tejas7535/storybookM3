@@ -6,7 +6,7 @@
       "confirmButton": "Bestätigen"
     },
     "positionInformation": {
-      "title": "Positions Informationen",
+      "title": "Positionsinformationen",
       "materialDescription": "Materialbeschreibung",
       "quantity": "Menge",
       "deliveryUnit": "Liefereinheit",
@@ -19,7 +19,7 @@
       "link": "Produktstrukturplan"
     },
     "headerInformation": {
-      "title": "Kopf Informationen",
+      "title": "Kopfinformationen",
       "quotationToDate": "Angebot bis",
       "customerDeliveryDate": "Wunschlieferdatum",
       "currency": "Währung",
@@ -65,12 +65,12 @@
           "hint": "Einsehbar für alle Nutzer"
         },
         "calculatorDetails": {
-          "label": "Kalkulations Details",
-          "hint": "Einsehbar für Nutzer mit Kosten sicht"
+          "label": "Kalkulationsdetails",
+          "hint": "Einsehbar für Nutzer mit Kostensicht"
         },
         "deliveryTime": {
           "label": "Lieferzeit",
-          "hint": "Lieferzeit nach Auftrag eingang AE",
+          "hint": "Lieferzeit nach Auftragseingang AE",
           "select": {
             "MONTHS": "Monate",
             "WEEKS": "Wochen"

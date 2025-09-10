@@ -76,12 +76,12 @@
       "deleted": "{variable, plural, =1 {Möchten Sie wirklich folgenden Case unwiderruflich löschen ({{variable}})?} other {Möchten Sie wirklich folgende Cases unwiderruflich löschen ({{variable}})?}}"
     },
     "confirmButton": {
-      "archived": "löschen",
-      "deleted": "löschen"
+      "archived": "Löschen",
+      "deleted": "Löschen"
     },
     "cancelButton": {
-      "archived": "abbrechen",
-      "deleted": "abbrechen"
+      "archived": "Abbrechen",
+      "deleted": "Abbrechen"
     }
   },
   "snackBarMessages": {
