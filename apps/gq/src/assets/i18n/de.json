@@ -736,10 +736,11 @@
     },
     "sqvCheckSource": {
       "RELOCATION": "Zukünftige Kosten",
-      "RFQ_SQV": "Rfq",
+      "RFQ_SQV": "RfQ",
       "SQV_SAP": "SAP",
-      "OPEN_RFQ": "Rfq",
-      "ACVA": "ACVA"
+      "OPEN_RFQ": "Ausstehender RfQ",
+      "ACVA": "ACVA",
+      "RFQ_GQ": "RfQ GQ"
     }
   },
   "legal": {

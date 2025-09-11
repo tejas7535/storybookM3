@@ -87,6 +87,7 @@
         "2": "Typ 2",
         "3": "Typ 3",
         "4": "Typ 4",
+        "SAP": "SAP",
         "title": "RFQ Typ"
       },
       "rfqStatus": {
