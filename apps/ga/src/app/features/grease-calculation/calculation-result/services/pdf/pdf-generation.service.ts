@@ -7,6 +7,7 @@ import { TranslocoService } from '@jsverse/transloco';
 
 import {
   Colors,
+  ConditionalPageBreak,
   ControlCommands,
   DisclaimerFooter,
   FontConfig,
@@ -91,8 +92,8 @@ export class PdfGenerationService {
       .setPageMargin({ left: 7, right: 7, top: 6, bottom: 10 })
       .setDebug(false)
       .addFooter(this.getPdfFooter(report.legalNote))
-      .addHeader(this.getPdfHeader(reportTitle))
-      .setComponentSpacing(3)
+      .addHeader(this.getPdfHeader(reportTitle, report.sectionSubTitle))
+      .setComponentSpacing(1.5)
       .addComponent(...this.pdfInputsService.getInputsSection(report))
       .addComponent(ControlCommands.PageBreak);
 
@@ -100,9 +101,9 @@ export class PdfGenerationService {
       this.pdfResultsService.generateResultsSection(resultData);
     resultComponents.forEach((component) => {
       doc.addComponent(component);
-      doc.addComponent(ControlCommands.PageBreak);
+      doc.addComponent(new ConditionalPageBreak(20));
     });
-
+    doc.addComponent(ControlCommands.PageBreak);
     doc
       .addComponent(...this.pdfMessagesService.getMessagesSection(report))
       .addComponent(
@@ -125,7 +126,7 @@ export class PdfGenerationService {
   }
 
   private getReportTitle(reportTitle: string): string {
-    return `Grease App ${reportTitle[0].toLowerCase()}${reportTitle.slice(1)}`;
+    return `Grease App ${reportTitle}`;
   }
 
   private getFileName(reportTitle: string, date: string): string {
@@ -137,10 +138,14 @@ export class PdfGenerationService {
     return `${partnerPrefix}${reportTitle} - ${date}.pdf`;
   }
 
-  private getPdfHeader(reportTitle: string): PDFHeader {
+  private getPdfHeader(
+    reportTitle: string,
+    hint24hOperation: string
+  ): PDFHeader {
     return new PDFHeader({
       reportTitle,
       heading: reportTitle,
+      headingDescription: hint24hOperation,
       date: {
         dateLocale: this.translocoService.getActiveLang(),
       },

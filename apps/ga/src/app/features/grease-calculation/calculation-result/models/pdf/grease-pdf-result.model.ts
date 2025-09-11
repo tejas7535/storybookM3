@@ -30,6 +30,7 @@ export const enum BadgeStyle {
   Warning = 'warning',
   Recommended = 'recommended',
   Miscible = 'miscible',
+  Preferred = 'preferred',
 }
 
 export interface PDFGreaseResultSectionItem {
@@ -63,7 +64,10 @@ export interface PDFGreaseReportResult {
   mainTitle: string;
   subTitle: string;
   qrCode: string;
+  greaseLink: string;
   recommended?: string;
   miscible?: string;
+  preferred?: string;
   partnerVersionInfo?: PDFPartnerVersionHeaderInfo;
+  image?: string;
 }

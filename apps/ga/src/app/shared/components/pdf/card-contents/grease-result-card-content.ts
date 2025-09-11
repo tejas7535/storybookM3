@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {
   CardContent,
   Colors,
@@ -21,6 +22,7 @@ import {
   BadgeBlock,
   HorizontalDivider,
   ImageBlock,
+  LinkBlock,
   PaddedRow,
   QrCodeBlock,
 } from '../building-blocks';
@@ -69,7 +71,8 @@ export class GreaseResultCardContent extends CardContent {
 
       // Add divider before each section (except the first one)
       if (i > 0) {
-        sections.push(this.createDividerRow());
+        const marginVertical = i === 1 ? 0.7 : 0;
+        sections.push(this.createDividerRow(marginVertical));
       }
 
       const sectionComponent = this.getSectionComponent(section);
@@ -80,7 +83,7 @@ export class GreaseResultCardContent extends CardContent {
       [headerSection, ...sections],
       0,
       SPACING.TIGHT,
-      SPACING.TIGHT
+      1.6 // minimum spacing to avoid overlapping with card rounded corners
     );
   }
 
@@ -174,7 +177,7 @@ export class GreaseResultCardContent extends CardContent {
     return new TwoColumnLayout(
       leftColumn,
       rightColumn,
-      0.5,
+      0.6,
       0,
       false,
       Colors.Outline
@@ -210,7 +213,7 @@ export class GreaseResultCardContent extends CardContent {
 
     const titleRow = this.createSectionTitleRow(sectionTitle);
 
-    return new ColumnLayout([...sections, titleRow], SPACING.TIGHT);
+    return new ColumnLayout([titleRow, ...sections], SPACING.TIGHT);
   }
 
   private getHeaderSection(): Component {
@@ -228,7 +231,7 @@ export class GreaseResultCardContent extends CardContent {
 
     const leftComponents: Component[] = [];
 
-    const { recommended, miscible } = this.greaseData || {};
+    const { recommended, miscible, preferred } = this.greaseData || {};
     if (recommended) {
       leftComponents.push(
         this.createBadge(recommended, BadgeStyle.Recommended)
@@ -239,10 +242,17 @@ export class GreaseResultCardContent extends CardContent {
       leftComponents.push(this.createBadge(miscible, BadgeStyle.Miscible));
     }
 
-    const titleText = new TextBlock(
+    if (preferred) {
+      leftComponents.push(this.createBadge(preferred, BadgeStyle.Preferred));
+    }
+
+    const titleText = new LinkBlock(
       this.greaseData.mainTitle,
-      titleFontOptions
+      this.greaseData.greaseLink,
+      titleFontOptions,
+      Colors.Primary
     );
+
     leftComponents.push(titleText);
 
     const subtitleText = new TextBlock(
@@ -256,11 +266,27 @@ export class GreaseResultCardContent extends CardContent {
 
     const qrCode = new QrCodeBlock(this.greaseData.qrCode, 18, -0.5);
 
-    const qrCodeColumn = new ColumnLayout([qrCode], 0);
+    let qrCodeRow;
+    if (this.greaseData.image) {
+      const greaseImage = new ImageBlock(this.greaseData.image, 40, 0, {
+        leftPadding: -12,
+        topPadding: -3,
+      });
+
+      qrCodeRow = new RowLayout([greaseImage, qrCode], 0, Colors.Surface);
+    } else {
+      const imageSpacePlaceholder = new TextBlock(' ', titleFontOptions);
+
+      qrCodeRow = new RowLayout(
+        [imageSpacePlaceholder, qrCode],
+        0,
+        Colors.Surface
+      );
+    }
 
     const titleSection = new TwoColumnLayout(
       leftColumn,
-      qrCodeColumn,
+      qrCodeRow,
       0.5,
       10,
       false,
@@ -316,11 +342,11 @@ export class GreaseResultCardContent extends CardContent {
   private createSectionTitleRow(component: Component): PaddedRow {
     const padding = {
       vertical: 0,
-      horizontal: SPACING.TIGHT,
+      horizontal: 1.5,
     };
     const color = Colors.Surface;
 
-    return this.createNegativeMarginRow(component, color, padding, -1);
+    return this.createNegativeMarginRow(component, color, padding, -1.5);
   }
 
   private createEvenSectionRow(component: Component): PaddedRow {
@@ -343,13 +369,19 @@ export class GreaseResultCardContent extends CardContent {
     return this.createNegativeMarginRow(component, color, padding);
   }
 
-  private createDividerRow(): PaddedRow {
+  private createDividerRow(marginVertical?: number): PaddedRow {
     const divider = new HorizontalDivider();
 
-    return this.createNegativeMarginRow(divider, Colors.Surface, {
-      vertical: 0.7,
-      horizontal: 0,
-    });
+    return this.createNegativeMarginRow(
+      divider,
+      Colors.Surface,
+      {
+        vertical: 0.7,
+        horizontal: 0,
+      },
+      0,
+      marginVertical
+    );
   }
 
   private createNegativeMarginRow(
@@ -359,15 +391,16 @@ export class GreaseResultCardContent extends CardContent {
       vertical: number;
       horizontal: number;
     },
-    marginHorizontal?: number
+    marginHorizontal?: number,
+    marginVertical?: number
   ): PaddedRow {
-    const negativeMarginForCardRoundedCorners = -1.75;
+    const negativeMarginForCardRoundedCorners = -1.7;
 
     return new PaddedRow(cmp, color, {
       paddingVertical: padding?.vertical,
       paddingHorizontal: padding?.horizontal,
       marginHorizontal: marginHorizontal || negativeMarginForCardRoundedCorners,
-      marginVertical: 0,
+      marginVertical: marginVertical || 0,
     });
   }
 }

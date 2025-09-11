@@ -90,9 +90,15 @@ export class BadgeBlock extends Component {
         };
       case BadgeStyle.Miscible:
         return {
-          borderColor: Colors.Surface,
+          borderColor: Colors.Category2,
           fillColor: Colors.Category2Container,
           textColor: Colors.OnCategory2Container,
+        };
+      case BadgeStyle.Preferred:
+        return {
+          borderColor: Colors.Neutral,
+          fillColor: Colors.NeutralContainer,
+          textColor: Colors.OnNeutralContainer,
         };
       default:
         return {

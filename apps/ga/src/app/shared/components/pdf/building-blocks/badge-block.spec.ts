@@ -249,7 +249,7 @@ describe('BadgeBlock', () => {
       expect(ChipComponent).toHaveBeenCalledWith({
         chipText: 'Miscible Badge',
         chipStyle: {
-          borderColor: Colors.Surface,
+          borderColor: Colors.Category2,
           fillColor: Colors.Category2Container,
           textColor: Colors.OnCategory2Container,
         },
@@ -382,9 +382,26 @@ describe('BadgeBlock', () => {
       const style = badgeBlock['getBadgeStyle']();
 
       expect(style).toEqual({
-        borderColor: Colors.Surface,
+        borderColor: Colors.Category2,
         fillColor: Colors.Category2Container,
         textColor: Colors.OnCategory2Container,
+      });
+    });
+
+    it('should return neutral colors for preferred style', () => {
+      const config = {
+        text: 'Test Badge',
+        style: BadgeStyle.Preferred,
+      };
+
+      badgeBlock = new BadgeBlock(config);
+
+      const style = badgeBlock['getBadgeStyle']();
+
+      expect(style).toEqual({
+        borderColor: Colors.Neutral,
+        fillColor: Colors.NeutralContainer,
+        textColor: Colors.OnNeutralContainer,
       });
     });
 

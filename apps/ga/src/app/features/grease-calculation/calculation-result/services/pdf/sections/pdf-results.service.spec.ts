@@ -1,3 +1,4 @@
+import { TranslocoService } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import {
@@ -6,6 +7,7 @@ import {
   PdfCardComponent,
   PdfComponentFactory,
   PdfLayoutService,
+  SectionHeading,
   TwoColumnPageLayout,
 } from '@schaeffler/pdf-generator';
 
@@ -21,29 +23,42 @@ describe('PdfResultsService', () => {
   let service: PdfResultsService;
   let mockLayoutService: jest.Mocked<PdfLayoutService>;
   let mockComponentFactory: jest.Mocked<PdfComponentFactory>;
+  let mockTranslocoService: jest.Mocked<TranslocoService>;
+
+  // Test data factories
+  const createMockResult = (
+    overrides: Partial<PDFGreaseReportResult> = {}
+  ): PDFGreaseReportResult => ({
+    sections: [],
+    isSufficient: true,
+    mainTitle: 'Test',
+    subTitle: 'Test',
+    qrCode: 'test',
+    greaseLink: 'test',
+    ...overrides,
+  });
 
   const mockResults: PDFGreaseReportResult[] = [
-    {
-      sections: [],
-      isSufficient: true,
+    createMockResult({
       mainTitle: 'Test Grease 1',
       subTitle: 'Test Subtitle 1',
       qrCode: 'test-qr-code-1',
+      greaseLink: 'test-grease-link-1',
       recommended: 'Yes',
       miscible: 'No',
-    },
-    {
-      sections: [],
+    }),
+    createMockResult({
       isSufficient: false,
       mainTitle: 'Test Grease 2',
       subTitle: 'Test Subtitle 2',
       qrCode: 'test-qr-code-2',
-    },
+      greaseLink: 'test-grease-link-2',
+    }),
   ];
 
   const createService = createServiceFactory({
     service: PdfResultsService,
-    mocks: [PdfLayoutService, PdfComponentFactory],
+    mocks: [PdfLayoutService, PdfComponentFactory, TranslocoService],
   });
 
   beforeEach(() => {
@@ -55,6 +70,12 @@ describe('PdfResultsService', () => {
     mockComponentFactory = spectator.inject(
       PdfComponentFactory
     ) as jest.Mocked<PdfComponentFactory>;
+    mockTranslocoService = spectator.inject(
+      TranslocoService
+    ) as jest.Mocked<TranslocoService>;
+
+    // Setup default mock implementations
+    mockTranslocoService.translate.mockImplementation((key: any) => key);
 
     // Reset the mock
     (
@@ -69,10 +90,13 @@ describe('PdfResultsService', () => {
   });
 
   describe('generateResultsSection', () => {
-    it('should generate result sections with cards and layouts', () => {
+    it('should generate result sections with cards, layouts and subheading', () => {
       const mockCardContent = {} as GreaseResultCardContent;
       const mockCard = {} as PdfCardComponent;
-      const mockLayouts = [] as TwoColumnPageLayout[];
+      const mockLayouts = [
+        {} as TwoColumnPageLayout,
+        {} as TwoColumnPageLayout,
+      ];
 
       (
         GreaseResultCardContent as jest.MockedClass<
@@ -118,7 +142,11 @@ describe('PdfResultsService', () => {
         mockCard,
         mockCard,
       ]);
-      expect(result).toBe(mockLayouts);
+
+      expect(result).toHaveLength(3); // heading + 2 layouts
+      expect(result[0]).toBeInstanceOf(SectionHeading);
+      expect(result[1]).toBe(mockLayouts[0]);
+      expect(result[2]).toBe(mockLayouts[1]);
     });
 
     it('should handle empty results array', () => {
@@ -133,14 +161,15 @@ describe('PdfResultsService', () => {
         mockComponentFactory.createSingleComponentCard
       ).not.toHaveBeenCalled();
       expect(mockLayoutService.createTwoColumnLayouts).toHaveBeenCalledWith([]);
-      expect(result).toBe(mockLayouts);
+      expect(result).toHaveLength(1); // only heading, no layouts
+      expect(result[0]).toBeInstanceOf(SectionHeading);
     });
 
     it('should handle single result', () => {
       const singleResult = [mockResults[0]];
       const mockCardContent = {} as GreaseResultCardContent;
       const mockCard = {} as PdfCardComponent;
-      const mockLayouts = [] as TwoColumnPageLayout[];
+      const mockLayouts = [{} as TwoColumnPageLayout];
 
       (
         GreaseResultCardContent as jest.MockedClass<
@@ -159,7 +188,124 @@ describe('PdfResultsService', () => {
       expect(mockLayoutService.createTwoColumnLayouts).toHaveBeenCalledWith([
         mockCard,
       ]);
-      expect(result).toBe(mockLayouts);
+      expect(result).toHaveLength(2); // heading + 1 layout
+      expect(result[0]).toBeInstanceOf(SectionHeading);
+      expect(result[1]).toBe(mockLayouts[0]);
+    });
+  });
+
+  describe('getSubheadingText', () => {
+    it('should return resultsWithRecommendation when results have recommended values', () => {
+      const resultsWithRecommended = [createMockResult({ recommended: 'Yes' })];
+
+      const result = (service as any).getSubheadingText(resultsWithRecommended);
+
+      expect(mockTranslocoService.translate).toHaveBeenCalledWith(
+        'calculationResult.resultsWithRecommendation'
+      );
+      expect(result).toBe('calculationResult.resultsWithRecommendation');
+    });
+
+    it('should return resultsWithPreferred when results have miscible values but no recommended', () => {
+      const resultsWithMiscible = [createMockResult({ miscible: 'Yes' })];
+
+      const result = (service as any).getSubheadingText(resultsWithMiscible);
+
+      expect(mockTranslocoService.translate).toHaveBeenCalledWith(
+        'calculationResult.resultsWithPreferred'
+      );
+      expect(result).toBe('calculationResult.resultsWithPreferred');
+    });
+
+    it('should return resultsWithPreferred when results have preferred values but no recommended', () => {
+      const resultsWithPreferred = [createMockResult({ preferred: 'Yes' })];
+
+      const result = (service as any).getSubheadingText(resultsWithPreferred);
+
+      expect(mockTranslocoService.translate).toHaveBeenCalledWith(
+        'calculationResult.resultsWithPreferred'
+      );
+      expect(result).toBe('calculationResult.resultsWithPreferred');
+    });
+
+    it('should return resultsDefault when results have no recommended, miscible, or preferred values', () => {
+      const resultsDefault = [createMockResult()];
+
+      const result = (service as any).getSubheadingText(resultsDefault);
+
+      expect(mockTranslocoService.translate).toHaveBeenCalledWith(
+        'calculationResult.resultsDefault'
+      );
+      expect(result).toBe('calculationResult.resultsDefault');
+    });
+
+    it('should prioritize recommended over miscible and preferred', () => {
+      const resultsWithAll = [
+        createMockResult({
+          recommended: 'Yes',
+          miscible: 'Yes',
+          preferred: 'Yes',
+        }),
+      ];
+
+      const result = (service as any).getSubheadingText(resultsWithAll);
+
+      expect(mockTranslocoService.translate).toHaveBeenCalledWith(
+        'calculationResult.resultsWithRecommendation'
+      );
+      expect(result).toBe('calculationResult.resultsWithRecommendation');
+    });
+  });
+
+  describe('hasRecommendedValue', () => {
+    it('should return true when at least one result has recommended value', () => {
+      const resultsWithRecommended = [
+        createMockResult(),
+        createMockResult({ recommended: 'Yes' }),
+      ];
+
+      const result = (service as any).hasRecommendedValue(
+        resultsWithRecommended
+      );
+      expect(result).toBe(true);
+    });
+
+    it('should return false when no results have recommended value', () => {
+      const resultsWithoutRecommended = [createMockResult()];
+
+      const result = (service as any).hasRecommendedValue(
+        resultsWithoutRecommended
+      );
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('hasMiscibleOrPreferredValue', () => {
+    it('should return true when at least one result has miscible value', () => {
+      const resultsWithMiscible = [createMockResult({ miscible: 'Yes' })];
+
+      const result = (service as any).hasMiscibleOrPreferredValue(
+        resultsWithMiscible
+      );
+      expect(result).toBe(true);
+    });
+
+    it('should return true when at least one result has preferred value', () => {
+      const resultsWithPreferred = [createMockResult({ preferred: 'Yes' })];
+
+      const result = (service as any).hasMiscibleOrPreferredValue(
+        resultsWithPreferred
+      );
+      expect(result).toBe(true);
+    });
+
+    it('should return false when no results have miscible or preferred values', () => {
+      const resultsWithoutMiscibleOrPreferred = [createMockResult()];
+
+      const result = (service as any).hasMiscibleOrPreferredValue(
+        resultsWithoutMiscibleOrPreferred
+      );
+      expect(result).toBe(false);
     });
   });
 

@@ -1,8 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-import { of } from 'rxjs';
-
 import { TranslocoModule } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
@@ -10,13 +8,14 @@ import {
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
+import { provideMockStore } from '@ngrx/store/testing';
 
-import { ImageResolverService } from '@schaeffler/pdf-generator';
+import { QrCodeService } from '@schaeffler/pdf-generator';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { PartnerVersion } from '@ga/shared/models';
-import { QrCodeService } from '@ga/shared/services';
 import {
+  APP_STATE_MOCK,
   GREASE_PDF_INPUT_MOCK,
   GREASE_RESULT_SUBORDINATES_MOCK,
   greaseResultMock,
@@ -26,9 +25,11 @@ import {
   relubricationMock,
 } from '@ga/testing/mocks';
 
+import { GreaseShopService } from '../components/grease-report-shop-buttons/grease-shop.service';
 import { GreasePdfInput, GreasePdfMessage, GreaseResult } from '../models';
 import { GreaseReportDataGeneratorService } from './grease-report-data-generator.service';
 import { ListItemsWrapperService } from './pdf/list-items-wrapper.service';
+import { PdfGreaseImageService } from './pdf/pdf-grease-image.service';
 
 jest.mock('@jsverse/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
@@ -44,8 +45,8 @@ describe('GreaseReportDataGeneratorService', () => {
   let spectator: SpectatorService<GreaseReportDataGeneratorService>;
   let service: GreaseReportDataGeneratorService;
   let mockQrCodeService: jest.Mocked<QrCodeService>;
-  let mockImageResolverService: jest.Mocked<ImageResolverService>;
-  let consoleErrorSpy: jest.SpyInstance;
+  let mockPdfGreaseImageService: jest.Mocked<PdfGreaseImageService>;
+  let consoleErrorSpy: jest.SpyInstance | undefined;
   const localizeNumber = jest.fn((number) => `${number}`);
 
   const createService = createServiceFactory({
@@ -54,15 +55,39 @@ describe('GreaseReportDataGeneratorService', () => {
     providers: [
       provideHttpClient(),
       provideHttpClientTesting(),
-      mockProvider(TranslocoLocaleService, { localizeNumber }),
-      mockProvider(ImageResolverService, {
-        readImageFromAssets: jest.fn().mockReturnValue(of('base64-image-data')),
+      provideMockStore({
+        initialState: { ...APP_STATE_MOCK },
       }),
+      mockProvider(TranslocoLocaleService, { localizeNumber }),
       mockProvider(QrCodeService, {
-        generateGreaseQrCode: jest.fn().mockResolvedValue('test-qr-code'),
+        generateQrCodeAsBase64: jest.fn().mockResolvedValue('test-qr-code'),
       }),
       mockProvider(ListItemsWrapperService, {
         wrapListItems: jest.fn((items: string[]) => items || []),
+      }),
+      mockProvider(GreaseShopService, {
+        getShopUrl: jest
+          .fn()
+          .mockReturnValue(
+            'calculationResult.shopBaseUrl/p/Arcanol-MULTI2-1kg?utm_source=grease-app&affiliateid=A100101248'
+          ),
+      }),
+      mockProvider(PdfGreaseImageService, {
+        getGreaseImageBase64: jest.fn().mockResolvedValue('base64-image-data'),
+        getPartnerVersionHeaderInfo: jest
+          .fn()
+          .mockImplementation((partnerVersion: string) => {
+            if (partnerVersion) {
+              return Promise.resolve({
+                title: 'calculationResult.poweredBy',
+                schaefflerLogo: 'base64-image-data',
+              });
+            }
+
+            return Promise.resolve(undefined);
+          }),
+        getConcept1ArrowImage: jest.fn().mockResolvedValue('base64-image-data'),
+        loadImageFromAssets: jest.fn().mockResolvedValue('base64-image-data'),
       }),
     ],
   });
@@ -73,16 +98,15 @@ describe('GreaseReportDataGeneratorService', () => {
     mockQrCodeService = spectator.inject(
       QrCodeService
     ) as jest.Mocked<QrCodeService>;
-    mockImageResolverService = spectator.inject(
-      ImageResolverService
-    ) as jest.Mocked<ImageResolverService>;
+    mockPdfGreaseImageService = spectator.inject(
+      PdfGreaseImageService
+    ) as jest.Mocked<PdfGreaseImageService>;
 
-    // Suppress console.error messages during tests to avoid cluttered output
     consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
   });
 
   afterEach(() => {
-    consoleErrorSpy.mockRestore();
+    consoleErrorSpy?.mockRestore();
   });
 
   it('should be created', () => {
@@ -159,9 +183,10 @@ describe('GreaseReportDataGeneratorService', () => {
         isSufficient: mockGreaseResult.isSufficient,
         qrCode: 'test-qr-code',
       });
-      expect(mockQrCodeService.generateGreaseQrCode).toHaveBeenCalledWith(
-        mockGreaseResult.mainTitle,
-        partnerVersion
+      expect(mockQrCodeService.generateQrCodeAsBase64).toHaveBeenCalledWith(
+        'calculationResult.shopBaseUrl/p/Arcanol-MULTI2-1kg?utm_source=grease-app&affiliateid=A100101248&utm_medium=pdf',
+        'Arcanol MULTI2',
+        {}
       );
     });
 
@@ -230,7 +255,7 @@ describe('GreaseReportDataGeneratorService', () => {
     });
 
     it('should handle QR code generation failure gracefully', async () => {
-      mockQrCodeService.generateGreaseQrCode.mockRejectedValue(
+      mockQrCodeService.generateQrCodeAsBase64.mockRejectedValue(
         new Error('QR code error')
       );
 
@@ -324,7 +349,9 @@ describe('GreaseReportDataGeneratorService', () => {
       expect(concept1Item).toBeDefined();
       expect(concept1Item?.concept1Data).toBeDefined();
       expect(concept1Item?.concept1Data?.arrowImage).toBe('base64-image-data');
-      expect(mockImageResolverService.readImageFromAssets).toHaveBeenCalled();
+      expect(
+        mockPdfGreaseImageService.getConcept1ArrowImage
+      ).toHaveBeenCalled();
     });
 
     it('should handle empty or undefined subtitle', async () => {
@@ -372,9 +399,9 @@ describe('GreaseReportDataGeneratorService', () => {
         title: 'calculationResult.poweredBy',
         schaefflerLogo: 'base64-image-data',
       });
-      expect(mockImageResolverService.readImageFromAssets).toHaveBeenCalledWith(
-        '/assets/images/schaeffler-logo.png'
-      );
+      expect(
+        mockPdfGreaseImageService.getPartnerVersionHeaderInfo
+      ).toHaveBeenCalledWith(PartnerVersion.Schmeckthal);
     });
 
     it('should not include partner version header info when partner version is not provided', async () => {
@@ -384,37 +411,6 @@ describe('GreaseReportDataGeneratorService', () => {
       );
 
       expect(result[0].partnerVersionInfo).toBeUndefined();
-    });
-  });
-
-  describe('getPartnerVersionHeaderInfo', () => {
-    beforeEach(() => {
-      jest.clearAllMocks();
-    });
-
-    it('should return partner version header info when partner version is provided', async () => {
-      const partnerVersion = PartnerVersion.Schmeckthal;
-
-      const result = await (service as any).getPartnerVersionHeaderInfo(
-        partnerVersion
-      );
-
-      expect(result).toEqual({
-        title: 'calculationResult.poweredBy',
-        schaefflerLogo: 'base64-image-data',
-      });
-      expect(mockImageResolverService.readImageFromAssets).toHaveBeenCalledWith(
-        '/assets/images/schaeffler-logo.png'
-      );
-    });
-
-    it('should return undefined when partner version is not provided', async () => {
-      const result = await (service as any).getPartnerVersionHeaderInfo('');
-
-      expect(result).toBeUndefined();
-      expect(
-        mockImageResolverService.readImageFromAssets
-      ).not.toHaveBeenCalled();
     });
   });
 });

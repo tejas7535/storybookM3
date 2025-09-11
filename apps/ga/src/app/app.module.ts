@@ -11,12 +11,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Observable } from 'rxjs/internal/Observable';
 
+import { Capacitor } from '@capacitor/core';
 import { TranslocoService } from '@jsverse/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
+import * as QRCode from 'qrcode';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import { BannerModule } from '@schaeffler/banner';
-import { StaticLocationStrategy } from '@schaeffler/engineering-apps-behaviors/utils';
+import {
+  EMAPlatform,
+  getAssetsPath,
+  StaticLocationStrategy,
+} from '@schaeffler/engineering-apps-behaviors/utils';
 import {
   CUSTOM_DATA_PRIVACY,
   CUSTOM_IMPRINT_DATA,
@@ -29,6 +35,8 @@ import {
   DEFAULT_FONT,
   FONT_ASSET_PATH,
   LANGUAGE_FONT_MAPPINGS,
+  QR_CODE_LIB,
+  QrCodeService,
 } from '@schaeffler/pdf-generator';
 
 import { environment } from '@ga/environments/environment';
@@ -43,6 +51,12 @@ import { responsiblePerson } from './shared/constants';
 import { PartnerVersion } from './shared/models';
 
 const APP_ROOT = 'grease-app';
+
+const platform: EMAPlatform | undefined = Capacitor.isNativePlatform()
+  ? (Capacitor.getPlatform() as EMAPlatform)
+  : undefined;
+
+const assetsPath = getAssetsPath(environment.assetsPath, platform);
 
 const schmeckthalPrefixValue =
   detectPartnerVersion() === PartnerVersion.Schmeckthal
@@ -154,7 +168,7 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
     },
     {
       provide: FONT_ASSET_PATH,
-      useValue: `${environment.assetsPath}/fonts`,
+      useValue: `${assetsPath}/fonts`,
     },
     {
       provide: DEFAULT_FONT,
@@ -188,6 +202,8 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
         ],
       },
     },
+    QrCodeService,
+    { provide: QR_CODE_LIB, useValue: QRCode },
   ],
 })
 export class AppModule implements DoBootstrap {

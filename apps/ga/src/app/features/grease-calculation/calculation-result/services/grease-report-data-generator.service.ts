@@ -1,16 +1,14 @@
 /* eslint-disable max-lines */
 import { inject, Injectable } from '@angular/core';
 
-import { firstValueFrom } from 'rxjs';
-
 import { HashMap, TranslocoService } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
-import { ImageResolverService } from '@schaeffler/pdf-generator';
+import { QrCodeService } from '@schaeffler/pdf-generator';
 
 import { PartnerVersion } from '@ga/shared/models';
-import { QrCodeService } from '@ga/shared/services';
 
+import { GreaseShopService } from '../components/grease-report-shop-buttons/grease-shop.service';
 import { getKappaBadgeColorClass } from '../helpers/grease-helpers';
 import {
   BadgeStyle,
@@ -26,9 +24,9 @@ import {
   PDFGreaseReportResult,
   PDFGreaseResultSection,
   PDFGreaseResultSectionItem,
-  PDFPartnerVersionHeaderInfo,
 } from '../models';
 import { ListItemsWrapperService } from './pdf/list-items-wrapper.service';
+import { PdfGreaseImageService } from './pdf/pdf-grease-image.service';
 
 @Injectable({
   providedIn: 'root',
@@ -37,8 +35,9 @@ export class GreaseReportDataGeneratorService {
   private readonly localeService = inject(TranslocoLocaleService);
   private readonly translocoService = inject(TranslocoService);
   private readonly listItemsWrapperService = inject(ListItemsWrapperService);
-  private readonly imageResolverService = inject(ImageResolverService);
   private readonly qrCodeService = inject(QrCodeService);
+  private readonly greaseShopService = inject(GreaseShopService);
+  private readonly pdfGreaseImageService = inject(PdfGreaseImageService);
 
   public prepareReportInputData(
     greaseReportData: GreaseReportSubordinate[]
@@ -71,10 +70,20 @@ export class GreaseReportDataGeneratorService {
     const results = await Promise.all(
       greaseResults.map(async (greaseResult) => {
         let qrCode = '';
+        let greaseLink = '';
         try {
-          qrCode = await this.qrCodeService.generateGreaseQrCode(
-            greaseResult.mainTitle,
+          const title = greaseResult.mainTitle;
+          const shopUrl = this.greaseShopService.getShopUrl(
+            title,
             partnerVersion as PartnerVersion
+          );
+
+          greaseLink = `${shopUrl}&utm_medium=pdf`;
+
+          qrCode = await this.qrCodeService.generateQrCodeAsBase64(
+            greaseLink,
+            title,
+            {}
           );
         } catch (error) {
           console.error(
@@ -84,7 +93,13 @@ export class GreaseReportDataGeneratorService {
         }
 
         const partnerVersionInfo =
-          await this.getPartnerVersionHeaderInfo(partnerVersion);
+          await this.pdfGreaseImageService.getPartnerVersionHeaderInfo(
+            partnerVersion
+          );
+
+        const image = await this.pdfGreaseImageService.getGreaseImageBase64(
+          greaseResult.mainTitle
+        );
 
         return {
           sections: [
@@ -102,11 +117,14 @@ export class GreaseReportDataGeneratorService {
             ),
             filterSectionValues(this.getGreaseSelectionSection(greaseResult)),
           ],
-          isPreferred: greaseResult.isPreferred,
+          preferred: greaseResult.isPreferred
+            ? this.getTranslatedTitle('preferredGreaseHintSelected')
+            : undefined,
           isSufficient: greaseResult.isSufficient,
           mainTitle: greaseResult.mainTitle,
           subTitle: greaseResult.subTitle ?? '',
           qrCode,
+          greaseLink,
           recommended: greaseResult?.isRecommended
             ? this.getTranslatedTitle('recommendedChip')
             : undefined,
@@ -114,28 +132,12 @@ export class GreaseReportDataGeneratorService {
             ? this.getTranslatedTitle('miscibleChip')
             : undefined,
           partnerVersionInfo,
+          ...(image && { image }),
         };
       })
     );
 
     return results;
-  }
-
-  private async getPartnerVersionHeaderInfo(
-    partnerVersion: `${PartnerVersion}`
-  ): Promise<PDFPartnerVersionHeaderInfo | undefined> {
-    if (partnerVersion) {
-      return {
-        title: this.getTranslatedTitle('poweredBy'),
-        schaefflerLogo: await firstValueFrom(
-          this.imageResolverService.readImageFromAssets(
-            '/assets/images/schaeffler-logo.png'
-          )
-        ),
-      };
-    }
-
-    return undefined;
   }
 
   private getPerformanceSection(
@@ -243,7 +245,8 @@ export class GreaseReportDataGeneratorService {
       });
     }
 
-    const image = await this.getImage(duration);
+    const image =
+      await this.pdfGreaseImageService.getConcept1ArrowImage(duration);
 
     return {
       title: this.getTranslatedTitle(item.title),
@@ -256,19 +259,6 @@ export class GreaseReportDataGeneratorService {
         arrowImage: image,
       },
     };
-  }
-
-  private async getImage(duration: number): Promise<string> {
-    const path = '/assets/images/pdf/setting_';
-    const imagePath = duration
-      ? `${path}${duration}.png`
-      : `${path}disabled.png`;
-
-    const image = await firstValueFrom(
-      this.imageResolverService.readImageFromAssets(imagePath)
-    );
-
-    return image;
   }
 
   private getResultSectionItem(

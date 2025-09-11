@@ -32,6 +32,12 @@ jest.mock('../building-blocks', () => ({
     setDocument: jest.fn(),
     setBounds: jest.fn(),
   })),
+  LinkBlock: jest.fn().mockImplementation(() => ({
+    evaluate: jest.fn().mockReturnValue([true, 20]),
+    render: jest.fn(),
+    setDocument: jest.fn(),
+    setBounds: jest.fn(),
+  })),
   PaddedRow: jest.fn().mockImplementation(() => ({
     evaluate: jest.fn().mockReturnValue([true, 25]),
     render: jest.fn(),
@@ -142,6 +148,7 @@ describe('GreaseResultCardContent', () => {
       mainTitle: 'Main Title',
       subTitle: 'Sub Title',
       qrCode: 'test-qr-code',
+      greaseLink: 'test-grease-link',
       recommended: 'Recommended',
       miscible: 'Miscible',
     };
@@ -415,6 +422,7 @@ describe('GreaseResultCardContent', () => {
         mainTitle: '',
         subTitle: '',
         qrCode: '',
+        greaseLink: '',
       };
 
       const component = new GreaseResultCardContent(minimalData);
