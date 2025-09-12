@@ -70,7 +70,15 @@
     },
     "modulusOfElasticity": "Module d'élasticité E",
     "poissonRatio": "Coefficient de Poisson",
-    "report": "Rapport"
+    "report": "Rapport",
+    "thermal": {
+      "title": "Informations de montage et de chauffage",
+      "toleranceClass": "Classe de tolérance",
+      "none": "Aucun",
+      "upperDeviation": "Déviation supérieure",
+      "lowerDeviation": "Déviation inférieure",
+      "temperature": "Température"
+    }
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "Commentaires",
@@ -103,6 +111,7 @@
       "endPosition": "Position finale",
       "radialClearance": "Réduction du jeu radial et déplacement axial",
       "clearanceClasses": "Valeurs de contrôle pour les classes de jeu",
+      "temperatures": "Températures",
       "mountingToolsAndUtilities": "Outils et utilitaires de montage (requis)",
       "mountingInstructions": "Instructions de montage",
       "reportMessages": "Erreurs, Avertissements et Notes",
@@ -112,6 +121,7 @@
     "endPositions": "Position finale",
     "radialClearance": "Réduction du jeu radial et déplacement axial",
     "clearanceClasses": "Valeurs de contrôle pour les classes de jeu",
+    "temperatures": "Températures",
     "shared": {
       "expand": "Afficher des valeurs supplémentaires",
       "collapse": "Masquer des valeurs supplémentaires"

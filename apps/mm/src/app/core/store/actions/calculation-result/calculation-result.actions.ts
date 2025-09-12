@@ -38,3 +38,7 @@ export const setBearinxVersions = createAction(
 export const unsetBearinxVersions = createAction(
   '[CalculationResult] Unset Bearinx Versions'
 );
+
+export const calculateThermalResultFromOptions = createAction(
+  '[CalculationOptions] Calculate thermal result from options'
+);

@@ -1,12 +1,18 @@
+import { StepManagerService } from '@mm/shared/services/step-manager/step-manager.service';
 import { createReducer, on } from '@ngrx/store';
 
 import { CalculationSelectionActions } from '../../actions/calculation-selection';
 import { CalculationSelectionState } from '../../models/calculation-selection-state.model';
 
+// Create initial step configuration for default case (normal bearings)
+const stepManagerService = new StepManagerService();
+const initialStepConfiguration = stepManagerService.getStepConfiguration();
+
 export const initialState: CalculationSelectionState = {
   bearingResultList: undefined,
   stepper: {
     currentStep: 0,
+    stepConfiguration: initialStepConfiguration,
   },
   bearing: undefined,
   bearingSeats: undefined,
@@ -37,12 +43,21 @@ export const calculationSelectionReducer = createReducer(
   ),
   on(
     CalculationSelectionActions.setBearing,
-    (state, { bearingId, title }): CalculationSelectionState => ({
+    (
+      state,
+      { bearingId, title, isThermal, isMechanical, isHydraulic }
+    ): CalculationSelectionState => ({
       ...state,
       bearing: {
         bearingId,
         title,
+        isThermal,
+        isMechanical,
+        isHydraulic,
       },
+      bearingSeats: undefined,
+      measurementMethods: undefined,
+      mountingMethods: undefined,
     })
   ),
   on(
@@ -127,6 +142,16 @@ export const calculationSelectionReducer = createReducer(
       mountingMethods: {
         ...state?.mountingMethods,
         selectedValueId: mountingMethod,
+      },
+    })
+  ),
+  on(
+    CalculationSelectionActions.updateStepConfiguration,
+    (state, { stepConfiguration }): CalculationSelectionState => ({
+      ...state,
+      stepper: {
+        ...state.stepper,
+        stepConfiguration,
       },
     })
   )

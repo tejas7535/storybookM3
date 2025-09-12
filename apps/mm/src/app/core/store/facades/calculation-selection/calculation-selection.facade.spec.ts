@@ -1,6 +1,9 @@
-import { BearingOption } from '@mm/shared/models';
+import { StepType } from '@mm/shared/constants/steps';
+import { AppDelivery } from '@mm/shared/models';
+import { BearingOption } from '@mm/shared/models/bearing-search.model';
 import { ListValue } from '@mm/shared/models/list-value.model';
 import { Step } from '@mm/shared/models/step.model';
+import { StepManagerService } from '@mm/shared/services/step-manager/step-manager.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
@@ -9,6 +12,8 @@ import {
   Bearing,
   StepSelectionValue,
 } from '../../models/calculation-selection-state.model';
+import { GlobalState } from '../../models/global-state.model';
+import { initialState } from '../../reducers/calculation-selection/calculation-selection.reducer';
 import { CalculationSelectionSelector } from '../../selectors';
 import { CalculationSelectionFacade } from './calculation-selection.facade';
 
@@ -16,31 +21,68 @@ describe('CalculationSelectionFacade', () => {
   let spectator: SpectatorService<CalculationSelectionFacade>;
   let facade: CalculationSelectionFacade;
   let store: MockStore;
+  let stepManagerService: jest.Mocked<StepManagerService>;
+
+  const globalInitialState: GlobalState = {
+    isStandalone: true,
+    appDelivery: AppDelivery.Standalone,
+    initialized: false,
+    isInternalUser: false,
+  };
 
   const createService = createServiceFactory({
     service: CalculationSelectionFacade,
-    providers: [provideMockStore({ initialState: {} })],
+    providers: [
+      provideMockStore({
+        initialState: {
+          calculationSelection: initialState,
+          calculationResult: undefined,
+          calculationOptions: undefined,
+          global: globalInitialState,
+        },
+      }),
+      {
+        provide: StepManagerService,
+        useValue: {
+          getStepConfiguration: jest.fn(),
+        },
+      },
+    ],
   });
 
   beforeEach(() => {
     spectator = createService();
     facade = spectator.service;
     store = spectator.inject(MockStore);
+    stepManagerService = spectator.inject(
+      StepManagerService
+    ) as jest.Mocked<StepManagerService>;
   });
 
   it('should create the facade', () => {
     expect(facade).toBeTruthy();
   });
 
-  it('should select steps$', (done) => {
+  it('should select step configuration', (done) => {
     const steps: Step[] = [{ name: 'step1' }, { name: 'step2' }] as Partial<
       Step[]
     > as Step[];
-    store.overrideSelector(CalculationSelectionSelector.getSteps, steps);
-    store.refreshState();
+    const mockConfig = {
+      steps,
+      availableSteps: [StepType.BEARING, StepType.RESULT],
+      stepIndices: {
+        [StepType.BEARING]: 0,
+        [StepType.BEARING_SEAT]: -1,
+        [StepType.MEASURING_MOUNTING]: -1,
+        [StepType.CALCULATION_OPTIONS]: -1,
+        [StepType.RESULT]: 1,
+      },
+    };
 
-    facade.steps$.subscribe((result) => {
-      expect(result).toEqual(steps);
+    stepManagerService.getStepConfiguration.mockReturnValue(mockConfig);
+
+    facade.getStepConfiguration$().subscribe((result) => {
+      expect(result).toEqual(mockConfig);
       done();
     });
   });
@@ -59,24 +101,42 @@ describe('CalculationSelectionFacade', () => {
     });
   });
 
-  it('should select selectedBearingOption$', (done) => {
+  it('should select selectedBearingOption', () => {
     const bearing: Bearing = {
       bearingId: 'id1',
       title: 'Bearing 1',
-    } as Bearing;
+      isThermal: true,
+      isMechanical: false,
+      isHydraulic: true,
+    };
     store.overrideSelector(CalculationSelectionSelector.getBearing, bearing);
     store.refreshState();
 
-    facade.selectedBearingOption$.subscribe((result) => {
-      expect(result).toEqual({ id: bearing.bearingId, title: bearing.title });
-      done();
+    expect(facade.selectedBearingOption()).toEqual({
+      id: bearing.bearingId,
+      title: bearing.title,
+      isThermal: bearing.isThermal,
+      isMechanical: bearing.isMechanical,
+      isHydraulic: bearing.isHydraulic,
     });
   });
 
   it('should select bearingResultList$', (done) => {
     const bearingResultList: BearingOption[] = [
-      { id: 'bearing1', title: '1' },
-      { id: 'bearing2', title: '2' },
+      {
+        id: 'bearing1',
+        title: '1',
+        isThermal: true,
+        isMechanical: false,
+        isHydraulic: false,
+      },
+      {
+        id: 'bearing2',
+        title: '2',
+        isThermal: false,
+        isMechanical: true,
+        isHydraulic: true,
+      },
     ];
     store.overrideSelector(
       CalculationSelectionSelector.getBearingsResultList,

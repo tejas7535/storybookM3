@@ -8,6 +8,7 @@ import {
   JSON_REPORT_FULL_RESPONSE_MOCK,
   JSON_REPORT_INCORRECT_INPUT_MOCK,
   JSON_REPORT_LOCKNUT_AND_CHECK_VALUES_MOCK,
+  JSON_REPORT_THERMAL_BEARING_MOCK,
 } from './../../../../testing/mocks/report-parser.mock';
 import { ReportParserService } from './report-parser.service';
 
@@ -217,6 +218,28 @@ describe('ReportParserService', () => {
 
     it('should parse inputs', () => {
       expect(result.inputs).toMatchSnapshot();
+    });
+  });
+
+  describe('when parsing thermal bearing response', () => {
+    beforeEach(() => {
+      result = service.parseResponse(JSON_REPORT_THERMAL_BEARING_MOCK);
+    });
+
+    it('should extract temperatures from thermal bearing response', () => {
+      expect(result.temperatures).toEqual([
+        {
+          designation: 'Heating temperature',
+          abbreviation: 'T',
+          value: '58.7',
+          unit: '°C',
+        },
+      ]);
+    });
+
+    it('should include temperatures in the result', () => {
+      expect(result.temperatures).toBeDefined();
+      expect(result.temperatures).toHaveLength(1);
     });
   });
 });

@@ -1,12 +1,13 @@
 import { combineLatest, map, Observable } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
-
 import {
-  MountingSelectOption,
-  PreviousMountingOption,
-  ShaftMaterialOption,
-} from './calculation-selection-step.interface';
+  MountingOptionType,
+  PreviousMountingNumberOptionType,
+  ShaftMaterialType,
+} from '@mm/shared/constants/calculation-options';
+
+import { MMSelectOption } from './calculation-selection-step.interface';
 
 const previousMountingBase = 'dialog.previousMountingsListValues';
 
@@ -21,7 +22,7 @@ const previousMountingOptions = [
 
 export const getNumberOfPreviousMountingOptions = (
   translocoService: TranslocoService
-): Observable<PreviousMountingOption[]> =>
+): Observable<MMSelectOption<PreviousMountingNumberOptionType>[]> =>
   combineLatest(
     previousMountingOptions.map((option) =>
       translocoService
@@ -41,7 +42,7 @@ const mountingOptions = [
 
 export const getMountingOptions = (
   translocoService: TranslocoService
-): Observable<MountingSelectOption[]> =>
+): Observable<MMSelectOption<MountingOptionType>[]> =>
   combineLatest(
     mountingOptions.map((option) =>
       translocoService
@@ -69,7 +70,7 @@ const shaftMaterialOptions = [
 
 export const getShaftMaterialsOptions = (
   translocoService: TranslocoService
-): Observable<ShaftMaterialOption[]> =>
+): Observable<MMSelectOption<ShaftMaterialType>[]> =>
   combineLatest(
     shaftMaterialOptions.map((option) =>
       translocoService

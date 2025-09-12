@@ -1,4 +1,6 @@
 /* eslint-disable unicorn/no-useless-undefined */
+import { signal } from '@angular/core';
+
 import { BehaviorSubject } from 'rxjs';
 
 import { CalculationResultFacade } from '@mm/core/store/facades/calculation-result.facade';
@@ -17,19 +19,17 @@ describe('ResultDataService', () => {
   let spectator: SpectatorService<ResultDataService>;
   let service: ResultDataService;
 
-  // Create subjects for observable streams
-  const selectedBearingOptionSubject = new BehaviorSubject({
+  const selectedBearingOptionSignal = signal({
     title: 'Test Bearing',
     id: 'test-id',
   });
-  const calculationInputsSubject = new BehaviorSubject([
-    { key: 'input1', value: 'value1' },
-  ]);
-  const mountingRecommendationsSubject = new BehaviorSubject<string[]>([
+
+  const calculationInputsSignal = signal([{ key: 'input1', value: 'value1' }]);
+  const mountingRecommendationsSignal = signal<string[]>([
     'recommendation1',
     'recommendation2',
   ]);
-  const radialClearanceSubject = new BehaviorSubject<ResultItem[]>([
+  const radialClearanceSignal = signal<ResultItem[]>([
     {
       value: 'clearance1',
       unit: 'mm',
@@ -37,7 +37,7 @@ describe('ResultDataService', () => {
       designation: 'Clearance 1',
     },
   ]);
-  const radialClearanceClassesSubject = new BehaviorSubject<ResultItem[]>([
+  const radialClearanceClassesSignal = signal<ResultItem[]>([
     {
       value: 'class1',
       unit: '',
@@ -45,7 +45,7 @@ describe('ResultDataService', () => {
       designation: 'Class 1',
     },
   ]);
-  const startPositionsSubject = new BehaviorSubject<ResultItem[]>([
+  const startPositionsSignal = signal<ResultItem[]>([
     {
       value: 'pos1',
       unit: 'mm',
@@ -54,7 +54,7 @@ describe('ResultDataService', () => {
       isImportant: true,
     },
   ]);
-  const endPositionsSubject = new BehaviorSubject<ResultItem[]>([
+  const endPositionsSignal = signal<ResultItem[]>([
     {
       value: 'end1',
       unit: 'mm',
@@ -63,7 +63,7 @@ describe('ResultDataService', () => {
       isImportant: false,
     },
   ]);
-  const hasMountingToolsSubject = new BehaviorSubject<boolean>(true);
+  const hasMountingToolsSignal = signal<boolean>(true);
 
   const pumpItems: PumpItem[] = [
     {
@@ -108,9 +108,7 @@ describe('ResultDataService', () => {
     ],
   };
 
-  const mountingToolsSubject = new BehaviorSubject<MountingTools>(
-    defaultMountingTools
-  );
+  const mountingToolsSignal = signal<MountingTools>(defaultMountingTools);
 
   const messagesSubject = new BehaviorSubject<ReportMessages>({
     errors: ['Error 1'],
@@ -119,11 +117,16 @@ describe('ResultDataService', () => {
   });
 
   const bearingVersionsSubject = new BehaviorSubject<string>('v1.0.0');
-  const reportSelectionTypesSubject = new BehaviorSubject<string[]>([
-    'type1',
-    'type2',
+  const reportSelectionTypesSignal = signal<string[]>(['type1', 'type2']);
+  const isResultAvailableSignal = signal<boolean>(true);
+  const temperaturesSignal = signal<ResultItem[]>([
+    {
+      value: '25.5',
+      unit: '°C',
+      abbreviation: 'T',
+      designation: 'Temperature 1',
+    },
   ]);
-  const isResultAvailableSubject = new BehaviorSubject<boolean>(true);
 
   const createService = createServiceFactory({
     service: ResultDataService,
@@ -131,25 +134,25 @@ describe('ResultDataService', () => {
       {
         provide: CalculationResultFacade,
         useValue: {
-          getCalculationInputs$: calculationInputsSubject.asObservable(),
-          mountingRecommendations$:
-            mountingRecommendationsSubject.asObservable(),
-          radialClearance$: radialClearanceSubject.asObservable(),
-          radialClearanceClasses$: radialClearanceClassesSubject.asObservable(),
-          startPositions$: startPositionsSubject.asObservable(),
-          endPositions$: endPositionsSubject.asObservable(),
-          hasMountingTools$: hasMountingToolsSubject.asObservable(),
-          mountingTools$: mountingToolsSubject.asObservable(),
+          calculationInputs: calculationInputsSignal,
+          mountingRecommendations: mountingRecommendationsSignal,
+          radialClearance: radialClearanceSignal,
+          radialClearanceClasses: radialClearanceClassesSignal,
+          startPositions: startPositionsSignal,
+          endPositions: endPositionsSignal,
+          hasMountingTools: hasMountingToolsSignal,
+          mountingTools: mountingToolsSignal,
           getCalulationMessages$: messagesSubject.asObservable(),
           bearinxVersions$: bearingVersionsSubject.asObservable(),
-          reportSelectionTypes$: reportSelectionTypesSubject.asObservable(),
-          isResultAvailable$: isResultAvailableSubject.asObservable(),
+          reportSelectionTypes: reportSelectionTypesSignal,
+          isResultAvailable: isResultAvailableSignal,
+          temperatures: temperaturesSignal,
         },
       },
       {
         provide: CalculationSelectionFacade,
         useValue: {
-          selectedBearingOption$: selectedBearingOptionSubject.asObservable(),
+          selectedBearingOption: selectedBearingOptionSignal,
         },
       },
     ],
@@ -169,12 +172,12 @@ describe('ResultDataService', () => {
       expect(service.selectedBearing()).toBe('Test Bearing');
 
       // Update the subject value
-      selectedBearingOptionSubject.next({ title: 'New Bearing', id: 'new-id' });
+      selectedBearingOptionSignal.set({ title: 'New Bearing', id: 'new-id' });
       expect(service.selectedBearing()).toBe('New Bearing');
     });
 
     it('should return undefined when no bearing is selected', () => {
-      selectedBearingOptionSubject.next(undefined);
+      selectedBearingOptionSignal.set(undefined);
       expect(service.selectedBearing()).toBeUndefined();
     });
   });
@@ -184,7 +187,7 @@ describe('ResultDataService', () => {
       expect(service.inputs()).toEqual([{ key: 'input1', value: 'value1' }]);
 
       const newInputs = [{ key: 'input2', value: 'value2' }];
-      calculationInputsSubject.next(newInputs);
+      calculationInputsSignal.set(newInputs);
       expect(service.inputs()).toEqual(newInputs);
     });
 
@@ -195,7 +198,7 @@ describe('ResultDataService', () => {
       ]);
 
       const newRecommendations = ['new recommendation'];
-      mountingRecommendationsSubject.next(newRecommendations);
+      mountingRecommendationsSignal.set(newRecommendations);
       expect(service.mountingRecommendations()).toEqual(newRecommendations);
     });
 
@@ -210,7 +213,7 @@ describe('ResultDataService', () => {
           designation: 'New Clearance',
         },
       ];
-      radialClearanceSubject.next(newClearance);
+      radialClearanceSignal.set(newClearance);
       expect(service.radialClearance()).toEqual(newClearance);
     });
 
@@ -225,7 +228,7 @@ describe('ResultDataService', () => {
           designation: 'New Class',
         },
       ];
-      radialClearanceClassesSubject.next(newClasses);
+      radialClearanceClassesSignal.set(newClasses);
       expect(service.clearanceClasses()).toEqual(newClasses);
     });
 
@@ -241,7 +244,8 @@ describe('ResultDataService', () => {
           isImportant: true,
         },
       ];
-      startPositionsSubject.next(newPositions);
+      startPositionsSignal.set(newPositions);
+
       expect(service.startPositions()).toEqual(newPositions);
     });
 
@@ -257,15 +261,31 @@ describe('ResultDataService', () => {
           isImportant: false,
         },
       ];
-      endPositionsSubject.next(newPositions);
+      endPositionsSignal.set(newPositions);
       expect(service.endPositions()).toEqual(newPositions);
     });
 
     it('should correctly expose hasMountingTools signal', () => {
       expect(service.hasMountingTools()).toBe(true);
 
-      hasMountingToolsSubject.next(false);
+      hasMountingToolsSignal.set(false);
       expect(service.hasMountingTools()).toBe(false);
+    });
+
+    it('should correctly expose temperatures signal', () => {
+      expect(service.temperatures()[0].value).toBe('25.5');
+      expect(service.temperatures()[0].unit).toBe('°C');
+
+      const newTemperatures = [
+        {
+          value: '30.2',
+          unit: '°C',
+          abbreviation: 'T',
+          designation: 'Temperature 2',
+        },
+      ];
+      temperaturesSignal.set(newTemperatures);
+      expect(service.temperatures()).toEqual(newTemperatures);
     });
   });
 
@@ -296,14 +316,14 @@ describe('ResultDataService', () => {
       ];
 
       const updatedTools = {
-        ...mountingToolsSubject.value,
+        ...mountingToolsSignal(),
         pumps: {
           title: 'Updated Pumps',
           items: updatedPumpItems,
         },
       };
 
-      mountingToolsSubject.next(updatedTools);
+      mountingToolsSignal.set(updatedTools);
 
       expect(service.alternativePumps().length).toBe(1);
       expect(service.alternativePumps()[0].value).toBe('PUMP3');
@@ -326,14 +346,14 @@ describe('ResultDataService', () => {
       ];
 
       const updatedTools = {
-        ...mountingToolsSubject.value,
+        ...mountingToolsSignal(),
         pumps: {
           title: 'Updated Pumps',
           items: noneRecommendedPumpItems,
         },
       };
 
-      mountingToolsSubject.next(updatedTools);
+      mountingToolsSignal.set(updatedTools);
 
       expect(service.recommendedPump()).toBeUndefined();
     });
@@ -344,7 +364,7 @@ describe('ResultDataService', () => {
       expect(service.nutItem().value).toBe('HN123');
 
       const updatedTools = {
-        ...mountingToolsSubject.value,
+        ...mountingToolsSignal(),
         hydraulicNut,
         locknut: [
           {
@@ -355,16 +375,16 @@ describe('ResultDataService', () => {
           },
         ],
       };
-      mountingToolsSubject.next(updatedTools);
+      mountingToolsSignal.set(updatedTools);
 
       expect(service.nutItem().value).toBe('LN456');
 
       const noNutsTools = {
-        ...mountingToolsSubject.value,
+        ...mountingToolsSignal(),
         hydraulicNut,
         locknut,
       };
-      mountingToolsSubject.next(noNutsTools);
+      mountingToolsSignal.set(noNutsTools);
 
       expect(service.nutItem()).toBeUndefined();
     });
@@ -374,7 +394,7 @@ describe('ResultDataService', () => {
       expect(service.sleeveConnectors()[0].value).toBe('SC1');
 
       const updatedTools = {
-        ...mountingToolsSubject.value,
+        ...mountingToolsSignal(),
         sleeveConnectors: [
           {
             value: 'SC1',
@@ -390,7 +410,7 @@ describe('ResultDataService', () => {
           },
         ],
       };
-      mountingToolsSubject.next(updatedTools);
+      mountingToolsSignal.set(updatedTools);
 
       expect(service.sleeveConnectors().length).toBe(2);
       expect(service.sleeveConnectors()[1].value).toBe('SC2');
@@ -398,17 +418,17 @@ describe('ResultDataService', () => {
       const emptySleeveConnectors: ResultItem[] = [];
 
       const noConnectorsTools = {
-        ...mountingToolsSubject.value,
+        ...mountingToolsSignal(),
         sleeveConnectors: emptySleeveConnectors,
       };
-      mountingToolsSubject.next(noConnectorsTools);
+      mountingToolsSignal.set(noConnectorsTools);
 
       expect(service.sleeveConnectors().length).toBe(0);
     });
 
     describe('when products images are id are available', () => {
       beforeEach(() => {
-        mountingToolsSubject.next(defaultMountingTools);
+        mountingToolsSignal.set(defaultMountingTools);
       });
       it('should correctly collect imageProductsIds', () => {
         const initialIds = service.imageProductsIds();
@@ -443,7 +463,7 @@ describe('ResultDataService', () => {
         const sleeveConnectors: ResultItem[] = [];
 
         const missingValuesTools = {
-          ...mountingToolsSubject.value,
+          ...mountingToolsSignal(),
           hydraulicNut: emptyValueHydraulicNut,
           pumps: {
             title: 'Test Pumps',
@@ -452,7 +472,7 @@ describe('ResultDataService', () => {
           sleeveConnectors,
         };
 
-        mountingToolsSubject.next(missingValuesTools);
+        mountingToolsSignal.set(missingValuesTools);
       });
 
       it('should not have values', () => {

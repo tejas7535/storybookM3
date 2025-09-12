@@ -70,7 +70,15 @@
     },
     "modulusOfElasticity": "Módulo E",
     "poissonRatio": "Coeficiente de contracción transversal",
-    "report": "Informe"
+    "report": "Informe",
+    "thermal": {
+      "title": "Información de montaje y calentamiento",
+      "toleranceClass": "Clase de tolerancia",
+      "none": "Ninguno",
+      "upperDeviation": "Desviación superior",
+      "lowerDeviation": "Desviación inferior",
+      "temperature": "Temperatura"
+    }
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "Comentarios",
@@ -103,6 +111,7 @@
       "endPosition": "Posición final",
       "radialClearance": "Reducción del juego radial y desplazamiento axial",
       "clearanceClasses": "Valores de control de las clases de juego",
+      "temperatures": "Temperaturas",
       "mountingToolsAndUtilities": "Herramientas y utilidades de montaje (requerido)",
       "mountingInstructions": "Instrucciones de montaje",
       "reportMessages": "Errores, Advertencias y Notas",
@@ -112,6 +121,7 @@
     "endPositions": "Posición final",
     "radialClearance": "Reducción del juego radial y desplazamiento axial",
     "clearanceClasses": "Valores de control de las clases de juego",
+    "temperatures": "Temperaturas",
     "shared": {
       "expand": "Mostrar valores adicionales",
       "collapse": "Ocultar valores adicionales"

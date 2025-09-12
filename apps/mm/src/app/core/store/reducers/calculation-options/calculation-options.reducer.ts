@@ -5,11 +5,16 @@ import { CalculationOptionsState } from '../../models/calculation-options-state.
 
 export const initialState: CalculationOptionsState = {
   options: undefined,
+  thermalOptions: undefined,
   calculationPerformed: false,
 };
 
 export const calculationOptionsReducer = createReducer(
   initialState,
+  on(
+    CalculationOptionsActions.resetCalculationOptions,
+    (): CalculationOptionsState => ({ ...initialState })
+  ),
   on(
     CalculationOptionsActions.setCalculationOptions,
     (state, { options }): CalculationOptionsState => ({
@@ -55,6 +60,22 @@ export const calculationOptionsReducer = createReducer(
         shaftMaterial: shaftMaterialData.id,
         modulusOfElasticity: shaftMaterialData.emodul,
         poissonRatio: shaftMaterialData.nue,
+      },
+    })
+  ),
+  on(
+    CalculationOptionsActions.setToleranceClasses,
+    (state, { toleranceClasses }): CalculationOptionsState => ({
+      ...state,
+      toleranceClasses,
+    })
+  ),
+  on(
+    CalculationOptionsActions.updateThermalOptionsFromFormData,
+    (state, { formData }): CalculationOptionsState => ({
+      ...state,
+      thermalOptions: {
+        ...formData,
       },
     })
   )

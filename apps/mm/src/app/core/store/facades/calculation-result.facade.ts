@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
-import { AXIAL_BEARINGS_RESULT_STEP } from '@mm/shared/constants/steps';
 import { Store } from '@ngrx/store';
 
 import { CalculationOptionsActions } from '../actions';
+import { CalculationResultActions } from '../actions/calculation-result';
 import { CalculationResultSelector } from '../selectors';
 import { CalculationSelectionFacade } from './calculation-selection/calculation-selection.facade';
 
@@ -11,7 +11,11 @@ import { CalculationSelectionFacade } from './calculation-selection/calculation-
   providedIn: 'root',
 })
 export class CalculationResultFacade {
-  public readonly getCalculationInputs$ = this.store.select(
+  private readonly store: Store = inject(Store);
+  private readonly calculationSelectionFacade: CalculationSelectionFacade =
+    inject(CalculationSelectionFacade);
+
+  public readonly calculationInputs = this.store.selectSignal(
     CalculationResultSelector.getCalculationInputs
   );
 
@@ -23,39 +27,47 @@ export class CalculationResultFacade {
     CalculationResultSelector.isResultAvailable
   );
 
+  public readonly isResultAvailable = this.store.selectSignal(
+    CalculationResultSelector.isResultAvailable
+  );
+
   public readonly isLoading$ = this.store.select(
     CalculationResultSelector.isLoading
   );
 
-  public readonly mountingRecommendations$ = this.store.select(
+  public readonly mountingRecommendations = this.store.selectSignal(
     CalculationResultSelector.getMountingRecommendations
   );
 
-  public readonly mountingTools$ = this.store.select(
+  public readonly mountingTools = this.store.selectSignal(
     CalculationResultSelector.getMountingTools
   );
 
-  public readonly startPositions$ = this.store.select(
+  public readonly startPositions = this.store.selectSignal(
     CalculationResultSelector.getStartPositions
   );
 
-  public readonly endPositions$ = this.store.select(
+  public readonly endPositions = this.store.selectSignal(
     CalculationResultSelector.getEndPositions
   );
 
-  public readonly radialClearance$ = this.store.select(
+  public readonly radialClearance = this.store.selectSignal(
     CalculationResultSelector.getRadialClearance
   );
 
-  public readonly radialClearanceClasses$ = this.store.select(
+  public readonly radialClearanceClasses = this.store.selectSignal(
     CalculationResultSelector.getClearanceClasses
   );
 
-  public readonly hasMountingTools$ = this.store.select(
+  public readonly temperatures = this.store.selectSignal(
+    CalculationResultSelector.getTemperatures
+  );
+
+  public readonly hasMountingTools = this.store.selectSignal(
     CalculationResultSelector.hasMountingTools
   );
 
-  public readonly reportSelectionTypes$ = this.store.select(
+  public readonly reportSelectionTypes = this.store.selectSignal(
     CalculationResultSelector.getReportSelectionTypes
   );
 
@@ -63,16 +75,21 @@ export class CalculationResultFacade {
     CalculationResultSelector.getVersions
   );
 
-  constructor(
-    private readonly store: Store,
-    private readonly calculationSelectionFacade: CalculationSelectionFacade
-  ) {}
-
   calculateResultFromForm(): void {
-    this.calculationSelectionFacade.setCurrentStep(AXIAL_BEARINGS_RESULT_STEP);
+    const resultStepIndex = this.calculationSelectionFacade.resultStepIndex();
+    this.calculationSelectionFacade.setCurrentStep(resultStepIndex);
     this.store.dispatch(
       CalculationOptionsActions.setCalculationPerformed({ performed: true })
     );
     this.store.dispatch(CalculationOptionsActions.calculateResultFromOptions());
+  }
+
+  calculateThermalResultFromForm(): void {
+    this.store.dispatch(
+      CalculationOptionsActions.setCalculationPerformed({ performed: true })
+    );
+    this.store.dispatch(
+      CalculationResultActions.calculateThermalResultFromOptions()
+    );
   }
 }

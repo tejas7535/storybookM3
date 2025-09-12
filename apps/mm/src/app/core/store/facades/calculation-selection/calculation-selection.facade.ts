@@ -1,28 +1,41 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 
-import { filter, map, Observable } from 'rxjs';
+import { combineLatest, filter, map, Observable } from 'rxjs';
 
+import {
+  StepConfiguration,
+  StepManagerService,
+} from '@mm/shared/services/step-manager/step-manager.service';
 import { Store } from '@ngrx/store';
 
 import { CalculationResultActions } from '../../actions/calculation-result';
 import { CalculationSelectionActions } from '../../actions/calculation-selection';
 import { Bearing } from '../../models/calculation-selection-state.model';
 import { CalculationSelectionSelector } from '../../selectors';
+import { getCalculationPerformed } from '../../selectors/calculation-options/calculation-options.selector';
+import { isResultAvailable } from '../../selectors/calculation-result/calculation-result.selector';
+import { isThermal } from '../../selectors/calculation-selection/calculation-selection.selector';
+import { getAppDeliveryEmbedded } from '../../selectors/global/global.selector';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CalculationSelectionFacade {
-  public readonly steps$ = this.store.select(
-    CalculationSelectionSelector.getSteps
-  );
+  private readonly store = inject(Store);
+  private readonly stepManagerService = inject(StepManagerService);
 
-  public readonly selectedBearingOption$ = this.getBearing$().pipe(
-    filter((bearing) => !!bearing),
-    map((bearing) => ({
-      id: bearing.bearingId,
-      title: bearing.title,
-    }))
+  public readonly selectedBearingOption = toSignal(
+    this.getBearing$().pipe(
+      filter((bearing) => !!bearing),
+      map((bearing) => ({
+        id: bearing.bearingId,
+        title: bearing.title,
+        isThermal: bearing.isThermal,
+        isMechanical: bearing.isMechanical,
+        isHydraulic: bearing.isHydraulic,
+      }))
+    )
   );
 
   public readonly bearingResultList$ = this.store.select(
@@ -41,7 +54,38 @@ export class CalculationSelectionFacade {
     CalculationSelectionSelector.getMountingMethods
   );
 
-  constructor(private readonly store: Store) {}
+  public readonly stepIndices$ = this.store.select(
+    CalculationSelectionSelector.getStoredStepIndices
+  );
+
+  public readonly availableSteps$ = this.store.select(
+    CalculationSelectionSelector.getAvailableSteps
+  );
+
+  public readonly storedStepConfiguration$ = this.store.select(
+    CalculationSelectionSelector.getStoredStepConfiguration
+  );
+
+  public readonly bearingStepIndex = this.store.selectSignal(
+    CalculationSelectionSelector.getBearingStepIndex
+  );
+
+  public readonly bearingSeatStepIndex = this.store.selectSignal(
+    CalculationSelectionSelector.getBearingSeatStepIndex
+  );
+
+  public readonly measuringMountingStepIndex = this.store.selectSignal(
+    CalculationSelectionSelector.getMeasuringMountingStepIndex
+  );
+
+  public readonly calculationOptionsStepIndex = this.store.selectSignal(
+    CalculationSelectionSelector.getCalculationOptionsStepIndex
+  );
+
+  public readonly resultStepIndex = this.store.selectSignal(
+    CalculationSelectionSelector.getResultStepIndex
+  );
+  public readonly isThermal = this.store.selectSignal(isThermal);
 
   public isLoading$(): Observable<boolean> {
     return this.store.select(
@@ -86,7 +130,9 @@ export class CalculationSelectionFacade {
 
   fetchBearingData(bearingId: string): void {
     this.store.dispatch(
-      CalculationSelectionActions.fetchBearingData({ bearingId })
+      CalculationSelectionActions.fetchBearingData({
+        bearingId,
+      })
     );
   }
 
@@ -119,6 +165,41 @@ export class CalculationSelectionFacade {
       CalculationSelectionActions.updateMountingMethodAndCurrentStep({
         mountingMethod,
       })
+    );
+  }
+
+  getStepConfiguration$(): Observable<StepConfiguration> {
+    return combineLatest([
+      this.getBearing$(),
+      this.isAxialDisplacement$(),
+      this.getBearingSeatId$(),
+      this.getMountingMethod$(),
+      this.store.select(getCalculationPerformed),
+      this.store.select(isResultAvailable),
+      this.store.select(getAppDeliveryEmbedded),
+    ]).pipe(
+      map(
+        ([
+          bearing,
+          isAxialBearing,
+          bearingSeatId,
+          mountingMethod,
+          optionsCalculationPerformed,
+          resultAvailable,
+          isEmbedded,
+        ]) =>
+          this.stepManagerService.getStepConfiguration({
+            bearing,
+            isAxialBearing,
+            isEmbedded,
+            completionState: {
+              bearingSeatId,
+              mountingMethod,
+              optionsCalculationPerformed,
+              isResultAvailable: resultAvailable,
+            },
+          })
+      )
     );
   }
 }

@@ -3,25 +3,17 @@
     schaefflerSeperatedSteps
     (selectionChange)="selectStep($event)"
     [selectedIndex]="currentStep()"
-    [ngClass]="{
-      '[&_mat-step-header:first-of-type]:pointer-events-none':
-        isAppDeliveryEmbedded(),
-    }"
     linear="true"
     class="p-1"
     #stepper
   >
     <ng-container>
       @for (step of steps(); track step.name; let index = $index) {
-        <mat-step
-          state="number"
-          [completed]="step.complete"
-          [editable]="!isAppDeliveryEmbedded() || index !== BEARING_STEP"
-          optional="false"
+        <mat-step state="number" [completed]="step.complete" optional="false"
           ><ng-template matStepLabel>{{ t(step.text) }}</ng-template>
           <div class="pt-2 sm:pt-4">
             @switch (index) {
-              @case (BEARING_STEP) {
+              @case (bearingStepIndex()) {
                 @if (!isAppDeliveryEmbedded()) {
                   <h5>{{ t(step.text) }}</h5>
                   <div class="mt-8 mb-4 max-w-sm sm:mb-8">
@@ -35,7 +27,7 @@
                   ></mm-qualtrics-info-banner>
                 }
               }
-              @case (BEARING_SEAT_STEP) {
+              @case (bearingSeatStepIndex()) {
                 @if (index === currentStep()) {
                   <h5>{{ t(step.text) }}</h5>
                   <mm-bearing-seat-step
@@ -48,7 +40,7 @@
                   ></mm-qualtrics-info-banner>
                 }
               }
-              @case (MEASURING_MOUNTING_STEP) {
+              @case (measuringMountingStepIndex()) {
                 @if (index === currentStep()) {
                   <h5>{{ t(step.text) }}</h5>
                   <mm-measuring-and-mounting-step
@@ -70,23 +62,24 @@
                   ></mm-qualtrics-info-banner>
                 }
               }
-              @case (CALCULATION_OPTIONS_STEP) {
+              @case (calculationOptionsStepIndex()) {
                 @if (index === currentStep()) {
-                  @if (isAxialBearing()) {
+                  @if (isAxialBearing() && !selectedBearing()?.isThermal) {
                     <mm-calculation-options-step
                       [preflightData]="preflightData()"
                     >
                     </mm-calculation-options-step>
-                    <mm-qualtrics-info-banner
-                      class="block my-3"
-                    ></mm-qualtrics-info-banner>
-                  } @else {
-                    <!-- This is for radial bearings at index, which is RADIAL_BEARINGS_RESULT_STEP -->
-                    <mm-report-result-page> </mm-report-result-page>
                   }
+
+                  @if (selectedBearing()?.isThermal) {
+                    <mm-thermal-heating-calculation-options></mm-thermal-heating-calculation-options>
+                  }
+                  <mm-qualtrics-info-banner
+                    class="block my-3"
+                  ></mm-qualtrics-info-banner>
                 }
               }
-              @case (AXIAL_BEARINGS_RESULT_STEP) {
+              @case (resultStepIndex()) {
                 <mm-report-result-page> </mm-report-result-page>
               }
               @default {

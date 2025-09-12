@@ -1,6 +1,8 @@
 /* eslint-disable unicorn/no-null */
 /* eslint-disable max-lines */
 import {
+  BLOCK,
+  STRING_OUTP_RESULTS,
   VARIABLE_BLOCK,
   VARIABLE_LINE,
 } from '@mm/core/services/bearinx-result.constant';
@@ -697,4 +699,41 @@ export const JSON_REPORT_ALL_TYPES_INPUTS_MOCK: Partial<BearinxOnlineResult> = {
       ],
     },
   ],
+};
+
+export const JSON_REPORT_THERMAL_BEARING_MOCK: BearinxOnlineResult = {
+  identifier: 'outputDescription',
+  programName: 'Bearinx online',
+  programNameID: 'STRING_BEARINX_ONLINE',
+  isBeta: false,
+  method: 'Mounting Manager (thermal)',
+  methodID: 'IDM_MOUNTING_MANAGER_THERMAL',
+  title: 'Mounting Manager (thermal)',
+  titleID: 'IDM_MOUNTING_MANAGER_THERMAL',
+  subordinates: [
+    {
+      identifier: BLOCK,
+      title: 'Results',
+      titleID: STRING_OUTP_RESULTS,
+      subordinates: [
+        {
+          identifier: VARIABLE_BLOCK,
+          title: 'Temperatures',
+          titleID: 'STRING_OUTP_TEMPERATURES',
+          subordinates: [
+            {
+              identifier: VARIABLE_LINE,
+              designation: 'Heating temperature',
+              abbreviation: 'T',
+              value: '58.7',
+              unit: '°C',
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  companyInformation: [],
+  timeStamp: '2025-08-19 11:32:24',
+  programVersion: '12.0',
 };

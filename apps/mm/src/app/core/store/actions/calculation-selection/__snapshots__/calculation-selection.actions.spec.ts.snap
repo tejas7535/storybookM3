@@ -43,6 +43,9 @@ Object {
   "resultList": Array [
     Object {
       "id": "1",
+      "isHydraulic": false,
+      "isMechanical": true,
+      "isThermal": false,
       "title": "Bearing 1",
     },
   ],
@@ -53,6 +56,9 @@ Object {
 exports[`CalculationSelectionActions should create setBearing action 1`] = `
 Object {
   "bearingId": "123",
+  "isHydraulic": false,
+  "isMechanical": true,
+  "isThermal": false,
   "title": "Bearing Title",
   "type": "[CalculationSelection] Set Bearing",
 }

@@ -23,6 +23,15 @@ jest.mock('@mm/shared/components/pdf/cards-content', () => ({
     .mockImplementation(() => 'mockCardContent'),
 }));
 
+jest.mock(
+  '@mm/shared/components/pdf/cards-content/temperature-card-content',
+  () => ({
+    TemperatureCardContent: jest
+      .fn()
+      .mockImplementation(() => 'mockTemperatureCardContent'),
+  })
+);
+
 describe('PdfCardFactory', () => {
   let spectator: SpectatorService<PdfCardFactory>;
   let mockPdfComponentFactory: jest.Mocked<PdfComponentFactory>;
@@ -203,6 +212,70 @@ describe('PdfCardFactory', () => {
 
       // Verify that getLink was called with the right value
       expect(mockGetLink).toHaveBeenCalledWith('ABC123');
+    });
+  });
+
+  describe('createTemperatureCard', () => {
+    it('should create a temperature card with the temperature data', () => {
+      const temperatures: ResultItem[] = [
+        {
+          designation: 'Heating temperature',
+          value: '58.7',
+          unit: '°C',
+          abbreviation: 'T',
+        },
+        {
+          designation: 'Target temperature',
+          value: '65.0',
+          unit: '°C',
+          abbreviation: 'T_target',
+        },
+      ];
+
+      const result = spectator.service.createTemperatureCard(temperatures);
+
+      expect(result).toBe(mockPdfCard);
+      expect(
+        mockPdfComponentFactory.createSingleComponentCard
+      ).toHaveBeenCalledWith(
+        expect.any(Object), // TemperatureCardContent instance
+        { keepTogether: true }
+      );
+    });
+
+    it('should handle temperature with missing unit gracefully', () => {
+      const temperatures: ResultItem[] = [
+        {
+          designation: 'Temperature without unit',
+          value: '80',
+          abbreviation: 'T',
+          unit: '',
+        },
+      ];
+
+      const result = spectator.service.createTemperatureCard(temperatures);
+
+      expect(result).toBe(mockPdfCard);
+      expect(
+        mockPdfComponentFactory.createSingleComponentCard
+      ).toHaveBeenCalledWith(
+        expect.any(Object), // TemperatureCardContent instance
+        { keepTogether: true }
+      );
+    });
+
+    it('should handle empty temperatures array', () => {
+      const temperatures: ResultItem[] = [];
+
+      const result = spectator.service.createTemperatureCard(temperatures);
+
+      expect(result).toBe(mockPdfCard);
+      expect(
+        mockPdfComponentFactory.createSingleComponentCard
+      ).toHaveBeenCalledWith(
+        expect.any(Object), // TemperatureCardContent instance
+        { keepTogether: true }
+      );
     });
   });
 });

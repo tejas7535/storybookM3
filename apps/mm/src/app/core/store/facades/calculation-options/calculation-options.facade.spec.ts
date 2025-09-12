@@ -38,6 +38,30 @@ describe('CalculationOptionsFacade', () => {
     });
   });
 
+  it('should select calculationPerformed$', (done) => {
+    const calculationPerformed = true;
+    store.overrideSelector(
+      CalculationOptionsSelector.getCalculationPerformed,
+      calculationPerformed
+    );
+    spectator.service.getCalculationPerformed$().subscribe((result) => {
+      expect(result).toBe(calculationPerformed);
+      done();
+    });
+  });
+
+  it('should select calculationPerformed$ when false', (done) => {
+    const calculationPerformed = false;
+    store.overrideSelector(
+      CalculationOptionsSelector.getCalculationPerformed,
+      calculationPerformed
+    );
+    spectator.service.getCalculationPerformed$().subscribe((result) => {
+      expect(result).toBe(calculationPerformed);
+      done();
+    });
+  });
+
   it('should dispatch updateShaftMaterialInformation action', () => {
     const shaftMaterialId = 'testShaftMaterialId';
     const expectedAction =
@@ -65,6 +89,31 @@ describe('CalculationOptionsFacade', () => {
     });
 
     spectator.service.updateFormData(formData);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch updateToleranceClasses action', () => {
+    const expectedAction = CalculationOptionsActions.fetchToleranceClasses();
+
+    spectator.service.updateToleranceClasses();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch updateThermalOptionsFromFormData action', () => {
+    const formData = {
+      toleranceClass: 'none',
+      upperDeviation: 0,
+      lowerDeviation: 0,
+      temperature: 20,
+    };
+    const expectedAction =
+      CalculationOptionsActions.updateThermalOptionsFromFormData({
+        formData,
+      });
+
+    spectator.service.updateThermalOptionsFromFormData(formData);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });

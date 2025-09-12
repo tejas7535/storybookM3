@@ -121,6 +121,8 @@ export class ReportResultPageComponent {
   public readonly pumpsTitle = this.dataService.pumpsTile;
   public readonly pumps = this.dataService.allPumps;
 
+  public readonly temperatures = this.dataService.temperatures;
+
   public hydraulicNut = computed(() => {
     const mountingTools = this.mountingTools();
 

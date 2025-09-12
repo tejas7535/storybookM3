@@ -14,7 +14,20 @@ import {
 } from './../../app/shared/models';
 
 export const BEARING_SEARCH_RESULT_MOCK: SearchResult = {
-  data: ['bearing-123', 'bearing-567'],
+  data: [
+    {
+      name: 'bearing-123',
+      isThermal: false,
+      isMechanical: true,
+      isHydraulic: false,
+    },
+    {
+      name: 'bearing-567',
+      isThermal: true,
+      isMechanical: false,
+      isHydraulic: true,
+    },
+  ],
   total: 2,
 };
 

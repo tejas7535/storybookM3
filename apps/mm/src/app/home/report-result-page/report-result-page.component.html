@@ -50,6 +50,13 @@
         >
         </mm-grid-result-item-card>
 
+        <mm-grid-result-item-card
+          id="temperatures"
+          [title]="t('temperatures')"
+          [resultItems]="temperatures()"
+        >
+        </mm-grid-result-item-card>
+
         @if (hasMountingTools()) {
           <h3 id="mountingToolsAndUtilities" class="text-title-medium my-4">
             {{ t('mountingToolsAndUtilities') }}

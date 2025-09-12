@@ -1,3 +1,5 @@
+import { signal } from '@angular/core';
+
 import { Observable, of } from 'rxjs';
 
 import { RestService } from '@mm/core/services';
@@ -34,6 +36,7 @@ describe('CalculationOptionsEffects', () => {
         provide: RestService,
         useValue: {
           getBearingPreflightResponse: jest.fn(),
+          getToleranceClasses: jest.fn(),
         },
       },
       {
@@ -44,6 +47,7 @@ describe('CalculationOptionsEffects', () => {
           getCurrentStep$: jest.fn(),
           getMeasurementMethod$: jest.fn(),
           getMountingMethod$: jest.fn(),
+          isThermal: signal(true),
         },
       },
       {
@@ -218,5 +222,27 @@ describe('CalculationOptionsEffects', () => {
         IDMM_MOUNTING_METHOD: 'mounting-method',
       });
     })();
+  });
+
+  describe('fetchToleranceClasses$', () => {
+    it('should dispatch setToleranceClasses with fetched data', () => {
+      const toleranceClasses = ['class1', 'class2'];
+
+      restService.getToleranceClasses.mockReturnValue(of(toleranceClasses));
+
+      return marbles((m) => {
+        actions$ = m.hot('-a-', {
+          a: CalculationOptionsActions.fetchToleranceClasses(),
+        });
+
+        const expected = m.cold('-b-', {
+          b: CalculationOptionsActions.setToleranceClasses({
+            toleranceClasses,
+          }),
+        });
+
+        m.expect(effects.fetchToleranceClasses$).toBeObservable(expected);
+      })();
+    });
   });
 });

@@ -16,11 +16,13 @@ import { concatLatestFrom } from '@ngrx/operators';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
+import { CalculationOptionsActions } from '../../actions';
 import { CalculationResultActions } from '../../actions/calculation-result';
 import { CalculationOptionsFacade } from '../../facades/calculation-options/calculation-options.facade';
 import { CalculationSelectionFacade } from '../../facades/calculation-selection/calculation-selection.facade';
 import { CalculationResult } from '../../models/calculation-result-state.model';
 import { Bearing } from '../../models/calculation-selection-state.model';
+import { extractDeviationValuesFromThermalResult } from './calculation-result.helpers';
 
 @Injectable()
 export class CalculationResultEffects {
@@ -88,6 +90,57 @@ export class CalculationResultEffects {
             );
         }
       )
+    );
+  });
+
+  public calculateThermalResult$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CalculationResultActions.calculateThermalResultFromOptions),
+      concatLatestFrom(() => this.calculationSelectionFacade.getBearing$()),
+      switchMap(([_, { bearingId }]) => {
+        const designation = bearingId;
+        const options = this.calculationOptionsFacade.thermalOptions();
+
+        if (!designation || !options) {
+          return of(
+            CalculationResultActions.calculateResultFailure({
+              error: 'Missing designation or thermal options',
+            })
+          );
+        }
+
+        return this.restService
+          .getThermalBearingCalculationResult({
+            designation,
+            ...options,
+          })
+          .pipe(
+            mergeMap((rawResult) => {
+              const result: CalculationResult =
+                this.reportParserService.parseResponse(rawResult);
+
+              const { upperDeviation, lowerDeviation } =
+                extractDeviationValuesFromThermalResult(result);
+
+              return [
+                ...(!!upperDeviation && !!lowerDeviation
+                  ? [
+                      CalculationOptionsActions.updateThermalOptionsFromFormData(
+                        {
+                          formData: {
+                            ...options,
+                            upperDeviation,
+                            lowerDeviation,
+                          },
+                        }
+                      ),
+                    ]
+                  : []),
+                CalculationResultActions.setCalculationResult({ result }),
+              ];
+            })
+          );
+      })
     );
   });
 

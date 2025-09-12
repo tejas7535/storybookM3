@@ -119,6 +119,7 @@ describe('ReportResultPageComponent', () => {
           endPositions: signal(endPositions),
           radialClearance: signal([]),
           clearanceClasses: signal([]),
+          temperatures: signal([]),
           inputs: signal([]),
           categorizedMessages: signal(messages),
           mountingRecommendations: signal([]),

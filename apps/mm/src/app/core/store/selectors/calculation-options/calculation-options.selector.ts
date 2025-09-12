@@ -11,3 +11,13 @@ export const getCalculationPerformed = createSelector(
   getCalculationOptionsSelectionState,
   (state) => state?.calculationPerformed
 );
+
+export const getToleranceClasses = createSelector(
+  getCalculationOptionsSelectionState,
+  (state) => state?.toleranceClasses || []
+);
+
+export const getThermalOptions = createSelector(
+  getCalculationOptionsSelectionState,
+  (state) => state?.thermalOptions
+);

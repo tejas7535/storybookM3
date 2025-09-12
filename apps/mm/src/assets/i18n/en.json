@@ -70,7 +70,15 @@
     },
     "modulusOfElasticity": "Modulus of Elasticity",
     "poissonRatio": "Poisson ratio",
-    "report": "Report"
+    "report": "Report",
+    "thermal": {
+      "title": "Mounting and heating information",
+      "toleranceClass": "Tolerance class",
+      "none": "None",
+      "upperDeviation": "Upper Deviation",
+      "lowerDeviation": "Lower Deviation",
+      "temperature": "Temperature"
+    }
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "Feedback",
@@ -103,6 +111,7 @@
       "endPosition": "End position",
       "radialClearance": "Radial clearance reduction and axial displacement",
       "clearanceClasses": "Check values for clearance classes",
+      "temperatures": "Temperatures",
       "mountingToolsAndUtilities": "Mounting tools and utilities (required)",
       "mountingInstructions": "Mounting Instructions",
       "reportMessages": "Errors, Warning & Notes",
@@ -112,6 +121,7 @@
     "endPositions": "End position",
     "radialClearance": "Radial clearance reduction and axial displacement",
     "clearanceClasses": "Check values for clearance classes",
+    "temperatures": "Temperatures",
     "shared": {
       "expand": "Show additional values",
       "collapse": "Hide additional values"

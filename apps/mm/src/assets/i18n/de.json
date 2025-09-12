@@ -70,7 +70,15 @@
     },
     "modulusOfElasticity": "E-Modul",
     "poissonRatio": "Querkontraktionszahl",
-    "report": "Bericht"
+    "report": "Bericht",
+    "thermal": {
+      "title": "Montage- und Heizinformationen",
+      "toleranceClass": "Toleranzklasse",
+      "none": "Keine",
+      "upperDeviation": "Obere Abweichung",
+      "lowerDeviation": "Untere Abweichung",
+      "temperature": "Temperatur"
+    }
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "Feedback",
@@ -103,6 +111,7 @@
       "endPositions": "Endposition",
       "radialClearance": "Radialluftminderung und axiale Verschiebung",
       "clearanceClasses": "Kontrollwerte für die Lagerluftklassen",
+      "temperatures": "Temperaturen",
       "mountingToolsAndUtilities": "Montagewerkzeuge und - hilfsmittel (erfoderlich)",
       "mountingInstructions": "Montageanleitung",
       "reportMessages": "Fehler, Warnungen & Hinweise",
@@ -112,6 +121,7 @@
     "endPositions": "Endposition",
     "radialClearance": "Radialluftminderung und axiale Verschiebung",
     "clearanceClasses": "Kontrollwerte für die Lagerluftklassen",
+    "temperatures": "Temperaturen",
     "shared": {
       "expand": "Zusätzliche Werte anzeigen",
       "collapse": "Zusätzliche Werte verbergen"

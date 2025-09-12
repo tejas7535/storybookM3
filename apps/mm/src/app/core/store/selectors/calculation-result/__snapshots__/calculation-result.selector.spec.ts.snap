@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CalculationResultSelector getCalculationInputs when inputs are defined should return inputs 1`] = `
+exports[`CalculationResultSelectors getCalculationInputs when inputs are defined should return inputs 1`] = `
 Array [
   Object {
     "hasNestedStructure": true,
@@ -9,7 +9,7 @@ Array [
 ]
 `;
 
-exports[`CalculationResultSelector getCalculationMessages when messages are defined should return messages 1`] = `
+exports[`CalculationResultSelectors getCalculationMessages when messages are defined should return messages 1`] = `
 Object {
   "errors": Array [],
   "notes": Array [
@@ -19,7 +19,7 @@ Object {
 }
 `;
 
-exports[`CalculationResultSelector getEndPositions getReportSelectionTypes when multiple conditions are met should include all applicable report selection types 1`] = `
+exports[`CalculationResultSelectors getEndPositions getReportSelectionTypes when multiple conditions are met should include all applicable report selection types 1`] = `
 Array [
   Object {
     "name": "reportInputs",
@@ -48,14 +48,14 @@ Array [
 ]
 `;
 
-exports[`CalculationResultSelector getMountingRecommendations when mounting recommendations are defined should return mounting recommendations 1`] = `
+exports[`CalculationResultSelectors getMountingRecommendations when mounting recommendations are defined should return mounting recommendations 1`] = `
 Array [
   "first recommendation",
   "second recommendation",
 ]
 `;
 
-exports[`CalculationResultSelector getMountingTools when mounting tools are defined should return mounting tools 1`] = `
+exports[`CalculationResultSelectors getMountingTools when mounting tools are defined should return mounting tools 1`] = `
 Object {
   "additionalTools": Array [],
   "hydraulicNut": Array [],
@@ -68,7 +68,7 @@ Object {
 }
 `;
 
-exports[`CalculationResultSelector isResultAvailable getReportSelectionTypes when reports types are available should return types list 1`] = `
+exports[`CalculationResultSelectors isResultAvailable getReportSelectionTypes when reports types are available should return types list 1`] = `
 Array [
   Object {
     "name": "reportInputs",

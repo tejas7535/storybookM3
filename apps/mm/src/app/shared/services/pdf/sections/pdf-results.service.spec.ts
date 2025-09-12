@@ -4,6 +4,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import {
   Component,
+  PdfCardComponent,
   PdfComponentFactory,
   PdfLayoutService,
   PdfTableFactory,
@@ -12,6 +13,7 @@ import {
 } from '@schaeffler/pdf-generator';
 
 import { ResultDataService } from '../../result-data.service';
+import { PdfCardFactory } from '../factories/pdf-card-factory.service';
 import { PdfResultsService } from './pdf-results.service';
 
 describe('PdfResultsService', () => {
@@ -39,10 +41,16 @@ describe('PdfResultsService', () => {
           clearanceClasses: jest.fn(() => mockResultItems),
           startPositions: jest.fn(() => mockResultItems),
           endPositions: jest.fn(() => mockResultItems),
+          temperatures: jest.fn(() => mockResultItems),
         },
       },
     ],
-    mocks: [PdfComponentFactory, PdfTableFactory, PdfLayoutService],
+    mocks: [
+      PdfComponentFactory,
+      PdfTableFactory,
+      PdfLayoutService,
+      PdfCardFactory,
+    ],
   });
 
   beforeEach(() => {
@@ -113,6 +121,46 @@ describe('PdfResultsService', () => {
         mockLayoutService.createTwoColumnLayoutsWithComponents
       ).toHaveBeenCalled();
       expect(result).toEqual([mockLayout]);
+    });
+  });
+
+  describe('getTemperaturesSection', () => {
+    it('should create a temperature card when temperatures exist', () => {
+      const mockHeading = {} as unknown as Component;
+      const mockCard = {} as unknown as PdfCardComponent;
+      const mockComponentFactory = spectator.inject(PdfComponentFactory);
+      const mockCardFactory = spectator.inject(PdfCardFactory);
+      const mockDataService = spectator.inject(ResultDataService);
+      const mockTranslocoService = spectator.inject(TranslocoService);
+
+      mockComponentFactory.createSectionSubHeading.mockReturnValue(mockHeading);
+      mockCardFactory.createTemperatureCard.mockReturnValue(mockCard);
+      mockTranslocoService.translate.mockReturnValue(
+        'reportResult.temperatures'
+      );
+
+      const result = service.getTemperaturesSection();
+
+      expect(mockDataService.temperatures).toHaveBeenCalled();
+      expect(mockTranslocoService.translate).toHaveBeenCalledWith(
+        'reportResult.temperatures'
+      );
+      expect(mockComponentFactory.createSectionSubHeading).toHaveBeenCalledWith(
+        'reportResult.temperatures'
+      );
+      expect(mockCardFactory.createTemperatureCard).toHaveBeenCalledWith(
+        mockResultItems
+      );
+      expect(result).toEqual([mockHeading, mockCard]);
+    });
+
+    it('should return empty array when there are no temperatures', () => {
+      const mockDataService = spectator.inject(ResultDataService);
+      mockDataService.temperatures.mockReturnValue([]);
+
+      const result = service.getTemperaturesSection();
+
+      expect(result).toEqual([]);
     });
   });
 

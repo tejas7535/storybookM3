@@ -11,10 +11,12 @@ import {
 } from '@schaeffler/pdf-generator';
 
 import { ResultDataService } from '../../result-data.service';
+import { PdfCardFactory } from '../factories/pdf-card-factory.service';
 
 @Injectable()
 export class PdfResultsService {
   private readonly tableFactory = inject(PdfTableFactory);
+  private readonly cardFactory = inject(PdfCardFactory);
   private readonly layoutService = inject(PdfLayoutService);
   private readonly dataService = inject(ResultDataService);
   private readonly translocoService = inject(TranslocoService);
@@ -46,6 +48,25 @@ export class PdfResultsService {
     );
 
     return startEndPostionSection;
+  }
+
+  getTemperaturesSection(): Component[] {
+    const temperatures = this.dataService.temperatures();
+
+    if (!temperatures || temperatures.length === 0) {
+      return [];
+    }
+
+    // Create heading outside the card
+    const heading = this.componentFactory.createSectionSubHeading(
+      this.translocoService.translate('reportResult.temperatures')
+    );
+
+    // Create the temperature card
+    const temperatureCard =
+      this.cardFactory.createTemperatureCard(temperatures);
+
+    return [heading, temperatureCard];
   }
 
   private createTwoColumnSection(

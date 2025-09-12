@@ -11,6 +11,7 @@ import {
 } from '@mm/shared/components/pdf/building-blocks';
 import { MountingToolCardContent } from '@mm/shared/components/pdf/cards-content';
 import { SleeveConnectorCardContent } from '@mm/shared/components/pdf/cards-content/sleeve-connector-card-content';
+import { TemperatureCardContent } from '@mm/shared/components/pdf/cards-content/temperature-card-content';
 import { PdfProductQrLinkService } from '@mm/shared/services/pdf/pdf-product-qr-link.service';
 
 import {
@@ -73,6 +74,18 @@ export class PdfCardFactory {
       rightResultItem.value,
       link
     );
+
+    return this.createCard(cardContent);
+  }
+
+  createTemperatureCard(temperatures: ResultItem[]): PdfCardComponent {
+    const temperatureData = temperatures.map((temp) => ({
+      value: temp.value,
+      unit: temp.unit || '',
+      label: temp.designation,
+    }));
+
+    const cardContent = new TemperatureCardContent(temperatureData);
 
     return this.createCard(cardContent);
   }

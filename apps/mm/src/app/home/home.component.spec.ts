@@ -1,8 +1,11 @@
+import { signal } from '@angular/core';
+
 import { of } from 'rxjs';
 
 import { CalculationOptionsFacade } from '@mm/core/store/facades/calculation-options/calculation-options.facade';
 import { CalculationSelectionFacade } from '@mm/core/store/facades/calculation-selection/calculation-selection.facade';
 import { GlobalFacade } from '@mm/core/store/facades/global/global.facade';
+import { StepType } from '@mm/shared/constants/steps';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockProvider } from 'ng-mocks';
 
@@ -25,8 +28,8 @@ describe('HomeComponent', () => {
       } as unknown as GlobalFacade),
       MockProvider(CalculationSelectionFacade, {
         getBearing$: jest.fn(() => of({})),
-        bearingSeats$: of([]),
-        selectedBearingOption$: of({}),
+        bearingSeats$: of({ selectedValueId: '789' }),
+        selectedBearingOption$: signal<[]>,
         measurementMethods$: of([]),
         mountingMethods$: of([]),
         getOptions$: jest.fn(() => of({})),
@@ -34,6 +37,25 @@ describe('HomeComponent', () => {
         isLoading$: jest.fn(() => of(false)),
         steps$: of([]),
         getCurrentStep$: jest.fn(() => of(0)),
+        getStepConfiguration$: jest.fn(() =>
+          of({
+            steps: [],
+            stepIndices: {
+              [StepType.BEARING]: 0,
+              [StepType.BEARING_SEAT]: 1,
+              [StepType.MEASURING_MOUNTING]: 2,
+              [StepType.CALCULATION_OPTIONS]: 3,
+              [StepType.RESULT]: 4,
+            },
+            availableSteps: [],
+          })
+        ),
+        // Add the new signal properties
+        bearingStepIndex: jest.fn(() => 0),
+        bearingSeatStepIndex: jest.fn(() => 1),
+        measuringMountingStepIndex: jest.fn(() => 2),
+        calculationOptionsStepIndex: jest.fn(() => 3),
+        resultStepIndex: jest.fn(() => 4),
         fetchBearingData: jest.fn(),
         setBearingSeat: jest.fn(),
         updateMountingMethodAndCurrentStep: jest.fn(),
@@ -94,7 +116,7 @@ describe('HomeComponent', () => {
         selectedBearingSeatId
       );
       expect(component['selectCurrentStep']).toHaveBeenCalledWith(
-        component.MEASURING_MOUNTING_STEP
+        component.measuringMountingStepIndex()
       );
     });
   });

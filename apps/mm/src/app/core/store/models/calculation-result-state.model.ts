@@ -16,6 +16,7 @@ export interface CalculationResult {
   radialClearance: ResultItem[];
   clearanceClasses: ResultItem[];
   reportMessages: ReportMessages;
+  temperatures?: ResultItem[]; // For thermal bearings
 }
 
 export interface ResultItem {
@@ -60,6 +61,7 @@ export type ResultType =
   | 'endPosition'
   | 'radialClearance'
   | 'clearanceClasses'
+  | 'temperatures'
   | 'mountingToolsAndUtilities'
   | 'mountingInstructions'
   | 'reportMessages';

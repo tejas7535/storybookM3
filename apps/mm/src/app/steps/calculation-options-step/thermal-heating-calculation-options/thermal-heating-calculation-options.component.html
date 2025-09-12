@@ -1,0 +1,65 @@
+<div *transloco="let t; read: 'dialog.thermal'" appearance="outlined">
+  <h5>{{ t('title') }}</h5>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div
+      class="min-w-[calc(100vw - 4rem)] my-4 gap-4 space-y-4 flex md:items-start md:space-y-0"
+    >
+      <mat-card class="flex-1 md:max-w-lg">
+        <mat-card-header>{{ t('title') }}</mat-card-header>
+        <mat-card-content class="!pt-2">
+          <div class="flex flex-wrap">
+            <div class="w-full">
+              <div class="flex flex-col lg:flex-row gap-2">
+                <mat-form-field appearance="outline" class="w-full">
+                  <mat-label> {{ t('toleranceClass') }}</mat-label>
+                  <mat-select formControlName="toleranceClass">
+                    <mat-option [value]="NONE">{{ t(NONE) }}</mat-option>
+                    @for (option of toleranceClassOptions(); track option) {
+                      <mat-option [value]="option">{{ option }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="flex flex-col sm:flex-row gap-2">
+                <mat-form-field appearance="outline" class="flex-1">
+                  <mat-label>{{ t('upperDeviation') }}</mat-label>
+                  <input
+                    type="number"
+                    matInput
+                    formControlName="upperDeviation"
+                  />
+                  <span matSuffix>µm</span>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="flex-1">
+                  <mat-label>{{ t('lowerDeviation') }}</mat-label>
+                  <input
+                    type="number"
+                    matInput
+                    formControlName="lowerDeviation"
+                  />
+                  <span matSuffix>µm</span>
+                </mat-form-field>
+              </div>
+              <mat-form-field appearance="outline" class="w-full">
+                <mat-label>{{ t('temperature') }}</mat-label>
+                <input type="number" matInput formControlName="temperature" />
+                <span matSuffix>°C</span>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <button
+      *transloco="let f; read: 'form'"
+      mat-flat-button
+      type="submit"
+      class="w-full md:w-auto"
+      [disabled]="form.invalid || !isResultAvailable()"
+    >
+      {{ f('calculateResults') }}
+    </button>
+  </form>
+</div>

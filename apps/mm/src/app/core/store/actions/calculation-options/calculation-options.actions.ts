@@ -1,10 +1,17 @@
 import { PreflightData } from '@mm/core/services/preflght-data-parser/preflight-data.interface';
 import { ShaftMaterialResponse } from '@mm/shared/models';
-import { CalculationOptionsFormData } from '@mm/steps/calculation-options-step/calculation-selection-step.interface';
+import {
+  CalculationOptionsFormData,
+  ThermalCalculationOptionsFormData,
+} from '@mm/steps/calculation-options-step/calculation-selection-step.interface';
 import { createAction, props } from '@ngrx/store';
 
 export const fetchPreflightOptions = createAction(
   '[CalculationOptions] Fetch preflight options'
+);
+
+export const resetCalculationOptions = createAction(
+  '[CalculationOptions] Reset Options'
 );
 
 export const setCalculationOptions = createAction(
@@ -38,4 +45,18 @@ export const updateOptionsFromFormData = createAction(
 
 export const updateOptionsSuccess = createAction(
   '[CalculationOptions] Update options success'
+);
+
+export const fetchToleranceClasses = createAction(
+  '[CalculationOptions] Fetch tolerance classes'
+);
+
+export const setToleranceClasses = createAction(
+  '[CalculationOptions] Set tolerance classes',
+  props<{ toleranceClasses: string[] }>()
+);
+
+export const updateThermalOptionsFromFormData = createAction(
+  '[CalculationOptions] Update thermal options from form data',
+  props<{ formData: ThermalCalculationOptionsFormData }>()
 );

@@ -1,4 +1,6 @@
+import { StepType } from '@mm/shared/constants/steps';
 import { ListValue } from '@mm/shared/models/list-value.model';
+import { StepConfiguration } from '@mm/shared/services/step-manager/step-manager.service';
 
 import { CalculationSelectionActions } from '../../actions/calculation-selection';
 import { CalculationSelectionState } from '../../models/calculation-selection-state.model';
@@ -12,7 +14,13 @@ describe('CalculationSelectionReducer', () => {
     it('should reset state to initial state', () => {
       const modifiedState: CalculationSelectionState = {
         ...initialState,
-        bearing: { bearingId: '123', title: 'Test Bearing' },
+        bearing: {
+          bearingId: '123',
+          title: 'Test Bearing',
+          isThermal: false,
+          isMechanical: true,
+          isHydraulic: false,
+        },
         loading: true,
       };
 
@@ -43,7 +51,24 @@ describe('CalculationSelectionReducer', () => {
 
   describe('searchBearingSuccess action', () => {
     it('should update bearingResultList and set loading to false', () => {
-      const resultList = [{ id: '1', title: 'Bearing 1' }];
+      const resultList = [
+        {
+          id: '1',
+          name: 'Bearing 1',
+          title: 'Bearing 1',
+          isThermal: false,
+          isMechanical: true,
+          isHydraulic: false,
+        },
+        {
+          id: '2',
+          name: 'Bearing 2',
+          title: 'Bearing 2',
+          isThermal: true,
+          isMechanical: false,
+          isHydraulic: true,
+        },
+      ];
       const state = { ...initialState, loading: true };
 
       const result = calculationSelectionReducer(
@@ -63,15 +88,24 @@ describe('CalculationSelectionReducer', () => {
     it('should update bearing property', () => {
       const bearingId = '123';
       const title = 'Test Bearing';
+      const isThermal = false;
+      const isMechanical = true;
+      const isHydraulic = false;
 
       const result = calculationSelectionReducer(
         initialState,
-        CalculationSelectionActions.setBearing({ bearingId, title })
+        CalculationSelectionActions.setBearing({
+          bearingId,
+          title,
+          isThermal,
+          isMechanical,
+          isHydraulic,
+        })
       );
 
       expect(result).toEqual({
         ...initialState,
-        bearing: { bearingId, title },
+        bearing: { bearingId, title, isThermal, isMechanical, isHydraulic },
       });
     });
   });
@@ -257,6 +291,31 @@ describe('CalculationSelectionReducer', () => {
         mountingMethods: {
           values: [{ id: '123', text: 'Method 1' }],
           selectedValueId: mountingMethod,
+        },
+      });
+    });
+  });
+
+  describe('updateStepConfiguration action', () => {
+    it('should update step configuration in stepper', () => {
+      const newStepConfiguration: StepConfiguration = {
+        steps: [{ name: 'bearing', text: 'Bearing', complete: false }],
+        stepIndices: { [StepType.BEARING]: 0 } as Record<StepType, number>,
+        availableSteps: [StepType.BEARING],
+      };
+
+      const result = calculationSelectionReducer(
+        initialState,
+        CalculationSelectionActions.updateStepConfiguration({
+          stepConfiguration: newStepConfiguration,
+        })
+      );
+
+      expect(result).toEqual({
+        ...initialState,
+        stepper: {
+          ...initialState.stepper,
+          stepConfiguration: newStepConfiguration,
         },
       });
     });

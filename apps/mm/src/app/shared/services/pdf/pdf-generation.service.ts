@@ -85,6 +85,7 @@ export class PdfGenerationService {
       .addComponent(...this.resultsService.getHeading())
       .addComponent(...this.resultsService.getRadialClearanceSection())
       .addComponent(...this.resultsService.getStartEndPositionsSection())
+      .addComponent(...this.resultsService.getTemperaturesSection())
       .addComponent(...this.mountingToolsService.getHeading())
       .addComponent(...this.mountingToolsService.getLockNutSection())
       .addComponent(...this.mountingToolsService.getAdditionalToolsSection())
@@ -92,7 +93,6 @@ export class PdfGenerationService {
       .addComponent(...this.mountingToolsService.getAlternativePumpsSection())
       .addComponent(...this.mountingToolsService.getSleeveConnectorSection())
       .addComponent(ControlCommands.PageBreak)
-      .addComponent(...this.recommendationService.getInstructionsHeading())
       .addComponent(
         ...this.recommendationService.getMountingRecommendationSection()
       )

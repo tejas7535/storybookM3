@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
 
-import { debounceTime } from 'rxjs';
+import { debounceTime, map } from 'rxjs';
 
 import { CalculationOptionsFacade } from '@mm/core/store/facades/calculation-options/calculation-options.facade';
 import { CalculationSelectionFacade } from '@mm/core/store/facades/calculation-selection/calculation-selection.facade';
@@ -16,15 +16,9 @@ import { GlobalFacade } from '@mm/core/store/facades/global/global.facade';
 import { BearingSearchComponent } from '@mm/home/bearing-search/bearing-search.component';
 import { AppStoreButtonsComponent } from '@mm/shared/components/app-store-buttons/app-store-buttons.component';
 import { QualtricsInfoBannerComponent } from '@mm/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
-import {
-  AXIAL_BEARINGS_RESULT_STEP,
-  BEARING_SEAT_STEP,
-  BEARING_STEP,
-  CALCULATION_OPTIONS_STEP,
-  MEASURING_MOUNTING_STEP,
-} from '@mm/shared/constants/steps';
 import { BearingSeatStepComponent } from '@mm/steps/bearing-seat-step/bearing-seat-step.component';
 import { CalculationOptionsStepComponent } from '@mm/steps/calculation-options-step/calculation-options-step.component';
+import { ThermalHeatingCalculationOptionsComponent } from '@mm/steps/calculation-options-step/thermal-heating-calculation-options/thermal-heating-calculation-options.component';
 import { MeasuringAndMountingStepComponent } from '@mm/steps/measuring-and-mounting-step/measuring-and-mounting-step.component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -50,6 +44,7 @@ import { ReportResultPageComponent } from './report-result-page/report-result-pa
     QualtricsInfoBannerComponent,
     AppStoreButtonsComponent,
     ReportResultPageComponent,
+    ThermalHeatingCalculationOptionsComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'mm-home',
@@ -59,31 +54,36 @@ export class HomeComponent {
   private readonly optionsFacade = inject(CalculationOptionsFacade);
   private readonly globalFacade = inject(GlobalFacade);
 
-  readonly BEARING_STEP = BEARING_STEP;
-  readonly BEARING_SEAT_STEP = BEARING_SEAT_STEP;
-  readonly MEASURING_MOUNTING_STEP = MEASURING_MOUNTING_STEP;
-  readonly CALCULATION_OPTIONS_STEP = CALCULATION_OPTIONS_STEP;
-  readonly AXIAL_BEARINGS_RESULT_STEP = AXIAL_BEARINGS_RESULT_STEP;
-
   public readonly DEBOUNCE_TIME_DEFAULT = 0; // debounce time required for slider in Application to render properly at the first load.
   public isAppDeliveryEmbedded = toSignal(
     this.globalFacade.appDeliveryEmbedded$
   );
   selectedBearing = toSignal(this.selectionFacade.getBearing$());
   bearingSeats = toSignal(this.selectionFacade.bearingSeats$);
-  selectedBearingOption = toSignal(this.selectionFacade.selectedBearingOption$);
+  selectedBearingOption = this.selectionFacade.selectedBearingOption;
   measurementMethods = toSignal(this.selectionFacade.measurementMethods$);
   mountingMethods = toSignal(this.selectionFacade.mountingMethods$);
   preflightData = toSignal(this.optionsFacade.getOptions$());
   isAxialBearing = toSignal(this.selectionFacade.isAxialDisplacement$());
   isLoading = toSignal(this.selectionFacade.isLoading$());
 
-  steps = toSignal(this.selectionFacade.steps$);
+  steps = toSignal(
+    this.selectionFacade
+      .getStepConfiguration$()
+      .pipe(map((config) => config.steps))
+  );
   currentStep = toSignal(
     this.selectionFacade
       .getCurrentStep$()
       .pipe(debounceTime(this.DEBOUNCE_TIME_DEFAULT))
   );
+
+  bearingStepIndex = this.selectionFacade.bearingStepIndex;
+  bearingSeatStepIndex = this.selectionFacade.bearingSeatStepIndex;
+  measuringMountingStepIndex = this.selectionFacade.measuringMountingStepIndex;
+  calculationOptionsStepIndex =
+    this.selectionFacade.calculationOptionsStepIndex;
+  resultStepIndex = this.selectionFacade.resultStepIndex;
 
   selectStep(_event: StepperSelectionEvent): void {
     const selectedIndex = _event.selectedIndex;
@@ -99,7 +99,10 @@ export class HomeComponent {
       this.selectionFacade.setBearingSeat(bearingSeatId);
     }
 
-    this.selectCurrentStep(MEASURING_MOUNTING_STEP);
+    const nextStepIndex = this.measuringMountingStepIndex();
+    if (nextStepIndex !== undefined) {
+      this.selectCurrentStep(nextStepIndex);
+    }
   }
 
   public selectMountingMethod(mountingMethod: string): void {

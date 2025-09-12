@@ -9,7 +9,7 @@ export const environment: Environment = {
   localDev: true,
   devToolsEnabled: true,
   bearinxApiBaseUrl: 'https://bearinx-d.schaeffler.com/mounting/api',
-  baseUrl: 'https://bearinx-d.schaeffler.com/mounting/api/v2/mountingmanager',
+  baseUrl: 'https://bearinx-d.schaeffler.com/mounting/api/v3/mountingmanager',
   staticStorageUrl: 'https://frontend1apps.z1.web.core.windows.net',
   assetsPath: 'http://localhost:8000/assets',
   oneTrustId: '8305e043-6459-42a3-8eae-82173d4456d6-test',

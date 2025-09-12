@@ -1,0 +1,135 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RestService #fetchBearingInfo should fetch bearing details and map them correctly 1`] = `
+Object {
+  "bearingId": "ABC123",
+  "isHydraulic": true,
+  "isMechanical": false,
+  "isThermal": true,
+  "title": "Test Bearing",
+}
+`;
+
+exports[`RestService #fetchBearingInfo should handle missing properties with fallback values 1`] = `
+Object {
+  "bearingId": "DEF456",
+  "isHydraulic": false,
+  "isMechanical": true,
+  "isThermal": false,
+  "title": "Partial Bearing",
+}
+`;
+
+exports[`RestService #fetchBearingInfo should handle missing title with fallback to empty string 1`] = `
+Object {
+  "bearingId": "GHI789",
+  "isHydraulic": false,
+  "isMechanical": true,
+  "isThermal": false,
+  "title": "",
+}
+`;
+
+exports[`RestService #getBearingSeats should fetch bearing seats and map them correctly 1`] = `
+Array [
+  Object {
+    "id": "seat1",
+    "imageUrl": "https://bearinx-d.schaeffler.com/mounting/api/images/seat1.png",
+    "text": "Bearing Seat 1",
+  },
+  Object {
+    "id": "seat2",
+    "imageUrl": undefined,
+    "text": "Bearing Seat 2",
+  },
+]
+`;
+
+exports[`RestService #getMeasurementMethods should fetch measurement methods and map them correctly 1`] = `
+Array [
+  Object {
+    "id": "method1",
+    "imageUrl": "https://bearinx-d.schaeffler.com/mounting/api/images/method1.png",
+    "text": "Measurement Method 1",
+  },
+  Object {
+    "id": "method2",
+    "imageUrl": undefined,
+    "text": "Measurement Method 2",
+  },
+]
+`;
+
+exports[`RestService #getNonThermalBearingMountingMethods should fetch non-thermal bearing mounting methods and map them correctly 1`] = `
+Array [
+  Object {
+    "id": "mount1",
+    "imageUrl": "https://bearinx-d.schaeffler.com/mounting/api/images/mount1.png",
+    "text": "Mounting Method 1",
+  },
+  Object {
+    "id": "mount2",
+    "imageUrl": undefined,
+    "text": "Mounting Method 2",
+  },
+]
+`;
+
+exports[`RestService #getThermalBearingMountingMethods should fetch thermal bearing mounting methods and map them correctly 1`] = `
+Array [
+  Object {
+    "id": "thermal1",
+    "imageUrl": "https://bearinx-d.schaeffler.com/mounting/api/images/thermal1.png",
+    "text": "Thermal Mount 1",
+  },
+  Object {
+    "id": "thermal2",
+    "imageUrl": undefined,
+    "text": "Thermal Mount 2",
+  },
+]
+`;
+
+exports[`RestService #searchBearings should filter out bearings with all flags set to false 1`] = `
+Array [
+  Object {
+    "id": "Valid-Bearing-1",
+    "isHydraulic": false,
+    "isMechanical": false,
+    "isThermal": true,
+    "title": "Valid-Bearing-1",
+  },
+  Object {
+    "id": "Valid-Bearing-2",
+    "isHydraulic": false,
+    "isMechanical": true,
+    "isThermal": false,
+    "title": "Valid-Bearing-2",
+  },
+]
+`;
+
+exports[`RestService #searchBearings should search bearings and map response to BearingOption array 1`] = `
+Array [
+  Object {
+    "id": "Bearing-1",
+    "isHydraulic": true,
+    "isMechanical": false,
+    "isThermal": true,
+    "title": "Bearing-1",
+  },
+  Object {
+    "id": "Bearing-2",
+    "isHydraulic": false,
+    "isMechanical": true,
+    "isThermal": false,
+    "title": "Bearing-2",
+  },
+]
+`;
+
+exports[`RestService getBearinxVersions should call the service to get bearinx versions 1`] = `
+Object {
+  "bearinx": "1",
+}
+`;

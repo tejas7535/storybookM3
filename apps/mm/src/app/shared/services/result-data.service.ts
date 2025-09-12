@@ -12,53 +12,35 @@ import { CalculationSelectionFacade } from '@mm/core/store/facades/calculation-s
 })
 export class ResultDataService {
   private readonly selectionFacade = inject(CalculationSelectionFacade);
-  private readonly calculationResultFacade = inject(CalculationResultFacade);
+  private readonly resultFacade = inject(CalculationResultFacade);
 
-  public readonly selectedBearingOption = toSignal(
-    this.selectionFacade.selectedBearingOption$
-  );
+  public readonly selectedBearingOption =
+    this.selectionFacade.selectedBearingOption;
 
-  public readonly reportSelectionTypes = toSignal(
-    this.calculationResultFacade.reportSelectionTypes$
-  );
+  public readonly reportSelectionTypes = this.resultFacade.reportSelectionTypes;
 
   public selectedBearing = computed(() => this.selectedBearingOption()?.title);
 
-  public isResultAvailable = toSignal(
-    this.calculationResultFacade.isResultAvailable$
-  );
+  public isResultAvailable = this.resultFacade.isResultAvailable;
 
-  public readonly inputs = toSignal(
-    this.calculationResultFacade.getCalculationInputs$
-  );
+  public readonly inputs = this.resultFacade.calculationInputs;
 
-  public readonly mountingRecommendations = toSignal(
-    this.calculationResultFacade.mountingRecommendations$
-  );
+  public readonly mountingRecommendations =
+    this.resultFacade.mountingRecommendations;
 
-  public readonly radialClearance = toSignal(
-    this.calculationResultFacade.radialClearance$
-  );
+  public readonly radialClearance = this.resultFacade.radialClearance;
 
-  public readonly clearanceClasses = toSignal(
-    this.calculationResultFacade.radialClearanceClasses$
-  );
+  public readonly clearanceClasses = this.resultFacade.radialClearanceClasses;
 
-  public readonly startPositions = toSignal(
-    this.calculationResultFacade.startPositions$
-  );
+  public readonly temperatures = this.resultFacade.temperatures;
 
-  public readonly endPositions = toSignal(
-    this.calculationResultFacade.endPositions$
-  );
+  public readonly startPositions = this.resultFacade.startPositions;
 
-  public readonly hasMountingTools = toSignal(
-    this.calculationResultFacade.hasMountingTools$
-  );
+  public readonly endPositions = this.resultFacade.endPositions;
 
-  public readonly mountingTools = toSignal(
-    this.calculationResultFacade.mountingTools$
-  );
+  public readonly hasMountingTools = this.resultFacade.hasMountingTools;
+
+  public readonly mountingTools = this.resultFacade.mountingTools;
 
   public readonly alternativePumps = computed(() => {
     const mountingTools = this.mountingTools();
@@ -154,8 +136,8 @@ export class ResultDataService {
 
   public readonly categorizedMessages = toSignal(
     combineLatest([
-      this.calculationResultFacade.getCalulationMessages$,
-      this.calculationResultFacade.bearinxVersions$,
+      this.resultFacade.getCalulationMessages$,
+      this.resultFacade.bearinxVersions$,
     ]).pipe(
       map(([reportMessages, bearinxVersion]) => {
         const errors = reportMessages?.errors || [];
@@ -174,8 +156,8 @@ export class ResultDataService {
 
   public readonly messages = toSignal(
     combineLatest([
-      this.calculationResultFacade.getCalulationMessages$,
-      this.calculationResultFacade.bearinxVersions$,
+      this.resultFacade.getCalulationMessages$,
+      this.resultFacade.bearinxVersions$,
     ]).pipe(
       map(([reportMessages, bearinxVersion]) => {
         const messages = [];

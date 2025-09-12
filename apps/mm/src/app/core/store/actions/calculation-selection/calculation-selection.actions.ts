@@ -2,6 +2,8 @@ import { BearingOption } from '@mm/shared/models';
 import { ListValue } from '@mm/shared/models/list-value.model';
 import { createAction, props } from '@ngrx/store';
 
+import { StepConfiguration } from '../../models/calculation-selection-state.model';
+
 export const searchBearingList = createAction(
   '[CalculationSelection] Search Bearing list',
   props<{ query: string }>()
@@ -21,9 +23,36 @@ export const fetchBearingData = createAction(
   props<{ bearingId: string }>()
 );
 
+export const fetchBearingDetails = createAction(
+  '[CalculationSelection] Fetch Bearing Details',
+  props<{ bearingId: string }>()
+);
+
+export const fetchBearingDetailsSuccess = createAction(
+  '[CalculationSelection] Fetch Bearing Details Success',
+  props<{
+    bearingId: string;
+    title: string;
+    isThermal: boolean;
+    isMechanical: boolean;
+    isHydraulic: boolean;
+  }>()
+);
+
+export const fetchBearingDetailsFailure = createAction(
+  '[CalculationSelection] Fetch Bearing Details Failure',
+  props<{ bearingId: string; error: string }>()
+);
+
 export const setBearing = createAction(
   '[CalculationSelection] Set Bearing',
-  props<{ bearingId: string; title: string }>()
+  props<{
+    bearingId: string;
+    title: string;
+    isThermal: boolean;
+    isMechanical: boolean;
+    isHydraulic: boolean;
+  }>()
 );
 
 export const setCurrentStep = createAction(
@@ -84,4 +113,9 @@ export const fetchPreflightOptions = createAction(
 
 export const setPreflightOptions = createAction(
   '[CalculationSelection] set preflight options'
+);
+
+export const updateStepConfiguration = createAction(
+  '[CalculationSelection] Update Step Configuration',
+  props<{ stepConfiguration: StepConfiguration }>()
 );

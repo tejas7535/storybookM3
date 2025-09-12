@@ -3,7 +3,6 @@ const { join } = require('path');
 const {
   schaefflerTailwindPreset,
 } = require('../../libs/shared/ui/styles/src/lib/tailwind/preset');
-const { corePlugins } = require('../ea/tailwind.config');
 
 module.exports = {
   content: [

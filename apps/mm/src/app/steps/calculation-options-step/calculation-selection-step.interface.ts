@@ -1,27 +1,6 @@
-import {
-  MountingOptionType,
-  PreviousMountingNumberOptionType,
-  ShaftMaterialType,
-} from '@mm/shared/constants/calculation-options';
-
-export interface HyndraulicNutTypeOption {
+export interface MMSelectOption<T> {
   label: string;
-  value: string;
-}
-
-export interface PreviousMountingOption {
-  label: string;
-  value: PreviousMountingNumberOptionType;
-}
-
-export interface MountingSelectOption {
-  label: string;
-  value: MountingOptionType;
-}
-
-export interface ShaftMaterialOption {
-  label: string;
-  value: ShaftMaterialType;
+  value: T;
 }
 
 export interface CalculationOptionsFormData {
@@ -32,4 +11,11 @@ export interface CalculationOptionsFormData {
   radialClearanceReduction?: string;
   shaftDiameter: string;
   shaftMaterial: string;
+}
+
+export interface ThermalCalculationOptionsFormData {
+  toleranceClass?: string;
+  upperDeviation?: number;
+  lowerDeviation?: number;
+  temperature: number;
 }

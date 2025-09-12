@@ -17,11 +17,11 @@ import {
   isResultAvailable,
 } from './calculation-result.selector';
 
-describe('CalculationResultSelector', () => {
-  const state: CalculationResultState = {
-    ...APP_STATE_MOCK.calculationResult,
-  };
+const state: CalculationResultState = {
+  ...APP_STATE_MOCK.calculationResult,
+};
 
+describe('CalculationResultSelectors', () => {
   describe('getCalculationInputs', () => {
     describe('when inputs are not defined', () => {
       it('should return undefined', () => {
@@ -478,6 +478,7 @@ describe('CalculationResultSelector', () => {
               endPositions: [],
               radialClearance: [],
               clearanceClasses: [],
+              temperatures: [],
             }
           );
           expect(result).toEqual([]);
@@ -503,6 +504,7 @@ describe('CalculationResultSelector', () => {
               endPositions: [],
               radialClearance: [],
               clearanceClasses: [],
+              temperatures: [],
             }
           );
           expect(result).toEqual([{ name: 'startPosition' }]);
@@ -528,6 +530,7 @@ describe('CalculationResultSelector', () => {
               ],
               radialClearance: [],
               clearanceClasses: [],
+              temperatures: [],
             }
           );
           expect(result).toEqual([{ name: 'endPosition' }]);
@@ -546,6 +549,7 @@ describe('CalculationResultSelector', () => {
               endPositions: [],
               radialClearance: [],
               clearanceClasses: [],
+              temperatures: [],
             }
           );
           expect(result).toEqual([{ name: 'reportInputs' }]);
@@ -564,6 +568,7 @@ describe('CalculationResultSelector', () => {
               endPositions: [],
               radialClearance: [],
               clearanceClasses: [],
+              temperatures: [],
             }
           );
           expect(result).toEqual([{ name: 'mountingToolsAndUtilities' }]);
@@ -582,6 +587,7 @@ describe('CalculationResultSelector', () => {
               endPositions: [],
               radialClearance: [],
               clearanceClasses: [],
+              temperatures: [],
             }
           );
           expect(result).toEqual([{ name: 'mountingInstructions' }]);
@@ -600,6 +606,7 @@ describe('CalculationResultSelector', () => {
               endPositions: [],
               radialClearance: [],
               clearanceClasses: [],
+              temperatures: [],
             }
           );
           expect(result).toEqual([{ name: 'reportMessages' }]);
@@ -616,6 +623,7 @@ describe('CalculationResultSelector', () => {
               endPositions: [],
               radialClearance: [],
               clearanceClasses: [],
+              temperatures: [],
             }
           );
           expect(result).toEqual([{ name: 'reportMessages' }]);
@@ -632,6 +640,7 @@ describe('CalculationResultSelector', () => {
               endPositions: [],
               radialClearance: [],
               clearanceClasses: [],
+              temperatures: [],
             }
           );
           expect(result).toEqual([{ name: 'reportMessages' }]);
@@ -676,6 +685,7 @@ describe('CalculationResultSelector', () => {
                   unit: 'some unit',
                 },
               ],
+              temperatures: [],
             }
           );
           expect(result).toMatchSnapshot();

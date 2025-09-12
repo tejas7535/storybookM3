@@ -1,4 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { signal } from '@angular/core';
 
 import { Observable, of, throwError } from 'rxjs';
 
@@ -7,6 +8,7 @@ import { BearinxOnlineResult } from '@mm/core/services/bearinx-result.interface'
 import { PreflightData } from '@mm/core/services/preflght-data-parser/preflight-data.interface';
 import { ReportParserService } from '@mm/core/services/report-parser/report-parser.service';
 import { PROPERTIES } from '@mm/shared/constants/tracking-names';
+import { ThermalCalculationOptionsFormData } from '@mm/steps/calculation-options-step/calculation-selection-step.interface';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -15,12 +17,21 @@ import { marbles } from 'rxjs-marbles';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
+import { CalculationOptionsActions } from '../../actions';
 import { CalculationResultActions } from '../../actions/calculation-result';
 import { CalculationOptionsFacade } from '../../facades/calculation-options/calculation-options.facade';
 import { CalculationSelectionFacade } from '../../facades/calculation-selection/calculation-selection.facade';
 import { CalculationResult } from '../../models/calculation-result-state.model';
 import { Bearing } from '../../models/calculation-selection-state.model';
 import { CalculationResultEffects } from './calculation-result.effects';
+import { extractDeviationValuesFromThermalResult } from './calculation-result.helpers';
+
+jest.mock('./calculation-result.helpers', () => ({
+  extractDeviationValuesFromThermalResult: jest.fn(() => ({
+    upperDeviation: 5,
+    lowerDeviation: 3,
+  })),
+}));
 
 describe('CalculationResultEffects', () => {
   let actions$: Observable<Action>;
@@ -31,6 +42,11 @@ describe('CalculationResultEffects', () => {
   let calculationSelectionFacadeMock: jest.Mocked<CalculationSelectionFacade>;
   let calculationOptionsFacadeMock: jest.Mocked<CalculationOptionsFacade>;
   let applicationInsightsService: ApplicationInsightsService;
+
+  const thermalOptionsSignal = signal<
+    ThermalCalculationOptionsFormData | undefined
+    // eslint-disable-next-line unicorn/no-useless-undefined
+  >(undefined);
 
   const mockPayload = {
     IDCO_DESIGNATION: 'bearing-id',
@@ -91,6 +107,7 @@ describe('CalculationResultEffects', () => {
         provide: CalculationOptionsFacade,
         useValue: {
           getOptions$: jest.fn(),
+          thermalOptions: thermalOptionsSignal.asReadonly(),
         },
       },
     ],
@@ -109,6 +126,10 @@ describe('CalculationResultEffects', () => {
     ) as jest.Mocked<CalculationSelectionFacade>;
 
     calculationOptionsFacadeMock = spectator.inject(CalculationOptionsFacade);
+  });
+
+  afterEach(() => {
+    thermalOptionsSignal.set(undefined);
   });
 
   it('should be created', () => {
@@ -220,6 +241,118 @@ describe('CalculationResultEffects', () => {
         );
       })();
     });
+  });
+
+  describe('calculateThermalResult$', () => {
+    beforeEach(() => {
+      calculationSelectionFacadeMock.getBearing$.mockReturnValue(
+        of({ bearingId: 'bearing-id' } as Bearing)
+      );
+    });
+
+    it(
+      'should fetch the thermal calculation result',
+      marbles((m) => {
+        const mockValue = {} as any;
+        reportParserServiceMock.parseResponse.mockReturnValue(mockValue);
+        thermalOptionsSignal.set({} as any);
+
+        restService.getThermalBearingCalculationResult = jest.fn(() =>
+          of(mockResponse)
+        );
+
+        const action =
+          CalculationResultActions.calculateThermalResultFromOptions();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(bc)', {
+          b: CalculationOptionsActions.updateThermalOptionsFromFormData({
+            formData: {
+              upperDeviation: 5,
+              lowerDeviation: 3,
+            },
+          } as any),
+          c: CalculationResultActions.setCalculationResult({
+            result: mockValue,
+          }),
+        });
+
+        m.expect(effects.calculateThermalResult$).toBeObservable(expected);
+        m.flush();
+
+        expect(
+          restService.getThermalBearingCalculationResult
+        ).toHaveBeenCalledWith({
+          designation: 'bearing-id',
+        });
+        expect(reportParserServiceMock.parseResponse).toHaveBeenCalledWith(
+          mockResponse
+        );
+        expect(extractDeviationValuesFromThermalResult).toHaveBeenCalledWith(
+          mockValue
+        );
+      })
+    );
+
+    it(
+      'should fetch the thermal calculation result without updating the calculation options',
+      marbles((m) => {
+        const mockValue = {} as any;
+        reportParserServiceMock.parseResponse.mockReturnValue(mockValue);
+        thermalOptionsSignal.set({} as any);
+        (extractDeviationValuesFromThermalResult as jest.Mock).mockReturnValue({
+          upperDeviation: undefined,
+          lowerDeviation: undefined,
+        });
+
+        restService.getThermalBearingCalculationResult = jest.fn(() =>
+          of(mockResponse)
+        );
+
+        const action =
+          CalculationResultActions.calculateThermalResultFromOptions();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(c)', {
+          c: CalculationResultActions.setCalculationResult({
+            result: mockValue,
+          }),
+        });
+
+        m.expect(effects.calculateThermalResult$).toBeObservable(expected);
+        m.flush();
+
+        expect(
+          restService.getThermalBearingCalculationResult
+        ).toHaveBeenCalledWith({
+          designation: 'bearing-id',
+        });
+        expect(reportParserServiceMock.parseResponse).toHaveBeenCalledWith(
+          mockResponse
+        );
+        expect(extractDeviationValuesFromThermalResult).toHaveBeenCalledWith(
+          mockValue
+        );
+      })
+    );
+
+    it(
+      'should handle missing bearingId or thermal options',
+      marbles((m) => {
+        const action =
+          CalculationResultActions.calculateThermalResultFromOptions();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', {
+          b: CalculationResultActions.calculateResultFailure({
+            error: 'Missing designation or thermal options',
+          }),
+        });
+
+        m.expect(effects.calculateThermalResult$).toBeObservable(expected);
+        m.flush();
+      })
+    );
   });
 
   describe('fetchBearinxVersions', () => {

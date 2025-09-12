@@ -28,6 +28,7 @@ import {
   STRING_OUTP_RESULTS,
   STRING_OUTP_SLEEVE_CONNECTORS,
   STRING_OUTP_STARTING_POSITION,
+  STRING_OUTP_TEMPERATURES,
   STRING_WARNING_BLOCK,
   TABLE,
   TEXT,
@@ -62,6 +63,7 @@ export class ReportParserService {
       clearanceClasses: this.extractClearanceClasses(response),
       reportMessages: this.extractReportMessages(response),
       inputs: this.parseInputResponse(response),
+      temperatures: this.extractTemperatures(response),
     };
   }
 
@@ -200,6 +202,13 @@ export class ReportParserService {
       );
 
     return clearanceClasses;
+  }
+
+  private extractTemperatures(response: BearinxOnlineResult): ResultItem[] {
+    return this.extractItemsFromPath(response, [
+      { titleID: STRING_OUTP_RESULTS, identifier: BLOCK },
+      { titleID: STRING_OUTP_TEMPERATURES, identifier: VARIABLE_BLOCK },
+    ]);
   }
 
   private extractTableItemsWithTitle(

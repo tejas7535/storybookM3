@@ -6,18 +6,18 @@ import { catchError, map, of, take, tap } from 'rxjs';
 import { getMMAssetsPath } from '@mm/core/services/assets-path-resolver/assets-path-resolver.helper';
 import { environment } from '@mm/environments/environment';
 
-import { ProductDesignation, ProductImagesResponse } from './api.model';
+import { ProductImagesResponse } from './api.model';
 
 const IMAGE_RESOLUTION_URL = environment.productImageUrl;
 const FALLBACK_IMAGE_URL = `${getMMAssetsPath()}/images/placeholder.png`;
 
 @Injectable({ providedIn: 'root' })
 export class ProductImageResolverService {
-  private readonly urlCache = new Map<ProductDesignation, string>();
+  private readonly urlCache = new Map<string, string>();
 
   constructor(private readonly httpService: HttpClient) {}
 
-  public resolveImageDesignation(designation: ProductDesignation) {
+  public resolveImageDesignation(designation: string) {
     if (this.urlCache.has(designation)) {
       return of(this.urlCache.get(designation));
     }
@@ -35,7 +35,7 @@ export class ProductImageResolverService {
     );
   }
 
-  private makeImageResolutionRequest(designations: ProductDesignation[]) {
+  private makeImageResolutionRequest(designations: string[]) {
     return this.httpService.post<ProductImagesResponse>(IMAGE_RESOLUTION_URL, {
       bearingDesignations: designations,
     });

@@ -13,24 +13,22 @@ export class PdfRecommendationService {
   private readonly dataService = inject(ResultDataService);
   private readonly translocoService = inject(TranslocoService);
 
-  getInstructionsHeading(): Component[] {
-    return [
-      this.componentFactory.createSectionHeading(
-        this.translocoService.translate('reportResult.mountingInstructions')
-      ),
-    ];
-  }
-
   getMountingRecommendationSection(): Component[] {
     const mountingRecommendations =
       this.dataService.mountingRecommendations() ?? [];
+
+    if (mountingRecommendations.length === 0) {
+      return [];
+    }
+
+    const heading = this.getInstructionsHeading();
 
     const stringList = this.componentFactory.createStringList(
       mountingRecommendations,
       ListStyle.NUMBERED
     );
 
-    return [this.createCardWithComponents([stringList])];
+    return [...heading, this.createCardWithComponents([stringList])];
   }
 
   getReportMessagesHeading(): Component[] {
@@ -52,6 +50,14 @@ export class PdfRecommendationService {
     );
 
     return [this.createCardWithComponents([stringList])];
+  }
+
+  private getInstructionsHeading(): Component[] {
+    return [
+      this.componentFactory.createSectionHeading(
+        this.translocoService.translate('reportResult.mountingInstructions')
+      ),
+    ];
   }
 
   private createCardWithComponents(components: any[]): Component {

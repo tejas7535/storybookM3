@@ -44,6 +44,7 @@ describe('Calculation Options Reducer', () => {
           options: [],
         },
       },
+      thermalOptions: undefined,
       calculationPerformed: false,
     };
 
@@ -109,6 +110,7 @@ describe('Calculation Options Reducer', () => {
           options: [],
         },
       },
+      thermalOptions: undefined,
       calculationPerformed: true,
     };
 
@@ -126,5 +128,52 @@ describe('Calculation Options Reducer', () => {
     );
 
     expect(state.calculationPerformed).toBe(false);
+  });
+
+  it('should set tolerance classes on setToleranceClasses', () => {
+    const toleranceClasses = ['class1', 'class2'];
+    const action = CalculationOptionsActions.setToleranceClasses({
+      toleranceClasses,
+    });
+    const state = calculationOptionsReducer(initialState, action);
+    expect(state.toleranceClasses).toEqual(toleranceClasses);
+  });
+
+  it('should update thermal options from form data on updateThermalOptionsFromFormData', () => {
+    const formData = {
+      upperDeviation: 1,
+      lowerDeviation: 1,
+      toleranceClass: 'j6',
+      temperature: 21,
+    } as any;
+
+    const action = CalculationOptionsActions.updateThermalOptionsFromFormData({
+      formData,
+    });
+
+    const stateWithThermalOptions: CalculationOptionsState = {
+      options: initialState.options,
+      thermalOptions: {
+        upperDeviation: 0,
+        lowerDeviation: 0,
+        toleranceClass: 'none',
+        temperature: 20,
+      },
+      calculationPerformed: false,
+    };
+
+    const state = calculationOptionsReducer(stateWithThermalOptions, action);
+    expect(state.thermalOptions).toEqual(formData);
+  });
+
+  it('should reset state to initialState on resetCalculationOptions', () => {
+    const modifiedState: CalculationOptionsState = {
+      options: { innerRingExpansion: 'changed' } as any,
+      thermalOptions: { upperDeviation: 99 } as any,
+      calculationPerformed: true,
+    };
+    const action = CalculationOptionsActions.resetCalculationOptions();
+    const state = calculationOptionsReducer(modifiedState, action);
+    expect(state).toEqual(initialState);
   });
 });

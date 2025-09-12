@@ -11,7 +11,15 @@ describe('CalculationSelectionActions', () => {
   });
 
   it('should create searchBearingSuccess action', () => {
-    const resultList: BearingOption[] = [{ id: '1', title: 'Bearing 1' }];
+    const resultList: BearingOption[] = [
+      {
+        id: '1',
+        title: 'Bearing 1',
+        isThermal: false,
+        isMechanical: true,
+        isHydraulic: false,
+      },
+    ];
     const action = CalculationSelectionActions.searchBearingSuccess({
       resultList,
     });
@@ -32,7 +40,16 @@ describe('CalculationSelectionActions', () => {
   it('should create setBearing action', () => {
     const bearingId = '123';
     const title = 'Bearing Title';
-    const action = CalculationSelectionActions.setBearing({ bearingId, title });
+    const isThermal = false;
+    const isMechanical = true;
+    const isHydraulic = false;
+    const action = CalculationSelectionActions.setBearing({
+      bearingId,
+      title,
+      isThermal,
+      isMechanical,
+      isHydraulic,
+    });
     expect(action).toMatchSnapshot();
   });
 

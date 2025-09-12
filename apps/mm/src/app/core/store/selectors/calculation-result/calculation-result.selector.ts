@@ -62,6 +62,11 @@ export const getClearanceClasses = createSelector(
   (state) => state?.result?.clearanceClasses || []
 );
 
+export const getTemperatures = createSelector(
+  getCalculationResultState,
+  (state) => state?.result?.temperatures || []
+);
+
 export const hasMountingTools = createSelector(
   getMountingTools,
   (mountingTools) =>
@@ -77,11 +82,19 @@ export const getPositionAndClearanceData = createSelector(
   getEndPositions,
   getRadialClearance,
   getClearanceClasses,
-  (startPositions, endPositions, radialClearance, clearanceClasses) => ({
+  getTemperatures,
+  (
     startPositions,
     endPositions,
     radialClearance,
     clearanceClasses,
+    temperatures
+  ) => ({
+    startPositions,
+    endPositions,
+    radialClearance,
+    clearanceClasses,
+    temperatures,
   })
 );
 
@@ -117,6 +130,10 @@ export const getReportSelectionTypes = createSelector(
 
     if (positionData.clearanceClasses.length > 0) {
       reportSelectionTypes.push({ name: 'clearanceClasses' });
+    }
+
+    if (positionData.temperatures.length > 0) {
+      reportSelectionTypes.push({ name: 'temperatures' });
     }
 
     if (mountingTools) {

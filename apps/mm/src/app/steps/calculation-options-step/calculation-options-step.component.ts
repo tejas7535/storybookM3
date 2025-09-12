@@ -34,6 +34,11 @@ import { TranslocoService } from '@jsverse/transloco';
 import { PreflightData } from '@mm/core/services/preflght-data-parser/preflight-data.interface';
 import { CalculationOptionsFacade } from '@mm/core/store/facades/calculation-options/calculation-options.facade';
 import { CalculationResultFacade } from '@mm/core/store/facades/calculation-result.facade';
+import {
+  MountingOptionType,
+  PreviousMountingNumberOptionType,
+  ShaftMaterialType,
+} from '@mm/shared/constants/calculation-options';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -45,10 +50,7 @@ import {
 } from './calculation-selection.options';
 import {
   CalculationOptionsFormData,
-  HyndraulicNutTypeOption,
-  MountingSelectOption,
-  PreviousMountingOption,
-  ShaftMaterialOption,
+  MMSelectOption,
 } from './calculation-selection-step.interface';
 
 @Component({
@@ -97,10 +99,12 @@ export class CalculationOptionsStepComponent
     ),
   });
 
-  public previousMountingNumberOptions: Signal<PreviousMountingOption[]>;
-  public mountingOptions: Signal<MountingSelectOption[]>;
-  public shaftMaterialOptions: Signal<ShaftMaterialOption[]>;
-  public hydraulicNutTypeOptions: Signal<HyndraulicNutTypeOption[]>;
+  public previousMountingNumberOptions: Signal<
+    MMSelectOption<PreviousMountingNumberOptionType>[]
+  >;
+  public mountingOptions: Signal<MMSelectOption<MountingOptionType>[]>;
+  public shaftMaterialOptions: Signal<MMSelectOption<ShaftMaterialType>[]>;
+  public hydraulicNutTypeOptions: Signal<MMSelectOption<string>[]>;
 
   public readonly preflightData$: Observable<PreflightData> =
     this.calculationOptionsFacade.getOptions$();

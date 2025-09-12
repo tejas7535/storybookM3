@@ -71,4 +71,14 @@ describe('calculationResultActions', () => {
       });
     });
   });
+  describe('Calculate thermal result from options', () => {
+    it('resetCalculationResult', () => {
+      const action =
+        CalculationResultActions.calculateThermalResultFromOptions();
+
+      expect(action).toEqual({
+        type: '[CalculationOptions] Calculate thermal result from options',
+      });
+    });
+  });
 });

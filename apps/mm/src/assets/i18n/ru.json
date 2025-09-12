@@ -70,7 +70,15 @@
     },
     "modulusOfElasticity": "Модуль упругости",
     "poissonRatio": "Коэффициент Пуассона",
-    "report": "Отчет"
+    "report": "Отчет",
+    "thermal": {
+      "title": "Информация по монтажу и нагреву",
+      "toleranceClass": "Класс допуска",
+      "none": "Нет",
+      "upperDeviation": "Верхнее отклонение",
+      "lowerDeviation": "Нижнее отклонение",
+      "temperature": "Температура"
+    }
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "Обратная связь",
@@ -103,7 +111,8 @@
       "endPosition": "Конечная позиция",
       "radialClearance": "Уменьшение радиального зазора и осевое смещение",
       "clearanceClasses": "Контрольные значения для классов зазора подшипника",
-      "mountingToolsAndUtilities": "Инструменты и утилиты для монтажа (требуются)",
+      "temperatures": "Температуры",
+      "mountingToolsAndUtilities": "Монтажные инструменты и принадлежности (требуется)",
       "mountingInstructions": "Инструкции по монтажу",
       "reportMessages": "Ошибки, Предупреждения и Заметки",
       "downloadPdf": "Скачать PDF"
@@ -112,6 +121,7 @@
     "endPositions": "Конечная позиция",
     "radialClearance": "Уменьшение радиального зазора и осевое смещение",
     "clearanceClasses": "Контрольные значения для классов зазора подшипника",
+    "temperatures": "Температуры",
     "shared": {
       "expand": "Показать дополнительные значения",
       "collapse": "Скрыть дополнительные значения"

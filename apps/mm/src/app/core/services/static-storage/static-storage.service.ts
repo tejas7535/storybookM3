@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 
 import { Observable, Subject, takeUntil } from 'rxjs';
 
@@ -17,15 +17,13 @@ import { MaintenanceMessage } from '../../../shared/models';
 })
 export class StaticStorageService implements OnDestroy {
   private readonly destroy$ = new Subject<void>();
+  private readonly httpClient: HttpClient = inject(HttpClient);
+  private readonly store: Store = inject(Store);
+  private readonly translocoService: TranslocoService =
+    inject(TranslocoService);
 
-  storageUrl = environment.staticStorageUrl;
-  fileName = 'mounting-manager-app-maintenance-message.json';
-
-  public constructor(
-    private readonly httpClient: HttpClient,
-    private readonly store: Store,
-    private readonly translocoService: TranslocoService
-  ) {}
+  public storageUrl = environment.staticStorageUrl;
+  public readonly fileName = 'mounting-manager-app-maintenance-message.json';
 
   public ngOnDestroy(): void {
     this.destroy$.next();

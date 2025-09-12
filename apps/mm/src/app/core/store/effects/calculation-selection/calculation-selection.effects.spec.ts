@@ -1,12 +1,12 @@
 /* eslint-disable jest/expect-expect */
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
-import { LazyListLoaderService, RestService } from '@mm/core/services';
+import { RestService } from '@mm/core/services';
 import { LB_AXIAL_DISPLACEMENT } from '@mm/shared/constants/dialog-constant';
-import { CALCULATION_OPTIONS_STEP } from '@mm/shared/constants/steps';
-import { BearingOption, SearchResult } from '@mm/shared/models';
+import { BearingOption } from '@mm/shared/models';
 import { ListValue } from '@mm/shared/models/list-value.model';
+import { StepManagerService } from '@mm/shared/services/step-manager/step-manager.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -15,7 +15,10 @@ import { marbles } from 'rxjs-marbles';
 import { CalculationOptionsActions } from '../../actions';
 import { CalculationResultActions } from '../../actions/calculation-result';
 import { CalculationSelectionActions } from '../../actions/calculation-selection';
+import { CalculationOptionsFacade } from '../../facades/calculation-options/calculation-options.facade';
+import { CalculationResultFacade } from '../../facades/calculation-result.facade';
 import { CalculationSelectionFacade } from '../../facades/calculation-selection/calculation-selection.facade';
+import { GlobalFacade } from '../../facades/global/global.facade';
 import { Bearing } from '../../models/calculation-selection-state.model';
 import { CalculationSelectionEffects } from './calculation-selection.effects';
 
@@ -25,7 +28,7 @@ describe('CalculationSelectionEffects', () => {
   let restService: jest.Mocked<RestService>;
   let testScheduler: TestScheduler;
   let facade: jest.Mocked<CalculationSelectionFacade>;
-  let lazyListLoader: jest.Mocked<LazyListLoaderService>;
+  let stepManagerService: jest.Mocked<StepManagerService>;
 
   const createEffectService = createServiceFactory({
     service: CalculationSelectionEffects,
@@ -35,7 +38,15 @@ describe('CalculationSelectionEffects', () => {
       provideMockStore(),
       {
         provide: RestService,
-        useValue: { getBearingSearch: jest.fn() },
+        useValue: {
+          getBearingSearch: jest.fn(),
+          fetchBearingInfo: jest.fn(),
+          getLoadOptions: jest.fn(),
+          getBearingSeats: jest.fn(),
+          getMeasurementMethods: jest.fn(),
+          getThermalBearingMountingMethods: jest.fn(),
+          getNonThermalBearingMountingMethods: jest.fn(),
+        },
       },
       {
         provide: CalculationSelectionFacade,
@@ -44,13 +55,32 @@ describe('CalculationSelectionEffects', () => {
           getBearingSeatId$: jest.fn(),
           getMeasurementMethod$: jest.fn(),
           getCurrentStep$: jest.fn(() => of(1)),
+          bearingResultList$: jest.fn(),
+          isAxialDisplacement$: jest.fn(() => of(false)),
         },
       },
       {
-        provide: LazyListLoaderService,
+        provide: CalculationOptionsFacade,
         useValue: {
-          loadOptions: jest.fn(),
-          loadBearingSeatsOptions: jest.fn(),
+          getCalculationPerformed$: jest.fn(() => of(false)),
+        },
+      },
+      {
+        provide: CalculationResultFacade,
+        useValue: {
+          isResultAvailable$: of(false),
+        },
+      },
+      {
+        provide: GlobalFacade,
+        useValue: {
+          appDeliveryEmbedded$: of(false),
+        },
+      },
+      {
+        provide: StepManagerService,
+        useValue: {
+          getStepConfiguration: jest.fn(),
         },
       },
     ],
@@ -59,28 +89,58 @@ describe('CalculationSelectionEffects', () => {
   beforeEach(() => {
     spectator = createEffectService();
     restService = spectator.inject(RestService);
-    lazyListLoader = spectator.inject(LazyListLoaderService);
     facade = spectator.inject(
       CalculationSelectionFacade
     ) as jest.Mocked<CalculationSelectionFacade>;
+    stepManagerService = spectator.inject(
+      StepManagerService
+    ) as jest.Mocked<StepManagerService>;
+
     testScheduler = new TestScheduler((actual, expected) => {
       expect(actual).toEqual(expected);
     });
     // eslint-disable-next-line unicorn/no-null
     history.replaceState(null, '', window.location.href);
+
+    // Reset all mocks before each test
+    jest.clearAllMocks();
+
+    // Mock console.error globally to prevent clutter in test output
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    // Setup default mocks for StepManagerService
+    stepManagerService.getStepConfiguration.mockReturnValue({
+      steps: [],
+      stepIndices: {} as any,
+      availableSteps: [],
+    });
+  });
+
+  afterEach(() => {
+    // Restore console.error after each test
+    jest.restoreAllMocks();
   });
 
   it('should dispatch searchBearingSuccess action when searchBearing$ is successful', () => {
     const query = 'testQuery';
-    const response = {
-      data: ['Bearing 1', 'Bearing 2'],
-    } as SearchResult;
     const resultList: BearingOption[] = [
-      { title: 'Bearing 1', id: 'Bearing 1' },
-      { title: 'Bearing 2', id: 'Bearing 2' },
+      {
+        title: 'Bearing 1',
+        id: 'Bearing 1',
+        isThermal: true,
+        isMechanical: false,
+        isHydraulic: false,
+      },
+      {
+        title: 'Bearing 2',
+        id: 'Bearing 2',
+        isThermal: false,
+        isMechanical: true,
+        isHydraulic: false,
+      },
     ];
 
-    restService.getBearingSearch.mockReturnValue(of(response));
+    restService.searchBearings.mockReturnValue(of(resultList));
 
     testScheduler.run(({ hot, expectObservable }) => {
       actions$ = hot('-a-', {
@@ -93,8 +153,37 @@ describe('CalculationSelectionEffects', () => {
     });
   });
 
-  it('should dispatch multiple actions when fetchBearingData$ is triggered', () => {
+  it('should dispatch multiple actions when fetchBearingData$ is triggered for thermal bearing', () => {
     const bearingId = '123';
+    const mockBearingResultList: BearingOption[] = [
+      {
+        id: '123',
+        title: 'Test Bearing',
+        isThermal: true,
+        isMechanical: false,
+        isHydraulic: true,
+      },
+    ];
+
+    Object.defineProperty(facade, 'bearingResultList$', {
+      get: jest.fn(() => of(mockBearingResultList)),
+      configurable: true,
+    });
+    stepManagerService.getStepConfiguration.mockReturnValue({
+      steps: ['BEARING', 'MEASURING_MOUNTING', 'CALCULATION_OPTIONS', 'RESULT'],
+      stepIndices: {
+        BEARING: 0,
+        MEASURING_MOUNTING: 1,
+        CALCULATION_OPTIONS: 2,
+        RESULT: 3,
+      },
+      availableSteps: [
+        'BEARING',
+        'MEASURING_MOUNTING',
+        'CALCULATION_OPTIONS',
+        'RESULT',
+      ],
+    } as any);
 
     testScheduler.run(({ hot, expectObservable }) => {
       actions$ = hot('-a-', {
@@ -104,19 +193,453 @@ describe('CalculationSelectionEffects', () => {
       const expectedActions = [
         CalculationSelectionActions.setBearing({
           bearingId: '123',
-          title: '123',
+          title: 'Test Bearing',
+          isThermal: true,
+          isMechanical: false,
+          isHydraulic: true,
         }),
+        CalculationResultActions.resetCalculationResult(),
+        CalculationOptionsActions.resetCalculationOptions(),
+        CalculationSelectionActions.setCurrentStep({ step: 1 }),
+        CalculationSelectionActions.fetchMountingMethods(),
+        CalculationResultActions.fetchBearinxVersions(),
+      ];
+
+      expectObservable(spectator.service.fetchBearingData$).toBe('-(bcdefg)-', {
+        b: expectedActions[0],
+        c: expectedActions[1],
+        d: expectedActions[2],
+        e: expectedActions[3],
+        f: expectedActions[4],
+        g: expectedActions[5],
+      });
+    });
+  });
+
+  it('should dispatch multiple actions when fetchBearingData$ is triggered for non-thermal bearing', () => {
+    const bearingId = '123';
+    const mockBearingResultList: BearingOption[] = [
+      {
+        id: '123',
+        title: 'Test Bearing',
+        isThermal: false,
+        isMechanical: true,
+        isHydraulic: false,
+      },
+    ];
+
+    // Mock the bearingResultList$ property
+    Object.defineProperty(facade, 'bearingResultList$', {
+      get: jest.fn(() => of(mockBearingResultList)),
+      configurable: true,
+    });
+
+    // Mock StepManagerService configuration for non-thermal bearing
+    stepManagerService.getStepConfiguration.mockReturnValue({
+      steps: ['BEARING', 'BEARING_SEAT', 'MEASURING_MOUNTING', 'RESULT'],
+      stepIndices: {
+        BEARING: 0,
+        BEARING_SEAT: 1,
+        MEASURING_MOUNTING: 2,
+        RESULT: 3,
+      },
+      availableSteps: [
+        'BEARING',
+        'BEARING_SEAT',
+        'MEASURING_MOUNTING',
+        'RESULT',
+      ],
+    } as any);
+
+    testScheduler.run(({ hot, expectObservable }) => {
+      actions$ = hot('-a-', {
+        a: CalculationSelectionActions.fetchBearingData({ bearingId }),
+      });
+
+      const expectedActions = [
+        CalculationSelectionActions.setBearing({
+          bearingId: '123',
+          title: 'Test Bearing',
+          isThermal: false,
+          isMechanical: true,
+          isHydraulic: false,
+        }),
+        CalculationResultActions.resetCalculationResult(),
+        CalculationOptionsActions.resetCalculationOptions(),
         CalculationSelectionActions.setCurrentStep({ step: 1 }),
         CalculationSelectionActions.fetchBearingSeats(),
         CalculationResultActions.fetchBearinxVersions(),
       ];
 
-      expectObservable(spectator.service.fetchBearingData$).toBe('-(bcde)-', {
+      expectObservable(spectator.service.fetchBearingData$).toBe('-(bcdefg)-', {
         b: expectedActions[0],
         c: expectedActions[1],
         d: expectedActions[2],
         e: expectedActions[3],
+        f: expectedActions[4],
+        g: expectedActions[5],
       });
+    });
+  });
+
+  it('should dispatch fetchBearingDetails when bearing is not found in result list', () => {
+    const bearingId = '456';
+    const mockBearingResultList = [
+      {
+        id: '123', // Different bearing ID
+        title: 'Different Bearing',
+        isThermal: false,
+        isMechanical: true,
+        isHydraulic: false,
+      },
+    ];
+
+    // Mock the bearingResultList$ property to return a list that doesn't contain our bearing
+    Object.defineProperty(facade, 'bearingResultList$', {
+      get: jest.fn(() => of(mockBearingResultList)),
+      configurable: true,
+    });
+
+    testScheduler.run(({ hot, expectObservable }) => {
+      actions$ = hot('-a-', {
+        a: CalculationSelectionActions.fetchBearingData({ bearingId }),
+      });
+
+      // Should only dispatch fetchBearingDetails since bearing was not found
+      const expectedActions = [
+        CalculationSelectionActions.fetchBearingDetails({
+          bearingId: '456',
+        }),
+      ];
+
+      expectObservable(spectator.service.fetchBearingData$).toBe('-b-', {
+        b: expectedActions[0],
+      });
+    });
+  });
+
+  it('should dispatch fetchBearingDetails when bearingResultList is empty', () => {
+    const bearingId = '789';
+    const emptyBearingResultList: any[] = [];
+
+    // Mock the bearingResultList$ property to return an empty list
+    Object.defineProperty(facade, 'bearingResultList$', {
+      get: jest.fn(() => of(emptyBearingResultList)),
+      configurable: true,
+    });
+
+    testScheduler.run(({ hot, expectObservable }) => {
+      actions$ = hot('-a-', {
+        a: CalculationSelectionActions.fetchBearingData({ bearingId }),
+      });
+
+      // Should only dispatch fetchBearingDetails since list is empty
+      const expectedActions = [
+        CalculationSelectionActions.fetchBearingDetails({
+          bearingId: '789',
+        }),
+      ];
+
+      expectObservable(spectator.service.fetchBearingData$).toBe('-b-', {
+        b: expectedActions[0],
+      });
+    });
+  });
+
+  it('should dispatch fetchBearingDetails when bearingResultList is undefined', () => {
+    const bearingId = 'ABC123';
+
+    Object.defineProperty(facade, 'bearingResultList$', {
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      get: jest.fn(() => of(undefined)),
+      configurable: true,
+    });
+
+    testScheduler.run(({ hot, expectObservable }) => {
+      actions$ = hot('-a-', {
+        a: CalculationSelectionActions.fetchBearingData({ bearingId }),
+      });
+
+      // Should only dispatch fetchBearingDetails since list is null
+      const expectedActions = [
+        CalculationSelectionActions.fetchBearingDetails({
+          bearingId: 'ABC123',
+        }),
+      ];
+
+      expectObservable(spectator.service.fetchBearingData$).toBe('-b-', {
+        b: expectedActions[0],
+      });
+    });
+  });
+
+  it('should dispatch fetchBearingDetailsSuccess when fetchBearingDetails$ is successful', () => {
+    const bearingId = 'ABC123';
+    const mockBearing: Bearing = {
+      bearingId: 'ABC123',
+      title: 'Test Bearing Name',
+      isThermal: true,
+      isMechanical: false,
+      isHydraulic: true,
+    };
+
+    restService.fetchBearingInfo = jest.fn().mockReturnValue(of(mockBearing));
+
+    testScheduler.run(({ hot, expectObservable }) => {
+      actions$ = hot('-a-', {
+        a: CalculationSelectionActions.fetchBearingDetails({ bearingId }),
+      });
+
+      const expectedAction =
+        CalculationSelectionActions.fetchBearingDetailsSuccess(mockBearing);
+
+      expectObservable(spectator.service.fetchBearingDetails$).toBe('-b-', {
+        b: expectedAction,
+      });
+    });
+
+    expect(restService.fetchBearingInfo).toHaveBeenCalledWith(bearingId);
+  });
+
+  it('should use fallback values when fetchBearingDetails$ API response has missing properties', () => {
+    const bearingId = 'ABC123';
+    const mockBearing: Bearing = {
+      bearingId: 'ABC123',
+      title: 'Test Title',
+      isThermal: false,
+      isMechanical: false,
+      isHydraulic: false,
+    };
+
+    restService.fetchBearingInfo = jest.fn().mockReturnValue(of(mockBearing));
+
+    testScheduler.run(({ hot, expectObservable }) => {
+      actions$ = hot('-a-', {
+        a: CalculationSelectionActions.fetchBearingDetails({ bearingId }),
+      });
+
+      const expectedAction =
+        CalculationSelectionActions.fetchBearingDetailsSuccess(mockBearing);
+
+      expectObservable(spectator.service.fetchBearingDetails$).toBe('-b-', {
+        b: expectedAction,
+      });
+    });
+  });
+
+  it('should dispatch fetchBearingDetailsFailure when fetchBearingDetails$ fails', () => {
+    const bearingId = 'ABC123';
+    const errorMessage = 'Network error';
+    const error = new Error(errorMessage);
+
+    restService.fetchBearingInfo = jest
+      .fn()
+      .mockReturnValue(throwError(() => error));
+
+    testScheduler.run(({ hot, expectObservable }) => {
+      actions$ = hot('-a-', {
+        a: CalculationSelectionActions.fetchBearingDetails({ bearingId }),
+      });
+
+      const expectedAction =
+        CalculationSelectionActions.fetchBearingDetailsFailure({
+          bearingId,
+          error: errorMessage,
+        });
+
+      expectObservable(spectator.service.fetchBearingDetails$).toBe('-b-', {
+        b: expectedAction,
+      });
+    });
+
+    expect(console.error).toHaveBeenCalledWith(
+      `Failed to fetch bearing details for ${bearingId}:`,
+      error
+    );
+  });
+
+  it('should handle error without message in fetchBearingDetails$', () => {
+    const bearingId = 'ABC123';
+    const errorWithoutMessage = { status: 500 }; // Error object without message property
+
+    restService.fetchBearingInfo = jest
+      .fn()
+      .mockReturnValue(throwError(() => errorWithoutMessage));
+
+    testScheduler.run(({ hot, expectObservable }) => {
+      actions$ = hot('-a-', {
+        a: CalculationSelectionActions.fetchBearingDetails({ bearingId }),
+      });
+
+      const expectedAction =
+        CalculationSelectionActions.fetchBearingDetailsFailure({
+          bearingId,
+          error: 'Failed to fetch bearing details', // fallback message
+        });
+
+      expectObservable(spectator.service.fetchBearingDetails$).toBe('-b-', {
+        b: expectedAction,
+      });
+    });
+  });
+
+  it('should dispatch actions for thermal bearing when fetchBearingDetailsSuccess$ is triggered', () => {
+    const bearingData = {
+      bearingId: 'ThermalBearing123',
+      title: 'Thermal Test Bearing',
+      isThermal: true,
+      isMechanical: false,
+      isHydraulic: true,
+    };
+
+    stepManagerService.getStepConfiguration.mockReturnValue({
+      steps: ['BEARING', 'MEASURING_MOUNTING', 'CALCULATION_OPTIONS', 'RESULT'],
+      stepIndices: {
+        BEARING: 0,
+        MEASURING_MOUNTING: 1,
+        CALCULATION_OPTIONS: 2,
+        RESULT: 3,
+      },
+      availableSteps: [
+        'BEARING',
+        'MEASURING_MOUNTING',
+        'CALCULATION_OPTIONS',
+        'RESULT',
+      ],
+    } as any);
+
+    testScheduler.run(({ hot, expectObservable }) => {
+      actions$ = hot('-a-', {
+        a: CalculationSelectionActions.fetchBearingDetailsSuccess(bearingData),
+      });
+
+      const expectedMarble = '-(bcdefg)';
+      const expectedValues = {
+        b: CalculationSelectionActions.setBearing(bearingData),
+        c: CalculationResultActions.resetCalculationResult(),
+        d: CalculationOptionsActions.resetCalculationOptions(),
+        e: CalculationSelectionActions.setCurrentStep({ step: 1 }),
+        f: CalculationSelectionActions.fetchMountingMethods(),
+        g: CalculationResultActions.fetchBearinxVersions(),
+      };
+
+      expectObservable(spectator.service.fetchBearingDetailsSuccess$).toBe(
+        expectedMarble,
+        expectedValues
+      );
+    });
+
+    expect(stepManagerService.getStepConfiguration).toHaveBeenCalledWith({
+      bearing: bearingData,
+      isAxialBearing: false,
+      isEmbedded: false,
+    });
+  });
+
+  it('should dispatch actions for non-thermal bearing when fetchBearingDetailsSuccess$ is triggered', () => {
+    const bearingData = {
+      bearingId: 'NonThermalBearing123',
+      title: 'Non-Thermal Test Bearing',
+      isThermal: false,
+      isMechanical: true,
+      isHydraulic: false,
+    };
+
+    stepManagerService.getStepConfiguration.mockReturnValue({
+      steps: ['BEARING', 'BEARING_SEAT', 'MEASURING_MOUNTING', 'RESULT'],
+      stepIndices: {
+        BEARING: 0,
+        BEARING_SEAT: 1,
+        MEASURING_MOUNTING: 2,
+        RESULT: 3,
+      },
+      availableSteps: [
+        'BEARING',
+        'BEARING_SEAT',
+        'MEASURING_MOUNTING',
+        'RESULT',
+      ],
+    } as any);
+
+    testScheduler.run(({ hot, expectObservable }) => {
+      actions$ = hot('-a-', {
+        a: CalculationSelectionActions.fetchBearingDetailsSuccess(bearingData),
+      });
+
+      const expectedMarble = '-(bcdefg)';
+      const expectedValues = {
+        b: CalculationSelectionActions.setBearing(bearingData),
+        c: CalculationResultActions.resetCalculationResult(),
+        d: CalculationOptionsActions.resetCalculationOptions(),
+        e: CalculationSelectionActions.setCurrentStep({ step: 1 }),
+        f: CalculationSelectionActions.fetchBearingSeats(),
+        g: CalculationResultActions.fetchBearinxVersions(),
+      };
+
+      expectObservable(spectator.service.fetchBearingDetailsSuccess$).toBe(
+        expectedMarble,
+        expectedValues
+      );
+    });
+
+    expect(stepManagerService.getStepConfiguration).toHaveBeenCalledWith({
+      bearing: bearingData,
+      isAxialBearing: false,
+      isEmbedded: false,
+    });
+  });
+
+  it('should handle embedded mode correctly in fetchBearingDetailsSuccess$', () => {
+    const bearingData = {
+      bearingId: 'EmbeddedBearing123',
+      title: 'Embedded Test Bearing',
+      isThermal: false,
+      isMechanical: true,
+      isHydraulic: false,
+    };
+
+    const globalFacade = spectator.inject(
+      GlobalFacade
+    ) as jest.Mocked<GlobalFacade>;
+    Object.defineProperty(globalFacade, 'appDeliveryEmbedded$', {
+      get: jest.fn(() => of(true)),
+      configurable: true,
+    });
+    stepManagerService.getStepConfiguration.mockReturnValue({
+      steps: ['BEARING', 'BEARING_SEAT', 'RESULT'],
+      stepIndices: {
+        BEARING: 0,
+        BEARING_SEAT: 1,
+        RESULT: 2,
+      },
+      availableSteps: ['BEARING', 'BEARING_SEAT', 'RESULT'],
+    } as any);
+
+    testScheduler.run(({ hot, expectObservable }) => {
+      actions$ = hot('-a-', {
+        a: CalculationSelectionActions.fetchBearingDetailsSuccess(bearingData),
+      });
+
+      const expectedMarble = '-(bcdefg)';
+      const expectedValues = {
+        b: CalculationSelectionActions.setBearing(bearingData),
+        c: CalculationResultActions.resetCalculationResult(),
+        d: CalculationOptionsActions.resetCalculationOptions(),
+        e: CalculationSelectionActions.setCurrentStep({ step: 1 }),
+        f: CalculationSelectionActions.fetchBearingSeats(),
+        g: CalculationResultActions.fetchBearinxVersions(),
+      };
+
+      expectObservable(spectator.service.fetchBearingDetailsSuccess$).toBe(
+        expectedMarble,
+        expectedValues
+      );
+    });
+
+    expect(stepManagerService.getStepConfiguration).toHaveBeenCalledWith({
+      bearing: bearingData,
+      isAxialBearing: false,
+      isEmbedded: true,
     });
   });
 
@@ -127,7 +650,7 @@ describe('CalculationSelectionEffects', () => {
     const bearingSeats: ListValue[] = [{ id: 'seat1', text: 'Seat 1' }];
 
     facade.getBearing$.mockReturnValue(of(bearing));
-    lazyListLoader.loadBearingSeatsOptions.mockReturnValue(of(bearingSeats));
+    restService.getBearingSeats.mockReturnValue(of(bearingSeats));
 
     testScheduler.run(({ hot, expectObservable }) => {
       actions$ = hot('-a-', {
@@ -141,6 +664,17 @@ describe('CalculationSelectionEffects', () => {
   });
 
   it('should dispatch fetchMeasurementMethods and resetCalculationResult actions when setBearingSeat$ is triggered', () => {
+    // Mock a non-thermal bearing for this test
+    const mockBearing = {
+      bearingId: 'bearing1',
+      title: 'Non-thermal Bearing',
+      isThermal: false,
+      isMechanical: true,
+      isHydraulic: false,
+    };
+
+    facade.getBearing$.mockReturnValue(of(mockBearing));
+
     testScheduler.run(({ hot, expectObservable }) => {
       actions$ = hot('-a-', {
         a: CalculationSelectionActions.setBearingSeat({ bearingSeatId: '123' }),
@@ -148,8 +682,38 @@ describe('CalculationSelectionEffects', () => {
 
       const expectedMarble = '-(bc)-';
       const expectedValues = {
-        b: CalculationSelectionActions.fetchMeasurementMethods(),
-        c: CalculationResultActions.resetCalculationResult(),
+        b: CalculationResultActions.resetCalculationResult(),
+        c: CalculationSelectionActions.fetchMeasurementMethods(),
+      };
+
+      expectObservable(spectator.service.setBearingSeat$).toBe(
+        expectedMarble,
+        expectedValues
+      );
+    });
+  });
+
+  it('should dispatch fetchMountingMethods and resetCalculationResult actions when setBearingSeat$ is triggered for thermal bearing', () => {
+    // Mock a thermal bearing for this test
+    const mockThermalBearing = {
+      bearingId: 'thermal-bearing1',
+      title: 'Thermal Bearing',
+      isThermal: true,
+      isMechanical: false,
+      isHydraulic: true,
+    };
+
+    facade.getBearing$.mockReturnValue(of(mockThermalBearing));
+
+    testScheduler.run(({ hot, expectObservable }) => {
+      actions$ = hot('-a-', {
+        a: CalculationSelectionActions.setBearingSeat({ bearingSeatId: '123' }),
+      });
+
+      const expectedMarble = '-(bc)-';
+      const expectedValues = {
+        b: CalculationResultActions.resetCalculationResult(),
+        c: CalculationSelectionActions.fetchMountingMethods(),
       };
 
       expectObservable(spectator.service.setBearingSeat$).toBe(
@@ -173,7 +737,7 @@ describe('CalculationSelectionEffects', () => {
     facade.getBearing$.mockReturnValue(of(bearing));
     facade.getBearingSeatId$.mockReturnValue(of(bearingSeatId));
 
-    lazyListLoader.loadOptions.mockReturnValue(of(measurementMethods));
+    restService.getMeasurementMethods.mockReturnValue(of(measurementMethods));
 
     testScheduler.run(({ hot, expectObservable }) => {
       actions$ = hot('-a-', {
@@ -259,51 +823,109 @@ describe('CalculationSelectionEffects', () => {
     });
   });
 
-  it('should dispatch setMountingMethods action when fetchMountingMethods$ is successful', () => {
-    testScheduler.run(({ hot, expectObservable }) => {
-      const bearing = {
-        type: { typeId: 'type1' },
-        series: { seriesId: 'series1' },
-        bearingId: 'bearing1',
-      } as Partial<Bearing> as Bearing;
-      const bearingSeatId = 'seat1';
-      const measurementMethodId = 'method1';
-      const mountingMethods: ListValue[] = [
-        { id: 'mounting1', text: 'Mounting 1' },
-      ];
+  it('should dispatch setMountingMethods action when fetchMountingMethods$ is successful for non-thermal bearing', (done) => {
+    const bearing = {
+      type: { typeId: 'type1' },
+      series: { seriesId: 'series1' },
+      bearingId: 'bearing1',
+      isThermal: false,
+    } as Partial<Bearing> as Bearing;
+    const bearingSeatId = 'seat1';
+    const measurementMethodId = 'method1';
+    const mountingMethods: ListValue[] = [
+      { id: 'mounting1', text: 'Mounting 1' },
+    ];
 
-      facade.getBearing$.mockReturnValue(of(bearing));
-      facade.getBearingSeatId$.mockReturnValue(of(bearingSeatId));
+    facade.getBearing$.mockReturnValue(of(bearing));
+    facade.getBearingSeatId$.mockReturnValue(of(bearingSeatId));
+    facade.getMeasurementMethod$.mockReturnValue(of(measurementMethodId));
+    restService.getNonThermalBearingMountingMethods.mockReturnValue(
+      of(mountingMethods)
+    );
 
-      facade.getMeasurementMethod$.mockReturnValue(of(measurementMethodId));
-      lazyListLoader.loadOptions.mockReturnValue(of(mountingMethods));
+    actions$ = of(CalculationSelectionActions.fetchMountingMethods());
 
-      actions$ = hot('-a', {
-        a: CalculationSelectionActions.fetchMountingMethods(),
-      });
-
-      const expectedMarble = '-b';
-      const expectedValues = {
-        b: CalculationSelectionActions.setMountingMethods({ mountingMethods }),
-      };
-
-      expectObservable(spectator.service.fetchMountingMethods$).toBe(
-        expectedMarble,
-        expectedValues
+    // Subscribe directly to see if it works at all
+    spectator.service.fetchMountingMethods$.subscribe((action) => {
+      expect(action).toEqual(
+        CalculationSelectionActions.setMountingMethods({ mountingMethods })
       );
+
+      // Check if the correct method was called
+      expect(
+        restService.getNonThermalBearingMountingMethods
+      ).toHaveBeenCalledWith('bearing1', 'seat1', 'method1');
+      done();
+    });
+  });
+
+  it('should dispatch setMountingMethods action when fetchMountingMethods$ is successful for thermal bearing', (done) => {
+    const bearing = {
+      type: { typeId: 'type1' },
+      series: { seriesId: 'series1' },
+      bearingId: 'bearing1',
+      isThermal: true,
+    } as Partial<Bearing> as Bearing;
+    const mountingMethods: ListValue[] = [
+      { id: 'mounting1', text: 'Mounting 1' },
+    ];
+
+    facade.getBearing$.mockReturnValue(of(bearing));
+    facade.getBearingSeatId$.mockReturnValue(of('seat1'));
+    facade.getMeasurementMethod$.mockReturnValue(of('method1'));
+    restService.getThermalBearingMountingMethods.mockReturnValue(
+      of(mountingMethods)
+    );
+
+    actions$ = of(CalculationSelectionActions.fetchMountingMethods());
+
+    spectator.service.fetchMountingMethods$.subscribe((action) => {
+      expect(action).toEqual(
+        CalculationSelectionActions.setMountingMethods({ mountingMethods })
+      );
+
+      // Verify the correct method was called for thermal bearing
+      expect(restService.getThermalBearingMountingMethods).toHaveBeenCalledWith(
+        'bearing1'
+      );
+      done();
     });
   });
 
   it('should dispatch setMountingMethod, setCurrentStep, and fetchPreflightOptions actions', () => {
+    // Mock StepManagerService for this specific test case
+    stepManagerService.getStepConfiguration.mockReturnValue({
+      steps: [
+        'BEARING',
+        'BEARING_SEAT',
+        'MEASURING_MOUNTING',
+        'CALCULATION_OPTIONS',
+      ],
+      stepIndices: {
+        BEARING: 0,
+        BEARING_SEAT: 1,
+        MEASURING_MOUNTING: 2,
+        CALCULATION_OPTIONS: 3,
+        RESULT: 4,
+      },
+      availableSteps: [],
+    } as any);
+
     testScheduler.run(({ hot, expectObservable }) => {
       const action =
         CalculationSelectionActions.updateMountingMethodAndCurrentStep({
           mountingMethod: 'method1',
         });
       const measurementMethod = LB_AXIAL_DISPLACEMENT;
+      const bearing = {
+        bearingId: 'bearing1',
+        isThermal: false,
+      } as Partial<Bearing> as Bearing;
 
       actions$ = hot('-a', { a: action });
       facade.getMeasurementMethod$.mockReturnValue(of(measurementMethod));
+      facade.getBearing$.mockReturnValue(of(bearing));
+      facade.isAxialDisplacement$.mockReturnValue(of(true));
 
       const expectedMarble = '-(bcde)';
       const expectedValues = {
@@ -313,7 +935,7 @@ describe('CalculationSelectionEffects', () => {
         c: CalculationResultActions.resetCalculationResult(),
 
         d: CalculationSelectionActions.setCurrentStep({
-          step: CALCULATION_OPTIONS_STEP,
+          step: 3, // CALCULATION_OPTIONS step for axial, non-thermal bearing
         }),
         e: CalculationOptionsActions.fetchPreflightOptions(),
       };

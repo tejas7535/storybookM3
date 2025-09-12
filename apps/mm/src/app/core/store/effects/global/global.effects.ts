@@ -41,7 +41,9 @@ export const initGlobal$ = createEffect(
 
         if (bearingId) {
           actions.push(
-            CalculationSelectionActions.fetchBearingData({ bearingId })
+            CalculationSelectionActions.fetchBearingData({
+              bearingId,
+            })
           );
         }
 

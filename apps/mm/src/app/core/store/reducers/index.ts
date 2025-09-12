@@ -4,7 +4,6 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 
-import { environment } from '../../../../environments/environment';
 import { CalculationOptionsState } from '../models/calculation-options-state.model';
 import { CalculationResultState } from '../models/calculation-result-state.model';
 import { CalculationSelectionState } from '../models/calculation-selection-state.model';
@@ -28,10 +27,7 @@ export const reducers: ActionReducerMap<AppState> = {
   global: globalReducer,
 };
 
-// eslint-disable-next-line unicorn/no-negated-condition
-export const metaReducers: MetaReducer<AppState>[] = !environment.production
-  ? []
-  : /* istanbul ignore next: very difficult */ [];
+export const metaReducers: MetaReducer<AppState>[] = [];
 
 export const getCalculationSelectionState =
   createFeatureSelector<CalculationSelectionState>('calculationSelection');

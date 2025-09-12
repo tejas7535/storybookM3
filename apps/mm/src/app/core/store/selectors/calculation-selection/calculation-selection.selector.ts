@@ -1,11 +1,8 @@
 import { LB_AXIAL_DISPLACEMENT } from '@mm/shared/constants/dialog-constant';
-import { STEP_CONFIG } from '@mm/shared/constants/steps';
-import { Step } from '@mm/shared/models/step.model';
+import { StepType } from '@mm/shared/constants/steps';
 import { createSelector } from '@ngrx/store';
 
 import { getCalculationSelectionState } from '../../reducers';
-import { getCalculationPerformed } from '../calculation-options/calculation-options.selector';
-import { isResultAvailable } from '../calculation-result/calculation-result.selector';
 
 export const getStepperState = createSelector(
   getCalculationSelectionState,
@@ -67,49 +64,64 @@ export const isAxialDisplacement = createSelector(
   (measurementMethod) => measurementMethod === LB_AXIAL_DISPLACEMENT
 );
 
-export const getSteps = createSelector(
-  getBearing,
-  getBearingSeatId,
-  getMountingMethod,
-  isAxialDisplacement,
-  getCalculationPerformed,
-  isResultAvailable,
+export const getStoredStepConfiguration = createSelector(
+  getStepperState,
+  (stepper) => stepper?.stepConfiguration
+);
 
-  (
-    bearing,
-    bearingSeatId,
-    mountingMethod,
-    isAxialBearing,
-    optionsCalculationPerformed,
-    isAvailable
-  ): Step[] => {
-    const steps: Step[] = [
-      {
-        ...STEP_CONFIG.BEARING,
-        complete: bearing !== undefined,
-      },
-      {
-        ...STEP_CONFIG.BEARING_SEAT,
-        complete: !!bearingSeatId,
-      },
-      {
-        ...STEP_CONFIG.MEASURING_MOUNTING,
-        complete: !!mountingMethod,
-      },
-    ];
+export const getStoredStepIndices = createSelector(
+  getStoredStepConfiguration,
+  (config): Record<StepType, number> =>
+    config?.stepIndices || ({} as Record<StepType, number>)
+);
 
-    if (isAxialBearing) {
-      steps.push({
-        ...STEP_CONFIG.CALCULATION_OPTIONS,
-        complete: optionsCalculationPerformed,
-      });
-    }
+export const getBearingStepIndex = createSelector(
+  getStoredStepIndices,
+  (indices): number | undefined =>
+    indices[StepType.BEARING] >= 0 ? indices[StepType.BEARING] : undefined
+);
 
-    steps.push({
-      ...STEP_CONFIG.RESULT,
-      complete: isAvailable,
-    });
+export const getBearingSeatStepIndex = createSelector(
+  getStoredStepIndices,
+  (indices): number | undefined =>
+    indices[StepType.BEARING_SEAT] >= 0
+      ? indices[StepType.BEARING_SEAT]
+      : undefined
+);
 
-    return steps;
-  }
+export const getMeasuringMountingStepIndex = createSelector(
+  getStoredStepIndices,
+  (indices): number | undefined =>
+    indices[StepType.MEASURING_MOUNTING] >= 0
+      ? indices[StepType.MEASURING_MOUNTING]
+      : undefined
+);
+
+export const getCalculationOptionsStepIndex = createSelector(
+  getStoredStepIndices,
+  (indices): number | undefined =>
+    indices[StepType.CALCULATION_OPTIONS] >= 0
+      ? indices[StepType.CALCULATION_OPTIONS]
+      : undefined
+);
+
+export const getResultStepIndex = createSelector(
+  getStoredStepIndices,
+  (indices): number | undefined =>
+    indices[StepType.RESULT] >= 0 ? indices[StepType.RESULT] : undefined
+);
+
+export const getAvailableSteps = createSelector(
+  getStoredStepConfiguration,
+  (stepConfiguration) => stepConfiguration?.availableSteps || []
+);
+
+export const getStoredSteps = createSelector(
+  getStoredStepConfiguration,
+  (config) => config?.steps || []
+);
+
+export const isThermal = createSelector(
+  getCalculationSelectionState,
+  (state) => state?.bearing?.isThermal
 );

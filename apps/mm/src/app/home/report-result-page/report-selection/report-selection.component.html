@@ -37,14 +37,13 @@
     @if (selectionTypes.length > 0) {
       <div class="flex pt-4 flex-col">
         @for (type of selectionTypes; track type) {
-          <div
+          <button
+            type="button"
             (click)="onCalculationTypeClicked(type.name)"
-            class="hover:bg-secondary-legacy-100 hover:text-primary mt-4 flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer"
+            class="hover:bg-primary-container hover:text-primary focus:bg-inverse-on-surface focus:outline-none mt-4 flex w-full flex-row items-center px-4 py-2 rounded cursor-pointer text-title-small whitespace-normal text-left"
           >
-            <div class="text-title-small whitespace-normal">
-              {{ t(type.name) }}
-            </div>
-          </div>
+            {{ t(type.name) }}
+          </button>
         }
       </div>
     }

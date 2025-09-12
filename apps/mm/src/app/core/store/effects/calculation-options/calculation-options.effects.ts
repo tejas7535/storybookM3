@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { map, mergeMap, of, switchMap } from 'rxjs';
+import { filter, map, mergeMap, of, switchMap } from 'rxjs';
 
 import { RestService } from '@mm/core/services';
 import { PreflightData } from '@mm/core/services/preflght-data-parser/preflight-data.interface';
@@ -92,6 +92,22 @@ export class CalculationOptionsEffects {
               });
             })
           );
+      })
+    );
+  });
+
+  public fetchToleranceClasses$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CalculationOptionsActions.fetchToleranceClasses),
+      filter(() => this.calculationSelectionFacade.isThermal()),
+      switchMap(() => {
+        return this.restService.getToleranceClasses().pipe(
+          map((toleranceClasses) => {
+            return CalculationOptionsActions.setToleranceClasses({
+              toleranceClasses,
+            });
+          })
+        );
       })
     );
   });
