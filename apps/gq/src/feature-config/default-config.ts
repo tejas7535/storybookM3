@@ -2,11 +2,11 @@ export const DEFAULT_CONFIG: GqFeatureToggleConfig = {
   editTechnicalValueDriver: false,
   sapPriceDiffColumn: false,
   displaySqvChecks: false,
-  rfqItemsTab: false,
+  rfqItemsTab: true,
   findCalculatorsPlantMock: false,
   findCalculatorsManagerMock: false,
   findCalculatorsNotFoundMock: false,
-  calculatorOverview: false,
+  calculatorOverview: true,
 };
 
 export interface GqFeatureToggleConfig {
