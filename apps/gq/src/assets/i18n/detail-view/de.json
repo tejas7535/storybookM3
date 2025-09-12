@@ -166,6 +166,13 @@
       "gpi": "GPI % (KHK)",
       "gpm": "GPM % (SAW)"
     },
+    "lastOfferInformationDetails": {
+      "title": "Letztes Angebot",
+      "lastOfferPrice": "Letzter Angebotspreis",
+      "lastOfferQty": "Menge letztes Angebot",
+      "reasonForRejection": "Absagegrund",
+      "detailReasonForRejection": "Text Absagegrund"
+    },
     "relocationCostDetails": {
       "title": "Zukünftige Kosten",
       "relocationPlant": "Zukünftiges Prod.Werk",

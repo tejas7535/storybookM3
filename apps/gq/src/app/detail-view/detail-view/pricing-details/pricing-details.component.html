@@ -26,7 +26,7 @@
                             (sapSyncStatus$ | ngrxPush) ===
                             sapSyncStatusEnum.SYNC_PENDING
                               ? sapSyncStatusEnum.SYNC_PENDING
-                              : (quotationStatus$ | ngrxPush)
+                              : (quotationStatus$ | ngrxPush),
                         }
                       )
                     "
@@ -45,7 +45,7 @@
                               (sapSyncStatus$ | ngrxPush) ===
                               sapSyncStatusEnum.SYNC_PENDING
                                 ? sapSyncStatusEnum.SYNC_PENDING
-                                : (quotationStatus$ | ngrxPush)
+                                : (quotationStatus$ | ngrxPush),
                           }
                         )
                       "
@@ -85,6 +85,12 @@
                       [userHasGPCRole]="userHasGPCRole$ | ngrxPush"
                       [userHasSQVRole]="userHasSQVRole$ | ngrxPush"
                     ></gq-last-customer-price-information-details>
+                  }
+                  @if (quotationDetail.lastOfferDetail) {
+                    <gq-last-offer-price-information-details
+                      [quotationDetail]="quotationDetail"
+                      [currency]="currency"
+                    ></gq-last-offer-price-information-details>
                   }
                 </div>
                 <div class="mt-4 w-full md:mt-0 md:w-1/2">

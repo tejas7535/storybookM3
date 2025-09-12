@@ -1,0 +1,48 @@
+<div
+  class="mt-4"
+  *transloco="
+    let t;
+    prefix: 'detailView.pricingDetails.lastOfferInformationDetails'
+  "
+>
+  <gq-kpi-status-card [title]="t('title')">
+    <div>
+      <gq-label-text>
+        <span label>{{ t('lastOfferPrice') }}</span>
+        <span text>{{
+          lastOfferDetail().lastOfferPrice | numberCurrency: currency()
+        }}</span>
+        @if (lastOfferDetail().lastOfferDate) {
+          <ng-container text>
+            <span>
+              {{
+                ' (' + (lastOfferDetail().lastOfferDate | translocoDate) + ')'
+              }}
+            </span>
+          </ng-container>
+        }
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('lastOfferQty') }}</span>
+        <span text>{{ lastOfferDetail().positionQuantity }}</span>
+        @if (lastOfferDetail().positionQuantity) {
+          <span text>
+            {{ quotationDetail().material.baseUoM | uom }}
+          </span>
+        }
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('reasonForRejection') }}</span>
+        <span text>{{
+          lastOfferDetail().reasonForRejection | undefinedToDash
+        }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('detailReasonForRejection') }}</span>
+        <span text>{{
+          lastOfferDetail().detailReasonForRejection | undefinedToDash
+        }}</span>
+      </gq-label-text>
+    </div>
+  </gq-kpi-status-card>
+</div>

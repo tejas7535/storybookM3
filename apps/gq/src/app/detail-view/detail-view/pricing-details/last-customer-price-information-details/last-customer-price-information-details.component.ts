@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
 
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 
@@ -9,7 +9,7 @@ import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 })
 export class LastCustomerPriceInformationDetailsComponent {
   @Input() quotationDetail: QuotationDetail;
-  @Input() currency: string;
-  @Input() userHasGPCRole: boolean;
-  @Input() userHasSQVRole: boolean;
+  readonly currency = input<string>();
+  readonly userHasGPCRole = input<boolean>();
+  readonly userHasSQVRole = input<boolean>();
 }

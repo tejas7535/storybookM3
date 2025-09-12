@@ -165,6 +165,13 @@
       "gpi": "GPI % (GPC)",
       "gpm": "GPM % (SQV)"
     },
+    "lastOfferInformationDetails": {
+      "title": "Last Offered Price Information",
+      "lastOfferPrice": "Last Offer Price",
+      "lastOfferQty": "Last Offer Qty",
+      "reasonForRejection": "Reason for Rejection",
+      "detailReasonForRejection": "Descr. Reason"
+    },
     "relocationCostDetails": {
       "title": "Relocation Cost",
       "relocationPlant": "Relocation Plant",

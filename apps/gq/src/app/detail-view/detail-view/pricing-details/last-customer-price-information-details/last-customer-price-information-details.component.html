@@ -2,7 +2,7 @@
   class="mt-4"
   *transloco="
     let t;
-    read: 'detailView.pricingDetails.lastCustomerPriceInformationDetails'
+    prefix: 'detailView.pricingDetails.lastCustomerPriceInformationDetails'
   "
 >
   <gq-kpi-status-card [title]="t('title')">
@@ -10,7 +10,7 @@
       <gq-label-text>
         <span label>{{ t('lastCustomerPrice') }}</span>
         <span text>{{
-          quotationDetail.lastCustomerPrice | numberCurrency: currency
+          quotationDetail.lastCustomerPrice | numberCurrency: currency()
         }}</span>
         @if (quotationDetail.lastCustomerPriceDate) {
           <ng-container text>
@@ -33,7 +33,7 @@
           </span>
         }
       </gq-label-text>
-      @if (userHasGPCRole) {
+      @if (userHasGPCRole()) {
         <gq-label-text>
           <span label>{{ t('gpi') }}</span>
           <span text>{{
@@ -41,7 +41,7 @@
           }}</span>
         </gq-label-text>
       }
-      @if (userHasSQVRole) {
+      @if (userHasSQVRole()) {
         <gq-label-text>
           <span label>{{ t('gpm') }}</span>
           <span text>{{
