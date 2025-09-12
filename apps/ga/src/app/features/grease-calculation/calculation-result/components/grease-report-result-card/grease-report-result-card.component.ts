@@ -12,18 +12,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 
-import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 
 import { TagComponent } from '@schaeffler/tag';
 
-import { SettingsFacade } from '@ga/core/store';
+import { CalculationParametersFacade, SettingsFacade } from '@ga/core/store';
 import { BadgeComponent } from '@ga/shared/components/badge/badge.component';
 import { PartnerVersion } from '@ga/shared/models';
 
 import { GreaseResult, PreferredGreaseResult } from '../../models';
 import { ResultSectionPipe } from '../../pipes/result-section.pipe';
 import { GreaseShopService } from '../grease-report-shop-buttons/grease-shop.service';
-import { GreaseImageResolver } from './grease-image-resolver.services';
 import { GreaseReportResultCardSectionComponent } from './grease-report-result-card-section/grease-report-result-card-section.component';
 
 @Component({
@@ -45,8 +44,37 @@ import { GreaseReportResultCardSectionComponent } from './grease-report-result-c
 })
 export class GreaseReportResultCardComponent {
   private readonly settingsFacade = inject(SettingsFacade);
+  private readonly calculationParametersFacade = inject(
+    CalculationParametersFacade
+  );
   private readonly shopService = inject(GreaseShopService);
-  protected readonly greaseImageResolver = inject(GreaseImageResolver);
+  private readonly translocoService = inject(TranslocoService);
+
+  private readonly schaefflerGreases = toSignal(
+    this.calculationParametersFacade.schaefflerGreases$
+  );
+
+  public readonly FALLBACK_IMAGE = '/assets/images/placeholder.png';
+
+  public grease = computed(() => {
+    const greaseName = this.greaseResult().mainTitle;
+
+    return this.schaefflerGreases().find((g) => g.name === greaseName);
+  });
+
+  public language = toSignal(this.translocoService.langChanges$, {
+    initialValue: this.translocoService.getActiveLang(),
+  });
+  public greaseSubtitle = computed(() => {
+    if (
+      this.grease()?.data &&
+      this.language() in this.grease().data.ingredients
+    ) {
+      return this.grease().data.ingredients[this.language()];
+    }
+
+    return this.grease()?.data?.ingredients['en'];
+  });
 
   public greaseResult = input.required<GreaseResult>();
   public preferredGreaseResult = input<PreferredGreaseResult>();

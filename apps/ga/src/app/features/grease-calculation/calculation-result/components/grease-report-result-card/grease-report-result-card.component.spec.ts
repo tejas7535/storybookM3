@@ -8,7 +8,7 @@ import { MockComponent, MockModule, MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { SettingsFacade } from '@ga/core/store';
+import { CalculationParametersFacade, SettingsFacade } from '@ga/core/store';
 import { BadgeComponent } from '@ga/shared/components/badge/badge.component';
 import { greaseResultMock } from '@ga/testing/mocks';
 
@@ -42,6 +42,23 @@ describe('GreaseReportResultCardComponent', () => {
         provide: SettingsFacade,
         useValue: {
           partnerVersion$: of(false),
+        },
+      },
+      {
+        provide: CalculationParametersFacade,
+        useValue: {
+          schaefflerGreases$: of([
+            {
+              name: greaseResultMock.mainTitle,
+              data: {
+                ingredients: {
+                  en: 'Grease Ingredients EN',
+                  de: 'Grease Ingredients DE',
+                },
+                imageUrl: '/assets/images/placeholder.png',
+              },
+            },
+          ]),
         },
       },
     ],

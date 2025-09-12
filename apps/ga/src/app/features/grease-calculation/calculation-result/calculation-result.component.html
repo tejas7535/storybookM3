@@ -1,77 +1,79 @@
 <ng-container *transloco="let t; read: 'calculationResult'">
   <div class="flex h-full flex-col px-4">
-    <schaeffler-subheader
-      class="-mx-4"
-      *ngrxLet="selectedBearing$ as selectedBearing"
-      [hideLine]="true"
-      [breakTitle]="true"
-      (backButtonClicked)="navigateBack()"
-    >
-      <ng-container subheaderTitleContent>
-        <span class="truncate">{{ selectedBearing }}</span>
-        <mat-icon
-          class="text-h5 text-link ml-2 !h-[24px] !w-[24px] cursor-help sm:ml-4 sm:!h-[28px] sm:!w-[28px] sm:!text-[28px]"
-          #tooltip="matTooltip"
-          [matTooltip]="t('title.247hint')"
-          (click)="tooltip.toggle()"
-        >
-          info_outline
-        </mat-icon>
-        @if (!(appIsEmbedded$ | ngrxPush)) {
-          <ga-medias-button
-            class="md:ml-2"
-            [bearing]="selectedBearing"
-            [partnerVersion]="partnerVersion$ | ngrxPush"
-          ></ga-medias-button>
-        }
-      </ng-container>
-      <ng-container subheaderInlineContent>
-        <div
-          class="w-full sm:w-fit sm:ml-auto sm:mr-auto gap-2 sm:gap-4 flex flex-col sm:flex-row"
-        >
-          <!-- Toggle Selection Button -->
-          <button
-            class="sm:w-fit"
-            (click)="toggleGreaseSelection()"
-            mat-stroked-button
+    @if (selectedBearing()) {
+      <schaeffler-subheader
+        class="-mx-4"
+        [hideLine]="true"
+        [breakTitle]="true"
+        (backButtonClicked)="navigateBack()"
+      >
+        <ng-container subheaderTitleContent>
+          <span class="truncate">{{ selectedBearing() }}</span>
+          <mat-icon
+            class="text-h5 text-link ml-2 !h-[24px] !w-[24px] cursor-help sm:ml-4 sm:!h-[28px] sm:!w-[28px] sm:!text-[28px]"
+            #tooltip="matTooltip"
+            matTooltip="{{ t('title.247hint') }} {{ t(titleHint()) }}"
+            (click)="tooltip.toggle()"
           >
-            @if (isSelectionModeEnabled()) {
-              {{ t('selectionButton.cancel') }}
-            } @else {
-              {{ t('selectionButton.enableSelectionMode') }}
-            }
-          </button>
+            info_outline
+          </mat-icon>
+          @if (!appIsEmbedded()) {
+            <ga-medias-button
+              class="md:ml-2"
+              [bearing]="selectedBearing()"
+              [partnerVersion]="partnerVersion()"
+            ></ga-medias-button>
+          }
+        </ng-container>
+        <ng-container subheaderInlineContent>
+          <div
+            class="w-full sm:w-fit sm:ml-auto sm:mr-auto gap-2 sm:gap-4 flex flex-col sm:flex-row"
+          >
+            <!-- Toggle Selection Button -->
+            <button
+              class="sm:w-fit"
+              (click)="toggleGreaseSelection()"
+              mat-stroked-button
+            >
+              @if (isSelectionModeEnabled()) {
+                {{ t('selectionButton.cancel') }}
+              } @else {
+                {{ t('selectionButton.enableSelectionMode') }}
+              }
+            </button>
 
-          <!-- Download Button -->
-          <button
-            mat-flat-button
-            class="tonal-button sm:flex-1 sm:w-fit"
-            (click)="generateReport(selectedBearing)"
-            [disabled]="isSelectionModeEnabled() && selectedCount() === 0"
-          >
-            {{
-              isSelectionModeEnabled()
-                ? t('selectionButton.downloadSelectedPrompt', {
-                    number: selectedCount(),
-                  })
-                : t('pdfDownload')
-            }}
-            <mat-icon class="align-middle">download</mat-icon>
-          </button>
-        </div>
-      </ng-container>
-    </schaeffler-subheader>
+            <!-- Download Button -->
+            <button
+              mat-flat-button
+              class="tonal-button sm:flex-1 sm:w-fit"
+              (click)="generateReport(selectedBearing())"
+              [disabled]="isSelectionModeEnabled() && selectedCount() === 0"
+            >
+              {{
+                isSelectionModeEnabled()
+                  ? t('selectionButton.downloadSelectedPrompt', {
+                      number: selectedCount(),
+                    })
+                  : t('pdfDownload')
+              }}
+              <mat-icon class="align-middle">download</mat-icon>
+            </button>
+          </div>
+        </ng-container>
+      </schaeffler-subheader>
+    }
     @if (reportUrls) {
       <div>
         <ga-grease-report
           #greaseReport
           [greaseReportUrl]="reportUrls.jsonReportUrl"
-          [preferredGreaseResult]="preferredGreaseSelection$ | ngrxPush"
-          [automaticLubrication]="automaticLubrication$ | ngrxPush"
-          [versions]="bearinxVersions$ | ngrxPush"
+          [preferredGreaseResult]="preferredGreaseSelection()"
+          [automaticLubrication]="automaticLubrication()"
+          [versions]="bearinxVersions()"
+          (titleHintContext)="setTitleHintContext($event)"
         ></ga-grease-report>
 
-        @if (!(partnerVersion$ | ngrxPush)) {
+        @if (!partnerVersion()) {
           <ga-qualtrics-info-banner
             class="block mb-3 md:mb-6 mt-3"
           ></ga-qualtrics-info-banner>

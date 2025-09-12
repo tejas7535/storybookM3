@@ -7,7 +7,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 import { translate, TranslocoService } from '@jsverse/transloco';
 import {
@@ -23,7 +23,11 @@ import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
-import { CalculationParametersFacade, SettingsFacade } from '@ga/core/store';
+import {
+  CalculationParametersFacade,
+  getSelectedBearing,
+  SettingsFacade,
+} from '@ga/core/store';
 import {
   fetchBearinxVersions,
   getCalculation,
@@ -69,13 +73,22 @@ describe('CalculationResultComponent', () => {
         initialState: {
           calculationResult: {},
         },
+        selectors: [
+          {
+            selector: getSelectedBearing,
+            value: 'bearing 123',
+          },
+        ],
       }),
       {
         provide: translate,
         useValue: jest.fn(),
       },
 
-      mockProvider(SettingsFacade),
+      mockProvider(SettingsFacade, {
+        appIsEmbedded$: of(false),
+        partnerVersion$: new Subject(),
+      }),
       mockProvider(PdfGenerationService),
       { provide: ENV, useValue: { ...getEnv(), production: false } },
       {
@@ -106,11 +119,18 @@ describe('CalculationResultComponent', () => {
 
   describe('when partner version is available', () => {
     beforeEach(() => {
-      component.partnerVersion$ = of(PartnerVersion.Schmeckthal);
+      (
+        component['settingsFacade'].partnerVersion$ as Subject<PartnerVersion>
+      ).next(PartnerVersion.Schmeckthal);
     });
 
     it('should provide value to medias button component', () => {
       spectator.detectChanges();
+      spectator.detectComponentChanges();
+
+      expect(component.selectedBearing()).toBeTruthy();
+      expect(component.partnerVersion()).toBe(PartnerVersion.Schmeckthal);
+      expect(component.appIsEmbedded()).toBe(false);
       expect(spectator.query(MediasButtonComponent).partnerVersion).toBe(
         PartnerVersion.Schmeckthal
       );

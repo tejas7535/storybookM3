@@ -20,6 +20,13 @@
   <div class="flex flex-row">
     <div class="flex flex-col min-w-[50%] py-2 px-4 md:py-4 w-1/2">
       <div class="mb-4 w-full min-h-[24px]">
+        @if (greaseResult().isPreferred) {
+          <ga-badge
+            [text]="t('preferredGreaseHintSelected')"
+            badgeClass="bg-surface-container border border-on-surface-variant text-on-surface-container"
+          ></ga-badge>
+        }
+
         @if (greaseResult().isMiscible) {
           <schaeffler-tag
             [value]="t('miscibleChip')"
@@ -32,18 +39,14 @@
         @if (greaseResult().isRecommended) {
           <ga-badge
             [text]="t('recommendedChip')"
-            [badgeClass]="
-              greaseResult().isRecommended
-                ? 'bg-success-container border-success text-on-success-container border'
-                : 'bg-category-2-container border-category-2 text-on-category-2-container border'
-            "
+            badgeClass="bg-success-container border-success text-on-success-container border"
           ></ga-badge>
         }
       </div>
 
       <div class="text-title-medium">{{ greaseResult().mainTitle }}</div>
       <div class="flex flex-1 text-label-small pb-6 min-h-[56px]">
-        {{ greaseResult().subTitle }}
+        {{ greaseSubtitle() }}
       </div>
       <!-- Final add to cart button will end up here -->
     </div>
@@ -51,7 +54,7 @@
       @if (isAcanolGrease()) {
         <img
           class="aspect-square h-auto w-auto md:w-full object-cover"
-          [src]="greaseImageResolver.getImageUrl(greaseResult().mainTitle)"
+          [src]="grease().data.imageUrl || FALLBACK_IMAGE"
           crossorigin="anonymous"
         />
       }

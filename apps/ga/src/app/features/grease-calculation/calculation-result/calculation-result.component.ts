@@ -1,7 +1,15 @@
-import { Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+  viewChild,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 
-import { debounceTime, firstValueFrom, Subscription } from 'rxjs';
+import { debounceTime, Subscription } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
@@ -59,16 +67,19 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
 
   public reportUrls: ReportUrls;
   public reportSelector = '.content';
-  public selectedBearing$ = this.store.select(getSelectedBearing);
-  public preferredGreaseSelection$ = this.store.select(
-    getPreferredGreaseSelection
+  public selectedBearing = toSignal(this.store.select(getSelectedBearing));
+  public preferredGreaseSelection = toSignal(
+    this.store.select(getPreferredGreaseSelection)
   );
-  public automaticLubrication$ = this.store.select(getAutomaticLubrication);
-  public appIsEmbedded$ = this.settingsFacade.appIsEmbedded$;
-  public partnerVersion$ = this.settingsFacade.partnerVersion$;
-  public bearinxVersions$ = this.store.select(getVersions);
-  private readonly selectedApplications$ =
-    this.calculationParametersFacade.selectedGreaseApplication$;
+  public automaticLubrication = toSignal(
+    this.store.select(getAutomaticLubrication)
+  );
+  public appIsEmbedded = toSignal(this.settingsFacade.appIsEmbedded$);
+  public partnerVersion = toSignal(this.settingsFacade.partnerVersion$);
+  public bearinxVersions = toSignal(this.store.select(getVersions));
+  private readonly selectedApplications = toSignal(
+    this.calculationParametersFacade.selectedGreaseApplication$
+  );
 
   private currentLanguage!: string;
   private reportUrlsSubscription!: Subscription;
@@ -76,6 +87,8 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
 
   protected selectedCount = this.pdfSelectionService.selectedCount;
   protected isSelectionModeEnabled = this.pdfSelectionService.selectionMode;
+
+  public titleHint = signal('resultsDefault');
 
   public ngOnInit(): void {
     this.store.dispatch(fetchBearinxVersions());
@@ -127,9 +140,7 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
     );
     const reportTitle = `${title} ${selectedBearing}`;
 
-    const selectedApplication = await firstValueFrom(
-      this.selectedApplications$
-    );
+    const selectedApplication = this.selectedApplications();
     const applicationLabel = this.translocoService.translate(
       'parameters.application'
     );
@@ -167,7 +178,7 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
         this.pdfSelectionService.isSelected(result.mainTitle)
       );
 
-    const versions = await firstValueFrom(this.bearinxVersions$);
+    const versions = this.bearinxVersions();
     this.pdfGenerationService.generatePdf({
       reportTitle,
       sectionSubTitle: hint,
@@ -187,6 +198,10 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
 
   public toggleGreaseSelection() {
     this.pdfSelectionService.toggleSelectionMode();
+  }
+
+  public setTitleHintContext(hint: string): void {
+    this.titleHint.set(hint);
   }
 
   private resetReportUrls(): void {

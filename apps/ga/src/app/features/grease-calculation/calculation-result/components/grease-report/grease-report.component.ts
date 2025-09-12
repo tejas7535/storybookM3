@@ -2,10 +2,12 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
+  effect,
   inject,
   input,
   OnDestroy,
   OnInit,
+  output,
   signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -103,6 +105,8 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
   public automaticLubrication = input(false);
   public versions = input<string | undefined>();
 
+  public titleHintContext = output<string>();
+
   public messageSectionId = GreaseReportSubordinateTitle.STRING_NOTE_BLOCK;
 
   public isProdMode = environment.production;
@@ -161,6 +165,22 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
 
   private currentLocale!: string;
   private localeChangeSubscription!: Subscription;
+
+  constructor() {
+    effect(() => {
+      switch (true) {
+        case this.hasMiscibileGreases() || !!this.preferredGreaseResult():
+          this.titleHintContext.emit('resultsWithPreferred');
+          break;
+        case this.hasRecommendation():
+          this.titleHintContext.emit('resultsWithRecommendation');
+          break;
+        default:
+          this.titleHintContext.emit('resultsDefault');
+          break;
+      }
+    });
+  }
 
   public ngOnInit(): void {
     if (this.greaseReportUrl()) {
