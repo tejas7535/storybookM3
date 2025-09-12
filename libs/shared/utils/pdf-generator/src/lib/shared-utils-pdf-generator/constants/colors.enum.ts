@@ -21,7 +21,7 @@ export enum Colors {
 
   Neutral = '#646464',
   NeutralContainer = '#e8e8e8',
-  OnNeutralContainer = '##444444',
+  OnNeutralContainer = '#444444',
 
   Category2 = '#4c3876',
   Category2Container = '#dfdae7',
