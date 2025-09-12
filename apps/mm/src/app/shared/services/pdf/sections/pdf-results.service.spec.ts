@@ -252,5 +252,67 @@ describe('PdfResultsService', () => {
       ).toHaveBeenCalled();
       expect(result).toEqual([mockLayout]);
     });
+
+    it('should render right table on left side when left table is empty but right table has data', () => {
+      const mockTableComponent = {} as unknown as TableWithHeader;
+      const mockLayout = {} as unknown as TwoColumnPageLayout;
+
+      const mockLayoutService = spectator.inject(PdfLayoutService);
+      const mockTableFactory = spectator.inject(PdfTableFactory);
+
+      // Clear any previous calls
+      mockLayoutService.createTwoColumnLayoutsWithComponents.mockClear();
+      mockTableFactory.createCompleteTable.mockClear();
+
+      // Setup mocks
+      mockTableFactory.createCompleteTable.mockReturnValue(mockTableComponent);
+      mockLayoutService.createTwoColumnLayoutsWithComponents.mockReturnValue([
+        mockLayout,
+      ]);
+
+      const result = (service as any).createTwoColumnSection(
+        (): ResultItem[] | null => undefined, // undefined data for left
+        'leftTitle',
+        (): ResultItem[] => [
+          { designation: 'right', value: 'value', unit: 'mm' },
+        ],
+        'rightTitle'
+      );
+
+      expect(
+        mockLayoutService.createTwoColumnLayoutsWithComponents
+      ).toHaveBeenCalledWith([mockTableComponent], []);
+      expect(result).toEqual([mockLayout]);
+    });
+
+    it('should render both tables when both have data', () => {
+      const mockTableComponent = {} as unknown as TableWithHeader;
+      const mockLayout = {} as unknown as TwoColumnPageLayout;
+
+      jest
+        .spyOn(service as any, 'createResultTable')
+        .mockReturnValue([mockTableComponent]);
+
+      const mockLayoutService = spectator.inject(PdfLayoutService);
+      mockLayoutService.createTwoColumnLayoutsWithComponents.mockReturnValue([
+        mockLayout,
+      ]);
+
+      const result = (service as any).createTwoColumnSection(
+        (): ResultItem[] => [
+          { designation: 'left', value: 'value', unit: 'mm' },
+        ],
+        'leftTitle',
+        (): ResultItem[] => [
+          { designation: 'right', value: 'value', unit: 'mm' },
+        ],
+        'rightTitle'
+      );
+
+      expect(
+        mockLayoutService.createTwoColumnLayoutsWithComponents
+      ).toHaveBeenCalledWith([mockTableComponent], [mockTableComponent]);
+      expect(result).toEqual([mockLayout]);
+    });
   });
 });

@@ -89,6 +89,17 @@ export class PdfResultsService {
       return [];
     }
 
+    // If there's no left table but there is a right table,
+    // render the right table on the left side
+    if (leftTable.length === 0 && rightTable.length > 0) {
+      const layouts = this.layoutService.createTwoColumnLayoutsWithComponents(
+        rightTable,
+        []
+      );
+
+      return layouts;
+    }
+
     const layouts = this.layoutService.createTwoColumnLayoutsWithComponents(
       leftTable,
       rightTable

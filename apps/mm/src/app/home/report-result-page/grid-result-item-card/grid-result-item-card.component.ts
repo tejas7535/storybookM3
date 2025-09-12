@@ -37,6 +37,7 @@ export class GridResultItemCardComponent {
   expandItemsTitle = input<string>('');
   collapseItemsTitle = input<string>('');
   showAdditional = signal(false);
+  valueClass = input<string>('');
 
   hasResultItems = computed(() => this.resultItems().length > 0);
   hasAdditionalItems = computed(() => this.additionalResultItems().length > 0);

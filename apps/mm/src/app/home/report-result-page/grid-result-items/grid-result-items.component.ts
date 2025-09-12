@@ -13,4 +13,5 @@ import { ResponsiveGridComponent } from '@mm/shared/components/responsive-grid/r
 })
 export class GridResultItemsComponent {
   resultItems = input.required<ResultItem[]>();
+  valueClass = input<string>('');
 }

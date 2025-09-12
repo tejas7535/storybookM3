@@ -32,12 +32,12 @@ export class TemperatureCardContent extends CardContent {
 
     const valueFontOptions = options.valueFontOptions || {
       ...DEFAULT_TITLE_OPTIONS,
-      fontSize: 12,
+      fontSize: 18,
       fontStyle: 'bold',
     };
     const labelFontOptions = options.labelFontOptions || {
       ...DEFAULT_DESC_OPTIONS,
-      fontSize: 9,
+      fontSize: 10,
     };
 
     const temperatureComponents: Component[] = [];
