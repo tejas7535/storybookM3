@@ -135,9 +135,9 @@ export class RestService {
       );
   }
 
-  public getToleranceClasses(): Observable<string[]> {
+  public getToleranceClasses(designation: string): Observable<string[]> {
     return this.httpClient.get<string[]>(
-      `${environment.baseUrl}/toleranceclasses`,
+      `${environment.baseUrl}/bearings/toleranceclasses?designation=${designation}`,
       {
         context: withCache({ version: this.translocoService.getActiveLang() }),
       }

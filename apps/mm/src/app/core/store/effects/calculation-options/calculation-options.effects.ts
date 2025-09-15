@@ -100,8 +100,15 @@ export class CalculationOptionsEffects {
     return this.actions$.pipe(
       ofType(CalculationOptionsActions.fetchToleranceClasses),
       filter(() => this.calculationSelectionFacade.isThermal()),
-      switchMap(() => {
-        return this.restService.getToleranceClasses().pipe(
+      concatLatestFrom(() => [this.calculationSelectionFacade.getBearing$()]),
+      switchMap(([_action, bearing]) => {
+        const bearingId = bearing?.bearingId;
+
+        if (!bearingId) {
+          return of();
+        }
+
+        return this.restService.getToleranceClasses(bearingId).pipe(
           map((toleranceClasses) => {
             return CalculationOptionsActions.setToleranceClasses({
               toleranceClasses,

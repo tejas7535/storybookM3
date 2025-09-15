@@ -225,9 +225,17 @@ describe('CalculationOptionsEffects', () => {
   });
 
   describe('fetchToleranceClasses$', () => {
+    beforeEach(() => {
+      restService.getToleranceClasses.mockClear();
+    });
+
     it('should dispatch setToleranceClasses with fetched data', () => {
       const toleranceClasses = ['class1', 'class2'];
+      const bearing = {
+        bearingId: 'bearing123',
+      } as Bearing;
 
+      facade.getBearing$.mockReturnValue(of(bearing));
       restService.getToleranceClasses.mockReturnValue(of(toleranceClasses));
 
       return marbles((m) => {
@@ -242,6 +250,38 @@ describe('CalculationOptionsEffects', () => {
         });
 
         m.expect(effects.fetchToleranceClasses$).toBeObservable(expected);
+
+        m.flush();
+
+        expect(restService.getToleranceClasses).toHaveBeenCalledWith(
+          'bearing123'
+        );
+      })();
+    });
+
+    it('should not call service when bearing ID is not available', () => {
+      const bearingWithoutId = {
+        bearingId: '',
+        title: '',
+        isThermal: true,
+        isMechanical: false,
+        isHydraulic: false,
+      } as Bearing;
+
+      facade.getBearing$.mockReturnValue(of(bearingWithoutId));
+
+      return marbles((m) => {
+        actions$ = m.hot('-a-', {
+          a: CalculationOptionsActions.fetchToleranceClasses(),
+        });
+
+        const expected = m.cold('--');
+
+        m.expect(effects.fetchToleranceClasses$).toBeObservable(expected);
+
+        m.flush();
+
+        expect(restService.getToleranceClasses).not.toHaveBeenCalled();
       })();
     });
   });

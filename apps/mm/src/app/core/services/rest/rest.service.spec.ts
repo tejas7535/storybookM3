@@ -335,12 +335,16 @@ describe('RestService', () => {
 
   describe('getToleranceClasses', () => {
     it('should call the service to get tolerance classes', (done) => {
-      service.getToleranceClasses().subscribe((result) => {
+      const bearingDesignation = 'ABC123';
+
+      service.getToleranceClasses(bearingDesignation).subscribe((result) => {
         expect(result).toEqual(['class1', 'class2']);
         done();
       });
 
-      const req = httpMock.expectOne(`${environment.baseUrl}/toleranceclasses`);
+      const req = httpMock.expectOne(
+        `${environment.baseUrl}/bearings/toleranceclasses?designation=${bearingDesignation}`
+      );
       expect(req.request.method).toBe('GET');
       expect(req.request.context).toEqual(withCache({ version: 'en' }));
       req.flush(['class1', 'class2']);
