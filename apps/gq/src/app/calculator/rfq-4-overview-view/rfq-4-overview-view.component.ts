@@ -3,6 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  OnDestroy,
+  OnInit,
   Signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -35,13 +37,12 @@ import { Rfq4OverviewStore } from './store/rfq-4-overview.store';
     SharedDirectivesModule,
   ],
   providers: [
-    Rfq4OverviewStore,
     { provide: TRANSLOCO_SCOPE, useValue: 'calculator', multi: true },
   ],
 
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Rfq4OverviewViewComponent {
+export class Rfq4OverviewViewComponent implements OnInit, OnDestroy {
   private readonly router: Router = inject(Router);
   private readonly rfq4OverviewStore = inject(Rfq4OverviewStore);
 
@@ -52,6 +53,14 @@ export class Rfq4OverviewViewComponent {
   readonly itemsLoading: Signal<boolean> = this.rfq4OverviewStore.loading;
   readonly activeTab: Signal<CalculatorTab> =
     this.rfq4OverviewStore.items.activeTab;
+
+  ngOnInit(): void {
+    this.rfq4OverviewStore.loadCountFromInterval();
+  }
+
+  ngOnDestroy(): void {
+    this.rfq4OverviewStore.stopCountTimer();
+  }
 
   onViewToggle(view: ViewToggle): void {
     this.rfq4OverviewStore.updateActiveTabByViewId(view.id);

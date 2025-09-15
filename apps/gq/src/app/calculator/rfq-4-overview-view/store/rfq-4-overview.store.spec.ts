@@ -255,6 +255,21 @@ describe('Rfq4OverviewStore', () => {
           expect(signalStore.tabCounts()).toEqual(initialCount);
           jest.useRealTimers();
         });
+        test('should naviagte to the current active tab when activeTab changes', () => {
+          const signalStore = TestBed.inject(Rfq4OverviewStore);
+          const locationSpy = jest.spyOn(location, 'go');
+          calculatorService.loadRfqRequestsCount = jest.fn();
+          calculatorService.getRfqRequests = jest.fn();
+          signalStore.loadCountFromInterval();
+          patchState(unprotected(signalStore), {
+            items: { ...signalStore.items(), activeTab: CalculatorTab.DONE },
+          });
+          TestBed.flushEffects();
+
+          expect(locationSpy).toHaveBeenCalledWith(
+            `${CalculatorPaths.CalculatorOverviewPath}/${CalculatorTab.DONE}`
+          );
+        });
       });
 
       describe('loadDataForTab', () => {
@@ -317,6 +332,37 @@ describe('Rfq4OverviewStore', () => {
           });
           signalStore.reloadTabDataWhenCountOfActiveTabHasChanged(null);
           expect(calculatorService.getRfqRequests).toHaveBeenCalled();
+        });
+      });
+
+      describe('stopCountTimer', () => {
+        test('should stop the interval when stopCountTimer is called', () => {
+          jest.useFakeTimers();
+          const signalStore = TestBed.inject(Rfq4OverviewStore);
+          calculatorService.getRfqRequests.mockReturnValue(of(dataOfDoneTab));
+          calculatorService.loadRfqRequestsCount = jest.fn(() =>
+            of(loadCountResult)
+          );
+
+          // Start the interval
+          signalStore.loadCountFromInterval();
+
+          // Verify interval is running
+          jest.advanceTimersByTime(30_000);
+          expect(calculatorService.loadRfqRequestsCount).toHaveBeenCalledTimes(
+            2
+          );
+
+          // Stop the interval
+          signalStore.stopCountTimer();
+
+          // Advance time and verify no more calls are made
+          jest.advanceTimersByTime(60_000);
+          expect(calculatorService.loadRfqRequestsCount).toHaveBeenCalledTimes(
+            2
+          );
+
+          jest.useRealTimers();
         });
       });
     });

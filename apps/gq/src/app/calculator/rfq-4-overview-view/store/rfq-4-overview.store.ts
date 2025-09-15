@@ -1,7 +1,17 @@
 import { Location } from '@angular/common';
 import { computed, effect, inject } from '@angular/core';
 
-import { map, mergeMap, of, pipe, switchMap, tap, timer } from 'rxjs';
+import {
+  map,
+  mergeMap,
+  of,
+  pipe,
+  Subject,
+  switchMap,
+  takeUntil,
+  tap,
+  timer,
+} from 'rxjs';
 
 import { updateState, withDevtools } from '@angular-architects/ngrx-toolkit';
 import { CalculatorPaths } from '@gq/calculator/routing/calculator-paths.enum';
@@ -60,6 +70,7 @@ export const initialState: Rfq4OverviewState = {
 };
 
 export const Rfq4OverviewStore = signalStore(
+  { providedIn: 'root' },
   withDevtools('Rfq4OverviewStore'),
   withState(initialState),
   withComputed(({ items }) => ({
@@ -84,101 +95,119 @@ export const Rfq4OverviewStore = signalStore(
         getTabCountsOfDisplayedItems()[items.activeTab()]
     ),
   })),
-  withMethods((store, calculatorService = inject(Rfq4CalculatorService)) => {
-    function updateActiveTabByViewId(viewId: number): void {
-      updateState(store, ACTIONS.UPDATE_TAB_BY_ID, (state) => ({
-        items: {
-          ...state.items,
-          activeTab: getViewToggles(
-            store.items.activeTab(),
-            state.tabCounts,
-            store.getTabCountsOfDisplayedItems()
-          )[viewId].tab,
-        },
-      }));
-    }
+  withMethods(
+    (
+      store,
+      calculatorService = inject(Rfq4CalculatorService),
+      location = inject(Location)
+    ) => {
+      const stop$$ = new Subject<void>();
+      function updateActiveTabByViewId(viewId: number): void {
+        updateState(store, ACTIONS.UPDATE_TAB_BY_ID, (state) => ({
+          items: {
+            ...state.items,
+            activeTab: getViewToggles(
+              store.items.activeTab(),
+              state.tabCounts,
+              store.getTabCountsOfDisplayedItems()
+            )[viewId].tab,
+          },
+        }));
+      }
 
-    const loadCountFromInterval = rxMethod<void>(
-      pipe(
-        mergeMap(() =>
-          timer(0, 30_000).pipe(
-            tap(() => {
-              updateState(store, ACTIONS.UPDATE_COUNT_LOADING, {
-                countLoading: true,
-              });
-            }),
-            switchMap(() =>
-              calculatorService.loadRfqRequestsCount().pipe(
-                tapResponse({
-                  next: (loadedTabCounts) => {
-                    updateState(store, ACTIONS.UPDATE_TAB_COUNTS, {
-                      tabCounts: { ...loadedTabCounts },
-                      countLoading: false,
-                    });
-                  },
-                  error: () =>
-                    updateState(store, ACTIONS.UPDATE_COUNT_LOADING, {
-                      countLoading: false,
-                    }),
-                })
+      function stopCountTimer(): void {
+        stop$$.next();
+      }
+
+      const loadCountFromInterval = rxMethod<void>(
+        pipe(
+          mergeMap(() =>
+            timer(0, 30_000).pipe(
+              takeUntil(stop$$),
+              tap(() => {
+                updateState(store, ACTIONS.UPDATE_COUNT_LOADING, {
+                  countLoading: true,
+                });
+              }),
+              switchMap(() =>
+                calculatorService.loadRfqRequestsCount().pipe(
+                  tapResponse({
+                    next: (loadedTabCounts) => {
+                      updateState(store, ACTIONS.UPDATE_TAB_COUNTS, {
+                        tabCounts: { ...loadedTabCounts },
+                        countLoading: false,
+                      });
+                      location.go(
+                        `${CalculatorPaths.CalculatorOverviewPath}/${store.items.activeTab()}`
+                      );
+                    },
+                    error: () =>
+                      updateState(store, ACTIONS.UPDATE_COUNT_LOADING, {
+                        countLoading: false,
+                      }),
+                  })
+                )
               )
             )
           )
         )
-      )
-    );
+      );
 
-    const loadDataForCalculatorTab = rxMethod<CalculatorTab>(
-      pipe(
-        tap(() =>
-          updateState(store, ACTIONS.UPDATE_LOADING, { loading: true })
-        ),
-        switchMap((tab: CalculatorTab) =>
-          calculatorService.getRfqRequests(tab).pipe(
-            tapResponse({
-              next: (loadedItems) => {
-                updateState(store, ACTIONS.UPDATE_TAB_DATA, {
-                  items: {
-                    ...store.items(),
-                    [tab]: loadedItems,
-                  },
-                  loading: false,
-                });
-                if (store.tabCounts() === initialState.tabCounts) {
-                  updateState(store, `${ACTIONS.UPDATE_TAB_COUNTS}`, {
-                    tabCounts: { ...store.getTabCountsOfDisplayedItems() },
+      const loadDataForCalculatorTab = rxMethod<CalculatorTab>(
+        pipe(
+          tap(() =>
+            updateState(store, ACTIONS.UPDATE_LOADING, { loading: true })
+          ),
+          switchMap((tab: CalculatorTab) =>
+            calculatorService.getRfqRequests(tab).pipe(
+              tapResponse({
+                next: (loadedItems) => {
+                  updateState(store, ACTIONS.UPDATE_TAB_DATA, {
+                    items: {
+                      ...store.items(),
+                      [tab]: loadedItems,
+                    },
+                    loading: false,
                   });
-                }
-              },
-              error: () =>
-                updateState(store, ACTIONS.UPDATE_LOADING, { loading: false }),
-            })
+                  if (store.tabCounts() === initialState.tabCounts) {
+                    updateState(store, `${ACTIONS.UPDATE_TAB_COUNTS}`, {
+                      tabCounts: { ...store.getTabCountsOfDisplayedItems() },
+                    });
+                  }
+                },
+                error: () =>
+                  updateState(store, ACTIONS.UPDATE_LOADING, {
+                    loading: false,
+                  }),
+              })
+            )
           )
         )
-      )
-    );
-    const reloadTabDataWhenCountOfActiveTabHasChanged = rxMethod(
-      pipe(
-        map(() => {
-          if (
-            store.tabCounts()[store.items.activeTab()] ===
-            store.getTabCountsOfDisplayedItems()[store.items.activeTab()]
-          ) {
-            return of(null);
-          }
+      );
+      const reloadTabDataWhenCountOfActiveTabHasChanged = rxMethod(
+        pipe(
+          map(() => {
+            if (
+              store.tabCounts()[store.items.activeTab()] ===
+              store.getTabCountsOfDisplayedItems()[store.items.activeTab()]
+            ) {
+              return of(null);
+            }
 
-          return loadDataForCalculatorTab(store.items.activeTab());
-        })
-      )
-    );
+            return loadDataForCalculatorTab(store.items.activeTab());
+          })
+        )
+      );
 
-    return {
-      updateActiveTabByViewId,
-      loadCountFromInterval,
-      loadDataForCalculatorTab,
-      reloadTabDataWhenCountOfActiveTabHasChanged,
-    };
-  }),
+      return {
+        updateActiveTabByViewId,
+        loadDataForCalculatorTab,
+        loadCountFromInterval,
+        reloadTabDataWhenCountOfActiveTabHasChanged,
+        stopCountTimer,
+      };
+    }
+  ),
 
   withHooks({
     onInit(store) {
@@ -195,8 +224,6 @@ export const Rfq4OverviewStore = signalStore(
           },
         }));
       });
-
-      store.loadCountFromInterval();
 
       // ########################################################
       // ###################  effects  ##########################
