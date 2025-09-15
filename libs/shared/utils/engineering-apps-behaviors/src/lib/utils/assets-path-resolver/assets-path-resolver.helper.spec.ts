@@ -1,5 +1,5 @@
+import { EMAPlatform } from '../delivery';
 import { getAssetsPath } from './assets-path-resolver.helper';
-import { EMAPlatform } from './ema-platform';
 
 describe('Assets Path Resolver Helper', () => {
   it('should return capacitor assets path for iOS', () => {

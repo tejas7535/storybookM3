@@ -9,6 +9,8 @@ import {
 } from '@mm/shared/services/step-manager/step-manager.service';
 import { Store } from '@ngrx/store';
 
+import { EaEmbeddedService } from '@schaeffler/engineering-apps-behaviors/utils';
+
 import { CalculationResultActions } from '../../actions/calculation-result';
 import { CalculationSelectionActions } from '../../actions/calculation-selection';
 import { Bearing } from '../../models/calculation-selection-state.model';
@@ -16,7 +18,6 @@ import { CalculationSelectionSelector } from '../../selectors';
 import { getCalculationPerformed } from '../../selectors/calculation-options/calculation-options.selector';
 import { isResultAvailable } from '../../selectors/calculation-result/calculation-result.selector';
 import { isThermal } from '../../selectors/calculation-selection/calculation-selection.selector';
-import { getAppDeliveryEmbedded } from '../../selectors/global/global.selector';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,7 @@ import { getAppDeliveryEmbedded } from '../../selectors/global/global.selector';
 export class CalculationSelectionFacade {
   private readonly store = inject(Store);
   private readonly stepManagerService = inject(StepManagerService);
+  private readonly embeddedService = inject(EaEmbeddedService);
 
   public readonly selectedBearingOption = toSignal(
     this.getBearing$().pipe(
@@ -176,7 +178,6 @@ export class CalculationSelectionFacade {
       this.getMountingMethod$(),
       this.store.select(getCalculationPerformed),
       this.store.select(isResultAvailable),
-      this.store.select(getAppDeliveryEmbedded),
     ]).pipe(
       map(
         ([
@@ -186,12 +187,11 @@ export class CalculationSelectionFacade {
           mountingMethod,
           optionsCalculationPerformed,
           resultAvailable,
-          isEmbedded,
         ]) =>
           this.stepManagerService.getStepConfiguration({
             bearing,
             isAxialBearing,
-            isEmbedded,
+            isEmbedded: !this.embeddedService.isStandalone(),
             completionState: {
               bearingSeatId,
               mountingMethod,

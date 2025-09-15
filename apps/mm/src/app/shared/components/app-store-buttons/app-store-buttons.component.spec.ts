@@ -1,10 +1,22 @@
+import { signal } from '@angular/core';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MockProvider } from 'ng-mocks';
+
+import { EaDeliveryService } from '@schaeffler/engineering-apps-behaviors/utils';
 
 import { AppStoreButtonsComponent } from './app-store-buttons.component';
 
 describe('AppStoreButtonsComponent', () => {
   let spectator: Spectator<AppStoreButtonsComponent>;
-  const createComponent = createComponentFactory(AppStoreButtonsComponent);
+  const createComponent = createComponentFactory({
+    component: AppStoreButtonsComponent,
+    providers: [
+      MockProvider(EaDeliveryService, {
+        assetsPath: signal('/base/assets/'),
+      }),
+    ],
+  });
 
   beforeEach(() => {
     spectator = createComponent();

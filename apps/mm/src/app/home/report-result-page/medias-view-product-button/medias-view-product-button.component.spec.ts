@@ -18,13 +18,13 @@ describe('MediasViewProductButtonComponent', () => {
     imports: [provideTranslocoTestingModule({ en: {} })],
     providers: [
       {
-        ApplicationInsightsService,
+        provide: ApplicationInsightsService,
         useValue: {
           logEvent: jest.fn(),
         },
       },
       {
-        MobileFirebaseAnalyticsService,
+        provide: MobileFirebaseAnalyticsService,
         useValue: {
           logOpenExternalLinkEvent: jest.fn(),
         },

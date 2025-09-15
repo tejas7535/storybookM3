@@ -1,11 +1,14 @@
+import { signal } from '@angular/core';
+
 import { StepType } from '@mm/shared/constants/steps';
-import { AppDelivery } from '@mm/shared/models';
 import { BearingOption } from '@mm/shared/models/bearing-search.model';
 import { ListValue } from '@mm/shared/models/list-value.model';
 import { Step } from '@mm/shared/models/step.model';
 import { StepManagerService } from '@mm/shared/services/step-manager/step-manager.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+
+import { EaEmbeddedService } from '@schaeffler/engineering-apps-behaviors/utils';
 
 import { CalculationSelectionActions } from '../../actions/calculation-selection';
 import {
@@ -24,8 +27,6 @@ describe('CalculationSelectionFacade', () => {
   let stepManagerService: jest.Mocked<StepManagerService>;
 
   const globalInitialState: GlobalState = {
-    isStandalone: true,
-    appDelivery: AppDelivery.Standalone,
     initialized: false,
     isInternalUser: false,
   };
@@ -45,6 +46,12 @@ describe('CalculationSelectionFacade', () => {
         provide: StepManagerService,
         useValue: {
           getStepConfiguration: jest.fn(),
+        },
+      },
+      {
+        provide: EaEmbeddedService,
+        useValue: {
+          isStandalone: signal(true),
         },
       },
     ],

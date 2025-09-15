@@ -22,18 +22,6 @@ describe('GlobalFacade', () => {
             value: false,
           },
           {
-            selector: GlobalSelectors.getIsStandalone,
-            value: false,
-          },
-          {
-            selector: GlobalSelectors.getAppDelivery,
-            value: 'Embedded',
-          },
-          {
-            selector: GlobalSelectors.getAppDeliveryEmbedded,
-            value: true,
-          },
-          {
             selector: GlobalSelectors.getIsInternalUser,
             value: false,
           },
@@ -58,33 +46,6 @@ describe('GlobalFacade', () => {
     it('should return the initialized state', () => {
       const expected = false;
       facade.isInitialized$.subscribe((value) => {
-        expect(value).toBe(expected);
-      });
-    });
-  });
-
-  describe('isStandalone$', () => {
-    it('should return the isStandalone state', () => {
-      const expected = false;
-      facade.isStandalone$.subscribe((value) => {
-        expect(value).toBe(expected);
-      });
-    });
-  });
-
-  describe('appDelivery$', () => {
-    it('should return the appDelivery state', () => {
-      const expected = 'Embedded';
-      facade.appDelivery$.subscribe((value) => {
-        expect(value).toBe(expected);
-      });
-    });
-  });
-
-  describe('appDeliveryEmbedded$', () => {
-    it('should return the appDeliveryEmbedded state', () => {
-      const expected = true;
-      facade.appDeliveryEmbedded$.subscribe((value) => {
         expect(value).toBe(expected);
       });
     });

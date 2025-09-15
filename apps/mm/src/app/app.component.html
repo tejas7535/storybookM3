@@ -1,5 +1,5 @@
 <ng-container>
-  @if (standalone()) {
+  @if (isMobile() || outsidemedias()) {
     <schaeffler-app-shell
       [appTitle]="title"
       [appTitleLink]="'/'"
@@ -46,11 +46,7 @@
         [class.!max-w-full]="!isStandalone()"
         [class.p-0]="!isStandalone()"
       >
-        @if (standalone()) {
-          <router-outlet></router-outlet>
-        } @else {
-          <mm-home></mm-home>
-        }
+        <router-outlet></router-outlet>
       </div>
       <div
         class="mx-auto w-full max-w-screen-md"

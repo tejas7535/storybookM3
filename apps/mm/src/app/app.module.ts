@@ -1,5 +1,12 @@
 /* eslint-disable @nx/enforce-module-boundaries */
-import { ApplicationRef, DoBootstrap, Injector, NgModule } from '@angular/core';
+import { LocationStrategy } from '@angular/common';
+import {
+  ApplicationRef,
+  DoBootstrap,
+  inject,
+  Injector,
+  NgModule,
+} from '@angular/core';
 import { createCustomElement } from '@angular/elements';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -7,11 +14,19 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { Capacitor } from '@capacitor/core';
 import { TranslocoService } from '@jsverse/transloco';
+import { environment } from '@mm/environments/environment';
 import { PushPipe } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import { BannerModule } from '@schaeffler/banner';
+import {
+  DEFAULT_ASSETS_PATH,
+  EA_CAPACITOR,
+  EaDeliveryService,
+  StaticLocationStrategy,
+} from '@schaeffler/engineering-apps-behaviors/utils';
 import {
   ADDITIONAL_THRID_PARTY_USAGE,
   PERSON_RESPONSIBLE,
@@ -23,12 +38,12 @@ import {
   FONT_ASSET_PATH,
   LANGUAGE_FONT_MAPPINGS,
 } from '@schaeffler/pdf-generator';
+import { LOADER_PATH } from '@schaeffler/transloco';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SettingsComponent } from './core/components/settings/settings.component';
 import { CoreModule } from './core/core.module';
-import { getMMAssetsPath } from './core/services/assets-path-resolver/assets-path-resolver.helper';
 import { StoreModule } from './core/store/store.module';
 import { HomeComponent } from './home/home.component';
 import { responsiblePerson } from './shared/constants/legal-constants';
@@ -46,8 +61,6 @@ export function DynamicThirdPartyUsage(translocoService: TranslocoService) {
 }
 
 export const APP_ROOT = 'mounting-manager';
-
-const assetsPath = getMMAssetsPath();
 
 @NgModule({
   declarations: [AppComponent],
@@ -86,9 +99,18 @@ const assetsPath = getMMAssetsPath();
       useFactory: DynamicThirdPartyUsage,
       deps: [TranslocoService],
     },
+    EaDeliveryService,
     {
       provide: FONT_ASSET_PATH,
-      useValue: `${assetsPath}/fonts`,
+      useFactory: (deliveryService = inject(EaDeliveryService)) =>
+        `${deliveryService.assetsPath()}/fonts`,
+      deps: [EaDeliveryService],
+    },
+    {
+      provide: LOADER_PATH,
+      useFactory: (deliveryService = inject(EaDeliveryService)) =>
+        `${deliveryService.assetsPath()}/i18n/`,
+      deps: [EaDeliveryService],
     },
     {
       provide: DEFAULT_FONT,
@@ -121,6 +143,18 @@ const assetsPath = getMMAssetsPath();
           },
         ],
       },
+    },
+    {
+      provide: LocationStrategy,
+      useClass: StaticLocationStrategy,
+    },
+    {
+      provide: DEFAULT_ASSETS_PATH,
+      useValue: environment.assetsPath,
+    },
+    {
+      provide: EA_CAPACITOR,
+      useValue: Capacitor,
     },
   ],
 })

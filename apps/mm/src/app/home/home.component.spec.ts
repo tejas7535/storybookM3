@@ -9,6 +9,7 @@ import { StepType } from '@mm/shared/constants/steps';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockProvider } from 'ng-mocks';
 
+import { EaEmbeddedService } from '@schaeffler/engineering-apps-behaviors/utils';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { HomeComponent } from './home.component';
@@ -65,6 +66,9 @@ describe('HomeComponent', () => {
       MockProvider(CalculationOptionsFacade, {
         getOptions$: jest.fn(() => of({})),
       } as unknown as CalculationOptionsFacade),
+      MockProvider(EaEmbeddedService, {
+        isStandalone: signal(true),
+      }),
     ],
   });
 

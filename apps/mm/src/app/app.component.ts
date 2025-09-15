@@ -21,10 +21,11 @@ import {
   takeUntil,
 } from 'rxjs';
 
-import { Capacitor } from '@capacitor/core';
-import { TranslocoService } from '@jsverse/transloco';
-
 import { AppShellFooterLink } from '@schaeffler/app-shell';
+import {
+  EaDeliveryService,
+  EaEmbeddedRootComponent,
+} from '@schaeffler/engineering-apps-behaviors/utils';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import packageJson from '../../package.json';
@@ -40,23 +41,24 @@ import { GlobalFacade } from './core/store/facades/global/global.facade';
   standalone: false,
   changeDetection: ChangeDetectionStrategy.Default,
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent
+  extends EaEmbeddedRootComponent
+  implements OnInit, OnDestroy
+{
   private readonly router = inject(Router);
   private readonly meta = inject(Meta);
-  private readonly translocoService = inject(TranslocoService);
   private readonly oneTrustMobileService = inject(OneTrustMobileService);
   private readonly globalFacade = inject(GlobalFacade);
   private readonly calculationSelectionFacade = inject(
     CalculationSelectionFacade
   );
+  private readonly deliveryService = inject(EaDeliveryService);
 
   public title = 'Mounting Manager';
   public appVersion = packageJson.version;
 
-  public standalone = input<boolean>();
-  public bearing = input<string>();
   public separator = input<MMSeparator>();
-  public language = input<string>();
+  public outsidemedias = input<boolean>();
 
   public isCookiePage = false;
   public cookieSettings = this.translocoService.translate(
@@ -64,9 +66,8 @@ export class AppComponent implements OnInit, OnDestroy {
   );
 
   public isBannerOpened = toSignal(this.globalFacade.isBannerOpened$);
-  public isStandalone = toSignal(this.globalFacade.isStandalone$);
-
-  public appDelivery$ = this.globalFacade.appDelivery$;
+  public isStandalone = this.embeddedService.isStandalone;
+  public isMobile = this.deliveryService.isMobile;
 
   public isInitialized$ = this.globalFacade.isInitialized$;
   public destroy$ = new Subject<void>();
@@ -130,28 +131,18 @@ export class AppComponent implements OnInit, OnDestroy {
   ]).pipe(map(([title, description]) => this.makeMetaTags(title, description)));
 
   public ngOnInit(): void {
-    if (this.standalone()) {
+    if (this.isStandalone()) {
       this.router.events
         .pipe(
           filter((event) => event instanceof NavigationEnd),
           take(1)
         )
         .subscribe(() => {
-          this.globalFacade.initGlobal(
-            this.standalone(),
-            this.bearing(),
-            this.separator(),
-            this.language()
-          );
+          this.globalFacade.initGlobal(this.bearing(), this.separator());
         });
       this.metaTags$.subscribe((tags) => this.meta.addTags(tags));
     } else {
-      this.globalFacade.initGlobal(
-        this.standalone(),
-        this.bearing(),
-        this.separator(),
-        this.language()
-      );
+      this.globalFacade.initGlobal(this.bearing(), this.separator());
     }
 
     window.history.replaceState({ step: 0 }, '', window.location.href);
@@ -170,7 +161,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (
       !this.router.getCurrentNavigation() &&
       !this.router.lastSuccessfulNavigation &&
-      this.standalone()
+      this.isStandalone()
     ) {
       this.router.initialNavigation();
     }
@@ -179,10 +170,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  public isMobile() {
-    return Capacitor.isNativePlatform();
   }
 
   private makeMetaTags(title: string, description: string): MetaDefinition[] {

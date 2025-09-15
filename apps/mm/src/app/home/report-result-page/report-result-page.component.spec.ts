@@ -7,7 +7,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { of } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
-import { GlobalFacade } from '@mm/core/store/facades/global/global.facade';
 import {
   MountingTools,
   ReportMessages,
@@ -16,13 +15,13 @@ import {
 import { QualtricsInfoBannerComponent } from '@mm/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import { PdfGenerationService } from '@mm/shared/services/pdf';
 import { ResultDataService } from '@mm/shared/services/result-data.service';
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
-import { MockComponent } from 'ng-mocks';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MockComponent, MockProvider } from 'ng-mocks';
 
+import {
+  EaDeliveryService,
+  EaEmbeddedService,
+} from '@schaeffler/engineering-apps-behaviors/utils';
 import { FontResolverService } from '@schaeffler/pdf-generator';
 import { ResultReportComponent } from '@schaeffler/result-report';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -109,9 +108,6 @@ describe('ReportResultPageComponent', () => {
       MockComponent(MobileDownloadPdfButtonComponent),
     ],
     providers: [
-      mockProvider(GlobalFacade, {
-        isStandalone$: of(true),
-      }),
       {
         provide: ResultDataService,
         useValue: {
@@ -141,10 +137,16 @@ describe('ReportResultPageComponent', () => {
           generatePdf: jest.fn().mockResolvedValue(undefined),
         },
       },
-      mockProvider(FontResolverService, {
+      MockProvider(FontResolverService, {
         fetchForLocale: jest.fn().mockReturnValue(of([])),
       }),
-      mockProvider(MatSnackBar),
+      MockProvider(MatSnackBar),
+      MockProvider(EaEmbeddedService, {
+        isStandalone: signal(true),
+      }),
+      MockProvider(EaDeliveryService, {
+        assetsPath: signal('/base/assets/'),
+      }),
     ],
   });
 

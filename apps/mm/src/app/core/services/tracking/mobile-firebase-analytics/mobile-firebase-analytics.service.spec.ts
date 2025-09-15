@@ -1,7 +1,15 @@
 /* eslint-disable import/no-extraneous-dependencies */
+
 import { Capacitor } from '@capacitor/core';
 import { FirebaseAnalytics } from '@capacitor-community/firebase-analytics';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { MockProvider } from 'ng-mocks';
+
+import {
+  DEFAULT_ASSETS_PATH,
+  EA_CAPACITOR,
+  EaDeliveryService,
+} from '@schaeffler/engineering-apps-behaviors/utils';
 
 import { MobileFirebaseAnalyticsService } from './mobile-firebase-analytics.service';
 
@@ -22,6 +30,11 @@ describe('MobileFirebaseAnalyticsService', () => {
 
   const createService = createServiceFactory({
     service: MobileFirebaseAnalyticsService,
+    providers: [
+      MockProvider(EA_CAPACITOR, Capacitor),
+      MockProvider(DEFAULT_ASSETS_PATH, '/base/assets/'),
+      EaDeliveryService,
+    ],
   });
 
   beforeEach(() => {
@@ -76,14 +89,14 @@ describe('MobileFirebaseAnalyticsService', () => {
     });
   });
 
-  describe('when isMobilePlatform called', () => {
+  describe('when isMobile called', () => {
     describe('when app is delivered as mobile', () => {
       beforeAll(() => {
         isNativePlatformMock.mockReturnValue(true);
       });
 
       it('should qualify app as mobile', () => {
-        expect(service.isMobilePlatform()).toBe(true);
+        expect(service.isMobile()).toBe(true);
       });
     });
   });

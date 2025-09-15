@@ -12,7 +12,6 @@ import { debounceTime, map } from 'rxjs';
 
 import { CalculationOptionsFacade } from '@mm/core/store/facades/calculation-options/calculation-options.facade';
 import { CalculationSelectionFacade } from '@mm/core/store/facades/calculation-selection/calculation-selection.facade';
-import { GlobalFacade } from '@mm/core/store/facades/global/global.facade';
 import { BearingSearchComponent } from '@mm/home/bearing-search/bearing-search.component';
 import { AppStoreButtonsComponent } from '@mm/shared/components/app-store-buttons/app-store-buttons.component';
 import { QualtricsInfoBannerComponent } from '@mm/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
@@ -21,6 +20,7 @@ import { CalculationOptionsStepComponent } from '@mm/steps/calculation-options-s
 import { ThermalHeatingCalculationOptionsComponent } from '@mm/steps/calculation-options-step/thermal-heating-calculation-options/thermal-heating-calculation-options.component';
 import { MeasuringAndMountingStepComponent } from '@mm/steps/measuring-and-mounting-step/measuring-and-mounting-step.component';
 
+import { EaEmbeddedService } from '@schaeffler/engineering-apps-behaviors/utils';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { ReportResultPageComponent } from './report-result-page/report-result-page.component';
@@ -52,12 +52,10 @@ import { ReportResultPageComponent } from './report-result-page/report-result-pa
 export class HomeComponent {
   private readonly selectionFacade = inject(CalculationSelectionFacade);
   private readonly optionsFacade = inject(CalculationOptionsFacade);
-  private readonly globalFacade = inject(GlobalFacade);
+  private readonly embeddedService = inject(EaEmbeddedService);
 
   public readonly DEBOUNCE_TIME_DEFAULT = 0; // debounce time required for slider in Application to render properly at the first load.
-  public isAppDeliveryEmbedded = toSignal(
-    this.globalFacade.appDeliveryEmbedded$
-  );
+  public isStandalone = this.embeddedService.isStandalone;
   selectedBearing = toSignal(this.selectionFacade.getBearing$());
   bearingSeats = toSignal(this.selectionFacade.bearingSeats$);
   selectedBearingOption = this.selectionFacade.selectedBearingOption;

@@ -1,7 +1,4 @@
-import { TranslocoService } from '@jsverse/transloco';
-import { detectAppDelivery } from '@mm/core/helpers/settings-helpers';
 import { LocaleService, MMSeparator } from '@mm/core/services';
-import { AppDelivery } from '@mm/shared/models';
 import { marbles } from 'rxjs-marbles';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -23,35 +20,22 @@ describe('Global Effects', () => {
         const localeServiceMock = {
           setSeparator: jest.fn(),
         } as unknown as LocaleService;
-        const translocoServiceMock = {
-          setActiveLang: jest.fn(),
-        } as unknown as TranslocoService;
 
         const actions$ = m.hot('a', {
           a: GlobalActions.initGlobal({
             bearingId: '123',
-            isStandalone: false,
             separator: MMSeparator.Comma,
-            language: 'en',
           }),
         });
 
-        const expected = m.cold('-(bcdefg)', {
-          b: GlobalActions.setIsStandalone({ isStandalone: false }),
-          c: GlobalActions.setAppDelivery({
-            appDelivery: 'embedded' as AppDelivery,
-          }),
+        const expected = m.cold('-(defg)', {
           d: GlobalActions.determineInternalUser(),
           e: StorageMessagesActions.getStorageMessage(),
           f: CalculationSelectionActions.fetchBearingData({ bearingId: '123' }),
           g: GlobalActions.setIsInitialized(),
         });
 
-        const result = GlobalEffects.initGlobal$(
-          actions$,
-          translocoServiceMock,
-          localeServiceMock
-        );
+        const result = GlobalEffects.initGlobal$(actions$, localeServiceMock);
 
         m.expect(result).toBeObservable(expected);
         m.flush();
@@ -59,7 +43,6 @@ describe('Global Effects', () => {
         expect(localeServiceMock.setSeparator).toHaveBeenCalledWith(
           MMSeparator.Comma
         );
-        expect(translocoServiceMock.setActiveLang).toHaveBeenCalledWith('en');
       })
     );
 
@@ -70,26 +53,16 @@ describe('Global Effects', () => {
           a: GlobalActions.initGlobal({}),
         });
 
-        const expected = m.cold('-(bcdef)', {
-          b: GlobalActions.setIsStandalone({ isStandalone: false }),
-          c: GlobalActions.setAppDelivery({
-            appDelivery: 'Standalone' as AppDelivery,
-          }),
+        const expected = m.cold('-(def)', {
           d: GlobalActions.determineInternalUser(),
           e: StorageMessagesActions.getStorageMessage(),
           f: GlobalActions.setIsInitialized(),
         });
 
-        const result = GlobalEffects.initGlobal$(
-          actions$,
-          {} as any,
-          {} as any
-        );
+        const result = GlobalEffects.initGlobal$(actions$, {} as any);
 
         m.expect(result).toBeObservable(expected);
         m.flush();
-
-        expect(detectAppDelivery).toHaveBeenCalled();
       })
     );
   });

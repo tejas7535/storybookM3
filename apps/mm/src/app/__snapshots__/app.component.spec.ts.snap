@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AppComponent getFooterLinks should return the footer links for embedded 1`] = `
+exports[`AppComponent no inputs getFooterLinks should return the footer links for embedded 1`] = `
 Array [
   Object {
     "external": false,
@@ -25,7 +25,7 @@ Array [
 ]
 `;
 
-exports[`AppComponent getFooterLinks should return the footer links for native 1`] = `
+exports[`AppComponent no inputs getFooterLinks should return the footer links for native 1`] = `
 Array [
   Object {
     "external": false,
@@ -50,7 +50,7 @@ Array [
 ]
 `;
 
-exports[`AppComponent makeMetaTags should return the properly formatted tags 1`] = `
+exports[`AppComponent no inputs makeMetaTags should return the properly formatted tags 1`] = `
 Array [
   Object {
     "name": "og:title",

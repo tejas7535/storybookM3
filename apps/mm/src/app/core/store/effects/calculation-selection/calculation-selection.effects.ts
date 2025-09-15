@@ -19,13 +19,14 @@ import { StepManagerService } from '@mm/shared/services/step-manager/step-manage
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
 
+import { EaEmbeddedService } from '@schaeffler/engineering-apps-behaviors/utils';
+
 import { CalculationOptionsActions } from '../../actions';
 import { CalculationResultActions } from '../../actions/calculation-result';
 import { CalculationSelectionActions } from '../../actions/calculation-selection';
 import { CalculationOptionsFacade } from '../../facades/calculation-options/calculation-options.facade';
 import { CalculationResultFacade } from '../../facades/calculation-result.facade';
 import { CalculationSelectionFacade } from '../../facades/calculation-selection/calculation-selection.facade';
-import { GlobalFacade } from '../../facades/global/global.facade';
 import { Bearing } from '../../models/calculation-selection-state.model';
 
 @Injectable()
@@ -38,7 +39,7 @@ export class CalculationSelectionEffects {
   private readonly calculationOptionsFacade = inject(CalculationOptionsFacade);
   private readonly calculationResultFacade = inject(CalculationResultFacade);
   private readonly stepManagerService = inject(StepManagerService);
-  private readonly globalFacade = inject(GlobalFacade);
+  private readonly embeddedService = inject(EaEmbeddedService);
 
   public searchBearing$ = createEffect(() => {
     return this.actions$.pipe(
@@ -88,9 +89,8 @@ export class CalculationSelectionEffects {
       ofType(CalculationSelectionActions.fetchBearingData),
       concatLatestFrom(() => [
         this.calculationSelectionFacade.bearingResultList$,
-        this.globalFacade.appDeliveryEmbedded$,
       ]),
-      concatMap(([action, bearingResultList, isEmbedded]) => {
+      concatMap(([action, bearingResultList]) => {
         const selectedBearing = bearingResultList?.find(
           (bearing) => bearing.id === action.bearingId
         );
@@ -120,7 +120,7 @@ export class CalculationSelectionEffects {
         const stepConfig = this.stepManagerService.getStepConfiguration({
           bearing,
           isAxialBearing: false,
-          isEmbedded,
+          isEmbedded: !this.embeddedService.isStandalone(),
         });
         const nextStepIndex = stepConfig.stepIndices[nextStepType];
 
@@ -164,12 +164,8 @@ export class CalculationSelectionEffects {
   public fetchBearingDetailsSuccess$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CalculationSelectionActions.fetchBearingDetailsSuccess),
-      concatLatestFrom(() => [this.globalFacade.appDeliveryEmbedded$]),
       concatMap(
-        ([
-          { bearingId, title, isThermal, isMechanical, isHydraulic },
-          isEmbedded,
-        ]) => {
+        ({ bearingId, title, isThermal, isMechanical, isHydraulic }) => {
           const nextStepType = isThermal
             ? this.getNextStepTypeForThermalBearing()
             : this.getNextStepTypeForNonThermalBearing();
@@ -184,7 +180,7 @@ export class CalculationSelectionEffects {
           const stepConfig = this.stepManagerService.getStepConfiguration({
             bearing,
             isAxialBearing: false,
-            isEmbedded,
+            isEmbedded: !this.embeddedService.isStandalone(),
           });
           const nextStepIndex = stepConfig.stepIndices[nextStepType];
 
@@ -323,13 +319,12 @@ export class CalculationSelectionEffects {
       concatLatestFrom(() => [
         this.calculationSelectionFacade.getBearing$(),
         this.calculationSelectionFacade.isAxialDisplacement$(),
-        this.globalFacade.appDeliveryEmbedded$,
       ]),
-      switchMap(([{ mountingMethod }, bearing, isAxialBearing, isEmbedded]) => {
+      switchMap(([{ mountingMethod }, bearing, isAxialBearing]) => {
         const stepConfig = this.stepManagerService.getStepConfiguration({
           bearing,
           isAxialBearing,
-          isEmbedded,
+          isEmbedded: !this.embeddedService.isStandalone(),
         });
 
         const nextStepIndex = (() => {
@@ -377,7 +372,6 @@ export class CalculationSelectionEffects {
         this.calculationSelectionFacade.getMountingMethod$(),
         this.calculationOptionsFacade.getCalculationPerformed$(),
         this.calculationResultFacade.isResultAvailable$,
-        this.globalFacade.appDeliveryEmbedded$,
       ]),
       map(
         ([
@@ -388,7 +382,6 @@ export class CalculationSelectionEffects {
           mountingMethod,
           optionsCalculationPerformed,
           resultAvailable,
-          isEmbedded,
         ]) => {
           if (!bearing) {
             return { type: 'NO_OP' };
@@ -396,7 +389,7 @@ export class CalculationSelectionEffects {
           const stepConfig = this.stepManagerService.getStepConfiguration({
             bearing,
             isAxialBearing,
-            isEmbedded,
+            isEmbedded: !this.embeddedService.isStandalone(),
             completionState: {
               bearingSeatId,
               mountingMethod,

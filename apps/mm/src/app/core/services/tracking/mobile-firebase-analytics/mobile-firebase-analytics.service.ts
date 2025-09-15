@@ -1,8 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
-import { Capacitor } from '@capacitor/core';
 import { FirebaseAnalytics } from '@capacitor-community/firebase-analytics';
+
+import { EaDeliveryService } from '@schaeffler/engineering-apps-behaviors/utils';
 
 interface InteractionEvent {
   name: string;
@@ -20,8 +21,12 @@ enum InteractionType {
   providedIn: 'root',
 })
 export class MobileFirebaseAnalyticsService {
+  private readonly deliveryService = inject(EaDeliveryService);
+
+  public readonly isMobile = this.deliveryService.isMobile;
+
   public logOpenExternalLinkEvent(productName: string) {
-    if (!this.isMobilePlatform()) {
+    if (!this.isMobile()) {
       return;
     }
 
@@ -35,10 +40,6 @@ export class MobileFirebaseAnalyticsService {
     };
 
     this.logEvent(externalLinkEvent);
-  }
-
-  public isMobilePlatform(): boolean {
-    return Capacitor.isNativePlatform();
   }
 
   private logEvent(event: InteractionEvent): void {

@@ -1,21 +1,25 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { catchError, map, of, take, tap } from 'rxjs';
 
-import { getMMAssetsPath } from '@mm/core/services/assets-path-resolver/assets-path-resolver.helper';
 import { environment } from '@mm/environments/environment';
+
+import { EaDeliveryService } from '@schaeffler/engineering-apps-behaviors/utils';
 
 import { ProductImagesResponse } from './api.model';
 
 const IMAGE_RESOLUTION_URL = environment.productImageUrl;
-const FALLBACK_IMAGE_URL = `${getMMAssetsPath()}/images/placeholder.png`;
+const FALLBACK_IMAGE_URL = `/images/placeholder.png`;
 
 @Injectable({ providedIn: 'root' })
 export class ProductImageResolverService {
+  private readonly httpService = inject(HttpClient);
+  private readonly deliveryService = inject(EaDeliveryService);
+
   private readonly urlCache = new Map<string, string>();
 
-  constructor(private readonly httpService: HttpClient) {}
+  private readonly fallbackImageUrl = `${this.deliveryService.assetsPath()}${FALLBACK_IMAGE_URL}`;
 
   public resolveImageDesignation(designation: string) {
     if (this.urlCache.has(designation)) {
@@ -30,8 +34,10 @@ export class ProductImageResolverService {
             this.urlCache.set(resultDesignation, url)
         );
       }),
-      map((result) => result.product_images[designation] || FALLBACK_IMAGE_URL),
-      catchError(() => of(FALLBACK_IMAGE_URL))
+      map(
+        (result) => result.product_images[designation] || this.fallbackImageUrl
+      ),
+      catchError(() => of(this.fallbackImageUrl))
     );
   }
 

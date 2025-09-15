@@ -3,6 +3,9 @@
     schaefflerSeperatedSteps
     (selectionChange)="selectStep($event)"
     [selectedIndex]="currentStep()"
+    [ngClass]="{
+      '[&_mat-step-header:first-of-type]:pointer-events-none': !isStandalone(),
+    }"
     linear="true"
     class="p-1"
     #stepper
@@ -14,7 +17,7 @@
           <div class="pt-2 sm:pt-4">
             @switch (index) {
               @case (bearingStepIndex()) {
-                @if (!isAppDeliveryEmbedded()) {
+                @if (isStandalone()) {
                   <h5>{{ t(step.text) }}</h5>
                   <div class="mt-8 mb-4 max-w-sm sm:mb-8">
                     <mm-bearing-search
@@ -87,7 +90,7 @@
               }
             }
 
-            @if (isAppDeliveryEmbedded()) {
+            @if (!isStandalone()) {
               <mm-app-store-buttons
                 class="flex justify-center mb-8"
                 [title]="t('shared.appStoreButtonsTitle')"

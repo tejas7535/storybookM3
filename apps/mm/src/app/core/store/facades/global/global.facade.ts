@@ -17,32 +17,16 @@ export class GlobalFacade {
   public readonly isInitialized$ = this.store.select(
     GlobalSelectors.getIsInitialized
   );
-  public readonly isStandalone$ = this.store.select(
-    GlobalSelectors.getIsStandalone
-  );
-  public readonly appDelivery$ = this.store.select(
-    GlobalSelectors.getAppDelivery
-  );
-  public readonly appDeliveryEmbedded$ = this.store.select(
-    GlobalSelectors.getAppDeliveryEmbedded
-  );
   public readonly isInternalUser$ = this.store.select(
     GlobalSelectors.getIsInternalUser
   );
   public readonly isBannerOpened$ = this.store.select(getBannerOpen);
 
-  public initGlobal(
-    isStandalone?: boolean,
-    bearingId?: string,
-    separator?: MMSeparator,
-    language?: string
-  ): void {
+  public initGlobal(bearingId?: string, separator?: MMSeparator): void {
     this.store.dispatch(
       GlobalActions.initGlobal({
-        isStandalone,
         bearingId,
         separator,
-        language,
       })
     );
   }

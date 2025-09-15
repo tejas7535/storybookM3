@@ -5,17 +5,12 @@ import {
   Component,
   computed,
   inject,
-  Signal,
   signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { map } from 'rxjs';
-
 import { TranslocoService } from '@jsverse/transloco';
-import { GlobalFacade } from '@mm/core/store/facades/global/global.facade';
 import { ResultTypeConfig } from '@mm/core/store/models/calculation-result-state.model';
 import { QualtricsInfoBannerComponent } from '@mm/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import {
@@ -32,6 +27,7 @@ import { PdfFileSaveService } from '@mm/shared/services/pdf/pdf-file-save.servic
 import { ResultDataService } from '@mm/shared/services/result-data.service';
 import * as QRCode from 'qrcode';
 
+import { EaEmbeddedService } from '@schaeffler/engineering-apps-behaviors/utils';
 import { QR_CODE_LIB, QrCodeService } from '@schaeffler/pdf-generator';
 import { ResultReportComponent } from '@schaeffler/result-report';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -84,7 +80,7 @@ export class ReportResultPageComponent {
   private readonly dataService = inject(ResultDataService);
   private readonly snackBar = inject(MatSnackBar);
   private readonly translocoService = inject(TranslocoService);
-  private readonly globalFacade = inject(GlobalFacade);
+  private readonly embeddedService = inject(EaEmbeddedService);
 
   private readonly _isGeneratingPdf = signal(false);
   public isGeneratingPdf = this._isGeneratingPdf.asReadonly();
@@ -93,11 +89,7 @@ export class ReportResultPageComponent {
 
   public readonly inputs = this.dataService.inputs;
   public readonly messages = this.dataService.categorizedMessages;
-  public readonly isStandalone: Signal<boolean> = toSignal(
-    this.globalFacade.isStandalone$.pipe(
-      map((input) => (input as any) === 'true')
-    )
-  );
+  public readonly isStandalone = this.embeddedService.isStandalone;
 
   public readonly mountingRecommendations =
     this.dataService.mountingRecommendations;

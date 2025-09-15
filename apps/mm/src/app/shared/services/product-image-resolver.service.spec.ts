@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 
 import { firstValueFrom, Observable, of } from 'rxjs';
@@ -11,6 +12,8 @@ import {
 } from '@ngneat/spectator/jest';
 import { MockProvider } from 'ng-mocks';
 
+import { EaDeliveryService } from '@schaeffler/engineering-apps-behaviors/utils';
+
 import { ProductImagesResponse } from './api.model';
 import { ProductImageResolverService } from './product-image-resolver.service';
 
@@ -20,7 +23,13 @@ describe('ProductImageResolverService', () => {
 
   const createService = createHttpFactory({
     service: ProductImageResolverService,
-    providers: [ProductImageResolverService, MockProvider(TranslocoService)],
+    providers: [
+      ProductImageResolverService,
+      MockProvider(TranslocoService),
+      MockProvider(EaDeliveryService, {
+        assetsPath: signal('/base/assets/'),
+      }),
+    ],
   });
 
   beforeEach(() => {

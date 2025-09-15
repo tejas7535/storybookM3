@@ -1,4 +1,6 @@
 /* eslint-disable jest/expect-expect */
+import { signal, WritableSignal } from '@angular/core';
+
 import { Observable, of, throwError } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
@@ -12,13 +14,14 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import { EaEmbeddedService } from '@schaeffler/engineering-apps-behaviors/utils';
+
 import { CalculationOptionsActions } from '../../actions';
 import { CalculationResultActions } from '../../actions/calculation-result';
 import { CalculationSelectionActions } from '../../actions/calculation-selection';
 import { CalculationOptionsFacade } from '../../facades/calculation-options/calculation-options.facade';
 import { CalculationResultFacade } from '../../facades/calculation-result.facade';
 import { CalculationSelectionFacade } from '../../facades/calculation-selection/calculation-selection.facade';
-import { GlobalFacade } from '../../facades/global/global.facade';
 import { Bearing } from '../../models/calculation-selection-state.model';
 import { CalculationSelectionEffects } from './calculation-selection.effects';
 
@@ -72,9 +75,9 @@ describe('CalculationSelectionEffects', () => {
         },
       },
       {
-        provide: GlobalFacade,
+        provide: EaEmbeddedService,
         useValue: {
-          appDeliveryEmbedded$: of(false),
+          isStandalone: signal(true),
         },
       },
       {
@@ -598,13 +601,12 @@ describe('CalculationSelectionEffects', () => {
       isHydraulic: false,
     };
 
-    const globalFacade = spectator.inject(
-      GlobalFacade
-    ) as jest.Mocked<GlobalFacade>;
-    Object.defineProperty(globalFacade, 'appDeliveryEmbedded$', {
-      get: jest.fn(() => of(true)),
-      configurable: true,
-    });
+    const embeddedService = spectator.inject(
+      EaEmbeddedService
+    ) as jest.Mocked<EaEmbeddedService>;
+    (embeddedService.isStandalone as unknown as WritableSignal<boolean>).set(
+      false
+    );
     stepManagerService.getStepConfiguration.mockReturnValue({
       steps: ['BEARING', 'BEARING_SEAT', 'RESULT'],
       stepIndices: {

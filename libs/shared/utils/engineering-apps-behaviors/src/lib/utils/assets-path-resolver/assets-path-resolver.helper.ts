@@ -1,5 +1,8 @@
-import { EMAPlatform } from './ema-platform';
+import { EMAPlatform } from '../delivery';
 
+/**
+ * @deprecated replaced by EaMobileService
+ */
 export const getAssetsPath = (
   defaultPath: string,
   nativePlatform?: EMAPlatform
