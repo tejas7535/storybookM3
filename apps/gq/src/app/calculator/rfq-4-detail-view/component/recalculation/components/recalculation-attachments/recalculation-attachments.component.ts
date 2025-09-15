@@ -121,8 +121,10 @@ export class RecalculationAttachmentsComponent implements OnInit {
       width: '634px',
       disableClose: true,
       data: {
-        fileNames: this.attachments().map(
-          (attachment: RfqCalculatorAttachment) => attachment.fileName
+        fileNames: computed(() =>
+          this.attachments().map(
+            (attachment: RfqCalculatorAttachment) => attachment.fileName
+          )
         ),
 
         upload: this.store.uploadCalculatorAttachments.bind(this.store),

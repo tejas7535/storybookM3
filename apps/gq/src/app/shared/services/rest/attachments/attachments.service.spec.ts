@@ -1,4 +1,4 @@
-import { provideHttpClient } from '@angular/common/http';
+import { HttpParams, provideHttpClient } from '@angular/common/http';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -12,6 +12,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { QuotationPaths } from '../quotation/models/quotation-paths.enum';
 import { AttachmentsService } from './attachments.service';
 import { PositionAttachment } from './models/position-attachment.interface';
+import { RfqSqvCheckPaths } from './models/rfq-sqv-check-paths.enum';
 
 jest.mock('file-saver', () => ({
   saveAs: jest.fn(),
@@ -93,6 +94,31 @@ describe('Service: Attachments', () => {
     });
   });
 
+  describe('getRfqSqvCheckApprovalAttachments', () => {
+    test('should call GET', () => {
+      const gqPositionId = '4600';
+      const returnValue = {
+        attachments: [
+          {
+            gqPositionId: '134',
+            fileName: 'filename',
+            gqId: 4600,
+            uploadedAt: '2020-01-01',
+            uploadedBy: 'user',
+          },
+        ],
+      };
+      service
+        .getRfqSqvCheckApprovalAttachments(gqPositionId)
+        .subscribe((res) => expect(res).toEqual(returnValue.attachments));
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${RfqSqvCheckPaths.RFQ4_PATH}/${gqPositionId}/${RfqSqvCheckPaths.APPROVAL_PATH}/${RfqSqvCheckPaths.ATTACHMENTS_PATH}`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(returnValue);
+    });
+  });
+
   describe('downloadQuotationAttachment', () => {
     test('should call downloadAttachments', () => {
       const attachment: QuotationAttachment = {
@@ -123,6 +149,28 @@ describe('Service: Attachments', () => {
         .subscribe((result) => {
           expect(result).toEqual('test.jpg');
         });
+    });
+    test('should call download with FileName', () => {
+      const gqPositionId = '4600';
+      const attachment: PositionAttachment = {
+        gqPositionId: '134',
+        fileName: 'filename',
+        gqId: 4600,
+        uploadedAt: '2020-01-01',
+        uploadedBy: 'user',
+      };
+      service['fileService'].downloadAttachments = jest
+        .fn()
+        .mockReturnValue(of('test.jpg'));
+      service
+        .downloadRfqSqvCheckApprovalAttachments(gqPositionId, attachment)
+        .subscribe((result) => {
+          expect(result).toEqual('test.jpg');
+        });
+      expect(service['fileService'].downloadAttachments).toHaveBeenCalledWith(
+        expect.anything(),
+        new HttpParams().set('filename', attachment?.fileName)
+      );
     });
   });
 

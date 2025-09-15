@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  signal,
+  WritableSignal,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -10,7 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { Observable, take } from 'rxjs';
+import { Observable, of, take } from 'rxjs';
 
 import { InfoBannerComponent } from '@gq/shared/components/info-banner/info-banner.component';
 import { DragAndDropDirective } from '@gq/shared/directives/drag-and-drop/drag-and-drop-directive';
@@ -50,8 +57,26 @@ export class AttachmentFilesUploadModalComponent {
   attachmentsUploading$: Observable<boolean> = this.modalData.uploading$;
 
   private readonly MAX_FILE_SIZE = 5_240_000; // ~ 5MB
-  filesToUpload: FilesToUploadDisplay[] = [];
-  disableUploadButton = false;
+
+  filesToUpload = signal<FilesToUploadDisplay[]>([]);
+
+  private readonly someFilesInvalid: WritableSignal<boolean> = signal(false);
+  private readonly additionalDisableUploadButtonCondition = toSignal(
+    this.modalData.additionalDisableUploadButtonCondition ?? of(null)
+  );
+
+  protected uploadDisabled = computed(() => {
+    const additionalConditionToBeUsed =
+      this.modalData.additionalDisableUploadButtonCondition !== null &&
+      this.modalData.additionalDisableUploadButtonCondition !== undefined;
+    const filesEmpty = this.filesToUpload().length === 0;
+    const filesInvalid = this.someFilesInvalid();
+
+    return additionalConditionToBeUsed
+      ? (this.additionalDisableUploadButtonCondition() && filesEmpty) ||
+          filesInvalid
+      : filesEmpty || filesInvalid;
+  });
 
   handleFileInput(event: Event) {
     event.preventDefault();
@@ -68,7 +93,7 @@ export class AttachmentFilesUploadModalComponent {
 
   upload(): void {
     this.modalData.upload(
-      this.filesToUpload
+      this.filesToUpload()
         .filter(
           (filesToFilter) =>
             !filesToFilter.exists && !filesToFilter.sizeExceeded
@@ -81,9 +106,9 @@ export class AttachmentFilesUploadModalComponent {
   }
 
   removeFile(file: FilesToUploadDisplay): void {
-    this.filesToUpload.splice(this.filesToUpload.indexOf(file), 1);
+    this.filesToUpload.update((files) => files.filter((f) => f !== file));
     this.updateFileExistsStatus();
-    this.checkForDisabledUploadButton();
+    this.checkForInvalidFiles();
   }
 
   closeDialog(): void {
@@ -93,8 +118,8 @@ export class AttachmentFilesUploadModalComponent {
   private handleFileSelection(fileList: FileList) {
     // combine inputArray and files that are about to be uploaded
     const fileNamesArray = [
-      ...this.filesToUpload.map((file) => file.file.name),
-      ...this.modalData.fileNames,
+      ...this.filesToUpload().map((file) => file.file.name),
+      ...this.modalData.fileNames(),
     ].map((fileName) => fileName.toLocaleLowerCase());
 
     // eslint-disable-next-line unicorn/prefer-spread
@@ -109,16 +134,18 @@ export class AttachmentFilesUploadModalComponent {
         ),
       };
       if (fileToUpload) {
-        this.filesToUpload.push(fileToUpload);
+        this.filesToUpload.set([...this.filesToUpload(), fileToUpload]);
       }
     });
 
-    this.checkForDisabledUploadButton();
+    this.checkForInvalidFiles();
   }
 
-  private checkForDisabledUploadButton(): void {
-    this.disableUploadButton = this.filesToUpload.some(
-      (file) => file.sizeExceeded || file.exists || file.unsupportedFileType
+  private checkForInvalidFiles(): void {
+    this.someFilesInvalid.set(
+      this.filesToUpload().some(
+        (file) => file.sizeExceeded || file.exists || file.unsupportedFileType
+      )
     );
   }
 
@@ -133,12 +160,14 @@ export class AttachmentFilesUploadModalComponent {
   }
 
   private updateFileExistsStatus(): void {
-    this.filesToUpload.forEach((item) => ({
-      ...item,
-      exists: this.checkFileNamesExists(
-        this.filesToUpload.map((i) => i.file.name),
-        item.file.name
-      ),
-    }));
+    this.filesToUpload.update((files) =>
+      files.map((item) => ({
+        ...item,
+        exists: this.checkFileNamesExists(
+          this.modalData.fileNames(),
+          item.file.name
+        ),
+      }))
+    );
   }
 }

@@ -1,38 +1,66 @@
-<div
-  class="flex h-full items-center overflow-hidden"
-  *transloco="let t; read: 'shared.sqvApprovalStatusLabels'"
->
-  @if (sqvApprovalStatus !== 'NOT_NEEDED') {
-    <schaeffler-tag
-      (click)="onTagClick()"
-      [value]="
-        t('sqvApprovalStatus', {
-          sqvApprovalStatus: sqvApprovalStatus,
-        })
-      "
-      [type]="tagType"
-      [withBorder]="sqvApprovalStatus !== 'APPROVED'"
-      [withDot]="false"
-      [styleClass]="
-        sqvApprovalStatus === 'APPROVED'
-          ? '!bg-[#D2E0DB] !text-[#002919] cursor-pointer hover:shadow-md active:shadow-none'
-          : '!bg-[transparent] !border-[#828282] !text-[#646464] cursor-pointer hover:!bg-[white] hover:!text-[#555555] active:!text-[#555555] active:!bg-[transparent]'
-      "
-      [matTooltip]="
-        t('tooltip', {
-          sqvApprovalStatus: sqvApprovalStatus,
-        })
-      "
+<ng-container *transloco="let t; prefix: 'shared.sqvApprovalStatusLabels'">
+  <div class="flex h-full items-center overflow-hidden">
+    @if (sqvApprovalStatus !== 'NOT_NEEDED') {
+      <schaeffler-tag
+        (click)="onTagClick()"
+        [value]="
+          t('sqvApprovalStatus', {
+            sqvApprovalStatus: sqvApprovalStatus,
+          })
+        "
+        [type]="tagType"
+        [withBorder]="sqvApprovalStatus !== 'APPROVED'"
+        [withDot]="false"
+        [styleClass]="
+          sqvApprovalStatus === 'APPROVED'
+            ? '!bg-[#D2E0DB] !text-[#002919] cursor-pointer hover:shadow-md active:shadow-none'
+            : '!bg-[transparent] !border-[#828282] !text-[#646464] cursor-pointer hover:!bg-[white] hover:!text-[#555555] active:!text-[#555555] active:!bg-[transparent]'
+        "
+        [matTooltip]="
+          t('tooltip', {
+            sqvApprovalStatus: sqvApprovalStatus,
+          })
+        "
+      >
+        @if (sqvApprovalStatus === 'APPROVED') {
+          <mat-icon
+            [color]="'secondary'"
+            class="order-first mr-1 !h-4 !text-[16px] !w-5"
+            [inline]="'inline'"
+          >
+            check
+          </mat-icon>
+        }
+        @if (showLockedIcon) {
+          <mat-icon class="order-last ml-2 !h-4 !text-[16px] !w-5"
+            >lock</mat-icon
+          >
+        }
+      </schaeffler-tag>
+    }
+  </div>
+</ng-container>
+<ng-template #existingFilesTemplate>
+  @if ((existingAttachmentsToDisplay$ | ngrxPush)?.length > 0) {
+    <div
+      *transloco="let t; prefix: 'shared.sqvApprovalStatusLabels'"
+      class="flex flex-col gap-2"
     >
-      @if (sqvApprovalStatus === 'APPROVED') {
-        <mat-icon
-          [color]="'secondary'"
-          class="order-first mr-1 !h-4 !text-[16px] !w-5"
-          [inline]="'inline'"
-        >
-          check
-        </mat-icon>
-      }
-    </schaeffler-tag>
+      <span class="text-on-surface opacity-[0.38] text-body-medium">
+        {{ t('uploadedFiles') }}
+      </span>
+
+      <gq-attachments
+        [attachments]="existingAttachmentsToDisplay$ | ngrxPush"
+        (deleteClicked)="setFileToBeDeleted($event)"
+        (downloadClicked)="downloadAttachment($event)"
+      ></gq-attachments>
+    </div>
   }
-</div>
+  @if (attachmentsLoading$ | ngrxPush) {
+    <schaeffler-loading-spinner
+      class="h-full"
+      [relative]="true"
+    ></schaeffler-loading-spinner>
+  }
+</ng-template>

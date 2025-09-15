@@ -1,3 +1,4 @@
+import { PositionAttachment } from '@gq/shared/services/rest/attachments/models/position-attachment.interface';
 import {
   ActionCreator,
   createFeature,
@@ -12,11 +13,15 @@ import { RfqSqvCheckAttachmentsActions } from './rfq-sqv-check-attachments.actio
 const RFQ_SQV_CHECK_ATTACHMENTS_FEATURE_KEY = 'rfqSqvCheckAttachments';
 export interface RfqSqvCheckAttachmentsState {
   attachmentsUploading: boolean;
+  attachmentsLoading: boolean;
+  attachments: PositionAttachment[];
   gqPositionId: string;
 }
 
 export const initialState: RfqSqvCheckAttachmentsState = {
   attachmentsUploading: false,
+  attachmentsLoading: false,
+  attachments: [],
   gqPositionId: undefined,
 };
 
@@ -43,6 +48,36 @@ export const rfqSqvCheckAttachmentsFeature = createFeature({
       (state): RfqSqvCheckAttachmentsState => ({
         ...state,
         attachmentsUploading: false,
+      })
+    ),
+    on(
+      RfqSqvCheckAttachmentsActions.getAllAttachments,
+      (state): RfqSqvCheckAttachmentsState => ({
+        ...state,
+        attachmentsLoading: true,
+        attachments: [],
+      })
+    ),
+    on(
+      RfqSqvCheckAttachmentsActions.getAllAttachmentsSuccess,
+      (state, { attachments }): RfqSqvCheckAttachmentsState => ({
+        ...state,
+        attachmentsLoading: false,
+        attachments,
+      })
+    ),
+    on(
+      RfqSqvCheckAttachmentsActions.getAllAttachmentsFailure,
+      (state): RfqSqvCheckAttachmentsState => ({
+        ...state,
+        attachmentsLoading: false,
+      })
+    ),
+    on(
+      RfqSqvCheckAttachmentsActions.resetAttachments,
+      (state): RfqSqvCheckAttachmentsState => ({
+        ...state,
+        attachments: [],
       })
     ),
     on(

@@ -58,6 +58,30 @@ describe('RfqSqvCheckAttachmentsFacade', () => {
         );
       })
     );
+
+    test(
+      'should provide attachmentsLoading$',
+      marbles((m) => {
+        const expected = m.cold('a', { a: false });
+        mockStore.overrideSelector(
+          rfqSqvCheckAttachmentsFeature.selectAttachmentsLoading,
+          false
+        );
+        m.expect(service.attachmentsLoading$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should provide attachments$',
+      marbles((m) => {
+        const expected = m.cold('a', { a: [] });
+        mockStore.overrideSelector(
+          rfqSqvCheckAttachmentsFeature.selectAttachments,
+          []
+        );
+        m.expect(service.attachments$).toBeObservable(expected);
+      })
+    );
   });
   describe('Methods', () => {
     test('should dispatch uploadAttachments', () => {
@@ -77,22 +101,54 @@ describe('RfqSqvCheckAttachmentsFacade', () => {
       service.downloadAttachments(gqPositionId);
       expect(spy).toHaveBeenCalledWith(action);
     });
-
-    test('should dispatch setGqPositionId', () => {
+    test('should dispatch download attachments with file', () => {
       const gqPositionId = '1234';
-      const action = RfqSqvCheckAttachmentsActions.setGqPositionId({
+      const file = { fileName: 'file1.txt' } as any;
+      const action = RfqSqvCheckAttachmentsActions.downloadAttachments({
         gqPositionId,
+        file,
       });
       const spy = jest.spyOn(mockStore, 'dispatch');
-      service.setGqPositionId(gqPositionId);
+      service.downloadAttachments(gqPositionId, file);
       expect(spy).toHaveBeenCalledWith(action);
     });
+  });
+  test('should dispatch setGqPositionId', () => {
+    const gqPositionId = '1234';
+    const action = RfqSqvCheckAttachmentsActions.setGqPositionId({
+      gqPositionId,
+    });
+    const spy = jest.spyOn(mockStore, 'dispatch');
+    service.setGqPositionId(gqPositionId);
+    expect(spy).toHaveBeenCalledWith(action);
+  });
 
-    test('should dispatch resetGqPositionId', () => {
-      const action = RfqSqvCheckAttachmentsActions.resetGqPositionId();
-      const spy = jest.spyOn(mockStore, 'dispatch');
-      service.resetGqPositionId();
-      expect(spy).toHaveBeenCalledWith(action);
+  test('should dispatch resetGqPositionId', () => {
+    const action = RfqSqvCheckAttachmentsActions.resetGqPositionId();
+    const spy = jest.spyOn(mockStore, 'dispatch');
+    service.resetGqPositionId();
+    expect(spy).toHaveBeenCalledWith(action);
+  });
+
+  test('updateAttachments should alert', () => {
+    window.alert = jest.fn();
+    const filesToUpload = [new File([''], 'filename')];
+    const fileNamesToDelete = ['file1.txt'];
+    service.updateAttachments(filesToUpload, fileNamesToDelete);
+    expect(window.alert).toHaveBeenCalledWith(
+      `'hello I update attachments', ${JSON.stringify(
+        filesToUpload
+      )}, ${JSON.stringify(fileNamesToDelete)}`
+    );
+  });
+
+  test('should dispatch getAllAttachments', () => {
+    const gqPositionId = '1234';
+    const action = RfqSqvCheckAttachmentsActions.getAllAttachments({
+      gqPositionId,
     });
+    const spy = jest.spyOn(mockStore, 'dispatch');
+    service.getAllAttachments(gqPositionId);
+    expect(spy).toHaveBeenCalledWith(action);
   });
 });

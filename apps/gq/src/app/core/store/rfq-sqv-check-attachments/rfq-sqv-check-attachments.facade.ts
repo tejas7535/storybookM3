@@ -2,6 +2,8 @@ import { inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { Attachment } from '@gq/shared/services/rest/attachments/models/attachment.interface';
+import { PositionAttachment } from '@gq/shared/services/rest/attachments/models/position-attachment.interface';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
@@ -19,6 +21,14 @@ export class RfqSqvCheckAttachmentFacade {
     rfqSqvCheckAttachmentsFeature.selectAttachmentsUploading
   );
 
+  attachmentsLoading$: Observable<boolean> = this.store.select(
+    rfqSqvCheckAttachmentsFeature.selectAttachmentsLoading
+  );
+
+  attachments$: Observable<PositionAttachment[]> = this.store.select(
+    rfqSqvCheckAttachmentsFeature.selectAttachments
+  );
+
   uploadAttachmentsSuccess$: Observable<void> = this.actions$.pipe(
     ofType(RfqSqvCheckAttachmentsActions.uploadAttachmentsSuccess)
   );
@@ -31,16 +41,38 @@ export class RfqSqvCheckAttachmentFacade {
       RfqSqvCheckAttachmentsActions.uploadAttachments({ files })
     );
   }
-  downloadAttachments(gqPositionId: string): void {
-    this.store.dispatch(
-      RfqSqvCheckAttachmentsActions.downloadAttachments({ gqPositionId })
+
+  updateAttachments(filesToUpload: File[], fileNamesToDelete: string[]): void {
+    alert(
+      `'hello I update attachments', ${JSON.stringify(filesToUpload)}, ${JSON.stringify(fileNamesToDelete)}`
     );
   }
+
+  downloadAttachments(gqPositionId: string, file?: Attachment): void {
+    this.store.dispatch(
+      RfqSqvCheckAttachmentsActions.downloadAttachments({
+        gqPositionId,
+        file,
+      })
+    );
+  }
+
+  getAllAttachments(gqPositionId: string): void {
+    this.store.dispatch(
+      RfqSqvCheckAttachmentsActions.getAllAttachments({ gqPositionId })
+    );
+  }
+
+  resetAttachments(): void {
+    this.store.dispatch(RfqSqvCheckAttachmentsActions.resetAttachments());
+  }
+
   setGqPositionId(gqPositionId: string): void {
     this.store.dispatch(
       RfqSqvCheckAttachmentsActions.setGqPositionId({ gqPositionId })
     );
   }
+
   resetGqPositionId(): void {
     this.store.dispatch(RfqSqvCheckAttachmentsActions.resetGqPositionId());
   }

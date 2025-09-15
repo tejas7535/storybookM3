@@ -7,6 +7,7 @@ import { of, throwError } from 'rxjs';
 
 import { SqvApprovalStatus } from '@gq/shared/models/quotation-detail/cost/sqv-approval-status.enum';
 import { AttachmentsService } from '@gq/shared/services/rest/attachments/attachments.service';
+import { Attachment } from '@gq/shared/services/rest/attachments/models/attachment.interface';
 import { PositionAttachment } from '@gq/shared/services/rest/attachments/models/position-attachment.interface';
 import { UploadRfqSqvCheckApprovalResponse } from '@gq/shared/services/rest/attachments/models/upload-rfq-sqv-approval-response.interface';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -144,6 +145,35 @@ describe('RfqSqvCheckAttachmentsEffects', () => {
     );
 
     test(
+      'should return the rest call with a specific Attachment to download',
+      marbles((m) => {
+        const attachment = {
+          fileName: 'specificFile.jpg',
+          gqPositionId: '1234',
+        } as unknown as Attachment;
+        action = RfqSqvCheckAttachmentsActions.downloadAttachments({
+          gqPositionId: '1234',
+          file: attachment,
+        });
+
+        global.URL.createObjectURL = jest.fn();
+        const expectedAction =
+          RfqSqvCheckAttachmentsActions.downloadAttachmentsSuccess({
+            fileName: 'specificFile.jpg',
+          });
+
+        const downloadAttachmentMock = jest.spyOn(
+          attachmentService,
+          'downloadRfqSqvCheckApprovalAttachments'
+        );
+        downloadAttachmentMock.mockReturnValue(of('specificFile.jpg'));
+        actions$ = m.hot('-a', { a: action });
+        const result = effects.downloadAttachments$;
+        m.expect(result).toBeObservable('-c', { c: expectedAction });
+      })
+    );
+
+    test(
       'should dispatch downloadAttachmentFailure when REST call fails',
       marbles((m) => {
         action = RfqSqvCheckAttachmentsActions.downloadAttachments(
@@ -169,6 +199,76 @@ describe('RfqSqvCheckAttachmentsEffects', () => {
         const result = effects.downloadAttachments$;
 
         m.expect(result).toBeObservable('-c', { c: expectedAction });
+      })
+    );
+  });
+
+  describe('triggerGetAttachments$', () => {
+    test(
+      'should trigger get attachments when gqPositionId is set',
+      marbles((m) => {
+        action = RfqSqvCheckAttachmentsActions.setGqPositionId({
+          gqPositionId: '1234',
+        });
+        const expectedAction = RfqSqvCheckAttachmentsActions.getAllAttachments({
+          gqPositionId: '1234',
+        });
+
+        actions$ = of(action);
+        m.expect(effects.triggerGetAttachments$).toBeObservable(
+          m.cold('(b|)', { b: expectedAction })
+        );
+      })
+    );
+  });
+
+  describe('getAttachments$', () => {
+    test(
+      'should return getAllAttachmentSuccess when REST call is successful',
+      marbles((m) => {
+        action = RfqSqvCheckAttachmentsActions.getAllAttachments({
+          gqPositionId: '1234',
+        });
+        const attachments: PositionAttachment[] = [
+          {
+            fileName: 'specificFile.jpg',
+            gqPositionId: '1234',
+          } as unknown as PositionAttachment,
+        ];
+        const expectedAction =
+          RfqSqvCheckAttachmentsActions.getAllAttachmentsSuccess({
+            attachments,
+          });
+        const getAllAttachmentsMock = jest.spyOn(
+          attachmentService,
+          'getRfqSqvCheckApprovalAttachments'
+        );
+        getAllAttachmentsMock.mockReturnValue(of(attachments));
+
+        actions$ = of(action);
+        m.expect(effects.getAttachments$).toBeObservable(
+          m.cold('(b|)', { b: expectedAction })
+        );
+      })
+    );
+    test(
+      'should return getAllAttachmentFailure on REST error',
+      marbles((m) => {
+        action = RfqSqvCheckAttachmentsActions.getAllAttachments({
+          gqPositionId: '1234',
+        });
+        const result = RfqSqvCheckAttachmentsActions.getAllAttachmentsFailure({
+          errorMessage,
+        });
+        const getAllAttachmentsMock = jest.spyOn(
+          attachmentService,
+          'getRfqSqvCheckApprovalAttachments'
+        );
+        getAllAttachmentsMock.mockReturnValue(throwError(() => errorMessage));
+        actions$ = of(action);
+        m.expect(effects.getAttachments$).toBeObservable(
+          m.cold('(-b|)', { b: result })
+        );
       })
     );
   });

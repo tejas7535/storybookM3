@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
@@ -64,7 +64,7 @@ describe('AttachmentFilesComponent', () => {
         width: '634px',
         disableClose: true,
         data: {
-          fileNames: ['test'],
+          fileNames: signal(['test']),
           upload: jest.fn().bind(component.activeCaseFacade),
           uploading$: of(false),
           uploadSuccess$: of(),

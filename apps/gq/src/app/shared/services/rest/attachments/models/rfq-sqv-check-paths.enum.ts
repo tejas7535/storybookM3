@@ -1,5 +1,7 @@
 export enum RfqSqvCheckPaths {
   RFQ4_PATH = 'rfq4',
-  UPLOAD_APPROVAL_PATH = 'upload-approval',
-  DOWNLOAD_APPROVAL_PATH = 'download-approval',
+  APPROVAL_PATH = 'approval',
+  ATTACHMENTS_PATH = 'attachments',
+  DOWNLOAD_PATH = 'download',
+  UPLOAD_PATH = 'upload',
 }

@@ -1,22 +1,20 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
 import { RfqSqvCheckAttachmentFacade } from '@gq/core/store/rfq-sqv-check-attachments/rfq-sqv-check-attachments.facade';
-import { RfqSqvCheckAttachmentModule } from '@gq/core/store/rfq-sqv-check-attachments/rfq-sqv-check-attachments.module';
 import { AttachmentFilesUploadModalComponent } from '@gq/shared/components/modal/attachment-files-upload-modal/attachment-files-upload-modal.component';
+import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
+import { Attachment } from '@gq/shared/services/rest/attachments/models/attachment.interface';
+import { PositionAttachment } from '@gq/shared/services/rest/attachments/models/position-attachment.interface';
 import {
   createComponentFactory,
-  mockProvider,
   Spectator,
   SpyObject,
 } from '@ngneat/spectator/jest';
-import { provideMockStore } from '@ngrx/store/testing';
 import { ICellRendererParams } from 'ag-grid-enterprise';
-import { MockComponent, MockModule } from 'ng-mocks';
-
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+import { MockBuilder } from 'ng-mocks';
+import { marbles } from 'rxjs-marbles';
 
 import { SqvApprovalStatusCellComponent } from './sqv-approval-status-cell.component';
 
@@ -25,23 +23,30 @@ describe('SqvApprovalStatusCellComponent', () => {
   let spectator: Spectator<SqvApprovalStatusCellComponent>;
   let matDialogSpyObject: SpyObject<MatDialog>;
 
+  const dependencies = MockBuilder(SqvApprovalStatusCellComponent)
+    .mock(RfqSqvCheckAttachmentFacade, {
+      downloadAttachments: jest.fn(),
+      setGqPositionId: jest.fn(),
+      resetGqPositionId: jest.fn(),
+      getAllAttachments: jest.fn(),
+      updateAttachments: jest.fn(),
+      uploadAttachments: jest.fn(),
+      resetAttachments: jest.fn(),
+      attachments$: of([
+        { fileName: 'file1.pdf' },
+        { fileName: 'file2.pdf' },
+        { fileName: 'file3.pdf' },
+      ] as unknown as PositionAttachment[]),
+      attachmentsUploading$: of(false),
+    })
+
+    .build();
+
   const createComponent = createComponentFactory({
     component: SqvApprovalStatusCellComponent,
-    imports: [
-      provideTranslocoTestingModule({ en: {} }),
-      MockModule(RfqSqvCheckAttachmentModule),
-      MockComponent(AttachmentFilesUploadModalComponent),
-    ],
-    providers: [
-      provideMockStore(),
-      mockProvider(RfqSqvCheckAttachmentFacade, {
-        downloadAttachments: jest.fn(),
-        setGqPositionId: jest.fn(),
-        resetGqPositionId: jest.fn(),
-      }),
-    ],
+    providers: [],
     mocks: [MatDialog],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    ...dependencies,
   });
 
   beforeEach(() => {
@@ -51,12 +56,30 @@ describe('SqvApprovalStatusCellComponent', () => {
     matDialogSpyObject.open.andReturn({
       afterClosed: jest.fn(() => of(true)),
     });
+    spectator.detectChanges();
   });
 
   test('should create', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('existingAttachmentsToDisplay$', () => {
+    test(
+      'should only display attachments which are not marked for deletion',
+      marbles((m) => {
+        const expected = [
+          { fileName: 'file1.pdf' },
+          { fileName: 'file3.pdf' },
+        ] as unknown as PositionAttachment[];
+
+        component['attachmentsToDelete$$'].next(['file2.pdf']);
+
+        m.expect(component['existingAttachmentsToDisplay$']).toBeObservable(
+          m.cold('(a)', { a: expected })
+        );
+      })
+    );
+  });
   describe('agInit', () => {
     const cellParams = {
       value: 'APPROVED',
@@ -94,21 +117,42 @@ describe('SqvApprovalStatusCellComponent', () => {
       expect(component['openUploadDialog']).toHaveBeenCalled();
     });
 
-    test('should call downloadAttachments when status is APPROVED', () => {
+    test('should call downloadAttachments when status is APPROVED and Rfq4Status is locked', () => {
       const downloadAttachmentsSpy = jest.spyOn(
         component['attachmentFacade'],
         'downloadAttachments'
       );
+
       const cellParams = {
         value: 'APPROVED',
-        data: { gqPositionId: '1245' },
+        data: {
+          gqPositionId: '1245',
+        },
         context: {},
       } as ICellRendererParams;
 
       component.agInit(cellParams);
-
+      component['showLockedIcon'] = true;
       component.onTagClick();
       expect(downloadAttachmentsSpy).toHaveBeenCalled();
+    });
+
+    test('should call openUploadDialog when status is APPROVED and Rfq4Status is not locked', () => {
+      component['openUploadDialog'] = jest.fn();
+
+      const cellParams = {
+        value: 'APPROVED',
+        data: {
+          gqPositionId: '1245',
+        },
+        context: {},
+      } as ICellRendererParams;
+
+      component.agInit(cellParams);
+      component['showLockedIcon'] = false;
+
+      component.onTagClick();
+      expect(component['openUploadDialog']).toHaveBeenCalled();
     });
   });
 
@@ -124,12 +168,54 @@ describe('SqvApprovalStatusCellComponent', () => {
         component['attachmentFacade'].resetGqPositionId
       ).toHaveBeenCalled();
     });
+
+    test('should open the AttachmentFilesUploadModalComponent', () => {
+      component['openUploadDialog']();
+      expect(matDialogSpyObject.open).toHaveBeenCalledWith(
+        AttachmentFilesUploadModalComponent,
+        expect.anything()
+      );
+    });
   });
-  test('should open the AttachmentFilesUploadModalComponent', () => {
-    component['openUploadDialog']();
-    expect(matDialogSpyObject.open).toHaveBeenCalledWith(
-      AttachmentFilesUploadModalComponent,
-      expect.anything()
-    );
+
+  describe('setFileToBeDeleted', () => {
+    test('should add the fileName to fileNamesToDelete and update attachmentsToDelete$$', () => {
+      const attachment = {
+        fileName: 'test.pdf',
+      } as unknown as Attachment;
+
+      component['attachmentsToDelete$$'].next = jest.fn();
+      component['fileNamesToDelete'] = [];
+
+      component.setFileToBeDeleted(attachment);
+      expect(component['fileNamesToDelete']).toContain('test.pdf');
+      expect(component['attachmentsToDelete$$'].next).toHaveBeenCalledWith([
+        'test.pdf',
+      ]);
+    });
+  });
+  describe('downloadAttachment', () => {
+    test('should call downloadAttachments with gqPositionId and attachment', () => {
+      const downloadAttachmentsSpy = jest.spyOn(
+        component['attachmentFacade'],
+        'downloadAttachments'
+      );
+      const attachment = {
+        fileName: 'test.pdf',
+      } as unknown as Attachment;
+      component['gqPositionId'] = '1234';
+
+      component.downloadAttachment(attachment);
+      expect(downloadAttachmentsSpy).toHaveBeenCalledWith('1234', attachment);
+    });
+  });
+
+  describe('getShowLockedIcon', () => {
+    test('should return true when rfq4Status is LOCKED', () => {
+      expect(component['getShowLockedIcon'](Rfq4Status.IN_PROGRESS)).toBe(true);
+    });
+    test('should return false when rfq4Status is OPEN', () => {
+      expect(component['getShowLockedIcon'](Rfq4Status.OPEN)).toBe(false);
+    });
   });
 });

@@ -49,14 +49,18 @@ export class HttpHeaderInterceptor implements HttpInterceptor {
       request.url?.startsWith(
         `${ApiVersion.V1}/${RfqSqvCheckPaths.RFQ4_PATH}`
       ) &&
-      request.url?.endsWith(`${RfqSqvCheckPaths.UPLOAD_APPROVAL_PATH}`) &&
+      request.url?.endsWith(
+        `${RfqSqvCheckPaths.APPROVAL_PATH}/${RfqSqvCheckPaths.ATTACHMENTS_PATH}`
+      ) &&
       request.method === 'POST';
 
     const isDownloadApprovalAttachment =
       request.url?.startsWith(
         `${ApiVersion.V1}/${RfqSqvCheckPaths.RFQ4_PATH}`
       ) &&
-      request.url?.endsWith(`${RfqSqvCheckPaths.DOWNLOAD_APPROVAL_PATH}`) &&
+      request.url?.endsWith(
+        `${RfqSqvCheckPaths.APPROVAL_PATH}/${RfqSqvCheckPaths.ATTACHMENTS_PATH}/${RfqSqvCheckPaths.DOWNLOAD_PATH}`
+      ) &&
       request.method === 'GET';
 
     const isCalculatorAttachmentUpload =

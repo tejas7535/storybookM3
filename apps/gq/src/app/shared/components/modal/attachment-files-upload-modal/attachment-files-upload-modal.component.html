@@ -1,6 +1,6 @@
 <div
   class="flex h-full flex-col"
-  *transloco="let t; read: 'shared.uploadDialog'"
+  *transloco="let t; prefix: 'shared.uploadDialog'"
 >
   <gq-dialog-header
     [title]="modalData.dialogTitle ?? t('title')"
@@ -58,53 +58,62 @@
         </div>
       </div>
     </div>
-    <div class="mt-4">
-      @for (fileToDisplay of filesToUpload; track fileToDisplay) {
-        <div>
-          <div class="flex flex-row items-center">
-            @if (
-              fileToDisplay.exists ||
-              fileToDisplay.sizeExceeded ||
-              fileToDisplay.unsupportedFileType
-            ) {
-              <mat-icon
-                class="text-error mr-2 !w-4 !h-4 !text-[16px]"
-                [matTooltip]="
-                  fileToDisplay.exists
-                    ? t('fileExitsTooltip')
-                    : fileToDisplay.unsupportedFileType
-                      ? t('fileTypeNotSupportedTooltip')
-                      : t('fileSizeExceedsTooltip')
-                "
-              >
-                close
-              </mat-icon>
-            } @else {
-              <mat-icon
-                class="text-approval-status-green mr-2 !w-4 !h-4 !text-[16px]"
-              >
-                check_circle_outline
-              </mat-icon>
-            }
-            <span class="text-on-surface text-body-medium">{{
-              fileToDisplay?.file?.name
-            }}</span>
-            <div class="ml-auto text-approval-status-grey mt-1">
-              <div class="group inline-block">
+    <div class="overflow-y-auto max-h-72">
+      @if (filesToUpload()?.length > 0) {
+        <div class="mt-4">
+          @for (fileToDisplay of filesToUpload(); track fileToDisplay) {
+            <div class="flex flex-row items-center">
+              @if (
+                fileToDisplay.exists ||
+                fileToDisplay.sizeExceeded ||
+                fileToDisplay.unsupportedFileType
+              ) {
                 <mat-icon
-                  class="!w-5 !h-5 !icon-5 hover:text-approval-status-green relative text-approval-status-grey"
+                  class="text-error mr-2 !w-4 !h-4 !text-[16px]"
+                  [matTooltip]="
+                    fileToDisplay.exists
+                      ? t('fileExitsTooltip')
+                      : fileToDisplay.unsupportedFileType
+                        ? t('fileTypeNotSupportedTooltip')
+                        : t('fileSizeExceedsTooltip')
+                  "
                 >
-                  <span class="group-hover:opacity-0"> delete </span>
-                  <mat-icon
-                    class="absolute inset-0 flex items-center justify-center font-bold opacity-0 group-hover:opacity-100 !w-5 !h-5 !icon-5"
-                    (click)="removeFile(fileToDisplay)"
-                  >
-                    delete_forever
-                  </mat-icon>
+                  close
                 </mat-icon>
+              } @else {
+                <mat-icon
+                  class="text-approval-status-green mr-2 !w-4 !h-4 !text-[16px]"
+                >
+                  check_circle_outline
+                </mat-icon>
+              }
+              <span class="text-on-surface text-body-medium">{{
+                fileToDisplay?.file?.name
+              }}</span>
+              <div class="ml-auto text-approval-status-grey mt-1">
+                <div class="group inline-block">
+                  <mat-icon
+                    class="!w-5 !h-5 !icon-5 hover:text-approval-status-green relative text-approval-status-grey"
+                  >
+                    <span class="group-hover:opacity-0"> delete </span>
+                    <mat-icon
+                      class="absolute inset-0 flex items-center justify-center font-bold opacity-0 group-hover:opacity-100 !w-5 !h-5 !icon-5"
+                      (click)="removeFile(fileToDisplay)"
+                    >
+                      delete_forever
+                    </mat-icon>
+                  </mat-icon>
+                </div>
               </div>
             </div>
-          </div>
+          }
+        </div>
+      }
+      @if (modalData.templateRef) {
+        <div class="mt-4">
+          <ng-container
+            *ngTemplateOutlet="modalData.templateRef"
+          ></ng-container>
         </div>
       }
     </div>
@@ -112,11 +121,7 @@
       <button mat-button (click)="closeDialog()">
         {{ t('cancelButton') }}
       </button>
-      <button
-        mat-flat-button
-        (click)="upload()"
-        [disabled]="filesToUpload.length === 0 || disableUploadButton"
-      >
+      <button mat-flat-button (click)="upload()" [disabled]="uploadDisabled()">
         {{ this.modalData.uploadButtonCaption ?? t('uploadButton') }}
       </button>
     </div>

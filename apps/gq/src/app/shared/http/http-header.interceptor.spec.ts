@@ -58,14 +58,14 @@ class ExampleService {
 
   public getRfqApprovalAttachments(): Observable<string> {
     return this.http.get<string>(
-      `${this.apiUrl}/rfq4/12345/download-approval`,
+      `${this.apiUrl}/rfq4/12345/approval/attachments/download`,
       {}
     );
   }
 
   public postRfqApprovalAttachments(): Observable<string> {
     return this.http.post<string>(
-      `${this.apiUrl}/rfq4/12345/upload-approval`,
+      `${this.apiUrl}/rfq4/12345/approval/attachments`,
       {}
     );
   }
@@ -178,12 +178,12 @@ describe(`HttpHeaderInterceptor`, () => {
       ).toBeFalsy();
     });
 
-    test('should not add header-content to rfq4/{gqPositionId}/upload-approval when post', () => {
+    test('should not add header-content to rfq4/{gqPositionId}/approval/attachments when post', () => {
       service.postRfqApprovalAttachments().subscribe((res) => {
         expect(res).toBeTruthy();
       });
       const httpRequest = httpMock.expectOne(
-        `${environment.baseUrl}/rfq4/12345/upload-approval`
+        `${environment.baseUrl}/rfq4/12345/approval/attachments`
       );
       expect(httpRequest.request.method).toEqual('POST');
 
@@ -194,12 +194,12 @@ describe(`HttpHeaderInterceptor`, () => {
         httpRequest.request.headers.keys().includes('content-type')
       ).toBeFalsy();
     });
-    test('should not add header-content to rfq4/{gqPositionId}/download-approval when get', () => {
+    test('should not add header-content to rfq4/{gqPositionId}/approval/attachments/download when get', () => {
       service.getRfqApprovalAttachments().subscribe((res) => {
         expect(res).toBeTruthy();
       });
       const httpRequest = httpMock.expectOne(
-        `${environment.baseUrl}/rfq4/12345/download-approval`
+        `${environment.baseUrl}/rfq4/12345/approval/attachments/download`
       );
       expect(httpRequest.request.method).toEqual('GET');
 

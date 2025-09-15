@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
@@ -12,6 +12,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { DialogHeaderModule } from '../../header/dialog-header/dialog-header.module';
 import { AttachmentFilesUploadModalComponent } from './attachment-files-upload-modal.component';
+import { AttachmentDialogData } from './models/attachment-dialog-data.interface';
 import { FilesToUploadDisplay } from './models/files-to-upload-display.model';
 
 describe('AttachmentFilesUploadModalComponent', () => {
@@ -30,14 +31,17 @@ describe('AttachmentFilesUploadModalComponent', () => {
       { provide: MatDialogRef, useValue: {} },
       {
         provide: MAT_DIALOG_DATA,
-        useValue: {},
+        useValue: {
+          additionalDisableUploadButtonCondition: of(true),
+          fileNames: signal([]),
+        },
       },
       MockProvider(ActiveCaseFacade),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
-  beforeEach(async () => {
+  beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
   });
@@ -50,6 +54,61 @@ describe('AttachmentFilesUploadModalComponent', () => {
     jest.resetAllMocks();
   });
 
+  describe('should computed upload disabled', () => {
+    test('should return true when additional condition is true and filesToUpload is empty', () => {
+      component.modalData.additionalDisableUploadButtonCondition = of(true);
+      component.filesToUpload.set([]);
+      expect(component['uploadDisabled']()).toBe(true);
+    });
+    test('should return true when additional condition is true and some files are invalid', () => {
+      component.modalData.additionalDisableUploadButtonCondition = of(true);
+      component.filesToUpload.set([
+        { file: { name: '1' } as File, exists: true } as FilesToUploadDisplay,
+        { file: { name: '2' } as File } as FilesToUploadDisplay,
+      ]);
+      component['someFilesInvalid'].set(true);
+
+      expect(component['uploadDisabled']()).toBe(true);
+    });
+
+    test('should return false when additional condition is true and filesToUpload has files and all files are valid', () => {
+      component.modalData.additionalDisableUploadButtonCondition = of(true);
+      component.filesToUpload.set([
+        { file: { name: '1' } as File } as FilesToUploadDisplay,
+        { file: { name: '2' } as File } as FilesToUploadDisplay,
+      ]);
+      component['someFilesInvalid'].set(false);
+
+      expect(component['uploadDisabled']()).toBe(false);
+    });
+    test('should return true when additional condition is null and filesToUpload is empty', () => {
+      component.modalData.additionalDisableUploadButtonCondition = null;
+      component.filesToUpload.set([]);
+
+      expect(component['uploadDisabled']()).toBe(true);
+    });
+    test('should return true when additional condition is null and some files are invalid', () => {
+      component.modalData.additionalDisableUploadButtonCondition = null;
+      component.filesToUpload.set([
+        { file: { name: '1' } as File, exists: true } as FilesToUploadDisplay,
+        { file: { name: '2' } as File } as FilesToUploadDisplay,
+      ]);
+      component['someFilesInvalid'].set(true);
+
+      expect(component['uploadDisabled']()).toBe(true);
+    });
+
+    test('should return false when additional condition is null and filesToUpload has files and all files are valid', () => {
+      component.modalData.additionalDisableUploadButtonCondition = null;
+      component.filesToUpload.set([
+        { file: { name: '1' } as File } as FilesToUploadDisplay,
+        { file: { name: '2' } as File } as FilesToUploadDisplay,
+      ]);
+      component['someFilesInvalid'].set(false);
+
+      expect(component['uploadDisabled']()).toBe(false);
+    });
+  });
   describe('handleFileInput', () => {
     test('should add files to filesToUpload', () => {
       const mockFile = new File([''], 'filename.eml');
@@ -68,11 +127,14 @@ describe('AttachmentFilesUploadModalComponent', () => {
         },
         preventDefault: jest.fn(),
       } as any;
-      component.modalData.fileNames = [];
+
+      component.modalData = {
+        fileNames: signal([]),
+      } as unknown as AttachmentDialogData;
 
       component.handleFileInput(mockEvent);
 
-      expect(component.filesToUpload).toEqual([expected]);
+      expect(component.filesToUpload()).toEqual([expected]);
     });
 
     test('should not add files to filesToUpload if no files are selected', () => {
@@ -82,11 +144,13 @@ describe('AttachmentFilesUploadModalComponent', () => {
         },
         preventDefault: jest.fn(),
       } as any;
-      component.modalData.fileNames = [];
+      component.modalData = {
+        fileNames: signal([]),
+      } as unknown as AttachmentDialogData;
 
       component.handleFileInput(mockEvent);
 
-      expect(component.filesToUpload).toEqual([]);
+      expect(component.filesToUpload()).toEqual([]);
     });
 
     test('should add files and set fileSize exceeded to true if file size is exceeded', () => {
@@ -118,11 +182,13 @@ describe('AttachmentFilesUploadModalComponent', () => {
         },
         preventDefault: jest.fn(),
       } as any;
-      component.modalData.fileNames = [];
+      component.modalData = {
+        fileNames: signal([]),
+      } as unknown as AttachmentDialogData;
 
       component.handleFileInput(mockEvent);
 
-      expect(component.filesToUpload).toEqual(expected);
+      expect(component.filesToUpload()).toEqual(expected);
     });
 
     test('should add files and set exists to true if file already exists', () => {
@@ -154,11 +220,13 @@ describe('AttachmentFilesUploadModalComponent', () => {
         },
         preventDefault: jest.fn(),
       } as any;
-      component.modalData.fileNames = ['file2.pdf'];
+      component.modalData = {
+        fileNames: signal(['file2.pdf']),
+      } as unknown as AttachmentDialogData;
 
       component.handleFileInput(mockEvent);
 
-      expect(component.filesToUpload).toEqual(expected);
+      expect(component.filesToUpload()).toEqual(expected);
     });
 
     test('should add files and set unsupportedFileType to true if file type is not supported', () => {
@@ -193,7 +261,7 @@ describe('AttachmentFilesUploadModalComponent', () => {
 
       component.handleFileInput(mockEvent);
 
-      expect(component.filesToUpload).toEqual(expected);
+      expect(component.filesToUpload()).toEqual(expected);
     });
 
     test('should add file and set unsupportedFileType to false if file type is uppercase', () => {
@@ -218,7 +286,7 @@ describe('AttachmentFilesUploadModalComponent', () => {
 
       component.handleFileInput(mockEvent);
 
-      expect(component.filesToUpload).toEqual(expected);
+      expect(component.filesToUpload()).toEqual(expected);
     });
   });
 
@@ -232,7 +300,7 @@ describe('AttachmentFilesUploadModalComponent', () => {
         } as FilesToUploadDisplay,
         { file: { name: '3' } as File } as FilesToUploadDisplay,
       ];
-      component.filesToUpload = mockFiles;
+      component.filesToUpload.set(mockFiles);
       component.modalData.upload = jest.fn();
       component.modalData.uploadSuccess$ = of();
 
@@ -286,21 +354,26 @@ describe('AttachmentFilesUploadModalComponent', () => {
 
   describe('removeFile', () => {
     test('should remove file from filesToUpload', () => {
-      component.disableUploadButton = true;
+      component['someFilesInvalid'].set(true);
       const mockFiles: FilesToUploadDisplay[] = [
         {
           file: {
             name: 'filename1 ',
           },
         } as unknown as FilesToUploadDisplay,
-        { file: { name: 'filename' } } as unknown as FilesToUploadDisplay,
+        {
+          file: { name: 'filename' },
+          exists: false,
+        } as unknown as FilesToUploadDisplay,
       ];
-      component.filesToUpload = mockFiles;
+      component.filesToUpload.set(mockFiles);
 
       component.removeFile(mockFiles[0]);
 
-      expect(component.filesToUpload).toEqual([{ file: { name: 'filename' } }]);
-      expect(component.disableUploadButton).toEqual(false);
+      expect(component.filesToUpload()).toEqual([
+        { file: { name: 'filename' }, exists: false },
+      ]);
+      expect(component['someFilesInvalid']()).toEqual(false);
     });
   });
 
@@ -316,11 +389,13 @@ describe('AttachmentFilesUploadModalComponent', () => {
         },
         preventDefault: jest.fn(),
       } as any;
-      component.modalData.fileNames = [mockFile.name];
+      component.modalData = {
+        fileNames: signal([mockFile.name]),
+      } as unknown as AttachmentDialogData;
 
       component.handleFileInput(mockEvent);
 
-      expect(component.filesToUpload[0].exists).toBeTruthy();
+      expect(component.filesToUpload()[0].exists).toBeTruthy();
     });
     test('should mark one file as exists when the same file shall be added (via drag and drop) twice', () => {
       const mockFile = new File([''], 'filename.eml');
@@ -333,13 +408,15 @@ describe('AttachmentFilesUploadModalComponent', () => {
         },
         preventDefault: jest.fn(),
       } as any;
-      component.modalData.fileNames = [];
+      component.modalData = {
+        fileNames: signal([]),
+      } as unknown as AttachmentDialogData;
 
       component.handleFileInput(mockEvent);
-      expect(component.filesToUpload[0].exists).toBeFalsy();
+      expect(component.filesToUpload()[0].exists).toBeFalsy();
       component.handleFileInput(mockEvent);
-      expect(component.filesToUpload[0].exists).toBeFalsy();
-      expect(component.filesToUpload[1].exists).toBeTruthy();
+      expect(component.filesToUpload()[0].exists).toBeFalsy();
+      expect(component.filesToUpload()[1].exists).toBeTruthy();
     });
   });
 
@@ -349,11 +426,11 @@ describe('AttachmentFilesUploadModalComponent', () => {
         { file: { name: '1' } as File, exists: true } as FilesToUploadDisplay,
         { file: { name: '2' } as File } as FilesToUploadDisplay,
       ];
-      component.filesToUpload = mockFiles;
+      component.filesToUpload.set(mockFiles);
 
-      component['checkForDisabledUploadButton']();
+      component['checkForInvalidFiles']();
 
-      expect(component.disableUploadButton).toBeTruthy();
+      expect(component['someFilesInvalid']).toBeTruthy();
     });
 
     test('should disable upload button if any file size is exceeded', () => {
@@ -365,11 +442,11 @@ describe('AttachmentFilesUploadModalComponent', () => {
         } as FilesToUploadDisplay,
         { file: { name: '2' } as File } as FilesToUploadDisplay,
       ];
-      component.filesToUpload = mockFiles;
+      component.filesToUpload.set(mockFiles);
 
-      component['checkForDisabledUploadButton']();
+      component['checkForInvalidFiles']();
 
-      expect(component.disableUploadButton).toBeTruthy();
+      expect(component['someFilesInvalid']).toBeTruthy();
     });
 
     test('should disable upload button if any file type is unsupported', () => {
@@ -382,11 +459,11 @@ describe('AttachmentFilesUploadModalComponent', () => {
         } as FilesToUploadDisplay,
         { file: { name: '2' } as File } as FilesToUploadDisplay,
       ];
-      component.filesToUpload = mockFiles;
+      component.filesToUpload.set(mockFiles);
 
-      component['checkForDisabledUploadButton']();
+      component['checkForInvalidFiles']();
 
-      expect(component.disableUploadButton).toBeTruthy();
+      expect(component['someFilesInvalid']).toBeTruthy();
     });
 
     test('should not disable upload button if all files are valid', () => {
@@ -394,11 +471,11 @@ describe('AttachmentFilesUploadModalComponent', () => {
         { file: { name: '1' } as File } as FilesToUploadDisplay,
         { file: { name: '2' } as File } as FilesToUploadDisplay,
       ];
-      component.filesToUpload = mockFiles;
+      component.filesToUpload.set(mockFiles);
 
-      component['checkForDisabledUploadButton']();
+      component['checkForInvalidFiles']();
 
-      expect(component.disableUploadButton).toBeFalsy();
+      expect(component['someFilesInvalid']()).toBeFalsy();
     });
   });
 
@@ -433,7 +510,7 @@ describe('AttachmentFilesUploadModalComponent', () => {
         { file: { name: '1' } as File } as FilesToUploadDisplay,
         { file: { name: '2' } as File } as FilesToUploadDisplay,
       ];
-      component.filesToUpload = mockFiles;
+      component.filesToUpload.set(mockFiles);
       component['checkFileNamesExists'] = jest.fn();
       component['updateFileExistsStatus']();
 

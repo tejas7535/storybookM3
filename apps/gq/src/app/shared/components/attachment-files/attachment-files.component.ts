@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, computed, inject, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
@@ -41,7 +41,9 @@ export class AttachmentFilesComponent implements OnInit {
       width: '634px',
       disableClose: true,
       data: {
-        fileNames: this.attachments.map((attachment) => attachment.fileName),
+        fileNames: computed(() =>
+          this.attachments.map((attachment) => attachment.fileName)
+        ),
         upload: this.activeCaseFacade.uploadAttachments.bind(
           this.activeCaseFacade
         ),

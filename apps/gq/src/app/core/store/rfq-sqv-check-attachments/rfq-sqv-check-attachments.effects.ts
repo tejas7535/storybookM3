@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 
 import { AttachmentsService } from '@gq/shared/services/rest/attachments/attachments.service';
+import { PositionAttachment } from '@gq/shared/services/rest/attachments/models/position-attachment.interface';
 import { translate } from '@jsverse/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
@@ -58,7 +59,10 @@ export class RfqSqvCheckAttachmentsEffects {
       ofType(RfqSqvCheckAttachmentsActions.downloadAttachments),
       switchMap((action) =>
         this.attachmentService
-          .downloadRfqSqvCheckApprovalAttachments(action.gqPositionId)
+          .downloadRfqSqvCheckApprovalAttachments(
+            action.gqPositionId,
+            action.file
+          )
           .pipe(
             map((fileName: string) => {
               return RfqSqvCheckAttachmentsActions.downloadAttachmentsSuccess({
@@ -68,6 +72,40 @@ export class RfqSqvCheckAttachmentsEffects {
             catchError((error) =>
               of(
                 RfqSqvCheckAttachmentsActions.downloadAttachmentsFailure({
+                  errorMessage: error,
+                })
+              )
+            )
+          )
+      )
+    );
+  });
+
+  triggerGetAttachments$ = createEffect(() => {
+    return this.actions.pipe(
+      ofType(RfqSqvCheckAttachmentsActions.setGqPositionId),
+      map((action) =>
+        RfqSqvCheckAttachmentsActions.getAllAttachments({
+          gqPositionId: action.gqPositionId,
+        })
+      )
+    );
+  });
+  getAttachments$ = createEffect(() => {
+    return this.actions.pipe(
+      ofType(RfqSqvCheckAttachmentsActions.getAllAttachments),
+      switchMap((action) =>
+        this.attachmentService
+          .getRfqSqvCheckApprovalAttachments(action.gqPositionId)
+          .pipe(
+            map((attachments: PositionAttachment[]) => {
+              return RfqSqvCheckAttachmentsActions.getAllAttachmentsSuccess({
+                attachments,
+              });
+            }),
+            catchError((error) =>
+              of(
+                RfqSqvCheckAttachmentsActions.getAllAttachmentsFailure({
                   errorMessage: error,
                 })
               )

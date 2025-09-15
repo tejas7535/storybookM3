@@ -7,6 +7,9 @@ import { ApiVersion, QuotationAttachment } from '@gq/shared/models';
 
 import { FileService } from '../file/file.service';
 import { QuotationPaths } from '../quotation/models/quotation-paths.enum';
+import { Attachment } from './models/attachment.interface';
+import { GetRfqApprovalAttachmentsResponse } from './models/get-rfq-approval-attachments-response.interface';
+import { PositionAttachment } from './models/position-attachment.interface';
 import { RfqSqvCheckPaths } from './models/rfq-sqv-check-paths.enum';
 import { UploadRfqSqvCheckApprovalResponse } from './models/upload-rfq-sqv-approval-response.interface';
 
@@ -30,7 +33,7 @@ export class AttachmentsService {
     files: File[],
     gqPositionId: string
   ): Observable<UploadRfqSqvCheckApprovalResponse> {
-    const url = `${ApiVersion.V1}/${RfqSqvCheckPaths.RFQ4_PATH}/${gqPositionId}/${RfqSqvCheckPaths.UPLOAD_APPROVAL_PATH}`;
+    const url = `${ApiVersion.V1}/${RfqSqvCheckPaths.RFQ4_PATH}/${gqPositionId}/${RfqSqvCheckPaths.APPROVAL_PATH}/${RfqSqvCheckPaths.ATTACHMENTS_PATH}`;
 
     return this.fileService.uploadFiles<UploadRfqSqvCheckApprovalResponse>(
       files,
@@ -42,6 +45,16 @@ export class AttachmentsService {
     return this.http.get<QuotationAttachment[]>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${gqId}/${QuotationPaths.PATH_ATTACHMENTS}`
     );
+  }
+
+  getRfqSqvCheckApprovalAttachments(
+    gqPositionId: string
+  ): Observable<PositionAttachment[]> {
+    return this.http
+      .get<GetRfqApprovalAttachmentsResponse>(
+        `${ApiVersion.V1}/${RfqSqvCheckPaths.RFQ4_PATH}/${gqPositionId}/${RfqSqvCheckPaths.APPROVAL_PATH}/${RfqSqvCheckPaths.ATTACHMENTS_PATH}`
+      )
+      .pipe(map((response) => response.attachments));
   }
 
   downloadQuotationAttachment(
@@ -56,12 +69,16 @@ export class AttachmentsService {
   }
 
   downloadRfqSqvCheckApprovalAttachments(
-    gqPositionId: string
+    gqPositionId: string,
+    file: Attachment = null
   ): Observable<string> {
-    const url = `${ApiVersion.V1}/${RfqSqvCheckPaths.RFQ4_PATH}/${gqPositionId}/${RfqSqvCheckPaths.DOWNLOAD_APPROVAL_PATH}`;
+    const params = file
+      ? new HttpParams().set('filename', file.fileName)
+      : null;
+    const url = `${ApiVersion.V1}/${RfqSqvCheckPaths.RFQ4_PATH}/${gqPositionId}/${RfqSqvCheckPaths.APPROVAL_PATH}/${RfqSqvCheckPaths.ATTACHMENTS_PATH}/${RfqSqvCheckPaths.DOWNLOAD_PATH}`;
 
     return this.fileService
-      .downloadAttachments(url)
+      .downloadAttachments(url, params)
       .pipe(map((response) => this.fileService.saveDownloadFile(response)));
   }
 

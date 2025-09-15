@@ -111,7 +111,7 @@ describe('RecalculationAttachmentsComponent', () => {
           width: '634px',
           disableClose: true,
           data: {
-            fileNames: ['test'],
+            fileNames: signal(['test']),
             upload: jest.fn().bind(component['store']),
             uploading$: of(false),
             uploadSuccess$: of(),
