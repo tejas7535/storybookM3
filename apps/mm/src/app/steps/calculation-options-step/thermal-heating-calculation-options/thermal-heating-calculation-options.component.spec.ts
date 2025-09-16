@@ -134,6 +134,26 @@ describe('ThermalHeatingCalculationOptionsComponent', () => {
   });
 
   describe('ngOnInit', () => {
+    it('should patch form value if thermal options are set', () => {
+      component.form.patchValue = jest.fn();
+
+      thermalOptionsSignal.set({
+        temperature: 20,
+        upperDeviation: 5,
+        lowerDeviation: 0,
+        toleranceClass: 'none',
+      });
+
+      component.ngOnInit();
+
+      expect(component.form.patchValue).toHaveBeenCalledWith({
+        temperature: 20,
+        upperDeviation: 5,
+        lowerDeviation: 0,
+        toleranceClass: 'none',
+      });
+    });
+
     it('should update tolerance classes', () => {
       component.form.markAsTouched = jest.fn();
       component.form.updateValueAndValidity = jest.fn();

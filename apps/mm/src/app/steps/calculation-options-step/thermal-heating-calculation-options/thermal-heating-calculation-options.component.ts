@@ -133,6 +133,8 @@ export class ThermalHeatingCalculationOptionsComponent
         }
       });
 
+    this.form.patchValue(this.thermalOptions() || {});
+
     this.form.markAsTouched();
     this.form.updateValueAndValidity();
   }
