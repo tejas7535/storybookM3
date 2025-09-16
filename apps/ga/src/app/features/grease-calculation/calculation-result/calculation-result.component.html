@@ -47,26 +47,35 @@
               mat-flat-button
               class="tonal-button sm:flex-1 sm:w-fit"
               (click)="generateReport(selectedBearing())"
-              [disabled]="isSelectionModeEnabled() && selectedCount() === 0"
+              [disabled]="pdfButtonDisabled()"
             >
-              {{
-                isSelectionModeEnabled()
-                  ? t('selectionButton.downloadSelectedPrompt', {
-                      number: selectedCount(),
-                    })
-                  : t('pdfDownload')
-              }}
-              <mat-icon class="align-middle">download</mat-icon>
+              @if (!pdfButtonLoadingState()) {
+                <mat-icon class="align-middle">download</mat-icon>
+              }
+              <div class="flex flex-row items-center gap-2 justify-center">
+                @if (pdfButtonLoadingState()) {
+                  <div>
+                    <mat-spinner diameter="18"></mat-spinner>
+                  </div>
+                }
+                {{
+                  isSelectionModeEnabled()
+                    ? t('selectionButton.downloadSelectedPrompt', {
+                        number: selectedCount(),
+                      })
+                    : t('pdfDownload')
+                }}
+              </div>
             </button>
           </div>
         </ng-container>
       </schaeffler-subheader>
     }
-    @if (reportUrls) {
+    @if (reportUrls()) {
       <div>
         <ga-grease-report
           #greaseReport
-          [greaseReportUrl]="reportUrls.jsonReportUrl"
+          [greaseReportUrl]="reportUrls().jsonReportUrl"
           [preferredGreaseResult]="preferredGreaseSelection()"
           [automaticLubrication]="automaticLubrication()"
           [versions]="bearinxVersions()"

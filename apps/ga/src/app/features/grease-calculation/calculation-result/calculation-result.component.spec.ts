@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { signal } from '@angular/core';
 import { waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
@@ -5,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 
 import { of, Subject } from 'rxjs';
 
@@ -15,51 +16,46 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { LetDirective, PushPipe } from '@ngrx/component';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockModule } from 'ng-mocks';
+import { MockComponent, MockModule } from 'ng-mocks';
 
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
-import {
-  CalculationParametersFacade,
-  getSelectedBearing,
-  SettingsFacade,
-} from '@ga/core/store';
-import {
-  fetchBearinxVersions,
-  getCalculation,
-} from '@ga/core/store/actions/calculation-result/calculation-result.actions';
+import { CalculationParametersFacade, SettingsFacade } from '@ga/core/store';
+import { BearingSelectionFacade } from '@ga/core/store/facades/bearing-selection/bearing-selection.facade';
+import { CalculationResultFacade } from '@ga/core/store/facades/calculation-result/calculation-result.facade';
 import { ENV, getEnv } from '@ga/environments/environments.provider';
 import { MediasButtonComponent } from '@ga/shared/components/medias-button';
+import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import { PartnerVersion } from '@ga/shared/models';
 
 import { ApplicationScenario } from '../calculation-parameters/constants/application-scenarios.model';
 import { GreaseCalculationPath } from '../grease-calculation-path.enum';
 import { CalculationResultComponent } from './calculation-result.component';
+import { GreaseReportComponent } from './components/grease-report';
 import { GreasePDFSelectionService } from './services/grease-pdf-select.service';
 import { PdfGenerationService } from './services/pdf/pdf-generation.service';
 
 describe('CalculationResultComponent', () => {
   let component: CalculationResultComponent;
   let spectator: Spectator<CalculationResultComponent>;
-  let store: MockStore;
   let translocoService: TranslocoService;
+  let calculationResultFacade: CalculationResultFacade;
 
   const createComponent = createComponentFactory({
     component: CalculationResultComponent,
     imports: [
-      RouterTestingModule,
-      PushPipe,
-      LetDirective,
+      CommonModule,
       FormsModule,
       provideTranslocoTestingModule(
-        { en: {} },
+        { en: {}, de: {} },
         { translocoConfig: { defaultLang: 'de' } }
       ),
+
       MediasButtonComponent,
+      MockComponent(QualtricsInfoBannerComponent),
+      MockComponent(GreaseReportComponent),
 
       // UI Modules
       MockModule(SubheaderModule),
@@ -69,34 +65,33 @@ describe('CalculationResultComponent', () => {
       MockModule(MatTooltipModule),
     ],
     providers: [
-      provideMockStore({
-        initialState: {
-          calculationResult: {},
-        },
-        selectors: [
-          {
-            selector: getSelectedBearing,
-            value: 'bearing 123',
-          },
-        ],
-      }),
+      provideRouter([]),
       {
         provide: translate,
         useValue: jest.fn(),
       },
-
+      mockProvider(BearingSelectionFacade, {
+        selectedBearing: jest.fn(() => '6206'),
+      }),
+      mockProvider(CalculationResultFacade, {
+        reportUrls: jest.fn(() => ({ jsonReport: 'url' })),
+        bearinxVersions: jest.fn(() => 'versions'),
+        fetchBearinxVersions: jest.fn(),
+        getCalculation: jest.fn(),
+      }),
       mockProvider(SettingsFacade, {
         appIsEmbedded$: of(false),
         partnerVersion$: new Subject(),
       }),
+      mockProvider(CalculationParametersFacade, {
+        selectedGreaseApplication$: of(ApplicationScenario.All),
+        automaticLubrication: signal(true),
+        preferredGrease: jest.fn(() => ({
+          selectedGrease: 'Grease 123',
+        })),
+      }),
       mockProvider(PdfGenerationService),
       { provide: ENV, useValue: { ...getEnv(), production: false } },
-      {
-        provide: CalculationParametersFacade,
-        useValue: {
-          selectedGreaseApplication$: of(ApplicationScenario.All),
-        },
-      },
       mockProvider(GreasePDFSelectionService, {
         selectionMode: jest.fn(() => false),
         selectedSet: signal(new Set()),
@@ -108,9 +103,9 @@ describe('CalculationResultComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+
     translocoService = spectator.inject(TranslocoService);
-    store = spectator.inject(MockStore);
-    store.dispatch = jest.fn();
+    calculationResultFacade = spectator.inject(CalculationResultFacade);
   });
 
   it('should create', () => {
@@ -137,25 +132,18 @@ describe('CalculationResultComponent', () => {
     });
   });
 
+  describe('constructor', () => {
+    it('should fetch result on language change', () => {
+      translocoService.setActiveLang('en');
+      expect(calculationResultFacade.getCalculation).toHaveBeenCalled();
+    });
+  });
+
   describe('ngOnInit', () => {
     it('should dispatch action', () => {
       component.ngOnInit();
 
-      expect(store.dispatch).toHaveBeenCalledWith(fetchBearinxVersions());
-      expect(store.dispatch).toHaveBeenCalledWith(getCalculation());
-    });
-
-    it('should reset the report urls and dispatch fetch action on language change', (done) => {
-      translocoService.getActiveLang = jest.fn(() => 'es');
-
-      component.ngOnInit();
-
-      translocoService.langChanges$.subscribe(() => {
-        expect(component.reportUrls).toBe(undefined);
-        expect(store.dispatch).toHaveBeenCalledWith(getCalculation());
-
-        done();
-      });
+      expect(calculationResultFacade.fetchBearinxVersions).toHaveBeenCalled();
     });
   });
 
@@ -193,6 +181,8 @@ describe('CalculationResultComponent', () => {
     });
 
     it('should generate pdf report with all contents', waitForAsync(async () => {
+      const signalSpy = jest.spyOn(component.generatingPdf, 'set');
+
       await component.generateReport('bearing 123');
       expect(spy).toHaveBeenCalledWith({
         data: [{ subordinates: [] }, {}],
@@ -200,8 +190,11 @@ describe('CalculationResultComponent', () => {
         reportTitle: 'de.calculationResult.title.main bearing 123',
         results: [],
         sectionSubTitle: 'de.calculationResult.title.247hint',
-        versions: undefined,
+        versions: 'versions',
       });
+      expect(signalSpy).toHaveBeenCalledWith(true);
+      expect(signalSpy).toHaveBeenCalledWith(false);
+      expect(component.generatingPdf()).toBe(false);
     }));
   });
 });

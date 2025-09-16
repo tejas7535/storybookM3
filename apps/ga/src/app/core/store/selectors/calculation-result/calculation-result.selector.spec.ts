@@ -31,6 +31,18 @@ describe('Calculation Result Selector', () => {
     it('should return report urls', () => {
       expect(getReportUrls(mockState)).toEqual(REPORT_URLS_MOCK);
     });
+
+    it('should return undefined if result id is missing', () => {
+      expect(
+        getReportUrls({
+          ...mockState,
+          calculationResult: {
+            ...mockState.calculationResult,
+            resultId: undefined,
+          },
+        })
+      ).toBeUndefined();
+    });
   });
 
   describe('hasResultMessage', () => {

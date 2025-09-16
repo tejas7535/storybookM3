@@ -23,6 +23,7 @@ export const calculationResultReducer = createReducer(
     getCalculation,
     (state): CalculationResultState => ({
       ...state,
+      resultId: undefined,
       loading: true,
       messages: [],
     })

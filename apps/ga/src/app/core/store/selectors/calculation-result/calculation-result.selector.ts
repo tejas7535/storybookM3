@@ -14,12 +14,19 @@ export const getResultId = createSelector(
 export const getReportUrls = createSelector(
   getResultId,
   getModelId,
-  (resultId: string, modelId: string): ReportUrls =>
-    resultId &&
-    modelId && {
-      htmlReportUrl: `${environment.baseUrl}/${modelId}/body/${resultId}`,
-      jsonReportUrl: `${environment.baseUrl}/${modelId}/output/${resultId}`,
+  (resultId: string, modelId: string): ReportUrls | undefined => {
+    if (!resultId) {
+      return undefined;
     }
+
+    return (
+      resultId &&
+      modelId && {
+        htmlReportUrl: `${environment.baseUrl}/${modelId}/body/${resultId}`,
+        jsonReportUrl: `${environment.baseUrl}/${modelId}/output/${resultId}`,
+      }
+    );
+  }
 );
 
 export const hasResultMessage = createSelector(

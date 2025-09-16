@@ -12,6 +12,7 @@ import { CalculationParametersActions } from '../../actions';
 import {
   applicationScenarioDisabledHint,
   getAllGreases,
+  getAutomaticLubrication,
   getGreaseApplication,
   getMotionType,
   getPreferredGrease,
@@ -96,6 +97,12 @@ describe('CalculationParametersFacade', () => {
     });
 
     store.refreshState();
+  });
+
+  it('should select automaticLubrication', () => {
+    store.overrideSelector(getAutomaticLubrication, true);
+
+    expect(spectator.service.automaticLubrication()).toBe(true);
   });
 
   it('should dispatch setAutomaticLubrication action', () => {

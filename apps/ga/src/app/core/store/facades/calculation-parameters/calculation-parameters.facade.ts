@@ -12,6 +12,7 @@ import { CalculationParametersActions } from '../../actions';
 import {
   applicationScenarioDisabledHint,
   getAllGreases,
+  getAutomaticLubrication,
   getCompetitorsGreases,
   getGreaseApplication,
   getMixableSchaefflerGreases,
@@ -55,6 +56,10 @@ export class CalculationParametersFacade {
 
   public readonly preferredGrease = toSignal(
     this.store.select(getPreferredGrease)
+  );
+
+  public readonly automaticLubrication = this.store.selectSignal(
+    getAutomaticLubrication
   );
 
   public readonly allGreases = toSignal(this.store.select(getAllGreases));

@@ -35,6 +35,7 @@ describe('calculationResultReducer', () => {
       const state = calculationResultReducer(initialState, action);
 
       expect(state.loading).toBe(true);
+      expect(state.resultId).toBeUndefined();
     });
   });
 

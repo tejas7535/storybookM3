@@ -1,7 +1,8 @@
 import {
   Component,
+  computed,
+  effect,
   inject,
-  OnDestroy,
   OnInit,
   signal,
   viewChild,
@@ -9,34 +10,16 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 
-import { debounceTime, Subscription } from 'rxjs';
-
 import { TranslocoService } from '@jsverse/transloco';
-import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
-import {
-  CalculationParametersFacade,
-  getSelectedBearing,
-  SettingsFacade,
-} from '@ga/core/store';
-import {
-  fetchBearinxVersions,
-  getCalculation,
-} from '@ga/core/store/actions/calculation-result/calculation-result.actions';
-import {
-  getAutomaticLubrication,
-  getPreferredGreaseSelection,
-} from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
-import {
-  getReportUrls,
-  getVersions,
-} from '@ga/core/store/selectors/calculation-result/calculation-result.selector';
+import { CalculationParametersFacade, SettingsFacade } from '@ga/core/store';
+import { BearingSelectionFacade } from '@ga/core/store/facades/bearing-selection/bearing-selection.facade';
+import { CalculationResultFacade } from '@ga/core/store/facades/calculation-result/calculation-result.facade';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
 import { TRACKING_PDF_DOWNLOAD } from '@ga/shared/constants';
-import { ReportUrls } from '@ga/shared/models';
 
 import { ApplicationScenario } from '../calculation-parameters/constants/application-scenarios.model';
 import { GreaseReportComponent } from './components/grease-report';
@@ -48,14 +31,15 @@ import { PdfGenerationService } from './services/pdf/pdf-generation.service';
   templateUrl: './calculation-result.component.html',
   standalone: false,
 })
-export class CalculationResultComponent implements OnInit, OnDestroy {
-  private readonly store = inject(Store);
+export class CalculationResultComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly translocoService = inject(TranslocoService);
   private readonly settingsFacade = inject(SettingsFacade);
+  private readonly bearingSelectionFacade = inject(BearingSelectionFacade);
   private readonly calculationParametersFacade = inject(
     CalculationParametersFacade
   );
+  private readonly calculationResultFacade = inject(CalculationResultFacade);
 
   private readonly pdfGenerationService = inject(PdfGenerationService);
 
@@ -65,63 +49,48 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
   private readonly greaseReport =
     viewChild<GreaseReportComponent>('greaseReport');
 
-  public reportUrls: ReportUrls;
+  public reportUrls = this.calculationResultFacade.reportUrls;
+  public generatingPdf = signal(false);
+  public pdfButtonLoadingState = computed(
+    () => !this.reportUrls() || this.generatingPdf()
+  );
+  public pdfButtonDisabled = computed(
+    () =>
+      (this.isSelectionModeEnabled() && this.selectedCount() === 0) ||
+      this.pdfButtonLoadingState()
+  );
   public reportSelector = '.content';
-  public selectedBearing = toSignal(this.store.select(getSelectedBearing));
-  public preferredGreaseSelection = toSignal(
-    this.store.select(getPreferredGreaseSelection)
+  public selectedBearing = this.bearingSelectionFacade.selectedBearing;
+  public preferredGreaseSelection = computed(
+    () => this.calculationParametersFacade.preferredGrease()?.selectedGrease
   );
-  public automaticLubrication = toSignal(
-    this.store.select(getAutomaticLubrication)
-  );
+  public automaticLubrication =
+    this.calculationParametersFacade.automaticLubrication;
   public appIsEmbedded = toSignal(this.settingsFacade.appIsEmbedded$);
   public partnerVersion = toSignal(this.settingsFacade.partnerVersion$);
-  public bearinxVersions = toSignal(this.store.select(getVersions));
+  public bearinxVersions = this.calculationResultFacade.bearinxVersions;
   private readonly selectedApplications = toSignal(
     this.calculationParametersFacade.selectedGreaseApplication$
   );
-
-  private currentLanguage!: string;
-  private reportUrlsSubscription!: Subscription;
-  private languageChangeSubscription!: Subscription;
 
   protected selectedCount = this.pdfSelectionService.selectedCount;
   protected isSelectionModeEnabled = this.pdfSelectionService.selectionMode;
 
   public titleHint = signal('resultsDefault');
 
-  public ngOnInit(): void {
-    this.store.dispatch(fetchBearinxVersions());
-    this.store.dispatch(getCalculation());
-    this.pdfSelectionService.setSelectionMode(false);
-
-    this.reportUrlsSubscription = this.store
-      .select(getReportUrls)
-      .pipe(debounceTime(3000))
-      .subscribe((reportUrls) => {
-        this.reportUrls = reportUrls;
-      });
-
-    this.currentLanguage = this.translocoService.getActiveLang();
-
-    this.languageChangeSubscription =
-      this.translocoService.langChanges$.subscribe((language) => {
-        if (language !== this.currentLanguage) {
-          this.currentLanguage = language;
-          this.resetReportUrls();
-          this.store.dispatch(getCalculation());
-        }
-      });
+  constructor() {
+    const langChange = toSignal(this.translocoService.langChanges$, {
+      initialValue: this.translocoService.getActiveLang(),
+    });
+    effect(() => {
+      langChange(); // Track the signal
+      this.calculationResultFacade.getCalculation();
+    });
   }
 
-  public ngOnDestroy(): void {
-    if (this.reportUrlsSubscription) {
-      this.reportUrlsSubscription.unsubscribe();
-    }
-
-    if (this.languageChangeSubscription) {
-      this.languageChangeSubscription.unsubscribe();
-    }
+  public ngOnInit(): void {
+    this.calculationResultFacade.fetchBearinxVersions();
+    this.pdfSelectionService.setSelectionMode(false);
   }
 
   public navigateBack(): void {
@@ -131,6 +100,8 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
   }
 
   public async generateReport(selectedBearing: string) {
+    this.generatingPdf.set(true);
+
     const title = this.translocoService.translate(
       'calculationResult.title.main'
     );
@@ -179,7 +150,7 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
       );
 
     const versions = this.bearinxVersions();
-    this.pdfGenerationService.generatePdf({
+    await this.pdfGenerationService.generatePdf({
       reportTitle,
       sectionSubTitle: hint,
       data: [
@@ -190,6 +161,8 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
       legalNote: this.greaseReport().legalNote(),
       versions,
     });
+
+    this.generatingPdf.set(false);
 
     this.appInsightsService.logEvent(TRACKING_PDF_DOWNLOAD, {
       selectedBearing,
@@ -202,9 +175,5 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
 
   public setTitleHintContext(hint: string): void {
     this.titleHint.set(hint);
-  }
-
-  private resetReportUrls(): void {
-    this.reportUrls = undefined;
   }
 }
