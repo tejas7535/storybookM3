@@ -339,7 +339,11 @@ describe('AttachmentFilesUploadModalComponent', () => {
       component.handleDroppedFiles(mockFileList);
 
       expect(handleFileSelectionMock).toHaveBeenCalledTimes(1);
-      expect(handleFileSelectionMock).toHaveBeenCalledWith(mockFileList);
+
+      expect(handleFileSelectionMock).toHaveBeenCalledWith(
+        // eslint-disable-next-line unicorn/prefer-spread
+        Array.from(mockFileList)
+      );
     });
   });
   describe('closeDialog', () => {
@@ -416,7 +420,8 @@ describe('AttachmentFilesUploadModalComponent', () => {
       expect(component.filesToUpload()[0].exists).toBeFalsy();
       component.handleFileInput(mockEvent);
       expect(component.filesToUpload()[0].exists).toBeFalsy();
-      expect(component.filesToUpload()[1].exists).toBeTruthy();
+      // the file is NOT added
+      expect(component.filesToUpload()[1]).toBeUndefined();
     });
   });
 

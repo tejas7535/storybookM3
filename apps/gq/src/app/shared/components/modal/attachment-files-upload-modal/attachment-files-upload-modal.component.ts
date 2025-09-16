@@ -79,15 +79,19 @@ export class AttachmentFilesUploadModalComponent {
   });
 
   handleFileInput(event: Event) {
+    const input = event.target as HTMLInputElement;
     event.preventDefault();
     const inputElement = event.target as HTMLInputElement;
     const fileList: FileList | null = inputElement.files;
 
-    this.handleFileSelection(fileList);
+    const files = this.filterAlreadyAddedFiles(fileList);
+    this.handleFileSelection(files);
+    input.value = '';
   }
 
-  handleDroppedFiles(files: FileList) {
+  handleDroppedFiles(fileList: FileList) {
     // Call the common function to handle dropped files
+    const files = this.filterAlreadyAddedFiles(fileList);
     this.handleFileSelection(files);
   }
 
@@ -115,15 +119,14 @@ export class AttachmentFilesUploadModalComponent {
     this.dialogRef.close();
   }
 
-  private handleFileSelection(fileList: FileList) {
+  private handleFileSelection(fileList: File[]) {
     // combine inputArray and files that are about to be uploaded
     const fileNamesArray = [
       ...this.filesToUpload().map((file) => file.file.name),
       ...this.modalData.fileNames(),
     ].map((fileName) => fileName.toLocaleLowerCase());
 
-    // eslint-disable-next-line unicorn/prefer-spread
-    Array.from(fileList).forEach((file) => {
+    fileList.forEach((file) => {
       const fileToUpload: FilesToUploadDisplay = {
         file,
         sizeExceeded: file.size > this.MAX_FILE_SIZE,
@@ -169,5 +172,17 @@ export class AttachmentFilesUploadModalComponent {
         ),
       }))
     );
+  }
+
+  // do not add files that are already added to fileToUpload
+  filterAlreadyAddedFiles(fileList: FileList): File[] {
+    // eslint-disable-next-line unicorn/prefer-spread
+    return Array.from(fileList).filter((item) => {
+      const fileName = item.name.toLocaleLowerCase();
+
+      return !this.filesToUpload().some(
+        (file) => file.file.name.toLocaleLowerCase() === fileName
+      );
+    });
   }
 }
