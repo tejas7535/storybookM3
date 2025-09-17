@@ -384,7 +384,7 @@ describe('RestService', () => {
       });
 
       const req = httpMock.expectOne(
-        `${environment.baseUrl}/bearings/${encodeURIComponent(bearingId)}`
+        `${environment.baseUrl}/bearings?designation=${encodeURIComponent(bearingId)}`
       );
       expect(req.request.method).toBe('GET');
       expect(req.request.context).toEqual(withCache({ version: 'en' }));
@@ -406,7 +406,7 @@ describe('RestService', () => {
       });
 
       const req = httpMock.expectOne(
-        `${environment.baseUrl}/bearings/${encodeURIComponent(bearingId)}/measuringmethods`
+        `${environment.baseUrl}/bearings/measuringmethods?designation=${encodeURIComponent(bearingId)}`
       );
       expect(req.request.method).toBe('GET');
       expect(req.request.context).toEqual(withCache({ version: 'en' }));
@@ -430,7 +430,7 @@ describe('RestService', () => {
         });
 
       const req = httpMock.expectOne(
-        `${environment.baseUrl}/bearings/${encodeURIComponent(bearingId)}/mountingmethods`
+        `${environment.baseUrl}/bearings/mountingmethods?designation=${encodeURIComponent(bearingId)}`
       );
       expect(req.request.method).toBe('GET');
       expect(req.request.context).toEqual(withCache({ version: 'en' }));
@@ -459,7 +459,7 @@ describe('RestService', () => {
           done();
         });
 
-      const expectedUrl = `${environment.baseUrl}/bearings/${encodeURIComponent(bearingId)}/seats/${bearingSeatId}/measuringmethods/${measurementMethodId}/mountingmethods`;
+      const expectedUrl = `${environment.baseUrl}/bearings/seats/${bearingSeatId}/measuringmethods/${measurementMethodId}/mountingmethods?designation=${encodeURIComponent(bearingId)}`;
       const req = httpMock.expectOne(expectedUrl);
       expect(req.request.method).toBe('GET');
       expect(req.request.context).toEqual(withCache({ version: 'en' }));
@@ -495,7 +495,7 @@ describe('RestService', () => {
         });
 
         const req = httpMock.expectOne(
-          `${environment.baseUrl}/bearings/${encodeURIComponent(bearingId)}`
+          `${environment.baseUrl}/bearings?designation=${encodeURIComponent(bearingId)}`
         );
         req.flush(mockResponse);
       });
@@ -523,7 +523,7 @@ describe('RestService', () => {
         });
 
         const req = httpMock.expectOne(
-          `${environment.baseUrl}/bearings/${encodeURIComponent(bearingId)}`
+          `${environment.baseUrl}/bearings?designation=${encodeURIComponent(bearingId)}`
         );
         req.flush(mockResponse);
       });

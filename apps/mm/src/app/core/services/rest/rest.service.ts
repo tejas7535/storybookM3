@@ -87,7 +87,7 @@ export class RestService {
   }
 
   public fetchBearingInfo(bearingId: string): Observable<Bearing> {
-    const url = `${environment.baseUrl}/cancalculate?designation=${encodeURIComponent(bearingId)}`;
+    const url = `${environment.baseUrl}/cancalculate?designation=${bearingId}`;
 
     return this.getLoadOptions<BearingInfoResponse>(url).pipe(
       map((bearingData: BearingInfoResponse) => {
@@ -159,7 +159,7 @@ export class RestService {
   }
 
   public getBearingSeats(bearingId: string): Observable<ListValue[]> {
-    const url = `${environment.baseUrl}/bearings/${encodeURIComponent(bearingId)}`;
+    const url = `${environment.baseUrl}/bearings?designation=${bearingId}`;
 
     return this.getLoadOptions<BearingSeatsResponse>(url).pipe(
       map((response) => this.mapToListValues(response.bearingSeats))
@@ -167,7 +167,7 @@ export class RestService {
   }
 
   public getMeasurementMethods(bearingId: string): Observable<ListValue[]> {
-    const url = `${environment.baseUrl}/bearings/${encodeURIComponent(bearingId)}/measuringmethods`;
+    const url = `${environment.baseUrl}/bearings/measuringmethods?designation=${bearingId}`;
 
     return this.getLoadOptions<SimpleListResponse>(url).pipe(
       map((response) => this.mapToListValues(response))
@@ -177,7 +177,7 @@ export class RestService {
   public getThermalBearingMountingMethods(
     bearingId: string
   ): Observable<ListValue[]> {
-    const url = `${environment.baseUrl}/bearings/${encodeURIComponent(bearingId)}/mountingmethods`;
+    const url = `${environment.baseUrl}/bearings/mountingmethods?designation=${bearingId}`;
 
     return this.getLoadOptions<SimpleListResponse>(url).pipe(
       map((response) => this.mapToListValues(response))
@@ -189,8 +189,7 @@ export class RestService {
     bearingSeatId: string,
     measurementMethodId: string
   ): Observable<ListValue[]> {
-    const encodedBearingId = encodeURIComponent(bearingId);
-    const url = `${environment.baseUrl}/bearings/${encodedBearingId}/seats/${bearingSeatId}/measuringmethods/${measurementMethodId}/mountingmethods`;
+    const url = `${environment.baseUrl}/bearings/seats/${bearingSeatId}/measuringmethods/${measurementMethodId}/mountingmethods?designation=${bearingId}`;
 
     return this.getLoadOptions<SimpleListResponse>(url).pipe(
       map((response) => this.mapToListValues(response))
