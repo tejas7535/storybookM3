@@ -198,12 +198,6 @@ describe('AppComponent', () => {
           expect(globalFacade.initGlobal).toHaveBeenCalled();
         });
 
-        it('should not call initial navigation if not standalone', () => {
-          component.ngOnInit();
-
-          expect(router.initialNavigation).not.toHaveBeenCalled();
-        });
-
         it('should replace the state and subscribe to navigation skipped', () => {
           component.ngOnInit();
 

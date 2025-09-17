@@ -160,8 +160,7 @@ export class AppComponent
 
     if (
       !this.router.getCurrentNavigation() &&
-      !this.router.lastSuccessfulNavigation &&
-      this.isStandalone()
+      !this.router.lastSuccessfulNavigation
     ) {
       this.router.initialNavigation();
     }
