@@ -5,9 +5,9 @@ import { combineLatest, map, Observable } from 'rxjs';
 
 import { QuotationKpiSimulationActions } from '@gq/core/store/active-case/quotation-kpi-simulation/quotation-kpi-simulation.action';
 import { ShipToPartyFacade } from '@gq/core/store/ship-to-party/ship-to-party.facade';
+import { Tab } from '@gq/process-case-view/tabs/tabs-header/tab.model';
 import { PriceSourceOptions } from '@gq/shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
-import { Tab } from '@gq/shared/components/tabs-header/tab.model';
 import {
   Coefficients,
   Customer,

@@ -1,7 +1,7 @@
 import { AppRoutePath } from '@gq/app-route-path.enum';
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
+import { Tab } from '@gq/process-case-view/tabs/tabs-header/tab.model';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
-import { Tab } from '@gq/shared/components/tabs-header/tab.model';
 import {
   Coefficients,
   Quotation,

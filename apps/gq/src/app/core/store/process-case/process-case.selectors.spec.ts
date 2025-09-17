@@ -13,6 +13,7 @@ describe('Process Case Selector', () => {
       ...initialState,
       addMaterialRowData: initialState.addMaterialRowData,
       validationLoading: false,
+      tableIsFullscreen: initialState.tableIsFullscreen,
     },
     activeCase: {
       customer: {} as unknown as Customer,
@@ -113,6 +114,27 @@ describe('Process Case Selector', () => {
       };
       expect(
         quotationSelectors.getAddMaterialRowDataValid.projector(
+          mockState.processCase as unknown as ProcessCaseState
+        )
+      ).toBeTruthy();
+    });
+  });
+
+  describe('getTableIsFullscreen', () => {
+    test('should return false', () => {
+      expect(
+        quotationSelectors.getTableIsFullscreen.projector(fakeState.processCase)
+      ).toBeFalsy();
+    });
+    test('should return true', () => {
+      const mockState = {
+        processCase: {
+          ...initialState,
+          tableIsFullscreen: true,
+        },
+      };
+      expect(
+        quotationSelectors.getTableIsFullscreen.projector(
           mockState.processCase as unknown as ProcessCaseState
         )
       ).toBeTruthy();

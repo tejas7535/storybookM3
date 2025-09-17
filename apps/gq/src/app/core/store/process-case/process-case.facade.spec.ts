@@ -26,6 +26,18 @@ describe('ProcessCaseFacade', () => {
     actions$ = spectator.inject(Actions);
   });
 
+  describe('selectors', () => {
+    test('should select tableIsFullscreen', () => {
+      const expected = true;
+      mockStore.setState({
+        processCase: {
+          tableIsFullscreen: expected,
+        },
+      });
+      expect(facade.tableIsFullscreen()).toBe(expected);
+    });
+  });
+
   describe('methods', () => {
     describe('addNewItemsToMaterialTable', () => {
       test('should dispatch addNewItemsToMaterialTable action', () => {
@@ -56,6 +68,16 @@ describe('ProcessCaseFacade', () => {
             item: recentData,
             revalidate,
           })
+        );
+      });
+    });
+
+    describe('toggleTableFullscreenView', () => {
+      test('should dispatch toggleTableFullscreenView action', () => {
+        const spy = jest.spyOn(mockStore, 'dispatch');
+        facade.toggleTableFullscreenView();
+        expect(spy).toHaveBeenCalledWith(
+          ProcessCaseActions.toggleTableFullscreenView()
         );
       });
     });

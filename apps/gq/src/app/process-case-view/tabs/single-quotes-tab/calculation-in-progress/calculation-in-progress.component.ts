@@ -16,6 +16,8 @@ export class CalculationInProgressComponent implements OnInit {
   private readonly translationLoadedSubject: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
+  private readonly translocoService: TranslocoService =
+    inject(TranslocoService);
 
   public imagePath: string;
   public translationSource = '';
@@ -24,8 +26,6 @@ export class CalculationInProgressComponent implements OnInit {
 
   @Input() amountDetails: number;
   @Input() sapCallInProgress: SapCallInProgress;
-
-  constructor(private readonly translocoService: TranslocoService) {}
 
   reload(): void {
     window.location.reload();

@@ -14,8 +14,8 @@ const routes: Routes = [
       {
         path: ProcessCaseRoutePath.SingleQuotesPath,
         loadChildren: () =>
-          import('./tabs/single-quotes-tab/single-quotes-tab.module').then(
-            (m) => m.SingleQuotesTabModule
+          import('./tabs/single-quotes-tab/single-quotes-tab.routes').then(
+            (m) => m.routes
           ),
       },
       {

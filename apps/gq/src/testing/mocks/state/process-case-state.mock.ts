@@ -4,4 +4,5 @@ export const PROCESS_CASE_STATE_MOCK: ProcessCaseState = {
   addMaterialRowData: [],
   validationLoading: false,
   errorMessage: undefined,
+  tableIsFullscreen: false,
 };

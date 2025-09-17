@@ -301,6 +301,19 @@ describe('Process Case Reducer', () => {
     });
   });
 
+  describe('toggleTableFullscreenView', () => {
+    test('should toggle tableIsFullscreen', () => {
+      const action = ProcessCaseActions.toggleTableFullscreenView();
+
+      const state = processCaseFeature.reducer(PROCESS_CASE_STATE_MOCK, action);
+
+      expect(state).toEqual({
+        ...PROCESS_CASE_STATE_MOCK,
+        tableIsFullscreen: !PROCESS_CASE_STATE_MOCK.tableIsFullscreen,
+      });
+    });
+  });
+
   describe('clearRowData', () => {
     test('should clearRowData', () => {
       const action = ProcessCaseActions.clearRowData();

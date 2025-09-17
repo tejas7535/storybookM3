@@ -5,7 +5,8 @@ import { map, Observable } from 'rxjs';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { RolesFacade } from '@gq/core/store/facades/roles.facade';
-import { Tab } from '@gq/shared/components/tabs-header/tab.model';
+import { ProcessCaseFacade } from '@gq/core/store/process-case/process-case.facade';
+import { Tab } from '@gq/process-case-view/tabs/tabs-header/tab.model';
 import { TagType } from '@gq/shared/models';
 import { Quotation } from '@gq/shared/models/quotation/quotation.model';
 import { SAP_SYNC_STATUS } from '@gq/shared/models/quotation-detail/sap-sync-status.enum';
@@ -30,10 +31,14 @@ export class ProcessCaseViewComponent implements OnDestroy {
   private readonly rolesFacade: RolesFacade = inject(RolesFacade);
   private readonly activeCaseFacade: ActiveCaseFacade =
     inject(ActiveCaseFacade);
-
   private readonly featureToggleService: FeatureToggleConfigService = inject(
     FeatureToggleConfigService
   );
+
+  private readonly processCaseFacade: ProcessCaseFacade =
+    inject(ProcessCaseFacade);
+
+  readonly tableIsFullscreen = this.processCaseFacade.tableIsFullscreen;
 
   showCalcInProgress$ = this.activeCaseFacade.quotationCalculationInProgress$;
   quotationDetailDeletionInProgress$ =
@@ -70,6 +75,9 @@ export class ProcessCaseViewComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.approvalFacade.stopApprovalCockpitDataPolling();
+    if (this.tableIsFullscreen()) {
+      this.processCaseFacade.toggleTableFullscreenView();
+    }
   }
 
   updateQuotation(updateQuotationRequest: UpdateQuotationRequest) {

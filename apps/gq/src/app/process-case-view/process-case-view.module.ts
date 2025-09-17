@@ -27,7 +27,6 @@ import { TagComponent } from '@schaeffler/tag';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { StatusCustomerInfoHeaderModule } from '../../app/shared/components/header/status-customer-info-header/status-customer-info-header.module';
-import { TabsHeaderModule } from '../../app/shared/components/tabs-header/tabs-header.module';
 import { AddMaterialDialogModule } from './add-material-dialog/add-material-dialog.module';
 import { CancelWorkflowButtonComponent } from './cancel-workflow-button/cancel-workflow-button.component';
 import { CancelWorkflowModalComponent } from './cancel-workflow-button/cancel-workflow-modal/cancel-workflow-modal.component';
@@ -36,6 +35,7 @@ import { ProcessCaseViewComponent } from './process-case-view.component';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
 import { ReleaseButtonComponent } from './release-button/release-button.component';
 import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calculation-in-progress/calculation-in-progress.component';
+import { TabsHeaderComponent } from './tabs/tabs-header/tabs-header.component';
 @NgModule({
   declarations: [
     ProcessCaseViewComponent,
@@ -67,7 +67,7 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     ReactiveFormsModule,
     OverviewCasesModule,
     SubheaderModule,
-    TabsHeaderModule,
+    TabsHeaderComponent,
     StatusCustomerInfoHeaderModule,
     SharedDirectivesModule,
     DialogHeaderModule,

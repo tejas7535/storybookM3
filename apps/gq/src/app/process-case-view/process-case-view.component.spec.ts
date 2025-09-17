@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 
 import { BehaviorSubject, of } from 'rxjs';
 
@@ -6,6 +6,7 @@ import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade'
 import { QuotationIdentifier } from '@gq/core/store/active-case/models/quotation-identifier.model';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { RolesFacade } from '@gq/core/store/facades/roles.facade';
+import { ProcessCaseFacade } from '@gq/core/store/process-case';
 import { TagType } from '@gq/shared/models';
 import { ApprovalWorkflowInformation } from '@gq/shared/models/approval/approval-cockpit-data.model';
 import { Quotation } from '@gq/shared/models/quotation/quotation.model';
@@ -71,6 +72,10 @@ describe('ProcessCaseViewComponent', () => {
         updateQuotation: jest.fn(),
       }),
       MockProvider(RolesFacade),
+      MockProvider(ProcessCaseFacade, {
+        tableIsFullscreen: signal(false),
+        toggleTableFullscreenView: jest.fn(),
+      }),
     ],
 
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -147,6 +152,40 @@ describe('ProcessCaseViewComponent', () => {
       component.ngOnDestroy();
 
       expect(stopApprovalCockpitDataPolling).toHaveBeenCalled();
+    });
+
+    test('should call toggleTableFullscreenView if tableIsFullscreen is true', () => {
+      const toggleTableFullscreenView = jest.fn();
+
+      Object.defineProperty(component, 'processCaseFacade', {
+        value: { toggleTableFullscreenView },
+      });
+      Object.defineProperty(component, 'tableIsFullscreen', {
+        value: signal(true),
+      });
+
+      component.ngOnDestroy();
+
+      expect(
+        component['processCaseFacade'].toggleTableFullscreenView
+      ).toHaveBeenCalled();
+    });
+
+    test('should not call toggleTableFullscreenView if tableIsFullscreen is false', () => {
+      const toggleTableFullscreenView = jest.fn();
+
+      Object.defineProperty(component, 'processCaseFacade', {
+        value: { toggleTableFullscreenView },
+      });
+      Object.defineProperty(component, 'tableIsFullscreen', {
+        value: signal(false),
+      });
+
+      component.ngOnDestroy();
+
+      expect(
+        component['processCaseFacade'].toggleTableFullscreenView
+      ).not.toHaveBeenCalled();
     });
   });
 

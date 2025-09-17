@@ -75,3 +75,8 @@ export const getAddMaterialRowDataValid = createSelector(
     return rowDataValid;
   }
 );
+
+export const getTableIsFullscreen = createSelector(
+  processCaseFeature.selectProcessCaseState,
+  (state: ProcessCaseState): boolean => state.tableIsFullscreen
+);

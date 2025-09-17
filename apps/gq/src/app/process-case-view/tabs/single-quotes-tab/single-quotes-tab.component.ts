@@ -1,23 +1,41 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 
 import { combineLatest, map, take } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module';
+import { ProcessCaseFacade } from '@gq/core/store/process-case/process-case.facade';
+import { OverlayComponent } from '@gq/f-pricing/pricing-assistant-modal/overlay/overlay.component';
 import { ColumnDefService } from '@gq/process-case-view/quotation-details-table/config/column-def.service';
+import { QuotationDetailsTableModule } from '@gq/process-case-view/quotation-details-table/quotation-details-table.module';
+import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { FILTER_PARAM_INDICATOR } from '@gq/shared/constants';
+import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { Quotation } from '@gq/shared/models';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { translate } from '@jsverse/transloco';
+import { LetDirective, PushPipe } from '@ngrx/component';
 
-import { ViewToggle } from '@schaeffler/view-toggle';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { ViewToggle, ViewToggleModule } from '@schaeffler/view-toggle';
 
 import { AddCustomViewModalComponent } from './add-custom-view-modal/add-custom-view-modal.component';
 import { DeleteCustomViewModalComponent } from './delete-custom-view-modal/delete-custom-view-modal.component';
@@ -26,7 +44,27 @@ import { DeleteCustomViewModalComponent } from './delete-custom-view-modal/delet
   selector: 'gq-single-quotes-tab',
   templateUrl: './single-quotes-tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatRadioModule,
+    ActiveCaseModule,
+    QuotationDetailsTableModule,
+    PushPipe,
+    SharedTranslocoModule,
+    LoadingSpinnerModule,
+    ViewToggleModule,
+    SharedDirectivesModule,
+    DialogHeaderModule,
+    LetDirective,
+    OverlayComponent,
+  ],
 })
 export class SingleQuotesTabComponent implements OnInit, OnDestroy {
   private readonly activeCaseFacade: ActiveCaseFacade =
@@ -43,6 +81,19 @@ export class SingleQuotesTabComponent implements OnInit, OnDestroy {
   private readonly DELETE_ICON = 'delete';
   private readonly routeSnapShot: ActivatedRouteSnapshot =
     this.activatedRoute.snapshot;
+
+  private readonly processCaseFacade: ProcessCaseFacade =
+    inject(ProcessCaseFacade);
+
+  readonly toggleFullscreenTableIcon = computed(() =>
+    this.processCaseFacade.tableIsFullscreen()
+      ? 'collapse_content'
+      : 'expand_content'
+  );
+
+  toggleTableFullscreenView(): void {
+    this.processCaseFacade.toggleTableFullscreenView();
+  }
 
   dataLoading$ = combineLatest([
     this.activeCaseFacade.quotationDetailUpdating$,

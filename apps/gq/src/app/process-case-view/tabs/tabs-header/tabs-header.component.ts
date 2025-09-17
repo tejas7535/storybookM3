@@ -1,10 +1,19 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   Input,
   ViewChild,
 } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
+import { MatTabsModule } from '@angular/material/tabs';
+import { RouterModule } from '@angular/router';
+
+import { ProcessCaseFacade } from '@gq/core/store/process-case/process-case.facade';
+import { ContextMenuModule } from '@gq/shared/components/contextMenu/context-menu.module';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { Tab } from './tab.model';
 
@@ -12,11 +21,22 @@ import { Tab } from './tab.model';
   selector: 'gq-tabs-header',
   templateUrl: './tabs-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    CommonModule,
+    MatTabsModule,
+    SharedTranslocoModule,
+    RouterModule,
+    MatMenuModule,
+    ContextMenuModule,
+  ],
 })
 export class TabsHeaderComponent {
   @Input() tabs: Tab[];
   @ViewChild(MatMenuTrigger) public contextMenu: MatMenuTrigger;
+
+  private readonly processCaseFacade = inject(ProcessCaseFacade);
+
+  readonly tableIsFullscreen = this.processCaseFacade.tableIsFullscreen;
 
   public contextMenuPosition: { x: number; y: number } = { x: 0, y: 0 };
 

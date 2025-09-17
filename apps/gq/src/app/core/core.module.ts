@@ -116,6 +116,8 @@ export class CoreModule {
 
   public registerGQIcons(): void {
     const iconSet: Record<string, string> = {
+      collapse_content: 'collapse_content.svg',
+      expand_content: 'expand_content.svg',
       keep: 'keep.svg',
       keep_off: 'keep_off.svg',
       timer: 'timer.svg',

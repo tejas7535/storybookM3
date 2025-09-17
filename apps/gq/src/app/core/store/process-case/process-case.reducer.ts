@@ -12,12 +12,14 @@ export interface ProcessCaseState {
   addMaterialRowData: MaterialTableItem[];
   validationLoading: boolean;
   errorMessage: string;
+  tableIsFullscreen: boolean;
 }
 
 export const initialState: ProcessCaseState = {
   addMaterialRowData: [],
   validationLoading: false,
   errorMessage: undefined,
+  tableIsFullscreen: false,
 };
 
 export const processCaseFeature = createFeature({
@@ -111,6 +113,13 @@ export const processCaseFeature = createFeature({
           };
         }),
         validationLoading: false,
+      })
+    ),
+    on(
+      ProcessCaseActions.toggleTableFullscreenView,
+      (state: ProcessCaseState): ProcessCaseState => ({
+        ...state,
+        tableIsFullscreen: !state.tableIsFullscreen,
       })
     )
   ),

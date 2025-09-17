@@ -1,12 +1,19 @@
 <ng-container *ngrxLet="dataLoading$ as loading">
   <div class="p-4 w-full h-full">
-    <div class="w-full overflow-x-auto">
-      <schaeffler-view-toggle
-        [views]="customViews$ | ngrxPush"
-        (selectionChange)="onViewToggle($event)"
-        (iconClicked)="onViewToggleIconClicked($event)"
-        (viewToggleDoubleClicked)="onViewToggleDoubleClicked($event)"
-      ></schaeffler-view-toggle>
+    <div class="flex justify-between w-full">
+      <div class="overflow-x-auto">
+        <schaeffler-view-toggle
+          [views]="customViews$ | ngrxPush"
+          (selectionChange)="onViewToggle($event)"
+          (iconClicked)="onViewToggleIconClicked($event)"
+          (viewToggleDoubleClicked)="onViewToggleDoubleClicked($event)"
+        ></schaeffler-view-toggle>
+      </div>
+      <mat-icon
+        (click)="toggleTableFullscreenView()"
+        [svgIcon]="toggleFullscreenTableIcon()"
+        class="cursor-pointer mat-icon flex-shrink-0 ml-2"
+      ></mat-icon>
     </div>
     <gq-quotation-details-table
       [quotation]="quotation$ | ngrxPush"

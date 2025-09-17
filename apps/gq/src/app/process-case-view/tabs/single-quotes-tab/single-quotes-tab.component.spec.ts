@@ -1,22 +1,22 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ActivatedRoute, provideRouter } from '@angular/router';
+import { CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 
 import { BehaviorSubject, of } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { ProcessCaseFacade } from '@gq/core/store/process-case/process-case.facade';
 import { ColumnDefService } from '@gq/process-case-view/quotation-details-table/config/column-def.service';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushPipe } from '@ngrx/component';
-import { MockProvider } from 'ng-mocks';
+import { MockBuilder } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { ViewToggle } from '@schaeffler/view-toggle';
 
 import { AddCustomViewModalComponent } from './add-custom-view-modal/add-custom-view-modal.component';
+import { DeleteCustomViewModalComponent } from './delete-custom-view-modal/delete-custom-view-modal.component';
 import { SingleQuotesTabComponent } from './single-quotes-tab.component';
 
 jest.mock('@jsverse/transloco', () => ({
@@ -30,55 +30,65 @@ describe('SingleQuotesTab', () => {
     let component: SingleQuotesTabComponent;
     let spectator: Spectator<SingleQuotesTabComponent>;
     let matDialog: MatDialog;
+    let processCaseFacade: ProcessCaseFacade;
     const quotationDetailUpdating$ = new BehaviorSubject<boolean>(false);
     const quotationLoading$ = new BehaviorSubject<boolean>(false);
 
-    const createComponent = createComponentFactory({
-      component: SingleQuotesTabComponent,
-      imports: [
-        provideTranslocoTestingModule({ en: {} }),
-        PushPipe,
-        MatDialogModule,
-      ],
-      providers: [
-        MockProvider(ActiveCaseFacade, {
-          quotationDetailUpdating$,
-          quotationLoading$,
-        }),
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              queryParamMap: {
-                get: jest.fn().mockReturnValue('gq123'),
-
-                keys: { filter: jest.fn().mockReturnValue(['filter_key1']) },
-              },
+    const dependencies = MockBuilder(SingleQuotesTabComponent)
+      .mock(ActiveCaseFacade, {
+        quotationDetailUpdating$,
+        quotationLoading$,
+      })
+      .mock(ColumnDefService, {
+        COLUMN_DEFS: [
+          {
+            field: 'key1',
+            filter: 'agSetColumnFilter',
+            filterParams: {
+              values: ['gq123'],
+            },
+          },
+        ],
+      })
+      .mock(AgGridStateService, {
+        init: jest.fn(),
+        setActiveView: jest.fn(),
+        setColumnFilterForCurrentView: jest.fn(),
+        resetFilterModelsOfDefaultView: jest.fn(),
+        clearDefaultViewColumnAndFilterState: jest.fn(),
+        DEFAULT_VIEW_ID: 1,
+        views$: viewsSubject.asObservable(),
+        views$$: viewsSubject,
+      } as unknown as AgGridStateService)
+      .provide({
+        provide: ActivatedRoute,
+        useValue: {
+          snapshot: {
+            queryParamMap: {
+              get: jest.fn().mockReturnValue('gq123'),
+              keys: { filter: jest.fn().mockReturnValue(['filter_key1']) },
             },
           },
         },
-        MockProvider(ColumnDefService, {
-          COLUMN_DEFS: [
-            {
-              field: 'key1',
-              filter: 'agSetColumnFilter',
-              filterParams: {
-                values: ['gq123'],
-              },
-            },
-          ],
+      })
+      .mock(ProcessCaseFacade, {
+        tableIsFullscreen: signal(false),
+        toggleTableFullscreenView: jest.fn(),
+      })
+      .mock(MatDialog, {
+        open: jest.fn().mockReturnValue({
+          afterClosed: jest.fn().mockReturnValue(of(null)),
+          close: jest.fn(),
+          componentInstance: {},
         }),
-        MockProvider(AgGridStateService, {
-          init: jest.fn(),
-          setActiveView: jest.fn(),
-          setColumnFilterForCurrentView: jest.fn(),
-          resetFilterModelsOfDefaultView: jest.fn(),
-          clearDefaultViewColumnAndFilterState: jest.fn(),
-          DEFAULT_VIEW_ID: 1,
-          views$: viewsSubject.asObservable(),
-          views$$: viewsSubject,
-        } as unknown as AgGridStateService),
-      ],
+      })
+      .mock(AddCustomViewModalComponent)
+      .mock(DeleteCustomViewModalComponent)
+      .build();
+
+    const createComponent = createComponentFactory({
+      component: SingleQuotesTabComponent,
+      ...dependencies,
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
 
@@ -86,6 +96,7 @@ describe('SingleQuotesTab', () => {
       spectator = createComponent();
       component = spectator.debugElement.componentInstance;
       matDialog = spectator.inject(MatDialog);
+      processCaseFacade = spectator.inject(ProcessCaseFacade);
 
       quotationDetailUpdating$.next(false);
       quotationLoading$.next(false);
@@ -222,9 +233,12 @@ describe('SingleQuotesTab', () => {
 
       test('should handle delete icon', () => {
         component['gridStateService'].deleteView = jest.fn();
-        matDialog.open = jest.fn().mockReturnValue({
+
+        jest.spyOn(matDialog, 'open').mockReturnValue({
           afterClosed: jest.fn().mockReturnValue(of({ delete: true })),
-        });
+          close: jest.fn(),
+          componentInstance: {},
+        } as any);
 
         component.onViewToggleIconClicked({ viewId: 2, iconName: 'delete' });
 
@@ -363,56 +377,69 @@ describe('SingleQuotesTab', () => {
         })
       );
     });
+
+    describe('Toggle Table Fullscreen View', () => {
+      test('should call facade method to toggle fullscreen mode', () => {
+        component.toggleTableFullscreenView();
+
+        expect(processCaseFacade.toggleTableFullscreenView).toHaveBeenCalled();
+      });
+
+      test('should return expand_content icon when table is not in fullscreen mode', () => {
+        expect(component.toggleFullscreenTableIcon()).toBe('expand_content');
+      });
+
+      test('should return collapse_content icon when table is in fullscreen mode', () => {
+        (processCaseFacade.tableIsFullscreen as any) = signal(true);
+        expect(component.toggleFullscreenTableIcon()).toBe('collapse_content');
+      });
+    });
   });
 
   describe('SingleQuotesTab Without Filter params', () => {
     let component: SingleQuotesTabComponent;
     let spectator: Spectator<SingleQuotesTabComponent>;
 
-    const createComponent = createComponentFactory({
-      component: SingleQuotesTabComponent,
-      imports: [
-        provideTranslocoTestingModule({ en: {} }),
-        PushPipe,
-        MatDialogModule,
-      ],
-      providers: [
-        provideRouter([]),
-        MockProvider(ActiveCaseFacade),
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              queryParamMap: {
-                get: jest.fn().mockReturnValue('gq123'),
-
-                keys: { filter: jest.fn().mockReturnValue([]) },
-              },
+    const dependencies = MockBuilder(SingleQuotesTabComponent)
+      .mock(ActiveCaseFacade)
+      .mock(ProcessCaseFacade)
+      .mock(ColumnDefService, {
+        COLUMN_DEFS: [
+          {
+            field: 'key1',
+            filter: 'agSetColumnFilter',
+            filterParams: {
+              values: ['gq123'],
+            },
+          },
+        ],
+      })
+      .mock(AgGridStateService, {
+        init: jest.fn(),
+        setActiveView: jest.fn(),
+        setColumnFilterForCurrentView: jest.fn(),
+        resetFilterModelsOfDefaultView: jest.fn(),
+        clearDefaultViewColumnAndFilterState: jest.fn(),
+        DEFAULT_VIEW_ID: 1,
+        views$: viewsSubject.asObservable(),
+        views$$: viewsSubject,
+      } as unknown as AgGridStateService)
+      .provide({
+        provide: ActivatedRoute,
+        useValue: {
+          snapshot: {
+            queryParamMap: {
+              get: jest.fn().mockReturnValue('gq123'),
+              keys: { filter: jest.fn().mockReturnValue([]) },
             },
           },
         },
-        MockProvider(ColumnDefService, {
-          COLUMN_DEFS: [
-            {
-              field: 'key1',
-              filter: 'agSetColumnFilter',
-              filterParams: {
-                values: ['gq123'],
-              },
-            },
-          ],
-        }),
-        MockProvider(AgGridStateService, {
-          init: jest.fn(),
-          setActiveView: jest.fn(),
-          setColumnFilterForCurrentView: jest.fn(),
-          resetFilterModelsOfDefaultView: jest.fn(),
-          clearDefaultViewColumnAndFilterState: jest.fn(),
-          DEFAULT_VIEW_ID: 1,
-          views$: viewsSubject.asObservable(),
-        } as unknown as AgGridStateService),
-      ],
+      })
+      .build();
 
+    const createComponent = createComponentFactory({
+      component: SingleQuotesTabComponent,
+      ...dependencies,
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
     beforeEach(() => {

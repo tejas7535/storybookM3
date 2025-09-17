@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -6,6 +7,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { ProcessCaseFacade } from '@gq/core/store/process-case';
 // eslint-disable-next-line no-restricted-imports
 import { createMouseEvent } from '@ngneat/spectator';
 import {
@@ -42,6 +44,7 @@ describe('TabsHeaderComponent', () => {
       mockProvider(MouseEvent, {
         preventDefault: jest.fn(),
       }),
+      mockProvider(ProcessCaseFacade, { tableIsFullscreen: signal(false) }),
     ],
     declarations: [TabsHeaderComponent],
   });

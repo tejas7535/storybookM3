@@ -4,12 +4,16 @@ import { MaterialTableItem } from '@gq/shared/models/table/material-table-item-m
 import { Store } from '@ngrx/store';
 
 import { ProcessCaseActions } from './process-case.action';
+import { getTableIsFullscreen } from './process-case.selectors';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProcessCaseFacade {
   private readonly store: Store = inject(Store);
+
+  readonly tableIsFullscreen = this.store.selectSignal(getTableIsFullscreen);
+
   // #################################################################
   // ############################# methods ###########################
   // #################################################################
@@ -33,5 +37,9 @@ export class ProcessCaseFacade {
 
   validateMaterialTableItems(): void {
     this.store.dispatch(ProcessCaseActions.validateMaterialTableItems());
+  }
+
+  toggleTableFullscreenView(): void {
+    this.store.dispatch(ProcessCaseActions.toggleTableFullscreenView());
   }
 }

@@ -17,5 +17,6 @@ export const ProcessCaseActions = createActionGroup({
     'Validate Material Table Items Success': props<{
       materialValidations: MaterialValidation[];
     }>(),
+    'Toggle Table Fullscreen View': emptyProps(),
   },
 });
