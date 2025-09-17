@@ -1,6 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
+import { of } from 'rxjs';
+
+import { RolesFacade } from '@gq/core/store/facades';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
@@ -20,6 +23,12 @@ describe('RfqPositionDetailsComponent', () => {
       {
         provide: MAT_DIALOG_DATA,
         useValue: { gqpPositionId: '123' },
+      },
+      {
+        provide: RolesFacade,
+        useValue: {
+          userHasSQVRole$: of(true),
+        },
       },
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

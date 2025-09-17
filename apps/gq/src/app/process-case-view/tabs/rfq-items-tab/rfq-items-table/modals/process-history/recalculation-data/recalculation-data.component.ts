@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, InputSignal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatDialogContent } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { RolesFacade } from '@gq/core/store/facades';
 import { RfqProcessHistory } from '@gq/core/store/rfq-4-process/model/process-history.model';
 import { InfoBannerComponent } from '@gq/shared/components/info-banner/info-banner.component';
 import { ActiveDirectoryUser, QuotationDetail } from '@gq/shared/models';
@@ -41,6 +43,8 @@ export class RecalculationDataComponent {
 
   private readonly activeCaseFacade: ActiveCaseFacade =
     inject(ActiveCaseFacade);
+  private readonly rolesFacade = inject(RolesFacade);
+  hasSqvRole = toSignal(this.rolesFacade.userHasSQVRole$);
   quotationCurrency$: Observable<string> =
     this.activeCaseFacade.quotationCurrency$;
 

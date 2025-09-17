@@ -9,6 +9,7 @@ import {
   ColumnUtilityService,
   LocalizationService,
 } from '@gq/shared/ag-grid/services';
+import { UserRoles } from '@gq/shared/constants/user-roles.enum';
 import { Quotation } from '@gq/shared/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import { UserSettingsService } from '@gq/shared/services/rest/user-settings/user-settings.service';
@@ -433,7 +434,46 @@ describe('QuotationDetailsTableComponent', () => {
     );
 
     test(
-      'should NOT remove RFQ Columns if quotation has  RFQ materials',
+      'should NOT remove RFQ Columns if quotation has RFQ materials and user has SQV role',
+      marbles((m) => {
+        const mockColDefs: ColDef[] = [
+          {
+            field: ColumnFields.SQV_RFQ,
+          },
+          {
+            field: ColumnFields.GPM_RFQ,
+          },
+          {
+            field: ColumnFields.PRICING_ASSISTANT,
+          },
+          {
+            field: ColumnFields.DATE_NEXT_FREE_ATP,
+          },
+        ];
+        component['columnDefinitionService'].COLUMN_DEFS = mockColDefs;
+        store.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [UserRoles.COST_SQV],
+              },
+            },
+          },
+        });
+        component['activeCaseFacade'].quotationHasRfqMaterials$ = of(true);
+
+        component.ngOnInit();
+
+        m.expect(component.columnDefs$).toBeObservable(
+          m.cold('a', {
+            a: mockColDefs,
+          })
+        );
+      })
+    );
+
+    test(
+      'should remove RFQ Columns if user has NO SQV role',
       marbles((m) => {
         const mockColDefs: ColDef[] = [
           {
@@ -459,13 +499,19 @@ describe('QuotationDetailsTableComponent', () => {
             },
           },
         });
-        component['activeCaseFacade'].quotationHasRfqMaterials$ = of(true);
 
         component.ngOnInit();
 
         m.expect(component.columnDefs$).toBeObservable(
           m.cold('a', {
-            a: mockColDefs,
+            a: [
+              {
+                field: ColumnFields.PRICING_ASSISTANT,
+              },
+              {
+                field: ColumnFields.DATE_NEXT_FREE_ATP,
+              },
+            ],
           })
         );
       })

@@ -51,21 +51,21 @@
               }}</span>
             </div>
           </div>
-        }
-        @if (gpmRfq()) {
-          <div class="min-w-[8rem] pt-2">
-            <div
-              class="text-body-medium text-on-surface-variant mb-1"
-              data-cy="rfq-gpm-label"
-            >
-              {{ t('gpmRfq') }}:
+          @if (gpmRfq()) {
+            <div class="min-w-[8rem] pt-2">
+              <div
+                class="text-body-medium text-on-surface-variant mb-1"
+                data-cy="rfq-gpm-label"
+              >
+                {{ t('gpmRfq') }}:
+              </div>
+              <div>
+                <span class="font-bold" data-cy="rfq-gpm-value">{{
+                  gpmRfq() | percentage: false
+                }}</span>
+              </div>
             </div>
-            <div>
-              <span class="font-bold" data-cy="rfq-gpm-value">{{
-                gpmRfq() | percentage: false
-              }}</span>
-            </div>
-          </div>
+          }
         }
         <div class="min-w-[8rem] pt-2">
           <div

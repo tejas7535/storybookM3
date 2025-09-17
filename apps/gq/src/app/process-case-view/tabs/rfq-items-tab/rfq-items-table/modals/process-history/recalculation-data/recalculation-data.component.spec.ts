@@ -1,6 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
+import { of } from 'rxjs';
+
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { RolesFacade } from '@gq/core/store/facades';
 import {
   createComponentFactory,
   mockProvider,
@@ -22,6 +25,9 @@ describe('RecalculationDataComponent', () => {
     providers: [
       mockProvider(ActiveCaseFacade, {
         quotationCurrency$: jest.fn(() => 'EUR'),
+      }),
+      mockProvider(RolesFacade, {
+        userHasSQVRole$: of(true),
       }),
     ],
     detectChanges: false,

@@ -80,16 +80,20 @@
             [value]="processHistoryData()?.recalculationMessage"
           ></gq-recalculation-data-item>
           @if (rfq4Status() === rfq4StatusEnum.CONFIRMED) {
-            <gq-recalculation-data-item
-              class="col-span-1"
-              [caption]="t('sqvAndPriceUnit')"
-              [value]="`${quotationDetail().sqv | numberCurrency: currency} / ${quotationDetail().leadingPriceUnit} ${quotationDetail().material.baseUoM | uom}`"
-            ></gq-recalculation-data-item>
-            <gq-recalculation-data-item
-              class="col-span-1"
-              [caption]="t('sqvRfqAndPriceUnit')"
-              [value]="`${quotationDetail().rfqData?.sqv | numberCurrency: currency} / ${quotationDetail().leadingPriceUnit} ${quotationDetail().material.baseUoM | uom}`"
-            ></gq-recalculation-data-item>
+            @if (hasSqvRole()) {
+              <ng-container *ngIf="quotationDetail() as qd">
+                <gq-recalculation-data-item
+                  class="col-span-1"
+                  [caption]="t('sqvAndPriceUnit')"
+                  [value]="qd.sqv == null ? null : `${qd.sqv | numberCurrency: currency} / ${qd.leadingPriceUnit} ${qd.material.baseUoM | uom}`"
+                ></gq-recalculation-data-item>
+                <gq-recalculation-data-item
+                  class="col-span-1"
+                  [caption]="t('sqvRfqAndPriceUnit')"
+                  [value]="qd.rfqData?.sqv == null ? null : `${qd.rfqData?.sqv | numberCurrency: currency} / ${qd.leadingPriceUnit} ${qd.material.baseUoM | uom}`"
+                ></gq-recalculation-data-item>
+              </ng-container>
+            }
             <gq-recalculation-data-item
               class="col-span-1"
               [caption]="t('costLotSize')"
@@ -129,13 +133,15 @@
               [caption]="t('rfqComment')"
               [value]="processHistoryData()?.recalculationData?.comment"
             ></gq-recalculation-data-item>
-            <gq-recalculation-data-item
-              class="col-span-4"
-              [caption]="t('calculationDetails')"
-              [value]="
-                processHistoryData()?.recalculationData?.calculationDetails
-              "
-            ></gq-recalculation-data-item>
+            @if (hasSqvRole()) {
+              <gq-recalculation-data-item
+                class="col-span-4"
+                [caption]="t('calculationDetails')"
+                [value]="
+                  processHistoryData()?.recalculationData?.calculationDetails
+                "
+              ></gq-recalculation-data-item>
+            }
 
             <!-- Attachments Section -->
             <gq-process-history-attachments

@@ -80,16 +80,18 @@
               : (rfqData.deliveryUnit | undefinedToDash)
           }}</span>
         </gq-label-text>
-        <gq-label-text>
-          <span data-cy="sqv-label" label>{{ t('rfqSqv') }}</span>
-          <span data-cy="sqv-value" text>{{
-            rfqData.sqv | numberCurrency: currency
-          }}</span>
-        </gq-label-text>
-        <gq-label-text>
-          <span label>{{ t('rfqSqvSource') }}</span>
-          <span text>{{ rfqData.sqvSource | undefinedToDash }}</span>
-        </gq-label-text>
+        @if (hasSqvRole()) {
+          <gq-label-text>
+            <span data-cy="sqv-label" label>{{ t('rfqSqv') }}</span>
+            <span data-cy="sqv-value" text>{{
+              rfqData.sqv | numberCurrency: currency
+            }}</span>
+          </gq-label-text>
+          <gq-label-text>
+            <span label>{{ t('rfqSqvSource') }}</span>
+            <span text>{{ rfqData.sqvSource | undefinedToDash }}</span>
+          </gq-label-text>
+        }
       </gq-kpi-status-card>
     </div>
   }

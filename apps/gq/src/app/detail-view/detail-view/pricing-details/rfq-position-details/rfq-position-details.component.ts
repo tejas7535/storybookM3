@@ -4,8 +4,10 @@ import {
   inject,
   Input,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 
+import { RolesFacade } from '@gq/core/store/facades';
 import { RfqModalData } from '@gq/detail-view/detail-view/pricing-details/rfq-position-details/models/rfq-modal-data.model';
 import { UpdateRfqPositionDetailsComponent } from '@gq/detail-view/detail-view/pricing-details/rfq-position-details/update-rfq-position-details/update-rfq-position-details.component';
 import { SqvCheckSource } from '@gq/shared/models/quotation-detail/cost';
@@ -25,6 +27,8 @@ export class RfqPositionDetailsComponent {
   @Input() refreshButtonTooltipText: string;
 
   private readonly matDialog = inject(MatDialog);
+  private readonly rolesFacade = inject(RolesFacade);
+  hasSqvRole = toSignal(this.rolesFacade.userHasSQVRole$);
   sqvCheckSourceEnum = SqvCheckSource;
 
   updateRfqData(): void {

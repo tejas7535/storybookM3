@@ -165,7 +165,10 @@ export const RelatedKPIs = [
 
 export const SqvColumns = [
   ColumnFields.SQV,
+  ColumnFields.SQV_RFQ,
+  ColumnFields.SQV_RFQ_SOURCE,
   ColumnFields.GPM,
+  ColumnFields.GPM_RFQ,
   ColumnFields.RELOCATION_COST,
   ColumnFields.RLM,
   ColumnFields.LAST_CUSTOMER_PRICE_GPM,
