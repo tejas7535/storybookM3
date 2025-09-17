@@ -135,6 +135,27 @@
           [addClearButton]="true"
         />
 
+        <!-- productionPlant -->
+        <d360-single-autocomplete-pre-loaded
+          [form]="formGroup"
+          [control]="$any(formGroup.controls.productionPlant)"
+          [label]="t(translationStart + '.productionPlant')"
+          [optionsLoadingResult]="getOptions('productionPlant')"
+          (selectionChange)="updateForm($event, 'productionPlant')"
+          [addClearButton]="true"
+        />
+
+        <!-- row 5 -->
+        <!-- productionSegment -->
+        <d360-single-autocomplete-on-type
+          [control]="$any(formGroup.controls.productionSegment)"
+          [form]="formGroup"
+          [label]="t(translationStart + '.productionSegment')"
+          urlBegin="global-selection/production-segments"
+          (selectionChange)="updateForm($event, 'productionSegment')"
+          [addClearButton]="true"
+        />
+
         <!-- productionLine -->
         <d360-single-autocomplete-on-type
           [form]="formGroup"
@@ -145,7 +166,6 @@
           [addClearButton]="true"
         />
 
-        <!-- row 5 -->
         <!-- materialNumber -->
         <d360-single-autocomplete-on-type
           [control]="$any(formGroup.controls.materialNumber)"
@@ -291,7 +311,7 @@
             (blur)="
               updateForm(
                 {
-                  option: $any({ id: formGroup.controls.alertComment.value })
+                  option: $any({ id: formGroup.controls.alertComment.value }),
                 },
                 'alertComment'
               )

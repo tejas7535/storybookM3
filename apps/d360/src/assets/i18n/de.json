@@ -159,6 +159,8 @@
         "none": "Abwählen",
         "product_line": "Produktlinie",
         "production_line": "Produktionslinie (Zug)",
+        "productionPlant": "Produktionswerk",
+        "productionSegment": "Produktionssegment",
         "region": "Region",
         "remark": "Kommentar",
         "sales_area": "Sales Area",

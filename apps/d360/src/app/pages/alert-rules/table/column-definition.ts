@@ -37,11 +37,17 @@ export function alertRuleColumnDefinitions(
   visible: boolean;
   alwaysVisible: boolean;
 })[] {
-  const getDefaultColumn = (): ColDef & {
+  const createColumn = (
+    colId: string,
+    title: string,
+    overrides: Partial<ColDef & { alwaysVisible: boolean }> = {}
+  ): ColDef & {
     title: string;
     visible: boolean;
     alwaysVisible: boolean;
   } => ({
+    colId,
+    title,
     cellRenderer: undefined,
     filter: 'agTextColumnFilter',
     filterParams: undefined,
@@ -49,85 +55,41 @@ export function alertRuleColumnDefinitions(
     alwaysVisible: false,
     sortable: true,
     sort: null,
-    title: '',
+    ...overrides,
   });
 
   return [
-    {
-      ...getDefaultColumn(),
-      colId: 'region',
-      title: 'material_customer.column.region',
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'salesArea',
-      title: 'material_customer.column.salesArea',
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'salesOrg',
-      title: 'material_customer.column.salesOrg',
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'customerNumber',
-      title: 'material_customer.column.customerNumber',
+    createColumn('region', 'material_customer.column.region'),
+    createColumn('salesArea', 'material_customer.column.salesArea'),
+    createColumn('salesOrg', 'material_customer.column.salesOrg'),
+    createColumn('customerNumber', 'material_customer.column.customerNumber', {
       alwaysVisible: true,
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'customerName',
-      title: 'material_customer.column.customerName',
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'materialNumber',
-      title: 'material_customer.column.materialNumber',
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'materialDescription',
-      title: 'material_customer.column.materialDescription',
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'materialClassification',
-      title: 'material_customer.column.materialClassification',
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'sectorManagement',
-      title: 'material_customer.column.sectorManagement',
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'productionLine',
-      title: 'material_customer.column.productionLine',
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'productLine',
-      title: 'material_customer.column.productLine',
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'gkamNumber',
-      title: 'material_customer.column.gkamNumber',
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'gkamName',
-      title: 'material_customer.column.gkamName',
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'demandPlanner',
-      title: 'material_customer.column.demandPlanner',
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'alertComment',
-      title: 'alert_rules.edit_modal.label.remark',
+    }),
+    createColumn('customerName', 'material_customer.column.customerName'),
+    createColumn('materialNumber', 'material_customer.column.materialNumber'),
+    createColumn(
+      'materialDescription',
+      'material_customer.column.materialDescription'
+    ),
+    createColumn(
+      'materialClassification',
+      'material_customer.column.materialClassification'
+    ),
+    createColumn(
+      'sectorManagement',
+      'material_customer.column.sectorManagement'
+    ),
+    createColumn('productionLine', 'material_customer.column.productionLine'),
+    createColumn('productLine', 'material_customer.column.productLine'),
+    createColumn('productionPlant', 'material_customer.column.productionPlant'),
+    createColumn(
+      'productionSegment',
+      'material_customer.column.productionSegment'
+    ),
+    createColumn('gkamNumber', 'material_customer.column.gkamNumber'),
+    createColumn('gkamName', 'material_customer.column.gkamName'),
+    createColumn('demandPlanner', 'material_customer.column.demandPlanner'),
+    createColumn('alertComment', 'alert_rules.edit_modal.label.remark', {
       filter: undefined,
       sortable: false,
       maxWidth: 375,
@@ -138,83 +100,50 @@ export function alertRuleColumnDefinitions(
         lineBreaks: true,
         textLeft: true,
       },
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'threshold1',
-      title: 'rules.threshold1',
+    }),
+    createColumn('threshold1', 'rules.threshold1', {
       filter: 'agNumberColumnFilter',
       valueFormatter: agGridLocalizationService.numberFormatter,
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'threshold1Description',
-      title: 'rules.threshold1Description',
+    }),
+    createColumn('threshold1Description', 'rules.threshold1Description', {
       filter: undefined,
       sortable: false,
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'threshold2',
-      title: 'rules.threshold2',
+    }),
+    createColumn('threshold2', 'rules.threshold2', {
       filter: 'agNumberColumnFilter',
       valueFormatter: agGridLocalizationService.numberFormatter,
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'threshold2Description',
-      title: 'rules.threshold2Description',
+    }),
+    createColumn('threshold2Description', 'rules.threshold2Description', {
       filter: undefined,
       sortable: false,
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'threshold3',
-      title: 'rules.threshold3',
+    }),
+    createColumn('threshold3', 'rules.threshold3', {
       filter: 'agNumberColumnFilter',
       valueFormatter: agGridLocalizationService.numberFormatter,
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'threshold3Description',
-      title: 'rules.threshold3Description',
+    }),
+    createColumn('threshold3Description', 'rules.threshold3Description', {
       filter: undefined,
       sortable: false,
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'startDate',
-      title: 'rules.startDate',
+    }),
+    createColumn('startDate', 'rules.startDate', {
       valueFormatter: agGridLocalizationService.dateFormatter,
       filter: 'agDateColumnFilter',
       filterParams: { comparator: dateFilterCellValueComparator },
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'execDay',
-      title: 'rules.execDay',
+    }),
+    createColumn('execDay', 'rules.execDay', {
       valueFormatter: (params: ValueFormatterParams) =>
         translate(`alert_rules.edit_modal.label.when.${params.value}`),
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'execInterval',
-      title: 'rules.execInterval',
+    }),
+    createColumn('execInterval', 'rules.execInterval', {
       valueFormatter: (params: ValueFormatterParams) =>
         translate(`alert_rules.edit_modal.label.interval.${params.value}`),
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'endDate',
-      title: 'rules.endDate',
+    }),
+    createColumn('endDate', 'rules.endDate', {
       valueFormatter: agGridLocalizationService.dateFormatter,
       filter: 'agDateColumnFilter',
       filterParams: { comparator: dateFilterCellValueComparator },
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'deactivated',
-      title: 'rules.deactivated',
+    }),
+    createColumn('deactivated', 'rules.deactivated', {
       // Hint: We can't use valueFormatter here, because AG-Grid knowns, that this column contains a boolean.
       cellRenderer: (params: ICellRendererParams) =>
         translate(`alert_rules.table.deactivated.${params.value}`),
@@ -225,34 +154,20 @@ export function alertRuleColumnDefinitions(
           translate(`alert_rules.table.deactivated.${params.value}`),
       },
       alwaysVisible: true,
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'activeCount',
-      title: 'rules.activeCount',
+    }),
+    createColumn('activeCount', 'rules.activeCount', {
       filter: 'agNumberColumnFilter',
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'inactiveCount',
-      title: 'rules.inactiveCount',
+    }),
+    createColumn('inactiveCount', 'rules.inactiveCount', {
       filter: 'agNumberColumnFilter',
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'completedCount',
-      title: 'rules.completedCount',
+    }),
+    createColumn('completedCount', 'rules.completedCount', {
       filter: 'agNumberColumnFilter',
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'usernameCreated',
-      title: 'alert_rules.table.column.usernameCreated',
-    },
-    {
-      ...getDefaultColumn(),
-      colId: 'usernameLastChanged',
-      title: 'alert_rules.table.column.usernameLastChanged',
-    },
+    }),
+    createColumn('usernameCreated', 'alert_rules.table.column.usernameCreated'),
+    createColumn(
+      'usernameLastChanged',
+      'alert_rules.table.column.usernameLastChanged'
+    ),
   ] as const;
 }

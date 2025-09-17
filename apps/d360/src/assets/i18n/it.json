@@ -159,6 +159,8 @@
         "none": "Deselezionare",
         "product_line": "Linea Prodotto",
         "production_line": "Linea di produzione (Treno)",
+        "productionPlant": "Impianto di produzione",
+        "productionSegment": "Segmento di produzione",
         "region": "Regione",
         "remark": "Commento",
         "sales_area": "Area Vendite (Market)",

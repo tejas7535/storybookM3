@@ -322,6 +322,8 @@ export class AlertRuleEditSingleModalComponent implements OnInit {
       materialClassification: new FormControl(null),
       materialNumber: new FormControl(null),
       productionLine: new FormControl(null),
+      productionPlant: new FormControl(null),
+      productionSegment: new FormControl(null),
       productLine: new FormControl(null),
       region: new FormControl(null, Validators.required),
       salesArea: new FormControl(null, Validators.required), // @see this.conditionalRequired

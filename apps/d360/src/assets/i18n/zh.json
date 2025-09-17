@@ -159,6 +159,8 @@
         "none": "取消",
         "product_line": "产品线",
         "production_line": "生产线 (Train)",
+        "productionPlant": "生产工厂",
+        "productionSegment": "生产部门",
         "region": "地区",
         "remark": "评论",
         "sales_area": "销售区域",

@@ -15,6 +15,8 @@ export interface AlertRule {
   type?: string | null;
   customerNumber?: string | null;
   customerName?: string | null;
+  productionPlant?: string | null;
+  productionSegment?: string | null;
   materialNumber?: string | null;
   materialDescription?: string | null;
   materialClassification?: string | null;
@@ -118,6 +120,8 @@ export interface AlertRuleSaveRequest {
   materialNumber?: string | null;
   materialDescription?: string | null;
   materialClassification?: string | null;
+  productionPlant?: string | null;
+  productionSegment?: string | null;
   sectorManagement?: string | null;
   demandPlannerId?: string | null;
   productionLine?: string | null;
@@ -153,6 +157,8 @@ export function dataToAlertRuleRequest(data: AlertRule): AlertRuleSaveRequest {
     materialNumber: data.materialNumber,
     materialDescription: data.materialDescription,
     materialClassification: data.materialClassification,
+    productionPlant: data.productionPlant,
+    productionSegment: data.productionSegment,
     sectorManagement: data.sectorManagement,
     demandPlannerId: data.demandPlannerId,
     productionLine: data.productionLine,

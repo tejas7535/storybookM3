@@ -159,6 +159,8 @@
         "none": "Deselecione",
         "product_line": "Linha de produto",
         "production_line": "Linha de produção (Trem)",
+        "productionPlant": "Planta de produção",
+        "productionSegment": "Segmento de produção",
         "region": "Região",
         "remark": "Comentário",
         "sales_area": "Área de Vendas (Market)",
